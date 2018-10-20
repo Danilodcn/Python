@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>A Directory Chooser for&nbsp;Tkinter</title></head><body data-page-id="301"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">A Directory Chooser for&nbsp;Tkinter</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">November 01, 2000 | Fredrik Lundh</p><p>This module allows you to access the directory chooser dialog
+in Tk 8.3 and later.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>File: tkDirectoryChooser.py</b>
+<pre class="python wide">
+<span class="pycomment">#</span>
+<span class="pycomment"># tkDirectoryChooser.py</span>
+<span class="pycomment"># $Id: tkinter-directory-chooser.txt 3403 2008-03-25 22:53:59Z fredrik $</span>
+<span class="pycomment">#</span>
+<span class="pycomment"># tk common directory dialogue</span>
+<span class="pycomment">#</span>
+<span class="pycomment"># this module provides interfaces to the native directory dialogue</span>
+<span class="pycomment"># available in Tk 8.3 and newer.</span>
+<span class="pycomment">#</span>
+<span class="pycomment"># written by Fredrik Lundh, November 2000.</span>
+<span class="pycomment">#</span>
+
+<span class="pycomment">#</span>
+<span class="pycomment"># options (all have default values):</span>
+<span class="pycomment">#</span>
+<span class="pycomment"># - initialdir: initial directory.  preserved by dialog instance.</span>
+<span class="pycomment">#</span>
+<span class="pycomment"># - mustexist: if true, user must pick an existing directory</span>
+<span class="pycomment">#</span>
+<span class="pycomment"># - parent: which window to place the dialog on top of</span>
+<span class="pycomment">#</span>
+<span class="pycomment"># - title: dialog title</span>
+<span class="pycomment">#</span>
+
+<span class="pykeyword">from</span> tkCommonDialog <span class="pykeyword">import</span> Dialog
+
+<span class="pykeyword">class</span> <span class="pyclass">Chooser</span>(Dialog):
+
+    command = <span class="pystring">"tk_chooseDirectory"</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">_fixresult</span>(self, widget, result):
+        <span class="pykeyword">if</span> result:
+            <span class="pycomment"># keep directory until next time</span>
+            self.options[<span class="pystring">"initialdir"</span>] = result
+        self.directory = result <span class="pycomment"># compatibility</span>
+        <span class="pykeyword">return</span> result
+
+<span class="pycomment">#</span>
+<span class="pycomment"># convenience stuff</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">askdirectory</span>(**options):
+    <span class="pystring">"Ask for a directory name"</span>
+
+    <span class="pykeyword">return</span> apply(Chooser, (), options).show()
+
+<span class="pycomment"># --------------------------------------------------------------------</span>
+<span class="pycomment"># test stuff</span>
+
+<span class="pykeyword">if</span> __name__ == <span class="pystring">"__main__"</span>:
+
+    <span class="pykeyword">print</span> <span class="pystring">"directory"</span>, askdirectory()</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>Note that the <b>askdirectory</b> function has been added to
+<b>tkFileDialog</b> in Python 2.2 and later.  The dialogue class
+is also available, under the name <b>Directory</b>.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

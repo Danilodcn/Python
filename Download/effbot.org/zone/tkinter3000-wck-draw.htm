@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The Tkinter 3000 WCK Drawing&nbsp;Interface</title></head><body data-page-id="335"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The Tkinter 3000 WCK Drawing&nbsp;Interface</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">August 17, 2002 | Fredrik Lundh</p><h2>The WCK C/C++ Drawing API</h2><p>Somewhat ironically, the Tkinter WCK provides a C version of its
+drawing interface.  This can be used by widgets that need to be
+partially implemented in C or C++ for performance reasons, or to
+be able to reuse an existing code base.</p><p>To get a handle to the C API, call the <b>getcapi</b> method on
+the drawing context.  This returns a Python CObject, which contains
+a pointer to a WCKSimple2DAPI method table for the current device:</p><pre class="python">
+<span class="pycomment"># mywidget.py</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">MyWidget</span>(Widget):
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        capi = draw.getcapi() <span class="pycomment"># get handle to C API</span>
+        mymodule.repair(draw, capi)
+
+...</pre><pre class="c">
+<span class="pycomment">/* mymodule.c */</span>
+
+<span class="pykeyword">#include</span> <span class="pystring">"tk3000.h"</span>
+
+<span class="pykeyword">static</span> PyObject*
+mymodule_repair(PyObject* self, PyObject* args)
+{
+    WCKSimple2DAPI* api;
+
+    PyObject* capi;
+    PyObject* draw;
+    <span class="pykeyword">if</span> (!PyArg_ParseTuple(args, <span class="pystring">"OO:widget"</span>, &amp;draw, &amp;capi))
+        <span class="pykeyword">return</span> NULL;
+
+    api = PyCObject_AsVoidPtr(capi);
+
+    ...
+
+    Py_INCREF(Py_None);
+    <span class="pykeyword">return</span> Py_None;
+}</pre><p>The methods in this table are described below:</p><h3>The WCKSimple2DAPI Core Interface</h3><p>The core interface includes a number of primitives that must be
+supported by all drivers.</p><p><b>api-&gt;getpen()</b>.  Create a pen object for use with this instance.
+The pen is returned as a PyObject, and should be treated as an opaque
+object by the application code.  To release the pen, use Py_DECREF.</p><p><b>api-&gt;getbrush()</b>.  Create a brush object for use with this instance.</p><p><b>api-&gt;line()</b>.  Draw a line segment.</p><p><b>api-&gt;rectangle()</b>.  Draw a rectangle.</p><p><b>api-&gt;getfont()</b>.  Create a font object for use with this instance.</p><p><b>api-&gt;text()</b>.  Draw text using the given font.  The reference coordinate is the left end of the baseline.</p><p><b>api-&gt;textsize()</b>.  Determine the size of a string if drawn on this device.</p><p>Declarations:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="c wide wide">
+<span class="pykeyword">struct</span> WCKSimple2DAPI {
+  ...
+  PyObject* getpen(PyObject* draw, <span class="pykeyword">int</span> color, <span class="pykeyword">int</span> width)
+  PyObject* getbrush(PyObject* draw, <span class="pykeyword">int</span> color, <span class="pykeyword">int</span> style)
+  <span class="pykeyword">int</span> line(PyObject* draw, <span class="pykeyword">int</span> x0, <span class="pykeyword">int</span> y0, <span class="pykeyword">int</span> x1, <span class="pykeyword">int</span> y1,
+           PyObject* pen)
+  <span class="pykeyword">int</span> rectangle(PyObject* draw, <span class="pykeyword">int</span> x0, <span class="pykeyword">int</span> y0, <span class="pykeyword">int</span> x1, <span class="pykeyword">int</span> y1,
+                PyObject* pen, PyObject* brush)
+  PyObject* getfont(PyObject* draw, <span class="pykeyword">int</span> color, <span class="pykeyword">char</span>* fontname)
+  <span class="pykeyword">int</span> text(PyObject* draw, <span class="pykeyword">int</span> x0, <span class="pykeyword">int</span> y0, <span class="pykeyword">char</span>* text,
+           <span class="pykeyword">int</span> textsize, PyObject* font)
+  <span class="pykeyword">int</span> textsize(PyObject* draw, <span class="pykeyword">char</span>* text, <span class="pykeyword">int</span> textsize,
+               PyObject* font, <span class="pykeyword">int</span>* width, <span class="pykeyword">int</span>* height)
+  ...</pre></div><div class="yui-ge"><div class="yui-u first"><h3>The WCKSimple2DAPI Draw Extensions Interface</h3><p>The extension interface provides additional methods.</p><p><b>api-&gt;pyline()</b>.  Draw a line segment, or a number of connected line segments.</p><p><b>api-&gt;pyrectangle()</b>.  Draw a rectangle.</p><p><b>api-&gt;pytext()</b>.  Draw text using the given font.  The reference coordinate is the left end of the baseline.</p><p><b>api-&gt;pypolygon()</b>.  Draw a polygon.</p><p><b>api-&gt;pyellipse()</b>.  Draw an ellipse.</p><h3>The WCKSimple2DAPI Pixmap Interface</h3><p><b>api-&gt;getpixmap()</b>.  Create a pixmap object for use with this instance.</p><p><b>api-&gt;paste()</b>.  Copy pixmap to drawing target.</p><p><b>api-&gt;getimage()</b>.  Create a pixmap object for use with this instance, and copy an image object into it.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

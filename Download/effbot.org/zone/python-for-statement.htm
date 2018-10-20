@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Understanding Python's "for"&nbsp;statement</title></head><body data-page-id="214"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Understanding Python's "for"&nbsp;statement</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | November 2006 | Originally posted to <a href="http://online.effbot.org">online.effbot.org</a></p><p> One of the things I noticed when skimming through the various 
+reactions to <a href="python-with-statement.htm">my recent &#8220;with&#8221;-article</a> is that some people seem to
+have a somewhat fuzzy understanding of Python&#8217;s other block statement,
+the good old <b>for-in</b> loop statement.  The <b>with</b> statement
+didn&#8217;t introduce code blocks in Python; they&#8217;ve always been there.
+To rectify this, <b>for-in</b> probably deserves it&#8217;s own article,
+so here we go (but be warned that the following is a bit rough; I reserve
+the right to tweak it a little over the next few days).
+
+</p><p> On the surface, Python&#8217;s <b>for-in</b> statement is taken right
+away from <a href="http://homepages.cwi.nl/~steven/abc/">Python&#8217;s predecessor ABC</a>, where it&#8217;s described as:
+
+<pre>
+   FOR name,... IN train:
+       commands
+           Take each element of train in turn
+</pre></p><p> In ABC, what&#8217;s called statements in Python are known as
+<q>commands</q>, and sequences are known as <q>trains</q>.  (The whole
+language is like that, by the way; lots of common mechanisms described
+using less-common names. Maybe they thought that renaming everything
+would make it easier for people to pick up the subtle details of the
+language, instead of assuming that everything worked exactly as other
+seemingly similar languages, or maybe it only makes sense if you&#8217;re
+Dutch.)
+
+</p><p> Anyway, to take each element (item) from a train (sequence) in
+turn, we can simply do (using a psuedo-Python syntax):
+
+<pre>
+name = train[0]
+do something with name
+name = train[1]
+do something with name
+name = train[2]
+do something with name
+... etc ...
+</pre></p><p> and keep doing that until we run out of items.  When we do, we&#8217;ll
+get an <b>IndexError</b> exception, which tells us that it&#8217;s time to
+stop.
+
+</p><p> And in its simplest and original form, this is exactly what the
+<b>for-in</b> statement does; when you write
+
+<pre>
+for name in train:
+    do something with name
+</pre></p><p> the interpreter will simply fetch train[0] and assign it to
+<b>name</b>, and then execute the code block.  It&#8217;ll then fetch
+train[1], train[2], and so on, until it gets an <b>IndexError</b>.
+
+</p><p>The code inside the <b>for-in</b> loop is executed in the same
+scope as the surrounding code; in the following example:
+
+<pre class="python">
+train = 1, 2, 3
+<span class="pykeyword">for</span> name <span class="pykeyword">in</span> train:
+    value = name * 10
+    <span class="pykeyword">print</span> value</pre></p><p> the variables <b>train</b>, <b>name</b>, and <b>value</b> all live in
+the same namespace.
+
+</p><p> This is pretty straightforward, of course, but it immediately gets
+a bit more interesting once you realize that you can use custom
+objects as <q>trains</q>.  Just implement the <b>__getitem__</b>
+method, and you can control how the loop behaves.  The following code:
+
+<pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">MyTrain</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__getitem__</span>(self, index):
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> condition:
+            <span class="pykeyword">raise</span> IndexError(<span class="pystring">"that's enough!"</span>)
+        value = fetch item identified by index
+        <span class="pykeyword">return</span> value <span class="pycomment"># hand control back to the block</span>
+
+<span class="pykeyword">for</span> name <span class="pykeyword">in</span> MyTrain():
+    do something <span class="pykeyword">with</span> name</pre></p><p> will run the loop as long as the given condition is true, with values
+provided by the custom train.  In other words, the <q>do something</q>
+part is turned into a block of code that&#8217;s being executed under the
+control of the custom sequence object.  The above is equivalent to:
+
+<pre class="python">
+index = 0
+<span class="pykeyword">while</span> True: <span class="pycomment"># run forever</span>
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> condition:
+        <span class="pykeyword">break</span>
+    name = fetch item identified by index
+    do something <span class="pykeyword">with</span> name
+    index = index + 1</pre></p><p> except that <i>index</i> is a hidden variable, and the controlling
+code is placed in a separate object.
+
+</p><p> You can use this mechanism for everything from generating
+sequence elements on the fly (like <b>xrange</b>):
+
+<pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">MySequence</span>:
+   <span class="pykeyword">def</span> <span class="pyfunction">__getitem__</span>(self, index):
+       <span class="pykeyword">if</span> index &gt; 10:
+          <span class="pykeyword">raise</span> IndexError(<span class="pystring">"that's enough!"</span>)
+       <span class="pykeyword">return</span> value * 10 <span class="pycomment"># returns 0, 10, 20, ..., 100</span></pre></p><p> and fetching data from an external source:
+
+<pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">MyTable</span>:
+   <span class="pykeyword">def</span> <span class="pyfunction">__getitem__</span>(self, index):
+       value = fetch item index <span class="pykeyword">from</span> database table
+       <span class="pykeyword">if</span> value <span class="pykeyword">not</span> found:
+           <span class="pykeyword">raise</span> IndexError(<span class="pystring">"not found"</span>)
+       <span class="pykeyword">return</span> value</pre></p><p> or from a stream:
+
+<pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">MyFileIterator</span>:
+   <span class="pykeyword">def</span> <span class="pyfunction">__getitem__</span>(self, index):
+      text = get next line <span class="pykeyword">from</span> file
+      <span class="pykeyword">if</span> end of file:
+          <span class="pykeyword">raise</span> IndexError(<span class="pystring">"end of file"</span>)
+      <span class="pykeyword">return</span> text</pre></p><p> to fetching data from some other source:
+
+<pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">MyEventSource</span>:
+   <span class="pykeyword">def</span> <span class="pyfunction">__getitem__</span>(self, index):
+      event = get next event
+      <span class="pykeyword">if</span> event == terminate:
+          <span class="pykeyword">raise</span> IndexError
+      <span class="pykeyword">return</span> event
+
+<span class="pykeyword">for</span> event <span class="pykeyword">in</span> MyEventSource():
+   process event</pre></p><p> It&#8217;s more explicit in the latter examples, but in all these
+examples, the code in <b>__getitem__</b> is basically treating the
+block of code inside the <b>for-in</b> loop as an in-lined callback.
+
+</p><p> Also note how the last two examples don&#8217;t even bother to look at
+the index; they just keep <q>calling</q> the <b>for-in</b> block until
+they run out of data.  Or, less obvious, until they run out of bits in
+the internal index variable.
+
+</p><p> To deal with this, and also avoid the issue with having objects
+that looks a lot as sequences, but doesn&#8217;t support random access, the
+<b>for-in</b> statement was redesigned in Python 2.2.  Instead of using the
+<b>__getitem__</b> interface, <b>for-in</b> now starts by
+looking for an <b>__iter__</b> hook.  If present, this method is
+called, and the resulting object is then used to fetch items, one
+by one.  This new protocol behaves like this:
+
+<pre>
+obj = train.__iter__()
+name = obj.next()
+do something with name
+name = obj.next()
+do something with name
+...
+</pre></p><p> where <i>obj</i> is an internal variable, and the <b>next</b> method
+indicates end of data by raising the <b>StopIterator</b> exception,
+instead of <b>IndexError</b>.  Using a custom object can look
+something like:
+
+<pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">MyTrain</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__iter__</span>(self):
+        <span class="pykeyword">return</span> self
+    <span class="pykeyword">def</span> <span class="pyfunction">next</span>(self):
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> condition:
+            <span class="pykeyword">raise</span> StopIteration
+        value = calculate next value
+        <span class="pykeyword">return</span> value <span class="pycomment"># hand control over to the block</span>
+
+<span class="pykeyword">for</span> name <span class="pykeyword">in</span> MyTrain():
+    do something <span class="pykeyword">with</span> name</pre></p><p> (Here, the MyTrain object returns itself, which means that the
+<b>for-in</b> statement will call MyTrain&#8217;s own <b>next</b> method to
+do the actual work.  In some cases, it makes more sense to use an
+independent object for the iteration).
+
+</p><p> Using this mechanism, we can now rewrite the file iterator from
+above as:
+
+<pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">MyFileIterator</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__iter__</span>(self):
+        <span class="pykeyword">return</span> self <span class="pycomment"># use myself</span>
+    <span class="pykeyword">def</span> <span class="pyfunction">next</span>():
+        text = get next line <span class="pykeyword">from</span> file
+        <span class="pykeyword">if</span> end of file:
+            <span class="pykeyword">raise</span> StopIteration()
+        <span class="pykeyword">return</span> text</pre></p><p> and, with very little work, get an object that doesn&#8217;t support
+normal indexing, and doesn&#8217;t break down if used on a file with more
+than 2 billion lines.
+
+</p><p> But what about ordinary sequences, you ask?  That&#8217;s of course
+easily handled by a wrapper object, that keeps an internal counter,
+and maps <b>next</b> calls to <b>__getitem__</b> calls, in exactly the
+same way as the original <b>for-in</b> statement did.  Python provides
+a standard implementation of such an object, <b>iter</b>, which is
+used automatically if <b>__iter__</b> doesn&#8217;t exist.
+
+</p><p> This wasn&#8217;t very difficult, was it?
+
+<hr /></p><p> <b>Footnote:</b> In Python 2.2 and later, several non-sequence objects
+have been extended to support the new protocol.  For example, you can
+loop over both text files and dictionaries; the former return lines
+of text, the latter dictionary keys.
+
+<pre>
+for line in open("file.txt"):
+    do something with line
+
+for key in my_dict:
+    do something with key
+</pre></p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

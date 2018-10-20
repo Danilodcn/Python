@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Changes in Python Imaging Library&nbsp;1.1.2</title></head><body data-page-id="176"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Changes in Python Imaging Library&nbsp;1.1.2</h1></div><div class="yui-ge"><div class="yui-u first"><p><i>Changes from 1.1.1 to 1.1.2</i></p><ul><li>Adapted to Python 2.1.  Among other things, all uses of the
+  &#8220;regex&#8221; module has been replaced with &#8220;re&#8221;.
+
+</li><li>Fixed attribute error when reading large PNG files (this bug
+  was introduced in maintenance code released after the 1.1.1
+  release)
+
+</li><li>Ignore non-string objects in sys.path
+
+</li><li>Fixed Image.transform(EXTENT) for negative xoffsets
+
+</li><li>Fixed loading of image plugins if PIL is installed as a package.
+  (The plugin loader now always looks in the directory where the
+  Image.py module itself is found, even if that directory isn&#8217;t on
+  the standard search path)
+
+</li><li>The Png plugin has been added to the list of preloaded standard
+  formats
+
+</li><li>Fixed bitmap/text drawing in fill mode.
+
+</li><li>Fixed &#8220;getextrema&#8221; to work also for multiband images.
+
+</li><li>Added transparency support for L and P images to the PNG codec.
+
+</li><li>Improved support for read-only images.  The &#8220;load&#8221; method now
+  sets the &#8220;readonly&#8221; attribute for memory-mapped images.  Operations
+  that modifies an image in place (such as &#8220;paste&#8221; and drawing operations)
+  creates an in-memory copy of the image, if necessary.  (before this
+  change, any attempt to modify a memory-mapped image resulted in a
+  core dump&#8230;)
+
+</li><li>Added special cases for lists everywhere PIL expects a sequence.
+  This should speed up things like &#8220;putdata&#8221; and drawing operations.
+
+</li><li>The Image.offset method is deprecated.  Use the ImageChops.offset
+  function instead. 
+
+</li><li>Changed ImageChops operators to copy palette and info dictionary
+  from the first image argument.
+
+</li></ul></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

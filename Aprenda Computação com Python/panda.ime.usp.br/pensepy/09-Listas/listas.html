@@ -1,0 +1,3062 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Listas &mdash; Como pensar como um Cientista da Computação: Edição Interativa em Python</title>
+    
+    <link rel="stylesheet" href="../_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="../_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="../_static/codemirror.js"></script>
+    <script type="text/javascript" src="../_static/python.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="../_static/assess.js"></script>
+    <script type="text/javascript" src="../_static/animationbase.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="../_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Como pensar como um Cientista da Computação: Edição Interativa em Python" href="../index.html" />
+    <link rel="next" title="Trabalhando com Arquivos" href="../10-Arquivos/files.html" />
+    <link rel="prev" title="Strings" href="../08-Strings/strings.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/pensePython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'pensePython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/pensePython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../10-Arquivos/files.html" title="Trabalhando com Arquivos"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../08-Strings/strings.html" title="Strings"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="listas">
+<span id="index-0"></span><h1>Listas<a class="headerlink" href="#listas" title="Permalink to this headline">¶</a></h1>
+<p>Uma <strong>lista</strong> (<em>list</em>) em Python é uma sequência ou coleção ordenada
+de valores.  Cada valor na lista é identificado por um índice.  O
+valores que formam uma lista são chamados <strong>elementos</strong> ou <strong>itens</strong>.
+Listas são similares a strings, que são uma sequência de caracteres,
+no entanto, diferentemente de strings, os itens de uma lista podem ser
+de tipos diferentes.</p>
+<span class="target" id="index-1"></span><div class="section" id="valores-em-uma-lista">
+<h2>Valores em uma lista<a class="headerlink" href="#valores-em-uma-lista" title="Permalink to this headline">¶</a></h2>
+<p>Existem várias maneiras de se criar uma nova lista.
+A maneira mais simples é envolver os elementos da lista por colchetes
+( <code class="docutils literal"><span class="pre">[</span></code> e <code class="docutils literal"><span class="pre">]</span></code>).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">]</span>
+<span class="p">[</span><span class="s2">&quot;spam&quot;</span><span class="p">,</span> <span class="s2">&quot;bungee&quot;</span><span class="p">,</span> <span class="s2">&quot;swallow&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>O primeiro exemplo é uma lista de quatro inteiros.
+O segundo é uma lista de três strings.
+Como dissemos anteriormente, os elementos de uma lista não precisam
+ser do mesmo tipo. A lista a seguir contém um string, um float, um
+inteiro e uma outra lista.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s2">&quot;oi&quot;</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Um lista em uma outra lista é dita <strong>aninhada</strong> (<em>nested</em>) e a lista
+mais interna é chamada frequentemente de <strong>sublista</strong> (<em>sublist</em>).
+Finalemente, existe uma lista especial que não contém elemento
+algum. Ela é chamada de lista vazia e é denotada por <code class="docutils literal"><span class="pre">[]</span></code>.</p>
+<p>Como você esperaria, podemos também atribuir listas a variáveis
+e termos listas como parâmetro de funções.</p>
+
+<div id="chp09_01" >
+<textarea cols="50" rows="12" id="chp09_01_code" class="active_code">
+vocabulario = ["iteracao", "selecao", "controle"]
+numeros = [17, 123]
+vazia = []
+lista_mista = ["ola", 2.0, 5*2, [10, 20]]
+
+print(numeros)
+print(lista_mista)
+nova_lista = [numeros, vocabulario]
+print(nova_lista)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp09_01)</span> </p>
+<button onclick="runit('chp09_01',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp09_01');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp09_01');">Load</button>
+<br />
+
+<canvas id="chp09_01_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp09_01_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question9_1_1">
+    <p>9.1.1: Uma lista só pode conter números inteiros?</p>
+    <form name="test_question9_1_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_1_1_opt_a" />
+    <label for= "test_question9_1_1_opt_a">  a) Falso</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_1_1_opt_b" />
+    <label for= "test_question9_1_1_opt_b">  b) Verdadeiro</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_1_1','a',['Diferentemente de strings, listas podem ser formadas por valores de tipos diferentes.', 'Listas são heterogêneas, o que significa que elas podem ter valores de tipos diferentes.'])"/> 
+    </form>
+    <div id="test_question9_1_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="comprimento-de-uma-lista">
+<span id="index-2"></span><h2>Comprimento de uma lista<a class="headerlink" href="#comprimento-de-uma-lista" title="Permalink to this headline">¶</a></h2>
+<p>Da mesma forma que occore com strings, a função <code class="docutils literal"><span class="pre">len</span></code> retorna o
+comprimento de uma lista (o número de elementos na lista).
+Entretanto, como listas podem conter itens que são listas, é
+importante notar que <code class="docutils literal"><span class="pre">len</span></code> somente retorna o comprimento da lista
+mais externa. Em outras palavras, sublistas de uma lista são
+consideradas como sendo um elemento simples quando contamos o
+comprimento da lista.</p>
+
+<div id="chp09_01a" >
+<textarea cols="50" rows="12" id="chp09_01a_code" class="active_code">
+uma_lista =  ["ola", 2.0, 5, [10, 20]]
+print(len(uma_lista))
+print(len(['spam!', 1, ['Brie', 'Roquefort', 'Pol le Veq'], [1, 2, 3]]))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp09_01a)</span> </p>
+<button onclick="runit('chp09_01a',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp09_01a');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp09_01a');">Load</button>
+<br />
+
+<canvas id="chp09_01a_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp09_01a_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question9_2_1">
+    <p>9.2.1: O que é impresso pelo trecho de código a seguir?
+
+<pre>
+uma_lista = [3, 67, "gato", 3.14, False]
+print(len(uma_lista))
+</pre></p>
+    <form name="test_question9_2_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_2_1_opt_a" />
+    <label for= "test_question9_2_1_opt_a">  a) 4</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_2_1_opt_b" />
+    <label for= "test_question9_2_1_opt_b">  b) 5</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_2_1','b',['len retorna o número de itens em uma lista, não o maior índice', 'Sim, a lista é formada por 5 itens.'])"/> 
+    </form>
+    <div id="test_question9_2_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question9_2_2">
+    <p>9.2.2: O que é impresso pelo trecho de código a seguir?
+
+<pre>
+uma_lista = [3, 67, "gato", [56, 57, "cachorro"], [ ], 3.14, False]
+print(len(uma_lista))
+</pre></p>
+    <form name="test_question9_2_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_2_2_opt_a" />
+    <label for= "test_question9_2_2_opt_a">  a) 7</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_2_2_opt_b" />
+    <label for= "test_question9_2_2_opt_b">  b) 8</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_2_2','a',['Sim, existem 7 itens na lista, sendo que dois itens são listas.', 'len retorna o número de itens na lista. O número de itens nas sublistas não são contados.'])"/> 
+    </form>
+    <div id="test_question9_2_2_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="acessando-os-elementos">
+<h2>Acessando os elementos<a class="headerlink" href="#acessando-os-elementos" title="Permalink to this headline">¶</a></h2>
+<p>A sintaxe para acessar um elemento de uma lista é a mesma usada para
+acessar um caractere de um string. Nós usamos o operador de indexação
+( <code class="docutils literal"><span class="pre">[]</span></code> &#8211; não confundir com a lista vazia). A expressão dentro dos
+conchetes especifica o índice. Lembrar que o índice do primeiro
+elemento é 0. Qualquer expressão que tenha como resultado um número
+inteiro pode ser usada como índice e como com strings, índices
+negativos indicarão elementos da direita para a esquerda ao invés de
+da esquerda para a direita.</p>
+
+<div id="chp09_02" >
+<textarea cols="50" rows="12" id="chp09_02_code" class="active_code">
+numeros = [17, 123, 87, 34, 66, 8398, 44]
+print(numeros[2])
+print(numeros[9-8])
+print(numeros[-2])
+print(numeros[len(numeros)-1])
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp09_02)</span> </p>
+<button onclick="runit('chp09_02',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp09_02');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp09_02');">Load</button>
+<br />
+
+<canvas id="chp09_02_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp09_02_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question9_3_1">
+    <p>9.3.1: O que é impresso pelo trecho de código a seguir?
+
+<pre>
+uma_lista = [3, 67, "gato", [56, 57, "cachorro"], [ ], 3.14, False]
+print(uma_lista[5])
+</pre></p>
+    <form name="test_question9_3_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_3_1_opt_a" />
+    <label for= "test_question9_3_1_opt_a">  a) [ ]</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_3_1_opt_b" />
+    <label for= "test_question9_3_1_opt_b">  b) 3.14</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question9_3_1_opt_c" />
+    <label for= "test_question9_3_1_opt_c">  c) False</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_3_1','b',['O índice da lista vazia é 4.', 'Sim, 3.14 é o item de índice 5 já que o índice do primeiro elemento é 0 e sublistas contam com um elemento.', 'False é o item de índice 6.'])"/> 
+    </form>
+    <div id="test_question9_3_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question9_3_2">
+    <p>9.3.2: O que é impresso pelo trecho de código a seguir?
+
+<pre>
+uma_lista = [3, 67, "gato", [56, 57, "cachorro"], [ ], 3.14, False]
+print(uma_lista[2].upper())
+</pre></p>
+    <form name="test_question9_3_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_3_2_opt_a" />
+    <label for= "test_question9_3_2_opt_a">  a) Error, you cannot use the upper method on a list.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_3_2_opt_b" />
+    <label for= "test_question9_3_2_opt_b">  b) 2</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question9_3_2_opt_c" />
+    <label for= "test_question9_3_2_opt_c">  c) GATO</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_3_2','c',['uma_list[2] é o string 'gato' logo o método upper (maiúsculo) é legal.', '2 é o índice.  Nós querenos o item que tem esse índice.', 'Sim, o string 'gato' transformado pelo método upper em maiúsculo é GATO.'])"/> 
+    </form>
+    <div id="test_question9_3_2_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question9_3_3">
+    <p>9.3.3: O que é impresso pelo trecho de código a seguir?
+
+<pre>
+uma_lista = [3, 67, "gato", [56, 57, "cachorro"], [ ], 3.14, False]
+print(uma_lista[2][0])
+</pre></p>
+    <form name="test_question9_3_3_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_3_3_opt_a" />
+    <label for= "test_question9_3_3_opt_a">  a) 56</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_3_3_opt_b" />
+    <label for= "test_question9_3_3_opt_b">  b) g</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question9_3_3_opt_c" />
+    <label for= "test_question9_3_3_opt_c">  c) gato</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question9_3_3_opt_d" />
+    <label for= "test_question9_3_3_opt_d">  d) Error, you cannot have two index values unless you are using slicing.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_3_3','b',['Índices começam de 0 e não de 1.', 'Sim, o primeiro caractere do string de índice 2 é g.', ''gato' é o item de índice 2, mas devemos determinar ainda o caractere de índice 0.', 'Usar mais de um índice é correto.  Você deve ler da esquerda para a direita.'])"/> 
+    </form>
+    <div id="test_question9_3_3_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="pertinencia-em-uma-lista">
+<h2>Pertinência em uma Lista<a class="headerlink" href="#pertinencia-em-uma-lista" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">in</span></code> e <code class="docutils literal"><span class="pre">not</span> <span class="pre">in</span></code> são operadores booleanos ou lógicos que testam a pertinência
+(<em>membership</em>) em uma sequência. Já usamos esses operadores com
+strings e eles também funcionam aqui.</p>
+
+<div id="chp09_4" >
+<textarea cols="50" rows="12" id="chp09_4_code" class="active_code">
+frutas = ["maca", "laranja", "banana", "cereja"]
+
+print("maca" in frutas)
+print("pera" in frutas)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp09_4)</span> </p>
+<button onclick="runit('chp09_4',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp09_4');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp09_4');">Load</button>
+<br />
+
+<canvas id="chp09_4_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp09_4_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question9_4_1">
+    <p>9.4.1: O que é impresso pelo trecho de código a seguir?
+
+<pre>
+uma_lista = [3, 67, "gato", [56, 57, "cachorro"], [ ], 3.14, False]
+print(3.14 in uma_lista)
+</pre></p>
+    <form name="test_question9_4_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_4_1_opt_a" />
+    <label for= "test_question9_4_1_opt_a">  a) True</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_4_1_opt_b" />
+    <label for= "test_question9_4_1_opt_b">  b) False</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_4_1','a',['Sim, 3.14 é um item da lista uma_lista.', 'Existem 7 itens na lista, 3.14 é um deles.'])"/> 
+    </form>
+    <div id="test_question9_4_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question9_4_2">
+    <p>9.4.2: O que é impresso pelo trecho de código a seguir?
+
+<pre>
+uma_lista = [3, 67, "gato", [56, 57, "cachorro"], [ ], 3.14, False]
+print(57 in uma_lista)
+</pre></p>
+    <form name="test_question9_4_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_4_2_opt_a" />
+    <label for= "test_question9_4_2_opt_a">  a) True</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_4_2_opt_b" />
+    <label for= "test_question9_4_2_opt_b">  b) False</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_4_2','b',['É retornado True apenas para itens na lista mais externa.  57 é um item de uma sublista.', 'Sim, 57 não é um item da lista mais externa.  57 é um item de uma sublista.'])"/> 
+    </form>
+    <div id="test_question9_4_2_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="concatenacao-e-repeticao">
+<h2>Concatenação e repetição<a class="headerlink" href="#concatenacao-e-repeticao" title="Permalink to this headline">¶</a></h2>
+<p>Novamente, como com strings, o operador <code class="docutils literal"><span class="pre">+</span></code> concatena listas.
+Analogamente, o operador <code class="docutils literal"><span class="pre">*</span></code> repete os itens em uma lista
+um dado número de vezes.</p>
+
+<div id="chp09_5" >
+<textarea cols="50" rows="12" id="chp09_5_code" class="active_code">
+frutas = ["maca", "laranja", "banana", "cereja"]
+print([1, 2] + [3, 4])
+print(frutas + [6, 7, 8, 9])
+
+print([0] * 4)
+print([1, 2, ["ola", "adeus"]]*2)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp09_5)</span> </p>
+<button onclick="runit('chp09_5',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp09_5');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp09_5');">Load</button>
+<br />
+
+<canvas id="chp09_5_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp09_5_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>É importante perceber que esses operadores criam novas listas a partir
+dos elementos da lista dada. Se você concatena uma lista com 2 itens
+com uma lista com 4 itens, você obterá uma nova lista com 6 itens (não
+uma lista com duas sublistas). Similarmente, repetição de uma lista de 2
+itens 4 vezes resultará em uma lista com 8 itens.</p>
+<p>Uma maneira de fazermos isto mais claro é executar uma parte desses
+exemplos no codelens. A medida que cada passo do código é executado,
+você verá as variáveis sendo criadas e as listas as quais elas  se referem.
+Preste atenção particularmente ao rótulo (<em>tag</em>) <cite>id</cite> que é mostrado
+depois do descritor do tipo de dado (<code class="docutils literal"><span class="pre">list</span> <span class="pre">(id</span> <span class="pre">=</span> <span class="pre">12))</span></code>). Em Python o
+<strong>id</strong> corresponde a um único identificador para aquele objeto
+particular.  Você pode dizer se são objetos diferentes através da
+comparação dos seus ids.</p>
+
+<div id="chp09_concatid"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (chp09_concatid)</span> </p>
+<script type="text/javascript">
+var chp09_concatid_trace = {"code": "frutas = [\"maca\", \"laranja\", \"banana\", \"cereja\"]\nnum_lista = [6,7]\n\nnova_lista = frutas + num_lista\n\nzeros = [0] * 4", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["frutas"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"frutas": ["REF", 1]}, "heap": {"1": ["LIST", "maca", "laranja", "banana", "cereja"]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["frutas", "num_lista"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"num_lista": ["REF", 2], "frutas": ["REF", 1]}, "heap": {"1": ["LIST", "maca", "laranja", "banana", "cereja"], "2": ["LIST", 6, 7]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["frutas", "num_lista", "nova_lista"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"nova_lista": ["REF", 3], "num_lista": ["REF", 2], "frutas": ["REF", 1]}, "heap": {"1": ["LIST", "maca", "laranja", "banana", "cereja"], "2": ["LIST", 6, 7], "3": ["LIST", "maca", "laranja", "banana", "cereja", 6, 7]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["frutas", "num_lista", "nova_lista", "zeros"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"nova_lista": ["REF", 3], "num_lista": ["REF", 2], "zeros": ["REF", 4], "frutas": ["REF", 1]}, "heap": {"1": ["LIST", "maca", "laranja", "banana", "cereja"], "2": ["LIST", 6, 7], "3": ["LIST", "maca", "laranja", "banana", "cereja", 6, 7], "4": ["LIST", 0, 0, 0, 0]}, "line": 6, "event": "return"}]};
+var chp09_concatid_vis;
+
+$(document).ready(function() {
+    chp09_concatid_vis = new ExecutionVisualizer('chp09_concatid',chp09_concatid_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(chp09_concatid_vis,'chp09_concatid');
+    allVisualizers.push(chp09_concatid_vis);
+});
+
+$(document).ready(function() {
+    $("#chp09_concatid_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'chp09_concatid'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    chp09_concatid_vis.redrawConnectors();
+});
+</script>
+<p>O comando <code class="docutils literal"><span class="pre">nova_lista</span> <span class="pre">=</span> <span class="pre">frutas</span> <span class="pre">+</span> <span class="pre">num_lista</span></code> cria uma nova lista de
+objetos com o contéudo da lista <code class="docutils literal"><span class="pre">frutas</span></code> seguido pelo conteúdo da lista
+<code class="docutils literal"><span class="pre">num_lista</span></code>. Podemos ver que está é uma lista nova olhando os ids.
+O id da <code class="docutils literal"><span class="pre">nova_lista</span></code> não e o mesmo que o das outras. É extremamente
+importante que você saiba quando está criando uma nova lista ou apenas
+alterando uma lista existente. Novamente, os ids podem ajudar nessa
+tarefa.</p>
+<p>Python possui uma função nativa (<em>build-in</em>) que recebe um objeto
+como argumento e retorna o seu id. A função é comvenientemente chamada
+de <code class="docutils literal"><span class="pre">id</span></code> e tem um único parâmetro, o objeto que você está interessado
+em descobrir o id. Você pode ver no examplo abaixo que o id real é
+usualmente um número inteiro muito grande (correspondente a um endereço
+na memória).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">uma_lista</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="p">(</span><span class="n">uma_lista</span><span class="p">)</span>
+<span class="go">4300840544</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question9_5_1">
+    <p>9.5.1: O que é impresso pelo trecho de código a seguir?
+
+<pre>
+uma_lista = [1, 3, 5]
+outra_lista = [2, 4, 6]
+print(uma_lista + outra_lista)
+</pre></p>
+    <form name="test_question9_5_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_5_1_opt_a" />
+    <label for= "test_question9_5_1_opt_a">  a) 6</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_5_1_opt_b" />
+    <label for= "test_question9_5_1_opt_b">  b) [1,2,3,4,5,6]</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question9_5_1_opt_c" />
+    <label for= "test_question9_5_1_opt_c">  c) [1,3,5,2,4,6]</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question9_5_1_opt_d" />
+    <label for= "test_question9_5_1_opt_d">  d) [3,7,11]</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_5_1','c',['Concatenação não soma soma os comprimentos da listas.', 'Concatenação não reordena os itens.', 'Sim, uma nova lista com os itens da primeira lista seguidos pelos itens da segunda lista.', 'Concatenação não adiciona os itens da listas.'])"/> 
+    </form>
+    <div id="test_question9_5_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question9_5_2">
+    <p>9.5.2: O que é impresso pelo trecho de código a seguir?
+
+<pre>
+uma_lista = [1, 3, 5]
+print(uma_lista * 3)
+</pre></p>
+    <form name="test_question9_5_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_5_2_opt_a" />
+    <label for= "test_question9_5_2_opt_a">  a) 9</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_5_2_opt_b" />
+    <label for= "test_question9_5_2_opt_b">  b) [1, 1, 1, 3, 3, 3, 5, 5, 5]</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question9_5_2_opt_c" />
+    <label for= "test_question9_5_2_opt_c">  c) [1, 3, 5, 1, 3, 5, 1, 3, 5]</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question9_5_2_opt_d" />
+    <label for= "test_question9_5_2_opt_d">  d) [3, 9, 15]</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_5_2','c',['Repetição não multiplica o comprimento das listas. Ela repete os itens.', 'Repetição não repete cada item individualmente.', 'Sim, a lista é repetida 3 vezes inteiramente, uma vez atrás da outra.', 'Repetição não multiplica os itens da lista individualmente.'])"/> 
+    </form>
+    <div id="test_question9_5_2_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="fatias-de-listas">
+<h2>Fatias de listas<a class="headerlink" href="#fatias-de-listas" title="Permalink to this headline">¶</a></h2>
+<p>A operação de fatiar (<em>slice</em>) que  vimos com strings também pode ser
+aplicada sobre listas. Lembre que o primeiro índice indica o ponto do
+início da fatia e o segundo índice é um depois do final da fatia (o
+elemento com esse índice não faz parte da fatia).</p>
+
+<div id="chp09_6" >
+<textarea cols="50" rows="12" id="chp09_6_code" class="active_code">
+uma_lista = ['a', 'b', 'c', 'd', 'e', 'f']
+print(uma_lista[1:3])
+print(uma_lista[:4])
+print(uma_lista[3:])
+print(uma_lista[:])
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp09_6)</span> </p>
+<button onclick="runit('chp09_6',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp09_6');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp09_6');">Load</button>
+<br />
+
+<canvas id="chp09_6_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp09_6_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question9_6_1">
+    <p>9.6.1: O que é impresso pelo trecho de código a seguir?
+
+<pre>
+uma_lista = [3, 67, "gato", [56, 57, "cachorro"], [ ], 3.14, False]
+print(uma_lista[4:])
+</pre></p>
+    <form name="test_question9_6_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_6_1_opt_a" />
+    <label for= "test_question9_6_1_opt_a">  a) [ [ ], 3.14, False]</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_6_1_opt_b" />
+    <label for= "test_question9_6_1_opt_b">  b) [ [ ], 3.14]</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question9_6_1_opt_c" />
+    <label for= "test_question9_6_1_opt_c">  c) [ [56, 57, "cachorro"], [ ], 3.14, False]</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_6_1','a',['Sim, a fatia começa no item de índice 4 e termina no  último item da lista.', 'Não colocando o limite superior da fatia incluímos até o último item.', 'Índices começam de 0.'])"/> 
+    </form>
+    <div id="test_question9_6_1_feedback">
+    </div>
+    </div>
+    <span class="target" id="index-3"></span></div>
+<div class="section" id="listas-sao-mutaveis">
+<h2>Listas são mutáveis<a class="headerlink" href="#listas-sao-mutaveis" title="Permalink to this headline">¶</a></h2>
+<p>Diferentemente de strings, listas são <strong>mutáveis</strong> (<em>mutable</em>).
+Isto significa que podemos alterar um item em uma lista acessando-o
+diretamente como parte do comando de atribuição. Usando o operador e
+indexação (colchetes) à esquerda de um comando de atribuição, podemos
+atualizar um dos itens de uma lista.</p>
+
+<div id="ch09_7" >
+<textarea cols="50" rows="12" id="ch09_7_code" class="active_code">
+frutas = ["banana", "maca", "cereja"]
+print(frutas)
+
+frutas[0] = "pera"
+frutas[-1] = "laranja"
+print(frutas)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch09_7)</span> </p>
+<button onclick="runit('ch09_7',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch09_7');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch09_7');">Load</button>
+<br />
+
+<canvas id="ch09_7_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch09_7_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Uma atribuição a um elemento de uma lista é chamada de <strong>atribuição a um
+item</strong> (<em>item assignment</em>). Atribuição a itens não funciona com strings.
+Lembre-se que strings são imutáveis.</p>
+<p>Aqui está o mesmo exemplo com o codelens para que você possa executar
+comando após comando e veja as mudanças na lista de elementos.</p>
+
+<div id="item_assign"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (item_assign)</span> </p>
+<script type="text/javascript">
+var item_assign_trace = {"code": "frutas = [\"banana\", \"ma\u00e7a\", \"cereja\"]\n\nfrutas[0]  = \"pera\"\nfrutas[-1] = \"laranja\"", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["frutas"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"frutas": ["REF", 1]}, "heap": {"1": ["LIST", "banana", "ma\u00e7a", "cereja"]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["frutas"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"frutas": ["REF", 1]}, "heap": {"1": ["LIST", "pera", "ma\u00e7a", "cereja"]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["frutas"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"frutas": ["REF", 1]}, "heap": {"1": ["LIST", "pera", "ma\u00e7a", "laranja"]}, "line": 4, "event": "return"}]};
+var item_assign_vis;
+
+$(document).ready(function() {
+    item_assign_vis = new ExecutionVisualizer('item_assign',item_assign_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(item_assign_vis,'item_assign');
+    allVisualizers.push(item_assign_vis);
+});
+
+$(document).ready(function() {
+    $("#item_assign_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'item_assign'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    item_assign_vis.redrawConnectors();
+});
+</script>
+<p>Combinando uma atribuição com o operador de fatiamento podemos atualizar
+vários elementos de uma só vez.</p>
+
+<div id="ch09_8" >
+<textarea cols="50" rows="12" id="ch09_8_code" class="active_code">
+uma_lista = ['a', 'b', 'c', 'd', 'e', 'f']
+uma_lista[1:3] = ['x', 'y']
+print(uma_lista)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch09_8)</span> </p>
+<button onclick="runit('ch09_8',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch09_8');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch09_8');">Load</button>
+<br />
+
+<canvas id="ch09_8_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch09_8_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Também podemosremover elementos de uma lista atribuindo a lista vazia a
+eles.</p>
+
+<div id="ch09_9" >
+<textarea cols="50" rows="12" id="ch09_9_code" class="active_code">
+uma_lista = ['a', 'b', 'c', 'd', 'e', 'f']
+uma_lista[1:3] = []
+print(uma_lista)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch09_9)</span> </p>
+<button onclick="runit('ch09_9',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch09_9');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch09_9');">Load</button>
+<br />
+
+<canvas id="ch09_9_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch09_9_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Podemos inserir elementos em uma lista espremendo-os em uma fatia vazia
+na posição desejada.</p>
+
+<div id="ch09_10" >
+<textarea cols="50" rows="12" id="ch09_10_code" class="active_code">
+uma_lista = ['a', 'd', 'f']
+uma_lista[1:1] = ['b', 'c']
+print(uma_lista)
+uma_lista[4:4] = ['e']
+print(uma_lista)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch09_10)</span> </p>
+<button onclick="runit('ch09_10',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch09_10');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch09_10');">Load</button>
+<br />
+
+<canvas id="ch09_10_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch09_10_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question9_7_1">
+    <p>9.7.1: O que é impresso pelo trecho de código a seguir?
+
+<pre>
+uma_lista = [4, 2, 8, 6, 5]
+uma_lista[2] = True
+print(uma_lista)
+</pre></p>
+    <form name="test_question9_7_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_7_1_opt_a" />
+    <label for= "test_question9_7_1_opt_a">  a) [4, 2, True, 8, 6, 5]</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_7_1_opt_b" />
+    <label for= "test_question9_7_1_opt_b">  b) [4, 2, True, 6, 5]</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question9_7_1_opt_c" />
+    <label for= "test_question9_7_1_opt_c">  c) Erro, é uma atribuição ilegal</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_7_1','b',['Atribuição de item não insere o novo item na lista.', 'Sim, o valor True é colocado na posição de índice 2 da lista, 8 é trocado por True.', 'Atribuição de item é permida em listas.  Listas são mutáveis.'])"/> 
+    </form>
+    <div id="test_question9_7_1_feedback">
+    </div>
+    </div>
+    <span class="target" id="index-4"></span></div>
+<div class="section" id="remocao-em-listas">
+<h2>Remoção em listas<a class="headerlink" href="#remocao-em-listas" title="Permalink to this headline">¶</a></h2>
+<p>Usando fatiamento para remover elementos de uma lista pode ser complicado,
+e portanto propagador de erros. Python oferece uma maneira alternativa
+que é mais legível. O comando <code class="docutils literal"><span class="pre">del</span></code> remove um elemento de uma lista
+usando a sua posição.</p>
+
+<div id="ch09_11" >
+<textarea cols="50" rows="12" id="ch09_11_code" class="active_code">
+a = ['um', 'dois', 'três']
+del a[1]
+print(a)
+
+lista = ['a', 'b', 'c', 'd', 'e', 'f']
+del lista[1:5]
+print(lista)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch09_11)</span> </p>
+<button onclick="runit('ch09_11',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch09_11');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch09_11');">Load</button>
+<br />
+
+<canvas id="ch09_11_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch09_11_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Como você pode esperar, <code class="docutils literal"><span class="pre">del</span></code> também manipula índices negativos e
+produz um erro de execução se o índice estiver foram do intervalo da
+lista. Além disso, você pode usar uma fatia como argumento para <code class="docutils literal"><span class="pre">del</span></code>.
+Como é usual, fatias selecionam todos os elementos até, mas não
+incluindo, o segundo índice.</p>
+<span class="target" id="index-5"></span></div>
+<div class="section" id="objetos-e-referencias">
+<h2>Objetos e referências<a class="headerlink" href="#objetos-e-referencias" title="Permalink to this headline">¶</a></h2>
+<p>Se executamos as seguintes atribuições,</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="s2">&quot;banana&quot;</span>
+<span class="n">b</span> <span class="o">=</span> <span class="s2">&quot;banana&quot;</span>
+</pre></div>
+</div>
+<p>sabemos que <code class="docutils literal"><span class="pre">a</span></code> e <code class="docutils literal"><span class="pre">b</span></code> farão referência ao string
+<code class="docutils literal"><span class="pre">&quot;banana&quot;</span></code>. Entretanto,
+ainda não sabemos se eles se referem ao <em>mesmo</em> string.</p>
+<p>Existem duas possibilidades para o Python interpretar internamente essas
+atribuições:</p>
+<img alt="List illustration" src="../_images/refdiag1.png" />
+<p>ou</p>
+<img alt="List illustration" src="../_images/refdiag2.png" />
+<p>Em uma das interpretações <code class="docutils literal"><span class="pre">a</span></code> e <code class="docutils literal"><span class="pre">b</span></code> se referem a dois strings ou objetos
+diferentes que têm o mesmo valor. Na segunda interpretação, eles se
+referem ao mesmo objeto. Lembre-se que um objeto é uma valor ao qual uma
+variável pode se referir ou apontar.</p>
+<p>Já sabemos que objetos podem ser identificados usando seus
+identificadores que são únicos. Podemos também testar se dois nomes se
+referem ao mesmo objeto usando o operador <code class="docutils literal"><span class="pre">is</span></code>. O operador <em>is</em>
+retorna <code class="docutils literal"><span class="pre">True</span></code> se as duas referências são ao mesmo objeto. Em outras
+palavras, as referências são a mesma. Teste esse conceito com os
+exemplos acima.</p>
+
+<div id="chp09_is1" >
+<textarea cols="50" rows="12" id="chp09_is1_code" class="active_code">
+a = "banana"
+b = "banana"
+
+print(a is b)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp09_is1)</span> </p>
+<button onclick="runit('chp09_is1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp09_is1');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp09_is1');">Load</button>
+<br />
+
+<canvas id="chp09_is1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp09_is1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>A resposta é <code class="docutils literal"><span class="pre">True</span></code>. Isto nos diz que ambos <code class="docutils literal"><span class="pre">a</span></code> e <code class="docutils literal"><span class="pre">b</span></code> se referem
+ao mesmo objeto, e que o segundo dos diagramas de referências descreve a
+relação. Como strings são <em>imutáveis</em> (<em>immutable</em>), Python optimiza
+recursos fazendo dois que se referem ao mesmo string se referirem ao
+mesmo objeto.</p>
+<p>Este não é o caso com listas.
+Considere o exemplo seguir. Aqui <code class="docutils literal"><span class="pre">a</span></code> e
+<code class="docutils literal"><span class="pre">b</span></code> se referem a duas listas diferentes, cada uma por acaso tem os
+mesmo elementos como valores.</p>
+
+<div id="chp09_is2" >
+<textarea cols="50" rows="12" id="chp09_is2_code" class="active_code">
+a = [81, 82, 83]
+b = [81, 82, 83]
+
+print(a is b)
+
+print(a == b)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp09_is2)</span> </p>
+<button onclick="runit('chp09_is2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp09_is2');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp09_is2');">Load</button>
+<br />
+
+<canvas id="chp09_is2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp09_is2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>O diagrama de referências para este exemplo se parece com o seguinte.</p>
+<img alt="Reference diagram for equal different lists" src="../_images/refdiag3.png" />
+<p><code class="docutils literal"><span class="pre">a</span></code> e <code class="docutils literal"><span class="pre">b</span></code> tem o mesmo valor mas não se referem ao mesmo objeto.</p>
+<p>Existe ainda um outro ponto importante a ser notado a respeito
+desse diagrama de referências. O valor <code class="docutils literal"><span class="pre">a</span></code> é uma referência a uma
+<strong>coleção de referências</strong> (<em>collection of references</em>). Essas
+referências na realidade se referem a valores inteiros em uma lista. Em
+outras palavras, um lista é uma coleção de referências para objetos.
+É interessante que apesar de <code class="docutils literal"><span class="pre">a</span></code> e <code class="docutils literal"><span class="pre">b</span></code> serem duas listas distintas
+(duas coleções de diferentes de referências), o objeto inteiro <code class="docutils literal"><span class="pre">81</span></code> é
+compartilhado por ambos. Como strings, inteiros são também imutáveis
+portanto Python optimiza e permite que todos compartilhem o mesmo objeto.</p>
+<p>Aqui esta o exemplo no codelens.
+Preste atenção particularmente nos valores dos <cite>id</cite>.</p>
+
+<div id="chp09_istrace"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (chp09_istrace)</span> </p>
+<script type="text/javascript">
+var chp09_istrace_trace = {"code": "a = [81, 82, 83]\nb = [81, 82, 83]\n\nprint(a is b)\nprint(a == b)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["a"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"a": ["REF", 1]}, "heap": {"1": ["LIST", 81, 82, 83]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["a", "b"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"a": ["REF", 1], "b": ["REF", 2]}, "heap": {"1": ["LIST", 81, 82, 83], "2": ["LIST", 81, 82, 83]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["a", "b"], "stdout": "False\n", "func_name": "<module>", "stack_to_render": [], "globals": {"a": ["REF", 1], "b": ["REF", 2]}, "heap": {"1": ["LIST", 81, 82, 83], "2": ["LIST", 81, 82, 83]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["a", "b"], "stdout": "False\nTrue\n", "func_name": "<module>", "stack_to_render": [], "globals": {"a": ["REF", 1], "b": ["REF", 2]}, "heap": {"1": ["LIST", 81, 82, 83], "2": ["LIST", 81, 82, 83]}, "line": 5, "event": "return"}]};
+var chp09_istrace_vis;
+
+$(document).ready(function() {
+    chp09_istrace_vis = new ExecutionVisualizer('chp09_istrace',chp09_istrace_trace,
+                                {embeddedMode: false,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(chp09_istrace_vis,'chp09_istrace');
+    allVisualizers.push(chp09_istrace_vis);
+});
+
+$(document).ready(function() {
+    $("#chp09_istrace_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'chp09_istrace'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    chp09_istrace_vis.redrawConnectors();
+});
+</script>
+<span class="target" id="index-6"></span></div>
+<div class="section" id="apelidos-aliasing">
+<h2>Apelidos (<em>Aliasing</em>)<a class="headerlink" href="#apelidos-aliasing" title="Permalink to this headline">¶</a></h2>
+<p>Como variáveis fazem referência a objetos, se atribuimos uma variável
+a outra, ambas as variáveis passam a fazer referência ao mesmo objeto.</p>
+
+<div id="listalias1" >
+<textarea cols="50" rows="12" id="listalias1_code" class="active_code">
+a = [81, 82, 83]
+b = a
+print(a is b)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (listalias1)</span> </p>
+<button onclick="runit('listalias1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('listalias1');">Save</button>
+<button class="ac_opt" onclick="requestCode('listalias1');">Load</button>
+<br />
+
+<canvas id="listalias1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="listalias1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Nesse caso, o diagrama de referências se parece com:</p>
+<img alt="State snapshot for multiple references (aliases) to a list" src="../_images/refdiag4.png" />
+<p>Como a mesma lista tem dois nomes diferentes, <code class="docutils literal"><span class="pre">a</span></code> e <code class="docutils literal"><span class="pre">b</span></code>, dizemos
+que a lista tem <strong>apelidos</strong> (<em>aliased</em>).
+Mudanças feitas com um apelido afeta o outro.
+No exemplo do codelens a seguir, os <cite>ids</cite> de <code class="docutils literal"><span class="pre">a</span></code> e <code class="docutils literal"><span class="pre">b</span></code> são os mesmos
+depois da execução do comando de atribuição <code class="docutils literal"><span class="pre">b</span> <span class="pre">=</span> <span class="pre">a</span></code>.</p>
+
+<div id="chp09_is3"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (chp09_is3)</span> </p>
+<script type="text/javascript">
+var chp09_is3_trace = {"code": "a = [81, 82, 83]\nb = [81, 82, 83]\n\nprint(a == b)\nprint(a is b)\n\nb = a\nprint(a == b)\nprint(a is b)\n\nb[0] = 5\nprint(a)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["a"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"a": ["REF", 1]}, "heap": {"1": ["LIST", 81, 82, 83]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["a", "b"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"a": ["REF", 1], "b": ["REF", 2]}, "heap": {"1": ["LIST", 81, 82, 83], "2": ["LIST", 81, 82, 83]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["a", "b"], "stdout": "True\n", "func_name": "<module>", "stack_to_render": [], "globals": {"a": ["REF", 1], "b": ["REF", 2]}, "heap": {"1": ["LIST", 81, 82, 83], "2": ["LIST", 81, 82, 83]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["a", "b"], "stdout": "True\nFalse\n", "func_name": "<module>", "stack_to_render": [], "globals": {"a": ["REF", 1], "b": ["REF", 2]}, "heap": {"1": ["LIST", 81, 82, 83], "2": ["LIST", 81, 82, 83]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["a", "b"], "stdout": "True\nFalse\n", "func_name": "<module>", "stack_to_render": [], "globals": {"a": ["REF", 1], "b": ["REF", 1]}, "heap": {"1": ["LIST", 81, 82, 83]}, "line": 8, "event": "step_line"}, {"ordered_globals": ["a", "b"], "stdout": "True\nFalse\nTrue\n", "func_name": "<module>", "stack_to_render": [], "globals": {"a": ["REF", 1], "b": ["REF", 1]}, "heap": {"1": ["LIST", 81, 82, 83]}, "line": 9, "event": "step_line"}, {"ordered_globals": ["a", "b"], "stdout": "True\nFalse\nTrue\nTrue\n", "func_name": "<module>", "stack_to_render": [], "globals": {"a": ["REF", 1], "b": ["REF", 1]}, "heap": {"1": ["LIST", 81, 82, 83]}, "line": 11, "event": "step_line"}, {"ordered_globals": ["a", "b"], "stdout": "True\nFalse\nTrue\nTrue\n", "func_name": "<module>", "stack_to_render": [], "globals": {"a": ["REF", 1], "b": ["REF", 1]}, "heap": {"1": ["LIST", 5, 82, 83]}, "line": 12, "event": "step_line"}, {"ordered_globals": ["a", "b"], "stdout": "True\nFalse\nTrue\nTrue\n[5, 82, 83]\n", "func_name": "<module>", "stack_to_render": [], "globals": {"a": ["REF", 1], "b": ["REF", 1]}, "heap": {"1": ["LIST", 5, 82, 83]}, "line": 12, "event": "return"}]};
+var chp09_is3_vis;
+
+$(document).ready(function() {
+    chp09_is3_vis = new ExecutionVisualizer('chp09_is3',chp09_is3_trace,
+                                {embeddedMode: false,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(chp09_is3_vis,'chp09_is3');
+    allVisualizers.push(chp09_is3_vis);
+});
+
+$(document).ready(function() {
+    $("#chp09_is3_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'chp09_is3'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    chp09_is3_vis.redrawConnectors();
+});
+</script>
+<p>Apesar desse comportamento ser útil, ele é algumas vezes inesperado
+ou indesejável. Em geral, é mais seguro evitar apelidos (<em>aliasing</em>)
+quando você está trabalhando com objetos mutáveis.
+É evidente que com objetos imutáveis não há problema.
+Por isto, Python é livre para usar apelidos (<em>alias</em>) de strings e
+inteiros quando surge uma oportunidade para economizar espaço.</p>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question9_10_1">
+    <p>9.10.1: O que é impresso pelo trecho de código a seguir?
+
+<pre>
+lista_a = [4, 2, 8, 6, 5]
+lista_b = lista_a
+lista_b[3] = 999
+print(lista_a)
+</pre></p>
+    <form name="test_question9_10_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_10_1_opt_a" />
+    <label for= "test_question9_10_1_opt_a">  a) [4, 2, 8, 6, 5]</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_10_1_opt_b" />
+    <label for= "test_question9_10_1_opt_b">  b) [4, 2, 8, 999, 5]</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_10_1','b',['lista_b não é uma cópia de a_lista, ela é uma referência para a lista a qual lista_a faz referência.', 'Sim, como lista_a e lista_b fazem referência a mesma lista, mudança em uma também altera a outra.'])"/> 
+    </form>
+    <div id="test_question9_10_1_feedback">
+    </div>
+    </div>
+    <span class="target" id="index-7"></span></div>
+<div class="section" id="clonando-listas">
+<h2>Clonando listas<a class="headerlink" href="#clonando-listas" title="Permalink to this headline">¶</a></h2>
+<p>Se desejamos modificar uma lista e também manter uma cópia da lista
+original, temos que ser capazes de fazer uma cópia da lista, não apenas
+da referência. Este processo é algumas vezes chamado de <strong>clonar</strong>
+(<em>cloning</em>), para evitar a ambiguidade da palavra cópia.</p>
+<p>A maneira mais fácil de clonarmos uma lista é usar o operador de
+fatiação.</p>
+<p>Tomar qualquer fatia de <code class="docutils literal"><span class="pre">a</span></code> cria uma nova lista.
+Para clonar uma lista basta tomarmos a fatia como sendo a lista toda.</p>
+
+<div id="chp09_is4"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (chp09_is4)</span> </p>
+<script type="text/javascript">
+var chp09_is4_trace = {"code": "a = [81, 82, 83]\n\nb = a[:]       # cria um clone com fatia\nprint(a == b)\nprint(a is b)\n\nb[0] = 5\n\nprint(a)\nprint(b)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["a"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"a": ["REF", 1]}, "heap": {"1": ["LIST", 81, 82, 83]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["a", "b"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"a": ["REF", 1], "b": ["REF", 2]}, "heap": {"1": ["LIST", 81, 82, 83], "2": ["LIST", 81, 82, 83]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["a", "b"], "stdout": "True\n", "func_name": "<module>", "stack_to_render": [], "globals": {"a": ["REF", 1], "b": ["REF", 2]}, "heap": {"1": ["LIST", 81, 82, 83], "2": ["LIST", 81, 82, 83]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["a", "b"], "stdout": "True\nFalse\n", "func_name": "<module>", "stack_to_render": [], "globals": {"a": ["REF", 1], "b": ["REF", 2]}, "heap": {"1": ["LIST", 81, 82, 83], "2": ["LIST", 81, 82, 83]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["a", "b"], "stdout": "True\nFalse\n", "func_name": "<module>", "stack_to_render": [], "globals": {"a": ["REF", 1], "b": ["REF", 2]}, "heap": {"1": ["LIST", 81, 82, 83], "2": ["LIST", 5, 82, 83]}, "line": 9, "event": "step_line"}, {"ordered_globals": ["a", "b"], "stdout": "True\nFalse\n[81, 82, 83]\n", "func_name": "<module>", "stack_to_render": [], "globals": {"a": ["REF", 1], "b": ["REF", 2]}, "heap": {"1": ["LIST", 81, 82, 83], "2": ["LIST", 5, 82, 83]}, "line": 10, "event": "step_line"}, {"ordered_globals": ["a", "b"], "stdout": "True\nFalse\n[81, 82, 83]\n[5, 82, 83]\n", "func_name": "<module>", "stack_to_render": [], "globals": {"a": ["REF", 1], "b": ["REF", 2]}, "heap": {"1": ["LIST", 81, 82, 83], "2": ["LIST", 5, 82, 83]}, "line": 10, "event": "return"}]};
+var chp09_is4_vis;
+
+$(document).ready(function() {
+    chp09_is4_vis = new ExecutionVisualizer('chp09_is4',chp09_is4_trace,
+                                {embeddedMode: false,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(chp09_is4_vis,'chp09_is4');
+    allVisualizers.push(chp09_is4_vis);
+});
+
+$(document).ready(function() {
+    $("#chp09_is4_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'chp09_is4'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    chp09_is4_vis.redrawConnectors();
+});
+</script>
+<p>Agora estamos livres para modicar <code class="docutils literal"><span class="pre">b</span></code> sem nos preocuparmos com <code class="docutils literal"><span class="pre">a</span></code>.
+Note também que o <code class="docutils literal"><span class="pre">id</span></code> de b é diferente do <code class="docutils literal"><span class="pre">id</span></code> de a. Ela é uma lista
+completamente diferente.</p>
+</div>
+<div class="section" id="repeticoes-e-referencias">
+<h2>Repetições e referências<a class="headerlink" href="#repeticoes-e-referencias" title="Permalink to this headline">¶</a></h2>
+<p>Já vimos que o operador de repetição trabalho sobre strings e também sobre
+listas.  Por exemplo.</p>
+
+<div id="repref1" >
+<textarea cols="50" rows="12" id="repref1_code" class="active_code">
+lista_original = [45, 76, 34, 55]
+print(lista_original*3)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (repref1)</span> </p>
+<button onclick="runit('repref1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('repref1');">Save</button>
+<button class="ac_opt" onclick="requestCode('repref1');">Load</button>
+<br />
+
+<canvas id="repref1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="repref1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Como uma lista, o operador de repetição cria cópias das referências.
+Apesar desse comportamento parecer simples, quando permitimos
+que uma lista ter referências a uma outra lista, podemos nos confrontar
+com alguns problemas sutis.</p>
+<p>Considere a seguinte extensão do exemplo anterior.</p>
+
+<div id="repref2" >
+<textarea cols="50" rows="12" id="repref2_code" class="active_code">
+lista_original = [45, 76, 34, 55]
+print(lista_original*3)
+
+lista_nova = [lista_original] * 3
+
+print(lista_nova)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (repref2)</span> </p>
+<button onclick="runit('repref2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('repref2');">Save</button>
+<button class="ac_opt" onclick="requestCode('repref2');">Load</button>
+<br />
+
+<canvas id="repref2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="repref2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><code class="docutils literal"><span class="pre">lista_nova</span></code> é uma lista com três referências para a <code class="docutils literal"><span class="pre">lista_original</span></code>
+que foram criadas pelo operador de repetição.</p>
+<img alt="Repetition of a nested list" src="../_images/refrep1.png" />
+<p>Agora, o que acontece se modificamos um valor da <code class="docutils literal"><span class="pre">lista_original</span></code>?</p>
+
+<div id="repref3" >
+<textarea cols="50" rows="12" id="repref3_code" class="active_code">
+lista_original = [45, 76, 34, 55]
+
+lista_nova = [lista_original] * 3
+
+print(lista_nova)
+
+lista_original[1] = 99
+
+print(lista_nova)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (repref3)</span> </p>
+<button onclick="runit('repref3',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('repref3');">Save</button>
+<button class="ac_opt" onclick="requestCode('repref3');">Load</button>
+<br />
+
+<canvas id="repref3_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="repref3_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><code class="docutils literal"><span class="pre">lista_nova</span></code> mostra a mudança em três lugares.  Isto pode ser
+facilmente entendido através do diagrama de referências, já que existe
+apenas uma <code class="docutils literal"><span class="pre">lista_original</span></code>. Logo, qualquer alteração na
+<code class="docutils literal"><span class="pre">lista_original</span></code> aparece em cada uma das três referências da
+<code class="docutils literal"><span class="pre">nova_lista</span></code>.</p>
+<img alt="Same reference" src="../_images/refrep2.png" />
+<p>Aqui está o mesmo exemplo no codelens.
+Execute o código passo a passo e preste particular atenção
+à execução do comando de atribuição <code class="docutils literal"><span class="pre">lista_original[1]</span> <span class="pre">=</span> <span class="pre">99</span></code>.</p>
+
+<div id="reprefstep"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (reprefstep)</span> </p>
+<script type="text/javascript">
+var reprefstep_trace = {"code": "lista_original = [45, 76, 34, 55]\n\nlista_nova = [lista_original] * 3\n\nprint(lista_nova)\n\nlista_original[1] = 99\n\nprint(lista_nova)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["lista_original"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_original": ["REF", 1]}, "heap": {"1": ["LIST", 45, 76, 34, 55]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["lista_original", "lista_nova"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_nova": ["REF", 2], "lista_original": ["REF", 1]}, "heap": {"1": ["LIST", 45, 76, 34, 55], "2": ["LIST", ["REF", 1], ["REF", 1], ["REF", 1]]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["lista_original", "lista_nova"], "stdout": "[[45, 76, 34, 55], [45, 76, 34, 55], [45, 76, 34, 55]]\n", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_nova": ["REF", 2], "lista_original": ["REF", 1]}, "heap": {"1": ["LIST", 45, 76, 34, 55], "2": ["LIST", ["REF", 1], ["REF", 1], ["REF", 1]]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["lista_original", "lista_nova"], "stdout": "[[45, 76, 34, 55], [45, 76, 34, 55], [45, 76, 34, 55]]\n", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_nova": ["REF", 2], "lista_original": ["REF", 1]}, "heap": {"1": ["LIST", 45, 99, 34, 55], "2": ["LIST", ["REF", 1], ["REF", 1], ["REF", 1]]}, "line": 9, "event": "step_line"}, {"ordered_globals": ["lista_original", "lista_nova"], "stdout": "[[45, 76, 34, 55], [45, 76, 34, 55], [45, 76, 34, 55]]\n[[45, 99, 34, 55], [45, 99, 34, 55], [45, 99, 34, 55]]\n", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_nova": ["REF", 2], "lista_original": ["REF", 1]}, "heap": {"1": ["LIST", 45, 99, 34, 55], "2": ["LIST", ["REF", 1], ["REF", 1], ["REF", 1]]}, "line": 9, "event": "return"}]};
+var reprefstep_vis;
+
+$(document).ready(function() {
+    reprefstep_vis = new ExecutionVisualizer('reprefstep',reprefstep_trace,
+                                {embeddedMode: false,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(reprefstep_vis,'reprefstep');
+    allVisualizers.push(reprefstep_vis);
+});
+
+$(document).ready(function() {
+    $("#reprefstep_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'reprefstep'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    reprefstep_vis.redrawConnectors();
+});
+</script>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question9_12_1">
+    <p>9.12.1: O que é impresso pelo trecho de código a seguir?
+
+<pre>
+lista_a = [4, 2, 8, 6, 5]
+lista_b = lista_a * 2
+lista_b[3] = 999
+print(lista_a)
+</pre></p>
+    <form name="test_question9_12_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_12_1_opt_a" />
+    <label for= "test_question9_12_1_opt_a">  a) [4, 2, 8, 999, 5, 4, 2, 8, 6, 5]</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_12_1_opt_b" />
+    <label for= "test_question9_12_1_opt_b">  b) [4, 2, 8, 999, 5]</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question9_12_1_opt_c" />
+    <label for= "test_question9_12_1_opt_c">  c) [4, 2, 8, 6, 5]</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_12_1','c',['print(lista_a) não print(lista_b)', 'lista_b é alterada, lista_a não é.', 'Sim, lista_a não foi alterada pela atribuição. lista_b é uma cópia das referência na lista a.'])"/> 
+    </form>
+    <div id="test_question9_12_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question9_12_2">
+    <p>9.12.2: O que é impresso pelo trecho de código a seguir?
+
+<pre>
+lista_a = [4, 2, 8, 6, 5]
+lista_b = [lista_a] * 2
+lista_a[3] = 999
+print(lista_b)
+</pre></p>
+    <form name="test_question9_12_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_12_2_opt_a" />
+    <label for= "test_question9_12_2_opt_a">  a) [4,2,8,999,5,4,2,8,999,5]</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_12_2_opt_b" />
+    <label for= "test_question9_12_2_opt_b">  b) [[4,2,8,999,5],[4,2,8,999,5]]</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question9_12_2_opt_c" />
+    <label for= "test_question9_12_2_opt_c">  c) [4,2,8,6,5]</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question9_12_2_opt_d" />
+    <label for= "test_question9_12_2_opt_d">  d) [[4,2,8,999,5],[4,2,8,6,5]]</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_12_2','b',['[lista_a] * 2 cria uma lista contendo a lista_a repetida 2 vezes', 'Sim, lista_b contém duas referência, ambas para a lista_a.', 'print(lista_b)', 'lista_b contém duas referências, ambas para lista_a. Logo, alterações na lista_a aparecem em ambas as referências.'])"/> 
+    </form>
+    <div id="test_question9_12_2_feedback">
+    </div>
+    </div>
+    <span class="target" id="index-8"></span></div>
+<div class="section" id="metodos-de-listas">
+<h2>Métodos de listas<a class="headerlink" href="#metodos-de-listas" title="Permalink to this headline">¶</a></h2>
+<p>O operador ponto também pode ser usado para acessar métodos nativos
+(<em>built-in</em>) de objetos que são listas. <code class="docutils literal"><span class="pre">append</span></code> é um método de listas
+que insere o argumento passado para ele no final da lista.
+O exemplo a seguir mostra vários outros métodos.
+Alguns deles são muito fáceis de serem compreendidos.</p>
+
+<div id="chp09_meth1" >
+<textarea cols="50" rows="12" id="chp09_meth1_code" class="active_code">
+minha_lista = []
+minha_lista.append(5)
+minha_lista.append(27)
+minha_lista.append(3)
+minha_lista.append(12)
+print(minha_lista)
+
+minha_lista.insert(1, 12)
+print(minha_lista)
+print(minha_lista.count(12))
+
+print(minha_lista.index(3))
+print(minha_lista.count(5))
+
+minha_lista.reverse()
+print(minha_lista)
+
+minha_lista.sort()
+print(minha_lista)
+
+minha_lista.remove(5)
+print(minha_lista)
+
+ultimo_item = minha_lista.pop()
+print(ultimo_item)
+print(minha_lista)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp09_meth1)</span> </p>
+<button onclick="runit('chp09_meth1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp09_meth1');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp09_meth1');">Load</button>
+<br />
+
+<canvas id="chp09_meth1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp09_meth1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Existem duas maneiras de usar o método <code class="docutils literal"><span class="pre">pop</span></code> .
+A primeira, sem parâmetros, remove e retorna o último item da lista.
+Se for dado um argumento para a posição, <code class="docutils literal"><span class="pre">pop</span></code> remove e
+retorna o item da posição. De qualquer maneira a lista é alterada.</p>
+<p>A tabela a seguir mostra um resumo dos métodos de listas mostrados acima.
+Faça testes com esses métodos para ganhar uma melhor compreensão do que
+eles fazem.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="17%" />
+<col width="14%" />
+<col width="57%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Método</th>
+<th class="head">Parâmetros</th>
+<th class="head">Resultado</th>
+<th class="head">Descrição</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>append</td>
+<td>item</td>
+<td>mutador</td>
+<td>Acrescenta um novo item no final da lista</td>
+</tr>
+<tr class="row-odd"><td>insert</td>
+<td>posição, item</td>
+<td>mutador</td>
+<td>Insere um novo item na posição dada</td>
+</tr>
+<tr class="row-even"><td>pop</td>
+<td>nenhum</td>
+<td>híbrido</td>
+<td>Remove e returno o último item</td>
+</tr>
+<tr class="row-odd"><td>pop</td>
+<td>posição</td>
+<td>híbrido</td>
+<td>Remove e retorna o item da posição.</td>
+</tr>
+<tr class="row-even"><td>sort</td>
+<td>nenhum</td>
+<td>mutador</td>
+<td>Ordena a lista</td>
+</tr>
+<tr class="row-odd"><td>reverse</td>
+<td>nenhum</td>
+<td>mutador</td>
+<td>Ordena a lista em ordem reversa</td>
+</tr>
+<tr class="row-even"><td>index</td>
+<td>item</td>
+<td>retorna idx</td>
+<td>Retorna a posição da primeira ocorrência do item</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+<td>item</td>
+<td>retorna ct</td>
+<td>Retorna o número de ocorrências do item</td>
+</tr>
+<tr class="row-even"><td>remove</td>
+<td>item</td>
+<td>mutador</td>
+<td>Remove a primeira ocorrência do item</td>
+</tr>
+</tbody>
+</table>
+<p>Detalhes desses e de outros métodos podem ser vistos em <a class="reference external" href="http://docs.python.org/py3k/library/stdtypes.html#sequence-types-str-bytes-bytearray-list-tuple-range">Python Documentation</a>.</p>
+<p>É importante notar que <code class="docutils literal"><span class="pre">append</span></code>, <code class="docutils literal"><span class="pre">sort</span></code>, e <code class="docutils literal"><span class="pre">reverse</span></code> retornam <code class="docutils literal"><span class="pre">None</span></code>.
+Isto significa que atribuira a <code class="docutils literal"><span class="pre">minha_lista</span></code> o resultado da
+ordenação de <code class="docutils literal"><span class="pre">minha_lista</span></code> resultará na perda da lista.</p>
+
+<div id="chp09_meth2" >
+<textarea cols="50" rows="12" id="chp09_meth2_code" class="active_code">
+minha_lista = []
+minha_lista.append(5)
+minha_lista.append(27)
+minha_lista.append(3)
+minha_lista.append(12)
+print(minha_lista)
+
+minha_lista = minha_lista.sort()   # possivel erro
+print(minha_lista)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp09_meth2)</span> </p>
+<button onclick="runit('chp09_meth2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp09_meth2');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp09_meth2');">Load</button>
+<br />
+
+<canvas id="chp09_meth2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp09_meth2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question9_13_1">
+    <p>9.13.1: 
+</p>
+    <form name="test_question9_13_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_13_1_opt_a" />
+    <label for= "test_question9_13_1_opt_a">  a) [4, 2, 8, 6, 5, False, True]</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_13_1_opt_b" />
+    <label for= "test_question9_13_1_opt_b">  b) [4, 2, 8, 6, 5, True, False]</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question9_13_1_opt_c" />
+    <label for= "test_question9_13_1_opt_c">  c) [True, False, 4, 2, 8, 6, 5]</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_13_1','b',['True foi inserido primeiro, False foi inserido por último.', 'Sim, cada item é inserido no final da lista.', 'append insere um item no final da lista e não no início.'])"/> 
+    </form>
+    <div id="test_question9_13_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question9_13_2">
+    <p>9.13.2: O que é impresso pelo trecho de código a seguir?
+
+<pre>
+uma_lista = [4, 2, 8, 6, 5]
+uma_lista.insert(2,True)
+uma_lista.insert(0,False)
+print(uma_lista)
+</pre></p>
+    <form name="test_question9_13_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_13_2_opt_a" />
+    <label for= "test_question9_13_2_opt_a">  a) [False, 4, 2, True, 8, 6, 5]</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_13_2_opt_b" />
+    <label for= "test_question9_13_2_opt_b">  b) [4, False, True, 2, 8, 6, 5]</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question9_13_2_opt_c" />
+    <label for= "test_question9_13_2_opt_c">  c) [False, 2, True, 6, 5]</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_13_2','a',['Sim, primeiro True foi inserido na posição de índice 2, depois False foi inserido na posição 0.', 'insert coloca itens na posição especificada e desloca os itens à direita dessa posição.', 'insert não remove ou troca item algum.'])"/> 
+    </form>
+    <div id="test_question9_13_2_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question9_13_3">
+    <p>9.13.3: 
+</p>
+    <form name="test_question9_13_3_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_13_3_opt_a" />
+    <label for= "test_question9_13_3_opt_a">  a) [4, 8, 6]</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_13_3_opt_b" />
+    <label for= "test_question9_13_3_opt_b">  b) [2, 6, 5]</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question9_13_3_opt_c" />
+    <label for= "test_question9_13_3_opt_c">  c) [4, 2, 6]</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_13_3','c',['pop(2) remove o item na posição de índice 2, não remove o valor 2.', 'pop() remove o último item, não o primeiro.', 'Sim, primeiro 8 foi removido, depois o último item, que era 5.'])"/> 
+    </form>
+    <div id="test_question9_13_3_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question9_13_4">
+    <p>9.13.4: 
+</p>
+    <form name="test_question9_13_4_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_13_4_opt_a" />
+    <label for= "test_question9_13_4_opt_a">  a) [2, 8, 6, 5]</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_13_4_opt_b" />
+    <label for= "test_question9_13_4_opt_b">  b) [4, 2, 8, 6, 5]</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question9_13_4_opt_c" />
+    <label for= "test_question9_13_4_opt_c">  c) 4</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question9_13_4_opt_d" />
+    <label for= "test_question9_13_4_opt_d">  d) None</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_13_4','c',['uma_lista é agora o valor que foi retornado por pop(0).', 'pop(0) altera a lista removendo o último elemento.', 'Sim, primeiro 4 foi removido da lista, então retornado e atribuído a uma_lista.  A  lista foi perdida.', 'pop(0) retorna o primeiro item da list, logo uma_lista foi alterada.'])"/> 
+    </form>
+    <div id="test_question9_13_4_feedback">
+    </div>
+    </div>
+    <div class="admonition-scratch-editor admonition">
+<p class="first admonition-title">Scratch Editor</p>
+<div class="last">
+<button id="butt_scratch_9_1" onclick="createActiveCode('scratch_9_1',''); $('#butt_scratch_9_1').hide();">Open Editor</button>
+<div id="scratch_9_1"></div>
+<br />
+</div></div>
+</div>
+<div class="section" id="retorno-a-sistemas-l">
+<h2>Retorno a sistemas-L<a class="headerlink" href="#retorno-a-sistemas-l" title="Permalink to this headline">¶</a></h2>
+<p>Retornemos aos sistemas-L que foram introduzidos na capítulo anterior e
+trataremos de uma característica interessante que usa listas.</p>
+<p>Suponha que temos a seguinte gramática:</p>
+<div class="highlight-python"><div class="highlight"><pre>X
+X --&gt; F[-X]+X
+F --&gt; FF
+</pre></div>
+</div>
+<p>Este sistema-L é muito similar ao sistema-L já visto exceto que
+adicionamos uma mudança. Acrescentamos os caracteres &#8216;[&#8216; e &#8216;]&#8217;.  O
+significado desses caracteres inclui uma nova dimensão bastante
+interessante ao nosso sistema-L.  O caractere &#8216;[&#8216; indica que desejamos
+salvar o estado na nossa tartaruga, a saber a sua posição e sua
+sentido de tal maneira que possamos voltar a esta posição mais tarde.
+O &#8216;]&#8217; diz a tartaruga para voltar para a última posição salva.  A
+maneira que utilizaremos para realizar essas tarefas será através do
+uso de listas.  Podemos salvar a sentido e posição de uma tartaruga
+como uma lista de 3 elementos <code class="docutils literal"><span class="pre">[sentido,</span> <span class="pre">x,</span> <span class="pre">y]</span></code> .  A primeira
+posição da lista armazena a sentido, a segunda armazena a coordenada x
+e a terceira a coordenada y.</p>
+<p>Agora, se criarmos uma lista vazia e cada vez que virmos um &#8216;[&#8216;
+usarmos a função <code class="docutils literal"><span class="pre">append</span></code> para inserir no seu final
+a lista contendo <code class="docutils literal"><span class="pre">[sentido,</span> <span class="pre">x,</span> <span class="pre">y]</span></code> teremos um históricos das
+posições em que a tartaruga esteve.
+A última posição salva estará sempre no final da lista.
+Quando encontrarmos um &#8216;]&#8217; no string, usamos a função <code class="docutils literal"><span class="pre">pop</span></code>
+para remover a última informação inserida na lista.</p>
+<p>Modifiquemos nossa função <code class="docutils literal"><span class="pre">drawLsystem</span></code> para iniciarmos a
+implementação do comportamento descrito.</p>
+
+<div id="list_lsys1" >
+<textarea cols="50" rows="12" id="list_lsys1_code" class="active_code">
+import turtle
+
+def drawLsystem(aTurtle,instructions,angle,distance):
+    savedInfoList = []
+    for cmd in instructions:
+        if cmd == 'F':
+            aTurtle.forward(distance)
+        elif cmd == 'B':
+            aTurtle.backward(distance)
+        elif cmd == '+':
+            aTurtle.right(angle)
+        elif cmd == '-':
+            aTurtle.left(angle)
+        elif cmd == '[':
+            savedInfoList.append([aTurtle.heading(),aTurtle.xcor(),aTurtle.ycor()])
+            print(savedInfoList)
+        elif cmd == ']':
+            newInfo = savedInfoList.pop()
+            print(newInfo)
+            print(savedInfoList)
+        else:
+            print('Error:', cmd, 'is an unknown command')
+
+t = turtle.Turtle()
+inst = "FF[-F[-X]+X]+F[-X]+X"
+drawLsystem(t,inst,60,20)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (list_lsys1)</span> </p>
+<button onclick="runit('list_lsys1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('list_lsys1');">Save</button>
+<button class="ac_opt" onclick="requestCode('list_lsys1');">Load</button>
+<br />
+
+<canvas id="list_lsys1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="list_lsys1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Quando executamos este exemplo vemos que a figura não é muito interessante,
+mas note que é exibido e como salvamos a informação sobre as tartarugas e
+acrescentada e removida do final da lista. No próximo exemplo faremos
+uso da informação da lista para salvar e recuperar as posições da
+tartaruga e o seu sentido quando necessário. Usaremos um exemplo mais
+longo para que você tenha uma ideia de que tipo de desenho podemos
+obter através de um sistema-L.</p>
+
+<div id="list_lsys2" >
+<textarea cols="50" rows="12" id="list_lsys2_code" class="active_code">
+import turtle
+
+def drawLsystem(aTurtle,instructions,angle,distance):
+    savedInfoList = []
+    for cmd in instructions:
+        if cmd == 'F':
+            aTurtle.forward(distance)
+        elif cmd == 'B':
+            aTurtle.backward(distance)
+        elif cmd == '+':
+            aTurtle.right(angle)
+        elif cmd == '-':
+            aTurtle.left(angle)
+        elif cmd == '[':
+            savedInfoList.append([aTurtle.heading(),aTurtle.xcor(),aTurtle.ycor()])
+            print(savedInfoList)
+        elif cmd == ']':
+            newInfo = savedInfoList.pop()
+            aTurtle.setheading(newInfo[0])
+            aTurtle.setposition(newInfo[1],newInfo[2])
+        else:
+            print('Error:', cmd, 'is an unknown command')
+
+t = turtle.Turtle()
+inst = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF[-FFFFFFFFFFFFFFFF[-FFFFFFFF[-FFFF[-FF[-F[-X]+X]+F[-X]+X]+FF[-F[-X]+X]+F[-X]+X]+FFFF[-FF[-F[-X]+X]+F[-X]+X]+FF[-F[-X]+X]+F[-X]+X]+FFFFFFFF[-FFFF[-FF[-F[-X]+X]+F[-X]+X]+FF[-F[-X]+X]+F[-X]+X]+FFFF[-FF[-F[-X]+X]+F[-X]+X]+FF[-F[-X]+X]+F[-X]+X]+FFFFFFFFFFFFFFFF[-FFFFFFFF[-FFFF[-FF[-F[-X]+X]+F[-X]+X]+FF[-F[-X]+X]+F[-X]+X]+FFFF[-FF[-F[-X]+X]+F[-X]+X]+FF[-F[-X]+X]+F[-X]+X]+FFFFFFFF[-FFFF[-FF[-F[-X]+X]+F[-X]+X]+FF[-F[-X]+X]+F[-X]+X]+FFFF[-FF[-F[-X]+X]+F[-X]+X]+FF[-F[-X]+X]+F[-X]+X"
+t.setposition(0,-200)
+t.left(90)
+drawLsystem(t,inst,30,2)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (list_lsys2)</span> </p>
+<button onclick="runit('list_lsys2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('list_lsys2');">Save</button>
+<button class="ac_opt" onclick="requestCode('list_lsys2');">Load</button>
+<br />
+
+<canvas id="list_lsys2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="list_lsys2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Em vez de usar o string <code class="docutils literal"><span class="pre">inst</span></code> fornecido aqui, use o código do
+capítulo String, e escreve suas próprias função <code class="docutils literal"><span class="pre">applyRules</span></code> para
+implementar o sistema-L.  Este exemplo usa apenas 6 expansões. Teste
+com um número maior de expansões.  Você também pode desejar executar
+com um exemplo com valores diferentes para o ângulo e a distância.</p>
+<div class="admonition-scratch-editor admonition">
+<p class="first admonition-title">Scratch Editor</p>
+<div class="last">
+<button id="butt_scratch_9_2" onclick="createActiveCode('scratch_9_2',''); $('#butt_scratch_9_2').hide();">Open Editor</button>
+<div id="scratch_9_2"></div>
+<br />
+</div></div>
+</div>
+<div class="section" id="append-versus-concatenacao">
+<h2>Append versus concatenação<a class="headerlink" href="#append-versus-concatenacao" title="Permalink to this headline">¶</a></h2>
+<p>O método <code class="docutils literal"><span class="pre">append</span></code> acrescenta um novo item no final da lista.
+É possível acrescentar um item no final da lista usando o operador
+<code class="docutils literal"><span class="pre">+</span></code> de concatenação. Entretanto, precisamos ser cuidadosos.</p>
+<p>Considere o exemplo a seguir.
+A lista original contém 3 inteiros.
+Nós inserimos a palavra &#8220;gato&#8221; no final da lista.</p>
+
+<div id="appcon1"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (appcon1)</span> </p>
+<script type="text/javascript">
+var appcon1_trace = {"code": "lista_orig = [45,32,88]\n\nlista_orig.append(\"gato\")", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["lista_orig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_orig": ["REF", 1]}, "heap": {"1": ["LIST", 45, 32, 88]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["lista_orig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_orig": ["REF", 1]}, "heap": {"1": ["LIST", 45, 32, 88, "gato"]}, "line": 3, "event": "return"}]};
+var appcon1_vis;
+
+$(document).ready(function() {
+    appcon1_vis = new ExecutionVisualizer('appcon1',appcon1_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(appcon1_vis,'appcon1');
+    allVisualizers.push(appcon1_vis);
+});
+
+$(document).ready(function() {
+    $("#appcon1_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'appcon1'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    appcon1_vis.redrawConnectors();
+});
+</script>
+<p>Aqui usamos <code class="docutils literal"><span class="pre">append</span></code> que simplesmente modifica a lista.
+A fim de concatenar necessitamos usar o comando de atribuição:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">lista_orig</span> <span class="o">=</span> <span class="p">[</span><span class="mi">45</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">88</span><span class="p">]</span>
+
+<span class="n">lista_orig</span> <span class="o">=</span> <span class="n">lista_orig</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;gato&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Note que a palavra &#8220;gato&#8221; necessita ser colocada em uma lista já
+que o operador concatenação exige duas listas para fazer o seu trabalho.</p>
+
+<div id="appcon2"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (appcon2)</span> </p>
+<script type="text/javascript">
+var appcon2_trace = {"code": "lista_orig = [45, 32, 88]\n\nlista_orig = lista_orig + [\"gato\"]", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["lista_orig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_orig": ["REF", 1]}, "heap": {"1": ["LIST", 45, 32, 88]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["lista_orig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_orig": ["REF", 2]}, "heap": {"2": ["LIST", 45, 32, 88, "gato"]}, "line": 3, "event": "return"}]};
+var appcon2_vis;
+
+$(document).ready(function() {
+    appcon2_vis = new ExecutionVisualizer('appcon2',appcon2_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(appcon2_vis,'appcon2');
+    allVisualizers.push(appcon2_vis);
+});
+
+$(document).ready(function() {
+    $("#appcon2_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'appcon2'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    appcon2_vis.redrawConnectors();
+});
+</script>
+<p>É importante observar que com <code class="docutils literal"><span class="pre">append</span></code>, a lista original é
+simplemente <em>modificada</em>.  É possível ver isto observando o <cite>id</cite> de
+<code class="docutils literal"><span class="pre">lista_orig</span></code>.  O <cite>id</cite> é o mesmo antes e depois de executarmos
+append.</p>
+<p>Por outro lado, com concatenação, você verá que o <cite>id</cite> da lista
+original não é o mesmo que o <cite>id</cite> da resultado depois do comando
+de atribuição. Execute um passo a passo cuidadoso de ambos os exemplos
+para notar a diferença. Com a concatenação um <em>nova</em> lista é criada.</p>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question9_15_1">
+    <p>9.15.1: O que é impresso pelo trecho de código a seguir?
+
+<pre>
+uma_lista = [4, 2, 8, 6, 5]
+uma_lista = uma_lista + 999
+print(uma_lista)
+</pre></p>
+    <form name="test_question9_15_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_15_1_opt_a" />
+    <label for= "test_question9_15_1_opt_a">  a) [4, 2, 8, 6, 5, 999]</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_15_1_opt_b" />
+    <label for= "test_question9_15_1_opt_b">  b) Erro, não podemos concatenar uma lista e um inteiro.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_15_1','b',['Você não pode concatenar uma lista e um inteiro.', 'Sim, para executarmos a concatenação necessitamos escrever uma_lista+[999].  Devemos ter duas listas.'])"/> 
+    </form>
+    <div id="test_question9_15_1_feedback">
+    </div>
+    </div>
+    <span class="target" id="index-9"></span><span class="target" id="index-10"></span></div>
+<div class="section" id="listas-e-o-laco-for">
+<h2>Listas e o laço <code class="docutils literal"><span class="pre">for</span></code><a class="headerlink" href="#listas-e-o-laco-for" title="Permalink to this headline">¶</a></h2>
+<p>É possível <strong>percorrermos uma lista</strong> (<em>list traversal</em>) iterando
+através de itens ou iterando através de índices.</p>
+
+<div id="chp09_03a" >
+<textarea cols="50" rows="12" id="chp09_03a_code" class="active_code">
+frutas = ["pera", "laranja", "banana", "cereja"]
+
+for uma_fruta in frutas:     # por item
+    print(uma_fruta)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp09_03a)</span> </p>
+<button onclick="runit('chp09_03a',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp09_03a');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp09_03a');">Load</button>
+<br />
+
+<canvas id="chp09_03a_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp09_03a_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>É quase como leríamos em linguagem natural: para (cada) fruta) em
+(a lista de) frutas, escreva (o nome da) fruta.</p>
+<p>Podemos também usar o índice para acessar os itens iterativamente.</p>
+
+<div id="chp09_03b" >
+<textarea cols="50" rows="12" id="chp09_03b_code" class="active_code">
+frutas = ["pera", "laranja", "banana", "cereja"]
+
+for posicao in range(len(frutas)):     # por índice
+    print(frutas[posicao])
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp09_03b)</span> </p>
+<button onclick="runit('chp09_03b',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp09_03b');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp09_03b');">Load</button>
+<br />
+
+<canvas id="chp09_03b_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp09_03b_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Neste exemplo, em cada iteração do laço, a variável <code class="docutils literal"><span class="pre">posição</span></code>
+é usada como um índice da lista, imprimindo o  <code class="docutils literal"><span class="pre">posicao</span></code>-ésimo item.
+Note que usamos <code class="docutils literal"><span class="pre">len</span></code> como limite superior do intervalo
+de tal forma que podemos iterar corretamente independentemente do
+número de itens na lista.</p>
+<p>Qualquer expressão sequencial pode ser usada em um laço <code class="docutils literal"><span class="pre">for</span></code>.
+Por exemplo, a função <code class="docutils literal"><span class="pre">range</span></code> retornal uma sequência de inteiros.</p>
+
+<div id="chp09_for3" >
+<textarea cols="50" rows="12" id="chp09_for3_code" class="active_code">
+for numero in range(21):
+    if numero % 3 == 0:
+        print(numero)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp09_for3)</span> </p>
+<button onclick="runit('chp09_for3',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp09_for3');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp09_for3');">Load</button>
+<br />
+
+<canvas id="chp09_for3_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp09_for3_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Este exemplo exibe todos os multiplos de 3 entre 0 e 20.</p>
+<p>Como listas são mutáveis, é frequentemente desejável que
+modifiquemos os elementos de uma lista a medida que ela é percorrida.
+No código a seguir todos os números inteiros entre <code class="docutils literal"><span class="pre">1</span></code> e <code class="docutils literal"><span class="pre">5</span></code> são
+elevados ao quadrado utilizando iteração por posição.</p>
+
+<div id="chp09_for4" >
+<textarea cols="50" rows="12" id="chp09_for4_code" class="active_code">
+numeros = [1, 2, 3, 4, 5]
+print(numeros)
+
+for i in range(len(numeros)):
+    numeros[i] = numeros[i]**2
+
+print(numeros)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp09_for4)</span> </p>
+<button onclick="runit('chp09_for4',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp09_for4');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp09_for4');">Load</button>
+<br />
+
+<canvas id="chp09_for4_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp09_for4_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Para um minuto para refretir sobre <code class="docutils literal"><span class="pre">range(len(numeros)</span></code> até que
+você entenda como  funciona. Estamos interessados aqui sobre ambos
+o <em>valor</em> e o <em>índice</em> de uma posição da lista de tal maneira que
+atribuir un novo valor à posição.</p>
+<div class="admonition-scratch-editor admonition">
+<p class="first admonition-title">Scratch Editor</p>
+<div class="last">
+<button id="butt_scratch_9_3" onclick="createActiveCode('scratch_9_3',''); $('#butt_scratch_9_3').hide();">Open Editor</button>
+<div id="scratch_9_3"></div>
+<br />
+</div></div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question9_16_1">
+    <p>9.16.1: O que é impresso pelo trecho de código a seguir?
+
+<pre>
+lista = [4, 2, 8, 6, 5]
+nova_lista = [ ]
+for item in lista:
+   nova_lista.append(item+5)
+print(nova_lista)
+</pre></p>
+    <form name="test_question9_16_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_16_1_opt_a" />
+    <label for= "test_question9_16_1_opt_a">  a) [4, 2, 8, 6, 5]</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_16_1_opt_b" />
+    <label for= "test_question9_16_1_opt_b">  b) [4, 2, 8, 6, 5, 5]</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question9_16_1_opt_c" />
+    <label for= "test_question9_16_1_opt_c">  c) [9, 7, 13, 11, 10]</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question9_16_1_opt_d" />
+    <label for= "test_question9_16_1_opt_d">  d) Erro, não podemos concatenar dentro de um append.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_16_1','c',['5 is adicionado a cada item antes que o append seja executado.', 'Existem muitos item na lista.  Somente 5 operações append são executadas.', 'Sim, o laço for processa cada item da lista: 5 is adicionado antes que o valor resultante seja inserido na nova lista.', '5 is adicionado a cada item da lista antes que a função append seja executada.'])"/> 
+    </form>
+    <div id="test_question9_16_1_feedback">
+    </div>
+    </div>
+    <span class="target" id="index-11"></span><span class="target" id="index-12"></span><span class="target" id="index-13"></span><span class="target" id="index-14"></span></div>
+<div class="section" id="listas-como-parametros">
+<h2>Listas como parâmetros<a class="headerlink" href="#listas-como-parametros" title="Permalink to this headline">¶</a></h2>
+<p>Funções que recebem listas como argumentos e as alteram durante a
+execução são chamadas de <strong>modificadoras</strong> (<em>modifiers</em>) e as
+mudanças elas realizam são chamadas <strong>efeitos colaterais</strong> (<em>side
+effects</em>).  Ao passar uma lista como argumento estamos realmente
+passando para a função uma <em>referência</em> para a lista e não um <em>cópia</em>
+(<em>clone</em>) da lista. Como listas são mutáveis as alterações feitas nos
+elementos referenciados pelos parâmetros mudarão a lista que o
+argumento está referenciando.  Por exemplo, a função a seguir recebe
+uma lista como argumento e multiplica cada elemento da lista por 2:</p>
+
+<div id="chp09_parm1" >
+<textarea cols="50" rows="12" id="chp09_parm1_code" class="active_code">
+def double_stuff(lista):
+    """ (list) -> None
+    Recebe uma lista referenciada por
+    'lista' e sobreescreve cada
+    elemento da lista com o dobro do
+    seu valor.
+    """
+    for posicao in range(len(lista)):
+        lista[posicao] = 2 * lista[posicao]
+
+things = [2, 5, 9]
+print(things)
+double_stuff(things)
+print(things)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp09_parm1)</span> </p>
+<button onclick="runit('chp09_parm1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp09_parm1');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp09_parm1');">Load</button>
+<br />
+
+<canvas id="chp09_parm1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp09_parm1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>O parâmetro <code class="docutils literal"><span class="pre">lista</span></code> e a variável (argumento) <code class="docutils literal"><span class="pre">things</span></code> são
+apelidos para o mesmo objeto.</p>
+<img alt="State snapshot for multiple references to a list as a parameter" src="../_images/references4.png" />
+<p>Como a lista de objetos é compartilhada por duas referências,
+existe apenas uma cópia. Se a função modifica os elementos da lista
+parâmetros, o função que fez a chamada também enxerga as alterações,
+já que as alterações estão ocorrendo no original.</p>
+<p>This can be easily seen in codelens.  Note that after the call to
+<code class="docutils literal"><span class="pre">double_stuff</span></code>, the <cite>id</cite> of the formal parameter <code class="docutils literal"><span class="pre">uma_lista</span></code> is the
+same as the <cite>id</cite> of <code class="docutils literal"><span class="pre">things</span></code>.</p>
+
+<div id="chp09_parm1_trace"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (chp09_parm1_trace)</span> </p>
+<script type="text/javascript">
+var chp09_parm1_trace_trace = {"code": "def double_stuff(lista):\n    \"\"\" (list) -> None\n    Recebe uma lista referenciada por\n    'lista' e sobreescreve cada elemento\n    da lista com o dobro do seu valor.\n    \"\"\"\n    for posicao in range(len(lista)):\n        lista[posicao] = 2 * lista[posicao]\n\nthings = [2, 5, 9]\n\ndouble_stuff(things)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["double_stuff"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null]}, "line": 10, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 2, 5, 9]}, "line": 12, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"lista": ["REF", 2]}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 2, 5, 9]}, "line": 1, "event": "call"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"lista": ["REF", 2]}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 2, 5, 9]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"lista": ["REF", 2], "posicao": 0}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista", "posicao"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 2, 5, 9]}, "line": 8, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"lista": ["REF", 2], "posicao": 0}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista", "posicao"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 4, 5, 9]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"lista": ["REF", 2], "posicao": 1}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista", "posicao"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 4, 5, 9]}, "line": 8, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"lista": ["REF", 2], "posicao": 1}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista", "posicao"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 4, 10, 9]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"lista": ["REF", 2], "posicao": 2}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista", "posicao"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 4, 10, 9]}, "line": 8, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"lista": ["REF", 2], "posicao": 2}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista", "posicao"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 4, 10, 18]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"__return__": null, "lista": ["REF", 2], "posicao": 2}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista", "posicao", "__return__"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 4, 10, 18]}, "line": 7, "event": "return"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 4, 10, 18]}, "line": 12, "event": "return"}]};
+var chp09_parm1_trace_vis;
+
+$(document).ready(function() {
+    chp09_parm1_trace_vis = new ExecutionVisualizer('chp09_parm1_trace',chp09_parm1_trace_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(chp09_parm1_trace_vis,'chp09_parm1_trace');
+    allVisualizers.push(chp09_parm1_trace_vis);
+});
+
+$(document).ready(function() {
+    $("#chp09_parm1_trace_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'chp09_parm1_trace'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    chp09_parm1_trace_vis.redrawConnectors();
+});
+</script>
+<span class="target" id="index-15"></span><span class="target" id="pure-func-mod"><span id="index-16"></span></span></div>
+<div class="section" id="funcao-pura">
+<h2>Função pura<a class="headerlink" href="#funcao-pura" title="Permalink to this headline">¶</a></h2>
+<p>Uma <strong>função pura</strong> (<em>pure function</em>) não produz efeito colateral.
+Sua comunicação com a função que a chamou é somente através do
+parâmetros, que não são modificados e um valor é retornado.
+Aqui está um versão pura da função <code class="docutils literal"><span class="pre">double_stuff</span></code> da seção anterior.
+Para usar versão pura de <code class="docutils literal"><span class="pre">double_stuff</span></code> e modificar <code class="docutils literal"><span class="pre">things</span></code>,
+devemos atribuir o valor retornado a <code class="docutils literal"><span class="pre">things</span></code> :</p>
+
+<div id="ch09_mod2" >
+<textarea cols="50" rows="12" id="ch09_mod2_code" class="active_code">
+def double_stuff(lista):
+    """ (list) -> list
+    Recebe uma lista referenciada por
+    'lista' e cria e retorna uma nova
+    lista em que cada elemento e' o
+    dobro do valor correspondente
+    na lista original.
+    """
+    nova_lista = []
+    for valor in lista:
+       novo_elemento = 2 * valor
+       nova_lista.append(novo_elemento)
+    return nova_lista
+
+things = [2, 5, 9]
+print(things)
+things = double_stuff(things)
+print(things)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch09_mod2)</span> </p>
+<button onclick="runit('ch09_mod2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch09_mod2');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch09_mod2');">Load</button>
+<br />
+
+<canvas id="ch09_mod2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch09_mod2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Mais uma vez, codelens nos ajuda a ver as referências e os objetos
+passados como parâmetros e retornados.</p>
+
+<div id="ch09_mod3"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (ch09_mod3)</span> </p>
+<script type="text/javascript">
+var ch09_mod3_trace = {"code": "def double_stuff(lista):\n    \"\"\" (list) -> list\n    Recebe uma lista referenciada por\n    'lista' e cria e retorna uma nova\n    lista em que cada elemento e' o\n    dobro do valor correspondente\n    na lista original.\n    \"\"\"\n    nova_lista = []\n    for valor in lista:\n       novo_elemento = 2 * valor\n       nova_lista.append(novo_elemento)\n    return nova_lista\n\nthings = [2, 5, 9]\nthings = double_stuff(things)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["double_stuff"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null]}, "line": 15, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 2, 5, 9]}, "line": 16, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"lista": ["REF", 2]}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 2, 5, 9]}, "line": 1, "event": "call"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"lista": ["REF", 2]}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 2, 5, 9]}, "line": 9, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"nova_lista": ["REF", 3], "lista": ["REF", 2]}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista", "nova_lista"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 2, 5, 9], "3": ["LIST"]}, "line": 10, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"nova_lista": ["REF", 3], "lista": ["REF", 2], "valor": 2}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista", "nova_lista", "valor"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 2, 5, 9], "3": ["LIST"]}, "line": 11, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"nova_lista": ["REF", 3], "novo_elemento": 4, "lista": ["REF", 2], "valor": 2}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista", "nova_lista", "valor", "novo_elemento"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 2, 5, 9], "3": ["LIST"]}, "line": 12, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"nova_lista": ["REF", 3], "novo_elemento": 4, "lista": ["REF", 2], "valor": 2}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista", "nova_lista", "valor", "novo_elemento"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 2, 5, 9], "3": ["LIST", 4]}, "line": 10, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"nova_lista": ["REF", 3], "novo_elemento": 4, "lista": ["REF", 2], "valor": 5}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista", "nova_lista", "valor", "novo_elemento"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 2, 5, 9], "3": ["LIST", 4]}, "line": 11, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"nova_lista": ["REF", 3], "novo_elemento": 10, "lista": ["REF", 2], "valor": 5}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista", "nova_lista", "valor", "novo_elemento"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 2, 5, 9], "3": ["LIST", 4]}, "line": 12, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"nova_lista": ["REF", 3], "novo_elemento": 10, "lista": ["REF", 2], "valor": 5}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista", "nova_lista", "valor", "novo_elemento"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 2, 5, 9], "3": ["LIST", 4, 10]}, "line": 10, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"nova_lista": ["REF", 3], "novo_elemento": 10, "lista": ["REF", 2], "valor": 9}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista", "nova_lista", "valor", "novo_elemento"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 2, 5, 9], "3": ["LIST", 4, 10]}, "line": 11, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"nova_lista": ["REF", 3], "novo_elemento": 18, "lista": ["REF", 2], "valor": 9}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista", "nova_lista", "valor", "novo_elemento"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 2, 5, 9], "3": ["LIST", 4, 10]}, "line": 12, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"nova_lista": ["REF", 3], "novo_elemento": 18, "lista": ["REF", 2], "valor": 9}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista", "nova_lista", "valor", "novo_elemento"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 2, 5, 9], "3": ["LIST", 4, 10, 18]}, "line": 10, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"nova_lista": ["REF", 3], "novo_elemento": 18, "lista": ["REF", 2], "valor": 9}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista", "nova_lista", "valor", "novo_elemento"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 2, 5, 9], "3": ["LIST", 4, 10, 18]}, "line": 13, "event": "step_line"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "double_stuff", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"nova_lista": ["REF", 3], "novo_elemento": 18, "__return__": ["REF", 3], "lista": ["REF", 2], "valor": 9}, "is_highlighted": true, "is_parent": false, "func_name": "double_stuff", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "double_stuff_f1", "ordered_varnames": ["lista", "nova_lista", "valor", "novo_elemento", "__return__"]}], "globals": {"things": ["REF", 2], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "2": ["LIST", 2, 5, 9], "3": ["LIST", 4, 10, 18]}, "line": 13, "event": "return"}, {"ordered_globals": ["double_stuff", "things"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"things": ["REF", 3], "double_stuff": ["REF", 1]}, "heap": {"1": ["FUNCTION", "double_stuff(lista)", null], "3": ["LIST", 4, 10, 18]}, "line": 16, "event": "return"}]};
+var ch09_mod3_vis;
+
+$(document).ready(function() {
+    ch09_mod3_vis = new ExecutionVisualizer('ch09_mod3',ch09_mod3_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(ch09_mod3_vis,'ch09_mod3');
+    allVisualizers.push(ch09_mod3_vis);
+});
+
+$(document).ready(function() {
+    $("#ch09_mod3_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'ch09_mod3'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    ch09_mod3_vis.redrawConnectors();
+});
+</script>
+<div class="admonition-scratch-editor admonition">
+<p class="first admonition-title">Scratch Editor</p>
+<div class="last">
+<button id="butt_scratch_9_4" onclick="createActiveCode('scratch_9_4',''); $('#butt_scratch_9_4').hide();">Open Editor</button>
+<div id="scratch_9_4"></div>
+<br />
+</div></div>
+</div>
+<div class="section" id="qual-e-melhor">
+<h2>Qual é melhor?<a class="headerlink" href="#qual-e-melhor" title="Permalink to this headline">¶</a></h2>
+<p>Tudo que é feito com uma função modificadora pode também ser realizado
+com uma função pura.  De fato, algumas linguagens de programação
+somente permitem funções puras. Existe alguma evidência que programas
+que usam funções puras são desenvolvidos mais rapidamente e propagam
+menos erros que programas que usam funções modificadoras.  No entanto,
+modificadoras são as vezes convenientes e em alguns casos, programas
+funcionais não menos eficientes.</p>
+<p>Em geral, recomendamos que você escreva funções puras sempre que for
+razoável fazer isso é apele para modificadoras somente se existe
+uma boa vantagem em fazer isso. Este método pode ser chamado de
+<strong>estilo funcional de programação</strong> (<em>functional programming style</em>).</p>
+</div>
+<div class="section" id="funcoes-que-produzem-listas">
+<h2>Funções que produzem listas<a class="headerlink" href="#funcoes-que-produzem-listas" title="Permalink to this headline">¶</a></h2>
+<p>A versão pura da função <code class="docutils literal"><span class="pre">double_stuff</span></code> acima faz uso de um <strong>padrão</strong>
+(<em>pattern</em>) que você deve guardar na sua caixa de ferramentas. Sempre
+que você necessitar escrever uma função que cria e retorna uma lista,
+o padrão usualmente é:</p>
+<div class="highlight-python"><div class="highlight"><pre>inicialize uma variável para a lista nova com a lista vazia
+itere
+    crie um novo elemento
+    append esse novo elemento a lista nova
+retorne a lista nova
+</pre></div>
+</div>
+<p>Vejamos outro uso desse padrão.
+Suponha que tenhamos uma função <code class="docutils literal"><span class="pre">primo(x)</span></code> que recebe um número inteiro <code class="docutils literal"><span class="pre">x</span></code>
+e retorna <code class="docutils literal"><span class="pre">True</span></code> se o valor de <code class="docutils literal"><span class="pre">x</span></code> é primo e <code class="docutils literal"><span class="pre">False</span></code> em caso contrário.
+Agora, escrevemos uma função que recebe um número inteiro <code class="docutils literal"><span class="pre">n</span></code> e cria
+e retorna uma lista com todos os números primos menores que <code class="docutils literal"><span class="pre">n</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">primos_ate</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; (int) -&gt; list</span>
+<span class="sd">    Recebe um inteiro n e cria e retorna a lista dos números</span>
+<span class="sd">    primos menores que n.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lista_primos</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">primo</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+            <span class="n">lista_primos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">lista_primos</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="list-comprehensions">
+<h2>List comprehensions<a class="headerlink" href="#list-comprehensions" title="Permalink to this headline">¶</a></h2>
+<p>No exemplo anterior criamos uma lista de uma sequência de valores (os inteiros
+entre 2 e <code class="docutils literal"><span class="pre">n</span></code>) baseados em um critério de seleção (ser primo).
+Um maneira simples para realizar em Python esse tipo de processamento
+é o uso de <strong>list comprehension</strong>. (N.d.T. também traduzido para o português como <em>abrangência de listas</em>.
+Ver o comentário em: <a class="reference external" href="http://turing.com.br/pydoc/2.7/tutorial/datastructures.html#list-comprehensions-ou-abrangencias-de-listas">List comprehensions ou abrangências de listas</a>.)</p>
+<p><em>List comprehension</em> é uma maneira compacta de criar listas.
+A forma geral para obter esse efeito
+é:</p>
+<div class="highlight-python"><div class="highlight"><pre>[&lt;expressão&gt; for &lt;item&gt; in &lt;sequência&gt; if &lt;condição&gt;]
+</pre></div>
+</div>
+<p>onde a cláusula <code class="docutils literal"><span class="pre">if</span></code> é opcional. Por exemplo,</p>
+
+<div id="list" >
+<textarea cols="50" rows="12" id="list_code" class="active_code">
+minha_lista = [1, 2, 3, 4, 5]
+
+sua_lista = [item ** 2 for item in minha_lista]
+
+print(sua_lista)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (list)</span> </p>
+<button onclick="runit('list',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('list');">Save</button>
+<button class="ac_opt" onclick="requestCode('list');">Load</button>
+<br />
+
+<canvas id="list_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="list_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>A expressão descreve cada elemento da lista que está sendo criada.
+A cláusula <code class="docutils literal"><span class="pre">for</span></code> itera sobre cada elemento da sequencia.
+Os itens são filtrados pela cláusula <code class="docutils literal"><span class="pre">if</span></code> se existe alguma.
+No exemplo acima, o comando <code class="docutils literal"><span class="pre">for``faz</span> <span class="pre">com</span> <span class="pre">que</span> <span class="pre">a</span> <span class="pre">variável</span> <span class="pre">``item</span></code>
+assuma todos os valores na lista <code class="docutils literal"><span class="pre">minha_lista</span></code>.
+Cada item é elevado ao quadrado antes de ser inserido na lista que
+está sendo construída.
+O resultados é a lista dos quadrados dos valores em <code class="docutils literal"><span class="pre">minha_lista</span></code>.</p>
+<p>Para escrever a função <code class="docutils literal"><span class="pre">primos_ate</span></code> usaremos a função <code class="docutils literal"><span class="pre">primos</span></code>
+como um filtro dos inteiros na sequência resultante de
+<code class="docutils literal"><span class="pre">range</span></code>. Em outras palavras, para cada inteiro de 2 até <code class="docutils literal"><span class="pre">n</span></code>,
+exclusive <code class="docutils literal"><span class="pre">n</span></code>, se o inteiro é primo, ele será mantido na lista
+resultante.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">primes_ate</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; (int) -&gt; list</span>
+<span class="sd">    Recebe um inteiro n e cria e retorna a lista dos números</span>
+<span class="sd">    primos menores que n usando &#39;list comprehension&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lista_primos</span> <span class="o">=</span> <span class="p">[</span><span class="n">num</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="k">if</span> <span class="n">primo</span><span class="p">(</span><span class="n">num</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">lista_primos</span>
+</pre></div>
+</div>
+<div class="admonition-scratch-editor admonition">
+<p class="first admonition-title">Scratch Editor</p>
+<div class="last">
+<button id="butt_scratch_9_5" onclick="createActiveCode('scratch_9_5',''); $('#butt_scratch_9_5').hide();">Open Editor</button>
+<div id="scratch_9_5"></div>
+<br />
+</div></div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question9_20_1">
+    <p>9.20.1: O que é impresso pelo trecho de código a seguir?
+
+<pre>
+uma_lista = [4,2,8,6,5]
+outra_lista = [num*2 for num in uma_lista if num%2==1]
+print(outra_lista)
+</pre></p>
+    <form name="test_question9_20_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_20_1_opt_a" />
+    <label for= "test_question9_20_1_opt_a">  a) [4, 2, 8, 6, 5]</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_20_1_opt_b" />
+    <label for= "test_question9_20_1_opt_b">  b) [8, 4, 16, 12, 10]</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question9_20_1_opt_c" />
+    <label for= "test_question9_20_1_opt_c">  c) 10</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question9_20_1_opt_d" />
+    <label for= "test_question9_20_1_opt_d">  d) [10].</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_20_1','d',['Item de uma_lista são dobrados antes de serem colocados em outra_lista', 'Nem todo os items em uma_lista são inseridos em outra_lista. Veja a cláusula if.', 'O resultado é do tipo list.', 'Sim, 5 é o único número ímpar em uma_lista.  Ele é dobrado antes de ser inserido em outra_lista.'])"/> 
+    </form>
+    <div id="test_question9_20_1_feedback">
+    </div>
+    </div>
+    <span class="target" id="index-17"></span><span class="target" id="index-18"></span></div>
+<div class="section" id="listas-aninhadas">
+<h2>Listas aninhadas<a class="headerlink" href="#listas-aninhadas" title="Permalink to this headline">¶</a></h2>
+<p>Uma <strong>lista aninhada</strong> (<em>nested list</em>) é uma lista que aparece como um
+elemento em uma outra lista. Nessa lista, o elemento com índice 3 é
+uma lista aninhada. Se executarmos print(<code class="docutils literal"><span class="pre">lista[3]</span></code>), obteremos
+<code class="docutils literal"><span class="pre">[10,</span> <span class="pre">20]</span></code>. Para acessar um elemento de uma lista aninhada podemos
+proceder em dois passos. Primeiro, acessamos a lista aninhada,
+depois acessamos o item de interesse. Também é possível combinar
+esses passos usando o operador colchetes que são aplicados
+da esquerda para a direita.</p>
+
+<div id="chp09_nest" >
+<textarea cols="50" rows="12" id="chp09_nest_code" class="active_code">
+lista = ["oi", 2.0, 5, [10, 20]]
+lista_aninhada = lista[3]
+print(lista_aninhada)
+item = lista_aninhada[1]
+print(item)
+
+print(lista[3][1])
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp09_nest)</span> </p>
+<button onclick="runit('chp09_nest',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp09_nest');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp09_nest');">Load</button>
+<br />
+
+<canvas id="chp09_nest_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp09_nest_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p id="index-19"><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question9_21_1">
+    <p>9.21.1: O que é impresso pelo trecho de código a seguir?
+
+<pre>
+lista = [ [4, [True, False], 6, 8], [888, 999] ]
+if lista[0][1][0]:
+   print(lista[1][0])
+else:
+   print(lista[1][1])
+</pre></p>
+    <form name="test_question9_21_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_21_1_opt_a" />
+    <label for= "test_question9_21_1_opt_a">  a) 6</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_21_1_opt_b" />
+    <label for= "test_question9_21_1_opt_b">  b) 8</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question9_21_1_opt_c" />
+    <label for= "test_question9_21_1_opt_c">  c) 888</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question9_21_1_opt_d" />
+    <label for= "test_question9_21_1_opt_d">  d) 999</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_21_1','c',['6 está na lista errada.  lista[1] se refere ao segundo item de lista, a saber [888,999].', '8 esta na lista errada.  lista[1] se refere ao segundo item de lista, a saber [888,999].', 'Sim, lista[0][1][0] é True e lista[1] é a segunda lista, o primeiro item é 888.', 'lista[0][1][0] is False.  Olhe novamente o comando.'])"/> 
+    </form>
+    <div id="test_question9_21_1_feedback">
+    </div>
+    </div>
+    <span class="target" id="index-20"></span><span class="target" id="index-21"></span></div>
+<div class="section" id="strings-e-listas">
+<h2>Strings e listas<a class="headerlink" href="#strings-e-listas" title="Permalink to this headline">¶</a></h2>
+<p>Dois dos métodos mais úteis que operam sobre strings envolvem listas de
+strings. O método <code class="docutils literal"><span class="pre">split</span></code> quebra um string em uma lista de palavras.
+Por palavra entenda-se um string limitado por um conjunto de
+caracteres pré-definidos.
+Em caso de omissão (<em>default</em>), qualquer número de caracteres brancos (<em>whitespace characters</em>) é considerado como limite de uma palavra.</p>
+
+<div id="ch09_split1" >
+<textarea cols="50" rows="12" id="ch09_split1_code" class="active_code">
+musica = "Eduardo e Monica um dia se encontraram sem querer..."
+lista_palavras = musica.split()
+print(lista_palavras)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch09_split1)</span> </p>
+<button onclick="runit('ch09_split1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch09_split1');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch09_split1');">Load</button>
+<br />
+
+<canvas id="ch09_split1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch09_split1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Um argumento opcional chamado de <strong>delimitador</strong> (<em>delimiter</em>)
+pode ser usado para especificar quais caracteres serão usados como
+fronteira de palavras.
+No exemplo a seguir usamos o string &#8220;se&#8221;</p>
+
+<div id="ch09_split2" >
+<textarea cols="50" rows="12" id="ch09_split2_code" class="active_code">
+musica = "Eduardo e Monica um dia se encontraram sem querer..."
+lista_palavras = musica.split("se")
+print(lista_palavras)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch09_split2)</span> </p>
+<button onclick="runit('ch09_split2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch09_split2');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch09_split2');">Load</button>
+<br />
+
+<canvas id="ch09_split2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch09_split2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Note que o delimitador não aparece no resultado.</p>
+<p>O método <code class="docutils literal"><span class="pre">join</span></code> faz o trabalho inverso do método <code class="docutils literal"><span class="pre">split</span></code>.
+Determinamos um string <strong>separador</strong> (<em>separator</em>), frequentemente chamado
+de <em>cola</em> (<em>glue</em>) e juntamos os elementos na lista utilizando a cola entre
+cada par de elemento.</p>
+
+<div id="ch09_join" >
+<textarea cols="50" rows="12" id="ch09_join_code" class="active_code">
+lista = ["vermelho", "azul", "verde"]
+cola = ';'
+s = cola.join(lista)
+print(s)
+print(lista)
+
+print("***".join(lista))
+print("".join(lista))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch09_join)</span> </p>
+<button onclick="runit('ch09_join',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch09_join');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch09_join');">Load</button>
+<br />
+
+<canvas id="ch09_join_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch09_join_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>A lista que estamos grudando (<code class="docutils literal"><span class="pre">lista</span></code> no exemplo) não é modificada.
+É possível utilizar qualquer string como cola, inclusive o string vazio.</p>
+<div class="admonition-scratch-editor admonition">
+<p class="first admonition-title">Scratch Editor</p>
+<div class="last">
+<button id="butt_scratch_9_6" onclick="createActiveCode('scratch_9_6',''); $('#butt_scratch_9_6').hide();">Open Editor</button>
+<div id="scratch_9_6"></div>
+<br />
+</div></div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question9_22_1">
+    <p>9.22.1: O que é impresso pelo trecho de código a seguir?
+
+<pre>
+escritora = "Carolina Maria de Jesus"
+lista_de_nomes = escritora.split()
+inic = ""
+for nome in lista_de_nomes:
+   inic = inic + nome[0]
+print(inic)
+</pre></p>
+    <form name="test_question9_22_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question9_22_1_opt_a" />
+    <label for= "test_question9_22_1_opt_a">  a) Jesus</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question9_22_1_opt_b" />
+    <label for= "test_question9_22_1_opt_b">  b) CarolinaMariadeJesus</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question9_22_1_opt_c" />
+    <label for= "test_question9_22_1_opt_c">  c) CMdJ</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question9_22_1_opt_d" />
+    <label for= "test_question9_22_1_opt_d">  d) Clarice Lispector</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question9_22_1','c',['lista_de_nomes é a lista com as palavras no nome.', 'Muitos caracteres.  Deveria conter apenas uma letra de cada nome.', 'Sim, split cria uma lista com quatro palavras. O laço for itera sobre cada palavra criando um string com o primeiro caractere de cada uma.', 'Isso não faz sentido, mas ambas são excelentes escritoras.'])"/> 
+    </form>
+    <div id="test_question9_22_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="funcao-de-conversao-list">
+<h2>Função de conversão <code class="docutils literal"><span class="pre">list</span></code><a class="headerlink" href="#funcao-de-conversao-list" title="Permalink to this headline">¶</a></h2>
+<p>Python possui uma função nativa chamada <code class="docutils literal"><span class="pre">list</span></code> que procura converter
+o seu argumento para o tipo list.</p>
+
+<div id="ch09_list1" >
+<textarea cols="50" rows="12" id="ch09_list1_code" class="active_code">
+xs = list("Crunchy Frog")
+print(xs)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch09_list1)</span> </p>
+<button onclick="runit('ch09_list1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch09_list1');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch09_list1');">Load</button>
+<br />
+
+<canvas id="ch09_list1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch09_list1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>O string &#8220;Crunchy Frog&#8221; é transformado em uma lista que contem cada
+caractere do string. Em geral, qualquer sequência pode ser convertida em
+uma lista usando esta função. O resultado sera a lista contendo os
+elementos na sequência original. Não é válido usar a função <code class="docutils literal"><span class="pre">list</span></code> sobre
+qualquer argumento que não seja uma sequência.</p>
+<p>É importante  observar que a função de conversão <code class="docutils literal"><span class="pre">list</span></code> colocará cada
+elemento da sequência original em uma nova lista. Quando estamos trabalhando
+com strings isto é muito diferente do resultado do método <code class="docutils literal"><span class="pre">split</span></code>.
+Enquanto que <code class="docutils literal"><span class="pre">split</span></code> quebra uma string em um lista de &#8220;palavras&#8221;, <code class="docutils literal"><span class="pre">list</span></code>
+sempre quebra o string em uma lista de caracteres.</p>
+<span class="target" id="index-22"></span></div>
+<div class="section" id="tuplas-e-mutabilidade">
+<span id="index-23"></span><h2>Tuplas e mutabilidade<a class="headerlink" href="#tuplas-e-mutabilidade" title="Permalink to this headline">¶</a></h2>
+<p>Até agora vimos dois tipos de coleções sequenciais de objetos:
+strings, que são compostos de caracteres; e listas. que são formados
+por elementos de um qualquer tipo. Uma das diferenças que notados
+é que os elementos de uma lista podem ser modificados,
+mas os caracteres de um string não podem.
+Em outras palavras, strings são <strong>imutáveis</strong> (<em>immutable</em>) e
+listas são <strong>mutáveis</strong> (<em>mutable</em>).</p>
+<p>Uma <strong>tupla</strong> (<strong>tuple</strong>), como uma lista, é um sequência de items de qualquer tipo.
+Entretanto, diferentemente de listas, tuples são imutáveis. Sintaticamente,
+uma tupla é uma sequência de valores separadas por uma vírgula.
+Apesar de não ser necessário, há a convenção de se envolver uma tupla entre
+parêntese:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fernanda</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Fernanda&quot;</span><span class="p">,</span> <span class="s2">&quot;Montenegro&quot;</span><span class="p">,</span> <span class="mi">1929</span><span class="p">,</span> <span class="s2">&quot;Central do Brasil&quot;</span><span class="p">,</span> <span class="mi">1998</span><span class="p">,</span> <span class="s2">&quot;Atriz&quot;</span><span class="p">,</span> <span class="s2">&quot;Rio de Janeiro, RJ&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Tuplas são úteis para representarmos o que em outras linguagens frequentemente chamamos de
+<em>registros</em> (<em>records</em>) &#8212; alguma informação relacionada, como o seu histórico escolar,
+Não há descrição do que cada um desses <em>campos</em> (<em>fields</em>) significam, mas podemos
+ter um palpite. Uma tupla nos permite agruparmos informações relacionadas e usá-la
+como um único objeto.</p>
+<p>Tuplas admitem a mesma sequência de operações que strings e listas.
+Por exemplo, com o operador de indexação selecionamos um elemento de uma tupla.</p>
+<p>Como strings, se tentarmos utilizar o operador de atribuição para modificarmos um
+elemento da tupla, obteremos um erro.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fernanda</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;X&#39;</span>
+<span class="ne">TypeError</span><span class="p">:</span> <span class="s1">&#39;tuple&#39;</span> <span class="nb">object</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">support</span> <span class="n">item</span> <span class="n">assignment</span>
+</pre></div>
+</div>
+<p>É claro que, mesmo que não seja possível modificarmos os elementos de uma tupla,
+nós podemos fazer com que uma variável faça referência a uma nova tupla que
+armazena indormações diferentes. Para construirmos uma nova tupla é conveniente
+que utilizemos fatiamento para selecionar as partes da tupla original e juntemos
+com outras informações a fim de obtermos uma nova tupla. Assim,
+<code class="docutils literal"><span class="pre">fernanda</span></code> tem um filme mais recente e nós podemos desejar alterar a sua
+tupla. Podemos facilmente usar fatiar as partes da tupla original que
+desejamos concatenar  a fim de obtermos uma nova tupla.</p>
+
+<div id="ch09_tuple1" >
+<textarea cols="50" rows="12" id="ch09_tuple1_code" class="active_code">
+fernanda = ("Fernanda", "Montenegro", 1929, "Central do Brasil", 1998, "Atriz", "Rio de Janeiro, RJ")
+print(fernanda[2])
+print(fernanda[2:6])
+
+print(len(fernanda))
+
+fernanda = fernanda[:3] + ("Boa Sorte", 2014) + fernanda[5:]
+print(fernanda)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch09_tuple1)</span> </p>
+<button onclick="runit('ch09_tuple1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch09_tuple1');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch09_tuple1');">Load</button>
+<br />
+
+<canvas id="ch09_tuple1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch09_tuple1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Para criar uma tupla com um único elemento (mas você provavelmente
+não fará isso frequentemente), podemos incluir no final uma vírgula,
+já que sem a vírgula no final, Python tratará <code class="docutils literal"><span class="pre">(5)</span></code> abaixo como um número inteiro
+entre parenteses:</p>
+
+<div id="chp09_tuple2" >
+<textarea cols="50" rows="12" id="chp09_tuple2_code" class="active_code">
+tup = (5,)
+print(type(tup))
+
+x = (5)
+print(type(x))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp09_tuple2)</span> </p>
+<button onclick="runit('chp09_tuple2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp09_tuple2');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp09_tuple2');">Load</button>
+<br />
+
+<canvas id="chp09_tuple2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp09_tuple2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<span class="target" id="index-24"></span><span class="target" id="index-25"></span></div>
+<div class="section" id="atribuicao-de-tuplas">
+<h2>Atribuição de tuplas<a class="headerlink" href="#atribuicao-de-tuplas" title="Permalink to this headline">¶</a></h2>
+<p>Python tem um mecanismo muito poderoso de <strong>atribuição de tuplas</strong> (<em>tuple assignment</em>)
+que permite uma tupla de variáveis na esquerda receber valore de uma tupla
+de variáveis a direita do operador <code class="docutils literal"><span class="pre">=</span></code> de atribuição.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="n">nome</span><span class="p">,</span> <span class="n">sobrenome</span><span class="p">,</span> <span class="n">ano_de_nascimento</span><span class="p">,</span> <span class="n">filme</span><span class="p">,</span> <span class="n">ano_do_filme</span><span class="p">,</span> <span class="n">profissao</span><span class="p">,</span> <span class="n">local_de_nascimento</span><span class="p">)</span> <span class="o">=</span> <span class="n">fernanda</span>
+</pre></div>
+</div>
+<p>Isso é equivalente a sete comandos de atribuição, tudo em um linha e de maneira simples.
+Um requisito é que o número de variáveis a esquerda deve ser o mesmo que o número
+de valores na tupla.</p>
+<p>Frequentemente, é útil trocarmos os valores de duas variáveis.
+Com o comando de atribuição convencional necessitamos de uma variável temporária.
+Por exemplo, para trocar os valores de <code class="docutils literal"><span class="pre">a</span></code> e <code class="docutils literal"><span class="pre">b</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">temp</span> <span class="o">=</span> <span class="n">a</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">b</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">temp</span>
+</pre></div>
+</div>
+<p>Atribuição entre tuplas faz o mesmo serviço de uma maneira muito elegante:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Naturalmente, o número de variáveis a esquerda e o número de valores a direita
+devem ser o mesmo.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">ValueError: need more than 3 values to unpack</span>
+</pre></div>
+</div>
+<span class="target" id="index-26"></span><span class="target" id="index-27"></span></div>
+<div class="section" id="tuplas-como-valor-de-retorno">
+<h2>Tuplas como valor de retorno<a class="headerlink" href="#tuplas-como-valor-de-retorno" title="Permalink to this headline">¶</a></h2>
+<p>Funções podem retornar tuplas como valor de retorno.  Isto é muito
+conveniente &#8212; frequentemente desejamos saber qual foi o maior número
+de gols marcados e o maior número de gols sofridos por um time, ou
+desejamos o média e desvio padrão de um conjunto de dados, ou sejamos
+saber um dia, mês e ano ou se estamos fazendo alguma modelagem
+ecológica desejamos saber o número de coelho e lobos em uma ilha em um
+certo momento. Em cada um desses casos, uma função (que só pode
+retornar um único valor), pode cria uma tupla formada por vários
+valores.</p>
+<p>Por exemplo, podemos escrever uma função que retorna a área de um círculo e comprimento
+de uma circunferência de um dado raio.</p>
+
+<div id="chp09_tuple3" >
+<textarea cols="50" rows="12" id="chp09_tuple3_code" class="active_code">
+def circInfo(r):
+    """ (numero) -> (float,float)
+    Recebe um numero r e retorna o comprimento da circunferencia
+    de raio r e a area do circulo de raio r.
+    """
+    c = 2 * 3.14159 * r
+    a = 3.14159 * r * r
+    return (c, a)
+
+print(circInfo(10))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp09_tuple3)</span> </p>
+<button onclick="runit('chp09_tuple3',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp09_tuple3');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp09_tuple3');">Load</button>
+<br />
+
+<canvas id="chp09_tuple3_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp09_tuple3_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="admonition-scratch-editor admonition">
+<p class="first admonition-title">Scratch Editor</p>
+<div class="last">
+<button id="butt_scratch_9_7" onclick="createActiveCode('scratch_9_7',''); $('#butt_scratch_9_7').hide();">Open Editor</button>
+<div id="scratch_9_7"></div>
+<br />
+</div></div>
+</div>
+<div class="section" id="glossario">
+<h2>Glossário<a class="headerlink" href="#glossario" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-apelidos-aliases">apelidos (<em>aliases</em>)</dt>
+<dd>Várias variáveis fazendo referência a um mesmo objeto.</dd>
+<dt id="term-clonar-clone">clonar (<em>clone</em>)</dt>
+<dd>Criar um novo objeto com os mesmo valores de um objeto existente.
+Copiar uma referência de um objeto cria um apelido mas <em>não</em> cria um
+clone do objeto.</dd>
+<dt id="term-delimitador-delimiter">delimitador (<em>delimiter</em>)</dt>
+<dd>Um caractere ou string usado para indicar onde um string deve ser
+&#8220;quebrado&#8221;.</dd>
+<dt id="term-efeito-colateral-side-effect">efeito colateral (<em>side effect</em>)</dt>
+<dd>Um mudança no estado de um programa feito por uma função que foi invocada
+que não é o resultado do valor retornado pela função. Efeitos colaterais
+só podem ser produzidos por função midificadoras.</dd>
+<dt id="term-elemento">elemento</dt>
+<dd>Um dos valores em uma lista (ou outra sequência). O operador colchetes
+seleciona elementos de uma lista.</dd>
+<dt id="term-funcao-pura-pure-functon">função pura (<em>pure functon</em>)</dt>
+<dd>Uma função que não produz efeitos colaterais. Funções puras apenas
+alteram os estado (variáveis) das funções que a chamam através de
+valores de retorno.</dd>
+<dt id="term-indice-index">índice (<em>index</em>)</dt>
+<dd>Uma variável, valor ou expressão do tipo <code class="docutils literal"><span class="pre">int</span></code> que indica um elemento de
+uma lista, string ou tupla.</dd>
+<dt id="term-lista-list">lista (<em>list</em>)</dt>
+<dd>Uma coleção de objetos, onde cada objeto é identificado por um índice.
+Como outros tipos <code class="docutils literal"><span class="pre">str</span></code>, <code class="docutils literal"><span class="pre">int</span></code>, <code class="docutils literal"><span class="pre">float</span></code>, etc. existe também
+a função <code class="docutils literal"><span class="pre">list</span></code> que procura converter o seu argumento para uma
+lista.</dd>
+<dt id="term-lista-aninhada-nested-list">lista aninhada (<em>nested list</em>)</dt>
+<dd>Uma lista que é um elemento de uma outra lista.</dd>
+<dt id="term-modificadora-modifier">modificadora (<em>modifier</em>)</dt>
+<dd>Uma função que altera os seus argumntos. Somente argumentos de tipos
+mutáveis podem ser alterados por funções modificadoras.</dd>
+<dt id="term-objeto-object">objeto (<em>object</em>)</dt>
+<dd>Um valor a que uma variável pode se referir.</dd>
+<dt id="term-percorrer-um-lista-list-traversal">percorrer um lista (<em>list traversal</em>)</dt>
+<dd>Acesso sequencial a cada elemneto em uma lista.</dd>
+<dt id="term-padrao-pattern">padrão (<em>pattern</em>)</dt>
+<dd>Uma sequência de comandos ou um estilo de escrever código que é
+potencialmente aplicável em várias situações. Parte de se tornar
+um cientista da computação madura está em aprender e estabelecer
+padrões e algoritmos que formam a sua caixa de ferramentas. Padrões
+frequentemente correspondem ao seu &#8220;mental chunking&#8221;.</dd>
+<dt id="term-sequencia-sequence">sequência (<em>sequence</em>)</dt>
+<dd>Qualquer tipo de dados que consiste de uma coleção ordenada de elementos,
+com cada elemento identificado por um índice.</dd>
+<dt id="term-tipo-de-dado-mutavel-mutable-data-type">tipo de dado mutável (<em>mutable data type</em>)</dt>
+<dd>Um tipo de dado em que seu elementos podem ser modificados. Todos os
+tipos mutáveis são compostos por outros tipos. Listas são mutáveis;
+strings e tuplas não são mutáveis.</dd>
+</dl>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Desenhe um diagrama de referências para <code class="docutils literal"><span class="pre">a</span></code> e <code class="docutils literal"><span class="pre">b</span></code> antes e depois de ser
+executada a terceira linha do seguinte trecho de código:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="p">[:]</span>
+<span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Cria uma lista chamada <code class="docutils literal"><span class="pre">minha_lista</span></code> com os seguinte items: 76, 92.3, &#8220;oi&#8221;, True, 4, 76.</p>
+
+<button id="butt_ex_9_2" onclick="createActiveCode('ex_9_2',''); $('#butt_ex_9_2').hide();">Open Editor</button>
+<div id="ex_9_2"></div>
+<br />
+</li>
+<li><p class="first">Escreva comandos para:</p>
+<ol class="loweralpha simple">
+<li>Inserir &#8220;pera&#8221; e 76 no final da lista.</li>
+<li>Inserir o valor &#8220;gato&#8221; na posição de índice 3.</li>
+<li>Inserir o valor 99 no início da lista.</li>
+<li>Encontrar o índice de &#8220;oi&#8221;.</li>
+<li>Contar o número de ocorrências de 76 na lista.</li>
+<li>Remover a primeira ocorrência de 76 da lista.</li>
+<li>Remover True True da lista usando <code class="docutils literal"><span class="pre">pop</span></code> e <code class="docutils literal"><span class="pre">index</span></code>.</li>
+</ol>
+
+<button id="butt_ex_9_3" onclick="createActiveCode('ex_9_3',''); $('#butt_ex_9_3').hide();">Open Editor</button>
+<div id="ex_9_3"></div>
+<br />
+</li>
+<li><p class="first">Crie uma lista contendo 100 números inteiros aleatórios entre
+0 e 1000 (usando iteração, ´´append´´ e o módulo random).
+Escreva uma função <code class="docutils literal"><span class="pre">media</span></code> que recebe uma lista de números
+como parâmetros e retorna a média dos valores na lista.</p>
+
+<button id="butt_ex_9_4" onclick="createActiveCode('ex_9_4',''); $('#butt_ex_9_4').hide();">Open Editor</button>
+<div id="ex_9_4"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função que recebe a lista de inteiros do exercício
+anterior e retorna o maior valor na lista. (Observação: existe
+uma a função nativa <code class="docutils literal"><span class="pre">max</span></code> que faz o serviço, mas você não
+deve usá-la.)</p>
+
+<button id="butt_ex_9_5" onclick="createActiveCode('ex_9_5',''); $('#butt_ex_9_5').hide();">Open Editor</button>
+<div id="ex_9_5"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função <code class="docutils literal"><span class="pre">soma_de_quadrados(xs)</span></code> que recebe uma lista
+de números xs e retorna a soma dos quadrados dos números na lista.
+Por exemplo <code class="docutils literal"><span class="pre">soma_dos_quadrados([2,</span> <span class="pre">3,</span> <span class="pre">4])</span></code> deve retorna
+4+9+16 que é 29.</p>
+
+<button id="butt_ex_7_11" onclick="createActiveCode('ex_7_11',''); $('#butt_ex_7_11').hide();">Open Editor</button>
+<div id="ex_7_11"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função que recebe uma lista de números inteiros e
+retorna a quantida de números ímpares na lista.</p>
+
+<button id="butt_ex_9_6" onclick="createActiveCode('ex_9_6',''); $('#butt_ex_9_6').hide();">Open Editor</button>
+<div id="ex_9_6"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função que recebe uma lista de números inteiros
+e retorna a soma dos números pares na lista.</p>
+
+<button id="butt_ex_9_7" onclick="createActiveCode('ex_9_7',''); $('#butt_ex_9_7').hide();">Open Editor</button>
+<div id="ex_9_7"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função que recebe uma lista de números e retorna a soma
+dos números negativos na lista.</p>
+
+<button id="butt_ex_9_8" onclick="createActiveCode('ex_9_8',''); $('#butt_ex_9_8').hide();">Open Editor</button>
+<div id="ex_9_8"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função que recebe uma lista de palavras (strings) e retorna
+o número de palavras na lista que tem comprimento 5.</p>
+
+<button id="butt_ex_9_9" onclick="createActiveCode('ex_9_9',''); $('#butt_ex_9_9').hide();">Open Editor</button>
+<div id="ex_9_9"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função que recebe uma lista de números inteiros e
+retorna a soma dos números na lista exclusive o primeiro
+número par.</p>
+
+<button id="butt_ex_9_10" onclick="createActiveCode('ex_9_10',''); $('#butt_ex_9_10').hide();">Open Editor</button>
+<div id="ex_9_10"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função que recebe uma lista de palavras (strings) e retorna o número
+de palavras que ocorre na lista até e inclusive a primeira ocorrência
+da palavra &#8220;sam&#8221;.</p>
+
+<button id="butt_ex_9_11" onclick="createActiveCode('ex_9_11',''); $('#butt_ex_9_11').hide();">Open Editor</button>
+<div id="ex_9_11"></div>
+<br />
+</li>
+<li><p class="first">Apesar de Python nós fornecer uma grande lista de métodos
+nativos é uma boa prática e instrutivo pensar sobre como
+elas podem ser implementadas. Implemente uma função
+que se comporte como:</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li>count</li>
+<li>in</li>
+<li>reverse</li>
+<li>index</li>
+<li>insert</li>
+</ol>
+
+<button id="butt_ex_9_12" onclick="createActiveCode('ex_9_12',''); $('#butt_ex_9_12').hide();">Open Editor</button>
+<div id="ex_9_12"></div>
+<br />
+</div></blockquote>
+</li>
+<li><p class="first">Escreva uma função <code class="docutils literal"><span class="pre">troca(s,</span> <span class="pre">velho,</span> <span class="pre">novo)</span></code> que recebe os strings <code class="docutils literal"><span class="pre">s</span></code>,
+<code class="docutils literal"><span class="pre">velho</span></code> e <code class="docutils literal"><span class="pre">novo</span></code> e troca em <code class="docutils literal"><span class="pre">s</span></code> todas as ocorrências de <code class="docutils literal"><span class="pre">velho</span></code>
+por <code class="docutils literal"><span class="pre">novo</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">test</span><span class="p">(</span><span class="n">troca</span><span class="p">(</span><span class="s1">&#39;Mississippi&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">),</span> <span class="s1">&#39;MIssIssIppI&#39;</span><span class="p">)</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;I love spom!  Spom is my favorite food.  Spom, spom, spom, yum!&#39;</span>
+<span class="n">test</span><span class="p">(</span><span class="n">troca</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s1">&#39;om&#39;</span><span class="p">,</span> <span class="s1">&#39;am&#39;</span><span class="p">),</span>
+       <span class="s1">&#39;I love spam!  Spam is my favorite food.  Spam, spam, spam, yum!&#39;</span><span class="p">)</span>
+
+<span class="n">test</span><span class="p">(</span><span class="n">troca</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">),</span>
+       <span class="s1">&#39;I lave spam!  Spam is my favarite faad.  Spam, spam, spam, yum!&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>Dica</em>: use os métodos  <code class="docutils literal"><span class="pre">split</span></code> e <code class="docutils literal"><span class="pre">join</span></code>.</p>
+
+<button id="butt_ex_9_13" onclick="createActiveCode('ex_9_13',''); $('#butt_ex_9_13').hide();">Open Editor</button>
+<div id="ex_9_13"></div>
+<br />
+</li>
+<li><p class="first">Aqui estão as regras para um sistema-L que cria algo que lembra um
+jardim comum de evas. Implemente as regras a seguir e teste-as. Use o ângulo
+de 25.7 graus.:</p>
+<div class="highlight-python"><div class="highlight"><pre>H
+H --&gt; HFX[+H][-H]
+X --&gt; X[-FFF][+FFF]FX
+</pre></div>
+</div>
+
+<button id="butt_ex_9_14" onclick="createActiveCode('ex_9_14',''); $('#butt_ex_9_14').hide();">Open Editor</button>
+<div id="ex_9_14"></div>
+<br />
+</li>
+<li><p class="first">Aqui está outro sistema-L. Use o ângulo de 25 graus:</p>
+<div class="highlight-python"><div class="highlight"><pre>F
+F --&gt; F[-F]F[+F]F
+</pre></div>
+</div>
+
+<button id="butt_ex_9_15" onclick="createActiveCode('ex_9_15',''); $('#butt_ex_9_15').hide();">Open Editor</button>
+<div id="ex_9_15"></div>
+<br />
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Listas</a><ul>
+<li><a class="reference internal" href="#valores-em-uma-lista">Valores em uma lista</a></li>
+<li><a class="reference internal" href="#comprimento-de-uma-lista">Comprimento de uma lista</a></li>
+<li><a class="reference internal" href="#acessando-os-elementos">Acessando os elementos</a></li>
+<li><a class="reference internal" href="#pertinencia-em-uma-lista">Pertinência em uma Lista</a></li>
+<li><a class="reference internal" href="#concatenacao-e-repeticao">Concatenação e repetição</a></li>
+<li><a class="reference internal" href="#fatias-de-listas">Fatias de listas</a></li>
+<li><a class="reference internal" href="#listas-sao-mutaveis">Listas são mutáveis</a></li>
+<li><a class="reference internal" href="#remocao-em-listas">Remoção em listas</a></li>
+<li><a class="reference internal" href="#objetos-e-referencias">Objetos e referências</a></li>
+<li><a class="reference internal" href="#apelidos-aliasing">Apelidos (<em>Aliasing</em>)</a></li>
+<li><a class="reference internal" href="#clonando-listas">Clonando listas</a></li>
+<li><a class="reference internal" href="#repeticoes-e-referencias">Repetições e referências</a></li>
+<li><a class="reference internal" href="#metodos-de-listas">Métodos de listas</a></li>
+<li><a class="reference internal" href="#retorno-a-sistemas-l">Retorno a sistemas-L</a></li>
+<li><a class="reference internal" href="#append-versus-concatenacao">Append versus concatenação</a></li>
+<li><a class="reference internal" href="#listas-e-o-laco-for">Listas e o laço <code class="docutils literal"><span class="pre">for</span></code></a></li>
+<li><a class="reference internal" href="#listas-como-parametros">Listas como parâmetros</a></li>
+<li><a class="reference internal" href="#funcao-pura">Função pura</a></li>
+<li><a class="reference internal" href="#qual-e-melhor">Qual é melhor?</a></li>
+<li><a class="reference internal" href="#funcoes-que-produzem-listas">Funções que produzem listas</a></li>
+<li><a class="reference internal" href="#list-comprehensions">List comprehensions</a></li>
+<li><a class="reference internal" href="#listas-aninhadas">Listas aninhadas</a></li>
+<li><a class="reference internal" href="#strings-e-listas">Strings e listas</a></li>
+<li><a class="reference internal" href="#funcao-de-conversao-list">Função de conversão <code class="docutils literal"><span class="pre">list</span></code></a></li>
+<li><a class="reference internal" href="#tuplas-e-mutabilidade">Tuplas e mutabilidade</a></li>
+<li><a class="reference internal" href="#atribuicao-de-tuplas">Atribuição de tuplas</a></li>
+<li><a class="reference internal" href="#tuplas-como-valor-de-retorno">Tuplas como valor de retorno</a></li>
+<li><a class="reference internal" href="#glossario">Glossário</a></li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../08-Strings/strings.html"
+                        title="previous chapter">Strings</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../10-Arquivos/files.html"
+                        title="next chapter">Trabalhando com Arquivos</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../10-Arquivos/files.html" title="Trabalhando com Arquivos"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../08-Strings/strings.html" title="Strings"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2012, Brad Miller, David Ranum.
+      Last updated on May 24, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

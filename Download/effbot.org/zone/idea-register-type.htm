@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Idea In Progress: Dynamic Creation of Type&nbsp;Descriptors</title></head><body data-page-id="126"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Idea In Progress: Dynamic Creation of Type&nbsp;Descriptors</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | October 2006</p><p>In today&#8217;s Python, type records are implemented as ordinary <b>struct</b>&#8216;s,
+using a flag field to indicate what version of the struct a given extension
+implements.
+
+</p><p>You can see an example on <s><a href="http://docs.python.org/ext/node24.html">this page</a></s> (dead link) (Scroll
+down to the &#8220;static PyTypeObject NoddyType&#8221; definition).
+
+</p><p>I propose to replace this with a dynamic registration model for
+Python 3000.  In this model, a single entry point is used to register
+all methods and hooks your C extension has implemented, and code in
+the Python library builds a properly initialized type descriptor based
+on the registered information, using fallback functions and error
+stubs as needed.
+
+</p><p>This approach has several advantages over today&#8217;s solution, including:
+
+<ul><li>Python can fill in all method slots, so that we can eliminate all
+NULL checks from the code that accesses type members.
+</li><li>The type object layout can be changed at any time, without breaking
+binary extensions.
+</li><li>It&#8217;s easier to write extensions: you don&#8217;t have to count initializers
+to add a new method, and you can add a new type without having to copy the
+method table from somewhere else.
+</li></ul></p><p>For example, the impossible-to-write-from-scratch NoddyType struct initialization on the page mentioned above would collapse to:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+    static PyTypeObject *NoddyType;
+
+    ...
+
+    NoddyType = PyType_Setup("noddy.Noddy", sizeof(Noddy));
+    PyType_Register(NoddyType, PY_TP_DEALLOC, Noddy_dealloc);
+    PyType_Register(NoddyType, PY_TP_DOC, "Noddy objects");
+    PyType_Register(NoddyType, PY_TP_TRAVERSE, Noddy_traverse);
+    PyType_Register(NoddyType, PY_TP_CLEAR, Noddy_clear);
+    PyType_Register(NoddyType, PY_TP_METHODS, Noddy_methods);
+    PyType_Register(NoddyType, PY_TP_MEMBERS, Noddy_members);
+    PyType_Register(NoddyType, PY_TP_INIT, Noddy_init);
+    PyType_Register(NoddyType, PY_TP_NEW, Noddy_new);
+    if (PyType_Ready(&amp;NoddyType) &lt; 0)
+        return;
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>Here, Setup prepares the type object for registration, and Ready is
+used to complete the setup, and flag the type object as completed.  If
+an error occurs inside Setup, it simply returns NULL, and leaves it to
+the PyType_Ready function to report the actual error.
+
+</p><p>Note that in the above example, Ready still takes a pointer to the
+type variable.  This allows the implementation to use a different object
+to collect type information, if that would simplify the implementation.
+
+<h3>Methods and Members</h3></p><p> The same approach can be used for method and member descriptions:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+    static PyMethodDef Noddy_methods[] = {
+        {"name", (PyCFunction)Noddy_name, METH_NOARGS,
+         "Return the name, combining the first and last name"
+        },
+        {NULL}  /* Sentinel */
+    };
+
+    PyType_Register(NoddyType, PY_TP_METHODS, Noddy_methods);
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>becomes</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+    PyType_RegisterMethod(NoddyType, "name", Noddy_name, METH_NOARGS,
+        "Return the name, combining the first and last name");
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>This allows the implementation to use different ways to store the
+methods, depending on argument type, list size, etc.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

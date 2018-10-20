@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Creating a Grayscale Ramp in&nbsp;Tkinter</title></head><body data-page-id="314"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Creating a Grayscale Ramp in&nbsp;Tkinter</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">January 12, 1998 | Fredrik Lundh
+</p><p>This script creates and displays a grayscale ramp using only
+standard Tkinter operations.</p><p>The <b>put</b> method takes a &#8220;2D tuple&#8221;, where the outer tuple
+contains one tuple for each row of pixels, and the inner tuples
+contain pixel values for each column. Pixel values are given as
+colour strings.</p><p>The <b>zoom</b> method is used to resize the image.  It takes
+integer scale factors, so you can only use it to increase the size
+by a full integer multiple.  The <b>resample</b> method does the
+same thing in the opposite direction.  It had probably been a bit
+more convenient to have a single <b>resize</b> method, but the Tk
+designers didn&#8217;t think of that (if you need this, use PIL).</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+<span class="pycomment"># must initialize interpreter before you can create an image</span>
+root = Tk()
+
+data = range(256) <span class="pycomment"># 0..255</span>
+
+im = PhotoImage(width=len(data), height=1)
+
+<span class="pycomment"># tkinter wants a list of pixel lists, where each item is</span>
+<span class="pycomment"># a tk colour specification (e.g. "#120432").  map the</span>
+<span class="pycomment"># data to a list of strings, and convert the list to the</span>
+<span class="pycomment"># appropriate tuple structure</span>
+
+im.put( (tuple(map(<span class="pykeyword">lambda</span> v: <span class="pystring">"#%02x%02x%02x"</span> % (v, v, v), data)),) )
+
+<span class="pycomment"># resize the image to the appropriate height</span>
+
+im = im.zoom(1, 32)
+
+<span class="pycomment"># and display it</span>
+
+w = Label(root, image=im, bd=0)
+w.pack()
+
+mainloop()</pre></div><div class="yui-ge"><div class="yui-u first"><pre>
+<img alt="" height="59" src="data:image/png;base64,&#10;iVBORw0KGgoAAAANSUhEUgAAAQgAAAA7CAIAAAAIDYMfAAAFNUlEQVR4nGK8cuEEwygYBaMACeQU&#10;VAAAAAD//2JhYGDQ1jcfaJeMglEwWEBjYyMDAwMAAAD//2KBcK5ePDmgjhkFo2BwAQAAAAD//2Ia&#10;aAeMglEwGAEAAAD//2JB5piFLCLbIEYoYECiGJDEGNAFGRkZGRkY0HTABeE6EXqwWcGAYRqaFQyo&#10;pqGpRLce1QoGHA5GksPiYExrR8MEyebBDPTYbsDZAAAAAP//Gq0xRsEowAIAAAAA//9iIaxkFIwC&#10;6oFIU37iFTs6Ou7fv58k9WldG8iwBaILGQAAAAD//xrNGKOA3oDIkZ41G3aQp54SXXAAAAAA///C&#10;mTG+3pmGKcitkoWmBk0EDj5cncDAwCCkW0iM40bBKCAIdAwscEnRYi4OAAAA///C3sfAmivQxNHU&#10;fLk15fPNyVR02SgYBVQBOgYWaJkKUwQTAAAAAP//ItCUwqwikBm4qotRMApoAbDWDAST+JULJyA5&#10;AaIdop5gJQMAAAD//8KZMTATPbzhhCdXfLoxmYGBQUArH1nwzaVeBgYGMYMS/E4ZBaOARgCeN+Bc&#10;gloAAAAA///C3pTiVslCaymhdScgCjBbXHwaufyaecgiby/1MTAwiOoXE+H+UTAKaAXgmYHIDgkA&#10;AAD//8I5j4GcDdC6FpBcQUw76t3lfgYGBhG90VwxCgYYwKsLgk0vCAAAAAD//yJ2gg8tnxCfN0bB&#10;KBhwAO9XIHcz8AMAAAAA//8inDGwjkTB8wZ+vZDhWkgfYxSMAjQAafcjIxrZwoDRlCJoFwAAAP//&#10;ImqCj5iagUct58utKZidb2G9oreX+l5f7B3tfI8CCgF5OQezU0FMNwMAAAD//yKQMTDrBPjAFGZT&#10;ilc9F75iTEC7ALakjUFErxjOHgWjAA5Impij8446AAAAAP//IlxjoA1GYQqOglFAEsC1CoNa6inR&#10;BQcAAAAA//8ibYJvFIwCCoGjoyNN1VOiCxkAAAAA//8aXUQ4CugKMNexDk5bAAAAAP//Gt2PMQpG&#10;ARYAAAAA//9CqTFOrYkbKHeMAmqA/wwM/wfaDcMEAAAAAP//QskYOgYWjKNgFIxUgLyFAwAAAP//&#10;Gm1KjYJRgAUAAAAA//8azRijYBRgAQAAAAD//xrNGKNgFGABAAAAAP//Gs0Yo2AUYAEAAAAA//8a&#10;zRijYBRgAQAAAAD//xrNGKNgFGABAAAAAP//Gs0Yo2AUYAEAAAAA//8azRijYBRgAQAAAAD//xrN&#10;GKNgFGABAAAAAP//Gs0Yo2AUYAEAAAAA//8azRijYBRgAQAAAAD//xrNGKNgFGABAAAAAP//Gs0Y&#10;o2AUYAEAAAAA//8azRijYBRgAQAAAAD//xrNGKNgFGABAAAAAP//Gs0Yo2AUYAEAAAAA//8azRij&#10;YBRgAQAAAAD//xrNGKNgFGABAAAAAP//Gs0Yo2AUYAEAAAAA//8azRijYBRgAQAAAAD//xrNGKNg&#10;FGABAAAAAP//Gs0Yo2AUYAEAAAAA//8azRijYBRgAQAAAAD//xrNGKNgFGABAAAAAP//Gs0Yo2AU&#10;YAEAAAAA//8azRijYBRgAQAAAAD//xrNGKNgFGABAAAAAP//Gs0Yo2AUYAEAAAAA//8azRijYBRg&#10;AQAAAAD//xrNGKNgFGABAAAAAP//Gs0Yo2AUYAEAAAAA//9CuR+DzhdjjoKRBHBcaoMkPKiuvQEA&#10;AAD//xqtMUbBKMACAAAAAP//YmFgYGhsbBxoZ4yCUTC4AAAAAP//YnRwcBhoN4yCUTDoAAAAAP//&#10;AwCAn+tQNfUUFwAAAABJRU5ErkJggg==&#10;" width="264" />
+</pre></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Adding a pseudocolor palette to a PIL Image&nbsp;object</title></head><body data-page-id="194"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Adding a pseudocolor palette to a PIL Image&nbsp;object</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">June 16, 2002 | Fredrik Lundh</p><h3>&#8220;<i>
+I&#8217;d like to show a greylevel image as miscolored image,
+anyone has an idea how i can do it and maybe adjust
+the color scale?
+</i>&#8220;</h3><p>Do you mean pseudocoloring?  Something like this should
+work:</p><pre class="python">
+<span class="pykeyword">from</span> PIL <span class="pykeyword">import</span> Image
+
+im = Image.open(<span class="pystring">"some grayscale image"</span>)
+im.load() <span class="pycomment"># make sure it's loaded into memory</span>
+
+<span class="pykeyword">assert</span> im.mode == <span class="pystring">"L"</span>
+
+<span class="pycomment"># create a lookup table (r, g, b, r, g, b, r, g, b, ...)</span>
+lut = []
+<span class="pykeyword">for</span> i <span class="pykeyword">in</span> range(256):
+    lut.extend([255-i, i/2, i])
+im.putpalette(lut)
+
+<span class="pykeyword">assert</span> im.mode == <span class="pystring">"P"</span> <span class="pycomment"># now has a palette</span>
+
+im.save(<span class="pystring">"out.gif"</span>)</pre><p>The <b>load</b> call is a workaround for a bug in PIL 1.1.3 and
+earlier.  Without it, you will sometimes get a <b>ValueError</b>
+exception when attempting to save (or further process) the image.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

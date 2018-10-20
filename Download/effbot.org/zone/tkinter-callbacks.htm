@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Tkinter&nbsp;Callbacks</title></head><body data-page-id="297"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Tkinter&nbsp;Callbacks</h1></div><div class="yui-ge"><div class="yui-u first"><p><i>This is a work in progress.</i></p><p>In Tkinter, a callback is Python code that is called by Tk when
+something happens.  For example, the <b>Button</b> widget provides a
+<b>command</b> callback which is called when the user clicks the
+button.  You also use callbacks with event bindings.</p><p>You can use any <i>callable</i> Python object as a callback.  This
+includes ordinary <i>functions</i>, <i>bound methods</i>, <i>lambda
+expressions</i>, and <i>callable objects</i>.  This document discusses
+each of these alternatives briefly.</p><h2>Using Functions</h2><p>In Python, functions are objects, and can be handled like any other
+object.  The <b>def</b> statement creates an object and binds it to a
+name.  To call the function, use the () operator on the object:</p><pre class="python">
+&gt;&gt;&gt; <span class="pykeyword">def</span> <span class="pyfunction">spam</span>():
+...    <span class="pykeyword">return</span> <span class="pystring">"hello"</span>
+...
+&gt;&gt;&gt; spam
+&lt;function spam at 790a90&gt;
+&gt;&gt;&gt; spam()
+<span class="pystring">'hello'</span></pre><p>To use a function object as a callback, pass it directly to
+Tkinter.
+
+<pre class="python">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+<span class="pykeyword">def</span> <span class="pyfunction">callback</span>():
+    <span class="pykeyword">print</span> <span class="pystring">"clicked!"</span>
+
+b = Button(text=<span class="pystring">"click me"</span>, command=callback)
+b.pack()
+
+mainloop()</pre></p><p>For each function object, the Tkinter interface layer registers a
+Tk command with a unique name.  When that Tk command is called by the
+Button implementation, the command calls the corresponding Python
+function.</p><p>If you&#8217;re curious, you can ask the widget for the name of the Tk
+command:</p><pre class="python">
+b = Button(text=<span class="pystring">"click me"</span>, command=callback)
+b.pack()
+
+<span class="pykeyword">print</span> b.cget(<span class="pystring">"command"</span>)</pre><p>This prints something like <b>9182704callback</b> (that is, a
+unique integer followed by the function name).</p><h3>Passing Argument to Callbacks</h3><p>Tkinter&#8217;s Button widget doesn&#8217;t pass any information to the
+callback.  This makes things a bit complicated if you want to use the
+same callback for several buttons, like in this example:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">callback</span>():
+    <span class="pykeyword">print</span> <span class="pystring">"button"</span>, <span class="pystring">"?"</span>
+
+Button(text=<span class="pystring">"one"</span>,   command=callback).pack()
+Button(text=<span class="pystring">"two"</span>,   command=callback).pack()
+Button(text=<span class="pystring">"three"</span>, command=callback).pack()</pre><p>A common beginner&#8217;s mistake is to <i>call</i> the callback function
+when constructing the widget.  That is, instead of giving just the
+function&#8217;s name (e.g. &#8220;callback&#8221;), the programmer adds parentheses and
+argument values to the function:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">callback</span>(number):
+    <span class="pykeyword">print</span> <span class="pystring">"button"</span>, number
+
+Button(text=<span class="pystring">"one"</span>,   command=callback(1)).pack()
+Button(text=<span class="pystring">"two"</span>,   command=callback(2)).pack()
+Button(text=<span class="pystring">"three"</span>, command=callback(3)).pack()</pre><p>If you do this, Python will call the callback function
+<i>before</i> creating the widget, and pass the function&#8217;s <i>return
+value</i> to Tkinter.  Tkinter then attempts to convert the return
+value to a string, and tells Tk to call a function with that name when
+the button is activated.  This is probably not what you wanted.</p><p>For simple cases like this, you can use a <b>lambda</b> expression
+as a link between Tkinter and the callback function:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">callback</span>(number):
+    <span class="pykeyword">print</span> <span class="pystring">"button"</span>, number
+
+Button(text=<span class="pystring">"one"</span>,   command=<span class="pykeyword">lambda</span>: callback(1)).pack()
+Button(text=<span class="pystring">"two"</span>,   command=<span class="pykeyword">lambda</span>: callback(2)).pack()
+Button(text=<span class="pystring">"three"</span>, command=<span class="pykeyword">lambda</span>: callback(3)).pack()</pre><p><i>To be continued.</i></p><p><i>Scoping rules, binding to variable names or values, creating
+multiple function objects for the same function, etc.</i></p><h2>Using Bound Methods</h2><p>FIXME</p><pre class="python">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+<span class="pykeyword">class</span> <span class="pyclass">Program</span>:
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self):
+        b = Button(text=<span class="pystring">"click me"</span>, command=self.callback)
+        b.pack()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">callback</span>(self):
+        <span class="pykeyword">print</span> <span class="pystring">"clicked!"</span>
+
+program = Program()
+
+mainloop()</pre><h2>Using Lambda Expressions</h2><p>FIXME</p><h2>Using Callable Objects</h2><p>FIXME</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

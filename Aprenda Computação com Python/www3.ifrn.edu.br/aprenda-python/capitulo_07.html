@@ -1,0 +1,441 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capítulo 7: Strings &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Capítulo 8: Listas" href="capitulo_08.html" />
+    <link rel="prev" title="Capítulo 6: Iteração" href="capitulo_06.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="capitulo_08.html" title="Capítulo 8: Listas"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_06.html" title="Capítulo 6: Iteração"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="capitulo-7-strings">
+<h1><a class="toc-backref" href="#id1">Capítulo 7: Strings</a><a class="headerlink" href="#capitulo-7-strings" title="Link permanente para este título">¶</a></h1>
+<div class="contents topic" id="topicos">
+<p class="topic-title first">Tópicos</p>
+<ul class="simple">
+<li><a class="reference external" href="#capitulo-7-strings" id="id1">Capítulo 7: Strings</a><ul>
+<li><a class="reference external" href="#um-tipo-de-dado-composto" id="id2">7.1 Um tipo de dado composto</a></li>
+<li><a class="reference external" href="#comprimento" id="id3">7.2 Comprimento</a></li>
+<li><a class="reference external" href="#travessia-e-o-loop-for" id="id4">7.3 Travessia e o loop <tt class="docutils literal"><span class="pre">for</span></tt></a></li>
+<li><a class="reference external" href="#fatias-de-strings" id="id5">7.4 Fatias de strings</a></li>
+<li><a class="reference external" href="#comparacao-de-strings" id="id6">7.5 Comparação de strings</a></li>
+<li><a class="reference external" href="#strings-sao-imutaveis" id="id7">7.6 Strings são imutáveis</a></li>
+<li><a class="reference external" href="#uma-funcao-find-encontrar" id="id8">7.7 Uma função <tt class="docutils literal"><span class="pre">find</span></tt> (<em>encontrar</em>)</a></li>
+<li><a class="reference external" href="#iterando-e-contando" id="id9">7.8 Iterando e contando</a></li>
+<li><a class="reference external" href="#o-modulo-string" id="id10">7.9 O módulo <tt class="docutils literal"><span class="pre">string</span></tt></a></li>
+<li><a class="reference external" href="#classificacao-de-caracteres" id="id11">7.10 Classificação de caracteres</a></li>
+<li><a class="reference external" href="#glossario" id="id12">7.11 Glossário</a></li>
+<li><a class="reference external" href="#glossario2" id="id13">7.11 Glossário2</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="um-tipo-de-dado-composto">
+<h2><a class="toc-backref" href="#id2">7.1 Um tipo de dado composto</a><a class="headerlink" href="#um-tipo-de-dado-composto" title="Link permanente para este título">¶</a></h2>
+<p>Até aqui, vimos três diferentes tipos de dado: <tt class="docutils literal"><span class="pre">int</span></tt>, <tt class="docutils literal"><span class="pre">float</span></tt> e <tt class="docutils literal"><span class="pre">string</span></tt>. Strings são qualitativamente diferentes dos outros dois tipos porque são feitas de pedaços menores - caracteres.</p>
+<p>Tipos que consistem de pedaços menores são chamados <strong>tipos de dados compostos</strong>. Dependendo do que estejamos fazendo, pode ser que precisemos tratar um tipo de dado composto como uma coisa única, ou pode ser que queiramos acessar suas partes. Esta ambigüidade é útil.</p>
+<p>O operador colchete seleciona um único caractere de uma string.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fruta</span> <span class="o">=</span> <span class="s">&quot;banana&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">letra</span> <span class="o">=</span> <span class="n">fruta</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">letra</span>
+</pre></div>
+</div>
+<p>A expressão <tt class="docutils literal"><span class="pre">fruta[1]</span></tt> seleciona o caractere número 1 de <tt class="docutils literal"><span class="pre">fruta</span></tt>. A variável <tt class="docutils literal"><span class="pre">letra</span></tt> referencia ou refere-se ao resultado da expressão. Quando exibimos <tt class="docutils literal"><span class="pre">letra</span></tt>, temos uma surpresa:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span>
+</pre></div>
+</div>
+<p>A primeira letra de <tt class="docutils literal"><span class="pre">&quot;banana&quot;</span></tt> não é <tt class="docutils literal"><span class="pre">a</span></tt>. A menos que você seja um cientista da computação. Neste caso, você deve entender a expressão dentro dos colchetes como um deslocamento (<em>offset</em>,) a partir do começo da string, e o deslocamento da primeira letra é zero. Assim, <tt class="docutils literal"><span class="pre">b</span></tt> é a 0ª (&#8220;zero-ésima&#8221;) letra de <tt class="docutils literal"><span class="pre">&quot;banana&quot;</span></tt>, <tt class="docutils literal"><span class="pre">a</span></tt> é a 1ª (&#8220;um-ésima&#8221;, diferente de primeira), e <tt class="docutils literal"><span class="pre">n</span></tt> é a 2ª (&#8220;dois-ésima&#8221;, diferente de segunda) letra.</p>
+<p>Para pegar a primeira letra de uma string, você simplesmente põe 0, ou qualquer expressão que resulte o valor 0, dentro dos colchetes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">letra</span> <span class="o">=</span> <span class="n">fruta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">letra</span>
+<span class="go">b</span>
+</pre></div>
+</div>
+<p>A expressão entre colchetes é chamada de <strong>índice</strong>. Um índice especifica um membro de um conjunto ordenado, neste caso o conjunto de caracteres da string. O índice <em>indica</em> aquele membro que você quer, daí seu nome. Ele pode ser qualquer expressão inteira.</p>
+</div>
+<div class="section" id="comprimento">
+<h2><a class="toc-backref" href="#id3">7.2 Comprimento</a><a class="headerlink" href="#comprimento" title="Link permanente para este título">¶</a></h2>
+<p>A função <tt class="docutils literal"><span class="pre">len</span></tt> retorna o número de caracteres de uma string:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fruta</span> <span class="o">=</span> <span class="s">&quot;banana&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">fruta</span><span class="p">)</span>
+<span class="go">6</span>
+</pre></div>
+</div>
+<p>Para pegar a última letra de uma string, você pode ficar tentado a fazer alguma coisa assim:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">comprimento</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fruta</span><span class="p">)</span>
+<span class="n">ultima</span> <span class="o">=</span> <span class="n">fruta</span><span class="p">[</span><span class="n">comprimento</span><span class="p">]</span>   <span class="c">#  ERRO!</span>
+</pre></div>
+</div>
+<p>Não vai funcionar. Isto vai causar o seguinte erro em tempo de execução (<em>runtime error</em>): <tt class="docutils literal"><span class="pre">IndexError:</span> <span class="pre">string</span> <span class="pre">index</span> <span class="pre">out</span> <span class="pre">of</span> <span class="pre">range</span></tt>. (<em>ErroDeIndice: índice da string fora do intervalo</em>). A razão é que não existe 6ª letra em <tt class="docutils literal"><span class="pre">&quot;banana&quot;</span></tt>. Já que começamos a contar do zero, as seis letras são numeradas de 0 a 5. Para pegar o último caractere, temos que subtrair 1 de <tt class="docutils literal"><span class="pre">comprimento</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">comprimento</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fruta</span><span class="p">)</span>
+<span class="n">ultima</span> <span class="o">=</span> <span class="n">fruta</span><span class="p">[</span><span class="n">comprimento</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Como alternativa, podemos usar índices negativos, os quais contam de trás pra frente os elementos da string. A expressão <tt class="docutils literal"><span class="pre">fruta[-1]</span></tt> resulta a última letra, <tt class="docutils literal"><span class="pre">fruta[-2]</span></tt> resulta a penúltima (a segunda de trás para frente), e assim por diante.</p>
+</div>
+<div class="section" id="travessia-e-o-loop-for">
+<h2><a class="toc-backref" href="#id4">7.3 Travessia e o loop <tt class="docutils literal"><span class="pre">for</span></tt></a><a class="headerlink" href="#travessia-e-o-loop-for" title="Link permanente para este título">¶</a></h2>
+<p>Várias computações envolvem o processamento de uma string um caractere de cada vez. Muitas vezes elas começam com o primeiro, selecionam um de cada vez, fazem alguma coisa com ele, e continuam até o fim. Este padrão de processamento é chamado uma <strong>travessia</strong> (<em>traversal</em>, com a idéia de &#8220;percorrimento&#8221;). Uma maneira de codificar uma travessia é com um comando <tt class="docutils literal"><span class="pre">while</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">indice</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="n">indice</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">fruta</span><span class="p">):</span>
+    <span class="n">letra</span> <span class="o">=</span> <span class="n">fruta</span><span class="p">[</span><span class="n">indice</span><span class="p">]</span>
+    <span class="k">print</span> <span class="n">letra</span>
+    <span class="n">indice</span> <span class="o">=</span> <span class="n">indice</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Este loop percorre a string e exibe cada letra em sua própria linha. A condição do loop é <tt class="docutils literal"><span class="pre">indice</span> <span class="pre">&lt;</span> <span class="pre">len(fruta)</span></tt>, assim, quando <tt class="docutils literal"><span class="pre">índice</span></tt> é igual ao comprimento da string, a condição se torna falsa, e o corpo do loop não é executado. O último caractere acessado é aquele com o índice <tt class="docutils literal"><span class="pre">len(fruta)-1</span></tt>, que vem a ser o último caractere da string.</p>
+<blockquote>
+Como um exercício, escreva uma função que tome uma string como argumento e devolva suas letras de trás para frente, uma por linha.</blockquote>
+<p>Usar um índice para percorrer um conjunto de valores é tão comum que Python oferece uma sintaxe alternativa simplificada - o loop <tt class="docutils literal"><span class="pre">for</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">fruta</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">char</span>
+</pre></div>
+</div>
+<p>A cada vez através do loop, o próximo caractere da string é atribuído à variável <tt class="docutils literal"><span class="pre">char</span></tt>. O loop continua até que não reste mais caracteres.</p>
+<p>O exemplo seguinte mostra como usar concatenação e um loop <tt class="docutils literal"><span class="pre">for</span></tt> para gerar uma série abecedário. &#8220;Abecedário&#8221; se refere a uma série ou lista na qual os elementos aparecem em ordem alfabética. Por exemplo, no livro de Robert McCloskey&#8217;s <em>Make Way for Ducklings</em>, os nomes dos &#8220;<em>ducklings</em>&#8221; são Jack, Kack, Lack, Mack, Nack, Ouack, Pack e Quack. O loop seguinte, produz como saída aqueles nomes, em ordem:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">prefixos</span> <span class="o">=</span> <span class="s">&quot;JKLMNOPQ&quot;</span>
+<span class="n">sufixo</span> <span class="o">=</span> <span class="s">&quot;ack&quot;</span>
+
+<span class="k">for</span> <span class="n">letra</span> <span class="ow">in</span> <span class="n">prefixos</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">letra</span> <span class="o">+</span> <span class="n">sufixo</span>
+</pre></div>
+</div>
+<p>A saída deste programa é:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Jack</span>
+<span class="n">Kack</span>
+<span class="n">Lack</span>
+<span class="n">Mack</span>
+<span class="n">Nack</span>
+<span class="n">Oack</span>
+<span class="n">Pack</span>
+<span class="n">Qack</span>
+</pre></div>
+</div>
+<p>Naturalmente, esta saída não está cem por cento certa porque &#8220;Ouack&#8221; e &#8220;Quack&#8221; estão escritos  de maneira errada.</p>
+<blockquote>
+Como um exercício, modifique o programa para corrigir este erro.</blockquote>
+</div>
+<div class="section" id="fatias-de-strings">
+<h2><a class="toc-backref" href="#id5">7.4 Fatias de strings</a><a class="headerlink" href="#fatias-de-strings" title="Link permanente para este título">¶</a></h2>
+<p>Um segmento de uma string é chamado de uma fatia. Selecionar uma fatia é similar a selecionar um caractere:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s">&quot;Pedro, Paulo e Maria&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+<span class="go">Pedro</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">s</span><span class="p">[</span><span class="mi">7</span><span class="p">:</span><span class="mi">12</span><span class="p">]</span>
+<span class="go">Paulo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">s</span><span class="p">[</span><span class="mi">16</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span>
+<span class="go">Maria</span>
+</pre></div>
+</div>
+<p>O operador <tt class="docutils literal"><span class="pre">[n:m]</span></tt> retorna a parte da string do &#8220;n-ésimo&#8221; caractere ao &#8220;m-ésimo&#8221; caractere, incluindo o primeiro mas excluindo o último. Este comportamento não é intuitivo; ele faz mais sentido se você imaginar os índices apontando para os intervalos <em>entre</em> os caracteres, como no seguinte diagrama:</p>
+<img alt="_images/07_01_banana.png" src="_images/07_01_banana.png" />
+<p>Se você omitir o primeiro índice (antes dos dois pontos &#8220;:&#8221;), a fatia começa do início da string. Se você omitir o segundo índice, a fatia vai até o final da string. Assim:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fruta</span> <span class="o">=</span> <span class="s">&quot;banana&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fruta</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+<span class="go">&#39;ban&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fruta</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+<span class="go">&#39;ana&#39;</span>
+</pre></div>
+</div>
+<p>O que você acha de <tt class="docutils literal"><span class="pre">s[:]</span></tt> significa?</p>
+</div>
+<div class="section" id="comparacao-de-strings">
+<h2><a class="toc-backref" href="#id6">7.5 Comparação de strings</a><a class="headerlink" href="#comparacao-de-strings" title="Link permanente para este título">¶</a></h2>
+<p>O operador de comparação funciona com strings. Para ver se duas strings são iguais:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">palavra</span> <span class="o">==</span> <span class="s">&quot;banana&quot;</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;Sim, nós não temos bananas!&quot;</span>
+</pre></div>
+</div>
+<p>Outras operações de comparação são úteis para colocar palavras em ordem alfabética:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">palavra</span> <span class="o">&lt;</span> <span class="s">&quot;banana&quot;</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;Sua palavra,&quot;</span> <span class="o">+</span> <span class="n">palavra</span> <span class="o">+</span> <span class="s">&quot;, vem antes de banana.&quot;</span>
+<span class="k">elif</span> <span class="n">palavra</span> <span class="o">&gt;</span> <span class="s">&quot;banana&quot;</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;Sua palavra,&quot;</span> <span class="o">+</span> <span class="n">palavra</span> <span class="o">+</span> <span class="s">&quot;, vem depois de banana.&quot;</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;Sim, nós não temos bananas!&quot;</span>
+</pre></div>
+</div>
+<p>Entretanto, você deve atentar para o fato de que Pyhton não manipula letras maiúsculas e minúsculas da mesma maneira que as pessoas o fazem. Todas as letras maiúsculas vêm antes das minúsculas. Como resultado:</p>
+<div class="highlight-python"><pre>Sua palavra, Zebra, vem antes de banana.</pre>
+</div>
+<p>Uma maneira comum de resolver este problema é converter as strings para um formato padrão, seja todas minúsculas, ou todas maiúsculas, antes de realizar a comparação. Um problema mais difícil é fazer o programa perceber que zebras não são frutas.</p>
+</div>
+<div class="section" id="strings-sao-imutaveis">
+<h2><a class="toc-backref" href="#id7">7.6 Strings são imutáveis</a><a class="headerlink" href="#strings-sao-imutaveis" title="Link permanente para este título">¶</a></h2>
+<p>É tentador usar o operador <tt class="docutils literal"><span class="pre">[]</span></tt> no lado esquerdo de uma expressão de atribuição, com a intenção de alterar um caractere em uma string. Por exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">saudacao</span> <span class="o">=</span> <span class="s">&quot;Alô, mundo!&quot;</span>
+<span class="n">saudacao</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;E&#39;</span>             <span class="c">#  ERRO!</span>
+<span class="k">print</span> <span class="n">saudacao</span>
+</pre></div>
+</div>
+<p>Em vez de produzir a saída <tt class="docutils literal"><span class="pre">Elô,</span> <span class="pre">Mundo!</span></tt>, este código produz o erro em tempo de execução (<em>runtime error</em>): <tt class="docutils literal"><span class="pre">TypeError:</span> <span class="pre">object</span> <span class="pre">doesn't</span> <span class="pre">support</span> <span class="pre">item</span> <span class="pre">assignment</span></tt> (<em>ErroDeTipo: objeto não dá suporte à atribuição de item.</em>)</p>
+<p>Strings são <strong>imutáveis</strong>, o que significa que você não pode mudar uma string que já existe. O melhor que você pode fazer é criar uma nova string que seja uma variação da original:</p>
+<div class="highlight-python"><pre>saudacao = "Alô, mundo!"
+novaSaudacao = 'E' + saudação[1:]
+print novaSaudacao</pre>
+</div>
+<p>A solução aqui é concatenar uma nova primeira letra com uma fatia de <tt class="docutils literal"><span class="pre">saudação</span></tt>. Esta operação não tem nenhum efeito sobre a string original.</p>
+</div>
+<div class="section" id="uma-funcao-find-encontrar">
+<h2><a class="toc-backref" href="#id8">7.7 Uma função <tt class="docutils literal"><span class="pre">find</span></tt> (<em>encontrar</em>)</a><a class="headerlink" href="#uma-funcao-find-encontrar" title="Link permanente para este título">¶</a></h2>
+<p>O que faz a seguinte função?:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">ch</span><span class="p">):</span>
+    <span class="n">indice</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">indice</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">str</span><span class="p">[</span><span class="n">indice</span><span class="p">]</span> <span class="o">==</span> <span class="n">ch</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">indice</span>
+        <span class="n">indice</span> <span class="o">=</span> <span class="n">indice</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Num certo sentido, <tt class="docutils literal"><span class="pre">find</span></tt> (<em>encontrar</em>) é o oposto do operador <tt class="docutils literal"><span class="pre">[]</span></tt>. Em vez de pegar um índice e extrair o caractere correspondente, ela pega um caractere e encontra (<em>finds</em>) em qual índice aquele caractere aparece. Se o caractere não é encontrado, a função retorna <tt class="docutils literal"><span class="pre">-1</span></tt>.</p>
+<p>Este é o primeiro exemplo que vemos de uma instrução <tt class="docutils literal"><span class="pre">return</span></tt> dentro de um loop. Se <tt class="docutils literal"><span class="pre">str[indice]</span> <span class="pre">==</span> <span class="pre">ch</span></tt>, a função retorna imediatamente, abandonando o loop prematuramente.</p>
+<p>Se o caractere não aparece na string, então o programa sai do loop normalmente e retorna <tt class="docutils literal"><span class="pre">-1</span></tt>.</p>
+<p>Este padrão de computação é às vezes chamado de travessia &#8220;eureka&#8221;, porque tão logo ele encontra (<em>find</em>) o que está procurando, ele pode gritar &#8220;Eureka!&#8221; e parar de procurar.</p>
+<blockquote>
+Como um exercício, modifique a função find (encontrar) de modo que ela receba um terceiro parâmetro, o índice da string por onde ela deve começar sua procura.</blockquote>
+</div>
+<div class="section" id="iterando-e-contando">
+<h2><a class="toc-backref" href="#id9">7.8 Iterando e contando</a><a class="headerlink" href="#iterando-e-contando" title="Link permanente para este título">¶</a></h2>
+<p>O programa seguinte conta o número e vezes que a letra a aparece em uma string:</p>
+<div class="highlight-python"><pre>fruta = "banana"
+contador = 0
+for letra in fruta:
+    if letra == 'a'
+        contador = contador + 1
+print contador</pre>
+</div>
+<p>Este programa demonstra um outro padrão de computação chamado de <strong>contador</strong>. A variável <tt class="docutils literal"><span class="pre">contador</span></tt> é inicializada em <tt class="docutils literal"><span class="pre">0</span></tt> e então incrementada cada vez que um <tt class="docutils literal"><span class="pre">a</span></tt> é encontrado. (<strong>Incrementar</strong> é o mesmo que aumentar em um; é o oposto de <strong>decrementar</strong>, e não tem relação com excremento, que é um substantivo.) Quando se sai do loop, <tt class="docutils literal"><span class="pre">contador</span></tt> guarda o resultado - o número total de <tt class="docutils literal"><span class="pre">a</span></tt>&#8216;s.</p>
+<blockquote>
+<p>Como um exercício, encapsule este código em uma função chamada <tt class="docutils literal"><span class="pre">contaLetras</span></tt>, e generalize-a de modo que possa aceitar uma string e uma letra como parâmetros.</p>
+<p>Como um segundo exercício, reescreva esta função de modo que em vez de percorrer a string, ela use a versão com três parâmetros de <tt class="docutils literal"><span class="pre">find</span></tt> (encontrar) da seção anterior.</p>
+</blockquote>
+</div>
+<div class="section" id="o-modulo-string">
+<h2><a class="toc-backref" href="#id10">7.9 O módulo <tt class="docutils literal"><span class="pre">string</span></tt></a><a class="headerlink" href="#o-modulo-string" title="Link permanente para este título">¶</a></h2>
+<p>O módulo <tt class="docutils literal"><span class="pre">string</span></tt> contém funções úteis que manipulam strings. Conforme é usual, nós temos que importar o módulo antes que possamos utilizá-lo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">string</span>
+</pre></div>
+</div>
+<p>O módulo <tt class="docutils literal"><span class="pre">string</span></tt> inclui uma função chamada <tt class="docutils literal"><span class="pre">find</span></tt> (encontrar) que faz a mesma coisa que a função que escrevemos. Para chamá-la, temos que especificar o nome do módulo e o nome da função usando a notação de ponto.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fruta</span> <span class="o">=</span> <span class="s">&quot;banana&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">indice</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">fruta</span><span class="p">,</span> <span class="s">&quot;a&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">indice</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>Este exemplo demonstra um dos benefícios dos módulos - eles ajudam a evitar colisões entre nomes de funções nativas e nomes de funções definidas pelo usuário. Usando a notação de ponto podemos especificar que versão de <tt class="docutils literal"><span class="pre">find</span></tt> (<em>encontrar</em>) nós queremos.</p>
+<p>De fato, <tt class="docutils literal"><span class="pre">string.find</span></tt> é mais generalizada que a nossa versão. Primeiramente, ela pode encontrar substrings, não apenas caracteres:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">string</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;banana&quot;</span><span class="p">,</span> <span class="s">&quot;na&quot;</span><span class="p">)</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<p>Além disso, ela recebe um argumento adicional que especifica o índice pelo qual ela deve começar sua procura:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">string</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;banana&quot;</span><span class="p">,</span> <span class="s">&quot;na&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+<p>Ou ela pode receber dois argumentos adicionais que especificam o intervalo de índices:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">string</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;bob&quot;</span><span class="p">,</span> <span class="s">&quot;b&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">-1</span>
+</pre></div>
+</div>
+<p>Neste exemplo, a busca falha porque a letra b não aparece no intervalo entre 1 e 2 (não incluindo o 2) do índice.</p>
+</div>
+<div class="section" id="classificacao-de-caracteres">
+<h2><a class="toc-backref" href="#id11">7.10 Classificação de caracteres</a><a class="headerlink" href="#classificacao-de-caracteres" title="Link permanente para este título">¶</a></h2>
+<p>Muitas vezes é útil examinar um caractere e testar se ele é maiúsculo ou minúsculo, ou se ele é um caractere ou um dígito. O módulo <tt class="docutils literal"><span class="pre">string</span></tt> oferece várias constantes que são úteis para esses propósitos.</p>
+<p>A string <tt class="docutils literal"><span class="pre">string.lowercase</span></tt> contém todas as letras que o sistema considera como sendo minúsculas. Similarmente, <tt class="docutils literal"><span class="pre">string.uppercase</span></tt> contém todas as letras maiúsculas. Tente o seguinte e veja o que você obtém:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">string</span><span class="o">.</span><span class="n">lowercase</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">string</span><span class="o">.</span><span class="n">uppercase</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span>
+</pre></div>
+</div>
+<p>Nós podemos usar essas constantes e <tt class="docutils literal"><span class="pre">find</span></tt> (encontrar) para classificar caracteres. Por exemplo, se <tt class="docutils literal"><span class="pre">find(lowercase,</span> <span class="pre">ch)</span></tt> retorna um valor outro que não <tt class="docutils literal"><span class="pre">-1</span></tt>, então <tt class="docutils literal"><span class="pre">ch</span></tt> deve ser minúsculo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">eMinusculo</span><span class="p">(</span><span class="n">ch</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">string</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">lowercase</span><span class="p">,</span> <span class="n">ch</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Como uma alternativa, podemos tirar vantagem do operador <tt class="docutils literal"><span class="pre">in</span></tt>, que determina se um caractere aparece em uma string:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">eMinusculo</span><span class="p">(</span><span class="n">ch</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">string</span><span class="o">.</span><span class="n">lowercase</span>
+</pre></div>
+</div>
+<p>Ainda, como uma outra alternativa, podemos usar o operador de comparação:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">eMinusculo</span><span class="p">(</span><span class="n">ch</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&#39;a&#39;</span> <span class="o">&lt;=</span> <span class="n">ch</span> <span class="o">&lt;=</span> <span class="s">&#39;z&#39;</span>
+</pre></div>
+</div>
+<p>Se <tt class="docutils literal"><span class="pre">ch</span></tt> estiver entre <em>a</em> e <em>z</em>, ele deve ser uma letra minúscula.</p>
+<blockquote>
+Como um exercício, discuta que versão de <tt class="docutils literal"><span class="pre">eMinusculo</span></tt> você acha que será a mais rápida. Você pode pensar em outras razões além da velocidade para preferir uma em vez de outra?</blockquote>
+<p>Outra constante definida no módulo <tt class="docutils literal"><span class="pre">string</span></tt> pode te surpreender quando você executar um <tt class="docutils literal"><span class="pre">print</span></tt> sobre ela:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">string</span><span class="o">.</span><span class="n">whitespace</span>
+</pre></div>
+</div>
+<p>Caracteres de <strong>espaçamento</strong> (ou <em>espaços em branco</em>) movem o cursor sem &#8220;imprimir&#8221; qualquer coisa. Eles criam os espaços em branco entre os caracteres visíveis (pelo menos numa folha de papel branco). A string constante <tt class="docutils literal"><span class="pre">string.whitespace</span></tt> contém todos os caracteres de espaçamento, incluindo espaço, tabulação (<tt class="docutils literal"><span class="pre">\t</span></tt>) e nova linha (<tt class="docutils literal"><span class="pre">\n</span></tt>).</p>
+<p>Existem outras funções úteis no módulo <tt class="docutils literal"><span class="pre">string</span></tt>, mas este livro não pretende ser um manual de referência. Por outro lado, <em>Python Library Reference</em> é exatamente isto. Em meio a uma abundante documentação, ele está disponível no site da web do Python, <tt class="docutils literal"><span class="pre">www.python.org</span></tt>.</p>
+</div>
+<div class="section" id="glossario">
+<h2><a class="toc-backref" href="#id12">7.11 Glossário</a><a class="headerlink" href="#glossario" title="Link permanente para este título">¶</a></h2>
+<dl class="docutils">
+<dt>tipo de dado composto (<em>compound data type</em>)</dt>
+<dd>Um tipo de dado no qual o valor consiste de componentes, ou elementos, que são eles mesmos valores.</dd>
+<dt>travessia (<em>traverse</em>)</dt>
+<dd>Iterar através dos elementos de um conjunto, realizando uma operação similar em cada um deles.</dd>
+<dt>índice (<em>index</em>)</dt>
+<dd>Uma variável ou valor usados para selecionar um membro de um conjunto ordenado, como um caractere em uma string.</dd>
+<dt>fatia (<em>slice</em>)</dt>
+<dd>Uma parte de uma string especificada por um intervalo de índices.</dd>
+<dt>mutável (<em>mutable</em>)</dt>
+<dd>Um tipo de dado composto a cujos elementos podem ser atribuídos novos valores.</dd>
+<dt>contador (<em>counter</em>)</dt>
+<dd>Uma variável utilizada para contar alguma coisa, usualmente inicializada em zero e então incrementada.</dd>
+<dt>incrementar (<em>increment</em>)</dt>
+<dd>aumentar o valor de uma variável em 1.</dd>
+<dt>decrementar (<em>decrement</em>)</dt>
+<dd>diminuir o valor de uma variável em 1.</dd>
+<dt>espaçamento (<em>whitespace</em>)</dt>
+<dd>Qualquer um dos caracteres que move o cursor sem imprimir caracteres visíveis. A constante <tt class="docutils literal"><span class="pre">string.whitespace</span></tt> contém todos os caracteres de espaçamento.</dd>
+</dl>
+</div>
+<div class="section" id="glossario2">
+<h2><a class="toc-backref" href="#id13">7.11 Glossário2</a><a class="headerlink" href="#glossario2" title="Link permanente para este título">¶</a></h2>
+<dl class="docutils">
+<dt>tipo de dado composto (<em>compound data type</em>)</dt>
+<dd>Um tipo de dado em que os valores são compostos de componentes, ou elementos, que podem ser tratados como valores separados.</dd>
+<dt>atravessar (<em>traverse</em>)</dt>
+<dd>Iterar através dos elementos definidos, executando uma operação similar em cada.</dd>
+<dt>índice (<em>index</em>)</dt>
+<dd>Uma variável ou valor usado para selecionar um membro de uma definição ordenada, como um caractere de uma string.</dd>
+<dt>fatia (<em>slice</em>)</dt>
+<dd>Uma parte da string especificada por um intervalo de índice.</dd>
+<dt>mutável (<em>mutable</em>)</dt>
+<dd>Um tipo de dado composto do qual elementos podem atribuir novos valores.</dd>
+<dt>contador (<em>counter</em>)</dt>
+<dd>Uma variável usada para contar alguma coisa, geralmente iniciada em zero e incrementada.</dd>
+<dt>incremento (<em>increment</em>)</dt>
+<dd>Para aumentar o valor da variável.</dd>
+<dt>decremento (<em>decrement</em>)</dt>
+<dd>Para dimiuir o valor da variável.</dd>
+<dt>espaço em branco (<em>whitespace</em>)</dt>
+<dd>Qualquer caractere que move o cursor sem imprimir caracteres visíveis. A constante string.whitespace contém todos os caracteres de espaço em branco.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Capítulo 7: Strings</a><ul>
+<li><a class="reference internal" href="#um-tipo-de-dado-composto">7.1 Um tipo de dado composto</a></li>
+<li><a class="reference internal" href="#comprimento">7.2 Comprimento</a></li>
+<li><a class="reference internal" href="#travessia-e-o-loop-for">7.3 Travessia e o loop <tt class="docutils literal"><span class="pre">for</span></tt></a></li>
+<li><a class="reference internal" href="#fatias-de-strings">7.4 Fatias de strings</a></li>
+<li><a class="reference internal" href="#comparacao-de-strings">7.5 Comparação de strings</a></li>
+<li><a class="reference internal" href="#strings-sao-imutaveis">7.6 Strings são imutáveis</a></li>
+<li><a class="reference internal" href="#uma-funcao-find-encontrar">7.7 Uma função <tt class="docutils literal"><span class="pre">find</span></tt> (<em>encontrar</em>)</a></li>
+<li><a class="reference internal" href="#iterando-e-contando">7.8 Iterando e contando</a></li>
+<li><a class="reference internal" href="#o-modulo-string">7.9 O módulo <tt class="docutils literal"><span class="pre">string</span></tt></a></li>
+<li><a class="reference internal" href="#classificacao-de-caracteres">7.10 Classificação de caracteres</a></li>
+<li><a class="reference internal" href="#glossario">7.11 Glossário</a></li>
+<li><a class="reference internal" href="#glossario2">7.11 Glossário2</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="capitulo_06.html"
+                        title="capítulo anterior">Capítulo 6: Iteração</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="capitulo_08.html"
+                        title="próximo capítulo">Capítulo 8: Listas</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/capitulo_07.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="capitulo_08.html" title="Capítulo 8: Listas"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_06.html" title="Capítulo 6: Iteração"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The Consumer&nbsp;Interface</title></head><body data-page-id="31"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The Consumer&nbsp;Interface</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">January 27, 2003 | Fredrik Lundh</p><p>The <b>consumer</b> interface is a simple &#8220;data sink&#8221; interface, used
+by standard Python modules such as <b>xmllib</b> and <b>sgmllib</b>.</p><p>Other examples include the <a href="consumer-gzip.htm">GZIP consumer</a>
+and PIL&#8217;s <a href="/tag/PIL.ImageFile.ImageParser">ImageParser</a> class.</p><p>The consumer will typically convert incoming raw data in some way, and
+pass it on to a another layer.  For example, XML parsers implementing this
+protocol usually parse the data stream into a stream of XML tokens (that
+is, start tags, character data, end tags, etc).</p><h2 id="interface">Interface&#160;<a class="nav" href="#interface" title="bookmark!">#</a></h2><dl><dt><b>feed(data)</b></dt><dd><p>Process incoming data.  The data argument should be a byte string.
+The application can call this method as many times as it wants (or not at
+all, if the source is empty).  The data buffer may contain zero or more
+bytes of data.</p></dd>
+<dt><b>close()</b></dt><dd><p>No more data available.  The application should call this method
+when it has reached the end of the source stream.</p></dd>
+<dt><b>reset()</b> (optional)</dt><dd><p>Reset the consumer.  Note that this method isn&#8217;t part of the
+core consumer protocol, and applications should be prepared to deal
+with consumers that don&#8217;t provide this method.</p><p>
+</p><p>Examples:</p><pre class="python">
+<span class="pykeyword">try</span>:
+     reset = consumer.reset
+<span class="pykeyword">except</span> AttributeError:
+     <span class="pykeyword">pass</span>
+<span class="pykeyword">else</span>:
+     reset()</pre><p>or:</p><pre class="python">
+<span class="pykeyword">if</span> hasattr(consumer, <span class="pystring">"reset"</span>):
+    consumer.reset()</pre></dd>
+</dl><h2 id="patterns">Patterns&#160;<a class="nav" href="#patterns" title="bookmark!">#</a></h2><p>Read a file piece by piece:</p><pre class="python">
+c = consumer(...)
+
+f = open(filename, <span class="pystring">"rb"</span>)
+
+<span class="pykeyword">while</span> 1:
+    s = f.read(8192)
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> s:
+        <span class="pykeyword">break</span>
+    c.feed(s)
+
+c.close()
+f.close()</pre><p>Read and parse a file in a single operation:</p><pre class="python">
+c = consumer(...)
+f = open(filename, <span class="pystring">"rb"</span>)
+c.feed(f.read())
+f.close()
+c.close()</pre><p>Read and parse a file as it arrives over a network (this example
+uses the <a href="asyncore.htm">asyncore</a> library):</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">protocol_client</span>(asyncore.dispatcher):
+
+    ...
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_connect</span>(self):
+        self.consumer = consumer(...)
+        ...
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_read</span>(self, data):
+        self.consumer.feed(data)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_close</span>(self):
+        self.consumer.close()
+        self.close()
+
+    ...</pre></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#interface">Interface</a></li><li><a href="#patterns">Patterns</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

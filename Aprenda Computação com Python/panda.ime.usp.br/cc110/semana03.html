@@ -1,0 +1,969 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Parte 1: Aula 5 - Valores e operadores booleanos &#8212; Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Introdução à Computação com Python: Edição Interativa" href="index.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulas',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'cc110',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulas/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="parte-1-aula-5-valores-e-operadores-booleanos">
+<h1>Parte 1: Aula 5 - Valores e operadores booleanos<a class="headerlink" href="#parte-1-aula-5-valores-e-operadores-booleanos" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="index-0"></span><div class="section" id="topicos">
+<span id="index-1"></span><h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/06-Selecao/selecao.html#valores-booleanos-e-expressoes-booleanas">Valores e expressões booleanas</a></dt>
+<dd><ul class="first last simple">
+<li>tipo <code class="docutils literal"><span class="pre">bool</span></code>;</li>
+<li>valores booleanos:  <code class="docutils literal"><span class="pre">True</span></code> e <code class="docutils literal"><span class="pre">False</span></code>;</li>
+<li>operadores lógicos <code class="docutils literal"><span class="pre">and</span></code>, <code class="docutils literal"><span class="pre">or</span></code> e <code class="docutils literal"><span class="pre">not</span></code>;</li>
+<li>expressões lógicas;</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">indicadores de passagem.</p>
+</li>
+</ul>
+</div></blockquote>
+<div class="section" id="exercicio-5-1">
+<h3>Exercício 5.1<a class="headerlink" href="#exercicio-5-1" title="Permalink to this headline">¶</a></h3>
+<p>Dados um número inteiro <code class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">0</span></code> e as notas finais de <code class="docutils literal"><span class="pre">n</span></code> alunos,
+determinar quantos alunos ficaram de recuperação.  Um aluno está de
+recuperação se sua nota fina está entre <code class="docutils literal"><span class="pre">3.0</span></code> e <code class="docutils literal"><span class="pre">5.0</span></code> (exclusive)
+A nota máxima é 10.0.</p>
+<p>Tente escrever a sua solução abaixo primeiro e, depois, clique <a class="reference external" href="exercicios/ex51.html">aqui</a> para ver uma solução.</p>
+
+<div id="aula05_ex51_tentativa" >
+<textarea cols="50" rows="12" id="aula05_ex51_tentativa_code" class="active_code">
+# escreva o seu programa
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula05_ex51_tentativa)</span> </p>
+<button onclick="runit('aula05_ex51_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula05_ex51_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula05_ex51_tentativa');">Load</button>
+<br />
+
+<canvas id="aula05_ex51_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula05_ex51_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-5-2">
+<h3>Exercício 5.2<a class="headerlink" href="#exercicio-5-2" title="Permalink to this headline">¶</a></h3>
+<p>Dados um número inteiro <code class="docutils literal"><span class="pre">n</span></code>, <code class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>, e uma sequência com
+<code class="docutils literal"><span class="pre">n</span></code> números reais, verificar se a sequência está em
+ordem crescente.</p>
+<p>Por exemplo, para a entrada</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="mi">7</span>   <span class="o">-</span><span class="mi">6</span>   <span class="mi">0</span>   <span class="mi">12</span>   <span class="mi">15</span>   <span class="mi">37</span>   <span class="mi">101</span>   <span class="mi">201</span>
+</pre></div>
+</div>
+<p>o programa deve imprimir <code class="docutils literal"><span class="pre">Não</span> <span class="pre">está</span> <span class="pre">em</span> <span class="pre">ordem</span> <span class="pre">crescente.</span></code>
+e para a entrada</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="mi">7</span>  <span class="o">-</span><span class="mi">6</span>  <span class="mi">0</span>  <span class="mi">17</span>  <span class="mi">15</span>  <span class="mi">37</span> <span class="mi">101</span> <span class="mi">201</span>
+</pre></div>
+</div>
+<p>o programa deve imprimir <code class="docutils literal"><span class="pre">Está</span> <span class="pre">em</span> <span class="pre">ordem</span> <span class="pre">crescente.</span></code></p>
+
+<div id="aula05_pr2" >
+<textarea cols="50" rows="12" id="aula05_pr2_code" class="active_code">
+#leia o tamanho da sequencia
+n = int(input("Digite o tamanho da sequencia: "))
+
+crescente = True
+anterior = int(input("Digite um numero: "))
+
+i = 1 # contador de numeros lidos
+while i < n and crescente:
+    atual = int(input("Digite um numero: "))
+    if anterior >= atual:
+        crescente = False
+    anterior = atual
+    i = i + 1
+
+if crescente:
+    print("Nao esta em ordem crescente.")
+else:
+    print("Esta em ordem crescente.")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula05_pr2)</span> </p>
+<button onclick="runit('aula05_pr2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula05_pr2');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula05_pr2');">Load</button>
+<br />
+
+<canvas id="aula05_pr2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula05_pr2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-5-3">
+<h3>Exercício 5.3<a class="headerlink" href="#exercicio-5-3" title="Permalink to this headline">¶</a></h3>
+<p>Dado um número inteiro <code class="docutils literal"><span class="pre">n</span></code>, <code class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>, verificar se este
+número contém dois dígitos adjacentes iguais.</p>
+<p>Por exemplo, para</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>1234321 a resposta é não e
+1234556 a resposta é sim.
+</pre></div>
+</div>
+
+<div id="aula05_pr3" >
+<textarea cols="50" rows="12" id="aula05_pr3_code" class="active_code">
+n_salvo = n = int(input("Digite um numero: "))
+
+anterior = n % 10
+n = n // 10;
+adj_iguais = False;
+pos = 0
+
+while n > 0 and not adj_iguais:
+    atual = n % 10
+    if atual == anterior:
+        adj_iguais = True
+    else:
+        pos += 1
+    anterior = atual
+    n = n // 10
+
+if adj_iguais:
+    print(n_salvo, "tem dois digitos", atual, "adjacentes")
+else:
+    print(n_salvo, "nao tem digitos iguais adjacentes")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula05_pr3)</span> </p>
+<button onclick="runit('aula05_pr3',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula05_pr3');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula05_pr3');">Load</button>
+<br />
+
+<canvas id="aula05_pr3_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula05_pr3_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-5-4">
+<h3>Exercício 5.4<a class="headerlink" href="#exercicio-5-4" title="Permalink to this headline">¶</a></h3>
+<p>Nota: Questão 1 da <a class="reference external" href="http://www.ime.usp.br/~mac2166/provas/P1-2014.html&quot;">Prova 1 de 2014</a>.</p>
+<p>Na figura, no plano cartesiano, a região sombreada não inclui as
+linhas de bordo. Note que o eixo <code class="docutils literal"><span class="pre">y</span></code> cai bem no meio da figura,
+e usamos o lado do quadrado para indicar as ordenadas
+correspondentes.</p>
+<p>Escreva na página do desenho um programa que lê as coordenadas
+cartesianas <code class="docutils literal"><span class="pre">(x,</span> <span class="pre">y)</span></code> de um ponto, ambas do tipo <code class="docutils literal"><span class="pre">float</span></code>
+e imprime <code class="docutils literal"><span class="pre">dentro</span></code> se esse ponto está na região, e <code class="docutils literal"><span class="pre">fora</span></code>
+caso contrário.</p>
+<img alt="_images/face.png" src="_images/face.png" />
+<p>Solução 0: começa supondo que está dentro e depois...
+A variável dentro e um indicador de passagem <code class="docutils literal"><span class="pre">bool</span></code>.</p>
+
+<div id="aula05_pr4_1" >
+<textarea cols="50" rows="12" id="aula05_pr4_1_code" class="active_code">
+x = float(input("Digite x: "))
+y = float(input("Digite y: "))
+
+# suponha que (x,y) esta dentro
+dentro = True
+
+if x <= -5 or 5 <= x or y <= 0 or 8 <= y:
+    # aqui sabemos que (x,y) esta fora da face
+    dentro = False
+elif -3 <= x <=  3 and 1 <= y <= 2:
+    # aqui sabemos que (x,y) esta na boca
+    dentro = False
+elif -4 <= x <= -1 and 4 <= y <= 7:
+    # aqui sabemos que (x,y) esta no olho esquerdo
+    dentro = False
+    if -3 < x < -2 and 5 < y < 6:
+        # aqui sabemos que na verdade (x,y) esta na iris esquerda
+        dentro = True
+elif  1 <= x <=  4 and 4 <= y <= 7:
+    # aqui sabemos que (x,y) esta no olho direito
+    dentro = False
+    if  2 < x <  3 and 5 < y < 6:
+        # aqui sabemos que na verdade (x,y) esta na iris direita
+        dentro = True
+
+if dentro:
+    print("dentro")
+else:
+    print("fora")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula05_pr4_1)</span> </p>
+<button onclick="runit('aula05_pr4_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula05_pr4_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula05_pr4_1');">Load</button>
+<br />
+
+<canvas id="aula05_pr4_1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula05_pr4_1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Solução 1: começa supondo que está fora e depois...
+A variável dentro e um indicador de passagem <code class="docutils literal"><span class="pre">bool</span></code>.</p>
+
+<div id="aula05_pr3_1" >
+<textarea cols="50" rows="12" id="aula05_pr3_1_code" class="active_code">
+x = float(input("Digite x: "))
+y = float(input("Digite y: "))
+
+# suponha que (x,y) esta fora
+dentro = False
+
+if -5 < x < 5 and 0 < y < 8:
+    # aqui sabemos que (x,y) esta na face
+    dentro = True
+    if -3 <= x <= 3 and 1 <= y <= 2:
+        # aqui sabemos que (x,y) esta na face, mas esta na boca
+        dentro = False
+    elif -4 <= x <= -1 and 4 <= y <= 7:
+        # aqui sabemos que (x,y) esta no olho esquerdo
+        dentro = False
+        if -3 < x < -2 and 5 < y < 6:
+            # aqui sabemos que na verdade (x,y) esta na iris esquerda
+            dentro = True
+    elif  1 <= x <=  4 and 4 <= y <= 7:
+        # aqui sabemos que (x,y) esta no olho direito
+        dentro = False
+        if  2 < x < 3 and 5 < y < 6:
+            # aqui sabemos que na verdade (x,y) esta na iris direita
+            dentro = True
+
+if dentro:
+    print("dentro")
+else:
+    print("fora")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula05_pr3_1)</span> </p>
+<button onclick="runit('aula05_pr3_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula05_pr3_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula05_pr3_1');">Load</button>
+<br />
+
+<canvas id="aula05_pr3_1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula05_pr3_1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Solução 2: explora a simetria da figura em relação ao eixo y.
+A variável x_pos pode ser trocada por x.
+A variável dentro e um indicador de passagem bool.</p>
+
+<div id="aula05_pr3_2" >
+<textarea cols="50" rows="12" id="aula05_pr3_2_code" class="active_code">
+x_pos = x = float(input("Digite x: "))
+y = float(input("Digite y: "))
+
+if x < 0: # simetria ;-)
+    x_pos = -x
+
+# suponha que (x,y) que esta dentro
+dentro = True
+
+if x_pos >= 5 or y >= 8 or y <= 0:
+    # aqui sabemos que (x,y) esta fora da face
+    dentro = False
+elif 0 <= x_pos <= 3 and 1 <= y <= 2:
+    # aqui sabemos que (x,y) esta na boca
+    dentro = False
+elif 1 <= x_pos <= 4 and 4 <= y <= 7:
+    # aqui sabemos que (x,y) esta em um olho
+    if not (2 < x < 3 or 5 < y < 6):
+        # aqui sabemos que (x,y) esta fora da iris
+        dentro = False
+
+if dentro:
+    print("dentro")
+else:
+    print("fora")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula05_pr3_2)</span> </p>
+<button onclick="runit('aula05_pr3_2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula05_pr3_2');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula05_pr3_2');">Load</button>
+<br />
+
+<canvas id="aula05_pr3_2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula05_pr3_2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Solução 3: idêntica a anterior, explora simetria da figura em relação ao eixo
+<code class="docutils literal"><span class="pre">y</span></code> e utiliza um string para a armazenar resposta.
+A variável <code class="docutils literal"><span class="pre">x_pos</span></code> pode ser trocada por <code class="docutils literal"><span class="pre">x</span></code>.
+A variável dentro e um indicador de passagem <code class="docutils literal"><span class="pre">str</span></code>
+(hmmm, gosto discutível...).</p>
+
+<div id="aula05_pr3_3" >
+<textarea cols="50" rows="12" id="aula05_pr3_3_code" class="active_code">
+x_pos = x = float(input("Digite x: "))
+y = float(input("Digite y: "))
+
+if x < 0: # simetria ;-)
+    x_pos = -x
+
+# suponha que (x,y) que esta dentro
+resposta = "dentro"
+
+if x_pos >= 5 or y >= 8 or y <= 0:
+    # aqui sabemos que (x,y) esta na face
+    resposta = "fora"
+elif 0 <= x_pos <= 3 and 1 <= y <= 2:
+    # aqui sabemos que (x,y) esta na boca
+    resposta = "fora"
+elif 1 <= x_pos <= 4 and 4 <= y <= 7:
+    # aqui sabemos que (x,y) esta em um olho
+    if not (2 < x < 3 or 5 < y < 6):
+        # aqui sabemos que (x,y) esta fora de uma iris
+        resposta = "fora"
+
+print(resposta)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula05_pr3_3)</span> </p>
+<button onclick="runit('aula05_pr3_3',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula05_pr3_3');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula05_pr3_3');">Load</button>
+<br />
+
+<canvas id="aula05_pr3_3_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula05_pr3_3_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Solução 4:  utiliza uma variável bool para indicar em qual quer
+da figuracada parte da face está o ponto: face, boca
+olho direito, olho esquerdo, íris do olho direito, íris do olho
+esquerdo. A condição para decidir se o ponto está ou não
+na região hachurada pode parecer complicada, mas é bem elegante.</p>
+
+<div id="aula05_pr3_4" >
+<textarea cols="50" rows="12" id="aula05_pr3_4_code" class="active_code">
+x = float(input("Digite x: "))
+y = float(input("Digite y: "))
+
+# face == True se (x,y) esta na face, False em caso contrário
+face = -5 < x < 5 and 0 < y < 8
+
+# boca == True se (x,y) esta na boca, False em caso contrário
+boca = -3 <= x <= 3 and 1 <= y <= 2
+
+# olho_esquerdo == True se (x,y) esta no olho esquerdo
+olho_esquerdo = -4 <= x <= -1 and 4 <= y <= 7
+
+# iris_esquerda == True se (x,y) esta na iris esquerda
+iris_esquerda = -3 <= x <= -2 and 5 <= y <= 6
+
+# olho_direito  == True se (x,y) esta no olho direito
+olho_direito = 1 <= x <= 4 and 4 <= y <= 7
+
+# iris_direita  == True se (x,y) esta na iris direita
+iris_direita = 2 <= x <= 3 and 5 <= y <= 6
+
+# vixe! :-D complicado? certamente elegante...
+if iris_esquerda or iris_direita or face and not (boca or olho_esquerdo or olho_direito):
+    print("dentro")
+else:
+    print("fora")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula05_pr3_4)</span> </p>
+<button onclick="runit('aula05_pr3_4',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula05_pr3_4');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula05_pr3_4');">Load</button>
+<br />
+
+<canvas id="aula05_pr3_4_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula05_pr3_4_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Solução 5: idêntica a anterior, mas explora a simetria como a
+solução 3.</p>
+
+<div id="aula05_pr3_5" >
+<textarea cols="50" rows="12" id="aula05_pr3_5_code" class="active_code">
+x_pos = x = float(input("Digite x: "))
+y = float(input("Digite y: "))
+
+if x < 0:
+    x_pos = -x
+
+# face == True se (x,y) esta na face
+face = x_pos <  5 and 0 < y < 8
+
+# boca == True se (x,y) esta na boca
+boca = x_pos <= 3 and 1 <= y <= 2
+
+# olho == True se (x,y) esta em um dos olhos
+olho = 1 <= x_pos <= 4 and 4 <= y <= 7
+
+# iris == True se (x,y) esta em uma das iris
+iris = 2 <= x_pos <= 3 and 5 <= y <= 6
+
+# vixe! :-D complicado?! certamente muito elegante
+if iris or face and not (boca or olho):
+    print("dentro")
+else:
+    print("fora")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula05_pr3_5)</span> </p>
+<button onclick="runit('aula05_pr3_5',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula05_pr3_5');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula05_pr3_5');">Load</button>
+<br />
+
+<canvas id="aula05_pr3_5_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula05_pr3_5_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+<div class="section" id="aula-06">
+<h2>Aula 06<a class="headerlink" href="#aula-06" title="Permalink to this headline">¶</a></h2>
+<p>Os possíveis tópicos a serem cobertos nesta aula envolvem são:</p>
+<blockquote>
+<div><ul class="simple">
+<li>repetições encaixadas</li>
+<li>repetições com indicadores de passagem</li>
+</ul>
+</div></blockquote>
+<div class="section" id="exercicio-6-0">
+<h3>Exercício 6.0<a class="headerlink" href="#exercicio-6-0" title="Permalink to this headline">¶</a></h3>
+<p>Nota: Exercício 6 da <a class="reference external" href="http://www.ime.usp.br/~macmulti/exercicios/repetenc/index.html&quot;">lista sobre repetições encaixadas</a>.</p>
+</div>
+</div>
+<div class="section" id="aula-07">
+<h2>Aula 07<a class="headerlink" href="#aula-07" title="Permalink to this headline">¶</a></h2>
+<p id="index-2">Os possíveis tópicos a serem cobertos nesta aula envolvem funções e são eles:</p>
+<blockquote>
+<div><ul class="simple">
+<li>passagem de parâmetros;</li>
+<li>variáveis locais;</li>
+<li>documentação: <em>docstring</em></li>
+</ul>
+</div></blockquote>
+<p>Declaração de funções:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>def &quot;nome da função&quot;(&quot;parâmetros&quot;):
+    &#39;&#39;&#39;
+    Comentários são opcionais, mas são recomendados e devem descrever
+    o papel dos parâmetros e o que a função faz.
+    &#39;&#39;&#39;
+    # corpo da função
+    |
+    | bloco de comandos
+    |
+</pre></div>
+</div>
+<p>Esqueleto de um programa em Python:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># função  principal</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Função principal, será a primeira a ser executado e</span>
+<span class="sd">    será a responsável pela chamada de outras funções que</span>
+<span class="sd">    por sua vez podem ou não chamar outras funçoes que</span>
+<span class="sd">    por sua vez ...</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># corpo da função main</span>
+    <span class="o">|</span>
+    <span class="o">|</span> <span class="n">bloco</span> <span class="n">de</span> <span class="n">comandos</span>
+    <span class="o">|</span>
+
+<span class="c1"># Declaração das funções</span>
+<span class="k">def</span> <span class="nf">f</span><span class="o">...</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    docstring da função f</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># corpo da função f</span>
+    <span class="o">|</span>
+    <span class="o">|</span> <span class="n">bloco</span> <span class="n">de</span> <span class="n">comandos</span>
+    <span class="o">|</span>
+
+<span class="k">def</span> <span class="nf">g</span><span class="o">...</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    docstring da função g</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># corpo da função g</span>
+    <span class="o">|</span>
+    <span class="o">|</span> <span class="n">bloco</span> <span class="n">de</span> <span class="n">comandos</span>
+    <span class="o">|</span>
+
+<span class="p">[</span><span class="o">...</span><span class="p">]</span>
+
+<span class="c1"># início da execução do programa</span>
+<span class="n">main</span><span class="p">()</span> <span class="c1"># chamada da função main</span>
+</pre></div>
+</div>
+<div class="section" id="exercicio-7-0">
+<h3>Exercício 7.0<a class="headerlink" href="#exercicio-7-0" title="Permalink to this headline">¶</a></h3>
+<p>Escreva uma função <code class="docutils literal"><span class="pre">fatorial</span></code> que recebe como parâmetro um número
+inteiro <code class="docutils literal"><span class="pre">k</span></code>, <code class="docutils literal"><span class="pre">k</span> <span class="pre">&gt;=</span> <span class="pre">0</span></code>, e retorna k!.</p>
+
+<div id="aula07_pr0_0" >
+<textarea cols="50" rows="12" id="aula07_pr0_0_code" class="active_code">
+def fatorial(k):
+    '''(int) -> int
+
+    Recebe um inteiro k e retorna o valor de k!
+
+    Pre-condicao: supoe que k eh um numero inteiro nao negativo.
+    '''
+
+    k_fat = 1
+    i = 2
+    while i <= k:
+        k_fat *= i
+        i += 1
+
+    return k_fat
+
+# testes
+print("0! =", fatorial(0))
+print("1! =", fatorial(1))
+print("5! =", fatorial(5))
+print("17! =", fatorial(17))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula07_pr0_0)</span> </p>
+<button onclick="runit('aula07_pr0_0',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula07_pr0_0');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula07_pr0_0');">Load</button>
+<br />
+
+<canvas id="aula07_pr0_0_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula07_pr0_0_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Escreva uma função <code class="docutils literal"><span class="pre">binomial</span></code> que recebe como parâmetros número
+inteiros <code class="docutils literal"><span class="pre">m</span></code> e <code class="docutils literal"><span class="pre">n</span></code>, <code class="docutils literal"><span class="pre">m</span> <span class="pre">&gt;=</span> <span class="pre">0</span></code> e <code class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;=</span> <span class="pre">0</span></code>, e retorna o coeficiente
+binomial <code class="docutils literal"><span class="pre">m!/((m-n)!n!)</span></code>.</p>
+
+<div id="aula07_pr0_1" >
+<textarea cols="50" rows="12" id="aula07_pr0_1_code" class="active_code">
+def binomial(m,n):
+    '''(int,int) -> int
+
+    Recebe dois inteiros m e n e retorna o valor da
+    combinacao de m n-a-n.
+
+    Utiliza a funcao fatorial() feita anteriormente.
+
+    Pre-condicao: supoe que m e n sao numeros inteiros nao
+                  negativos.
+    '''
+
+    return fatorial(m)/(fatorial(m-n)*fatorial(n))
+
+#-----------------------------------------------------
+def fatorial(k):
+    '''(int) -> int
+
+    Recebe um inteiro k e retorna o valor de k!
+
+    Pre-condicao: supoe que k eh um numero inteiro nao negativo.
+    '''
+
+    k_fat = 1
+    i = 2
+    while i <= k:
+        k_fat *= i
+        i += 1
+
+    return k_fat
+
+# testes
+print("binomial(1,1) =", binomial(1,1))
+print("binomial(3,2) =", binomial(3,2))
+print("binomial(0,0) =", binomial(0,0))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula07_pr0_1)</span> </p>
+<button onclick="runit('aula07_pr0_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula07_pr0_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula07_pr0_1');">Load</button>
+<br />
+
+<canvas id="aula07_pr0_1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula07_pr0_1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Escreva um programa que lê um inteiro <code class="docutils literal"><span class="pre">n</span></code>, <code class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;=</span> <span class="pre">0</span></code> e imprime
+os coeficientes da expansão de <code class="docutils literal"><span class="pre">(x+y)</span></code> elevado a <code class="docutils literal"><span class="pre">n</span></code>.</p>
+
+<div id="aula07_pr0_2" >
+<textarea cols="50" rows="12" id="aula07_pr0_2_code" class="active_code">
+def main():
+    '''
+    Programa que le um numero inteiro n e imprime
+    os valores de binomial(n,0), comb(n,1),..., comb(n,n),
+    onde comb(n,j) = n!/((n-j)!j!)
+    '''
+
+    print("Programa que imprime os coeficientes binomias: ")
+    print("  binomial(n,0), binomial(n,1), ..., binomial(n,n)")
+
+    n = int(input("Digite n: "))
+
+    i = 0
+    while i <= n:
+        print("binomial(%d,%d) = %d" %(n,i,binomial(n,i)))
+        i += 1
+
+
+#----------------------------------------------------
+def binomial(m,n):
+    '''(int,int) -> int
+
+    Recebe dois inteiros m e n e retorna o valor da
+    combinacao de m n-a-n.
+
+    Utiliza a funcao fatorial() feita anteriormente.
+
+    Pre-condicao: supoe que m e n sao numeros inteiros nao
+                  negativos.
+    '''
+
+    return fatorial(m)/(fatorial(m-n)*fatorial(n))
+
+#-----------------------------------------------------
+def fatorial(k):
+    '''(int) -> int
+
+    Recebe um inteiro k e retorna o valor de k!
+
+    Pre-condicao: supoe que k eh um numero inteiro nao negativo.
+    '''
+
+    k_fat = 1
+    i = 2
+    while i <= k:
+        k_fat *= i
+        i += 1
+
+    return k_fat
+
+# inicio da execucao do programa
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula07_pr0_2)</span> </p>
+<button onclick="runit('aula07_pr0_2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula07_pr0_2');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula07_pr0_2');">Load</button>
+<br />
+
+<canvas id="aula07_pr0_2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula07_pr0_2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-7-1">
+<h3>Exercício 7.1<a class="headerlink" href="#exercicio-7-1" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="leitura-e-videos-complementares">
+<h3>Leitura e vídeos complementares<a class="headerlink" href="#leitura-e-videos-complementares" title="Permalink to this headline">¶</a></h3>
+<p>A leitura e vídeos sugeridos aqui, em geral, contém (muito?) mais tópicos do
+que os que vistos durante a aula.
+Os tópicos não vistos na aula serão cobertos em algum momento mais oportuno.</p>
+<p>Leitura das seções
+<a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/05-Funcoes/funcoes.html#index-0">Funções</a>,
+<a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/05-Funcoes/funcoes.html#funcoes-que-retornam-valores">Funções que retornam valores</a>, e
+<a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/05-Funcoes/funcoes.html#variaveis-e-parametros-sao-locais">Variáveis e parâmetros são locais</a>,
+do capítulo
+<a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/05-Funcoes/funcoes.html">Funções</a>
+do livro interativo
+<a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/index.html">Como pensar como um Cientísta da Computação</a>.</p>
+<p>Vídeos do curso
+<a class="reference external" href="http://pingmind.com/python-para-zumbis/">Python para zumbis</a> de Fernando Masanori:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://www.youtube.com/watch?v=hkmTg3ambZA">Funções (def)</a>; e</li>
+<li><a class="reference external" href="http://www.youtube.com/watch?v=dhtEDVw5EFM#t=146">Formatação/marcadores (print(&#8220;%d&#8221;...))</a></li>
+</ul>
+</div></blockquote>
+<p>Vídeo sobre <em>Funções e Parâmetros</em>
+do livro <a class="reference external" href="http://interactivepython.org/courselib/static/thinkcspy/index.html">How to Think Like a Computer Scientist</a>:</p>
+<a id="function_intro_thumb" > <img src="_static/function_intro.png" /></a>
+<div id="function_intro" class="video_popup" >
+<video controls  >
+    <source src="http://media.interactivepython.org/thinkcsVideos/FunctionsIntro.mov" type="video/mp4"></source>
+    <source src="http://media.interactivepython.org/thinkcsVideos/FunctionsIntro.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#function_intro_thumb').click(function(e) {
+         $('#function_intro').show();
+         $('#function_intro_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'function_intro'});
+         // Log the run event
+      });
+   });
+</script>
+<p>Vídeo sobre <em>Padrão de acumulação</em>
+do livro <a class="reference external" href="http://interactivepython.org/courselib/static/thinkcspy/index.html">How to Think Like a Computer Scientist</a>:</p>
+<a id="function_accumulator_pattern_thumb" > <img src="_static/accumulatorpattern.png" /></a>
+<div id="function_accumulator_pattern" class="video_popup" >
+<video controls  >
+    <source src="http://media.interactivepython.org/thinkcsVideos/accumulatorpattern.mov" type="video/mp4"></source>
+    <source src="http://media.interactivepython.org/thinkcsVideos/accumulatorpattern.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#function_accumulator_pattern_thumb').click(function(e) {
+         $('#function_accumulator_pattern').show();
+         $('#function_accumulator_pattern_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'function_accumulator_pattern'});
+         // Log the run event
+      });
+   });
+</script>
+<div class="admonition-voce-quer-aprender-mais-sobre-python admonition">
+<p class="first admonition-title">Você quer aprender mais sobre Python?</p>
+<p class="last">Se você quiser aprender mais sobre como instalar e usar Python, aqui estão alguns links para vídeos:
+<a class="reference external" href="http://youtu.be/9EfGpN1Pnsg">Installing Python for Windows</a> mostra como instalar o Python no ambiente Windows Vista,
+<a class="reference external" href="http://youtu.be/MEmEJCLLI2k">Installing Python for Mac</a> mostra como instalar no Mac OS/X, e
+<a class="reference external" href="http://youtu.be/RLPYBxfAud4">Installing Python for Linux</a> mostra como instalar no Linux a partir da linha de comando.
+<a class="reference external" href="http://youtu.be/kXbpB5_yewe">Using Python</a> mostra alguns detalhes sobre o terminal Python e código fonte.</p>
+</div>
+<div class="admonition-frequentente-fazemos-erros-de-programacao admonition">
+<p class="first admonition-title">Frequentente fazemos erros de programação!</p>
+<p class="last">Três tipos de erro podem acontecer em um programa:
+<a class="reference external" href="http://en.wikipedia.org/wiki/Syntax_error">erros de sintaxe</a>,
+<a class="reference external" href="http://en.wikipedia.org/wiki/Runtime_error">erros de execução</a>,
+e <a class="reference external" href="http://en.wikipedia.org/wiki/Logic_error">erros de semântica</a>.
+É importante distinguir entre eles para encontrá-los mais rapidamente.
+Você pode ler mais sobre erros de programação no
+<a class="reference external" href="http://panda.ime.usp.br">Apêndice</a> do livro
+<a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/index.html">Como pensar como um Cientísta da Computação</a>.</p>
+</div>
+<span class="target" id="index-3"></span></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Parte 1: Aula 5 - Valores e operadores booleanos</a><ul>
+<li><a class="reference internal" href="#topicos">Tópicos</a><ul>
+<li><a class="reference internal" href="#exercicio-5-1">Exercício 5.1</a></li>
+<li><a class="reference internal" href="#exercicio-5-2">Exercício 5.2</a></li>
+<li><a class="reference internal" href="#exercicio-5-3">Exercício 5.3</a></li>
+<li><a class="reference internal" href="#exercicio-5-4">Exercício 5.4</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#aula-06">Aula 06</a><ul>
+<li><a class="reference internal" href="#exercicio-6-0">Exercício 6.0</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#aula-07">Aula 07</a><ul>
+<li><a class="reference internal" href="#exercicio-7-0">Exercício 7.0</a></li>
+<li><a class="reference internal" href="#exercicio-7-1">Exercício 7.1</a></li>
+<li><a class="reference internal" href="#leitura-e-videos-complementares">Leitura e vídeos complementares</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Jun 12, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

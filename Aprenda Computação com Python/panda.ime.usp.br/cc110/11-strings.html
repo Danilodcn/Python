@@ -1,0 +1,740 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Strings e Arquivos &#8212; Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Matrizes" href="12-matrizes.html" />
+    <link rel="prev" title="Funções com listas" href="10-funcoes-listas.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulas',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'cc110',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulas/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="12-matrizes.html" title="Matrizes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="10-funcoes-listas.html" title="Funções com listas"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="strings-e-arquivos">
+<h1>Strings e Arquivos<a class="headerlink" href="#strings-e-arquivos" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="topicos">
+<span id="index-0"></span><h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://panda.ime.usp.br/pensepy/static/pensepy/08-Strings/strings.html">String (tipo str)</a></li>
+<li><a class="reference external" href="https://panda.ime.usp.br/pensepy/static/pensepy/08-Strings/strings.html#fatiamento">Fatia de string</a></li>
+<li><a class="reference external" href="https://panda.ime.usp.br/pensepy/static/pensepy/10-Arquivos/files.html">Arquivo de texto</a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="videos">
+<h2>Vídeos<a class="headerlink" href="#videos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://www.youtube.com/watch?v=DdhNltkI_hE&amp;list=PLcoJJSvnDgcKpOi_UeneTNTIVOigRQwcn&amp;index=33">Strings</a></li>
+<li><a class="reference external" href="https://www.youtube.com/watch?v=EWQTdbtCtKw&amp;index=34&amp;list=PLcoJJSvnDgcKpOi_UeneTNTIVOigRQwcn">Comparação de strings</a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="introducao">
+<h2>Introdução<a class="headerlink" href="#introducao" title="Permalink to this headline">¶</a></h2>
+<p>Um string (=tipo <code class="docutils literal"><span class="pre">str</span></code>) é uma sequência de caracteres. Em Python,
+podemos representar um string colando-o entre aspas ou apóstrofes.
+O uso desses 2 marcadores é útil quando queremos utilizar um deles
+dentro do string, como:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">texto</span> <span class="o">=</span> <span class="s2">&quot;Esse string usa &#39;aspas&#39; como demarcador&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">texto</span><span class="p">)</span>
+<span class="go">Esse string usa &#39;aspas&#39; como demarcador</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">novo_texto</span> <span class="o">=</span> <span class="s1">&#39;Esse string usa &quot;apóstrofes&quot; como demarcador&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">novo_texto</span><span class="p">)</span>
+<span class="go">Esse string usa &quot;apóstrofes&quot; como demarcador</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>Por ser uma sequência de caracteres, podemos fazer uma analogia de strings com listas em Python. Assim como listas, um caractere de um string pode ser acessado por meio de índices, o comprimento pode ser dado pela função <code class="docutils literal"><span class="pre">len()</span></code>, e os caracteres podem ser fatiados e concatenados.</p>
+</div>
+<div class="section" id="strings-criacao-indexacao-e-comparacao">
+<h2>Strings: criação, indexação, e comparação<a class="headerlink" href="#strings-criacao-indexacao-e-comparacao" title="Permalink to this headline">¶</a></h2>
+<p>O exemplo a seguir mostrar como criar um string
+a partir de um string vazio e a
+concatenação de outros strings.</p>
+
+<div id="strings_criacao" >
+<textarea cols="50" rows="12" id="strings_criacao_code" class="active_code">
+def main():
+    frase = ""   # string vazio
+    frase = frase + "Esse string usa "
+    meio  = '"apóstrofes" '
+    fim   = "como demarcador. "
+    frase = frase + meio + fim
+    print("A frase: ", frase)
+    print("Tem comprimento: ", len(frase))
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (strings_criacao)</span> </p>
+<button onclick="runit('strings_criacao',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('strings_criacao');">Save</button>
+<button class="ac_opt" onclick="requestCode('strings_criacao');">Load</button>
+<br />
+
+<canvas id="strings_criacao_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="strings_criacao_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Modifique o código para que o programa escreva <cite>aspas</cite> ao invés de <cite>apóstrofes</cite>.
+Experimente trocar as &#8221; (aspas)  por &#8216; (apóstrofes) no programa todo (de forma
+coerente) para se certificar que nada muda.</p>
+<p>Assim como os elementos de uma lista, os caracteres de um string
+podem ser indexados por um índice (um número inteiro) entre colchetes.
+Execute o programa abaixo para</p>
+
+<div id="strings_indexacao" >
+<textarea cols="50" rows="12" id="strings_indexacao_code" class="active_code">
+def main():
+     frase = "Eu posso ajudar respondendo perguntas no fórum!"
+     sorteio = [5, -4, 3, -8, 11]  # não foi bem um sorteio :)
+     acertos = 0
+
+     for i in sorteio:
+         resposta = input("Qual o caractere de índice %d? "%(i))
+             if frase[i] == resposta:
+                 print("Parabéns, você acertou!")
+             else:
+                 print("Você errou. O caractere de índice %d é: %s"%(i, frase[i]))
+     print("Você acertou %d de % perguntas."%(acertos, len(sorteio)))
+
+ main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (strings_indexacao)</span> </p>
+<button onclick="runit('strings_indexacao',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('strings_indexacao');">Save</button>
+<button class="ac_opt" onclick="requestCode('strings_indexacao');">Load</button>
+<br />
+
+<canvas id="strings_indexacao_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="strings_indexacao_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Assim como listas
+um string também pode ser fatiado. Lembre-se que para definir uma fatia na sequência de caracteres, é necessário definir o início e o fim da fatia e, se desejar, um passo. Assim como nas fatias de listas, o intervalo definido por início e fim é fechado à esquerda e aberto à direita. Veja o exemplo:</p>
+
+<div id="strings_fatia_intervalos" >
+<textarea cols="50" rows="12" id="strings_fatia_intervalos_code" class="active_code">
+def main():
+    ini, fim = 3, 7
+    texto = "Eu posso ajudar respondendo perguntas no fórum!"
+    fatia = texto[ ini : fim ]
+    print("Seja o texto:\n", texto)
+    resposta = input("Digite o string que corresponde à fatia texto[%d:%d] = "%(ini,fim))
+    if resposta == fatia:
+        print("Muito bem, você acertou!!")
+    else:
+        print("Você escreveu        : ", resposta)
+        print("mas o valor correto é: ", fatia)
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (strings_fatia_intervalos)</span> </p>
+<button onclick="runit('strings_fatia_intervalos',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('strings_fatia_intervalos');">Save</button>
+<button class="ac_opt" onclick="requestCode('strings_fatia_intervalos');">Load</button>
+<br />
+
+<canvas id="strings_fatia_intervalos_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="strings_fatia_intervalos_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Modifique os valores das variáveis <cite>ini</cite> e <cite>fim</cite> desse programa, para 5 e 15 respetivamente e veja se você consegue adivinhar qual a fatia resultante. Teste outros valores, inclusive valores negativos, como [-15 : -10], e procure entender o que e Python faz em cada caso.</p>
+<div class="admonition-indices-negativos-nao-sao-invalidos admonition">
+<p class="first admonition-title">Índices negativos não são inválidos!</p>
+<p class="last">Observe que o Python usa índices negativos para percorrer a sequência da direita para a esquerda (fim para o começo) e, portanto, índices negativos não são inválidos. Um índice é <strong>inválido</strong> apenas quando ele cai fora da sequência, que pode ser um número positivo ou negativo maior que o tamnanho da sequência.</p>
+</div>
+<p>Lembre-se também que quando desejamos uma fatia começando do primeiro caractere (índice zero), não é necessário escrever o zero explicitamente, simplificando assim a notação para <cite>fatia = texto[:5]</cite> para o intervalo <cite>[0:5]</cite>. De forma semelhante, não é necessário escrever o valor do último índice caso desejamos uma fatia até o final, como por exemplo <cite>fatia = texto[-6:]</cite> para definir uma fatia com os 6 últimos caracteres do string <cite>texto</cite>.</p>
+<p>Nesses exemplos nem consideramos o <cite>passo</cite>, pois assumimos que ele era 1. Veja como usar passos diferentes de 1 usando o exemplo a seguir.</p>
+
+<div id="strings_fatia_passos" >
+<textarea cols="50" rows="12" id="strings_fatia_passos_code" class="active_code">
+def main():
+    ini, fim, passo = 3, 13, 2
+    texto = "Eu posso ajudar respondendo perguntas no fórum!"
+    fatia = texto[ ini : fim : passo ]
+    resposta = input("Digite o string que corresponde à fatia texto[%d:%d:%d] = "%(ini,fim,passo))
+    if resposta == fatia:
+        print("Muito bem, você acertou!!")
+    else:
+        print("Você escreveu        : ", resposta)
+        print("mas o valor correto é: ", fatia)
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (strings_fatia_passos)</span> </p>
+<button onclick="runit('strings_fatia_passos',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('strings_fatia_passos');">Save</button>
+<button class="ac_opt" onclick="requestCode('strings_fatia_passos');">Load</button>
+<br />
+
+<canvas id="strings_fatia_passos_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="strings_fatia_passos_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Modifique os valores das variáveis <cite>ini</cite>, <cite>fim</cite> e <cite>passo</cite> desse programa, inclusive para valores negativos, e procure entender o que e Python faz em cada caso.</p>
+</div>
+<div class="section" id="strings-nao-sao-listas">
+<h2>Strings não são listas!<a class="headerlink" href="#strings-nao-sao-listas" title="Permalink to this headline">¶</a></h2>
+<p>Apesar de serem criados usando um par de &#8221; (aspas) ou &#8216; (apóstrofes) como demarcadores, vimos que a função <cite>len()</cite>, a concatenação, a indexação e o fatiamento de strings são realizados de forma semelhante às listas.</p>
+<p>A grande diferença é que strings são <strong>imutáveis</strong>, ou seja, não é possível alterar os seus elementos. Execute o programa abaixo e veja o que o Pytho faz quando tentamos modificar <cite>texto[2]</cite> para <cite>S</cite>.</p>
+
+<div id="strings_nao_sao_listas" >
+<textarea cols="50" rows="12" id="strings_nao_sao_listas_code" class="active_code">
+def main():
+    texto = "Esse é um 'string'"
+    print(texto)
+    texto[2] = 'S'
+    print(texto)
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (strings_nao_sao_listas)</span> </p>
+<button onclick="runit('strings_nao_sao_listas',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('strings_nao_sao_listas');">Save</button>
+<button class="ac_opt" onclick="requestCode('strings_nao_sao_listas');">Load</button>
+<br />
+
+<canvas id="strings_nao_sao_listas_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="strings_nao_sao_listas_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Como strings são imutáveis, caso você precise de um string diferente, é necessário criar um novo utilizando, caso desejar, fatias (partes) de outros strings.</p>
+
+<div id="strings_novo_string" >
+<textarea cols="50" rows="12" id="strings_novo_string_code" class="active_code">
+def main():
+    texto = "Esse é um 'string'"
+    print(texto)
+    novo_texto = 'Mais' + texto[6:]
+    print(novo_texto)
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (strings_novo_string)</span> </p>
+<button onclick="runit('strings_novo_string',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('strings_novo_string');">Save</button>
+<button class="ac_opt" onclick="requestCode('strings_novo_string');">Load</button>
+<br />
+
+<canvas id="strings_novo_string_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="strings_novo_string_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Modifique esse programa para criar e imprimir o texto mudando a palavra <cite>string</cite>
+para <cite>mundo pequeno</cite>.</p>
+</div>
+<div class="section" id="representacao-de-caracteres">
+<h2>Representação de caracteres<a class="headerlink" href="#representacao-de-caracteres" title="Permalink to this headline">¶</a></h2>
+<p>Um conhecimento importante para trabalhar com strings é a conhecer a
+sua forma de representação (ou <cite>encoding</cite>). Uma grande diferença entre
+as versões 2.X e 3.X do Python é que, na versão 2.X os strings são
+codificados em ASCII e na versão 3.X em UTF-8.</p>
+<p>No <a class="reference external" href="http://en.wikipedia.org/wiki/ASCII">ASCII (American Standard Code for Information Interchange)</a>, cada
+caractere é representado usando apenas 7 bits, sendo que os caracteres
+de 0 a 31 são considerados de controle, e os de 32 a 127 correspondem
+aos caracteres comuns de um teclado de computador em inglês.
+Execute o seguinte programa para ver os caracteres de 32 a 127:</p>
+
+<div id="aula13_tabela_ascii" >
+<textarea cols="50" rows="12" id="aula13_tabela_ascii_code" class="active_code">
+print("Tabela ASCII de 32 a 127: ")
+for i in range(32, 128, 3):
+    print("ASCII[ %3d ] = '%s'  |  ASCII[ %3d ] = '%s'  |  ASCII[ %3d ] = '%s'"%
+    (i, chr(i), i+1, chr(i+1), i+2, chr(i+2)))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula13_tabela_ascii)</span> </p>
+<button onclick="runit('aula13_tabela_ascii',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula13_tabela_ascii');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula13_tabela_ascii');">Load</button>
+<br />
+
+<canvas id="aula13_tabela_ascii_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula13_tabela_ascii_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Esse programa usa a função <code class="docutils literal"><span class="pre">chr</span></code> que converte um índice da tabela ASCII em seu caractere correspondente. Observe que a ordem dos caracteres na tabela não é arbitrária. Por exemplo, os caracteres de <cite>a</cite> a <cite>z</cite> (tanto minúsculos quanto maiúsculos) estão agrupados sequencialmente, respeitando a ordem alfabética.
+Observe no entanto que não há caracteres acentuados, pois estes não fazem parte da língua inglesa.</p>
+<p>O <em>Unicode</em> é um conjunto de caracteres que inclui os símbolos de todas as línguas humanas, desde os milhares de caracteres de línguas asiáticas como o chinês, até os caracteres de línguas mortas como os hieróglifos usados pelos egípicios. Para representar os caracteres do Unicode, foram desenvolvidos diversas formas de codificação. Uma delas é a <a class="reference external" href="http://en.wikipedia.org/wiki/UTF-32">UTF-32</a> (<em>U</em> de Universal Character Set e o <em>TF</em> de Transformation Format - usando 32 bits). Essa forma utiliza sempre 32 bits (ou 4 bytes) para codificar um caractere (ou, mais exatamente, para codificar o índice do caractere na tabela Unicode).</p>
+<p>O UTF-32 não é muito utilizado hoje pois, apesar de ser simples de decodificar, seus arquivos tornam-se muito grandes. O <a class="reference external" href="http://ergoemacs.org/emacs/unicode_basics.html">UTF-16</a> exige ao menos 2 bytes (16 bits) para codificar cada caractere, criando arquivos menores em geral. Esse padrão é utilizado na linguagem Java e em sistemas operacionais como o Microsoft Windows e o Mac OS X. Já o padrão mais utilizado para codificar páginas na Internet atualmente é o <a class="reference external" href="http://en.wikipedia.org/wiki/UTF-32">UTF-8</a>, que usa pelo menos 8 bits para representar cada caractere.</p>
+<p>O Python oferece vários métodos para operar com strings (consulte a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#text-sequence-type-str">documentação do Python sobre strings</a>). A seguir veremos apenas alguns mais úteis para processar arquivos.</p>
+</div>
+<div class="section" id="arquivos">
+<h2>Arquivos<a class="headerlink" href="#arquivos" title="Permalink to this headline">¶</a></h2>
+<p>Utilizamos arquivos para armazenar informação, programas, documentos, etc.</p>
+<p>Para os fins desse curso, vamos trabalhar apenas com arquivos tipo texto, chamados assim porque seu conteúdo pode ser lido facilmente por uma pessoa (com extensões como .txt, .py, .html, etc). Existem também arquivos binários, feitos para serem lidos ou processados por computadores, como arquivos executáveis, arquivos comprimidos (tipo .zip, .gz, etc), arquivos com imagens (tipo .jpg, .gif, .tiff, etc), e muitos outros.</p>
+<div class="section" id="criacao-de-arquivos">
+<h3>Criação de arquivos<a class="headerlink" href="#criacao-de-arquivos" title="Permalink to this headline">¶</a></h3>
+<p>Para criar um arquivo e poder gravar informações nele, vamos utilizar
+a seguinte forma:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">nome</span> <span class="o">=</span> <span class="s2">&quot;poesia.txt&quot;</span>    <span class="c1"># poderia ser um input(&quot;Digite o nome do arquivo: &quot;)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">nome</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">arq</span><span class="p">:</span>
+    <span class="c1"># CORPO DO WITH</span>
+    <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;    O poeta é um fingidor.      </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;    Finge tão completamente     </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;    Que chega a fingir que é dor</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;    A dor que deveras sente.    </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">arq</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;                Fernando Pessoa.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Utilizamos o comando <code class="docutils literal"><span class="pre">with</span></code> para nos proteger contra alguns problemas que podem acontecer com arquivos (que não iremos detalhar no momento). A função <code class="docutils literal"><span class="pre">open()</span></code> abre o arquivo de nome <cite>poesia.txt</cite> (certifique-se de incluir todo o caminho (<code class="docutils literal"><span class="pre">path</span></code>) no nome, ou o arquivo será gravado no mesmo diretório do programa sendo executado) para gravação (devido a opção <cite>w</cite> do inglês <cite>write</cite>) e, para garantir que o arquivo será gravado em <code class="docutils literal"><span class="pre">utf-8</span></code>, definimos também a forma de codificação pela opção <code class="docutils literal"><span class="pre">encoding</span></code>.</p>
+<p>Dentro comando <code class="docutils literal"><span class="pre">with</span></code> (corpo do <code class="docutils literal"><span class="pre">with</span></code>), devemos fazer todas as operações com o arquivo <code class="docutils literal"><span class="pre">arq</span></code>, nesse exemplo, escrever algumas linhas de texto usando o método <code class="docutils literal"><span class="pre">write()</span></code>. Observe que o <code class="docutils literal"><span class="pre">\n</span></code> faz a mudança de linha explicitamente.
+Uma grande vantagem de utilizar o comando <code class="docutils literal"><span class="pre">with</span></code> é que o arquivo é fechado automaticamente ao final do corpo, não sendo necessário fechar o arquivo explicitamente.</p>
+</div>
+<div class="section" id="leitura-de-arquivos">
+<h3>Leitura de arquivos<a class="headerlink" href="#leitura-de-arquivos" title="Permalink to this headline">¶</a></h3>
+<p>Agora vamos abrir o arquivo &#8220;poesia.txt&#8221; para processar o seu conteúdo, utilizando o comando <code class="docutils literal"><span class="pre">with</span></code> novamente:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">nome</span> <span class="o">=</span> <span class="s2">&quot;poesia.txt&quot;</span>    <span class="c1"># poderia ser um input(&quot;Digite o nome do arquivo: &quot;)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">nome</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">arq_entrada</span><span class="p">:</span>
+    <span class="c1"># CORPO DO WITH</span>
+    <span class="n">conteudo</span> <span class="o">=</span> <span class="n">arq_entrada</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="c1"># continue o programa usando conteudo</span>
+<span class="k">print</span><span class="p">(</span><span class="n">conteudo</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A saída seria:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>O poeta é um fingidor.
+Finge tão completamente
+Que chega a fingir que é dor
+A dor que deveras sente.
+            Fernando Pessoa.
+</pre></div>
+</div>
+<p>A função <code class="docutils literal"><span class="pre">open()</span></code> abre o arquivo com nome indicado no string <code class="docutils literal"><span class="pre">nome</span></code> (certifique-se de passar todo o caminho (<code class="docutils literal"><span class="pre">path</span></code>) no nome, ou o arquivo deve estar no mesmo diretório do programa sendo executado) para leitura (devido a opção <cite>r</cite> do inglês <cite>read</cite>) e usamos a mesma forma de codificação, no caso, <cite>utf-8</cite>.</p>
+<p>No corpo do comando <code class="docutils literal"><span class="pre">with</span></code> devemos fazer toda a computação com o arquivo, acessando-o pela variável <code class="docutils literal"><span class="pre">arq_entrada</span></code> (poderia ser qualquer outro nome). O método <code class="docutils literal"><span class="pre">read()</span></code> lê todo o conteúdo de <code class="docutils literal"><span class="pre">arq_entrada</span></code> e o atribui para <code class="docutils literal"><span class="pre">conteudo</span></code>. Nesse caso, a variável <code class="docutils literal"><span class="pre">conteudo</span></code> faz referência a um string cujo conteúdo foi carregado do arquivo.
+Ao final do corpo do <code class="docutils literal"><span class="pre">with</span></code>, esse comando fecha automaticamente o arquivo.</p>
+<p>Ao invés de carregar o arquivo inteiro de uma vez, muitos vezes é mais conveniente processar uma linha de cada vez para converte-lo ou extrair as informações necessárias, e assim evitar de manter o arquivo todo (que pode ser muito grande) na memória do computador.</p>
+<p>Para isso, o Python oferece a seguinte forma de processar as linhas de um arquivo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">nome</span> <span class="o">=</span> <span class="s2">&quot;poesia.txt&quot;</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">nome</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">arquivo</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">linha</span> <span class="ow">in</span> <span class="n">arquivo</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">linha</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A saída seria:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>O poeta é um fingidor.
+
+Finge tão completamente
+
+Que chega a fingir que é dor
+
+A dor que deveras sente.
+
+            Fernando Pessoa.
+</pre></div>
+</div>
+<p>Nesse caso, é como se o arquivo fosse uma lista de linhas.
+Ao rodar esse programa no entanto, você deve notar que o espaçamento entre linhas aumentou. Isso porque a linha contém o <code class="docutils literal"><span class="pre">\n</span></code> e a função <code class="docutils literal"><span class="pre">print()</span></code> muda automaticamente de linha.</p>
+<p>Como já mencionamos,
+o Python oferece vários métodos para operar com strings (consulte a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#text-sequence-type-str">documentação do Python sobre strings</a>).
+O método <code class="docutils literal"><span class="pre">strip()</span></code> é um método para eliminar o <code class="docutils literal"><span class="pre">\n</span></code> e demais caracteres considerados &#8220;brancos&#8221; (como o espaço e o tab) no início e final de um string.
+Experimente agora rodar o programa abaixo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">nome</span> <span class="o">=</span> <span class="s2">&quot;poesia.txt&quot;</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">nome</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">arquivo</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">linha</span> <span class="ow">in</span> <span class="n">arquivo</span><span class="p">:</span>
+        <span class="n">linha_sem_brancos</span> <span class="o">=</span> <span class="n">linha</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">linha_sem_brancos</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>e nesse caso a saída seria:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>O poeta é um fingidor.
+Finge tão completamente
+Que chega a fingir que é dor
+A dor que deveras sente.
+Fernando Pessoa.
+</pre></div>
+</div>
+<p>O <code class="docutils literal"><span class="pre">strip()</span></code> é muito útil quando estamos interessados apenas no texto e podemos desconsiderar a formatação. Observe que não apenas o <code class="docutils literal"><span class="pre">\n</span></code> foi desconsiderado, mas também o tab no início de cada linha do poema.</p>
+<p>Finalmente, se além do texto queremos separar a frase em palavras, podemos utilizar o método <code class="docutils literal"><span class="pre">split()</span></code>, que em seu comportamento padrão separa a frase em palavras usando os caracteres considerados &#8220;brancos&#8221; como separadores.
+Rode o seguinte programa para ver o resultado de <code class="docutils literal"><span class="pre">split()</span></code> nas linhas do poema.</p>
+
+<div id="aula13_exemplo_split" >
+<textarea cols="50" rows="12" id="aula13_exemplo_split_code" class="active_code">
+linhas = [
+            "    O poeta é um fingidor.      \n",
+            "    Finge tão completamente     \n",
+            "    Que chega a fingir que é dor\n",
+            "    A dor que deveras sente.    \n",
+            "                Fernando Pessoa.\n"
+            ]
+
+for linha in linhas:
+    linha_sem_brancos = linha.strip()
+    print(linha_sem_brancos)
+    palavras = linha_sem_brancos.split()
+    print(palavras)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula13_exemplo_split)</span> </p>
+<button onclick="runit('aula13_exemplo_split',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula13_exemplo_split');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula13_exemplo_split');">Load</button>
+<br />
+
+<canvas id="aula13_exemplo_split_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula13_exemplo_split_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Experimente rodar esse mesmo programa sem o <code class="docutils literal"><span class="pre">strip()</span></code>.</p>
+</div>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="exercicio-1">
+<h3>Exercício 1<a class="headerlink" href="#exercicio-1" title="Permalink to this headline">¶</a></h3>
+<p><strong>PARTE A</strong></p>
+<p>Escreva uma função separa, que recebe um string texto e um caractere separador. A função &#8220;corta&#8221; o texto nos separadores, retornando uma lista com as palavras do texto.</p>
+<p>Exemplo:</p>
+<p>para o texto: &#8221;,1,,2,3,&#8221; a saída deve ser a lista:
+[&#8216;&#8217;, &#8216;1&#8217;, &#8216;&#8217;, &#8216;2&#8217;, &#8216;3&#8217;, &#8216;&#8217;]
+onde &#8216;&#8217; indica uma palavra vazia (entre 2 separadores consecutivos).</p>
+
+<div id="aula13_ex131a_tentativa" >
+<textarea cols="50" rows="12" id="aula13_ex131a_tentativa_code" class="active_code">
+def separa(texto, sep):
+    '''
+    (str, str) -> list
+    recebe um text e separador, e devolve o texto separado
+    '''
+    # escreva o seu programa abaixo e remova o print()
+    print("Vixe! Ainda nao fiz a funcao!")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula13_ex131a_tentativa)</span> </p>
+<button onclick="runit('aula13_ex131a_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula13_ex131a_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula13_ex131a_tentativa');">Load</button>
+<br />
+
+<canvas id="aula13_ex131a_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula13_ex131a_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>PARTE B</strong></p>
+<p>Usando a função do item anterior, escreva um programa que leia uma linha com palavras separadas por vírgula, e determina o comprimento da maior palavra. A linha pode conter palavras vazias.</p>
+
+<div id="aula13_ex131b_tentativa" >
+<textarea cols="50" rows="12" id="aula13_ex131b_tentativa_code" class="active_code">
+#-----------------------------------------------
+def main():
+    '''
+    lê uma linha com palavras separadas por vírgula e
+    determina o comprimento da maior palavra.
+    '''
+    # escreva o seu programa abaixo e remova o print()
+    print("Vixe! Ainda nao fiz o exercicio!")
+
+#-----------------------------------------------
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula13_ex131b_tentativa)</span> </p>
+<button onclick="runit('aula13_ex131b_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula13_ex131b_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula13_ex131b_tentativa');">Load</button>
+<br />
+
+<canvas id="aula13_ex131b_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula13_ex131b_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>PARTE C</strong></p>
+<p>Escreva o programa da parte B usando a função <code class="docutils literal"><span class="pre">split()</span></code>.</p>
+</div>
+<div class="section" id="exercicio-2">
+<h3>Exercício 2<a class="headerlink" href="#exercicio-2" title="Permalink to this headline">¶</a></h3>
+<p>Escreva um programa que leia vários números reais em uma mesma linha, e imprima a soma.</p>
+
+<div id="aula13_ex132_tentativa" >
+<textarea cols="50" rows="12" id="aula13_ex132_tentativa_code" class="active_code">
+#-----------------------------------------------
+def main():
+    '''
+    lê uma linha com numeros reais e calcula a soma dos numeros
+    '''
+    # escreva o seu programa abaixo e remova o print()
+    print("Vixe! Ainda nao fiz o exercicio!")
+
+#-----------------------------------------------
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula13_ex132_tentativa)</span> </p>
+<button onclick="runit('aula13_ex132_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula13_ex132_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula13_ex132_tentativa');">Load</button>
+<br />
+
+<canvas id="aula13_ex132_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula13_ex132_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-3">
+<h3>Exercício 3<a class="headerlink" href="#exercicio-3" title="Permalink to this headline">¶</a></h3>
+<p>Escreva um programa que leia um arquivo contendo ao menos 1 número real por linha, e para cada linha imprima a sua soma. Ao final, o programa deve imprimir também a soma total. Exemplo: para o arquivo numeros.txt com:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span>
+<span class="mi">4</span> <span class="mi">4</span> <span class="mi">4</span>
+<span class="mf">2.7</span>
+<span class="mf">3.14</span> <span class="mf">2.1</span>
+</pre></div>
+</div>
+<p>a saída deve ser:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Digite</span> <span class="n">o</span> <span class="n">nome</span> <span class="n">do</span> <span class="n">arquivo</span><span class="p">:</span> <span class="n">numeros</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">Soma</span> <span class="o">=</span> <span class="mf">15.000000</span>
+<span class="n">Soma</span> <span class="o">=</span> <span class="mf">12.000000</span>
+<span class="n">Soma</span> <span class="o">=</span> <span class="mf">2.700000</span>
+<span class="n">Soma</span> <span class="o">=</span> <span class="mf">5.240000</span>
+<span class="n">Total</span> <span class="o">=</span> <span class="mf">34.940000</span>
+</pre></div>
+</div>
+<p>Dessa vez, use um editor como o Idle no seu computador para escrever o programa.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Strings e Arquivos</a><ul>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#videos">Vídeos</a></li>
+<li><a class="reference internal" href="#introducao">Introdução</a></li>
+<li><a class="reference internal" href="#strings-criacao-indexacao-e-comparacao">Strings: criação, indexação, e comparação</a></li>
+<li><a class="reference internal" href="#strings-nao-sao-listas">Strings não são listas!</a></li>
+<li><a class="reference internal" href="#representacao-de-caracteres">Representação de caracteres</a></li>
+<li><a class="reference internal" href="#arquivos">Arquivos</a><ul>
+<li><a class="reference internal" href="#criacao-de-arquivos">Criação de arquivos</a></li>
+<li><a class="reference internal" href="#leitura-de-arquivos">Leitura de arquivos</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a><ul>
+<li><a class="reference internal" href="#exercicio-1">Exercício 1</a></li>
+<li><a class="reference internal" href="#exercicio-2">Exercício 2</a></li>
+<li><a class="reference internal" href="#exercicio-3">Exercício 3</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="10-funcoes-listas.html"
+                        title="previous chapter">Funções com listas</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="12-matrizes.html"
+                        title="next chapter">Matrizes</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="12-matrizes.html" title="Matrizes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="10-funcoes-listas.html" title="Funções com listas"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Jun 12, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

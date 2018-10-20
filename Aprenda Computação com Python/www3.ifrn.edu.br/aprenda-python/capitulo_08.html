@@ -1,0 +1,648 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capítulo 8: Listas &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Capítulo 9: Tuplas" href="capitulo_09.html" />
+    <link rel="prev" title="Capítulo 7: Strings" href="capitulo_07.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="capitulo_09.html" title="Capítulo 9: Tuplas"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_07.html" title="Capítulo 7: Strings"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="capitulo-8-listas">
+<h1><a class="toc-backref" href="#id1">Capítulo 8: Listas</a><a class="headerlink" href="#capitulo-8-listas" title="Link permanente para este título">¶</a></h1>
+<div class="contents topic" id="topicos">
+<p class="topic-title first">Tópicos</p>
+<ul class="simple">
+<li><a class="reference external" href="#capitulo-8-listas" id="id1">Capítulo 8: Listas</a><ul>
+<li><a class="reference external" href="#valores-da-lista" id="id2">8.1 Valores da lista</a></li>
+<li><a class="reference external" href="#acessado-elementos" id="id3">8.2 Acessado elementos</a></li>
+<li><a class="reference external" href="#comprimento-da-lista" id="id4">8.3 Comprimento da lista</a></li>
+<li><a class="reference external" href="#membros-de-uma-lista" id="id5">8.4 Membros de uma lista</a></li>
+<li><a class="reference external" href="#listas-e-lacos-for" id="id6">8.5 Listas e laços <tt class="docutils literal"><span class="pre">for</span></tt></a></li>
+<li><a class="reference external" href="#operacoes-em-listas" id="id7">8.6 Operações em listas</a></li>
+<li><a class="reference external" href="#fatiamento-de-listas" id="id8">8.7 Fatiamento de listas</a></li>
+<li><a class="reference external" href="#listas-sao-mutaveis" id="id9">8.8 Listas são mutáveis</a></li>
+<li><a class="reference external" href="#remocao-em-lista" id="id10">8.9 Remoção em lista</a></li>
+<li><a class="reference external" href="#ojetos-e-valores" id="id11">8.10 Ojetos e valores</a></li>
+<li><a class="reference external" href="#apelidos" id="id12">8.11 Apelidos</a></li>
+<li><a class="reference external" href="#clonando-listas" id="id13">8.12 Clonando listas</a></li>
+<li><a class="reference external" href="#lista-como-parametro" id="id14">8.13 Lista como parâmetro</a></li>
+<li><a class="reference external" href="#lista-aninhadas" id="id15">8.14 Lista aninhadas</a></li>
+<li><a class="reference external" href="#matrizes" id="id16">8.15 Matrizes</a></li>
+<li><a class="reference external" href="#strings-e-listas" id="id17">8.16 Strings e listas</a></li>
+<li><a class="reference external" href="#glossario" id="id18">8.17 Glossário</a></li>
+<li><a class="reference external" href="#outros-termos-utilizados-neste-capitulo" id="id19">Outros termos utilizados neste capítulo</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Uma <strong>lista</strong> é um conjunto ordenado de valores, onde cada valor é identificado por um índice. Os valores que compõem uma lista são chamados <strong>elementos</strong>. Listas são similares a strings, que são conjuntos ordenados de caracteres, com a diferença que os elementos de uma lista podem possuir qualquer tipo. Listas e strings XXX e outras coisas que se comportam como conjuntos ordenados XXX são chamados <strong>seqüências</strong>.</p>
+<div class="section" id="valores-da-lista">
+<h2><a class="toc-backref" href="#id2">8.1 Valores da lista</a><a class="headerlink" href="#valores-da-lista" title="Link permanente para este título">¶</a></h2>
+<p>Existem várias maneiras de criar uma nova lista; a mais simples é envolver os elementos em colchetes (<tt class="docutils literal"><span class="pre">[</span></tt> e <tt class="docutils literal"><span class="pre">]</span></tt>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="s">&#39;spam&#39;</span><span class="p">,</span> <span class="s">&#39;bungee&#39;</span><span class="p">,</span> <span class="s">&#39;swallow&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>O primeiro exemplo á uma lista de quatro inteiros. O segundo é uma lista de três strings. Os elementos de uma lista não necessitam ser do mesmo tipo. A lista a seguir contém uma string, um valor <em>float</em>, um valor inteiro, e <em>mirabile dictu</em> uma outra lista:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="s">&#39;alo&#39;</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Uma lista dentro de outra lista é dita estar <strong>aninhada</strong>.</p>
+<p>Listas que contém inteiros consecutivos são comuns, então Python fornece uma maneira simples de criá-los:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">[1, 2, 3, 4]</span>
+</pre></div>
+</div>
+<p>A função <tt class="docutils literal"><span class="pre">range</span></tt> pega dois argumentos e devolve uma lista que contém todos os inteiros do primeiro até o segundo, incluindo o primeiro mas não incluindo o segundo!</p>
+<p>Existem outras formas de <tt class="docutils literal"><span class="pre">range</span></tt>. Com um argumento simples, ela cria uma lista que inicia em 0:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">[0,1, 2, 3, 4, 5, 6, 7, 8, 9]</span>
+</pre></div>
+</div>
+<p>Se existe um terceiro argumento, ele especifica o espaço entre os valores sucessivos, que é chamado de <tt class="docutils literal"><span class="pre">tamanho</span> <span class="pre">do</span> <span class="pre">passo</span></tt>. Este exemplo conta de 1 até 10 em passos de 2:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">[1, 3, 5, 7, 9]</span>
+</pre></div>
+</div>
+<p>Finalmente, existe uma lista especial que não contém elementos. Ela é chamada lista vazia, e sua notação é <tt class="docutils literal"><span class="pre">[]</span></tt>.</p>
+<p>Com todas estas formas de criar listas, seria decepcionante se não pudéssemos atribuir valores de listas a variáveis ou passar listas como parâmetros a funções. Felizmente, podemos.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vocabulario</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;melhorar&#39;</span><span class="p">,</span> <span class="s">&#39;castigar&#39;</span><span class="p">,</span> <span class="s">&#39;defenestrar&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">numeros</span> <span class="o">=</span> <span class="p">[</span><span class="mi">17</span><span class="p">,</span> <span class="mi">123</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vazio</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">vocabulario</span><span class="p">,</span> <span class="n">numeros</span><span class="p">,</span> <span class="n">vazio</span>
+<span class="go">[&#39;melhorar&#39;, &#39;castigar&#39;, &#39;defenestrar&#39;] [17, 123] []</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="acessado-elementos">
+<h2><a class="toc-backref" href="#id3">8.2 Acessado elementos</a><a class="headerlink" href="#acessado-elementos" title="Link permanente para este título">¶</a></h2>
+<p>A sintaxe para acessar os elementos de uma lista é a mesma que a sintaxe para acessar os caracteres de uma string XXX o operator colchete (<tt class="docutils literal"><span class="pre">[]</span></tt>). A expressão dentro dos colchetes especifica o índice. Lembre-se que os índices iniciam em 0:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">numeros</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">numeros</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<p>O operador colchete pode aparecer em qualquer lugar em uma expressão. Quando ele aparece no lado esquerdo de uma atribuição, ele modifica um dos elementos em uma lista, de forma que o um-ésimo elemento de <tt class="docutils literal"><span class="pre">numeros</span></tt>, que era <tt class="docutils literal"><span class="pre">123</span></tt>, é agora <tt class="docutils literal"><span class="pre">5</span></tt>.</p>
+<p>Qualquer expressão inteira pode ser utilizada como um índice:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">numeros</span><span class="p">[</span><span class="mi">3</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">numeros</span><span class="p">[</span><span class="mf">1.0</span><span class="p">]</span>
+<span class="go">TypeError: sequence index must be integer</span>
+</pre></div>
+</div>
+<p>Se você tentar ler ou escrever um elemento que não existe, você recebe um erro de tempo de execução (<em>runtime error</em>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">numeros</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="mi">5</span>
+<span class="go">IndexError: list assignment index out of range</span>
+</pre></div>
+</div>
+<p>Se um índice possui um valor negativo, ele conta ao contrário a partir do final da lista:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">numeros</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">numeros</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">17</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">numeros</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+<span class="go">IndexError: list index out of range</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">numeros[-1]</span></tt> é o último elemento da lista, <tt class="docutils literal"><span class="pre">numeros[-2]</span></tt> é o penúltimo e <tt class="docutils literal"><span class="pre">numeros[-3]</span></tt> não existe.</p>
+<p>É comum utilizar uma variável de laço como um índice da lista:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cavaleiros</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;guerra&#39;</span><span class="p">,</span> <span class="s">&#39;fome&#39;</span><span class="p">,</span> <span class="s">&#39;peste&#39;</span><span class="p">,</span> <span class="s">&#39;morte&#39;</span><span class="p">]</span>
+<span class="go">i = 0</span>
+<span class="go">while i &lt; 4:</span>
+<span class="go">        print cavaleiros[i]</span>
+<span class="go">        i = i + 1</span>
+</pre></div>
+</div>
+<p>Este laço <tt class="docutils literal"><span class="pre">while</span></tt> conta de 0 até 4. Quando a variável do laço <tt class="docutils literal"><span class="pre">i</span></tt> é 4, a condição falha e o laço se encerra. Desta forma o corpo do laço é executado somente quando <tt class="docutils literal"><span class="pre">i</span></tt> é 0, 1, 2 e 3.</p>
+<p>Em cada vez dentro do laço, a variável <tt class="docutils literal"><span class="pre">i</span></tt> é utilizada como um índice para a lista, exibindo o <tt class="docutils literal"><span class="pre">i-ésimo</span></tt> elemento. Este padrão de computação é chamado de <strong>percurso na lista</strong>.</p>
+</div>
+<div class="section" id="comprimento-da-lista">
+<h2><a class="toc-backref" href="#id4">8.3 Comprimento da lista</a><a class="headerlink" href="#comprimento-da-lista" title="Link permanente para este título">¶</a></h2>
+<p>A função <tt class="docutils literal"><span class="pre">len</span></tt> devolve o comprimento de uma lista. É uma boa idéia utilizar este valor como o limite superior de um laço ao invés de uma constante. Desta forma, se o tamanho da lista mudar, você não precisará ir através de todo o programa modificando todos os laços; eles funcionarão corretamente para qualquer tamanho de lista:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cavaleiros</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;guerra&#39;</span><span class="p">,</span> <span class="s">&#39;fome&#39;</span><span class="p">,</span> <span class="s">&#39;peste&#39;</span><span class="p">,</span> <span class="s">&#39;morte&#39;</span><span class="p">]</span>
+<span class="go">i = 0</span>
+<span class="go">while i &lt; len(cavaleiros):</span>
+<span class="go">        print cavaleiros[i]</span>
+<span class="go">        i = i + 1</span>
+</pre></div>
+</div>
+<p>A última vez que o corpo do laço é executado, <tt class="docutils literal"><span class="pre">i</span></tt> é <tt class="docutils literal"><span class="pre">len(cavaleiros)</span> <span class="pre">-</span> <span class="pre">1</span></tt>, que é o índice do último elemento.
+Quando <tt class="docutils literal"><span class="pre">i</span></tt> é igual a <tt class="docutils literal"><span class="pre">len(cavaleiros)</span></tt>, a condição falha e o corpo não é executado, o que é uma boa coisa, porque <tt class="docutils literal"><span class="pre">len(cavaleiros)</span></tt> não é um índice legal.</p>
+<p>Embora uma lista possa conter uma outra lista, a lista aninhada ainda conta como um elemento simples. O comprimento desta lista é quatro:</p>
+<div class="highlight-python"><pre>&gt;&gt;&gt; [`spam!', 1, ['Brie', 'Roquefort', 'Pol lê Veq'], [1, 2 3]]</pre>
+</div>
+<blockquote>
+Como um exercício, escreva um laço que percorra a lista anterior e exiba o comprimento de cada elemento. O que acontece se você manda um inteiro para <tt class="docutils literal"><span class="pre">len</span></tt>?</blockquote>
+</div>
+<div class="section" id="membros-de-uma-lista">
+<h2><a class="toc-backref" href="#id5">8.4 Membros de uma lista</a><a class="headerlink" href="#membros-de-uma-lista" title="Link permanente para este título">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">in</span></tt> é um operador lógico que testa se um elemento é membro de uma seqüência. Nós o utilizamos na <tt class="docutils literal"><span class="pre">Seção</span> <span class="pre">7.10</span></tt> com strings, mas ele também funciona com listas e outras seqüências:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cavaleiros</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;guerra&#39;</span><span class="p">,</span> <span class="s">&#39;fome&#39;</span><span class="p">,</span> <span class="s">&#39;peste&#39;</span><span class="p">,</span> <span class="s">&#39;morte&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;peste&#39;</span> <span class="ow">in</span> <span class="n">cavaleiros</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;depravação&#39;</span> <span class="ow">in</span> <span class="n">cavaleiros</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>Uma vez que &#8216;peste&#8217; é um membro da lista <tt class="docutils literal"><span class="pre">cavaleiros</span></tt>, o operador <tt class="docutils literal"><span class="pre">in</span></tt> devolve <tt class="docutils literal"><span class="pre">verdadeiro</span></tt>. Uma vez que <tt class="docutils literal"><span class="pre">depravação</span></tt> não está na lista, <tt class="docutils literal"><span class="pre">in</span></tt> devolve <tt class="docutils literal"><span class="pre">falso</span></tt>.</p>
+<p>Podemos utilizar também o <tt class="docutils literal"><span class="pre">not</span></tt> em combinação com o <tt class="docutils literal"><span class="pre">in</span></tt> para testar se um elemento não é um membro de uma lista:</p>
+<div class="highlight-python"><pre>&gt;&gt;&gt; ``depravação`` not in cavaleiros
+True</pre>
+</div>
+</div>
+<div class="section" id="listas-e-lacos-for">
+<h2><a class="toc-backref" href="#id6">8.5 Listas e laços <tt class="docutils literal"><span class="pre">for</span></tt></a><a class="headerlink" href="#listas-e-lacos-for" title="Link permanente para este título">¶</a></h2>
+<p>O laço <tt class="docutils literal"><span class="pre">for</span></tt> que vimos na Seção 7.3 também funciona com listas. A sintaxe generalizada de um laço <tt class="docutils literal"><span class="pre">for</span></tt> é:</p>
+<div class="highlight-python"><pre>for VARIÁVEL in LISTA:
+        CORPO</pre>
+</div>
+<p>Esta declaração é equivalente a:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="go">    while i &lt; len(LIST):</span>
+<span class="go">        VARIABLE = LIST[i]</span>
+<span class="go">        XXX BODY</span>
+<span class="go">    i = i + 1</span>
+</pre></div>
+</div>
+<p>O laço <tt class="docutils literal"><span class="pre">for</span></tt> é mais conciso porque podemos eliminar a variável do laço, <tt class="docutils literal"><span class="pre">i</span></tt>. Aqui está o laço anterior escrito com um`laço <tt class="docutils literal"><span class="pre">for</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">cavaleiro</span> <span class="ow">in</span> <span class="n">cavaleiros</span><span class="p">:</span>
+<span class="go">        print cavaleiro</span>
+</pre></div>
+</div>
+<p>Quase se lê como Português: &#8220;For (para cada) cavaleiro in (na lista de) cavaleiros, print (imprima o nome do) cavaleiro.&#8221;</p>
+<p>Qualquer expressão de lista pode ser utilizada num laço <tt class="docutils literal"><span class="pre">for</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">numero</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+<span class="go">                if numero % 2 == 0:</span>
+<span class="go">                        print numero</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">fruta</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&quot;banana&quot;</span><span class="p">,</span> <span class="s">&quot;abacaxi&quot;</span><span class="p">,</span> <span class="s">&quot;laranja&quot;</span><span class="p">]:</span>
+<span class="go">        print &quot;Eu gosto de comer &quot; + fruta + &quot;s!&quot;</span>
+</pre></div>
+</div>
+<p>O primeiro exemplo exibe todos os números pares entre zero e dezenove. O segundo exemplo expressa o entusiasmo por várias frutas.</p>
+</div>
+<div class="section" id="operacoes-em-listas">
+<h2><a class="toc-backref" href="#id7">8.6 Operações em listas</a><a class="headerlink" href="#operacoes-em-listas" title="Link permanente para este título">¶</a></h2>
+<p>O operador <tt class="docutils literal"><span class="pre">+</span></tt>  concatena listas:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">c</span>
+<span class="go">[1, 2, 3, 4, 5, 6]</span>
+</pre></div>
+</div>
+<p>Similarmente, o operador <tt class="docutils literal"><span class="pre">*</span></tt>  repete uma lista um número dado de vezes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span>
+<span class="go">[0, 0, 0, 0]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
+<span class="go">[1, 2, 3, 1, 2, 3, 1, 2, 3]</span>
+</pre></div>
+</div>
+<p>O primeiro exemplo repete <tt class="docutils literal"><span class="pre">[0]</span></tt> quatro vezes. O segundo exemplo repete a lista <tt class="docutils literal"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3]</span></tt> três vezes.</p>
+</div>
+<div class="section" id="fatiamento-de-listas">
+<h2><a class="toc-backref" href="#id8">8.7 Fatiamento de listas</a><a class="headerlink" href="#fatiamento-de-listas" title="Link permanente para este título">¶</a></h2>
+<p>A operação de fatiamento que vimos na Seção 7.4 também funciona sobre listas:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">lista</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">,</span> <span class="s">&#39;d&#39;</span><span class="p">,</span> <span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="s">&#39;f&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lista</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+<span class="go">[&#39;b&#39;, &#39;c&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lista</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
+<span class="go">[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lista</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+<span class="go">[&#39;d&#39;, &#39;e&#39;, &#39;f&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lista</span><span class="p">[:]</span>
+<span class="go">[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="listas-sao-mutaveis">
+<h2><a class="toc-backref" href="#id9">8.8 Listas são mutáveis</a><a class="headerlink" href="#listas-sao-mutaveis" title="Link permanente para este título">¶</a></h2>
+<p>Diferente das strings, as listas são mutáveis, o que significa que podemos modificar seus elementos. Utilizando o operador colchete no lado esquerdo de uma atribuição, podemos atualizar um de seus elementos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fruta</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;banana&quot;</span><span class="p">,</span> <span class="s">&quot;abacaxi&quot;</span><span class="p">,</span> <span class="s">&quot;laranja&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fruta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;abacate&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fruta</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;tangerina&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fruta</span>
+<span class="go">[&#39;abacate&#39;, &#39;abacaxi&#39;, &#39;tangerina&#39;]</span>
+</pre></div>
+</div>
+<p>Com o operador de fatiamento podemos atualizar vários elementos de uma vez:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">lista</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">,</span> <span class="s">&#39;d&#39;</span><span class="p">,</span> <span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="s">&#39;f&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lista</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">lista</span>
+<span class="go">[&#39;a&#39;, &#39;x&#39;, &#39;y&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;]</span>
+</pre></div>
+</div>
+<p>Também podemos remover elementos de uma lista atribuindo a lista vazia a eles:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">lista</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">,</span> <span class="s">&#39;d&#39;</span><span class="p">,</span> <span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="s">&#39;f&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lista</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">lista</span>
+<span class="go">[&#39;a&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;]</span>
+</pre></div>
+</div>
+<p>E podemos adicionar elementos a uma lista enfiando-os numa fatia vazia na posição desejada:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">lista</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;d&#39;</span><span class="p">,</span> <span class="s">&#39;f&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lista</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">lista</span>
+<span class="go">[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;f&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lista</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;e&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">lista</span>
+<span class="go">[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="remocao-em-lista">
+<h2><a class="toc-backref" href="#id10">8.9 Remoção em lista</a><a class="headerlink" href="#remocao-em-lista" title="Link permanente para este título">¶</a></h2>
+<p>Utilizando fatias para remover elementos pode ser complicado, e desta forma propenso a erro. Python fornece uma alternativa que é mais legível.</p>
+<p><tt class="docutils literal"><span class="pre">del</span></tt> remove um elemento de uma lista:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;um&#39;</span><span class="p">,</span> <span class="s">&#39;dois&#39;</span><span class="p">,</span> <span class="s">&#39;tres&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">[&#39;um&#39;, &#39;tres&#39;]</span>
+</pre></div>
+</div>
+<p>Como você deveria esperar, <tt class="docutils literal"><span class="pre">del</span></tt> trata valores negativos e causa erros de tempo de execução se o índice estiver fora da faixa.</p>
+<p>Você também pode utilizar uma faixa como um índice para <tt class="docutils literal"><span class="pre">del</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">lista</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">,</span> <span class="s">&#39;d&#39;</span><span class="p">,</span> <span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="s">&#39;f&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">lista</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">lista</span>
+<span class="go">[&#39;a&#39;, &#39;f&#39;]</span>
+</pre></div>
+</div>
+<p>Como de costume, fatias selecionam todos os elementos até, mas não incluindo, o segundo índice.</p>
+</div>
+<div class="section" id="ojetos-e-valores">
+<h2><a class="toc-backref" href="#id11">8.10 Ojetos e valores</a><a class="headerlink" href="#ojetos-e-valores" title="Link permanente para este título">¶</a></h2>
+<p>Se executamos estas declarações de atribuição:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="s">&quot;banana&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="s">&quot;banana&quot;</span>
+</pre></div>
+</div>
+<p>sabemos que <tt class="docutils literal"><span class="pre">a</span></tt> e <tt class="docutils literal"><span class="pre">b</span></tt> se referem a uma string com as letras <tt class="docutils literal"><span class="pre">banana</span></tt>. Mas não podemos dizer se elas apontam para <em>a mesma</em> string.</p>
+<p>Existem dois possíveis estados:</p>
+<img alt="_images/08_01_lista1.png" src="_images/08_01_lista1.png" />
+<p>Em um caso, <tt class="docutils literal"><span class="pre">a</span></tt> e <tt class="docutils literal"><span class="pre">b</span></tt> se referem a duas coisas diferentes que possuem o mesmo valor. No segundo caso, elas se referem à mesma coisa. Estas &#8220;coisas&#8221; possume nomes - elas são chamadas <strong>objetos</strong>. Um objeto é algo ao qual uma variável pode se referenciar.</p>
+<p>Todo objeto possui um <strong>identificador</strong> único, que podemos obter com a função <tt class="docutils literal"><span class="pre">id</span></tt>. Exibindo o identificador de <tt class="docutils literal"><span class="pre">a</span></tt> e <tt class="docutils literal"><span class="pre">b</span></tt>, podemos dizer se elas se referem ao mesmo objeto.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">135044008</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">135044008</span>
+</pre></div>
+</div>
+<p>De fato, obtivemos o mesmo identificador duas vezes, o que significa que Python criou apenas uma string, e tanto <tt class="docutils literal"><span class="pre">a</span></tt> quanto <tt class="docutils literal"><span class="pre">b</span></tt> se referem a ela.</p>
+<p>Interessantemente, listas se comportam de forma diferente. Quando criamos duas listas, obtemos dois objetos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">135045528</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">135041704</span>
+</pre></div>
+</div>
+<p>Então o diagrama de estado fica assim:</p>
+<img alt="_images/08_02_lista2.png" src="_images/08_02_lista2.png" />
+<p><tt class="docutils literal"><span class="pre">a</span></tt> e <tt class="docutils literal"><span class="pre">b</span></tt> possuem o mesmo valor mas não se referem ao mesmo objeto.</p>
+</div>
+<div class="section" id="apelidos">
+<h2><a class="toc-backref" href="#id12">8.11 Apelidos</a><a class="headerlink" href="#apelidos" title="Link permanente para este título">¶</a></h2>
+<p>Uma vez que variáveis se referem a objetos, se atribuimos uma variável a uma outra, ambas as variáveis se referem ao mesmo objeto:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
+</pre></div>
+</div>
+<p>Neste caso,  o diagrama de estado se parece com isto:</p>
+<img alt="_images/08_03_lista3.png" src="_images/08_03_lista3.png" />
+<p>Uma vez que a lista possui dois nomes diferentes, <tt class="docutils literal"><span class="pre">a</span></tt> e <tt class="docutils literal"><span class="pre">b</span></tt>, dizemos que ela está &#8220;apelidada&#8221; (aliased). Mudanças feitas em um apelido afetam o outro nome:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">a</span>
+<span class="go">[5, 2, 3]</span>
+</pre></div>
+</div>
+<p>Embora este comportamento possa ser útil, ele é às vezes inesperado e indesejado. Em geral, é mais seguro evitar os apelidos quando você está trabalhando com objetos mutáveis. É claro, para objetos imutáveis, não há problema. É por isto que Python é livre para apelidar cadeias de caracteres quando vê uma oportunidade de economizar.</p>
+</div>
+<div class="section" id="clonando-listas">
+<h2><a class="toc-backref" href="#id13">8.12 Clonando listas</a><a class="headerlink" href="#clonando-listas" title="Link permanente para este título">¶</a></h2>
+<p>Se queremos modificar uma lista e também manter uma cópia da original, preciamos ter condições de fazer uma cópia da própria lista, não apenas uma referência. Este processo é algumas vezes chamado <strong>clonagem</strong>, para evitar a ambigüidade da palavra &#8220;cópia&#8221;.</p>
+<p>A maneira mas fácil de clonar uma lista é utilizar o operador de fatia:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="p">[:]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">b</span>
+<span class="go">[1, 2, 3]</span>
+</pre></div>
+</div>
+<p>Pegar qualquer fatia de <tt class="docutils literal"><span class="pre">a</span></tt> cria uma nova lista. Neste caso acontece da fatia consistir da lista inteira.</p>
+<p>Agora estamos livres para fazer alterações a <tt class="docutils literal"><span class="pre">b</span></tt> sem nos preocuparmos com``a``:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">a</span>
+<span class="go">[1, 2, 3]</span>
+</pre></div>
+</div>
+<blockquote>
+Como exercício, desenhe um diagrama de estado para``a`` e <tt class="docutils literal"><span class="pre">b</span></tt> antes e depois desta mudança.</blockquote>
+</div>
+<div class="section" id="lista-como-parametro">
+<h2><a class="toc-backref" href="#id14">8.13 Lista como parâmetro</a><a class="headerlink" href="#lista-como-parametro" title="Link permanente para este título">¶</a></h2>
+<p>Passar uma lista como um argumento passa realmente uma referência à lista, não uma cópia da lista. Por exemplo, a função <tt class="docutils literal"><span class="pre">cabeca</span></tt> pega uma lista como parâmetro e devolve a cabeça da lista, ou seja, seu primeiro elemento:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">cabeca</span><span class="p">(</span><span class="n">lista</span><span class="p">):</span>
+<span class="go">        return lista[0]</span>
+</pre></div>
+</div>
+<p>Eis como ela é utilizada:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">numeros</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cabeca</span><span class="p">(</span><span class="n">numeros</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>O parâmetro <tt class="docutils literal"><span class="pre">lista</span></tt> e a variável <tt class="docutils literal"><span class="pre">numeros</span></tt> são apelidos para o mesmo objeto. O diagrama de estado se parece com isto:</p>
+<img alt="_images/08_04_pilha5.png" src="_images/08_04_pilha5.png" />
+<p>Uma vez que o objeto é compartilhado pelos dois quadros, o desenhamos entre eles.</p>
+<p>Se a função modifica um parâmetro da lista, a função chamadora vê a mudança. Por exemplo, <tt class="docutils literal"><span class="pre">removeCabeca</span></tt> remove o primeiro elemento da lista:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">removecabeca</span><span class="p">(</span><span class="n">lista</span><span class="p">):</span>
+<span class="go">        del lista[0]</span>
+</pre></div>
+</div>
+<p>Aqui está a maneira como ela é utilizada:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">numeros</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">removeCabeca</span><span class="p">(</span><span class="n">numeros</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">numeros</span>
+<span class="go">[2, 3]</span>
+</pre></div>
+</div>
+<p>Se uma função devolve uma lista, ela devolve uma referência à lista. Por exemplo, <tt class="docutils literal"><span class="pre">cauda</span></tt> devolve uma lista que contém todos menos o primeiro elemento de uma determinada lista:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">cauda</span><span class="p">(</span><span class="n">lista</span><span class="p">):</span>
+<span class="go">        return lista[1:]</span>
+</pre></div>
+</div>
+<p>Aqui está a maneira como ela é utilizada:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">numeros</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resto</span> <span class="o">=</span> <span class="n">cauda</span><span class="p">(</span><span class="n">numeros</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">resto</span>
+<span class="go">[2, 3]</span>
+</pre></div>
+</div>
+<p>Uma vez que o valor de retorno foi criado com o operador de fatia, ele é uma nova lista. A criação de <tt class="docutils literal"><span class="pre">resto</span></tt>, e qualquer alteração subseqüente a <tt class="docutils literal"><span class="pre">resto</span></tt>, não tem efeito sobre <tt class="docutils literal"><span class="pre">numeros</span></tt>.</p>
+</div>
+<div class="section" id="lista-aninhadas">
+<h2><a class="toc-backref" href="#id15">8.14 Lista aninhadas</a><a class="headerlink" href="#lista-aninhadas" title="Link permanente para este título">¶</a></h2>
+<p>Uma lista aninhada é uma lista que aparece como um elemento de uma outra lista. Nesta lista, o terceiro elemento é uma lista aninhada:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">lista</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;alo&quot;</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Se exibimos <tt class="docutils literal"><span class="pre">lista[3]</span></tt>, obtemos <tt class="docutils literal"><span class="pre">[10,</span> <span class="pre">20]</span></tt>. Para extrairmos um elemento de uma lista aninhada, podemos agir em duas etapas:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">elem</span> <span class="o">=</span> <span class="n">lista</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">elem</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">10</span>
+</pre></div>
+</div>
+<p>Ou podemos combiná-las:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">lista</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">20</span>
+</pre></div>
+</div>
+<p>Os operadores colchete avaliam da esquerda para a direita, então a expressão pega o terceiro elemento de <tt class="docutils literal"><span class="pre">lista</span></tt> e extrai o primeiro elemento dela.</p>
+</div>
+<div class="section" id="matrizes">
+<h2><a class="toc-backref" href="#id16">8.15 Matrizes</a><a class="headerlink" href="#matrizes" title="Link permanente para este título">¶</a></h2>
+<p>Listas aninhadas são freqüentemente utilizadas para representar matrizes. Por exemplo, a matriz:</p>
+<img alt="_images/08_05_matriz.png" src="_images/08_05_matriz.png" />
+<p>poderia ser representada como:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">matriz</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">matriz</span></tt> é uma lista com três elementos, onde cada elemento é uma linha da matriz. Podemos selecionar uma linha inteira da matriz da maneira habitual:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">matriz</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">[4, 5, 6]</span>
+</pre></div>
+</div>
+<p>Ou podemos extrair um único elemento da matriz utilinado a forma de duplo índice:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">matriz</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">5</span>
+</pre></div>
+</div>
+<p>O primeiro índice seleciona a linha, e o segundo índice seleciona a coluna. Embora esta maneira de representar matrizes seja comum, ela não é a única possibilidade. Uma pequena variação é utilizar uma lista de colunas ao invés de uma lista de linhas.</p>
+<p>Mais adiante veremos uma alternativa mais radical utilizando um dicionário.</p>
+</div>
+<div class="section" id="strings-e-listas">
+<h2><a class="toc-backref" href="#id17">8.16 Strings e listas</a><a class="headerlink" href="#strings-e-listas" title="Link permanente para este título">¶</a></h2>
+<p>Duas das mais úteis funções no módulo <tt class="docutils literal"><span class="pre">string</span></tt> envolvem listas de strings. A função <tt class="docutils literal"><span class="pre">split</span></tt> (separar) quebra uma string em uma lista de palavras. Por padrão, qualquer número de caracteres espaço em branco é considerado um limite de uma palavra:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">string</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">poesia</span> <span class="o">=</span> <span class="s">&quot;O orvalho no carvalho...&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">poesia</span><span class="p">)</span>
+<span class="go">[&#39;O&#39;, &#39;orvalho&#39;, &#39;no&#39;, &#39;carvalho...&#39;]</span>
+</pre></div>
+</div>
+<p>Um argumento opcional chamado um <strong>delimitador</strong> pode ser utilizado para especificar qual caracter utilizar como limites da palavra. O exemplo a seguir utiliza a string <tt class="docutils literal"><span class="pre">va</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">poesia</span><span class="p">,</span> <span class="s">&#39;va&#39;</span><span class="p">)</span>
+<span class="go">[&#39;O or&#39;, &#39;lho no car&#39;, &#39;lho...&#39;]</span>
+</pre></div>
+</div>
+<p>Perceba que o delimitador não aparece na lista.</p>
+<p>A função <tt class="docutils literal"><span class="pre">join</span></tt> (juntar) é o inverso de <tt class="docutils literal"><span class="pre">split</span></tt>. Ela pega uma lista de strings e concatena os elementos com um espaço entre cada par:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">lista</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;O&#39;</span><span class="p">,</span> <span class="s">&#39;orvalho&#39;</span><span class="p">,</span> <span class="s">&#39;no&#39;</span><span class="p">,</span> <span class="s">&#39;carvalho...&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">string</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lista</span><span class="p">)</span>
+<span class="go">&#39;O orvalho no carvalho...&#39;</span>
+</pre></div>
+</div>
+<p>Como <tt class="docutils literal"><span class="pre">split</span></tt>, <tt class="docutils literal"><span class="pre">join</span></tt> recebe um delimitador que é inserido entre os elementos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">string</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lista</span><span class="p">,</span> <span class="s">&#39;_&#39;</span><span class="p">)</span>
+<span class="go">&#39;O_orvalho_no_carvalho...&#39;</span>
+</pre></div>
+</div>
+<blockquote>
+Como um execício, descreva o relacionamento entre <tt class="docutils literal"><span class="pre">string.join(string.split(poesia))</span></tt> e <tt class="docutils literal"><span class="pre">poesia</span></tt>. Eles são o mesmo para qualquer string? Quando eles seriam diferentes?</blockquote>
+</div>
+<div class="section" id="glossario">
+<h2><a class="toc-backref" href="#id18">8.17 Glossário</a><a class="headerlink" href="#glossario" title="Link permanente para este título">¶</a></h2>
+<dl class="docutils">
+<dt>lista (<em>list</em>)</dt>
+<dd>Uma coleção <em>denominada</em> de objetos, onde cada objeto é identificado por um índice.</dd>
+<dt>índice (<em>index</em>)</dt>
+<dd>Uma variável inteira ou valor que indica um elemento de uma lista.</dd>
+<dt>elemento (<em>element</em>)</dt>
+<dd>Um dos valores em uma lista(ou outra seqüência). O operador colchete seleciona elementos de uma lista.</dd>
+<dt>seqüência (<em>sequence</em>)</dt>
+<dd>Qualquer um dos tipos de dados que consiste de um conjunto ordenado de elementos, com cada elemento identificado por um índice.</dd>
+<dt>lista aninhada (<em>nested list</em>)</dt>
+<dd>Uma lista que é um elemento de uma outra lista.</dd>
+<dt>percurso na lista (<em>list traversal</em>)</dt>
+<dd>O acesso seqüencial de cada elemento em uma lista.</dd>
+<dt>objeto (<em>object</em>)</dt>
+<dd>Um coisa a qual uma variável pode se referir.</dd>
+<dt>apelidos (<em>aliases</em>)</dt>
+<dd>Múltiplas variáveis que contém referências ao mesmo objeto.</dd>
+<dt>clonar (<em>clone</em>)</dt>
+<dd>Criar um novo objeto que possui o mesmo valor de um objeto existente. Copiar a referência a um objeto cria um apelido (<em>alias</em>) mas não clona o objeto.</dd>
+<dt>delimitador (<em>delimiter</em>)</dt>
+<dd>Um caracter uma string utilizados para indicar onde uma string deveria ser dividida(<em>split</em>).</dd>
+</dl>
+</div>
+<div class="section" id="outros-termos-utilizados-neste-capitulo">
+<h2><a class="toc-backref" href="#id19">Outros termos utilizados neste capítulo</a><a class="headerlink" href="#outros-termos-utilizados-neste-capitulo" title="Link permanente para este título">¶</a></h2>
+<p><strong>(XXX esta lista deve ser retirada na versão final)</strong></p>
+<dl class="docutils">
+<dt>XXX <em>has, have</em></dt>
+<dd>possuir (ter?)</dd>
+<dt>XXX <em>there is, there are</em></dt>
+<dd>existir (haver?)</dd>
+<dt>XXX <em>use</em></dt>
+<dd>utilizar (usar?)</dd>
+<dt>XXX string</dt>
+<dd>Utilizei string em itálico, por ser tratar de um termo que não é em português.</dd>
+<dt>XXX <em>enclose</em></dt>
+<dd>envolver???</dd>
+<dt>XXX <em>provide</em></dt>
+<dd>fornecer</dd>
+<dt>XXX <em>return</em></dt>
+<dd>devolve</dd>
+<dt>XXX <em>denoted</em></dt>
+<dd>denotada XXX</dd>
+<dt>XXX <em>disappointing</em></dt>
+<dd>decepcionante (desapontador?)</dd>
+<dt>XXX <em>assign</em></dt>
+<dd>atribuir</dd>
+<dt>XXX <em>change</em></dt>
+<dd>modificar</dd>
+<dt>XXX <em>length</em></dt>
+<dd>comprimento (tamanho?)</dd>
+<dt>XXX <em>print</em></dt>
+<dd>exibir (imprimir?)</dd>
+<dt>XXX <em>membership</em></dt>
+<dd>Não creio que exista uma palavra que traduza este termo. Pelo menos em inglês não encontrei nenhum sinônimo. Vou tentar traduzir explicando o termo dependendo do contexto.</dd>
+<dt>XXX <em>boolean</em></dt>
+<dd>lógico (booleano?)</dd>
+<dt><em>XXX handle</em></dt>
+<dd>tratar</dd>
+<dt><em>XXX proceed</em></dt>
+<dd>agir</dd>
+<dt><em>XXX By default</em></dt>
+<dd>por padrão</dd>
+<dt><em>XXX notice</em></dt>
+<dd>perceber (observar?)</dd>
+<dt>XXX <em>mirabile dictu</em></dt>
+<dd>Alguém tem idéia do que significa isto? Meu latim não chegou lá. :)</dd>
+<dt>XXX <em>traduzir os exemplos?</em></dt>
+<dd>considero melhor fazer a traduzir os exemplos sempre que possível. Só não gostaria de tirar o espírito que levou o autor a utilizar tais exemplos. Podem haver trocadilhos, homenagens e outros sentimentos no autor que não devemos retirar. Desta forma, estou traduzindo todos os termos que consigo entender e encontrar palavras que exprimam a idéia. Nos demais, estou mantendo os termos originais para uma discussão futura.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Capítulo 8: Listas</a><ul>
+<li><a class="reference internal" href="#valores-da-lista">8.1 Valores da lista</a></li>
+<li><a class="reference internal" href="#acessado-elementos">8.2 Acessado elementos</a></li>
+<li><a class="reference internal" href="#comprimento-da-lista">8.3 Comprimento da lista</a></li>
+<li><a class="reference internal" href="#membros-de-uma-lista">8.4 Membros de uma lista</a></li>
+<li><a class="reference internal" href="#listas-e-lacos-for">8.5 Listas e laços <tt class="docutils literal"><span class="pre">for</span></tt></a></li>
+<li><a class="reference internal" href="#operacoes-em-listas">8.6 Operações em listas</a></li>
+<li><a class="reference internal" href="#fatiamento-de-listas">8.7 Fatiamento de listas</a></li>
+<li><a class="reference internal" href="#listas-sao-mutaveis">8.8 Listas são mutáveis</a></li>
+<li><a class="reference internal" href="#remocao-em-lista">8.9 Remoção em lista</a></li>
+<li><a class="reference internal" href="#ojetos-e-valores">8.10 Ojetos e valores</a></li>
+<li><a class="reference internal" href="#apelidos">8.11 Apelidos</a></li>
+<li><a class="reference internal" href="#clonando-listas">8.12 Clonando listas</a></li>
+<li><a class="reference internal" href="#lista-como-parametro">8.13 Lista como parâmetro</a></li>
+<li><a class="reference internal" href="#lista-aninhadas">8.14 Lista aninhadas</a></li>
+<li><a class="reference internal" href="#matrizes">8.15 Matrizes</a></li>
+<li><a class="reference internal" href="#strings-e-listas">8.16 Strings e listas</a></li>
+<li><a class="reference internal" href="#glossario">8.17 Glossário</a></li>
+<li><a class="reference internal" href="#outros-termos-utilizados-neste-capitulo">Outros termos utilizados neste capítulo</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="capitulo_07.html"
+                        title="capítulo anterior">Capítulo 7: Strings</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="capitulo_09.html"
+                        title="próximo capítulo">Capítulo 9: Tuplas</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/capitulo_08.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="capitulo_09.html" title="Capítulo 9: Tuplas"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_07.html" title="Capítulo 7: Strings"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

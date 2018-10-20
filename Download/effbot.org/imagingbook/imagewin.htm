@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The ImageWin&nbsp;Module</title></head><body data-page-id="452"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><p><a href="imagetk.htm">back</a>&#160;<a href="psdraw.htm">next</a></p><h1 class="maintitle">The ImageWin&nbsp;Module</h1></div><div class="yui-ge"><div class="yui-u first"><p>The <b>ImageWin</b> module contains support to create and display
+images on Windows.</p><p>ImageWin can be used with PythonWin and other user interface toolkits
+that provide access to Windows device contexts or window handles.  For
+example, Tkinter makes the window handle available via the <b>winfo_id</b>
+method:</p><pre class="python">
+    dib = ImageWin.Dib(...)
+
+    hwnd = ImageWin.HWND(widget.winfo_id())
+    dib.draw(hwnd, xy)</pre><h2 id="the-dib-class">The Dib Class&#160;<a class="nav" href="#the-dib-class" title="bookmark!">#</a></h2><h3 id="tag-ImageWin.Dib">Dib&#160;<a class="nav" href="#tag-ImageWin.Dib" title="bookmark!">#</a></h3><p><b>ImageWin.Dib(image)</b>
+<span>&#8658; Dib instance</span></p><p><b>ImageWin.Dib(mode, size)</b>
+<span>&#8658; Dib instance</span></p><p>This constructor creates a Windows bitmap from a PIL image, or
+from a given mode and size.</p><p>The mode can be one of &#8220;1&#8221;, &#8220;L&#8221;, or &#8220;RGB&#8221;.</p><p>If the display requires a palette, this constructor creates a
+suitable palette and associates it with the image.  For an &#8220;L&#8221; image,
+128 greylevels are allocated.  For an &#8220;RGB&#8221; image, a 6x6x6 colour cube
+is used, together with 20 greylevels.</p><p>To make sure that palettes work properly under Windows, you must
+call the <b>palette</b> method upon certain events from Windows.  See
+the method descriptions below.</p><h2 id="helper-classes">Helper Classes&#160;<a class="nav" href="#helper-classes" title="bookmark!">#</a></h2><h3 id="tag-ImageWin.HDC">HDC&#160;<a class="nav" href="#tag-ImageWin.HDC" title="bookmark!">#</a></h3><p><b>HDC(dc)</b></p><p>Wraps a HDC integer.  The resulting object can be passed to the
+<b>draw</b> and <b>expose</b> methods.</p><h3 id="tag-ImageWin.HWND">HWND&#160;<a class="nav" href="#tag-ImageWin.HWND" title="bookmark!">#</a></h3><p><b>HWND(dc)</b></p><p>Wraps a HWND integer.  The resulting object can be passed to the
+<b>draw</b> and <b>expose</b> methods, instead of a DC.</p><h2 id="methods">Methods&#160;<a class="nav" href="#methods" title="bookmark!">#</a></h2><h3 id="tag-ImageWin.Dib.expose">expose&#160;<a class="nav" href="#tag-ImageWin.Dib.expose" title="bookmark!">#</a></h3><p><b>dib.expose(hdc)</b></p><p>Expose (draw) the image using the given device context handle.  The
+handle is an integer representing a Windows <b>HDC</b> handle, or an
+<b>HDC</b> or <b>HWND</b> object.</p><p>In PythonWin, you can use the <b>GetHandleAttrib</b> method of the
+<b>CDC</b> class to get a suitable handle.</p><h3 id="tag-ImageWin.Dib.draw">draw&#160;<a class="nav" href="#tag-ImageWin.Dib.draw" title="bookmark!">#</a></h3><p><b>dib.draw(hdc, destination)</b></p><p><b>dib.draw(hdc, destination, source)</b></p><p>Same as <b>expose</b>, but allows you to specify where to draw the
+image, and what part of it to draw.</p><p>The destination and source areas are given as 4-tuple rectangles.
+If the source is omitted, the entire image is copied.  If the source
+and the destination have different sizes, the image is resized as
+necessary.</p><h3 id="tag-ImageWin.Dib.palette">palette&#160;<a class="nav" href="#tag-ImageWin.Dib.palette" title="bookmark!">#</a></h3><p><b>dib.palette(handle)</b></p><p>Installs the palette associated with the image in the given device
+context.  The handle argument is an integer representing a Windows
+<b>HDC</b> handle.</p><p>This method should be called in response to <b>QUERYNEWPALETTE</b> and
+<b>PALETTECHANGED</b> events from Windows.  If this method returns a
+non-zero value, one or more display palette entries were changed since
+the last updated, and the image should be redrawn.</p><h3 id="tag-ImageWin.Dib.paste">paste&#160;<a class="nav" href="#tag-ImageWin.Dib.paste" title="bookmark!">#</a></h3><p><b>dib.paste(image, bbox)</b></p><p>Paste an image into the bitmap image.  The bbox argument is a
+4-tuple defining the left, upper, right, and lower pixel coordinate.
+If None is used instead of a tuple, the entire image is copied.  In
+all cases, the size of the pasted image must match the size of the
+region.  If the image mode does not match the bitmap mode, conversions
+are automatically applied.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p><a href="imagetk.htm">back</a>&#160;<a href="psdraw.htm">next</a></p></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to imagingbook index page.">::: imagingbook :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#the-dib-class">The Dib Class</a></li><li><ul><li><a href="#tag-ImageWin.Dib">Dib</a></li></ul></li><li><a href="#helper-classes">Helper Classes</a></li><li><ul><li><a href="#tag-ImageWin.HDC">HDC</a></li><li><a href="#tag-ImageWin.HWND">HWND</a></li></ul></li><li><a href="#methods">Methods</a></li><li><ul><li><a href="#tag-ImageWin.Dib.expose">expose</a></li><li><a href="#tag-ImageWin.Dib.draw">draw</a></li><li><a href="#tag-ImageWin.Dib.palette">palette</a></li><li><a href="#tag-ImageWin.Dib.paste">paste</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

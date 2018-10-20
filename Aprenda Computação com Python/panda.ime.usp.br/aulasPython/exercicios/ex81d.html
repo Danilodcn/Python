@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Solução 4 do Exercício 8.1 &mdash; Aulas de Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="../_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="../_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="../_static/codemirror.js"></script>
+    <script type="text/javascript" src="../_static/python.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="../_static/assess.js"></script>
+    <script type="text/javascript" src="../_static/animationbase.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="../_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Aulas de Introdução à Computação com Python: Edição Interativa" href="../index.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'aulasPython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="solucao-4-do-exercicio-8-1">
+<h1>Solução 4 do Exercício 8.1<a class="headerlink" href="#solucao-4-do-exercicio-8-1" title="Permalink to this headline">¶</a></h1>
+<p>Nota: Questão 1 da <a class="reference external" href="http://www.ime.usp.br/~mac2166/provas/P1-2014.html&quot;">Prova 1 de 2014</a>.</p>
+<p>Na figura, no plano cartesiano, a região sombreada não inclui as
+linhas de bordo. Note que o eixo <tt class="docutils literal"><span class="pre">y</span></tt> cai bem no meio da figura,
+e usamos o lado do quadrado para indicar as ordenadas
+correspondentes.</p>
+<p>Escreva na página do desenho um programa que lê as coordenadas
+cartesianas <tt class="docutils literal"><span class="pre">(x,</span> <span class="pre">y)</span></tt> de um ponto, ambas do tipo <tt class="docutils literal"><span class="pre">float</span></tt>
+e imprime <tt class="docutils literal"><span class="pre">dentro</span></tt> se esse ponto está na região, e <tt class="docutils literal"><span class="pre">fora</span></tt>
+caso contrário.</p>
+<img alt="../_images/face1.png" src="../_images/face1.png" />
+<p>Solução 4: idêntica a solução 3, explora simetria da figura em relação ao eixo
+<tt class="docutils literal"><span class="pre">y</span></tt> e utiliza um string para a armazenar resposta.
+A variável <tt class="docutils literal"><span class="pre">x_pos</span></tt> pode ser trocada por <tt class="docutils literal"><span class="pre">x</span></tt>.
+A variável dentro e um indicador de passagem <tt class="docutils literal"><span class="pre">str</span></tt>
+(hmmm, gosto discutível...).</p>
+<dl class="docutils">
+<dt>Clique</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="ex81a.html">aqui</a> para ver a 1a solução.</li>
+<li><a class="reference external" href="ex81b.html">aqui</a> para ver a 2a solução.</li>
+<li><a class="reference external" href="ex81c.html">aqui</a> para ver a 3a solução.</li>
+<li><a class="reference external" href="ex81e.html">aqui</a> para ver a 5a solução.</li>
+<li><a class="reference external" href="ex81f.html">aqui</a> para ver a 6a solução.</li>
+</ul>
+</dd>
+</dl>
+<p><a class="reference external" href="../aula08.html#aula08_ex81_tentativa">Voltar</a></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Mar 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

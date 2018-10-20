@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introdução &mdash; Princípios de Desenvolvimeto de Algoritmos em Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Princípios de Desenvolvimeto de Algoritmos em Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Introdução - Resumo de Python" href="01-introducao.html" />
+    <link rel="prev" title="Princípios de Desenvolvimento de Algoritmos em Python" href="index.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'algoritmos',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="01-introducao.html" title="Introdução - Resumo de Python"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Princípios de Desenvolvimento de Algoritmos em Python"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Princípios de Desenvolvimeto de Algoritmos em Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="introducao">
+<h1>Introdução<a class="headerlink" href="#introducao" title="Permalink to this headline">¶</a></h1>
+<p id="values-n-types">Essas notas de aula foram escritas com o objetivo de organizar o estudo
+para alunos da disciplina <em>Princípios de Desenvolvimento de Algoritmos</em>
+em Python.</p>
+<p>A disciplina está estruturado em 3 partes.  O material de cada parte foi
+planejada para ser coberto em 8 a 9 aulas de 100 minutos.  Cada parte
+culmina com a aplicação de uma avaliação com duração aproximada de 100
+minutos ou 120 minutos.</p>
+<p>Para facilitar o estudo individual, esse material foi agrupado em
+semanas, ou seja, sugerimos que cada parte seja coberta em cerca de 1
+mês de estudo.</p>
+<p>O andamento da disciplina é orientado pelos problemas apresentados.
+Cada problema tem o objetivo de familiarizar os estudantes com
+ideias e conceitos práticos de utilização de estruturas de dados e algoritmos
+amplamente utilizados no processo da resolução de problemas computacionais.</p>
+<div class="section" id="pre-requisitos">
+<h2>Pré-requisitos<a class="headerlink" href="#pre-requisitos" title="Permalink to this headline">¶</a></h2>
+<p>A disciplina &#8220;Princípios de Desenvolvimento de Algoritmos em Python&#8221;
+é de nível intermediário e exige os conceitos e habilidades básica de programação.
+que são desenvolvidos em disciplinas de Introdução à Programação, como, por exemplo,
+<a class="reference external" href="http://panda.ime.usp.br/panda/python">Introdução à Computação em Python</a>.</p>
+<p>O material dessa disciplina utiliza a linguagem de programação Python.
+Se sua experiência anterior em programação não é com Python, se a sua
+disciplina de Introdução à Computação baseada em C ou em Java, não se preocupe.
+O fundamental é ter familiaridade com:</p>
+<blockquote>
+<div><ul class="simple">
+<li>variáveis;</li>
+<li>operador de atribuição: <tt class="docutils literal"><span class="pre">=</span></tt>;</li>
+<li>execução condicional, alternativa e em cadeia:
+<tt class="docutils literal"><span class="pre">if</span></tt>, <tt class="docutils literal"><span class="pre">if-else</span></tt> e <tt class="docutils literal"><span class="pre">if-elif-else</span></tt>;</li>
+<li>comandos de repetição: <tt class="docutils literal"><span class="pre">while</span></tt> e <tt class="docutils literal"><span class="pre">for</span></tt>;</li>
+<li>operador de atr</li>
+<li>operadores relacionais: <tt class="docutils literal"><span class="pre">==</span></tt>, <tt class="docutils literal"><span class="pre">!=</span></tt>, <tt class="docutils literal"><span class="pre">&lt;</span></tt>, <tt class="docutils literal"><span class="pre">&gt;</span></tt>, <tt class="docutils literal"><span class="pre">&lt;=</span></tt>, <tt class="docutils literal"><span class="pre">&gt;=</span></tt>;</li>
+<li>operadores lógicos: <tt class="docutils literal"><span class="pre">and</span></tt>, <tt class="docutils literal"><span class="pre">or</span></tt> e <tt class="docutils literal"><span class="pre">not</span></tt>;</li>
+<li>funções: <tt class="docutils literal"><span class="pre">def</span> <span class="pre">...</span></tt>; e</li>
+<li>estruturas indexadas: vetores, matrizes, listas.</li>
+</ul>
+</div></blockquote>
+<p>Durante o andamento da disciplina, vários desses conceitos serão revistos.
+A consulta frequente ao material da disciplina <a class="reference external" href="http://panda.ime.usp.br/panda/python">Introdução à Computação em Python</a> poderá ser de grande valia.</p>
+</div>
+<div class="section" id="objetivos">
+<h2>Objetivos<a class="headerlink" href="#objetivos" title="Permalink to this headline">¶</a></h2>
+<p>Essas notas de aula têm como um de seus objetivos rever e aprofundar o
+<a class="reference external" href="http://en.wikipedia.org/wiki/Computational_thinking">raciocínio aplicado na formulação e resolução de problemas computacionais</a>.
+Um pouco mais detalhadamente, essas notas de aula pretendem
+fazer com que os estudantes:</p>
+<blockquote>
+<div><ul class="simple">
+<li>entendam como problemas complexos podem admitir soluções recursivas simples;</li>
+<li>implementem funções recursivas;</li>
+<li>entendam como recursão é implementada por um sistema computacional;</li>
+<li>entendam como a implementação e representação de dados impactam no
+desempenho (= consumo de tempo e espaço) de algoritmos</li>
+<li>sejam capazes de realizar análises experimentais simples (<em>bechmark</em>) de programas</li>
+<li>sejam capazes de estimar o desempenho de algoritmos através de notação
+assintótica (&#8220;O-grande&#8221;);</li>
+<li>entendam o papel da abstração no processo de resolução de problemas;</li>
+<li>implementem e tenham a noção de tipos abstratos de dados (<em>classes</em>);</li>
+<li>entendam a importância de algoritmos;</li>
+<li>sejam capazes de estimar o consumo de tempo de algoritmos;</li>
+<li>entendam os tipos abstratos de dados pilha, fila e lista;</li>
+<li>sejam capazes de explicar e de implementar buscas sequenciais e binária;</li>
+<li>sejam capazes de explicar e de implementar vários algoritmos de ordenação;</li>
+<li>entendam a ideia de <em>hashing</em> como técnica de busca;</li>
+</ul>
+</div></blockquote>
+<p>O principal objetivo dessa disciplina é criar uma habilidade de
+programação que tenha a capacidade de ser útil no dia a dia de um
+profissional de ciências ou engenharia.</p>
+</div>
+</div>
+<div class="section" id="bibliografia">
+<h1>Bibliografia<a class="headerlink" href="#bibliografia" title="Permalink to this headline">¶</a></h1>
+<p>A bibliografia básica dessa disciplina são as suas notas de aula além do livro
+<a class="reference external" href="http://interactivepython.org/runestone/static/pythonds/index.html">Problem Solving with Algorithms and Data Structures</a>.
+A página  <a class="reference external" href="http://www.ime.usp.br/~pf/algoritmos">Projeto de Algoritmos em C</a> e o livro <a class="reference external" href="http://www.ime.usp.br/~pf/algoritmos-livro/">Algoritmos em linguagem C</a> de
+<a class="reference external" href="http://www.ime.usp.br/~pf">Paulo Feofillof</a>, apesar de utilizar a linguagem C, também são uma referência excelente
+para vários conceitos que veremos. Essas notas de aulas são resumos, adaptações e traduções dos tópicos nesses livros.</p>
+</div>
+<div class="section" id="notas-de-aula">
+<h1>Notas de aula<a class="headerlink" href="#notas-de-aula" title="Permalink to this headline">¶</a></h1>
+<p>Essas notas de aula foram escritas com o objetivo de organizar o estudo
+para alunos da disciplina <em>Princípios de Desenvolvimento de Algoritmos</em>
+em Python.</p>
+<p>A disciplina está estruturado em 3 partes.  O material de cada parte foi
+planejada para ser coberto em 8 a 9 aulas de 100 minutos.  Cada parte
+culmina com a aplicação de uma avaliação com duração aproximada de 100
+minutos ou 120 minutos.</p>
+<p>Para facilitar o estudo individual, esse material foi agrupado em
+semanas, ou seja, sugerimos que cada parte seja coberta em cerca de
+1 mês de estudo.</p>
+<p>Para que estas notas de aula sejam melhor aproveitadas recomenda-se
+que seja lida a seção
+<a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/01-Introducao/introducao.html#formas-especiais-para-rodar-python-nesse-livro">Formas especiais para rodar Python nesse livro</a>
+do livro
+<a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/index.html">Como Pensar como um Cientísta da Computação - Aprendendo com Python: Edição interativa</a></p>
+<a id="videoinfo_thumb" > <img src="_static/activecodethumb.png" /></a>
+<div id="videoinfo" class="video_popup" >
+<video controls  >
+    <source src="http://media.interactivepython.org/thinkcsVideos/activecodelens.mov" type="video/mp4"></source>
+    <source src="http://media.interactivepython.org/thinkcsVideos/activecodelens.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#videoinfo_thumb').click(function(e) {
+         $('#videoinfo').show();
+         $('#videoinfo_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'videoinfo'});
+         // Log the run event
+      });
+   });
+</script>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introdução</a><ul>
+<li><a class="reference internal" href="#pre-requisitos">Pré-requisitos</a></li>
+<li><a class="reference internal" href="#objetivos">Objetivos</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bibliografia">Bibliografia</a></li>
+<li><a class="reference internal" href="#notas-de-aula">Notas de aula</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Princípios de Desenvolvimento de Algoritmos em Python</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="01-introducao.html"
+                        title="next chapter">Introdução - Resumo de Python</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="01-introducao.html" title="Introdução - Resumo de Python"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Princípios de Desenvolvimento de Algoritmos em Python"
+             >previous</a> |</li>
+        <li><a href="index.html">Princípios de Desenvolvimeto de Algoritmos em Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on May 16, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

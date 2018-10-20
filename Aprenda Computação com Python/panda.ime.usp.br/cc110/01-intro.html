@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introdução &#8212; Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Variáveis, expressões e funções de entrada e saída" href="02-expressoes.html" />
+    <link rel="prev" title="Bem-vindos!" href="introducao.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulas',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'cc110',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulas/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="02-expressoes.html" title="Variáveis, expressões e funções de entrada e saída"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="introducao.html" title="Bem-vindos!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="introducao">
+<h1>Introdução<a class="headerlink" href="#introducao" title="Permalink to this headline">¶</a></h1>
+<p id="index-0">As leituras e vídeos sugeridos nessas notas de aula, em geral, contém (muito?)
+mais tópicos do que os vistos durante a aula presencial. Os tópicos não vistos
+na aula serão cobertos em algum momento mais oportuno.</p>
+<p>A maior parte das leituras são links para sessões específicas do livro
+interativo <a class="reference external" href="https://panda.ime.usp.br/pensepy/static/pensepy/index.html">Como pensar como um Cientista da Computação</a>.</p>
+<div class="section" id="topicos">
+<h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul>
+<li><p class="first"><a class="reference external" href="introducao.html">Boas-vindas</a>;</p>
+</li>
+<li><dl class="first docutils">
+<dt>Computação e computadores:</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="http://www.ime.usp.br/~macmulti/historico/">Breve história da computação</a></li>
+<li><a class="reference external" href="http://pt.wikipedia.org/wiki/Computador">O que é um Computador</a></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="livro">
+<h2>Livro<a class="headerlink" href="#livro" title="Permalink to this headline">¶</a></h2>
+<p>Além destas notas e das notas de aula, a bibliografia sugerida  para este curso, é o livro
+<a class="reference external" href="http://interactivepython.org/runestone/static/thinkcspy/index.html">How to Think Like a Computer Scientist - Learning with Python: Interactive Edition</a> do  <a class="reference external" href="http://runestoneinteractive.org/">Runestone Interactive Project</a>  de Brad Miller e David Ranum, Luther College.
+Uma tradução deste livro para o português é <a class="reference external" href="https://panda.ime.usp.br/pensepy/static/pensepy/index.html">Como Pensar Como um Cientista da Computação - Aprendendo com Python: Versão Interativa</a>.</p>
+<p>Neste início recomendamos que seja lido o capítulo <a class="reference external" href="https://panda.ime.usp.br/pensepy/static/pensepy/01-Introducao/introducao.html">Capítulo 1: O Caminho do Programa</a> do livro Como Pensar Como um Cientista da Computação.</p>
+</div>
+<div class="section" id="videos">
+<h2>Vídeos<a class="headerlink" href="#videos" title="Permalink to this headline">¶</a></h2>
+<p>Frequentemente recomendaremos que sejam assistidos alguns vídeos que acreditamos que auxiliarão o seu aprendizado.
+Os vídeos sugeridos serão frequentemente do cursos:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://www.coursera.org/learn/ciencia-computacao-python-conceitos">Introdução à Computação com Python</a>
+do Departamento de Computação do IME-USP no Coursera e</li>
+<li><a class="reference external" href="https://www.pycursos.com/python-para-zumbis/">Python para Zumbis</a> do professor Fernando Masanori da FATEC de São José dos Campos.
+Estes vídeos aparerem com &#8220;[Zumbis]&#8221; no título.</li>
+</ul>
+</div></blockquote>
+<p>Para este início sugerimos que sejam assistidos os vídeos.</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://www.youtube.com/watch?v=rh65Lh5V7S0&amp;list=PLcoJJSvnDgcKpOi_UeneTNTIVOigRQwcn">Introdução à Ciência da Computação com Python</a>;</li>
+<li><a class="reference external" href="https://www.youtube.com/watch?v=LN8ejPwSzkU&amp;index=4&amp;list=PLcoJJSvnDgcKpOi_UeneTNTIVOigRQwcn">Primeiras linhas em Python</a>;</li>
+<li><a class="reference external" href="https://www.youtube.com/watch?v=6La690qlH5w">Apresentação e Motivação Python [Zumbis]</a>;</li>
+<li><a class="reference external" href="https://www.youtube.com/watch?v=GpbkVHV8_64#t=73">Idle no modo interativo (python shell) [Zumbis]</a>.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="primeiros-passos">
+<h2>Primeiros passos<a class="headerlink" href="#primeiros-passos" title="Permalink to this headline">¶</a></h2>
+<p>Para realizar os exercícios desse curso você vai precisar de um
+computador com Python 3.x instalado. Caso ele não possua
+Python (ou a versão adequada), instale o Python 3.x em sua máquina
+seguindo as instruções em: <a class="reference external" href="instalacao.html">Como instalar Python 3.x em seu computador</a>.</p>
+<p>Abra o ambiente de desenvolvimento de programas em Python chamado IDLE, e uma
+janela como a abaixo deve aparecer.</p>
+<img alt="ilustração: Janela do IDLE" src="_images/idle352.png" />
+<p>Depois que a janela do IDLE aparecer, experimente digitar após o <em>prompt</em>
+(<code class="docutils literal"><span class="pre">&gt;&gt;&gt;</span></code>) do Python shell algumas expressões aritméticas como:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<p>para usar o Python shell como uma calculadora, e também
+algumas expressões relacionais que comparam 2 valores ou
+resultados de expressões como:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mi">21</span> <span class="o">==</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">7</span>
+</pre></div>
+</div>
+<p>Experimente executar comparações usando os operadores relacionais abaixo:</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operador</th>
+<th class="head">Descrição</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>==</td>
+<td>igual</td>
+</tr>
+<tr class="row-odd"><td>!=</td>
+<td>diferente</td>
+</tr>
+<tr class="row-even"><td>&gt;</td>
+<td>maior</td>
+</tr>
+<tr class="row-odd"><td>&lt;</td>
+<td>menor</td>
+</tr>
+<tr class="row-even"><td>&gt;=</td>
+<td>maior ou igual</td>
+</tr>
+<tr class="row-odd"><td>&lt;=</td>
+<td>menor ou igual</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><em>Variáveis</em> permitem armazenar resultados. Procure utilizar nomes que sejam <em>significativos</em> para facilitar a leitura de seus programas, como:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pi</span> <span class="o">=</span> <span class="mf">3.14159</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span>
+<span class="go">6.28318</span>
+</pre></div>
+</div>
+<p>O IDLE é uma excelente ambiente de desenvolvimento integrado (IDE = <em>Integrated development environment</em>)
+para escrever programas simples e poderá ser utilizado durante todo o curso para
+escrever as soluções dos problemas propostos.
+No entanto, o uso de uma ferramenta um pouco
+mais poderosa, como o
+<a class="reference external" href="https://panda.ime.usp.br/panda/static/data/python/ide.html">Spyder</a>,
+embora mais difícil de usar inicialmente, pode facilitar
+o desenvolvimento das soluções dos problemas mais complexos.</p>
+<p>Recomendamos também o uso do <em>Python Shell</em> que é o ambiente interativo
+criado na tela inicial do IDLE.
+Ele é muito útil para testar trechos pequenos
+de código sempre que tiver alguma dúvida com relação a um
+comando ou aspecto do Python.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introdução</a><ul>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#livro">Livro</a></li>
+<li><a class="reference internal" href="#videos">Vídeos</a></li>
+<li><a class="reference internal" href="#primeiros-passos">Primeiros passos</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="introducao.html"
+                        title="previous chapter">Bem-vindos!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="02-expressoes.html"
+                        title="next chapter">Variáveis, expressões e funções de entrada e saída</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="02-expressoes.html" title="Variáveis, expressões e funções de entrada e saída"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="introducao.html" title="Bem-vindos!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Jun 12, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

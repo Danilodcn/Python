@@ -1,0 +1,371 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capítulo 15: Conjuntos de objetos &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Capitulo 16: Herança" href="capitulo_16.html" />
+    <link rel="prev" title="Capítulo 14: Classes e métodos" href="capitulo_14.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="capitulo_16.html" title="Capitulo 16: Herança"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_14.html" title="Capítulo 14: Classes e métodos"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="capitulo-15-conjuntos-de-objetos">
+<h1><a class="toc-backref" href="#id1">Capítulo 15: Conjuntos de objetos</a><a class="headerlink" href="#capitulo-15-conjuntos-de-objetos" title="Link permanente para este título">¶</a></h1>
+<div class="contents topic" id="topicos">
+<p class="topic-title first">Tópicos</p>
+<ul class="simple">
+<li><a class="reference external" href="#capitulo-15-conjuntos-de-objetos" id="id1">Capítulo 15: Conjuntos de objetos</a><ul>
+<li><a class="reference external" href="#composicao" id="id2">15.1 Composição</a></li>
+<li><a class="reference external" href="#objetos-carta" id="id3">15.2 Objetos <tt class="docutils literal"><span class="pre">Carta</span></tt></a></li>
+<li><a class="reference external" href="#atributos-de-classe-e-o-metodo-str" id="id4">15.3 Atributos de classe e o método <tt class="docutils literal"><span class="pre">__str__</span></tt></a></li>
+<li><a class="reference external" href="#comparando-cartas" id="id5">15.4 Comparando cartas</a></li>
+<li><a class="reference external" href="#baralhos" id="id6">15.5 Baralhos</a></li>
+<li><a class="reference external" href="#imprimindo-o-baralho" id="id7">15.6 Imprimindo o baralho</a></li>
+<li><a class="reference external" href="#embaralhando" id="id8">15.7 Embaralhando</a></li>
+<li><a class="reference external" href="#removendo-e-distribuindo-cartas" id="id9">15.8 Removendo e distribuindo cartas</a></li>
+<li><a class="reference external" href="#glossario" id="id10">15.9 Glossário</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="composicao">
+<h2><a class="toc-backref" href="#id2">15.1 Composição</a><a class="headerlink" href="#composicao" title="Link permanente para este título">¶</a></h2>
+<p>Até agora, você vio diversos exemplos de composição. Um dos primeiros exemplos foi o uso de uma invocação de método como parte de uma expressão. Outro exemplo é a estrutura aninhada dos comandos: você pode pôr um comando <tt class="docutils literal"><span class="pre">if</span></tt> dentro de um laço <tt class="docutils literal"><span class="pre">while</span></tt>, dentro de outro comando <tt class="docutils literal"><span class="pre">if</span></tt>, e assim por diante.</p>
+<p>Tendo visto este padrão, e tendo aprendido a respeito de listas e objetos, você não deveria ficar surpreso em aprender que você pode criar listas de objetos. Você também pode criar obejtos que contêm listas (como atritos); você pode criar listas que contêm listas; você pode criar objetos que contêm objetos; e assim por diante.</p>
+<p>Neste capítulo e no próximo, você irá ver alguns exemplos destas combinações, usando objetos <tt class="docutils literal"><span class="pre">Carta</span></tt> como exemplo.</p>
+</div>
+<div class="section" id="objetos-carta">
+<h2><a class="toc-backref" href="#id3">15.2 Objetos <tt class="docutils literal"><span class="pre">Carta</span></tt></a><a class="headerlink" href="#objetos-carta" title="Link permanente para este título">¶</a></h2>
+<p>Se você não estiver familiarizado com jogos de cartas, agora é um bom momento para conseguir um baralho, ou então esse capítulo pode não fazer muito sentido. Há 52 cartas em um baralho, cada uma das quais pertence a um dos quatro naipes e a uma das treze posições. Os naipes são Espadas, Copas, Ouros e Paus (em ordem descendente no <em>bridge</em>). As posições são Ás, 2, 3, 4, 5, 6, 7, 8, 9, 10, Valete, Rainha e Rei. Dependendo do jogo, a posição do Ás pode ser maior do que a do Rei ou menor do que a do 2.</p>
+<p>Se quisermos definir um novo objeto para representar uma carta, é óbvio que os atributos devem ser <tt class="docutils literal"><span class="pre">posicao</span></tt> e <tt class="docutils literal"><span class="pre">naipe</span></tt>. Não tão óbvio são os tipos aos quais devem pertencer os atributos. Uma possibilidade é usar strings contendo palavras como &#8220;<tt class="docutils literal"><span class="pre">Espada</span></tt>&#8221; para naipes e &#8220;<tt class="docutils literal"><span class="pre">Rainha</span></tt>&#8221; para posições. Um problema com esta implementação é que não seria fácil comparar cartas para ver qual possui o maior naipe ou posição.</p>
+<p>Uma alternativa é usar inteiros para <strong>codificar</strong> as posições e naipes. &#8220;Codificar&#8221;, neste caso, não significa o mesmo que as pessoas normalmente pensam, que é criptografar ou traduzir para um código secreto. O que um cientista da computação quer dizer com &#8220;codificar&#8221; é &#8220;definir um mapeamento entre uma seqüência de números e os itens que eu quero representar&#8221;. Por exemplo:</p>
+<ul class="simple">
+<li>Espadas -&gt; 3</li>
+<li>Copas   -&gt; 2</li>
+<li>Ouros   -&gt; 1</li>
+<li>Paus    -&gt; 0</li>
+</ul>
+<p>Uma característica óbvia deste mapeamento é que os naipes são mapeados para inteiros na ordem, de modo que nós podemos comparar naipes pela comparação de inteiros. O mapeamento de posições é bastante óbvio. Cada uma das posições numéricas mapeia para o inteiro correspondente e, as cartas com figura são mapeadas conforme abaixo:</p>
+<ul class="simple">
+<li>Valete -&gt; 11</li>
+<li>Rainha -&gt; 12</li>
+<li>Rei    -&gt; 13</li>
+</ul>
+<p>O motivo pelo qual nós estamos usando notação matemática para estes mapeamentos é que eles não são parte do programa Python. Eles são parte do projeto do programa, mas eles nunca aparecem explicitamente no código. A definição de classe para o tipo <tt class="docutils literal"><span class="pre">Carta</span></tt> fica parecida com esta:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Carta</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">naipe</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">posicao</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">naipe</span> <span class="o">=</span> <span class="n">naipe</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">posicao</span> <span class="o">=</span> <span class="n">posicao</span>
+</pre></div>
+</div>
+<p>Como sempre, nós fornecemos um método de inicialização que recebe um parâmetro opcional para cada atributo.</p>
+<p>Para criar um objeto que representa o 3 de Paus, usa-se este comando:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">tresDePaus</span> <span class="o">=</span> <span class="n">Carta</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>O primeiro argumento, 0, representa o naipe de Paus.</p>
+</div>
+<div class="section" id="atributos-de-classe-e-o-metodo-str">
+<h2><a class="toc-backref" href="#id4">15.3 Atributos de classe e o método <tt class="docutils literal"><span class="pre">__str__</span></tt></a><a class="headerlink" href="#atributos-de-classe-e-o-metodo-str" title="Link permanente para este título">¶</a></h2>
+<p>Para imprimir objetos <tt class="docutils literal"><span class="pre">Carta</span></tt> de uma maneira que as pessoas possam facilmente ler, nós gostaríamos de mapear os códigos inteiros para palavras. Uma forma natural de fazer isso é usar listas de strings. Nós atribuímos estas listas para <strong>atributos de classe</strong> no topo da definição de classe:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Carta</span><span class="p">:</span>
+  <span class="n">listaDeNaipes</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Paus&quot;</span><span class="p">,</span> <span class="s">&quot;Ouros&quot;</span><span class="p">,</span> <span class="s">&quot;Copas&quot;</span><span class="p">,</span> <span class="s">&quot;Espadas&quot;</span><span class="p">]</span>
+  <span class="n">listaDePosicoes</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;narf&quot;</span><span class="p">,</span> <span class="s">&quot;Ás&quot;</span><span class="p">,</span> <span class="s">&quot;2&quot;</span><span class="p">,</span> <span class="s">&quot;3&quot;</span><span class="p">,</span> <span class="s">&quot;4&quot;</span><span class="p">,</span> <span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;6&quot;</span><span class="p">,</span> <span class="s">&quot;7&quot;</span><span class="p">,</span>
+                     <span class="s">&quot;8&quot;</span><span class="p">,</span> <span class="s">&quot;9&quot;</span><span class="p">,</span> <span class="s">&quot;10&quot;</span><span class="p">,</span> <span class="s">&quot;Valete&quot;</span><span class="p">,</span> <span class="s">&quot;Rainha&quot;</span><span class="p">,</span> <span class="s">&quot;Rei&quot;</span><span class="p">]</span>
+
+<span class="c"># método init omitido</span>
+
+<span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">listaDePosicoes</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">posicao</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot; de &quot;</span> <span class="o">+</span>
+          <span class="bp">self</span><span class="o">.</span><span class="n">ListaDeNaipes</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">naipe</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Um atributo de classe é definido fora de qualquer método, e ele pode ser acessado por quaisquer métodos da classe.</p>
+<p>Dentro de <tt class="docutils literal"><span class="pre">__str__</span></tt>, nós podemos usar <tt class="docutils literal"><span class="pre">listaDeNaipes</span></tt> e <tt class="docutils literal"><span class="pre">listaDePosicoes</span></tt> para mapear os valores numéricos de <tt class="docutils literal"><span class="pre">naipe</span></tt> e <tt class="docutils literal"><span class="pre">posicao</span></tt> para strings. Por exemplo, a expressão <tt class="docutils literal"><span class="pre">self.listaDeNaipes[self.naipe]</span></tt> significa &#8220;use o atributo <tt class="docutils literal"><span class="pre">naipe</span></tt> do objeto <tt class="docutils literal"><span class="pre">self</span></tt> como um índice para o atributo de classe chamado <tt class="docutils literal"><span class="pre">listaDeNaipes</span></tt>, e selecione a string apropriada&#8221;.</p>
+<p>O motivo para o &#8220;<tt class="docutils literal"><span class="pre">narf</span></tt>&#8221; no primeiro elemento em <tt class="docutils literal"><span class="pre">listaDePosicoes</span></tt> é preencher o lugar do 0-ésimo elemento da lista, que nunca será usado. As únicas posições válidas são de 1 a 13. Este item desperdiçado não é inteiramente necessário. Nós poderíamos ter iniciado com 0, como é normal. Porém, é menos confuso codificar 2 como 2, 3 como 3, e assim por diante.</p>
+<p>Com os métodos que nós temos até agora, nós podemos criar e imprimir cartas:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">carta1</span> <span class="o">=</span> <span class="n">Carta</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">carta1</span>
+<span class="go">Valete de Ouros</span>
+</pre></div>
+</div>
+<p>Atributos de classe como <tt class="docutils literal"><span class="pre">listaDeNaipes</span></tt> são compartilhados por todos os objetos <tt class="docutils literal"><span class="pre">Carta</span></tt>. A vantagem disso é que nós podemos usar qualquer objeto <tt class="docutils literal"><span class="pre">Carta</span></tt> para acessar os atributos de classe:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">carta2</span> <span class="o">=</span> <span class="n">Carta</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">carta2</span>
+<span class="go">3 de Ouros</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">carta2</span><span class="o">.</span><span class="n">listaDeNaipes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">Ouros</span>
+</pre></div>
+</div>
+<p>A desvantagem é que se nós modificarmos um atributo de classe, isso afetará cada instância da classe. Por exemplo, se nós decidirmos que &#8220;Valete de Ouros&#8221; deveria realmente se chamar &#8220;Valete de Baleias Rodopiantes&#8221;, nós poderíamos fazer isso:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">carta1</span><span class="o">.</span><span class="n">listaDeNaipes</span> <span class="o">=</span> <span class="s">&quot;Baleias Rodopiantes&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">carta1</span>
+<span class="go">3 de Baleias Rodopiantes</span>
+</pre></div>
+</div>
+<p>O problema é que <em>todos</em> os Ouros se tornam Baleias Rodopiantes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">carta2</span>
+<span class="go">3 de Baleias Rodopiantes</span>
+</pre></div>
+</div>
+<p>Normalmente, não é uma boa idéia modificar atributos de classe.</p>
+</div>
+<div class="section" id="comparando-cartas">
+<h2><a class="toc-backref" href="#id5">15.4 Comparando cartas</a><a class="headerlink" href="#comparando-cartas" title="Link permanente para este título">¶</a></h2>
+<p>Para tipos primitivos, existem operadores condicionais (&lt;, &gt;, ==, etc.) que comparam valores e determinam quando um é maior que, menor que ou igual a outro. Para tipos definidos pelo usuário, nós podemos sobrescrever o comportamento dos operadores pré-definidos fornecendo um método <tt class="docutils literal"><span class="pre">__cmp__</span></tt>. Por convenção, <tt class="docutils literal"><span class="pre">__cmp__</span></tt> recebe dois parâmetros, <tt class="docutils literal"><span class="pre">self</span></tt> e <tt class="docutils literal"><span class="pre">other</span></tt>, e retorna 1 se o primeiro objeto for maior, -1 se o segundo objeto for maior, e 0 se eles forem iguais.</p>
+<p>Alguns tipos são totalmente ordenados, o que significa que nós podemos comparar quaisquer dois elementos e dizer qual é o maior. Por exemplo, os inteiros e os números de ponto flutuante são totalmente ordenados. Alguns conjuntos são não-ordenados, o que significa que não existe maneira significativa de dizer que um elemento é maior que o outro. Por exemplo, as frutas são não-ordenadas, e é por isso que não podemos comparar maçãs e laranjas.</p>
+<p>O conjunto de cartas de jogo é parcialmente ordenado, o que significa que às vezes você pode comparar cartas, e às vezes não. Por exemplo, você sabe que o 3 de Paus é maior do que o 2 de Paus, e que o 3 de Ouros é maior do que o 3 de Paus. Mas qual é o melhor, o 3 de Paus ou o 2 de Ouros? Um tem uma posição maior, mas o outro tem um naipe maior.</p>
+<p>Para tornar as cartas comparáveis, você tem que decidir o que é mais importante: posição ou naipe. Para ser honesto, a escolha é arbitrária. Por questão de escolha, nós iremos dizer que naipe é mais importante, porque um baralho de cartas novo vem ordenado com todas as cartas de Paus juntas, seguidas pelas de Ouros, e assim por diante.</p>
+<p>Com essa decisão, nós podemos escrever <tt class="docutils literal"><span class="pre">__cmp__</span></tt>:</p>
+<div class="highlight-python"><pre>def __cmp__(self, other):
+  # verificar os naipes
+  if self.naipe &gt; other.naipe: return 1
+  if self.naipe &lt; other.naipe: return -1
+  # as cartas têm o mesmo naipe... verificar as posições
+  if self.posicao &gt; other.posicao: return 1
+  if self.posicao &lt; other.posicao&gt; return -1
+  # as posições são iguais... é um empate
+  return 0</pre>
+</div>
+<p>Nesta ordenação, Ases são menores do que 2.</p>
+<blockquote>
+<em>Como um exercício, modifique ``__cmp__``, de modo que os Ases sejam maiores do que os Reis.</em></blockquote>
+</div>
+<div class="section" id="baralhos">
+<h2><a class="toc-backref" href="#id6">15.5 Baralhos</a><a class="headerlink" href="#baralhos" title="Link permanente para este título">¶</a></h2>
+<p>Agora que nós temos objetos para representar <tt class="docutils literal"><span class="pre">Cartas</span></tt>, o próximo passo lógico é definir uma classe para representar um <tt class="docutils literal"><span class="pre">Baralho</span></tt>. É claro que um baralho é formado por cartas; portanto, cada objeto <tt class="docutils literal"><span class="pre">Baralho</span></tt> irá conter uma lista de cartas como um atributo.</p>
+<p>A seguir, damos uma definição para a classe <tt class="docutils literal"><span class="pre">Baralho</span></tt>. O método de inicialização cria o atributo <tt class="docutils literal"><span class="pre">cartas</span></tt> e gera o conjunto padrão de 52 cartas:</p>
+<div class="highlight-python"><pre>classe Baralho
+  def __init__(self):
+    self.cartas = []
+    for naipe in range(4):
+      for posicao in range(1, 14):
+        self.cartas.append(Carta(naipe, posicao))</pre>
+</div>
+<p>A maneira mais fácil de popular o baralho é com um laço aninhado. O laço externo enumera os naipes de 0 até 3. O laço interno enumera as posições de 1 até 13. Como o laço externo repete quatro vezes e o laço interno 13 vezes, o número total de vezes que o corpo é executado é 52 (13 vezes quatro). Cada iteração cria uma nova instância de <tt class="docutils literal"><span class="pre">Carta</span></tt> com o naipe e posição atuais e a inclui na lista <tt class="docutils literal"><span class="pre">cartas</span></tt>.</p>
+<p>O método <tt class="docutils literal"><span class="pre">append</span></tt> trabalha sobre listas mas não, obviamente, sobre tuplas.</p>
+</div>
+<div class="section" id="imprimindo-o-baralho">
+<h2><a class="toc-backref" href="#id7">15.6 Imprimindo o baralho</a><a class="headerlink" href="#imprimindo-o-baralho" title="Link permanente para este título">¶</a></h2>
+<p>Como sempre, quando nós definimos um novo tipo de objeto, nós gostaríamos de ter um método para imprimir o conteúdo de um objeto. Para imprimir um <tt class="docutils literal"><span class="pre">Baralho</span></tt>, nós percorremos a lista e imprimimos cada <tt class="docutils literal"><span class="pre">Carta</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Baralho</span><span class="p">:</span>
+  <span class="o">...</span>
+  <span class="k">def</span> <span class="nf">imprimirBaralho</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">carta</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cartas</span><span class="p">:</span>
+      <span class="k">print</span> <span class="n">carta</span>
+</pre></div>
+</div>
+<p>Aqui, e a partir daqui, as reticências (...) indicam que nós omitimos os outros métodos da classe.</p>
+<p>Como uma alternativa a <tt class="docutils literal"><span class="pre">imprimirBaralho</span></tt>, nós poderíamos escrever um método <tt class="docutils literal"><span class="pre">__str__</span></tt> para a classe <tt class="docutils literal"><span class="pre">Baralho</span></tt>. A vantagem de <tt class="docutils literal"><span class="pre">__str__</span></tt> é que ela é mais flexível. Em vez de apenas imprimir o conteúdo de um objeto, ela gera uma representação em string que outras partes do programa podem manipular antes de imprimir ou armazenar para uso posterior.</p>
+<p>Abaixo, uma versão de <tt class="docutils literal"><span class="pre">__str__</span></tt> que devolve uma representação em string de um <tt class="docutils literal"><span class="pre">Baralho</span></tt>. Para adicionar um pouco de estilo, ela distribui as cartas em uma cascata, na qual cada carta é indentada um espaço a mais do que a carta anterior:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Baralho</span><span class="p">:</span>
+  <span class="o">...</span>
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cartas</span><span class="p">)):</span>
+      <span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">+</span> <span class="s">&quot; &quot;</span><span class="o">*</span><span class="n">i</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cartas</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span>
+    <span class="k">return</span> <span class="n">s</span>
+</pre></div>
+</div>
+<p>Este exemplo demonstra diversas características. Primeiro, em vez de percorrer <tt class="docutils literal"><span class="pre">self.cartas</span></tt> e atribuir cada carta a uma variável, nós estamos usando <tt class="docutils literal"><span class="pre">i</span></tt> como uma variável de laço e um índice para a lista de cartas.</p>
+<p>Segundo, nós estamos usando o operador de multiplicação de strings para indentar cada carta com um espaço adicional com relação à anterior. A expressão <tt class="docutils literal"><span class="pre">&quot;</span> <span class="pre">&quot;*i</span></tt> produz um número de espaços igual ao valor atual de <tt class="docutils literal"><span class="pre">i</span></tt>.</p>
+<p>Terceiro, em vez de usar o comando <tt class="docutils literal"><span class="pre">print</span></tt> para imprimir as cartas, nós usamos a função <tt class="docutils literal"><span class="pre">str</span></tt>. Passar um objeto como um argumento para <tt class="docutils literal"><span class="pre">str</span></tt> equivale a invocar o método <tt class="docutils literal"><span class="pre">__str__</span></tt> sobre o objeto.</p>
+<p>Finalmente, nós estamos usando a variável <tt class="docutils literal"><span class="pre">s</span></tt> como um <strong>acumulador</strong>. Inicialmente, <tt class="docutils literal"><span class="pre">s</span></tt> é a string vazia. A cada repetição do laço, uma nova string é gerada e concatenada com o valor antigo de <tt class="docutils literal"><span class="pre">s</span></tt> para obter um novo valor. Quando o laço termina, <tt class="docutils literal"><span class="pre">s</span></tt> contém a representação em string completa do <tt class="docutils literal"><span class="pre">Baralho</span></tt>, que se parece com:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">baralho</span> <span class="o">=</span> <span class="n">Baralho</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">Baralho</span>
+<span class="go">Ás de Paus</span>
+<span class="go"> 2 de Paus</span>
+<span class="go">  3 de Paus</span>
+<span class="go">   4 de Paus</span>
+<span class="go">    5 de Paus</span>
+<span class="go">     6 de Paus</span>
+<span class="go">      7 de Paus</span>
+<span class="go">       8 de Paus</span>
+<span class="go">        9 de Paus</span>
+<span class="go">         10 de Paus</span>
+<span class="go">          Valete de Paus</span>
+<span class="go">           Rainha de Paus</span>
+<span class="go">            Rei de Paus</span>
+<span class="go">             Ás de Ouros</span>
+</pre></div>
+</div>
+<p>E assim por diante. Mesmo que o resultado apareça em 52 linhas, é uma string longa que contém <em>newlines</em>.</p>
+</div>
+<div class="section" id="embaralhando">
+<h2><a class="toc-backref" href="#id8">15.7 Embaralhando</a><a class="headerlink" href="#embaralhando" title="Link permanente para este título">¶</a></h2>
+<p>Se um baralho estiver perfeitamente embaralhado, então cada carta tem a mesma probabilidade de aparecer em qualquer lugar no baralho, e qualquer localização no baralho tem a mesma probabilidade de conter qualquer carta.</p>
+<p>Para embaralhar as cartas, nós usaremos a função <tt class="docutils literal"><span class="pre">randrange</span></tt> do módulo <tt class="docutils literal"><span class="pre">random</span></tt>. Com dois argumentos inteiros, <tt class="docutils literal"><span class="pre">a</span></tt> e <tt class="docutils literal"><span class="pre">b</span></tt>, <tt class="docutils literal"><span class="pre">randrange</span></tt> escolhe um inteiro aleatório no intervalo <tt class="docutils literal"><span class="pre">a</span> <span class="pre">&lt;=</span> <span class="pre">x</span> <span class="pre">&lt;</span> <span class="pre">b</span></tt>. Como o limite superior é estritamente menor que <tt class="docutils literal"><span class="pre">b</span></tt>, nós podemos usar o comprimento de uma lista como o segundo parâmetro, e nós garantimos que o índice sempre será válido. Por exemplo, esta expressão escolhe o índice de uma carta aleatória em um baralho:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cartas</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Uma maneira fácil de embaralhar as cartas é percorrer a lista e trocar cada carta por outra escolhida aleatoriamente. É possível que a carta seja trocada por ela mesma, mas isso não é problema. Na verdade, se nós excluíssemos essa possibilidade, a ordem das cartas não seria totalmente aleatória:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Baralho</span><span class="p">:</span>
+  <span class="o">...</span>
+  <span class="k">def</span> <span class="nf">embaralhar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">random</span>
+    <span class="n">nCartas</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cartas</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nCartas</span><span class="p">):</span>
+      <span class="n">j</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">nCartas</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">cartas</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cartas</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cartas</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cartas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Em vez de assumir que existem 52 cartas no baralho, nós obtivemos o comprimento real da lista e o guardamos na variável <tt class="docutils literal"><span class="pre">nCartas</span></tt>.</p>
+<p>Para cada carta no baralho, nós escolhemos uma carta aleatória dentre as cartas que ainda não foram embaralhadas. Então, nós trocamos a carta atual (<tt class="docutils literal"><span class="pre">i</span></tt>) pela carta selecionada (<tt class="docutils literal"><span class="pre">j</span></tt>). Para trocar as cartas, nós usamos uma atribuição de tupla, como visto na Seção 9.2:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">cartas</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cartas</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cartas</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">cartas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><em>Como exercício, reescreva esta linha de código sem usar uma atribuição de seqüência.</em></p>
+</div>
+<div class="section" id="removendo-e-distribuindo-cartas">
+<h2><a class="toc-backref" href="#id9">15.8 Removendo e distribuindo cartas</a><a class="headerlink" href="#removendo-e-distribuindo-cartas" title="Link permanente para este título">¶</a></h2>
+<p>Outro método que pode ser útil para a classe <tt class="docutils literal"><span class="pre">Baralho</span></tt> é <tt class="docutils literal"><span class="pre">removerCarta</span></tt>. Ele recebe uma carta como parâmetro, remove-a do baralho e retorna verdadeiro (1), se a carta estava no baralho e falso (0), caso contrário:</p>
+<div class="highlight-python"><pre>class Baralho:
+  ...
+  def removerCarta(self, carta):
+    if carta in self.cartas:
+      self.cartas.remove(carta)
+      return 1
+    else
+      return 0</pre>
+</div>
+<p>O operador <tt class="docutils literal"><span class="pre">in</span></tt> retorna verdadeiro se o primeiro operando estiver contido no segundo, que deve ser uma lista ou uma tupla. Se o primeiro operando for um objeto, Python usa o método <tt class="docutils literal"><span class="pre">__cmp__</span></tt> do objeto para determinar igualdade com os itens da lista. Como o método <tt class="docutils literal"><span class="pre">__cmp__</span></tt> da classe <tt class="docutils literal"><span class="pre">Carta</span></tt> verifica por igualdade profunda, o método <tt class="docutils literal"><span class="pre">removerCarta</span></tt> também testa por igualdade profunda.</p>
+<p>Para distribuir as cartas, nós iremos remover e devolver a carta do topo. O método de lista <tt class="docutils literal"><span class="pre">pop</span></tt> fornece uma maneira conveniente de fazer isso:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Baralho</span><span class="p">:</span>
+  <span class="o">...</span>
+  <span class="k">def</span> <span class="nf">distribuirCarta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cards</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Na verdade, <tt class="docutils literal"><span class="pre">pop</span></tt> remove a <em>última</em> carta da lista. Portanto, nós estamos realmente distribuindo as cartas do fim para o início do baralho.</p>
+<p>Uma última operação que nós poderíamos querer é a função booleana <tt class="docutils literal"><span class="pre">estahVazio</span></tt>, que retorna verdadeiro se o baralho não contém cartas:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Baralho</span><span class="p">:</span>
+  <span class="o">...</span>
+  <span class="k">def</span> <span class="nf">estahVazio</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cartas</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="glossario">
+<h2><a class="toc-backref" href="#id10">15.9 Glossário</a><a class="headerlink" href="#glossario" title="Link permanente para este título">¶</a></h2>
+<dl class="docutils">
+<dt><strong>codificar</strong> (<em>encode</em>)</dt>
+<dd>Representar um conjunto de valores usando outro conjunto de valores,  construindo um mapeamento entre eles.</dd>
+<dt><strong>atributo de classe</strong> (<em>class atribute</em>)</dt>
+<dd>Uma variável que é definida dentro de uma definição de classe, mas fora de qualquer método. Atributos de classe podem ser acessados a partir de qualquer método da classe e são compartilhados por todas as instâncias da classe.</dd>
+<dt><strong>acumulador</strong> (<em>accumulator</em>)</dt>
+<dd>Uma variável usada em um laço para acumular uma série de valores, para, por exemplo, concatená-los em uma string ou somá-los a uma soma em andamento.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Capítulo 15: Conjuntos de objetos</a><ul>
+<li><a class="reference internal" href="#composicao">15.1 Composição</a></li>
+<li><a class="reference internal" href="#objetos-carta">15.2 Objetos <tt class="docutils literal"><span class="pre">Carta</span></tt></a></li>
+<li><a class="reference internal" href="#atributos-de-classe-e-o-metodo-str">15.3 Atributos de classe e o método <tt class="docutils literal"><span class="pre">__str__</span></tt></a></li>
+<li><a class="reference internal" href="#comparando-cartas">15.4 Comparando cartas</a></li>
+<li><a class="reference internal" href="#baralhos">15.5 Baralhos</a></li>
+<li><a class="reference internal" href="#imprimindo-o-baralho">15.6 Imprimindo o baralho</a></li>
+<li><a class="reference internal" href="#embaralhando">15.7 Embaralhando</a></li>
+<li><a class="reference internal" href="#removendo-e-distribuindo-cartas">15.8 Removendo e distribuindo cartas</a></li>
+<li><a class="reference internal" href="#glossario">15.9 Glossário</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="capitulo_14.html"
+                        title="capítulo anterior">Capítulo 14: Classes e métodos</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="capitulo_16.html"
+                        title="próximo capítulo">Capitulo 16: Herança</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/capitulo_15.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="capitulo_16.html" title="Capitulo 16: Herança"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_14.html" title="Capítulo 14: Classes e métodos"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,185 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1. Introdução &mdash; Python v2.7.2 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.7.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Python v2.7.2 documentation"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="top" title="Python v2.7.2 documentation" href="../index.html" />
+    <link rel="up" title="The Python Standard Library" href="index.html" />
+    <link rel="next" title="2. Built-in Functions" href="functions.html" />
+    <link rel="prev" title="The Python Standard Library" href="index.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+ 
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="functions.html" title="2. Built-in Functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="The Python Standard Library"
+             accesskey="P">previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">Python v2.7.2 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">The Python Standard Library</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="introducao">
+<span id="library-intro"></span><h1>1. Introdução<a class="headerlink" href="#introducao" title="Permalink to this headline">¶</a></h1>
+<p>A &#8220;Biblioteca Python&#8221; contém vários tipos diferentes de componentes.</p>
+<p>Ela contém tipos de dados que normalmente seriam considerados parte do
+&#8220;núcleo&#8221; de uma linguagem, como números e listas. Para esses tipos, o núcleo
+da linguagem Python define a forma dos literais e impõe algumas restrições em
+suas semânticas, mas sem definí-las totalmente. (Por outro lado, o núcleo da
+linguagem define propriedades sintáticas como a escrita e as prioridades dos
+operadores.)</p>
+<p>A biblioteca também contém funções embutidas e exceções &#8212; objetos que podem
+ser usados por qualquer código Python sem a necessidade de uma instrução
+<a class="reference internal" href="../reference/simple_stmts.html#import"><tt class="xref std std-keyword docutils literal"><span class="pre">import</span></tt></a>. Algumas delas são definidas pelo núcleo da linguagem, mas
+muitas não são essenciais para a semântica principal e são descritas apenas
+neste manual.</p>
+<p>Entretanto, a maior parte da biblioteca é composta por uma coleção de módulos.
+Existem várias maneiras de dissecar esta coleção. Alguns módulos são escritos
+em linguagem C e estão embutidos no interpretador Python; outros são escritos
+em Python e importados na forma de código fonte. Alguns módulos fornecem
+interfaces que são muito específicas para o Python, como imprimir um traceback
+(situação da pilha de execução); alguns fornecem interfaces que são
+específicas para um sistema operacional em particular, como o acesso a um
+hardware específico; outros fornecem interfaces que são específicas para um
+domínio de aplicação, como a Web. Alguns módulos estão disponíveis em todas as
+versões e implementações de Python; outros só estão disponíveis quando o
+sistema em questão os suporta ou necessita deles; outros módulos, ainda, estão
+disponíveis apenas quando uma determinada opção de configuração foi escolhida
+quando o Python estava sendo compilado e instalado.</p>
+<p>Esse manual está organizado &#8220;de dentro para fora&#8221;: primeiro descreve os tipos
+de dados embutidos, depois as funções e exceções embutidas, e finalmente os
+módulos, agrupados em capítulos de módulos relacionados. A ordem dos
+capítulos, assim como a ordem dos módulos dentro de cada capítulo é geralmente
+do mais relevante para o menos importante.</p>
+<p>Isso significa que se você começar a ler esse manual desde o princípio, e
+pular para o próximo capítulo quando ficar chato, terá uma visão geral bem
+razoável dos módulos disponíveis e das áreas de aplicação que são suportadas
+pela biblioteca do Python. Naturalmente, não é <em>necessário</em> lê-lo como um
+romance &#8212; é possível navegar pelo índice (no início do manual), ou procurar
+uma função específica, módulo ou termo no índice remissivo (no final). E,
+finalmente, se gostar de aprender sobre assuntos aleatórios, escolha uma
+página ao acaso (veja o módulo <a class="reference internal" href="random.html#module-random" title="random: Generate pseudo-random numbers with various common distributions."><tt class="xref py py-mod docutils literal"><span class="pre">random</span></tt></a>) e leia uma ou duas seções.
+Independente da ordem que esse manual for lido, seria útil se começasse pelo
+capítulo <a class="reference internal" href="functions.html#built-in-funcs"><em>Built-in Functions</em></a>, já que todo o restante do material pressupõe
+familiaridade com essa seção.</p>
+<p>Vamos começar o show!</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">The Python Standard Library</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="functions.html"
+                        title="next chapter">2. Built-in Functions</a></p>
+<h3>This Page</h3>
+<ul class="this-page-menu">
+  <li><a href="../bugs.html">Report a Bug</a></li>
+  <li><a href="../_sources/library/intro.txt"
+         rel="nofollow">Show Source</a></li>
+</ul>
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="functions.html" title="2. Built-in Functions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="The Python Standard Library"
+             >previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">Python v2.7.2 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >The Python Standard Library</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+    &copy; <a href="../copyright.html">Copyright</a> 1990-2012, Python Software Foundation.
+    <br />
+    The Python Software Foundation is a non-profit corporation.  
+    <a href="http://www.python.org/psf/donations/">Please donate.</a>
+    <br />
+    Last updated on Oct 15, 2012.
+    <a href="../bugs.html">Found a bug</a>?
+    <br />
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Exercício 3.2 &#8212; Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="../_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="../_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="../_static/codemirror.js"></script>
+    <script type="text/javascript" src="../_static/python.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="../_static/assess.js"></script>
+    <script type="text/javascript" src="../_static/animationbase.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="../_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="Introdução à Computação com Python: Edição Interativa" href="../index.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulas',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'cc110',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulas/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="exercicio-3-2">
+<h1>Exercício 3.2<a class="headerlink" href="#exercicio-3-2" title="Permalink to this headline">¶</a></h1>
+<p>Dados um número inteiro <code class="docutils literal"><span class="pre">n</span></code>, <code class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>, e um dígito
+<code class="docutils literal"><span class="pre">d</span></code>. <code class="docutils literal"><span class="pre">0</span> <span class="pre">&lt;=</span> <span class="pre">d</span> <span class="pre">&lt;=</span> <span class="pre">9</span></code>, determinar quantas vezes
+<code class="docutils literal"><span class="pre">d</span></code> ocorre em <code class="docutils literal"><span class="pre">n</span></code>.</p>
+<p>Exemplo 1:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Digite</span> <span class="n">o</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">n</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="mi">63543</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Digite</span> <span class="n">o</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">d</span> <span class="p">(</span><span class="mi">0</span><span class="o">&lt;=</span><span class="n">d</span><span class="o">&lt;=</span><span class="mi">9</span><span class="p">):</span> <span class="mi">3</span>
+<span class="go">O dígito 3 ocorre 2 vezes em  63543</span>
+</pre></div>
+</div>
+<p>Exemplo 2:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Digite</span> <span class="n">o</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">n</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Digite</span> <span class="n">o</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">d</span> <span class="p">(</span><span class="mi">0</span><span class="o">&lt;=</span><span class="n">d</span><span class="o">&lt;=</span><span class="mi">9</span><span class="p">):</span> <span class="mi">0</span>
+<span class="go">O dígito 0 ocorre 0 vezes em  0</span>
+</pre></div>
+</div>
+<p>Exemplo 3:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Digite</span> <span class="n">o</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">n</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="mo">0110</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Digite</span> <span class="n">o</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">d</span> <span class="p">(</span><span class="mi">0</span><span class="o">&lt;=</span><span class="n">d</span><span class="o">&lt;=</span><span class="mi">9</span><span class="p">):</span> <span class="mi">0</span>
+<span class="go">O dígito 0 ocorre 1 vezes em  110</span>
+</pre></div>
+</div>
+<p>Dica: para resolver esse exercício utilize o operador &#8220;//&#8221;, que
+realiza a divisão inteira. Assim:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span> <span class="o">%</span> <span class="mi">3</span> <span class="n">é</span> <span class="mi">0</span>
+<span class="mi">5</span> <span class="o">%</span> <span class="mi">3</span> <span class="n">é</span> <span class="mi">1</span>
+<span class="mi">8</span> <span class="o">%</span> <span class="mi">3</span> <span class="n">é</span> <span class="mi">2</span>
+<span class="mi">19</span> <span class="o">%</span> <span class="mi">10</span> <span class="n">é</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Solução:</p>
+
+<div id="aula03_ex2_sol1" >
+<textarea cols="50" rows="12" id="aula03_ex2_sol1_code" class="active_code">
+n = int(input("Digite o valor de n (n > 0): "))
+d = int(input("Digite o valor de d (0<=d<=9): "))
+
+conta_digito = 0
+n_salvo = n
+while n > 0:
+    dig = n % 10
+    n = n // 10
+    if dig == d:
+        conta_digito = conta_digito + 1
+
+print("O digito", d, "ocorre", conta_digito, "vezes em ", n_salvo)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula03_ex2_sol1)</span> </p>
+<button onclick="runit('aula03_ex2_sol1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula03_ex2_sol1');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula03_ex2_sol1');">Load</button>
+<br />
+
+<canvas id="aula03_ex2_sol1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula03_ex2_sol1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Observe a simulação dessa solução para <cite>n = 63543</cite> e <cite>d = 3</cite>.</p>
+
+<div id="aula03_ex2_codelens"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (aula03_ex2_codelens)</span> </p>
+<script type="text/javascript">
+var aula03_ex2_codelens_trace = {"code": "n = 63543\nd = 3\n\nconta_digito = 0\nn_salvo = n\nwhile n > 0:\n    dig = n % 10\n    n = n // 10\n    if dig == d:\n        conta_digito = conta_digito + 1\n\nprint(\"O digito\", d, \"ocorre\", conta_digito, \"vezes em \", n_salvo)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["n"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 63543}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["n", "d"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"d": 3, "n": 63543}, "heap": {}, "line": 4, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"conta_digito": 0, "d": 3, "n": 63543}, "heap": {}, "line": 5, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"conta_digito": 0, "n": 63543, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 6, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"conta_digito": 0, "n": 63543, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 7, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 63543, "conta_digito": 0, "dig": 3, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 8, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 6354, "conta_digito": 0, "dig": 3, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 9, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 6354, "conta_digito": 0, "dig": 3, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 10, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 6354, "conta_digito": 1, "dig": 3, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 6, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 6354, "conta_digito": 1, "dig": 3, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 7, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 6354, "conta_digito": 1, "dig": 4, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 8, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 635, "conta_digito": 1, "dig": 4, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 9, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 635, "conta_digito": 1, "dig": 4, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 6, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 635, "conta_digito": 1, "dig": 4, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 7, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 635, "conta_digito": 1, "dig": 5, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 8, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 63, "conta_digito": 1, "dig": 5, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 9, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 63, "conta_digito": 1, "dig": 5, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 6, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 63, "conta_digito": 1, "dig": 5, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 7, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 63, "conta_digito": 1, "dig": 3, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 8, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 6, "conta_digito": 1, "dig": 3, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 9, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 6, "conta_digito": 1, "dig": 3, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 10, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 6, "conta_digito": 2, "dig": 3, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 6, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 6, "conta_digito": 2, "dig": 3, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 7, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 6, "conta_digito": 2, "dig": 6, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 8, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 0, "conta_digito": 2, "dig": 6, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 9, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 0, "conta_digito": 2, "dig": 6, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 6, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"n": 0, "conta_digito": 2, "dig": 6, "n_salvo": 63543, "d": 3}, "heap": {}, "line": 12, "event": "step_line"}, {"ordered_globals": ["n", "d", "conta_digito", "n_salvo", "dig"], "stdout": "('O digito', 3, 'ocorre', 2, 'vezes em ', 63543)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"n_salvo": 63543, "conta_digito": 2, "dig": 6, "d": 3, "n": 0}, "heap": {}, "line": 12, "event": "return"}]};
+var aula03_ex2_codelens_vis;
+
+$(document).ready(function() {
+    aula03_ex2_codelens_vis = new ExecutionVisualizer('aula03_ex2_codelens',aula03_ex2_codelens_trace,
+                                {embeddedMode: false,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(aula03_ex2_codelens_vis,'aula03_ex2_codelens');
+    allVisualizers.push(aula03_ex2_codelens_vis);
+});
+
+$(document).ready(function() {
+    $("#aula03_ex2_codelens_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'aula03_ex2_codelens'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    aula03_ex2_codelens_vis.redrawConnectors();
+});
+</script>
+<p><a class="reference external" href="../aula03.html#aula03_ex2_tentativa">Voltar</a></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Jun 12, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

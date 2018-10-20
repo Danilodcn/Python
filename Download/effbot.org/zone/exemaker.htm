@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The ExeMaker&nbsp;Tool</title></head><body data-page-id="112"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The ExeMaker&nbsp;Tool</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Updated October 12, 2004 | October 10, 2004 | Fredrik Lundh</p><blockquote><p align="right">
+&#8220;<i>Outstanding utility.  It isn&#8217;t just neat, it&#8217;s indispensable. </i>&#8221;
+</p></blockquote><p>ExeMaker is a small tool that takes a Python script, copies it to
+a program directory, and creates a Windows EXE file in the same directory.
+When you run that EXE, it automatically runs the script.  To see how it
+works, let&#8217;s look at an example:</p><pre>
+&gt; exemaker pythondoc.py c:/bin
+c:/bin/pythondoc.exe ok
+c:/bin/pythondoc.py ok
+</pre><pre>
+&gt; dir c:\bin\pythondoc*
+2004-10-10  15:00             4 096 pythondoc.exe
+2004-10-10  15:00            41 611 pythondoc.py
+               2 File(s)         45 707 bytes
+</pre><p>Assuming that <b>c:/bin</b> is on your path, you can now run the script
+as a normal command-line tool:</p><pre>
+&gt; pythondoc
+PythonDoc 2.1b3 (c) 2002-2003 by Fredrik Lundh.
+
+Usage:
+
+  pythondoc [options] files...
+
+...
+</pre><p>In other words, ExeMaker lets you install command-line programs written
+in Python along with other utilities, and use them without having to bother
+with PY associations, BAT files, or other workarounds.  Your programs will
+also show up in the task manager under their real names.</p><h3 id="usage">Usage&#160;<a class="nav" href="#usage" title="bookmark!">#</a></h3><p>Syntax:</p><blockquote>
+<b>exemaker</b> [<b>-i</b> <i>interpreter</i>] <i>script</i> [<i>directory</i>]
+</blockquote><p>Copies the script to the directory, and adds an EXE loader to the same
+directory.  If the directory is omitted, the script is copied to the directory
+where <b>exemaker</b> itself is installed.</p><p>The <b>-i</b> option can be used to control what Python EXE or DLL to use
+to run the program.  If omitted, it defaults to <b>python.exe</b>.  Note that
+the EXE loader doesn&#8217;t actually use the EXE to run the script; it just checks
+what Python DLL it uses, and loads that DLL directly.  For more information,
+see the <i>Details</i> section below.</p><h3 id="details">Details&#160;<a class="nav" href="#details" title="bookmark!">#</a></h3><p>The ExeMaker tool creates two files based on the given script; one
+EXE file and one PY file.  The EXE file contains a small runtime loader,
+and the PY file is simply a copy of the script, with a small header attached
+to the top.  The header is used by the EXE loader to figure out how
+to run the PY file.  It usually looks like this:</p><pre>
+#!python.exe
+import site
+... <i>your script follows</i> ...
+</pre><p>The #! line is used by the EXE loader to locate the right Python
+DLL.  If the line contains an EXE file, it is inspected to see what
+Python DLL it uses, and that DLL is then used to run the script.  If
+the line contains a DLL file, that DLL is used directly.</p><p>The default is to use the current Python executable (python.exe).
+You can override this by using the <b>-i</b> option, or by editing
+the #!-line in the generated PY file.</p><p>The following formats can be used for the #! line:</p><table class="simpletable">
+<tr><th>format (example)</th><th>search path</th></tr>
+<tr><td><tt>#!python.exe</tt></td>
+<td>Search for <b>python.exe</b> along the PATH, and check what Python DLL
+it uses.  Search for that DLL along the PATH.</td></tr>
+<tr><td><tt>#!/path/python.exe</tt></td>
+<td>Look for <b>python.exe</b> at the given location, and check what
+Python DLL it uses.  Look for that DLL in the same directory as
+the EXE.  If not found, search for the DLL along the PATH.</td></tr>
+<tr><td><tt>#!python24.dll</tt></td>
+<td>Search for <b>python24.dll</b> along the PATH.</td></tr>
+<tr><td><tt>#!/path/python24.dll</tt></td>
+<td>Look for <b>python24.dll</b> at the given location.</td></tr>
+<tr><td>(no <tt>#!</tt> line)</td>
+<td>Same as <tt>#!python.exe</tt>.</td></tr>
+</table><h3 id="downloads">Downloads&#160;<a class="nav" href="#downloads" title="bookmark!">#</a></h3><p>ExeMaker can be downloaded from the
+<a href="/downloads#exemaker">effbot.org downloads section</a>.</p><p>To use, just unpack the archive and put <b>exemaker.exe</b> and
+<b>exemaker.py</b> in a directory somewhere on your path.</p><p>The current version has been tested with Python 2.1 and newer.  If
+you need support for older versions, let me know.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><ul><li><a href="#usage">Usage</a></li><li><a href="#details">Details</a></li><li><a href="#downloads">Downloads</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

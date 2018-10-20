@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Webdriver&nbsp;Torso</title></head><body data-page-id="2041"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Webdriver&nbsp;Torso</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">June 2014</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">
+<img height="360" src="/img/webdriver-torso.png" style="border: 1px solid black" width="640" />
+</p></div><div class="yui-g"><div class="example wide"><pre class="python wide">
+<span class="pykeyword">import</span> cStringIO <span class="pykeyword">as</span> StringIO
+<span class="pykeyword">import</span> random
+
+<span class="pykeyword">from</span> PIL <span class="pykeyword">import</span> Image, ImageDraw, ImageEnhance
+
+
+<span class="pykeyword">def</span> <span class="pyfunction">webdriver_torso</span>(size, name=<span class="pystring">"aqua.flv"</span>, slide=None):
+    <span class="pycomment"># render test image</span>
+
+    im = Image.new(<span class="pystring">"RGB"</span>, size, <span class="pystring">"white"</span>)
+
+    d = ImageDraw.Draw(im)
+
+    <span class="pycomment"># boxes</span>
+    <span class="pykeyword">for</span> color <span class="pykeyword">in</span> <span class="pystring">"blue"</span>, <span class="pystring">"red"</span>:
+        x0 = random.randint(1, size[0]-1)
+        y0 = random.randint(1, size[1]-1)
+        x1 = random.randint(1, size[0]-1)
+        y1 = random.randint(1, size[1]-1)
+        d.rectangle((x0, y0, x1, y1), fill=color)
+
+    <span class="pycomment"># title</span>
+    <span class="pykeyword">if</span> slide <span class="pykeyword">is</span> None:
+        slide = random.randint(0, 10)
+    d.text((10, size[1]-30), <span class="pystring">"%s - Slide %04d"</span> % (name, slide), <span class="pystring">"black"</span>)
+
+    <span class="pykeyword">return</span> im
+
+
+<span class="pykeyword">def</span> <span class="pyfunction">fuzz</span>(im, quality=480):
+    <span class="pycomment"># simulate video compression</span>
+
+    <span class="pycomment"># introduce compression artifacts</span>
+    tmp = StringIO.StringIO()
+    im.save(tmp, <span class="pystring">"JPEG"</span>, quality=70)
+    tmp.seek(0)  <span class="pycomment"># rewind</span>
+    im = Image.open(tmp)
+
+    <span class="pycomment"># fuzz the result slightly</span>
+    im = ImageEnhance.Sharpness(im).enhance(0.5)
+
+    <span class="pykeyword">if</span> quality == 240:
+        <span class="pycomment"># simulate 240p</span>
+        im = im.resize((426, 240), Image.ANTIALIAS)
+
+    <span class="pycomment"># zoom up to player size</span>
+    <span class="pykeyword">return</span> im.resize((854, 480), Image.BICUBIC)
+
+
+im = fuzz(webdriver_torso((640, 360)), 240)
+
+im.show()</pre></div></div><div class="yui-ge"><div class="yui-u first"><h3 id="links">More&#160;<a class="nav" href="#links" title="bookmark!">#</a></h3><p><cite><a href="http://boingboing.net/2014/04/25/the-numbers-station-of-you.html">
+The &#8220;numbers station&#8221; of YouTube</a></cite>
+</p><p><cite><a href="http://www.bbc.com/news/technology-27238332">
+Webdriver Torso YouTube mystery clips&#8217; French connection</a></cite>
+</p><p><cite><a href="http://nakedsecurity.sophos.com/2014/05/05/weird-and-wonderful-the-webdriver-torso-mystery-videos-explained-and-remystified/">
+Weird and wonderful: the &#8220;Webdriver Torso&#8221; mystery videos explained - and remystified!</a></cite>
+</p><p><cite><a href="http://www.theglobeandmail.com/arts/books-and-media/is-this-espionage-or-an-art-project/article18404555/">
+Is this espionage or an art project?</a></cite>
+</p><p><cite><a href="http://www.avclub.com/article/webdriver-torso-either-something-incredibly-sinist-204954">
+&#8220;Webdriver Torso&#8221; is either something incredibly sinister or nothing at all</a></cite>
+</p><p><cite><a href="https://www.youtube.com/watch?v=klqi_h9FElc">
+Webdriver Torso: tmpRkRL85</a></cite>
+</p><p><cite><a href="http://www.bbc.com/news/technology-27778071">
+Google behind Webdriver Torso mystery</a></cite>
+</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><ul><li><a href="#links">More</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

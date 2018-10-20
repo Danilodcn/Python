@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>ElementTree: Working with Namespaces and Qualified&nbsp;Names</title></head><body data-page-id="83"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">ElementTree: Working with Namespaces and Qualified&nbsp;Names</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | August 2007</p><p>The XML Namespace specification adds <em>qualified names</em> to XML.  A qualified name is a tag or attribute name that is associated with a given namespace.  A namespace usually represents some kind of application domain, such as hypertext, graphics, resource descriptions, or type information.  The Namespace specification allows a single XML document to contain tags and attributes from any number of namespaces, without conflicts.</p><p>Conceptually, a qualified name is represented as a (<em>namespace URI</em>, <em>local part</em>) pair.  The local part is the actual tag or attribute name, while the URI identifies the namespace that the name belongs to.  This is similar to variables and modules in Python; the local part is the variable name, while the namespace is the module that the variable lives in.  The same local name may appear in multiple namespaces in the same document, possibly with radically different semantics:</p><pre class="python">(<span class="pystring">"http://www.w3.org/1999/xhtml"</span>, <span class="pystring">"a"</span>)
+(<span class="pystring">"http://effbot.org/namespace/letters"</span>, <span class="pystring">"a"</span>)
+(<span class="pystring">"http://schema.irs.gov/income-tax-form/field"</span>, <span class="pystring">"a"</span>)</pre><p>Note that the use of an HTTP URI for the namespace makes it easy to allocate new namespaces without having to use a central registry.  It also offers a convenient location for keeping information about the namespace, but that&#8217;s not required by the specification.  Some applications use custom URI schemas instead; for example, the WebDAV protocol uses the &#8220;DAV:&#8221; scheme, mostly for historical reasons.  From a data modelling perspective, the namespace URI should be treated as an opaque string of characters.</p><h2 id="xml-serialization">XML Serialization&#160;<a class="nav" href="#xml-serialization" title="bookmark!">#</a></h2><p>The XML Namespace specification uses a simple encoding scheme to store qualified names in XML in an efficient way.  The scheme is designed to be compatible with tools that don&#8217;t use XML namespaces, and is also reasonably easy to use for human authors.</p><p>To understand the encoding model, let&#8217;s look at a simple XHTML anchor element.  In standard HTML, a single anchor instance can look something like this:</p><pre><code>&lt;a href="uri"&gt;link text&lt;/a&gt;
+</code></pre><p>In XHTML, the &#8220;a&#8221; element lives in the &#8220;http://www.w3.org/1999/xhtml&#8221; namespace, so the full name we need to encode in the file consists of the pair <code>("http://www.w3.org/1999/xhtml", "a")</code>.</p><p>We could simply store the namespace URI together with the local part in the serialized XML document, using some suitable separator to tell the pieces apart:</p><pre><code>&lt;http://www.w3.org/1999/xhtml#a href="uri"&gt;
+link text&lt;/http://www.w3.org/1999/xhtml#a&gt;
+</code></pre><p>This is of course rather unwieldy, and is very verbose; we&#8217;ll end up repeating the URI over and over again.  To save space, we could use some kind of &#8220;macro facility&#8221;, and define shorter aliases for the namespaces we&#8217;re using in the document.  Here&#8217;s a C-like approach:</p><pre><code>&lt;#define html "http://www.w3.org/1999/xhtml"&gt;
+
+&lt;html:a href="uri"&gt;link text&lt;/html:a&gt;
+</code></pre><p>A parser that understands this (hypothetical) format would first parse the &lt;#define&gt; sections, and then use the aliases defined there to expand the element and attribute names in the rest of the document.</p><p>The approach used by XML Namespaces is similar, but instead of separate syntax for namespace declarations, it uses special <strong>xmlns</strong> attributes embedded in the XML document itself.  The line</p><pre><code>&lt;#define html "http://www.w3.org/1999/xhtml"&gt;
+</code></pre><p>is turned into an attribute</p><pre><code>xmlns:html="http://www.w3.org/1999/xhtml"
+</code></pre><p>where the <strong>html</strong> part is known as a <em>prefix</em>.  The <strong>xmlns</strong> attribute is then added to the element:</p><pre><code>&lt;html:a href="uri"
+xmlns:html="http://www.w3.org/1999/xhtml"&gt;
+link text&lt;/html:a&gt;
+</code></pre><p>This tells a namespace-aware parser that the <strong>a</strong> element belongs to the &#8220;http://www.w3.org/1999/xhtml&#8221; namespace, and the element&#8217;s qualified name is thus set to the pair <code>("http://www.w3.org/1999/xhtml", "a")</code>.  The <strong>xmlns</strong> attribute and the prefix are discarded by the parser; they are part of the serialization, not the data model.</p><p>The declarations apply not only to the element they appear in, but also to all child elements.  This lets you add new elements to the document, without having to repeat the <strong>xmlns</strong> attribute for each new element.  In the following example, the anchor is put inside an XHTML paragraph element:</p><pre><code>&lt;html:p xmlns:html="http://www.w3.org/1999/xhtml"&gt;
+This is a paragraph, with some &lt;html:a href="uri"&gt;
+link text&lt;/html:a&gt;.&lt;/html:p&gt;
+</code></pre><p>To keep documents small and tidy, the namespace declarations are often added to the root element (e.g. the <strong>html</strong> element in an XHTML document).</p><p>Note that declarations may be overridden by <strong>xmlns</strong> attributes in child elements, and the same prefix may refer to different namespaces in different parts of the document.</p><h2 id="element-tree-representation">Element Tree Representation&#160;<a class="nav" href="#element-tree-representation" title="bookmark!">#</a></h2><p>In an Element tree, qualified names are stored as <em>universal names</em> in Clark&#8217;s notation, which combines the URI and the local part into a single string, given as &#8220;{uri}local&#8221;.</p><pre class="python"><span class="pystring">"{http://www.w3.org/1999/xhtml}a"</span>
+<span class="pystring">"{http://effbot.org/namespace/letters}a"</span></pre><p>If you load an existing XML file into a tree, the prefixes are discarded by the parser, and are not present in the tree.  For example, if you run:</p><pre class="python">tree = ET.parse(file)
+
+<span class="pykeyword">for</span> elem <span class="pykeyword">in</span> tree.getiterator():
+    <span class="pykeyword">print</span> elem.tag, elem.attrib</pre><p>on the XHTML example above, you&#8217;ll get:</p><pre><code>{http://www.w3.org/1999/xhtml}p {}
+{http://www.w3.org/1999/xhtml}a {'href': 'uri'}
+</code></pre><p>When you save an Element tree to XML, the standard Element serializer generates unique prefixes for all URI:s that appear in the tree.  The prefixes usually have the form &#8220;ns&#8221; followed by a number.  For example, the above elements might be serialized with the prefix <strong>ns0</strong> for &#8220;http://www.w3.org/1999/xhtml&#8221; and <strong>ns1</strong> for &#8220;http://effbot.org/namespace/letters&#8221;.</p><p>If you want to use specific prefixes, you can add prefix/uri mappings to a global table in the ElementTree module.  In 1.3 and later, you do this by calling the <strong>register_namespace</strong> function.  In earlier versions, you can access the internal table directly:</p><pre class="python"><span class="pycomment"># ElementTree 1.3</span>
+ET.register_namespace(prefix, uri)
+
+<span class="pycomment"># ElementTree 1.2 (Python 2.5)</span>
+ET._namespace_map[uri] = prefix</pre><p>Note the argument order; the function takes the prefix first, while the raw dictionary maps from URI:s to prefixes.</p><p>For portability with older versions, you can use a helper function:</p><pre class="python"><span class="pykeyword">try</span>:
+    register_namespace = ET.register_namespace
+<span class="pykeyword">except</span> AttributeError:
+    <span class="pykeyword">def</span> <span class="pyfunction">register_namespace</span>(prefix, uri):
+        ET._namespace_map[uri] = prefix
+
+register_namespace(prefix, uri)</pre><p>Adding global namespaces for older versions of cElementTree is a bit tricker; that library uses the ElementTree library for serialization, so you have to import the corresponding ElementTree version and modify its _namespace_map instead.  cElementTree 1.0.6 and later provides a <strong>register_namespace</strong> function that does the right thing.</p><p>The namespace map is preloaded with standard prefixes for some commonly used namespaces, including XHTML, RDF, and WSDL.</p><h3 id="namespace-ambiguity">Namespace Ambiguity&#160;<a class="nav" href="#namespace-ambiguity" title="bookmark!">#</a></h3><p>The XML Namespaces specification doesn&#8217;t explicitly state how an application should treat the (URI, local part) pair.  While most applications treat them as two distinct components, some applications expect you to combine them in different ways.  For example, earlier versions of the WebDAV protocol (RFC 2518) state that:</p><blockquote><p>WebDAV compliant XML processors MUST interpret a qualified name as a URI constructed by appending the LocalPart to the namespace name URI.</p></blockquote><p>which means that you&#8217;re supposed to treat e.g. &#8220;{http://effbot.org/}sometag&#8221; and &#8220;{http://effbot.org/some}tag&#8221; as the same qualified name.  You can use a helper function to normalize the names, as needed:</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">normalize</span>(name):
+    <span class="pykeyword">if</span> name[0] == <span class="pystring">"{"</span>:
+        uri, tag = name[1:].split(<span class="pystring">"}"</span>)
+        <span class="pykeyword">return</span> uri + tag
+    <span class="pykeyword">else</span>:
+        <span class="pykeyword">return</span> name</pre><h2 id="parsing-with-prefixes">Parsing With Prefixes&#160;<a class="nav" href="#parsing-with-prefixes" title="bookmark!">#</a></h2><p>As explained earlier, the standard parser throws away the prefixes.  This is usually not much of a problem, but there are cases where the prefix mapping is important also after the parser&#8217;s finished.  The most common is file formats that use qualified names in contexts not supported by the namespace specification, such as attribute values or even character data. A common case is formats based on XML Schema, which uses attribute values to specify the type of element contents.</p><p>Here&#8217;s an excerpt from a SOAP response, which uses the <strong>xsi</strong> and <strong>xsd</strong> prefixes (the corresponding <strong>xmlns</strong> declarations are not shown here):</p><pre><code>&lt;detail&gt;
+    &lt;argument xsi:type='xsd:integer'&gt;200&lt;/argument&gt;
+    &lt;version xsi:type='xsd:string'&gt;2.0 beta 1&lt;/version&gt;
+&lt;/detail&gt;
+</code></pre><p>The <strong>xsi</strong> attribute name is handled by the parser, but the parser doesn&#8217;t know that the attribute happens to contain a qualified name as well, so it leaves it as is.  To be able to handle such a format, you can use a custom parser that knows how to handle certain attributes and elements, or keep track of the prefix mapping for each element.</p><p>To do the latter, you can use the <strong>iterparse</strong> parser, and ask it to report &#8220;start-ns&#8221; and &#8220;end-ns&#8221; events.  The following snippet adds an <strong>ns_map</strong> attribute to each element
+which contains the prefix/URI mapping that applies to that specific element:</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">parse_map</span>(file):
+
+    events = <span class="pystring">"start"</span>, <span class="pystring">"start-ns"</span>, <span class="pystring">"end-ns"</span>
+
+    root = None
+    ns_map = []
+
+    <span class="pykeyword">for</span> event, elem <span class="pykeyword">in</span> ET.iterparse(file, events):
+        <span class="pykeyword">if</span> event == <span class="pystring">"start-ns"</span>:
+            ns_map.append(elem)
+        <span class="pykeyword">elif</span> event == <span class="pystring">"end-ns"</span>:
+            ns_map.pop()
+        <span class="pykeyword">elif</span> event == <span class="pystring">"start"</span>:
+            <span class="pykeyword">if</span> root <span class="pykeyword">is</span> None:
+                root = elem
+            elem.ns_map = dict(ns_map)
+
+    <span class="pykeyword">return</span> ET.ElementTree(root)</pre><p>This only works for Python implementations of ElementTree; the <strong>cElementTree</strong> versions don&#8217;t allow you to add arbitrary attributes to an Element instance.  To handle that case too, you can store the dictionary in a custom XML attribute instead:</p><pre class="python">NS_MAP = <span class="pystring">"xmlns:map"</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">parse_nsmap</span>(file):
+
+    events = <span class="pystring">"start"</span>, <span class="pystring">"start-ns"</span>, <span class="pystring">"end-ns"</span>
+
+    root = None
+    ns_map = []
+
+    <span class="pykeyword">for</span> event, elem <span class="pykeyword">in</span> ET.iterparse(file, events):
+        <span class="pykeyword">if</span> event == <span class="pystring">"start-ns"</span>:
+            ns_map.append(elem)
+        <span class="pykeyword">elif</span> event == <span class="pystring">"end-ns"</span>:
+            ns_map.pop()
+        <span class="pykeyword">elif</span> event == <span class="pystring">"start"</span>:
+            <span class="pykeyword">if</span> root <span class="pykeyword">is</span> None:
+                root = elem
+            elem.set(NS_MAP, dict(ns_map))
+
+    <span class="pykeyword">return</span> ET.ElementTree(root)</pre><p>With this in place, you can check the NS_MAP attribute whenever you need to handle a qualified name in a non-standard context.  Here&#8217;s an example that deals with XML Schema type specifiers:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">XSI_TYPE = <span class="pystring">"{http://www.w3.org/2001/XMLSchema-instance}type"</span>
+
+tree = parse_nsmap(file)
+
+<span class="pykeyword">for</span> elem <span class="pykeyword">in</span> tree.getiterator():
+    value = elem.get(XSI_TYPE)
+    <span class="pykeyword">if</span> value:
+        prefix, tag = value.split(<span class="pystring">":"</span>)
+        nsmap = elem.get(NS_MAP)
+        <span class="pykeyword">print</span> <span class="pystring">"%s has type {%s}%s"</span> % (
+            elem.tag, nsmap[prefix], tag
+        )</pre></div><div class="yui-ge"><div class="yui-u first"><p>If you run this on the SOAP response shown earlier, it will print something like:</p><pre><code>argument has type {http://www.w3.org/2001/XMLSchema}integer
+version has type {http://www.w3.org/2001/XMLSchema}string
+</code></pre><p>Here&#8217;s a simple helper function that converts a prefix:tag string to a universal name, for a given element context:</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">make_universal_name</span>(elem, name):
+    prefix, tag = name.split(<span class="pystring">":"</span>)
+    ns_map = elem.get(NS_MAP) <span class="pycomment"># prefix map</span>
+    <span class="pykeyword">return</span> <span class="pystring">"{%s}%s"</span> % (ns_map[prefix], tag)</pre><h3 id="saving-annotated-trees">Saving Annotated Trees&#160;<a class="nav" href="#saving-annotated-trees" title="bookmark!">#</a></h3><p>Note that the standard serializer doesn&#8217;t know how to save elements with non-standard attributes; if you try to write an annotated tree to disk, you&#8217;ll get a type error:</p><pre><code>root.write(file)
+
+TypeError: cannot serialize {'html':
+'http://www.w3.org/1999/xhtml'} (type
+dict)
+</code></pre><p>The solution is to trim away all such custom attributes before saving the tree:</p><pre class="python"><span class="pykeyword">for</span> e <span class="pykeyword">in</span> root.getiterator():
+    <span class="pykeyword">if</span> e.get(NS_MAP):
+        <span class="pykeyword">del</span> e.attrib[NS_MAP]
+
+root.write(file)</pre><h2 id="explicitly-setting-namespace-attributes">Explicitly Setting Namespace Attributes&#160;<a class="nav" href="#explicitly-setting-namespace-attributes" title="bookmark!">#</a></h2><p>If you want full control over the serialized output, you can explicitly set the namespace attributes before saving the document.  The standard serializer only looks for universal names; element and attribute names that already use prefix:tag notation are passed right through.</p><p>Here&#8217;s a simple function that takes a prefix/uri mapping, creates the necessary <strong>xmlns</strong> attributes on the given tree, and changes all universal names to their equivalent prefix:tag form:</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">set_prefixes</span>(elem, prefix_map):
+
+    <span class="pycomment"># check if this is a tree wrapper</span>
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> ET.iselement(elem):
+        elem = elem.getroot()
+
+    <span class="pycomment"># build uri map and add to root element</span>
+    uri_map = {}
+    <span class="pykeyword">for</span> prefix, uri <span class="pykeyword">in</span> prefix_map.items():
+        uri_map[uri] = prefix
+        elem.set(<span class="pystring">"xmlns:"</span> + prefix, uri)
+
+    <span class="pycomment"># fixup all elements in the tree</span>
+    memo = {}
+    <span class="pykeyword">for</span> elem <span class="pykeyword">in</span> elem.getiterator():
+        fixup_element_prefixes(elem, uri_map, memo)</pre><p>The <strong>fixup_element_prefixes</strong> function follows.  This checks all universal names against the URI map, for both element and attribute names.</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">fixup_element_prefixes</span>(elem, uri_map, memo):
+    <span class="pykeyword">def</span> <span class="pyfunction">fixup</span>(name):
+        <span class="pykeyword">try</span>:
+            <span class="pykeyword">return</span> memo[name]
+        <span class="pykeyword">except</span> KeyError:
+            <span class="pykeyword">if</span> name[0] != <span class="pystring">"{"</span>:
+                <span class="pykeyword">return</span>
+            uri, tag = name[1:].split(<span class="pystring">"}"</span>)
+            <span class="pykeyword">if</span> uri <span class="pykeyword">in</span> uri_map:
+                new_name = uri_map[uri] + <span class="pystring">":"</span> + tag
+                memo[name] = new_name
+                <span class="pykeyword">return</span> new_name
+    <span class="pycomment"># fix element name</span>
+    name = fixup(elem.tag)
+    <span class="pykeyword">if</span> name:
+        elem.tag = name
+    <span class="pycomment"># fix attribute names</span>
+    <span class="pykeyword">for</span> key, value <span class="pykeyword">in</span> elem.items():
+        name = fixup(key)
+        <span class="pykeyword">if</span> name:
+            elem.set(name, value)
+            <span class="pykeyword">del</span> elem.attrib[key]</pre><p>Note the use of a <strong>memo</strong> dictionary to speed things up.</p><p>For example, if you want to use the prefix &#8220;h&#8221; for the XHTML namespaces, you can call <strong>set_prefixes</strong> as follows:</p><pre class="python">set_prefixes(elem, dict(h=<span class="pystring">"http://www.w3.org/1999/xhtml"</span>))</pre><p>and then save the document as usual.  Using the same HTML example as above, this gives you:</p><pre><code>&lt;h:p xmlns:h="http://www.w3.org/1999/xhtml"&gt;
+This is a paragraph, with some &lt;h:a href="uri"&gt;
+link text&lt;/h:a&gt;.&lt;/h:p&gt;
+</code></pre><p>Note that namespace URI:s that are not present in the prefix map are left as universal names.  The serializer will use &#8220;ns&#8221; prefixes for them, as usual.</p><p>You can use <strong>set_prefixes</strong> to explicitly move all <strong>xmlns</strong> attributes to the top-level element.  The following snippet first loops over a tree to extract all URI:s, and then builds a prefix map that is passed to <strong>set_prefixes</strong></p><pre class="python"><span class="pycomment"># get unique namespace URI:s</span>
+uri_set = set()
+<span class="pykeyword">for</span> elem <span class="pykeyword">in</span> tree.getiterator():
+    <span class="pykeyword">if</span> elem.tag[0] == <span class="pystring">"{"</span>:
+        uri, tag = elem.tag[1:].split(<span class="pystring">"}"</span>)
+        uri_set.add(uri)
+
+<span class="pycomment"># create prefix map</span>
+prefix_map = {}
+<span class="pykeyword">for</span> uri <span class="pykeyword">in</span> sorted(uri_set):
+    prefix_map[<span class="pystring">"ns%d"</span> % len(prefix_map)] = uri
+
+set_prefixes(tree, prefix_map)</pre><h2 id="preserving-existing-namespace-attributes">Preserving Existing Namespace Attributes&#160;<a class="nav" href="#preserving-existing-namespace-attributes" title="bookmark!">#</a></h2><p>Here&#8217;s a variant of the <strong>parse_nsmap</strong> function that explicitly inserts the original <strong>xmlns</strong> attributes, during parsing:</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">parse_xmlns</span>(file):
+
+    events = <span class="pystring">"start"</span>, <span class="pystring">"start-ns"</span>
+
+    root = None
+    ns_map = []
+
+    <span class="pykeyword">for</span> event, elem <span class="pykeyword">in</span> ET.iterparse(file, events):
+
+        <span class="pykeyword">if</span> event == <span class="pystring">"start-ns"</span>:
+            ns_map.append(elem)
+
+        <span class="pykeyword">elif</span> event == <span class="pystring">"start"</span>:
+            <span class="pykeyword">if</span> root <span class="pykeyword">is</span> None:
+                root = elem
+            <span class="pykeyword">for</span> prefix, uri <span class="pykeyword">in</span> ns_map:
+                elem.set(<span class="pystring">"xmlns:"</span> + prefix, uri)
+            ns_map = []
+
+    <span class="pykeyword">return</span> ET.ElementTree(root)</pre><p>This is similar to <strong>parse_nsmap</strong>, but adds plain attributes instead of a dictionary.  All names are still converted to universal names; if you want to save the tree again, you need to process the tree before saving it:</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">fixup_xmlns</span>(elem, maps=None):
+
+    <span class="pykeyword">if</span> maps <span class="pykeyword">is</span> None:
+        maps = [{}]
+
+    <span class="pycomment"># check for local overrides</span>
+    xmlns = {}
+    <span class="pykeyword">for</span> key, value <span class="pykeyword">in</span> elem.items():
+        <span class="pykeyword">if</span> key[:6] == <span class="pystring">"xmlns:"</span>:
+            xmlns[value] = key[6:]
+    <span class="pykeyword">if</span> xmlns:
+        uri_map = maps[-1].copy()
+        uri_map.update(xmlns)
+    <span class="pykeyword">else</span>:
+        uri_map = maps[-1]
+
+    <span class="pycomment"># fixup this element</span>
+    fixup_element_prefixes(elem, uri_map, {})
+
+    <span class="pycomment"># process elements</span>
+    maps.append(uri_map)
+    <span class="pykeyword">for</span> elem <span class="pykeyword">in</span> elem:
+        fixup_xmlns(elem, maps)
+    maps.pop()
+
+
+<span class="pykeyword">def</span> <span class="pyfunction">write_xmlns</span>(elem, file):
+
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> ET.iselement(elem):
+        elem = elem.getroot()
+
+    fixup_xmlns(elem)
+
+    ET.ElementTree(elem).write(file)</pre><p>Note that the recursive <strong>fixup</strong> function maintains a stack of namespace maps.  The <strong>fixup_element_prefixes</strong> helper from the earlier example is used to modify the element and attribute names.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#xml-serialization">XML Serialization</a></li><li><a href="#element-tree-representation">Element Tree Representation</a></li><li><ul><li><a href="#namespace-ambiguity">Namespace Ambiguity</a></li></ul></li><li><a href="#parsing-with-prefixes">Parsing With Prefixes</a></li><li><ul><li><a href="#saving-annotated-trees">Saving Annotated Trees</a></li></ul></li><li><a href="#explicitly-setting-namespace-attributes">Explicitly Setting Namespace Attributes</a></li><li><a href="#preserving-existing-namespace-attributes">Preserving Existing Namespace Attributes</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

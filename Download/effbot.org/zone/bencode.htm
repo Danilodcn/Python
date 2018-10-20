@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>A Simple BitTorrent "bencode"&nbsp;Decoder</title></head><body data-page-id="12"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">A Simple BitTorrent "bencode"&nbsp;Decoder</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | August 2007</p><p>Here&#8217;s a simple decoder for BitTorrent&#8217;s <s><a href="http://www.bittorrent.org/protocol.html">torrent encoding format</a></s> (dead link), <b>bencode</b>. This uses the iterator-based approach from <a href="simple-iterator-parser.htm"><cite>Simple Iterator-based Parsing</cite></a>, which results in readable and
+pretty efficient code.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">import</span> re
+
+<span class="pykeyword">def</span> <span class="pyfunction">tokenize</span>(text, match=re.compile(<span class="pystring">"([idel])|(\d+):|(-?\d+)"</span>).match):
+    i = 0
+    <span class="pykeyword">while</span> i &lt; len(text):
+        m = match(text, i)
+        s = m.group(m.lastindex)
+        i = m.end()
+        <span class="pykeyword">if</span> m.lastindex == 2:
+            <span class="pykeyword">yield</span> <span class="pystring">"s"</span>
+            <span class="pykeyword">yield</span> text[i:i+int(s)]
+            i = i + int(s)
+        <span class="pykeyword">else</span>:
+            <span class="pykeyword">yield</span> s
+
+<span class="pykeyword">def</span> <span class="pyfunction">decode_item</span>(next, token):
+    <span class="pykeyword">if</span> token == <span class="pystring">"i"</span>:
+        <span class="pycomment"># integer: "i" value "e"</span>
+        data = int(next())
+        <span class="pykeyword">if</span> next() != <span class="pystring">"e"</span>:
+            <span class="pykeyword">raise</span> ValueError
+    <span class="pykeyword">elif</span> token == <span class="pystring">"s"</span>:
+        <span class="pycomment"># string: "s" value (virtual tokens)</span>
+        data = next()
+    <span class="pykeyword">elif</span> token == <span class="pystring">"l"</span> <span class="pykeyword">or</span> token == <span class="pystring">"d"</span>:
+        <span class="pycomment"># container: "l" (or "d") values "e"</span>
+        data = []
+        tok = next()
+        <span class="pykeyword">while</span> tok != <span class="pystring">"e"</span>:
+            data.append(decode_item(next, tok))
+            tok = next()
+        <span class="pykeyword">if</span> token == <span class="pystring">"d"</span>:
+            data = dict(zip(data[0::2], data[1::2]))
+    <span class="pykeyword">else</span>:
+        <span class="pykeyword">raise</span> ValueError
+    <span class="pykeyword">return</span> data
+
+<span class="pykeyword">def</span> <span class="pyfunction">decode</span>(text):
+    <span class="pykeyword">try</span>:
+        src = tokenize(text)
+        data = decode_item(src.next, src.next())
+        <span class="pykeyword">for</span> token <span class="pykeyword">in</span> src: <span class="pycomment"># look for more tokens</span>
+            <span class="pykeyword">raise</span> SyntaxError(<span class="pystring">"trailing junk"</span>)
+    <span class="pykeyword">except</span> (AttributeError, ValueError, StopIteration):
+        <span class="pykeyword">raise</span> SyntaxError(<span class="pystring">"syntax error"</span>)
+    <span class="pykeyword">return</span> data</pre></div><div class="yui-g"><p class="wide">Most encoded objects consist of a type code followed by the object value and an end code; the exception is encoded strings that are prefixed with their length.  To simplify the parser, the <b>tokenize</b> function returns strings as two &#8220;virtual&#8221; tokens; a type code followed by the string value.  Some examples:
+
+<pre class="python wide">
+&gt;&gt;&gt; list(tokenize(<span class="pystring">"4:spam"</span>))
+[<span class="pystring">'s'</span>, <span class="pystring">'spam'</span>]
+&gt;&gt;&gt; list(tokenize(<span class="pystring">"i3e"</span>)) <span class="pycomment"># int</span>
+[<span class="pystring">'i'</span>, <span class="pystring">'3'</span>, <span class="pystring">'e'</span>]
+&gt;&gt;&gt; list(tokenize(<span class="pystring">"i-3e"</span>))
+[<span class="pystring">'i'</span>, <span class="pystring">'-3'</span>, <span class="pystring">'e'</span>]
+&gt;&gt;&gt; list(tokenize(<span class="pystring">"l4:spam4:eggse"</span>)) <span class="pycomment"># list</span>
+[<span class="pystring">'l'</span>, <span class="pystring">'s'</span>, <span class="pystring">'spam'</span>, <span class="pystring">'s'</span>, <span class="pystring">'eggs'</span>, <span class="pystring">'e'</span>]
+&gt;&gt;&gt; list(tokenize(<span class="pystring">"d3:cow3:moo4:spam4:eggse"</span>)) <span class="pycomment"># dict</span>
+[<span class="pystring">'d'</span>, <span class="pystring">'s'</span>, <span class="pystring">'cow'</span>, <span class="pystring">'s'</span>, <span class="pystring">'moo'</span>, <span class="pystring">'s'</span>, <span class="pystring">'spam'</span>, <span class="pystring">'s'</span>, <span class="pystring">'eggs'</span>, <span class="pystring">'e'</span>]</pre></p></div><div class="yui-ge"><div class="yui-u first"><p>Note that simpler formats can usually use the <b>finditer</b>
+method to split things up (or even <b>findall</b>).
+
+</p><p>The <b>decode_item</b> function uses the type information to
+convert the data to a suitable Python object.  It calls itself
+to deal with nested container types.
+
+<h3 id="usage">Usage&#160;<a class="nav" href="#usage" title="bookmark!">#</a></h3></p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">Here&#8217;s a snippet that lists all files included in a torrent file:
+
+<pre class="python wide">
+data = open(<span class="pystring">"test.torrent"</span>, <span class="pystring">"rb"</span>).read()
+
+torrent = decode(data)
+
+<span class="pykeyword">for</span> file <span class="pykeyword">in</span> torrent[<span class="pystring">"info"</span>][<span class="pystring">"files"</span>]:
+    <span class="pykeyword">print</span> <span class="pystring">"%r - %d bytes"</span> % (<span class="pystring">"/"</span>.join(file[<span class="pystring">"path"</span>]), file[<span class="pystring">"length"</span>])</pre></p></div><div class="yui-g"><p class="wide">Running this will produce something like:
+
+<pre class="wide">
+'Little Earthquakes/01 Crucify.m4a' - 4845721 bytes
+'Little Earthquakes/02 Girl.m4a' - 4012517 bytes
+'Little Earthquakes/03 Silent All These Years.m4a' - 4076790 bytes
+'Little Earthquakes/04 Precious Things.m4a' - 4328948 bytes
+'Little Earthquakes/05 Winter.m4a' - 5538530 bytes
+'Little Earthquakes/06 Happy Phantom.m4a' - 3204091 bytes
+'Little Earthquakes/07 China.m4a' - 4859246 bytes
+'Little Earthquakes/08 Leather.m4a' - 3125716 bytes
+'Little Earthquakes/09 Mother.m4a' - 6785591 bytes
+'Little Earthquakes/10 Tear In Your Hand.m4a' - 4515482 bytes
+'Little Earthquakes/11 Me And A Gun.m4a' - 3649914 bytes
+'Little Earthquakes/12 Little Earthquakes.m4a' - 6663794 bytes
+</pre></p></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><ul><li><a href="#usage">Usage</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

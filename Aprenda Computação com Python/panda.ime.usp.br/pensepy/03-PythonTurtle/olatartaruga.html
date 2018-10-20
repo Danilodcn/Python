@@ -1,0 +1,1490 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Olá, tartaruguinhas! &mdash; Como pensar como um Cientista da Computação: Edição Interativa em Python</title>
+    
+    <link rel="stylesheet" href="../_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="../_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="../_static/codemirror.js"></script>
+    <script type="text/javascript" src="../_static/python.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="../_static/assess.js"></script>
+    <script type="text/javascript" src="../_static/animationbase.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="../_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Como pensar como um Cientista da Computação: Edição Interativa em Python" href="../index.html" />
+    <link rel="next" title="Módulos e Obtendo Ajuda" href="../04-Modulos/modulos.html" />
+    <link rel="prev" title="Variáveis, Expressões e Comandos" href="../02-Conceitos/conceitos.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/pensePython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'pensePython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/pensePython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../04-Modulos/modulos.html" title="Módulos e Obtendo Ajuda"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../02-Conceitos/conceitos.html" title="Variáveis, Expressões e Comandos"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="ola-tartaruguinhas">
+<h1>Olá, tartaruguinhas!<a class="headerlink" href="#ola-tartaruguinhas" title="Permalink to this headline">¶</a></h1>
+<a id="assignvid_thumb" > <img src="../_static/turtleintro.png" /></a>
+<div id="assignvid" class="video_popup" >
+<video controls  >
+    <source src="http://media.interactivepython.org/thinkcsVideos/turtleintro.mov" type="video/mp4"></source>
+    <source src="http://media.interactivepython.org/thinkcsVideos/turtleintro.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#assignvid_thumb').click(function(e) {
+         $('#assignvid').show();
+         $('#assignvid_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'assignvid'});
+         // Log the run event
+      });
+   });
+</script>
+<p>Existem vários <em>módulos</em> em Python que fornecem recursos muito
+poderosos que podemos utilizar em nossos programas. Alguns desses
+permitem enviar email ou buscar uma página na web. Outros tornam
+possível realizar cálculos matemáticos bastante complexos. Neste
+capítulo vamos introduzir um módulo que nos permite criar um objeto
+chamado <strong>turtle</strong> (N. do T.: para facilitar a leitura, embora o objeto
+seja do tipo <strong>turtle</strong>, vamos muitas vezes chamar de tartaruga mesmo)
+que pode ser usado para desenhar figuras (gráfico de tartarugas).</p>
+<p>O gráfico de tartaruga é baseado em uma metáfora bem simples.
+Imagine que você tem uma tartaruga que entende inglês. Você pode
+dar comandos simples à tartaruga tais como &#8220;siga em frente&#8221; ou &#8220;vire à
+direita&#8221;. A medida que a tartaruga se move, se o seu rabo está virado
+para baixo, tocando o chão, ela desenha uma linha (deixa um rastro) ao
+se mover. Se você mandar a tartaruga levantar o rabo ela ainda pode se
+mover mas não vai deixar nenhum rastro. Como você vai ver, é possível
+fazer desenhos muito impressionantes usando esse mecanismo simples.</p>
+<div class="admonition-nota admonition">
+<p class="first admonition-title">Nota</p>
+<p class="last">Embora seja muito divertido brincar com as tartarugas, o
+propósito real desse capítulo é ensinar um pouco mais de Python e
+desenvolver o nosso tema sobre <em>raciocínio computacional</em> ou
+<em>pensando como um cientista da computação</em>. A maior parte dos
+assuntos sobre Python tratados aqui serão cobertos com maior
+profundidade mais tarde.</p>
+</div>
+<div class="section" id="nosso-primeiro-programa-com-tartarugas">
+<span id="index-1"></span><h2>Nosso primeiro programa com tartarugas<a class="headerlink" href="#nosso-primeiro-programa-com-tartarugas" title="Permalink to this headline">¶</a></h2>
+<p>Vamos experimentar algumas linhas de código em Python para criar uma nova
+tartaruga e desenhar uma figura simples como um retângulo. Vamos dar o
+nome de <cite>alex</cite> à variável que vai fazer referência a nossa primeira
+tartaruga, mas você pode escolher outro nome se desejar (para isso
+basta criar um outro nome segundo as regras descritas no capítulo
+anterior).</p>
+<p>O trecho de programa a seguir desenha apenas os dois primeiros lados
+do retângulo. Após a linha 3 você terá uma linha reta partindo do
+centro do canvas para a direita e, após a linha 6, o canvas vai
+mostrar a tartaruga e metade do retângulo desenhado. Pressione o botão
+run para ver o resultado.</p>
+
+<div id="ch03_1" >
+<textarea cols="50" rows="12" id="ch03_1_code" class="active_code">
+import turtle            # permite usar as funções e objetos do módulo turtle
+wn = turtle.Screen()     # cria uma janela gráfica
+alex = turtle.Turtle()   # cria um turtle chamado alex
+alex.forward(150)        # manda o alex se mover 150 unidades para frente
+alex.left(90)            # roda de 90 graus para a esquerda
+alex.forward(75)         # desenha o segundo lado do retângulo
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch03_1)</span> </p>
+<button onclick="runit('ch03_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch03_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch03_1');">Load</button>
+<br />
+
+<canvas id="ch03_1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+</div>
+
+<p>A primeira linha desse programa diz ao Python para carregar o
+<strong>módulo</strong> chamado <code class="docutils literal"><span class="pre">turtle</span></code>. Esse módulo inclui dois novos tipos que
+agora podem ser utilizados: o tipo <code class="docutils literal"><span class="pre">Turtle</span></code> e o tipo <code class="docutils literal"><span class="pre">Screen</span></code>. A
+notação utilizando ponto como em <code class="docutils literal"><span class="pre">turtle.Turtle</span></code> quer dizer
+<em>&#8220;O tipo Turtle que está definido no módulo turtle&#8221;</em>. Lembre-se que em
+Python o uso de letras maiúsculas e minúsculas tornam os nomes
+diferentes, ou seja, o nome do módulo que começa com a letra minúscula
+<cite>t</cite> é diferente do tipo Turtle.</p>
+<p>A segunda linha cria um objeto do tipo Screen (que é costumeiramente
+chamada de janela em uma interface gráfica) e a atribui à variável
+<code class="docutils literal"><span class="pre">wn</span></code>. Toda janela contém um <strong>canvas</strong>, que é a área dentro da
+janela sobre a qual podemos desenhar.</p>
+<p>A linha 3 cria uma tartaruga (<code class="docutils literal"><span class="pre">Turtle</span></code>) e a atribui à variável
+<cite>alex</cite>, ou seja, <cite>alex</cite> é uma referência para essa tartaruga recém
+criada. Essas primeiras três linhas criam os recursos necessários para
+que possamos começar a desenhar.</p>
+<p>Nas linhas 4-6, o <strong>objeto</strong> alex é instruido a se mover e a
+virar. Isso é feito <strong>chamando</strong> ou ativando <strong>métodos</strong> do objeto
+alex (que é do tipo Turtle) &#8212; essas são as instruções que todas as
+tartarugas conhecem e sabem como responder.</p>
+<div class="admonition-complete-o-retangulo admonition">
+<p class="first admonition-title">Complete o retângulo ...</p>
+<p class="last">Modifique o programa adicionando os comandos necessários
+para que <em>alex</em> complete o retângulo.</p>
+</div>
+<p>Um objeto pode possuir vários métodos &#8212; coisas que ele é capaz de
+fazer &#8212; e ele pode ter também <strong>atributos</strong> &#8212; (chamados também de
+<em>propriedades</em>). Por exemplo, cada tartaruga tem um atributo <em>color</em>
+(cor). A chamada do método <cite>alex.color(&#8220;red&#8221;)</cite> faz com que alex fique
+vermelho e as linhas que ele desenhar a seguir serão vermelhas também.</p>
+<p>A cor da tartaruga, a espessura da caneta (o rabo), a posição da
+tartaruga dentro da janela, a direção que ela aponta, etc.,
+são partes do seu <strong>estado</strong> atual. De forma semelhante, o objeto
+Screen tem uma cor de fundo, que faz parte do estado do objeto
+referenciado pela variável <cite>wn</cite>.</p>
+<p>Existem vários métodos que nos permite modificar objetos do tipo Turtle e
+Screen. Vamos aqui mostrar apenas alguns. Para isso, comentamos apenas
+as linhas que são diferentes do exemplo anterior. Note também que
+estamos chamando a tartaruga de <em>tess</em>.</p>
+
+<div id="ch03_2" >
+<textarea cols="50" rows="12" id="ch03_2_code" class="active_code">
+import turtle
+
+wn = turtle.Screen()
+wn.bgcolor("lightgreen")         # define a cor de fundo da janela
+
+tess = turtle.Turtle()
+tess.color("blue")               # tess fica azul
+tess.pensize(3)                  # define a espessura da caneta
+
+tess.forward(50)
+tess.left(120)
+tess.forward(50)
+
+wn.exitonclick()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch03_2)</span> </p>
+<button onclick="runit('ch03_2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch03_2');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch03_2');">Load</button>
+<br />
+
+<canvas id="ch03_2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch03_2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>A última linha desse programa tem uma papel importante. A variável wn
+faz referência à janela (Screen). Quando chamamos o método
+<code class="docutils literal"><span class="pre">exitonclick</span></code>, a execução do programa é interrompida e ele fica
+esperando que o usuário clique em algum lugar na janela com o
+mouse. Quando o programa recebe o clique, o programa fecha a janela
+com a tartaruga e termina sua execução.</p>
+<p>Cada vez que rodamos esse programa, uma nova janela é criada, e seu
+conteúdo é mostrado até receber um clique.</p>
+<div class="admonition-estenda-esse-programa admonition">
+<p class="first admonition-title">Estenda esse programa ...</p>
+<ol class="last arabic simple">
+<li>Modifque esse programa para que
+ele pergunte ao usuário a cor de fundo desejada antes da janela
+ser criada. O programa deve armazenar a resposta em uma
+variável e modificar a cor de fundo conforme o desejo do
+usuário.
+(Dica: você pode encontrar uma lista com os nomes das cores
+permitidas em
+<a class="reference external" href="http://www.w3schools.com/html/html_colornames.asp">http://www.w3schools.com/html/html_colornames.asp</a>.  A lista
+inclui cores bem exóticas, como &#8220;PeachPuff&#8221; e &#8220;HotPink&#8221;.)</li>
+<li>Faça uma mudança semelhante para permitir que o usuário
+modifique a cor da tartaruga tess.</li>
+<li>Faça o mesmo para a espessura da caneta. <em>Dica:</em> o seu diálogo
+com o usuário vai retornar um string, mas o método <code class="docutils literal"><span class="pre">pensize</span></code>
+deve ser chamado utilizando um inteiro como argumento. Portanto
+você deve converter o string para um inteiro antes de chamar o método
+<code class="docutils literal"><span class="pre">pensize</span></code>.</li>
+</ol>
+</div>
+<p><strong>Teste o seu entendimento</strong></p>
+
+    <div id="test_question3_1_1">
+    <p>3.1.1: Considere o seguinte código:
+<pre>
+import turtle
+wn = turtle.Screen()
+alex = turtle.Turtle()
+alex.forward(150)
+alex.left(90)
+alex.forward(75)
+</pre>
+Para que serve a linha "import turtle"?</p>
+    <form name="test_question3_1_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question3_1_1_opt_a" />
+    <label for= "test_question3_1_1_opt_a">  a) Ela cria um novo objeto turtle que pode ser utilizado para desenhar</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question3_1_1_opt_b" />
+    <label for= "test_question3_1_1_opt_b">  b) Ela nos permite criar um objeto chamado Turtle que pode ser usado para desenhar</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question3_1_1_opt_c" />
+    <label for= "test_question3_1_1_opt_c">  c) Ele faz a tartaruga desenhar metade de um retângulo na janela</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question3_1_1_opt_d" />
+    <label for= "test_question3_1_1_opt_d">  d) Nada, a linha é desnecessária</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question3_1_1','b',['A linha &quotalex = turtle.Turtle()&quot é que cria o objeto turtle', 'Essa linha carrega o módulo chamado turtle, que contém todas as funções necessárias para desenhar com objetos do tipo Turtle', 'Esse é o resultado das linhas &quotalex.forward(150)&quot, &quotalex.left(90)&quot, e &quotalex.forward(75)&quot', 'Se essa linha não for incluída, o Python vai dar um erro dizendo que não conhece o nome &quotturtle&quot quando executar a linha &quotwn = turtle.Screen()&quot'])"/> 
+    </form>
+    <div id="test_question3_1_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question3_1_2">
+    <p>3.1.2: Por que é necessário escrever "turtle.Turtle()" para se criar um novo objeto Turtle?</p>
+    <form name="test_question3_1_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question3_1_2_opt_a" />
+    <label for= "test_question3_1_2_opt_a">  a) Apenas para melhorar a clareza. Podemos escrever também "Turtle()" ao invés de "turtle.Turtle()"</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question3_1_2_opt_b" />
+    <label for= "test_question3_1_2_opt_b">  b) O ponto (.) diz ao Python que queremos criar um novo objeto.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question3_1_2_opt_c" />
+    <label for= "test_question3_1_2_opt_c">  c) O primeiro "turtle" (antes do ponto) diz ao Python que estamos nos referindo ao módulo turtle, que é onde o objeto "Turtle" deve ser encontrado.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question3_1_2','c',['É necessário definir o nome do módulo onde o Python pode encontrar o objeto Turtle.', 'O ponto separa o nome do módulo do nome do objeto. O parênteses ao final diz ao Python que se trata da chamada para criação de um novo objeto.', 'Sim, o tipo Turtle é definido no módulo turtle. Lembre-se que Python trata letras maiúsculas e minúsculas de forma diferente, ou seja, Turtle é diferente de turtle.'])"/> 
+    </form>
+    <div id="test_question3_1_2_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question3_1_3">
+    <p>3.1.3: Verdadeiro ou Falso: O objeto Turtle pode ter qualquer nome, desde que o nome siga a convenção descrita no capítulo 2.</p>
+    <form name="test_question3_1_3_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question3_1_3_opt_a" />
+    <label for= "test_question3_1_3_opt_a">  a) Verdadeiro</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question3_1_3_opt_b" />
+    <label for= "test_question3_1_3_opt_b">  b) Falso</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question3_1_3','a',['No capítulo vimos um objeto nomeado alex e outro tess, mas qualquer outro nome que siga a conveção é permitido.', 'Um objeto do tipo Turtle, como qualquer outro dado, pode ser atribuido para qualquer variável, que por sua vez pode ter qualquer nome desde que siga a convenção do capítulo 2.'])"/> 
+    </form>
+    <div id="test_question3_1_3_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="instancias-um-bando-de-tartarugas">
+<span id="index-2"></span><h2>Instâncias &#8212; um bando de tartarugas<a class="headerlink" href="#instancias-um-bando-de-tartarugas" title="Permalink to this headline">¶</a></h2>
+<p>Da mesma maneira que podemos ter vários inteiros em um programa,
+podemos ter várias tartarugas. Cada uma delas é um objeto independente
+que chamamos de <strong>instância</strong> do tipo (classe) Turtle.
+Cada instância tem os seus próprios atributos e métodos &#8212; assim alex
+pode desenhar usando uma caneta preta fina e ficar em uma posição,
+enquanto tess pode ir em outra direção desenhando com uma caneta
+rosa. O seguinte ocorre quando alex completa um quadrado e tess
+completa seu triângulo:</p>
+
+<div id="ch03_3" >
+<textarea cols="50" rows="12" id="ch03_3_code" class="active_code">
+import turtle
+wn = turtle.Screen()             # Cria uma janela e define seus atributos
+wn.bgcolor("lightgreen")
+
+
+tess = turtle.Turtle()           # cria tess e define seus atributos
+tess.color("hotpink")
+tess.pensize(5)
+
+alex = turtle.Turtle()           # cria alex
+
+tess.forward(80)                 # tess desenha um triângulo equilátero
+tess.left(120)
+tess.forward(80)
+tess.left(120)
+tess.forward(80)
+tess.left(120)                   # complete o triângulo
+
+tess.right(180)                  # tess muda de direção
+tess.forward(80)                 # tess se move para longe da origem
+
+alex.forward(50)                 # alex desenha um quadrado
+alex.left(90)
+alex.forward(50)
+alex.left(90)
+alex.forward(50)
+alex.left(90)
+alex.forward(50)
+alex.left(90)
+
+wn.exitonclick()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch03_3)</span> </p>
+<button onclick="runit('ch03_3',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch03_3');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch03_3');">Load</button>
+<br />
+
+<canvas id="ch03_3_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+</div>
+
+<p>Algumas observações sobre <em>Como pensar como um cientista da computação</em>:</p>
+<ul class="simple">
+<li>Há 360 graus em uma circunferência. Se você somar todas as mudanças
+de direção feitas por uma tartaruga, <em>independentemente dos passos
+que ocorreram entre as mudanças</em>, é fácil descobrir se a soma das
+alterações é um múltiplo de 360. Podemos concluir assim que alex
+termina virado para a mesma direção que tinha ao ser
+criado. (Convenções geométricas estabelecem que 0 graus aponta para
+o leste, e isso ocorre nesse caso também!)</li>
+<li>Poderíamos ter evitado a última virada de alex, mas dessa forma o
+resultado final não seria tão satisfatório. Sempre que você precisar
+desenhar uma forma fechada, como um quadrado ou retângulo, é uma boa
+prática deixar a tartaruga de volta ao estado original, apontando
+para a mesma direção inicial. Isso facilita o raciocínio, para nós
+humanos, sobre o programa e a composição de pedaços de código em
+programas maiores.</li>
+<li>Fizemos o mesmo com a tess: ela desenhou o seu triângulo e deu uma
+virada completa de 360 graus. Então nós a viramos e a movemos para o
+lado. Mesmo a linha 18 em branco é uma dica de como o <em>agrupamento
+mental</em> do programador está funcionando: de forma geral, os
+movimentos da tess foram agrupados como &#8220;desenhe o triângulo&#8221;
+(linhas 12-17) e então &#8220;mova-se para longe da origem&#8221; (linhas 19 e
+20).</li>
+<li>Um dos principais usos para comentários é deixar gravado o seu
+agrupamento mental e as ideias grandes. Elas nem sempre ficam
+explícitas no código.</li>
+<li>Ok, duas tartarugas podem não ser suficientes para um bando,
+mas deu para você ter uma ideia!</li>
+</ul>
+</div>
+<div class="section" id="o-laco-for">
+<span id="index-3"></span><h2>O laço <strong>for</strong><a class="headerlink" href="#o-laco-for" title="Permalink to this headline">¶</a></h2>
+<a id="forloopvid_thumb" > <img src="../_static/for_loop.png" /></a>
+<div id="forloopvid" class="video_popup" >
+<video controls  >
+    <source src="http://media.interactivepython.org/thinkcsVideos/for_loop.mov" type="video/mp4"></source>
+    <source src="http://media.interactivepython.org/thinkcsVideos/for_loop.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#forloopvid_thumb').click(function(e) {
+         $('#forloopvid').show();
+         $('#forloopvid_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'forloopvid'});
+         // Log the run event
+      });
+   });
+</script>
+<p>Foi muito tedioso desenhar o quadrado. Nós tivemos de mover e então
+girar, mover e então girar, etc. etc. quatro vezes. Se estivéssemos
+desenhando um hexágono, ou um octágono, ou um polígono com 42 lados,
+seria um pesadelo ter de duplicar todo aquele código.</p>
+<p>Um bloco básico de qualquer programa é o que permite repetir
+algum código várias e várias vezes. Na ciência da computação nos
+referimos a essa ideia repetitiva de <strong>iteração</strong>. Nesse
+capítulo vamos explorar alguns mecanismos básicos de iteração.</p>
+<p>Em Python, o comando <strong>for</strong> nos permite escrever programas que
+implementam iterações.
+Por exemplo, vamos assumir que temos alguns amigos e que gostaríamos
+de enviar para cada um deles um email convidando-os para a nossa
+festa. Ainda não sabemos como enviar emails, então por enquanto
+vamos apenas imprimir uma mensagem para cada amigo.</p>
+
+<div id="ch03_4" >
+<textarea cols="50" rows="12" id="ch03_4_code" class="active_code">
+for amigo in ["Joe", "Amy", "Brad", "Angelina", "Zuki", "Thandi", "Paris"]:
+    print("Ola ", amigo, "  Por favor venha a minha festa no sabado!")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch03_4)</span> </p>
+<button onclick="runit('ch03_4',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch03_4');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch03_4');">Load</button>
+<br />
+
+<pre id="ch03_4_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Dê uma olhada na saída produzida quando você pressiona o botão <code class="docutils literal"><span class="pre">run</span></code>. Existe uma linha impressa para cada amigo. Isso funciona assim:</p>
+<ul class="simple">
+<li><strong>amigo</strong> nesse comando <code class="docutils literal"><span class="pre">for</span></code> é chamado de <strong>variável do laço</strong>.</li>
+<li>A lista de nomes em colchetes é chamada de <strong>lista</strong> em Python.
+Listas são muito úteis. Veremos muito mais sobre elas mais tarde.</li>
+<li>A linha 2 é o <strong>corpo do laço</strong>. O corpo do laço é sempre recuado
+de um tab. Esse recuo determina exatamente que comandos estão
+&#8220;dentro do laço&#8221;. O corpo do laço é executado uma vez para cada
+nome na lista.</li>
+<li>A cada <strong>iteração</strong> ou <strong>passagem</strong> do laço, primeiro é feita um
+teste que verifica se ainda existem itens para serem processados.
+Se não há mais nenhum (isso é chamado de <strong>condição de parada</strong> do
+laço), o laço termina. A execução do programa continua na próxima
+instrução após o corpo do laço.</li>
+<li>Se ainda houver itens a serem processados, a variável do laço é
+atualizada para referenciar o próximo item da lista. Isto significa,
+neste caso, que o corpo do laço é executado sete vezes, e em cada
+vez <strong>amigo</strong> fará referência a um amigo diferente.</li>
+<li>No final de cada execução do corpo do laço, o Python volta ao
+comando <code class="docutils literal"><span class="pre">for</span></code> para ver se há mais itens a serem manipulados.</li>
+</ul>
+<p><strong>Teste o seu entendimento</strong></p>
+
+    <div id="test_question3_2_1">
+    <p>3.2.1: Verdadeiro ou Falso: você pode ter apenas uma tartaruga ativa de cada vez. Se você criar uma segunda, você não será mais capaz de acessar ou usar a primeira.</p>
+    <form name="test_question3_2_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question3_2_1_opt_a" />
+    <label for= "test_question3_2_1_opt_a">  a) Verdadeiro</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question3_2_1_opt_b" />
+    <label for= "test_question3_2_1_opt_b">  b) Falso</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question3_2_1','b',['Você pode criar e usar tantas tartarugas desejar. Desde que elas tenham nomes diferentes, você pode operá-las de forma independente, e fazê-las se mover em qualquer ordem que desejar. Para se convencer de que isso é verdade, tente intercalar as instruções para o alex e a tess na caixa 3 do ActiveCode.', 'Você pode criar e usar tantas tartarugas desejar. Desde que elas tenham nomes diferentes, você pode operá-las de forma independente, e fazê-las se mover em qualquer ordem que desejar. Para se convencer de que isso é verdade, tente intercalar as instruções para o alex e a tess na caixa 3 do ActiveCode.'])"/> 
+    </form>
+    <div id="test_question3_2_1_feedback">
+    </div>
+    </div>
+    <div class="admonition-editor-scratch admonition" id="index-4">
+<p class="first admonition-title">Editor Scratch</p>
+<div class="last">
+<button id="butt_turtle_scratch_1" onclick="createActiveCode('turtle_scratch_1',''); $('#butt_turtle_scratch_1').hide();">Open Editor</button>
+<div id="turtle_scratch_1"></div>
+<br />
+</div></div>
+</div>
+<div class="section" id="fluxo-de-execucao-do-laco-for">
+<h2>Fluxo de execução do laço for<a class="headerlink" href="#fluxo-de-execucao-do-laco-for" title="Permalink to this headline">¶</a></h2>
+<p>A medida que o programa executa, o interpretador sempre mantém registro sobre o comando que está prestes a ser executado. Chamamos isso de <strong>fluxo de controle</strong> ou <strong>fluxo de execução</strong> do programa. Quando seres humanos executam programas, muitas vezes eles usam um dedo para apontar para cada comando executado. Então você pode pensar em fluxo de controle como sendo o &#8220;dedo do Python em movimento&#8221;.</p>
+<p>Até agora o fluxo de controle foi estritamente de cima para baixo, uma instrução de cada vez. Nós chamamos esse tipo de controle <strong>sequencial</strong>. O fluxo de controle sequencial é sempre assumido como o comportamento padrão para um programa de computador. O comando <code class="docutils literal"><span class="pre">for</span></code> muda isso.</p>
+<p>O fluxo de controle é muitas vezes fácil de visualizar e entender se traçarmos um fluxograma. Este fluxograma mostra exatamente os passos e a lógica de como o comando <code class="docutils literal"><span class="pre">for</span></code> executa.</p>
+<a class="reference internal image-reference" href="../_images/new_flowchart_for.png"><img alt="../_images/new_flowchart_for.png" src="../_images/new_flowchart_for.png" style="width: 300px;" /></a>
+<p>Uma demonstração usando o codelens é uma boa maneira de ajudá-lo a visualizar exatamente como o fluxo de controle funciona com o laço for. Tente avançar e retroceder no programa pressionando os botões. Você pode ver o valor de <code class="docutils literal"><span class="pre">amigo</span></code> mudar a medida que o laço itera pela lista de amigos.</p>
+
+<div id="vtest"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (vtest)</span> </p>
+<script type="text/javascript">
+var vtest_trace = {"code": "for amigo in [\"Joe\", \"Amy\", \"Brad\", \"Angelina\", \"Zuki\", \"Thandi\", \"Paris\"]:\n    mensagem = \"Ol\u00e1 \" + amigo + \".  Por favor venha a minha festa!\"", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["amigo"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"amigo": "Joe"}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["amigo", "mensagem"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"amigo": "Joe", "mensagem": "Ol\u00e1 Joe.  Por favor venha a minha festa!"}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["amigo", "mensagem"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"amigo": "Amy", "mensagem": "Ol\u00e1 Joe.  Por favor venha a minha festa!"}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["amigo", "mensagem"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"amigo": "Amy", "mensagem": "Ol\u00e1 Amy.  Por favor venha a minha festa!"}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["amigo", "mensagem"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"amigo": "Brad", "mensagem": "Ol\u00e1 Amy.  Por favor venha a minha festa!"}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["amigo", "mensagem"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"amigo": "Brad", "mensagem": "Ol\u00e1 Brad.  Por favor venha a minha festa!"}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["amigo", "mensagem"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"amigo": "Angelina", "mensagem": "Ol\u00e1 Brad.  Por favor venha a minha festa!"}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["amigo", "mensagem"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"amigo": "Angelina", "mensagem": "Ol\u00e1 Angelina.  Por favor venha a minha festa!"}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["amigo", "mensagem"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"amigo": "Zuki", "mensagem": "Ol\u00e1 Angelina.  Por favor venha a minha festa!"}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["amigo", "mensagem"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"amigo": "Zuki", "mensagem": "Ol\u00e1 Zuki.  Por favor venha a minha festa!"}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["amigo", "mensagem"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"amigo": "Thandi", "mensagem": "Ol\u00e1 Zuki.  Por favor venha a minha festa!"}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["amigo", "mensagem"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"amigo": "Thandi", "mensagem": "Ol\u00e1 Thandi.  Por favor venha a minha festa!"}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["amigo", "mensagem"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"amigo": "Paris", "mensagem": "Ol\u00e1 Thandi.  Por favor venha a minha festa!"}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["amigo", "mensagem"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"amigo": "Paris", "mensagem": "Ol\u00e1 Paris.  Por favor venha a minha festa!"}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["amigo", "mensagem"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"amigo": "Paris", "mensagem": "Ol\u00e1 Paris.  Por favor venha a minha festa!"}, "heap": {}, "line": 1, "event": "return"}]};
+var vtest_vis;
+
+$(document).ready(function() {
+    vtest_vis = new ExecutionVisualizer('vtest',vtest_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(vtest_vis,'vtest');
+    allVisualizers.push(vtest_vis);
+});
+
+$(document).ready(function() {
+    $("#vtest_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'vtest'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    vtest_vis.redrawConnectors();
+});
+</script>
+</div>
+<div class="section" id="iteracao-simplifica-o-programa-de-tartaruga">
+<span id="index-5"></span><h2>Iteração simplifica o programa de tartaruga<a class="headerlink" href="#iteracao-simplifica-o-programa-de-tartaruga" title="Permalink to this headline">¶</a></h2>
+<p>Para desenhar um quadrado gostaríamos de fazer a mesma coisa quatro vezes &#8212; mover a tartaruga alguma distância para frente e girar 90 graus. Anteriormente usamos 8 linhas de código Python para fazer alex desenhar os quatro lados de um quadrado. Este próximo programa faz exatamente a mesma coisa mas, com a ajuda do comando for, usa apenas três linhas (não incluindo o código de inicialização). Lembre-se que o comando for repetirá o <cite>forward</cite> e <cite>left</cite> quatro vezes, uma vez para cada valor na lista.</p>
+
+<div id="ch03_for1" >
+<textarea cols="50" rows="12" id="ch03_for1_code" class="active_code">
+import turtle            # cria alex
+wn = turtle.Screen()
+alex = turtle.Turtle()
+
+for i in [0,1,2,3]:      # repita 4 vezes
+    alex.forward(50)
+    alex.left(90)
+
+wn.exitonclick()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch03_for1)</span> </p>
+<button onclick="runit('ch03_for1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch03_for1');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch03_for1');">Load</button>
+<br />
+
+<canvas id="ch03_for1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+</div>
+
+<p>Mesmo que &#8220;economizar algumas linhas de código&#8221; seja conveniente, isso não é a parte mais relevante. O mais importante é que nós encontramos um &#8220;padrão de repetição&#8221; de comandos e nós reorganizamos o programa para repetir o padrão.
+Encontrar os pedaços e, de alguma forma, organizar nossos programas ao redor desses pedaços é uma habilidade vital para se aprender <em>Como pensar como um cientista da computação</em>.</p>
+<p>Os valores [0,1,2,3] foram fornecidos para fazer o corpo do laço executar 4 vezes.
+Poderíamos ter usado quatro valores quaisquer. Por exemplo, considere o seguinte programa.</p>
+
+<div id="ch03_forcolor" >
+<textarea cols="50" rows="12" id="ch03_forcolor_code" class="active_code">
+import turtle            # cria alex
+wn = turtle.Screen()
+alex = turtle.Turtle()
+
+for aColor in ["yellow", "red", "purple", "blue"]:  # repita 4 vezes
+    alex.forward(50)
+    alex.left(90)
+
+wn.exitonclick()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch03_forcolor)</span> </p>
+<button onclick="runit('ch03_forcolor',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch03_forcolor');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch03_forcolor');">Load</button>
+<br />
+
+<canvas id="ch03_forcolor_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+</div>
+
+<p>Como há quatro itens na lista, a iteração ainda irá ocorrer quatro vezes. A variável do laço <code class="docutils literal"><span class="pre">aColor</span></code> vai assumir cada cor na lista. Podemos até dar um passo adiante e usar o valor de <code class="docutils literal"><span class="pre">aColor</span></code> como parte da computação.</p>
+
+<div id="colorlist" >
+<textarea cols="50" rows="12" id="colorlist_code" class="active_code">
+import turtle            # cria alex
+wn = turtle.Screen()
+alex = turtle.Turtle()
+
+for aColor in ["yellow", "red", "purple", "blue"]: # repita 4 vezes
+   alex.color(aColor)
+   alex.forward(50)
+   alex.left(90)
+
+wn.exitonclick()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (colorlist)</span> </p>
+<button onclick="runit('colorlist',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('colorlist');">Save</button>
+<button class="ac_opt" onclick="requestCode('colorlist');">Load</button>
+<br />
+
+<canvas id="colorlist_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="colorlist_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Nesse caso, o valor de <code class="docutils literal"><span class="pre">aColor</span></code> é usado para modificar o atributo cor de <code class="docutils literal"><span class="pre">alex</span></code>. Cada iteração causa a modificação de <code class="docutils literal"><span class="pre">aColor</span></code> para o próximo valor da lista.</p>
+<p><strong>Check your understanding</strong></p>
+
+    <div id="test_question3_4_1">
+    <p>3.4.1: Quantas linhas são impressas pelo código a seguir?
+<pre>
+for numero in [5, 4, 3, 2, 1, 0]:
+    print("Eu tenho", numero, "biscoitos. Vou comer um.")
+</pre></p>
+    <form name="test_question3_4_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question3_4_1_opt_a" />
+    <label for= "test_question3_4_1_opt_a">  a) 1</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question3_4_1_opt_b" />
+    <label for= "test_question3_4_1_opt_b">  b) 5</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question3_4_1_opt_c" />
+    <label for= "test_question3_4_1_opt_c">  c) 6</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question3_4_1_opt_d" />
+    <label for= "test_question3_4_1_opt_d">  d) 10</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question3_4_1','c',['O corpo do laço imprime uma linha, mas o corpo será executado exatamente uma vez para cada elemento na lista [5, 4, 3, 2, 1, 0].', 'Embora o maior número na lista seja 5, há na realidade 6 elementos na lista.', 'O corpo do laço será executado (e imprimira uma linha) para cada um dos 6 elementos na lista [5, 4, 3, 2, 1, 0]', 'O corpo do laço não será executado mais vezes que o número de elementos na lista.'])"/> 
+    </form>
+    <div id="test_question3_4_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question3_4_2">
+    <p>3.4.2: Como o Python sabe quais linhas fazem parte do corpo do laço?</p>
+    <form name="test_question3_4_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question3_4_2_opt_a" />
+    <label for= "test_question3_4_2_opt_a">  a) As linhas ficam recuadas um tab do cabeçalho do laço</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question3_4_2_opt_b" />
+    <label for= "test_question3_4_2_opt_b">  b) Sempre há apenas 1 linha no corpo do laço</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question3_4_2_opt_c" />
+    <label for= "test_question3_4_2_opt_c">  c) O corpo do laço termina com um ponto e vírgula (;) que não foi mostrado no código acima</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question3_4_2','a',['O corpo do laço pode ter um número de linhas qualquer, todas recuadas do cabeçalho do laço.', 'O corpo do laço pode ter mais de uma linha.', 'O Python não usa ponto e vírgula em usa sintaxe. Ele se baseia na tabulação.'])"/> 
+    </form>
+    <div id="test_question3_4_2_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question3_4_3">
+    <p>3.4.3: No código a seguir, qual o valor de numero da segunda vez que o Python executa o laço?
+<pre>
+for numero in [5, 4, 3, 2, 1, 0]:
+    print("Eu tenho", numero, "biscoitos. Vou comer um.")
+</pre></p>
+    <form name="test_question3_4_3_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question3_4_3_opt_a" />
+    <label for= "test_question3_4_3_opt_a">  a) 2</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question3_4_3_opt_b" />
+    <label for= "test_question3_4_3_opt_b">  b) 4</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question3_4_3_opt_c" />
+    <label for= "test_question3_4_3_opt_c">  c) 5</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question3_4_3_opt_d" />
+    <label for= "test_question3_4_3_opt_d">  d) 1</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question3_4_3','b',['O Python atribui a numero o valor dos itens da lista, um de cada vez, em ordem (da esquerda para a direita). numero recebe um novo valor cada vez que o laço se repete.', 'Sim, o Python processa os itens da esquerda para a direita, assim da primeira vez o valor é 5 e da segunda é 4.', 'O Python dá a numero o valor dos itens da lista, um de cada vez, em ordem (da esquerda para a direita). numero recebe um novo valor cada vez que o laço se repete.', 'O Python dá a numero o valor dos itens da lista, um de cada vez, em ordem (da esquerda para a direita). numero recebe um novo valor cada vez que o laço se repete.'])"/> 
+    </form>
+    <div id="test_question3_4_3_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question3_4_4">
+    <p>3.4.4: Considere o seguinte código:
+<pre>
+for aColor in ["yellow", "red", "green", "blue"]:
+   alex.forward(50)
+   alex.left(90)
+</pre>
+O que cada iteração do loop (ou seja, "pedaço de código") faz?</p>
+    <form name="test_question3_4_4_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question3_4_4_opt_a" />
+    <label for= "test_question3_4_4_opt_a">  a) Desenha um lado de um quadrado, usando a mesma cor todas as vezes.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question3_4_4_opt_b" />
+    <label for= "test_question3_4_4_opt_b">  b) Desenha um lado de um quadrado, usando uma cor diferente a cada vez.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question3_4_4_opt_c" />
+    <label for= "test_question3_4_4_opt_c">  c) Desenha um quadrado completo.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question3_4_4','a',['Os itens da lista não são realmente utilizados para controlar a cor da tartaruga porque aColor nunca é usado dentro do laço.', 'Observe que aColor nunca é usado dentro do laço.', 'O corpo do laço contém apenas duas instruções: siga em frente e vire à esquerda. Isso não é o suficiente para desenhar um quadrado completo.'])"/> 
+    </form>
+    <div id="test_question3_4_4_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="a-funcao-range">
+<h2>A função range<a class="headerlink" href="#a-funcao-range" title="Permalink to this headline">¶</a></h2>
+<a id="advrange_thumb" > <img src="../_static/advrange.png" /></a>
+<div id="advrange" class="video_popup" >
+<video controls  >
+    <source src="http://media.interactivepython.org/thinkcsVideos/AdvancedRange.mov" type="video/mp4"></source>
+    <source src="http://media.interactivepython.org/thinkcsVideos/AdvancedRange.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#advrange_thumb').click(function(e) {
+         $('#advrange').show();
+         $('#advrange_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'advrange'});
+         // Log the run event
+      });
+   });
+</script>
+<p>No exemplo da última sessão (mostrado novamente abaixo), usamos uma lista de quatro inteiros para causar que a iteração se repetisse quatro vezes. Dissemos que poderíamos ter usado quatro valores quaisquer. De fato, até usamos quatro cores.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">turtle</span>            <span class="c1"># cria alex</span>
+<span class="n">wn</span> <span class="o">=</span> <span class="n">turtle</span><span class="o">.</span><span class="n">Screen</span><span class="p">()</span>
+<span class="n">alex</span> <span class="o">=</span> <span class="n">turtle</span><span class="o">.</span><span class="n">Turtle</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]:</span>      <span class="c1"># repita 4 vezes</span>
+    <span class="n">alex</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">alex</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span>
+
+<span class="n">wn</span><span class="o">.</span><span class="n">exitonclick</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Acontece que a geração de listas com um número específico de inteiros é uma coisa muito comum de se fazer, especialmente quando você quer escrever uma iteração simples controlada por um laço for. Mesmo que você possa usar quatro itens quaisquer, ou quaisquer quatro números inteiros, o convencional é usar uma lista de inteiros que começa com 0.
+Na verdade, essas listas são tão populares que o Python fornece um objeto <code class="docutils literal"><span class="pre">range</span></code> (intervalo) nativo que pode ser usado para fornecer uma sequência de valores para o laço <code class="docutils literal"><span class="pre">for</span></code>. As sequências começam de 0 e nos casos mostrados abaixo não incluem o 4 e o 10.</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+    <span class="c1"># Executa o corpo com i = 0, depois 1, depois 2, depois 3</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="c1"># x recebe um valor de [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] de cada vez</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="admonition-nota admonition">
+<p class="first admonition-title">Nota</p>
+<p class="last">Cientistas da computação gostam de contar a partir do 0!</p>
+</div>
+<p>Assim, para repetir algo quatro vezes, um bom programador de Python faria:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+    <span class="n">alex</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">alex</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A função <a class="reference external" href="http://docs.python.org/py3k/library/functions.html?highlight=range#range">range</a> é na verdade uma função muito poderosa para a criação de sequências de inteiros. Ela pode receber um, dois ou três argumentos. Nós vimos o caso mais simples de um argumento, como <code class="docutils literal"><span class="pre">range(4)</span></code> que cria <code class="docutils literal"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">3]</span></code>.
+Mas e se na verdade quisermos a sequência <code class="docutils literal"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4]</span></code>?
+Podemos obter isso passando dois argumentos a <code class="docutils literal"><span class="pre">range</span></code>, onde o primeiro argumento define o início do intervalo e o segundo argumento define o fim. A chamada <code class="docutils literal"><span class="pre">range(1,</span> <span class="pre">5)</span></code> retorna a sequência desejada. Mas o que aconteceu com o 5? Nesse caso interpretamos os argumentos de range para significar range(início, fim+1).</p>
+<div class="admonition-nota admonition">
+<p class="first admonition-title">Nota</p>
+<p class="last">Mas por que o range simplesmente não funciona como range(início, fim)?
+Pense nisso da seguinte forma. Como os cientistas da computação gostam de
+começar a contar a partir do 0 ao invés de 1, <code class="docutils literal"><span class="pre">range(N)</span></code> produz a
+sequência de sequência de coisas que tem comprimento N, mas a consequência
+de começar com 0 é que o número final da sequência é N-1. No caso de início e
+fim, é mais fácil pensar que a sequência começa do início e continua até
+o fim, mas não inclui o fim.</p>
+</div>
+<p>Execute os dois exemplos a seguir. Adicione uma outra linha abaixo para criar uma sequência que comece em 10 e vai até 20 (incluindo o 20).</p>
+
+<div id="ch03_5" >
+<textarea cols="50" rows="12" id="ch03_5_code" class="active_code">
+print(range(4))
+print(range(1,5))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch03_5)</span> </p>
+<button onclick="runit('ch03_5',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch03_5');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch03_5');">Load</button>
+<br />
+
+<pre id="ch03_5_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>O codelens pode nos ajudar também a entender como a função range funciona. Nesse caso, a variável <code class="docutils literal"><span class="pre">i</span></code> receberá os valores produzidos por <code class="docutils literal"><span class="pre">range</span></code>.</p>
+
+<div id="rangeme"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (rangeme)</span> </p>
+<script type="text/javascript">
+var rangeme_trace = {"code": "for i in range(10):\n   print(i)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 1}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n1\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 1}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n1\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 2}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n1\n2\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 2}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n1\n2\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 3}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n1\n2\n3\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 3}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n1\n2\n3\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 4}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n1\n2\n3\n4\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 4}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n1\n2\n3\n4\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 5}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n1\n2\n3\n4\n5\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 5}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n1\n2\n3\n4\n5\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 6}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n1\n2\n3\n4\n5\n6\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 6}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n1\n2\n3\n4\n5\n6\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 7}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n1\n2\n3\n4\n5\n6\n7\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 7}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n1\n2\n3\n4\n5\n6\n7\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 8}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n1\n2\n3\n4\n5\n6\n7\n8\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 8}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n1\n2\n3\n4\n5\n6\n7\n8\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 9}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 9}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 9}, "heap": {}, "line": 1, "event": "return"}]};
+var rangeme_vis;
+
+$(document).ready(function() {
+    rangeme_vis = new ExecutionVisualizer('rangeme',rangeme_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(rangeme_vis,'rangeme');
+    allVisualizers.push(rangeme_vis);
+});
+
+$(document).ready(function() {
+    $("#rangeme_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'rangeme'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    rangeme_vis.redrawConnectors();
+});
+</script>
+<p>Finalmente, suponha que nós queremos ter uma sequência de números pares.
+Como é que vamos fazer isso? Fácil, nós adicionamos um outro parâmetro, um passo,
+que diz ao range o quanto pular.
+Então, se queremos os 10 primeiros números pares podemos usar
+<code class="docutils literal"><span class="pre">range(0,19,2)</span></code>. A forma mais geral de range é
+<code class="docutils literal"><span class="pre">range(início,</span> <span class="pre">fim,</span> <span class="pre">passo)</span></code>. Você também pode criar uma sequência de números que
+começa grande e fica menor, usando um valor negativo para o passo.</p>
+
+<div id="ch03_6" >
+<textarea cols="50" rows="12" id="ch03_6_code" class="active_code">
+print(range(0,19,2))
+print(range(0,20,2))
+print(range(10,0,-1))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch03_6)</span> </p>
+<button onclick="runit('ch03_6',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch03_6');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch03_6');">Load</button>
+<br />
+
+<pre id="ch03_6_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Experimente no codelens.</p>
+
+<div id="rangeme2"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (rangeme2)</span> </p>
+<script type="text/javascript">
+var rangeme2_trace = {"code": "for i in range(0,20,2):\n   print(i)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 2}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n2\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 2}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n2\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 4}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n2\n4\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 4}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n2\n4\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 6}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n2\n4\n6\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 6}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n2\n4\n6\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 8}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n2\n4\n6\n8\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 8}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n2\n4\n6\n8\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 10}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n2\n4\n6\n8\n10\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 10}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n2\n4\n6\n8\n10\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 12}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n2\n4\n6\n8\n10\n12\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 12}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n2\n4\n6\n8\n10\n12\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 14}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n2\n4\n6\n8\n10\n12\n14\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 14}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n2\n4\n6\n8\n10\n12\n14\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 16}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n2\n4\n6\n8\n10\n12\n14\n16\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 16}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n2\n4\n6\n8\n10\n12\n14\n16\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 18}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n2\n4\n6\n8\n10\n12\n14\n16\n18\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 18}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "0\n2\n4\n6\n8\n10\n12\n14\n16\n18\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 18}, "heap": {}, "line": 1, "event": "return"}]};
+var rangeme2_vis;
+
+$(document).ready(function() {
+    rangeme2_vis = new ExecutionVisualizer('rangeme2',rangeme2_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(rangeme2_vis,'rangeme2');
+    allVisualizers.push(rangeme2_vis);
+});
+
+$(document).ready(function() {
+    $("#rangeme2_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'rangeme2'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    rangeme2_vis.redrawConnectors();
+});
+</script>
+<p><strong>Teste o seu entendimento</strong></p>
+
+    <div id="test_question3_5_1">
+    <p>3.5.1: No comando range(3, 10, 2), o que é definido pelo segundo argumento (10)?</p>
+    <form name="test_question3_5_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question3_5_1_opt_a" />
+    <label for= "test_question3_5_1_opt_a">  a) Range deve gerar uma lista que pára em 9 (incluindo 9).</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question3_5_1_opt_b" />
+    <label for= "test_question3_5_1_opt_b">  b) Range deve gerar uma lista que começa em 10 (incluindo 10).</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question3_5_1_opt_c" />
+    <label for= "test_question3_5_1_opt_c">  c) Range deve gerar uma lista a partir de 3, que pára em 10 (incluindo 10).</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question3_5_1_opt_d" />
+    <label for= "test_question3_5_1_opt_d">  d) Range deve gerar uma lista usando todo décimo número entre o início e o fim.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question3_5_1','a',['Range vai gerar a lista [3, 5, 7, 9]', 'O primeiro argumento (3) define o início.', 'Range pára no número anterior (não inclui) o número que define o fim da sequência.', 'O terceiro elemento (2) define quantos números devem ser pulados (passo) entre cada elemento da lista.'])"/> 
+    </form>
+    <div id="test_question3_5_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question3_5_2">
+    <p>3.5.2: Que comando gera a lista [2, 5, 8]?</p>
+    <form name="test_question3_5_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question3_5_2_opt_a" />
+    <label for= "test_question3_5_2_opt_a">  a) range(2, 5, 8)</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question3_5_2_opt_b" />
+    <label for= "test_question3_5_2_opt_b">  b) range(2, 8, 3)</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question3_5_2_opt_c" />
+    <label for= "test_question3_5_2_opt_c">  c) range(2, 10, 3)</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question3_5_2_opt_d" />
+    <label for= "test_question3_5_2_opt_d">  d) range(8, 1, -3)</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question3_5_2','c',['Este comando gera a lista [2], porque o primeiro número (2) diz a range por onde começar, o segundo número diz o fim do intervalo (5, que não é incluído) e o terceiro número diz a range quantos números ele deve saltar entre elementos da lista (8). Como 10 >= 5, existe apenas um número nesta lista.', 'This command generates the list [2, 5] because 8 is not less than 8 (the specified ending number).', 'The first number is the starting point, the second is the maximum allowed, and the third is the amount to increment by.', 'This command generates the list [8, 5, 3] because it starts at 8, ends at (or above 1), and skips every third number going down.'])"/> 
+    </form>
+    <div id="test_question3_5_2_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question3_5_3">
+    <p>3.5.3: O que acontece quando range recebe apenas um argumento? Por exemplo: range(4)</p>
+    <form name="test_question3_5_3_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question3_5_3_opt_a" />
+    <label for= "test_question3_5_3_opt_a">  a) Range vai gerar uma lista começando em 0, com todos os números até, mas não incluindo, o argumento que foi passado.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question3_5_3_opt_b" />
+    <label for= "test_question3_5_3_opt_b">  b) Range vai gerar uma lista começando em 1, com todos os números até, mas não incluindo, o argumento que foi passado.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question3_5_3_opt_c" />
+    <label for= "test_question3_5_3_opt_c">  c) Range vai gerar uma lista começando em 1, com todos os números até o argumento que foi passado, incluindo o mesmo.</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question3_5_3_opt_d" />
+    <label for= "test_question3_5_3_opt_d">  d) A chamada causa um erro: range requer sempre 3 argumentos.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question3_5_3','a',['Sim, se você passar apenas um argumento, ele começa com zero e termina um número antes do argumento especificado.', 'Range começa do 0, a menos que outro número seja especificado.', 'Range começa do 0, a menos que outro número seja especificado e nunca inclui o número que define o fim (que é o caso quando apenas um argumento é passado).', 'Quando o range recebe apenas um argumento, ele o interpreta como sendo o fim da lista (não incluído).'])"/> 
+    </form>
+    <div id="test_question3_5_3_feedback">
+    </div>
+    </div>
+    <div class="admonition-editor-scratch admonition">
+<p class="first admonition-title">Editor Scratch</p>
+<div class="last">
+<button id="butt_turtle_scratch_2" onclick="createActiveCode('turtle_scratch_2',''); $('#butt_turtle_scratch_2').hide();">Open Editor</button>
+<div id="turtle_scratch_2"></div>
+<br />
+</div></div>
+</div>
+<div class="section" id="observacoes-e-alguns-outros-metodos-de-turtle">
+<h2>Observações e alguns outros métodos de Turtle<a class="headerlink" href="#observacoes-e-alguns-outros-metodos-de-turtle" title="Permalink to this headline">¶</a></h2>
+<p>Vamos ver mais algumas coisas de Turtle que lhe podem ser úteis.</p>
+<ul>
+<li><p class="first">Os métodos de um objeto Turtle podem usar ângulos ou distâncias negativas.
+Assim, <code class="docutils literal"><span class="pre">tess.foward(-100)</span></code> move tess para trás e <code class="docutils literal"><span class="pre">tess.left(-30)</span></code> vira
+ela para a direita. Além disso, como há 360 graus em um círculo, girando
+30 para a esquerda vai deixá-la virada na mesma direção que girando 330
+para a direita! (No entanto, a animação na tela será diferente &#8212; você
+será capaz de dizer se a tess está girando no sentido horário ou
+anti-horário!)</p>
+<p>Isso sugere que nós não precisamos de dois métodos para girar tanto à
+esquerda quanto à direita &#8212; poderíamos ser minimalistas e ter apenas
+um método. Há também um método <em>backward</em>. (Se você é muito <em>nerdy</em>, pode
+gostar de escrever <code class="docutils literal"><span class="pre">alex.backward(-100)</span></code> para mover alex para frente!)</p>
+<p>Parte de <em>pensar como um cientista</em> é entender mais sobre a estrutura e
+as relações elaboradas existentes em sua área.
+Assim, uma revisão de alguns conceitos básicos de geometria como fizemos aqui
+é um bom começo para continuar brincando com as tartarugas.</p>
+</li>
+<li><p class="first">O rabo da tartaruga pode ser deixado para baixo ou para cima. Isso permite
+que a tartaruga se mova sem desenhar uma linha. Os métodos são <code class="docutils literal"><span class="pre">penup</span></code>
+e <code class="docutils literal"><span class="pre">pendown</span></code>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">alex</span><span class="o">.</span><span class="n">penup</span><span class="p">()</span>
+<span class="n">alex</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>     <span class="c1"># this moves alex, but no line is drawn</span>
+<span class="n">alex</span><span class="o">.</span><span class="n">pendown</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Cada tartaruga pode ter sua própria forma. As formas já prontas são
+<code class="docutils literal"><span class="pre">arrow</span></code>, <code class="docutils literal"><span class="pre">blank</span></code>, <code class="docutils literal"><span class="pre">circle</span></code>, <code class="docutils literal"><span class="pre">classic</span></code>, <code class="docutils literal"><span class="pre">square</span></code>, <code class="docutils literal"><span class="pre">triangle</span></code>,
+<code class="docutils literal"><span class="pre">turtle</span></code>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="o">...</span>
+<span class="n">alex</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="s2">&quot;turtle&quot;</span><span class="p">)</span>  <span class="c1"># experimente as outras formas</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Você pode controlar a velocidade de animação da tartaruga. (A animação
+controla a velocidade usada para a tartaruga virar e se mover). A velocidade
+pode ser configurada entre 1 (a mais baixa) e 10 (mais rápida). A velocidade 0
+tem um significado especial &#8212; a animação é desativada e o programa é executado
+o mais rápido possível.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">alex</span><span class="o">.</span><span class="n">speed</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Uma tartaruga pode &#8220;carimbar&#8221; a sua pegada no canvas, que vai permanecer
+mesmo após a tartaruga tenha se mudado para outro lugar. O carimbo
+funciona mesmo quando o rabo está voltado para cima.</p>
+</li>
+</ul>
+<p>Vamos fazer um exemplo que mostra alguns desses novos recursos.</p>
+
+<div id="ch03_7" >
+<textarea cols="50" rows="12" id="ch03_7_code" class="active_code">
+import turtle
+wn = turtle.Screen()
+wn.bgcolor("lightgreen")
+tess = turtle.Turtle()
+tess.color("blue")
+tess.shape("turtle")
+
+print(range(5,60,2))
+tess.penup()                    # isso é novo
+for size in range(5,60,2):      # começar com size = 5 e passo 2
+    tess.stamp()                # deixar um carimbo no canvas
+    tess.forward(size)          # tess, vá para frente
+    tess.right(24)              # tess, vire 24 graus a direita
+
+wn.exitonclick()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch03_7)</span> </p>
+<button onclick="runit('ch03_7',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch03_7');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch03_7');">Load</button>
+<br />
+
+<canvas id="ch03_7_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch03_7_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>A lista de inteiros mostrada acima é criada ao imprimir o resultado de <code class="docutils literal"><span class="pre">range(5,60,2)</span></code>. Isso foi feito apenas para lhe mostrar as distâncias
+sendo usadas para mover a tartaruga.
+O uso real é feito dentro do laço <code class="docutils literal"><span class="pre">for</span></code>.</p>
+<p>Mais uma coisa para se ter cuidado. Todas exceto uma das formas que você vê aqui
+na tela são pegadas criadas por <code class="docutils literal"><span class="pre">stamp</span></code>. Mas o programa possui apenas <em>uma</em>
+instância de Turtle &#8212; você consegue descobrir qual é a tess verdadeira?
+(Dica: se você tem alguma dúvida, escreva algumas linhas de código depois
+do laço <code class="docutils literal"><span class="pre">for</span></code> para mudar a cor de tess, ou colocar o seu rabo para baixo
+para desenhar uma linha, ou mudar a sua forma etc.)</p>
+<div class="admonition-exercicio admonition">
+<p class="first admonition-title">Exercício</p>
+<ul class="last simple">
+<li><a class="reference external" href="../Labs/lab03_01.html">Turtle Race</a> Nesse exercício dirigido você vai
+resolver alguns problemas relacionados à implementação de uma corrida de
+tartarugas.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="resumo-de-metodos-de-turtle">
+<span id="turtle-methods"></span><h2>Resumo de métodos de Turtle<a class="headerlink" href="#resumo-de-metodos-de-turtle" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="14%" />
+<col width="71%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Método</th>
+<th class="head">Parâmetros</th>
+<th class="head">Descrição</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Turtle</td>
+<td>None</td>
+<td>Cria e retorna um novo objeto turtle</td>
+</tr>
+<tr class="row-odd"><td>forward</td>
+<td>distância</td>
+<td>Move para frente</td>
+</tr>
+<tr class="row-even"><td>backward</td>
+<td>distância</td>
+<td>Move para trás</td>
+</tr>
+<tr class="row-odd"><td>right</td>
+<td>ângulo</td>
+<td>Vira no sentido horário</td>
+</tr>
+<tr class="row-even"><td>left</td>
+<td>ângulo</td>
+<td>Vira no sentido anti-horário</td>
+</tr>
+<tr class="row-odd"><td>up</td>
+<td>None</td>
+<td>Levanta o rabo</td>
+</tr>
+<tr class="row-even"><td>down</td>
+<td>None</td>
+<td>Abaixa o rabo</td>
+</tr>
+<tr class="row-odd"><td>color</td>
+<td>cor</td>
+<td>Muda a cor usada ao desenhar</td>
+</tr>
+<tr class="row-even"><td>fillcolor</td>
+<td>cor</td>
+<td>Muda a cor usada ao preencher um polígono</td>
+</tr>
+<tr class="row-odd"><td>heading</td>
+<td>None</td>
+<td>Retorna a direção atual</td>
+</tr>
+<tr class="row-even"><td>position</td>
+<td>None</td>
+<td>Retorna a posição atual</td>
+</tr>
+<tr class="row-odd"><td>goto</td>
+<td>x,y</td>
+<td>Move a tartarua para a posição x,y</td>
+</tr>
+<tr class="row-even"><td>begin_fill</td>
+<td>None</td>
+<td>Use a posição atual para preencher um polígono</td>
+</tr>
+<tr class="row-odd"><td>end_fill</td>
+<td>None</td>
+<td>Termine o polígono na posição atual</td>
+</tr>
+<tr class="row-even"><td>dot</td>
+<td>None</td>
+<td>Deixe um ponto na posição atual</td>
+</tr>
+<tr class="row-odd"><td>stamp</td>
+<td>None</td>
+<td>Deixe um carimbo da tartaruga na posição atual</td>
+</tr>
+<tr class="row-even"><td>shape</td>
+<td>forma</td>
+<td>Deve ser &#8216;arrow&#8217;, &#8216;classic&#8217;, &#8216;turtle&#8217;, ou &#8216;circle&#8217;</td>
+</tr>
+</tbody>
+</table>
+<p>Depois que você se familiarizar com os componentes básicos do
+módulo gráfico turtle
+você pode conhecer ainda mais opções lendo a <a class="reference external" href="http://docs.python.org/dev/py3k/library/turtle.html">documentação online do Python</a>.
+Note que vamos falar mais sobre a documentação do Python no próximo capítulo.</p>
+</div>
+<div class="section" id="glossario">
+<h2>Glossário<a class="headerlink" href="#glossario" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-atributo">atributo</dt>
+<dd>Algum estado ou valor que pertence a um objeto particular. Por exemplo,
+tess tem uma cor.</dd>
+<dt id="term-canvas">canvas</dt>
+<dd>A superfície dentro de uma janela usada para desenhar.</dd>
+<dt id="term-condicao-de-parada">condição de parada.</dt>
+<dd>Uma condição que, ao ocorrer, faz com que um laço pare de repetir
+o seu corpo.
+Nos laços <code class="docutils literal"><span class="pre">for</span></code> que vimos neste capítulo, a condição de parada
+se torna verdadeira quando não há mais elementos para atribuir
+à <em>variável do laço</em>.</dd>
+<dt id="term-corpo-do-laco">corpo do laço</dt>
+<dd>Conjunto de comandos contidos dentro de um laço. A identificação
+do corpo é feita pelo recuo (tab) a partir da declaração do laço.</dd>
+<dt id="term-estado">estado</dt>
+<dd>A coleção de valores de atributos mantida por um objeto de dados específico.</dd>
+<dt id="term-fluxo-de-controle">fluxo de controle</dt>
+<dd>Veja <em>fluxo de execução</em> no próximo capítulo.</dd>
+<dt id="term-for-laco-for">for (laço for)</dt>
+<dd>Um comando do Python que permite a repetição de comandos dentro do
+<em>corpo</em> do laço for.</dd>
+<dt id="term-instancia">instância</dt>
+<dd>Um objeto que pertence a uma classe. <cite>tess</cite> e <cite>alex</cite> são diferentes
+instâncias da classe <cite>Turtle</cite>.</dd>
+<dt id="term-invocar">invocar</dt>
+<dd>Um objeto tem métodos. Usamos o verbo invocar para significar
+<em>ativar o método</em>. A invocação de um método é feita
+colocando parênteses após o nome do método, com alguns dos
+possíveis argumentos. Então <code class="docutils literal"><span class="pre">wn.exitonclick()</span></code> é
+uma invocação do método <code class="docutils literal"><span class="pre">exitonclick</span></code>.</dd>
+<dt id="term-iteracao-comando-de">iteração (comando de)</dt>
+<dd>Um bloco de construção básico de algoritmos (programas). Ele
+permite que passos sejam repetidos. Às vezes chamado
+<em>laço</em> (<cite>loop</cite>, ou <cite>looping</cite>).</dd>
+<dt id="term-metodo">método</dt>
+<dd>Uma função de um objeto. Invocando ou ativando o
+método faz com que o objecto responda de alguma forma,
+por exemplo, <code class="docutils literal"><span class="pre">forward</span></code> é o método que usamos para
+uma tartaruga se mova para frente (<code class="docutils literal"><span class="pre">tess.forward(100)</span></code>.</dd>
+<dt id="term-modulo">módulo</dt>
+<dd>Um arquivo contendo definições e comandos do Python para uso em
+outros programas em Python. O conteúdo de um módulo é
+disponibilizado para outro programa usando o comando <em>import</em>.</dd>
+<dt id="term-objeto">objeto</dt>
+<dd>Uma &#8220;coisa&#8221; que pode ser referida por uma variável.
+Essa coisa pode ser uma janela no monitor,
+ou uma das tartarugas que você criou.</dd>
+<dt id="term-range">range</dt>
+<dd>Uma função nativa do Python para gerar sequências de números inteiros.
+Ela é especialmente útil quando precisamos escrever um laço que é
+executado um número de vezes determinado.</dd>
+<dt id="term-sequencial">sequencial</dt>
+<dd>O comportamento padrão de um programa. O processamento passo-a-passo
+de um algoritmo.</dd>
+<dt id="term-variavel-do-laco">variável do laço</dt>
+<dd>Uma variável usada como parte de um laço. Ela recebe um valor diferente
+em cada iteração do laço e é usada como parte da <em>condição de parada</em>
+do laço.</dd>
+<dt id="term-turtle">Turtle</dt>
+<dd>Classe que define objetos de dados usados para criar imagens
+(gráficos de tartarugas). &#8220;turtle&#8221;, com minúscula, é o nome do
+módulo gráfico do Python que contém Turtle.</dd>
+</dl>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Escreva um programa que escreve <code class="docutils literal"><span class="pre">Eu</span> <span class="pre">gosto</span> <span class="pre">das</span> <span class="pre">tartarugas</span> <span class="pre">do</span> <span class="pre">Python!</span></code> 1000 vezes.</p>
+
+<button id="butt_ex_3_1" onclick="createActiveCode('ex_3_1',''); $('#butt_ex_3_1').hide();">Open Editor</button>
+<div id="ex_3_1"></div>
+<br />
+</li>
+<li><p class="first">Dê três atributos de seu objeto <cite>telefone celular</cite>.
+Dê três métodos do seu celular.</p>
+
+<button id="butt_ex_3_2" onclick="createActiveCode('ex_3_2',''); $('#butt_ex_3_2').hide();">Open Editor</button>
+<div id="ex_3_2"></div>
+<br />
+</li>
+<li><dl class="first docutils">
+<dt>Escreva um programa que usa um laço for para imprimir</dt>
+<dd><div class="first last line-block">
+<div class="line"><code class="docutils literal"><span class="pre">Um</span> <span class="pre">dos</span> <span class="pre">meses</span> <span class="pre">do</span> <span class="pre">ano</span> <span class="pre">é</span> <span class="pre">janeiro</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">Um</span> <span class="pre">dos</span> <span class="pre">meses</span> <span class="pre">do</span> <span class="pre">ano</span> <span class="pre">é</span> <span class="pre">fevereiro</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">Um</span> <span class="pre">dos</span> <span class="pre">meses</span> <span class="pre">do</span> <span class="pre">ano</span> <span class="pre">é</span> <span class="pre">março</span></code></div>
+<div class="line">etc ...</div>
+</div>
+</dd>
+</dl>
+
+<button id="butt_ex_3_3" onclick="createActiveCode('ex_3_3',''); $('#butt_ex_3_3').hide();">Open Editor</button>
+<div id="ex_3_3"></div>
+<br />
+</li>
+<li><p class="first">Considere a seguinte atribuição <code class="docutils literal"><span class="pre">xs</span> <span class="pre">=</span> <span class="pre">[12,</span> <span class="pre">10,</span> <span class="pre">32,</span> <span class="pre">3,</span> <span class="pre">66,</span> <span class="pre">17,</span> <span class="pre">42,</span> <span class="pre">99,</span> <span class="pre">20]</span></code></p>
+<ol class="loweralpha simple">
+<li>Escreva um laço que imprima cada um dos números em uma nova linha.</li>
+<li>Escreva um laço que imprima cada um dos números e seu quadrado em uma nova linha.</li>
+</ol>
+
+<button id="butt_ex_3_4" onclick="createActiveCode('ex_3_4',''); $('#butt_ex_3_4').hide();">Open Editor</button>
+<div id="ex_3_4"></div>
+<br />
+</li>
+<li><p class="first">Use o laço <code class="docutils literal"><span class="pre">for</span></code> para fazer uma tartaruga desenhar os seguintes polígonos
+regulares (reguar significa que todos os lados tem o mesmo comprimento
+e ângulo entre lados):</p>
+<ul class="simple">
+<li>Um triângulo equilátero</li>
+<li>Um quadrado</li>
+<li>Um hexágono (seis lados)</li>
+<li>Um octágono (oito lados)</li>
+</ul>
+
+<button id="butt_ex_3_5" onclick="createActiveCode('ex_3_5',''); $('#butt_ex_3_5').hide();">Open Editor</button>
+<div id="ex_3_5"></div>
+<br />
+</li>
+<li><p id="problema-do-aluno-bebado">Um pirata bêbado vira aleatoriamente e então dá 100 passos para frente,
+vira aleatoriamente novamente, dá mais 100 passos, vira aleatóriamente, etc.
+Um aluno de sociologia mede e grava o ângulo de cada virada antes dele dele
+andar 100 passos. O resultado experimentais é
+<code class="docutils literal"><span class="pre">[160,</span> <span class="pre">-43,</span> <span class="pre">270,</span> <span class="pre">-97,</span> <span class="pre">-43,</span> <span class="pre">200,</span> <span class="pre">-940,</span> <span class="pre">17,</span> <span class="pre">-86]</span></code>. (Ângulos positivos no
+sentido anti-horário). Use uma tartaruga para desenhar o caminho percorrido
+pelo nosso amigo bêbado.</p>
+
+<button id="butt_ex_3_6" onclick="createActiveCode('ex_3_6',''); $('#butt_ex_3_6').hide();">Open Editor</button>
+<div id="ex_3_6"></div>
+<br />
+</li>
+<li><p class="first">Melhore o seu programa acima para dizer também a direção final do pirata bêbado, após percorrer todo o caminho.</p>
+
+<button id="butt_ex_3_7" onclick="createActiveCode('ex_3_7',''); $('#butt_ex_3_7').hide();">Open Editor</button>
+<div id="ex_3_7"></div>
+<br />
+</li>
+<li><p class="first">Em uma folha de papel, simule o seguinte programa e mostre o desenho. Ao terminar, pressione o botão <code class="docutils literal"><span class="pre">run</span></code> e verifique a sua resposta.</p>
+
+<button id="butt_ex_3_8" onclick="createActiveCode('ex_3_8','import turtle\nwn = turtle.Screen()\ntess = turtle.Turtle()\ntess.right(90)\ntess.left(3600)\ntess.right(-90)\ntess.left(3600)\ntess.left(3645)\ntess.forward(-100)'); $('#butt_ex_3_8').hide();">Open Editor</button>
+<div id="ex_3_8"></div>
+<br />
+</li>
+<li><p class="first">Escreva um programa que desenha uma forma como essa:</p>
+<img alt="../_images/star.png" src="../_images/star.png" />
+
+<button id="butt_ex_3_9" onclick="createActiveCode('ex_3_9',''); $('#butt_ex_3_9').hide();">Open Editor</button>
+<div id="ex_3_9"></div>
+<br />
+</li>
+<li><p class="first">Escreva um programa que desenha a face de um relógio que se pareça com:</p>
+<img alt="../_images/tess_clock1.png" src="../_images/tess_clock1.png" />
+
+<button id="butt_ex_3_10" onclick="createActiveCode('ex_3_10',''); $('#butt_ex_3_10').hide();">Open Editor</button>
+<div id="ex_3_10"></div>
+<br />
+</li>
+<li><p class="first">Escreva um programa que desenhe alguma figura. Seja criativo e experimente
+os métodos de Turtle vistos nesse capítulo.</p>
+
+<button id="butt_ex_3_11" onclick="createActiveCode('ex_3_11',''); $('#butt_ex_3_11').hide();">Open Editor</button>
+<div id="ex_3_11"></div>
+<br />
+</li>
+<li><p class="first">Crie uma tartaruga e a atribua a uma variável. O que você obtem ao imprimir o seu tipo?</p>
+
+<button id="butt_ex_3_12" onclick="createActiveCode('ex_3_12',''); $('#butt_ex_3_12').hide();">Open Editor</button>
+<div id="ex_3_12"></div>
+<br />
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Olá, tartaruguinhas!</a><ul>
+<li><a class="reference internal" href="#nosso-primeiro-programa-com-tartarugas">Nosso primeiro programa com tartarugas</a></li>
+<li><a class="reference internal" href="#instancias-um-bando-de-tartarugas">Instâncias &#8212; um bando de tartarugas</a></li>
+<li><a class="reference internal" href="#o-laco-for">O laço <strong>for</strong></a></li>
+<li><a class="reference internal" href="#fluxo-de-execucao-do-laco-for">Fluxo de execução do laço for</a></li>
+<li><a class="reference internal" href="#iteracao-simplifica-o-programa-de-tartaruga">Iteração simplifica o programa de tartaruga</a></li>
+<li><a class="reference internal" href="#a-funcao-range">A função range</a></li>
+<li><a class="reference internal" href="#observacoes-e-alguns-outros-metodos-de-turtle">Observações e alguns outros métodos de Turtle</a></li>
+<li><a class="reference internal" href="#resumo-de-metodos-de-turtle">Resumo de métodos de Turtle</a></li>
+<li><a class="reference internal" href="#glossario">Glossário</a></li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../02-Conceitos/conceitos.html"
+                        title="previous chapter">Variáveis, Expressões e Comandos</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../04-Modulos/modulos.html"
+                        title="next chapter">Módulos e Obtendo Ajuda</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../04-Modulos/modulos.html" title="Módulos e Obtendo Ajuda"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../02-Conceitos/conceitos.html" title="Variáveis, Expressões e Comandos"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2012, Brad Miller, David Ranum.
+      Last updated on May 24, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

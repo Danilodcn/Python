@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Exercício 6.1 &mdash; Aulas de Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="../_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="../_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="../_static/codemirror.js"></script>
+    <script type="text/javascript" src="../_static/python.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="../_static/assess.js"></script>
+    <script type="text/javascript" src="../_static/animationbase.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="../_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Aulas de Introdução à Computação com Python: Edição Interativa" href="../index.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'aulasPython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="exercicio-6-1">
+<h1>Exercício 6.1<a class="headerlink" href="#exercicio-6-1" title="Permalink to this headline">¶</a></h1>
+<p>O número de combinações possíveis de <tt class="docutils literal"><span class="pre">m</span></tt> elementos em grupos de <tt class="docutils literal"><span class="pre">n</span></tt>
+elementos (n &lt;= m) é dada pela fórmula de combinação
+<tt class="docutils literal"><span class="pre">m!/((m-n)!n!)</span></tt>.</p>
+<p>Escreva um programa que lê dois inteiros <tt class="docutils literal"><span class="pre">m</span></tt> e <tt class="docutils literal"><span class="pre">n</span></tt> e calcula a
+combinação de <tt class="docutils literal"><span class="pre">m</span></tt>, <tt class="docutils literal"><span class="pre">n</span></tt> a <tt class="docutils literal"><span class="pre">n</span></tt>.</p>
+
+<div id="aula06_ex61" >
+<textarea cols="50" rows="12" id="aula06_ex61_code" class="active_code">
+ def main():
+     # leitura dos valores de entrada
+     m = int(input("Digite m: "))
+     n = int(input("Digite n: "))
+
+     # calcula o fatorial de m
+     k = m
+     k_fat = 1
+     cont = 1
+     while cont < k:
+     cont += 1       # o mesmo que cont = cont + 1
+         k_fat *= cont   # o mesmo que k_fat = k_fat * cont
+
+     m_fatorial = k_fat
+
+     # calcula o fatorial de n
+     k = n
+     k_fat = 1
+     cont = 1
+     while cont < k:
+     cont += 1       # o mesmo que cont = cont + 1
+         k_fat *= cont   # o mesmo que k_fat = k_fat * cont
+
+     n_fatorial = k_fat
+
+     # calcula o fatorial de m - n
+     k = m-n
+     k_fat = 1
+     cont = 1
+     while cont < k:
+     cont += 1       # o mesmo que cont = cont + 1
+         k_fat *= cont   # o mesmo que k_fat = k_fat * cont
+
+     mn_fatorial = k_fat
+
+     print("Comb(",m,",",n,"): ", m_fatorial/(mn_fatorial * n_fatorial))
+
+
+#----------------------------------------------------------
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula06_ex61)</span> </p>
+<button onclick="runit('aula06_ex61',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula06_ex61');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula06_ex61');">Load</button>
+<br />
+
+<canvas id="aula06_ex61_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula06_ex61_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><a class="reference external" href="../aula06.html#aula06_ex61_tentativa">Voltar</a></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Mar 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

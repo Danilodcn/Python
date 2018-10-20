@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Extending&nbsp;PIL</title></head><body data-page-id="185"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Extending&nbsp;PIL</h1></div><div class="yui-ge"><div class="yui-u first"><p><i>
+Q. I am writing an C-extension which takes Imaging as input from Python
+interpreter as well as return Imaging back to Python environment.  I am
+having problem with the latter.
+</i></p><p>An Imaging object is just an ordinary C struct, it&#8217;s not a valid
+Python type (it doesn&#8217;t have the <b>PyObject_HEAD</b> stuff required
+by Python).  The Python bindings are defined in _imaging.c, and are
+currently not exported to external users.</p><p>To work around this, you can:</p><p>1) Link your code with the _imaging module, and call <b>PyImagingNew</b>
+to wrap an <b>Imaging</b> pointer in a Python-compatible <b>ImagingObject</b>
+(see the _imaging.c sources for details).</p><p>or:</p><p>2) Create the new image in Python code, and pass its &#8220;id&#8221; attribute to
+your extension.  This is the approach I usually use.  An example:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">myoperation</span>(imIn, arg):
+    imIn.load() <span class="pycomment"># make sure it's loaded</span>
+    imOut = Image.new(imIn.mode, imIn.size, None)
+    mymodule.myoperation(imIn.im.id, imOut.im.id, arg)
+    <span class="pykeyword">return</span> imOut</pre><p>Inside the C extension, you can then do something like:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide"><pre class="c wide">
+<span class="pykeyword">static</span> PyObject *
+myoperation(PyObject* self, PyObject* args)
+{
+    Imaging imIn, imOut;
+    <span class="pykeyword">int</span> x, y;
+
+    <span class="pykeyword">long</span> idIn, idOut;
+    <span class="pykeyword">int</span> arg;
+    <span class="pykeyword">if</span> (!PyArg_ParseTuple(args, <span class="pystring">"lli"</span>, &amp;idIn, &amp;idOut, &amp;arg))
+        <span class="pykeyword">return</span> NULL;
+
+    <span class="pycomment">/* get image */</span>
+    imIn = (Imaging) idIn;
+    imOut = (Imaging) idOut;
+
+    <span class="pycomment">/* check modes, sizes, etc */</span>
+
+    <span class="pycomment">/* do some processing */</span>
+    <span class="pykeyword">for</span> (y = 0; y &lt; imIn-&gt;ysize; y++) {
+        UINT8* in = imIn-&gt;image[y];
+        UINT8* out = imOut-&gt;image[y];
+        <span class="pykeyword">for</span> (x = 0; x &lt; imIn-&gt;xsize; x++)
+            out[x] = in[x] + arg;
+    }
+
+    Py_INCREF(Py_None);
+    <span class="pykeyword">return</span> Py_None;
+}</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>Future versions of PIL will probably include some way to wrap the
+Imaging pointer in a Python CObject.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

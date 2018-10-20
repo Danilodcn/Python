@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Unofficial XML-RPC&nbsp;Errata</title></head><body data-page-id="378"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Unofficial XML-RPC&nbsp;Errata</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Updated June 15, 2004 | June 30, 2003 | Fredrik Lundh</p><p>[<a href="/">home</a>] [<a href="/zone/">zone</a>] [<a href="http://online.effbot.org/">weblog</a>]</p></div><div class="yui-u">&#160;</div></div><div class="yui-ge"><div class="yui-u first"><p>This is an unofficial errata, intended to clarify certain details
+in <a href="http://www.xmlrpc.com/spec">the XML-RPC specification</a>,
+as well as hint at &#8220;best practices&#8221; to use when designing your own
+XML-RPC implementations.  This errata is mostly based on real-life
+experiences from early adopters and toolkit implementors (filtered
+through the brain of one such early adopter/implementor). Typos are
+not intentional.</p><p>Comments?  Post feedback <s><a href="http://effbot.org/discuss">here</a></s> (dead link),
+or drop me a <a href="mailto:fredrik@effbot.org?subject=xmlrpc errata">mail</a>.</p><h2 id="encoding-issues">Encoding Issues&#160;<a class="nav" href="#encoding-issues" title="bookmark!">#</a></h2><p>The XML-RPC specification contains a number of contradictions when
+talking about encodings.  It starts out by saying that XML-RPC is XML,
+then mentions ASCII, and finally says that &#8220;all characters can be used
+in a string&#8221;, and that strings can be used for binary data.</p><p>If you know your XML, it should be obvious that all four cannot be
+true at the same time; XML supports more than just ASCII, but you cannot
+store arbitrary binary data in XML character data.</p><p>The easiest (and most practical) way to resolve this is simply to
+ignore the &#8220;ASCII&#8221; term; the author has repeatedly stated that the use
+of &#8220;ASCII&#8221; was just sloppy way to say &#8220;text string&#8221;, not a reference
+to a formal specification.</p><p>(Also see <a href="xmlrpc-ascii.htm"><cite>XML-RPC and the ASCII limitation</cite></a>.)</p><p>In other words, <b>you&#8217;re free to use the full Unicode character set
+in an XML-RPC string</b>, as long as you make sure to set the XML encoding
+correctly.  (Remember that the default is UTF-8, not ISO-8859-1).  You
+can also stick to ASCII in the XML feed, and use character references for
+non-ASCII characters.</p><p class="note"><b>Update:</b> The XML-RPC specification was updated on
+June 30, 2003, to make the situation a bit clearer.  It no longer mentions ASCII.</p><h2 id="scalar-values">Scalar Values&#160;<a class="nav" href="#scalar-values" title="bookmark!">#</a></h2><p>Do not use whitespace in scalar values (unless it&#8217;s part of the
+actual value, of course).  The exception is the <b>base64</b> scalar
+element, where whitespace doesn&#8217;t matter.</p><h3>String Values</h3><p>All XML characters can be used in a string.  There is no &#8220;ASCII&#8221;
+limitation.</p><p>Some implementations may not allow non-ASCII characters (based on
+a strict reading of the original specification, but not so strict that
+they noticed the comments about binary data being allowed ;-).  That&#8217;s
+perfectly okay, as long as you don&#8217;t need to work with international
+characters.</p><p>Note that XML doesn&#8217;t support control characters in strings, and
+that line endings are normalized.  To transfer binary data, use the
+<b>base64</b> type (see below).</p><h3>Numerical Values</h3><p>The <b>int/i4</b> integer range is -2147483648 to 2147483647.</p><p>Many implementations support C-style floating point literals,
+in addition to the simple [sign] [digits] [dot] [digits] format
+mentioned in the specification.    Don&#8217;t rely on this, if you can
+avoid it.</p><h3>Boolean Values</h3><p>Many implementations (or rather, applications) accept zero and
+non-zero <b>int</b> values instead of <b>boolean</b> 0 (false) and
+1 (true).  Don&#8217;t rely on this, if you can avoid it.</p><h3>Date values</h3><p>The time value is &#8220;naive time&#8221;, and does not include a timezone.
+You can either use a fixed timezone in your application (such as UTC),
+or ship the timezone offset as a separate value.
+
+<h2 id="binary-data">Binary Data&#160;<a class="nav" href="#binary-data" title="bookmark!">#</a></h2></p><p>Binary data must be encoded in <b>base64</b> elements.  You
+cannot store arbitrary unencoded binary data in an XML-RPC string.</p><p>It&#8217;s okay to split base64-data over multiple lines.  It&#8217;s not
+okay to remove trailing &#8220;=&#8221; characters, if any.</p><h2 id="structures">Structures&#160;<a class="nav" href="#structures" title="bookmark!">#</a></h2><p>Most implementations cannot handle <b>struct</b> elements where
+the same member occurs more than once (or in other words, structs
+are usually mapped to dictionaries/hashes).</p><p>The members of a struct are not ordered.</p><p>There are no restrictions on the member names; anything you can
+put in a string can be used as a name, including whitespace.  If your
+implementation supports Unicode, you can use Unicode in member names
+too.</p><h2 id="transports">Transports&#160;<a class="nav" href="#transports" title="bookmark!">#</a></h2><p>The specification only talks about HTTP, but many implementations
+also support secure transfer over HTTPS.</p><p>Many implementations also provide separate access to marshalling
+and unmarshalling functions, which allows you to use XML-RPC encoding
+for other purposes (e.g to store configuration data).</p><h2 id="generating-xml-rpc-requests-and-responses">Best Practices: Generating XML-RPC Requests and Responses&#160;<a class="nav" href="#generating-xml-rpc-requests-and-responses" title="bookmark!">#</a></h2><p>For maximum interoperability, use only basic XML components: elements,
+character data, predefined entities, numerical character references.  CDATA
+sections can be used, but may not be supported by all implementations.</p><p>For maximum interoperability, use US-ASCII or a US-ASCII compatible
+character encoding (e.g. ISO-8859-1, UTF-8, etc).  Some implementations
+may not support less common US-ASCII compatible encodings; when in doubt,
+use US-ASCII and use character references where necessary.</p><p>The &lt;?XML&gt; header is optional, but must be included if you&#8217;re
+using an encoding other than UTF-8 (or US-ASCII, which is a subset of
+UTF-8).</p><p>Do not assume that the other end will understand or use internal or
+external DTDs.</p><h2 id="parsing-xml-rpc-requests-and-responses">Best Practices: Parsing XML-RPC Requests and Responses&#160;<a class="nav" href="#parsing-xml-rpc-requests-and-responses" title="bookmark!">#</a></h2><p>For maximum interoperability, make sure you support elements (including
+empty elements), character data, character entities (predefined entities,
+decimal character references, and hexadecimal character references), and CDATA
+sections.</p><p>For maximum interoperability, make sure you check the encoding attribute
+of the &lt;?XML&gt; header, if present.  If the encoding attribute is not
+present, you must treat the request/response as UTF-8.</p><p>(Note that strictly speaking, the HTTP layer may use a charset tag to
+override the encoding mentioned in the XML header, but that&#8217;s not very
+common in practice.  To be on the safe side, you may wish to reject requests
+where the HTTP-level charset, if given, differs from the document encoding).</p><h2 id="common-extensions">Best Practices: Common Extensions&#160;<a class="nav" href="#common-extensions" title="bookmark!">#</a></h2><p>To be added: interface introspection, standard error codes, object models.
+
+<h2 id="api-design">Best Practices: API Design&#160;<a class="nav" href="#api-design" title="bookmark!">#</a></h2></p><p>To be added (?): login tokens instead of user/password strings, extensible interfaces (simulating keyword arguments).
+
+</p><p>To be added: secure communication issues.
+<s><a href="http://rmt.dyndns.org/software/xmlrpc/RFC.system.ciphercall"><cite>XML-RPC system.ciphercall RFC</cite></a></s> (dead link) (robert thomson)
+
+<h2 id="suggested-edits">Suggested Edits&#160;<a class="nav" href="#suggested-edits" title="bookmark!">#</a></h2></p><p>To be added (?): encoding/escaping, valid integer range, struct members,
+pointers to supporting standards (XML, W3C dates, ISO 8601, Base64, etc).
+
+<h2 id="links">Links&#160;<a class="nav" href="#links" title="bookmark!">#</a></h2></p><p><a href="http://www.xmlrpc.com/spec"><cite>XML-RPC Specification</cite></a></p><p>Olav Junker Kj&#230;r: <s><a href="http://olav.dk/unirpc/"><cite>FAQ about unicode support in XML-RPC </cite></a></s> (dead link)</p><h2 id="contributors">Contributors&#160;<a class="nav" href="#contributors" title="bookmark!">#</a></h2><p>Dave, Ken, the early xml-rpc mailing list (indirectly and directly).
+And many others (to be added).</p></div><div class="yui-u"><div class="sidebar"><p>
+Main Entry: <b>er&#183;ra&#183;ta</b><br />
+Pronunciation: <tt>e-&#8216;r&#228;-t&amp;, -&#8216;rA-, -&#8216;ra-</tt><br />
+Function: noun<br />
+Etymology: Latin, plural of erratum<br />
+Date: 1589<br />
+a list of corrigenda; also: a page bearing such a list 
+</p></div></div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#encoding-issues">Encoding Issues</a></li><li><a href="#scalar-values">Scalar Values</a></li><li><a href="#binary-data">Binary Data</a></li><li><a href="#structures">Structures</a></li><li><a href="#transports">Transports</a></li><li><a href="#generating-xml-rpc-requests-and-responses">Best Practices: Generating XML-RPC Requests and Responses</a></li><li><a href="#parsing-xml-rpc-requests-and-responses">Best Practices: Parsing XML-RPC Requests and Responses</a></li><li><a href="#common-extensions">Best Practices: Common Extensions</a></li><li><a href="#api-design">Best Practices: API Design</a></li><li><a href="#suggested-edits">Suggested Edits</a></li><li><a href="#links">Links</a></li><li><a href="#contributors">Contributors</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Idea: XML Literals For&nbsp;Python</title></head><body data-page-id="132"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Idea: XML Literals For&nbsp;Python</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Updated October 10, 2002 | September 24, 2002 | Fredrik Lundh</p><blockquote><p align="right">
+&#8220;<i>&#8230;looks interesting in a futuristic kind of way.</i>&#8221; &#8212; GvR
+</p></blockquote><p>I propose adding support for <b>XML Literals</b> to Python, which
+can be used to embed XML fragments in Python source code.  What follows
+is a brief sketch; it should not be seen as a complete proposal.</p><h3 id="syntax">Syntax&#160;<a class="nav" href="#syntax" title="bookmark!">#</a></h3><p>The XML literal syntax is a subset of the full XML 1.0 syntax.</p><p>An XML literal consists of a start tag (&lt;tag&gt;), optional XML
+content, and a matching end tag (&lt;/tag&gt;).  You can use XML literals
+everywhere an ordinary literal can be used.  XML literals may span over
+multiple lines, just as triple-quoted strings.  The content may consist
+of literal text, predefined XML entities, numerical character references,
+comments, or other tags.  Nested tags must be properly balanced.</p><p>Examples:</p><pre class="python">
+fragment1 = &lt;element&gt;some content&lt;/element&gt;
+
+fragment2 = &lt;element&gt;
+    &lt;!-- a comment --&gt;
+    some content
+    &lt;child attribute='value'&gt;
+      spam &amp;amp; egg
+    &lt;/child&gt;
+  &lt;/element&gt;
+</pre><p>or, alternatively:</p><pre class="python">
+fragment1 = &lt;element&gt; "some content" &lt;/element&gt;
+
+fragment2 = &lt;element&gt;
+    &lt;!-- a comment --&gt;
+    "some content"
+    &lt;child attribute='value'&gt;
+      u"spam &amp; egg"
+    &lt;/child&gt;
+  &lt;/element&gt;
+</pre><h3 id="internal-representation">Internal Representation&#160;<a class="nav" href="#internal-representation" title="bookmark!">#</a></h3><p><i>(preliminary)</i></p><p>XML literals are parsed into a tree-like structure consisting of
+standard Python objects only.  Each element is turned into a tuple
+consisting of the tag name, an optional dictionary containing the
+attributes, and a sequence of text strings and child tuples.  Text
+segments that contain only plain ASCII characters are stored in 8-bit
+strings, other segments are stored as Unicode strings.  The source
+code encoding is used also for the XML content.  XML comments are
+ignored.</p><p>The above examples correspond to:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+fragment1 = (<span class="pystring">"element"</span>, None, <span class="pystring">"some content"</span>)
+
+fragment2 = (<span class="pystring">"element"</span>, None, <span class="pystring">"    some content\n    "</span>,
+    (<span class="pystring">"child"</span>, {<span class="pystring">"attribute"</span>: <span class="pystring">"value"</span>}, <span class="pystring">"      spam &amp; egg\n    "</span>))</pre></div><div class="yui-ge"><div class="yui-u first"><p>This can be trivially turned into a SAX-like event stream:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">generate</span>(target, node):
+    target.start(node[0], node[1] <span class="pykeyword">or</span> {})
+    <span class="pykeyword">for</span> item <span class="pykeyword">in</span> node[2:]:
+        <span class="pykeyword">if</span> isinstance(item, tuple):
+            generate(target, item)
+        <span class="pykeyword">else</span>:
+            target.data(item)
+    target.end(node[0])</pre><p>It is assumed that popular DOM-like implementations will provide
+convenience functions to wrap tuple structures in DOM trees:</p><pre class="python">
+<span class="pykeyword">from</span> mydom <span class="pykeyword">import</span> xml
+
+fragment = xml(&lt;element&gt;some content&lt;/element&gt;)</pre><p>It is also assumed that DOM-like implementations will support
+operations on tuples:</p><pre class="python">
+dom = mydom.parse(file)
+dom.root += &lt;element&gt;text&lt;/element&gt;</pre><h3 id="open-issues">Open Issues&#160;<a class="nav" href="#open-issues" title="bookmark!">#</a></h3><p>(or &#8220;smart questions, stupid answers&#8221;.  to be updated)</p><h4>Q. This requires a context-sensitive tokenizer, right?</h4><p>(most likely.  unless we restrict the syntax on what can
+be handled by the existing tokenizer.  to make that work, users
+must use string literals for textual content:</p><pre class="python">
+fragment1 = &lt;element&gt;<i>"some content"</i>&lt;/element&gt;
+
+fragment2 = &lt;element&gt;
+    &lt;!-- a comment --&gt;<i>"""
+    some content
+    """</i>&lt;child attribute='value'&gt;<i>"""
+      spam &amp; egg
+    """</i>&lt;/child&gt;
+  &lt;/element&gt;
+</pre><p>not very pretty, if you&#8217;re asking me.)</p><h4>Q. Why not pick an existing DOM implementation and stick to it?</h4><p>(they all suck)</p><h4>Q. Or at least use a standard node type instead of tuples?</h4><p>(a tuple subclass, probably)</p><h4>Q. How to deal with namespaces?</h4><p>(using prefixes, as usual)</p><h4>Q. What about DTDs, CDATA sections, processing instructions, etc?</h4><p>(you aint gonna need it)</p><h4>Q. What about dynamically generated content?  Can we add syntax
+allowing us to evaluate expressions inside an XML fragment?</h4><p>(any ideas?)</p><h4>Q. What about HTML?  Can this be used as a template language?</h4><p>(sure, as long as you don&#8217;t mind using xhtml in the source code)</p><h4>Q. Why bother?  XML&#8217;s just a fad anyway.</h4><p>(really?)</p><h3 id="implementation">Implementation&#160;<a class="nav" href="#implementation" title="bookmark!">#</a></h3><p>There is no implementation, at the moment.  It would be pretty easy
+to extract bits and pieces from <b>sgmlop</b>, and add them to Python&#8217;s
+tokenizer and code generator.  Maybe some rainy day&#8230;</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><ul><li><a href="#syntax">Syntax</a></li><li><a href="#internal-representation">Internal Representation</a></li><li><a href="#open-issues">Open Issues</a></li><li><a href="#implementation">Implementation</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

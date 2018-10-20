@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Combining Pyrex and the Pytte Runtime (Work In&nbsp;Progress)</title></head><body data-page-id="243"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Combining Pyrex and the Pytte Runtime (Work In&nbsp;Progress)</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | October 2006 | Originally posted to <a href="http://online.effbot.org">online.effbot.org</a></p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">Some &#8220;screen captures&#8221; from a few sessions working on a <a href="http://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex/">Pyrex</a>/<a href="http://effbot.org/zone/pytte.htm">Pytte</a> mashup.
+
+<h3>Yet another silly experiment</h3><pre class="wide">
+&gt; <b>more hello1.pyx</b>
+#
+#  Hello world!
+#
+
+print "Hello world!"
+
+&gt; <b>python make.py hello1.pyx</b>
+running pyrex on hello1.pyx
+       fixing up hello1.c
+
+&gt; <b>cl -MD -O1 -Ipytte hello1.c pytte.c</b>
+Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 12.00.8168 for 80x86
+Copyright (C) Microsoft Corp 1984-1998. All rights reserved.
+
+hello1.c
+pytte.c
+Generating Code...
+Microsoft (R) Incremental Linker Version 6.00.8168
+Copyright (C) Microsoft Corp 1992-1998. All rights reserved.
+
+/out:hello1.exe
+hello1.obj
+pytte.obj
+
+&gt; <b>hello1</b>
+Hello world!
+
+&gt; <b>upx hello1.exe</b>
+                    Ultimate Packer for eXecutables
+  Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
+UPX 1.25w      Markus F.X.J. Oberhumer &amp; Laszlo Molnar      Jun 29th 2004
+
+        File size         Ratio      Format      Name
+   --------------------   ------   -----------   -----------
+     16384 -&gt;      3584   21.88%    win32/pe     hello1.exe
+
+Packed 1 file.
+
+&gt; <b>dir hello1.exe</b>
+
+2006-10-23  15:58             3 584 hello1.exe
+               1 File(s)          3 584 bytes
+
+&gt; <b>hello1</b>
+Hello world!
+</pre><h3>Progress</h3><pre class="wide">
+&gt; <b>more hello2.pyx</b>
+
+hello = "Hello"
+world = "world"
+
+print hello, world + "!"
+
+&gt; <b>python make.py hello2</b>
+hello2.pyx
+...
+
+&gt; <b>hello2</b>
+Hello world!
+</pre><h3>Almost There</h3><pre class="wide">
+&gt; <b>more hello3.pyx</b>
+
+def hello():
+    print "Hello world!"
+
+hello()
+
+&gt; <b>python make.py hello3</b>
+hello3.pyx
+...
+
+&gt; <b>hello3</b>
+Hello world!
+
+&gt; <b>more hello4.pyx</b>
+data = {
+	"H": ["Hello"],
+	"W": ["world" + "!"],
+	}
+
+data = data["H"][0], data["W"][0]
+
+print data[0], data[1]
+
+&gt; <b>python make.py hello4</b>
+hello4.pyx
+...
+
+&gt; <b>hello4</b>
+Hello world!
+
+&gt; <b>dir *.exe</b>
+2006-10-24  22:30             4 608 hello3.exe
+2006-10-24  23:02             5 120 hello4.exe
+
+&gt; <b>dumpbin /dependents hello4.exe</b>
+Microsoft (R) COFF/PE Dumper Version 7.10.3077
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+Dump of file hello4.exe
+
+File Type: EXECUTABLE IMAGE
+
+  Image has the following dependencies:
+
+    KERNEL32.DLL
+    MSVCR71.dll
+
+...
+</pre><h3>Closer and closer</h3><pre class="wide">
+$ <b>more hello5.pyx</b>
+
+def say(hello, world):
+    print hello, world
+
+say("Hello", "world!")
+
+$ <b>gcc -O1 -o hello5 hello5.c pytte.c</b>
+$ <b>strip hello5</b>
+$ <b>./hello5</b>
+Hello world!
+$ <b>ls -l hello5</b>
+-rwxrwxr-x    1 fredrik  fredrik      9392 Oct 25 20:27 hello5
+</pre></p></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

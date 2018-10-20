@@ -1,0 +1,315 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capítulo 18: Pilhas &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Capítulo 19: Filas" href="capitulo_19.html" />
+    <link rel="prev" title="Capítulo 17: Listas encadeadas" href="capitulo_17.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="capitulo_19.html" title="Capítulo 19: Filas"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_17.html" title="Capítulo 17: Listas encadeadas"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="capitulo-18-pilhas">
+<h1><a class="toc-backref" href="#id1">Capítulo 18: Pilhas</a><a class="headerlink" href="#capitulo-18-pilhas" title="Link permanente para este título">¶</a></h1>
+<div class="contents topic" id="topicos">
+<p class="topic-title first">Tópicos</p>
+<ul class="simple">
+<li><a class="reference external" href="#capitulo-18-pilhas" id="id1">Capítulo 18: Pilhas</a><ul>
+<li><a class="reference external" href="#tipos-abstratos-de-dados" id="id2">18.1 Tipos abstratos de dados</a></li>
+<li><a class="reference external" href="#o-tad-pilha" id="id3">18.2 O TAD Pilha</a></li>
+<li><a class="reference external" href="#implementando-pilhas-com-listas-de-python" id="id4">18.3 Implementando pilhas com listas de Python</a></li>
+<li><a class="reference external" href="#empilhando-e-desempilhando" id="id5">18.4 Empilhando e desempilhando</a></li>
+<li><a class="reference external" href="#usando-uma-pilha-para-avaliar-expressoes-pos-fixas" id="id6">18.5 Usando uma pilha para avaliar expressões pós-fixas</a></li>
+<li><a class="reference external" href="#analise-sintatica" id="id7">18.6 Análise sintática</a></li>
+<li><a class="reference external" href="#avaliando-em-pos-fixo" id="id8">18.7 Avaliando em pós-fixo.</a><ul>
+<li><a class="reference external" href="#glossario" id="id9">18.9 Glossário</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="tipos-abstratos-de-dados">
+<h2><a class="toc-backref" href="#id2">18.1 Tipos abstratos de dados</a><a class="headerlink" href="#tipos-abstratos-de-dados" title="Link permanente para este título">¶</a></h2>
+<p>Os tipos de dados que você viu até agora são todos concretos, no sentido que nós especificamos completamente como eles são implementados. Por exemplo, a classe Card(<em>XXX ver como foi traduzido</em>) representa uma carta utilizando dois inteiros. Como discutimos no momento, esta não é a única maneira de representar uma carta; existem muitas implementações alternativas.</p>
+<p>Um <strong>tipo abstrato de dado</strong>, ou TAD, especifica um conjunto de operações (ou métodos) e a semântica das operações (o que elas fazem), mas não especifica a implementação das operações. Isto é o que o faz abstrato.</p>
+<p>Por que isto é útil?</p>
+<blockquote>
+<ul class="simple">
+<li>Simplifica a tarefa dde especificar um algoritmo se você pode XXXdenotar(<em>denote</em>) as operações que você precisa sem ter que pensar, ao mesmo tempo, como as operações são executadas.</li>
+<li>Uma vez que existem geralmente muitas maneiras de implementar um TAD, pode ser útil escrever um algritmo que pode ser usado com qualquer das possíveis implementações.</li>
+<li>TADs bastante conhecidos, como o TAD Pilha deste capítulo, já estão implementados em bibliotecas padrão, então eles podem ser escritos uma vez e usado por muitos programadores.</li>
+<li>As operações em TADs provêm uma linguagem de alto nível comum para especificar e falar sobre algoritmos.</li>
+</ul>
+</blockquote>
+<p>Quando falamos sobre TADs, geralmente distinguimos o código que usa o TAD, chamado <strong>cliente</strong>, do código que implementa o TAD, chamado código <strong>fornecedor</strong>.</p>
+</div>
+<div class="section" id="o-tad-pilha">
+<h2><a class="toc-backref" href="#id3">18.2 O TAD Pilha</a><a class="headerlink" href="#o-tad-pilha" title="Link permanente para este título">¶</a></h2>
+<p>Neste capítulo, iremos olhar um TAD comum, a <strong>pilha</strong>. Uma pilha é uma coleção, ou seja, é uma estrutura de dados que contei múltiplos elementos. Outras coleções que vimos incluem dicionários e listas.</p>
+<p>Um TAd é definido pelo conjunto de operações que podem ser executadas nele, que é chamado <strong>interface</strong>. A interface para uma pilha consiste nestas operações:</p>
+<p><tt class="docutils literal"><span class="pre">__init__</span></tt> : Inicializa uma nova pilha vazia.</p>
+<p><tt class="docutils literal"><span class="pre">push</span></tt> : Adiciona um novo item na pilha</p>
+<p><tt class="docutils literal"><span class="pre">pop</span></tt> : Remove um ítem da pilha e o retorna, O ítem que é retornadao é sempre o último adicionado.</p>
+<p><tt class="docutils literal"><span class="pre">isEmpty</span></tt> : Verifica se a pilha está vazia.</p>
+<p>Uma às vezes é chamada uma estrutura de dados &#8220;last in, first out&#8221; ou LIFO, porque o último ítem adicionad é o primeiro a ser removido.</p>
+</div>
+<div class="section" id="implementando-pilhas-com-listas-de-python">
+<h2><a class="toc-backref" href="#id4">18.3 Implementando pilhas com listas de Python</a><a class="headerlink" href="#implementando-pilhas-com-listas-de-python" title="Link permanente para este título">¶</a></h2>
+<p>As operações de lista que Python oferecem são similares às operações que definem uma pilha. A interface não é exatamente o que se supõe ser, mas podemos escrever um código para traduzir do TAD Pilha para as operações nativas.</p>
+<p>Este código é chamado uma <strong>implementação</strong> do TAD Pilha. Geralmente, uma implementaçõa é um conjunto de métodos que satisfazem os requisitos sintáticos e semânticos de uma interface.</p>
+<p>Aqui está uma implementação do TAD Pilha que usa uma lista do Python:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Stack</span> <span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+
+  <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span> <span class="p">:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">apend</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">pop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+  <span class="k">def</span> <span class="nf">isEmpty</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
+    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="o">==</span> <span class="p">[])</span>
+</pre></div>
+</div>
+<p>Um objeto <tt class="docutils literal"><span class="pre">Stack</span></tt> contém um atributo chamado <tt class="docutils literal"><span class="pre">items</span></tt> que é uma lista de ítens na pilha. O método de inicialização define items como uma lista vazia.</p>
+<p>Para adicionar um novo ítem na pilha, <tt class="docutils literal"><span class="pre">push</span></tt> o coloca em <tt class="docutils literal"><span class="pre">items</span></tt>. Para remover um ítem da pilha, pop usa o método de lista homônimo¹ para remover e retornar um último ítem da lista.</p>
+<p>Finalmente, para verificar se a pilha está vazia, <tt class="docutils literal"><span class="pre">isEmpty</span></tt> comprara items a uma lista vazia.</p>
+<p>Uma implementação como esta, na qual os métodos consistem de simples invocações de métodos existentes, é chamado <strong>revestimento</strong>. Na vida real, revestimento é uma fina camada de madeira de boa qualidade usado em XXX*furniture-making* para esconder madeira de menor qualidade embaixo. Cientistas da Computação usam esta metáfora para descrever um pequeno trecho de código que esconde os detalhes de uma implementação e fornece uma interface mais simples, ou mais padronizada.</p>
+</div>
+<div class="section" id="empilhando-e-desempilhando">
+<h2><a class="toc-backref" href="#id5">18.4 Empilhando e desempilhando</a><a class="headerlink" href="#empilhando-e-desempilhando" title="Link permanente para este título">¶</a></h2>
+<p>Uma pilha é uma <strong>estrutura de dados genérica</strong>, o que significa que podemos adicionar qualquer tipo de ítem a ela. O exemplo a seguir empilha dois inteiros e uma XXXstring na pilha:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Stack</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mi">54</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s">&quot;+&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Podemos usar <tt class="docutils literal"><span class="pre">isEmpty</span></tt> e pop para remover e imprimir todos os ítens da pilha:</p>
+<blockquote>
+<dl class="docutils">
+<dt>while not s.isEmpty() :</dt>
+<dd>priint s.pop()</dd>
+</dl>
+</blockquote>
+<p>A saída é + 45 54. Em outras palavras, usamos a pilha para imprimir os ítens ao contrário! Sabidamente, este não é o formato padrão de imprimir uma lista, mas, usando uma pilha, foi notavelmente fácil de fazer.</p>
+<p>Você deve comparar este trecho de código com a implementação de <cite>printBackward</cite> na seção 17.4. Existe um paralelo natura entre a versão recursiva de <cite>printBackward</cite> e o algoritmo de pilha aqui. A diferenã é que printBackward usa a pilha de execução para XXXmanter a trilha(keep track) dos nós enquanto percorre a lista, e então imprime-a no retorno da recursão. o algoritmo de pilha faz a mesma coisa, exceto que usa o objeto Stack ao invés da pilha de execução.</p>
+</div>
+<div class="section" id="usando-uma-pilha-para-avaliar-expressoes-pos-fixas">
+<h2><a class="toc-backref" href="#id6">18.5 Usando uma pilha para avaliar expressões pós-fixas</a><a class="headerlink" href="#usando-uma-pilha-para-avaliar-expressoes-pos-fixas" title="Link permanente para este título">¶</a></h2>
+<p>Em muitas linguagens de programação, expressões matemáticas são executadas com o poerador entre os roid operandos, como em 1 + 2. Este formato é chamado notação <strong>infixa</strong>. Uma alternativa usada por algumas calculadoras é chamada notação <strong>pós-fixa</strong>. Em notação pós-fixa, o operador segue os operandos, como em 1 2 +.</p>
+<p>A razão pela qual a notação pós-fixa é útil algumas vezes é que existe uma maneira natural de avaliar uma expressão pós-fixa usando uma pilha:</p>
+<blockquote>
+<ul class="simple">
+<li>começando no início da expressão, peque um termo (operador ou operando) de cada vez.</li>
+<li>Se o termo é um operando, empilhe-o</li>
+<li>Se o termo é um operador, desempilhe dois operandos, execute a operação neles, e empilhe o resultado.</li>
+<li>Quando chegar ao fim da expressão, deve existir exatamente um operando sobrando na pilha. Este operando é o resultado.</li>
+</ul>
+<ul class="simple">
+<li>Como um exercício, aplique este algoritmo à expressão 1 2 + 3 * .</li>
+</ul>
+</blockquote>
+<p>Este exemplo demonstra uma das vantagens da notação pós-fixa - não é necessário usar parênteses para controlar a ordem das operações. Para ter o mesmo resultado em notação infixa, deveríamos escrever (1 + 2) * 3.</p>
+<blockquote>
+<ul class="simple">
+<li>Como um exercício, escreva a expressão pós-fixa que é equivalente a 1 + 2 * 3.</li>
+</ul>
+</blockquote>
+</div>
+<div class="section" id="analise-sintatica">
+<h2><a class="toc-backref" href="#id7">18.6 Análise sintática</a><a class="headerlink" href="#analise-sintatica" title="Link permanente para este título">¶</a></h2>
+<p>Para implementar o algoritmo anterior, necessitamos estar prontos para percorrer uma string e quebrá-la em operandos e operadores. Este processó é um exemplo de <strong>XXXparsing</strong>, e o resultado - os pedaços da string - são chamados <strong>XXXtokens</strong>. Você deve lembrar estas palavras do capítulo 1.</p>
+<p>Python fornece um método split nos módulos string e re (expressões regulares). A função <tt class="docutils literal"><span class="pre">string.split</span></tt> separa uma string numa lista usando um único caracter como <strong>delimitador</strong>. Por exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">string</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">string</span><span class="o">.</span><span class="n">split</span> <span class="p">(</span><span class="s">&quot;Now is the time&quot;</span><span class="p">,</span> <span class="s">&quot; &quot;</span><span class="p">)</span>
+<span class="go"> [&#39;Now&#39;, &#39;is&#39;, &#39;the&#39;, &#39;time&#39;]</span>
+</pre></div>
+</div>
+<p>Neste caso, o delimitador é o caracter de espaço, então a string é dividida a cada espaço.</p>
+<p>A função <tt class="docutils literal"><span class="pre">re.split</span></tt> é mais poderosa, permitindo-nos fornecer uma expresão regular ao invés de um delimitador. Uma expressão regular é uma maneira de especificar um conjunto de strings. Por exemplo, [A-z] é o conjunto de todas as letras e [0-9] é o conjunto de todos os dígitos. O operador ^nega um conunto, então [^0-9] é o conjunto de tudo o que não é número, que é exatamente o que queremos para dividir expressões pós-fixas.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">re</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">re</span><span class="o">.</span><span class="n">split</span> <span class="p">(</span><span class="s">&quot;[^0-9]&quot;</span><span class="p">,</span> <span class="s">&quot;123+456*/&quot;</span><span class="p">)</span>
+<span class="go"> [&#39;123&#39;, &#39;+&#39;, &#39;456&#39;, &#39;*&#39;, &#39;&#39;, &#39;/&#39;, &#39; &#39;]</span>
+</pre></div>
+</div>
+<p>Note que a ordem dos argumentos é diferente de string.split, o delimitador vem antes da string.</p>
+<p>A lista resultante inclui os operandos <tt class="docutils literal"><span class="pre">123</span></tt> e <tt class="docutils literal"><span class="pre">456</span></tt>, e os operadores <tt class="docutils literal"><span class="pre">*</span></tt> e <tt class="docutils literal"><span class="pre">/</span></tt>. Também inclui duas strings vazias que são inseridas depois dos operadores.</p>
+</div>
+<div class="section" id="avaliando-em-pos-fixo">
+<h2><a class="toc-backref" href="#id8">18.7 Avaliando em pós-fixo.</a><a class="headerlink" href="#avaliando-em-pos-fixo" title="Link permanente para este título">¶</a></h2>
+<p>Para avaliar uma expressão pós-fixa, usaremos o parser da seção anterior e o algoritmo da seção anterior a ela. Para manter as coisas simples, começaremos com um avaliador que implementa somente os operadores <tt class="docutils literal"><span class="pre">+</span></tt> e  .</p>
+<div class="highlight-python"><pre>def evalPostfix (expr) :
+  import re
+  tokenList = re.split ("([^0-9])", expr)
+  stack = Stack()
+  for token in tokenList
+    if token == '' or token = ' ' :
+      continue
+    if token == '+' :
+      sum = stack.pop() + stack.pop()
+      stack.push(sum)
+    if token == '*' :
+      product = stack.pop() * stack.pop()
+      stack.push(product)
+    else:
+      stack.push(int(token))
+  return stack.pop()</pre>
+</div>
+<p>A primeira condição cuida de espaços e strings vazias. As duas próximas condições manipulam os operadores. Nós assumimos, agora que qualquer coisa é um operador. É claro, seria melhor chegar por entrada errônea e enviar uma mensagem de erro, mas faremos isto depois.</p>
+<p>Vamos testá-lo avaliando a forma pós-fixa de <tt class="docutils literal"><span class="pre">(56</span> <span class="pre">+</span> <span class="pre">47)</span> <span class="pre">*</span> <span class="pre">2</span></tt></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">evalPostfix</span><span class="p">(</span><span class="s">&quot;56 47 + 2 *&quot;</span><span class="p">)</span>
+<span class="go"> 206</span>
+</pre></div>
+</div>
+<p>XXXthat&#8217;s close enough</p>
+<p>18.8 Clientes de fornecedores.</p>
+<p>Um dos objetivos de um TAD é separar os interesses do fornecedor, quem escreve o código que implementa o TAD, e o cliente, que usa o TAD. O fornecedor tem que se preocupar apenas se a implementação está correta  - de acordo com a especificação do TAD - e não como ele será usado.</p>
+<p>Inversamente, o cliente assume que a implementação do TAD está correta e não se preocupa com os detalhes. Quando você está usando um tipo nativo do Python, tem o luxo de pensar exclusivamente como um cliente.</p>
+<p>É claro, quanto você implementa um TAD, você também tem que escrever código cliente para testá-lo. Neste caso, você faz os dois papéis, o que pode ser confuso. Você deve fazer algum esforçõ para manter a trilha do papel que está fazendo a cada momento.</p>
+<div class="section" id="glossario">
+<h3><a class="toc-backref" href="#id9">18.9 Glossário</a><a class="headerlink" href="#glossario" title="Link permanente para este título">¶</a></h3>
+<dl class="docutils">
+<dt>tipo abstrato de dados (TAD) (<em>abstract data type(ADT)</em>):</dt>
+<dd>Um tipo de dado(geralmente uma coleção de objetos) que é definidopor um conjunto de operações, que podem ser implementadas de várias maneiras.</dd>
+<dt>interface (<em>interface</em>):</dt>
+<dd>É o conjunto de operações que definem um TDA.</dd>
+<dt>implementação (<em>implementation</em>):</dt>
+<dd>Código que satisfaz(preenche?) os requisitos sintáticos e semânticos de uma interface.</dd>
+<dt>cliente (<em>client</em>):</dt>
+<dd>Um programa (ou o programador que o escreveu) que faz utilização de um TDA.</dd>
+<dt>fornecedor (<em>provider</em>):</dt>
+<dd>Código (ou o programador que o escreveu) que implementa um TDA.</dd>
+<dt>revestimento (<em>veneer</em>):</dt>
+<dd>Definição de classe que implementa um TDA com definições de métodos que são chamadas a outros métodos, às vezes com pequenas modificações. A lâmina faz um trabalho insignificante, mas melhora ou padroniza a interface dada ao cliente.</dd>
+<dt>estrutura de dados genérica (<em>generic data structure</em>):</dt>
+<dd>Tipo de estrutura de dados que contem data de um tipo qualquer(tipo genérico).</dd>
+<dt>infixa (<em>infix</em>):</dt>
+<dd>Notação matemática em que os operadores se situam entre os operandos.</dd>
+<dt>pós-fixa (<em>postfix</em>):</dt>
+<dd>Notação matemática em que os operadores se situam após os operandos.</dd>
+<dt>XXX parse (<em>parse</em>):</dt>
+<dd>Ler um conjunto de caracteres(string de caracteres) ou tokens(símbolos atômicos) e analisar sua estrutura gramatical.</dd>
+<dt>XXX token (<em>token</em>):</dt>
+<dd>Conjunto de caracteres que são tratados como uma unidade atômica para fins de análise gramatical, como as palavras na linguagem natural.</dd>
+<dt>delimitador (<em>delimiter</em>):</dt>
+<dd>Um caracter que é utilizado para separar os símbolos atômicos(tokens), como a pontuação na linguagem natural.</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Capítulo 18: Pilhas</a><ul>
+<li><a class="reference internal" href="#tipos-abstratos-de-dados">18.1 Tipos abstratos de dados</a></li>
+<li><a class="reference internal" href="#o-tad-pilha">18.2 O TAD Pilha</a></li>
+<li><a class="reference internal" href="#implementando-pilhas-com-listas-de-python">18.3 Implementando pilhas com listas de Python</a></li>
+<li><a class="reference internal" href="#empilhando-e-desempilhando">18.4 Empilhando e desempilhando</a></li>
+<li><a class="reference internal" href="#usando-uma-pilha-para-avaliar-expressoes-pos-fixas">18.5 Usando uma pilha para avaliar expressões pós-fixas</a></li>
+<li><a class="reference internal" href="#analise-sintatica">18.6 Análise sintática</a></li>
+<li><a class="reference internal" href="#avaliando-em-pos-fixo">18.7 Avaliando em pós-fixo.</a><ul>
+<li><a class="reference internal" href="#glossario">18.9 Glossário</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="capitulo_17.html"
+                        title="capítulo anterior">Capítulo 17: Listas encadeadas</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="capitulo_19.html"
+                        title="próximo capítulo">Capítulo 19: Filas</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/capitulo_18.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="capitulo_19.html" title="Capítulo 19: Filas"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_17.html" title="Capítulo 17: Listas encadeadas"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

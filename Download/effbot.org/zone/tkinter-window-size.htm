@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Track Window Size&nbsp;Changes</title></head><body data-page-id="325"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Track Window Size&nbsp;Changes</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">February 11, 1998 | Fredrik Lundh</p><p>To dynamically track changes to the window size, bind to the
+<b>&lt;Configure&gt;</b> event and inspect the <b>width</b> and
+<b>height</b> members in the event handler.</p><p>If you&#8217;re using the <a href="wck.htm">WCK</a>, you can simply
+override the <b>ui_handle_resize</b> method instead.</p><div class="example">
+<b>Track changes to the window size</b>
+<pre class="python">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+<span class="pycomment"># create a canvas with no internal border</span>
+canvas = Canvas(bd=0, highlightthickness=0)
+canvas.pack(fill=BOTH, expand=1)
+
+<span class="pycomment"># track changes to the canvas size and draw</span>
+<span class="pycomment"># a rectangle which fills the visible part of</span>
+<span class="pycomment"># the canvas</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">configure</span>(event):
+    canvas.delete(<span class="pystring">"all"</span>)
+    w, h = event.width, event.height
+    xy = 0, 0, w-1, h-1
+    canvas.create_rectangle(xy)
+    canvas.create_line(xy)
+    xy = w-1, 0, 0, h-1
+    canvas.create_line(xy)
+
+canvas.bind(<span class="pystring">"&lt;Configure&gt;"</span>, configure)
+
+mainloop()</pre><pre>
+<img alt="" height="291" src="/media/cache/991b506204d0091ead5e1244b3a2e899.png" width="386" />
+</pre></div></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

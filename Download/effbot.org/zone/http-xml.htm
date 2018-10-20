@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>A Simple XML-Over-HTTP&nbsp;Class</title></head><body data-page-id="120"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">A Simple XML-Over-HTTP&nbsp;Class</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Updated May 13, 2003 | July 12, 2002 | Fredrik Lundh</p><p>This module implements a simple helper class, <b>HTTPClient</b>,
+which can send an XML document (represented either as <a href="element.htm">an
+element tree</a> or a string) to a remote server, and parse the result into an
+element tree.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>A Simple XML-Over-HTTP Helper (File: HTTPClient.py)</b>
+<pre class="python wide">
+<span class="pykeyword">from</span> httplib <span class="pykeyword">import</span> HTTP
+<span class="pykeyword">from</span> StringIO <span class="pykeyword">import</span> StringIO
+<span class="pykeyword">import</span> urlparse
+
+<span class="pycomment"># elementtree (from effbot.org/downloads)</span>
+<span class="pykeyword">from</span> elementtree <span class="pykeyword">import</span> ElementTree
+
+<span class="pykeyword">class</span> <span class="pyclass">HTTPClient</span>:
+
+    user_agent = <span class="pystring">"HTTPClient (from effbot.org)"</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, uri):
+
+        scheme, host, path, params, query, fragment = urlparse.urlparse(uri)
+        <span class="pykeyword">if</span> scheme != <span class="pystring">"http"</span>:
+            <span class="pykeyword">raise</span> ValueError(<span class="pystring">"only supports HTTP requests"</span>)
+
+        <span class="pycomment"># put the path back together again</span>
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> path:
+            path = <span class="pystring">"/"</span>
+        <span class="pykeyword">if</span> params:
+            path = path + <span class="pystring">";"</span> + params
+        <span class="pykeyword">if</span> query:
+            path = path + <span class="pystring">"?"</span> + query
+
+        self.host = host
+        self.path = path
+
+    <span class="pykeyword">def</span> <span class="pyfunction">do_request</span>(self, body,
+        <span class="pycomment"># optional keyword arguments follow</span>
+        path=None, method=<span class="pystring">"POST"</span>, content_type=<span class="pystring">"text/xml"</span>,
+        extra_headers=(), parser=None):
+
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> path:
+            path = self.path
+
+        <span class="pykeyword">if</span> isinstance(body, ElementTree.ElementTree):
+            <span class="pycomment"># serialize element tree</span>
+            file = StringIO()
+            body.write(file)
+            body = file.getvalue()
+
+        <span class="pycomment"># send xml request</span>
+        h = HTTP(self.host)
+        h.putrequest(method, path)
+        h.putheader(<span class="pystring">"User-Agent"</span>, self.user_agent)
+        h.putheader(<span class="pystring">"Host"</span>, self.host)
+        <span class="pykeyword">if</span> content_type:
+            h.putheader(<span class="pystring">"Content-Type"</span>, content_type)
+        h.putheader(<span class="pystring">"Content-Length"</span>, str(len(body)))
+        <span class="pykeyword">for</span> header, value <span class="pykeyword">in</span> extra_headers:
+            h.putheader(header, value)
+        h.endheaders()
+
+        h.send(body)
+
+        <span class="pycomment"># fetch the reply</span>
+        errcode, errmsg, headers = h.getreply()
+
+        <span class="pykeyword">if</span> errcode != 200:
+            <span class="pykeyword">raise</span> Exception(errcode, errmsg)
+
+        <span class="pykeyword">return</span> ElementTree.parse(h.getfile(), parser=parser)</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>The main workhorse is the <b>do_request</b> method, which
+uses the <b>httplib</b> library module for all protocol-related
+stuff.  The <b>HTTP</b> class represents a connection to an HTTP
+server.  The putrequest and putheader methods are used to
+generate the header part of an HTTP message, and send is used
+for the body.  Finally, the getreply method is used to parse
+the response header, and getfile returns a file handle that
+can be passed right into the element tree parser.</p><p>You can use the <b>path</b>, <b>method</b>, <b>content_type</b>
+and <b>extra_headers</b> options to get better control over the
+request header:</p><dl><dt><b>path</b></dt><dd><p>Overrides the path.  If omitted, use the path extracted
+from the host URI given in the constructor.</p></dd>
+<dt><b>method</b></dt><dd><p>What HTTP method to use.  The default is &#8220;POST&#8221;, but you can
+also use e.g. &#8220;PUT&#8221;, &#8220;GET&#8221;, and &#8220;HEAD&#8221;.  Note that some methods
+doesn&#8217;t take a body; in that case, use an empty string for the
+body.</p></dd>
+<dt><b>content_type</b></dt><dd><p>What type to use for the body.  The default is &#8220;text/xml&#8221;.</p></dd>
+<dt><b>extra_headers</b></dt><dd><p>A list of (header, value) pairs for extra headers needed by
+the server.  For example, you can add SOAP&#8217;s <b>SOAPAction</b>
+headers to the mix, by passing in
+<tt>[(&#8220;SOAPAction&#8221;, action)]</tt>.</p></dd>
+</dl><h3>Sending XML-RPC requests</h3><p>Let&#8217;s put this class to use.  The following example sends a
+pre-defined XML-RPC request to the <b>effbot.org</b> <b>echo</b>
+service, and prints the result.</p><pre class="python">
+request = <span class="pystring">"""\</span>
+&lt;?xml version="1.0"?&gt;
+&lt;methodCall&gt;
+  &lt;methodName&gt;echo&lt;/methodName&gt;
+  &lt;params&gt;
+    &lt;param&gt;&lt;value&gt;hello, world&lt;/value&gt;&lt;/param&gt;
+  &lt;/params&gt;
+&lt;/methodCall&gt;
+"""
+
+<span class="pykeyword">from</span> HTTPClient <span class="pykeyword">import</span> HTTPClient
+
+client = HTTPClient(<span class="pystring">"http://effbot.org/rpc/echo.cgi"</span>)
+
+response = client.do_request(request)
+
+<span class="pykeyword">import</span> sys
+response.write(sys.stdout)</pre><p>Here&#8217;s the expected output:</p><pre>
+&lt;?xml version='1.0'?&gt;
+&lt;methodResponse&gt;
+&lt;params&gt;
+&lt;param&gt;
+&lt;value&gt;&lt;string&gt;hello, world&lt;/string&gt;&lt;/value&gt;
+&lt;/param&gt;
+&lt;/params&gt;
+&lt;/methodResponse&gt;
+</pre><p>For more examples, see <a href="element-xmlrpc.htm">Using Element
+Trees For XML-RPC</a> and <a href="http-xml-stockticker.htm">You Can
+Never Have Too Many Stock Tickers!</a>.</p><div class="small"><hr /><p><b class="mark">Notes:</b></p><p>The implementation currently ignores the <b>charset</b> parameter in
+the content-type headers.  The HTTP protocol allows HTTP transports to
+convert documents between different encodings on the way (&#8220;transcoding&#8221;),
+usually based on accept-charset client headers.  If you read data
+from such a source, the XML parser cannot figure out the encoding
+by looking at the document; it must use the charset specified by
+the server.</p><p>Also, a strict reading of the HTTP and XML Media Types
+specifications says that if you set the content-type to text/xml,
+without any charset parameter, the XML body cannot use 8-bit
+characters; the body is assumed to contain US ASCII only.  This is
+no problem if you pass in element trees; the default encoding
+uses character entities for all non-ascii characters anyway.
+But you probably should keep this in mind if you&#8217;re generating
+the body outside the do_request method.</p></div></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

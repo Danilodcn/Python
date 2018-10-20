@@ -1,0 +1,637 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Recursão &mdash; Como pensar como um Cientista da Computação: Edição Interativa em Python</title>
+    
+    <link rel="stylesheet" href="../_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="../_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="../_static/codemirror.js"></script>
+    <script type="text/javascript" src="../_static/python.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="../_static/assess.js"></script>
+    <script type="text/javascript" src="../_static/animationbase.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="../_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Como pensar como um Cientista da Computação: Edição Interativa em Python" href="../index.html" />
+    <link rel="next" title="Visualizando recursão" href="graphical-ptbr.html" />
+    <link rel="prev" title="Dicionários" href="../11-Dicionarios/dicionarios.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/pensePython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'pensePython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/pensePython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="graphical-ptbr.html" title="Visualizando recursão"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../11-Dicionarios/dicionarios.html" title="Dicionários"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="recursao">
+<h1>Recursão<a class="headerlink" href="#recursao" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="objetivos">
+<h1>Objetivos<a class="headerlink" href="#objetivos" title="Permalink to this headline">¶</a></h1>
+<p>Os objetivos deste capítulo são os seguintes:</p>
+<ul class="simple">
+<li>Entender que alguns problemas muito complexos podem ter uma
+solução recursiva simples.</li>
+<li>Aprender a formular programas de forma recursiva.</li>
+<li>Entender e aplicar as três leis da recursão.</li>
+<li>Entender a recursão como uma forma de iteração.</li>
+<li>Implementar a formulação recursiva de um problema.</li>
+<li>Entender como a recursão é implementada por um sistema computacional.</li>
+</ul>
+</div>
+<div class="section" id="o-que-e-recursao">
+<h1>O que é recursão?<a class="headerlink" href="#o-que-e-recursao" title="Permalink to this headline">¶</a></h1>
+<p><strong>Recursão</strong> é um método de resolução de problemas que envolve quebrar
+um problema em subproblemas menores e menores até chegar a um problema
+pequeno o suficiente para que ele possa ser resolvido
+trivialmente. Normalmente recursão envolve uma função que chama a si
+mesma. Embora possa não parecer muito, a recursão nos permite escrever
+soluções elegantes para problemas que, de outra forma, podem ser muito
+difíceis de programar.</p>
+<div class="section" id="calculando-a-soma-de-uma-lista-de-numeros">
+<h2>Calculando a soma de uma lista de números<a class="headerlink" href="#calculando-a-soma-de-uma-lista-de-numeros" title="Permalink to this headline">¶</a></h2>
+<p>Vamos começar a nossa investigação com um problema simples que você já
+sabe como resolver sem o uso de recursão. Suponha que você deseja
+calcular a soma de uma lista de números, tais como:
+<span class="math">\([1, 3, 5, 7, 9]\)</span>. Uma função iterativa que calcula a soma
+é mostrada em <a class="reference internal" href="#lst-itsum"><span>Programa 1</span></a>. A função usa uma variável
+acumuladora (<code class="docutils literal"><span class="pre">theSum</span></code>) para calcular o total de todos os números da
+lista iniciando com <span class="math">\(0\)</span> e somando cada número da lista.</p>
+
+<div id="lst_itsum" >
+<textarea cols="50" rows="12" id="lst_itsum_code" class="active_code">
+def listsum(numList):
+    theSum = 0
+    for i in numList:
+        theSum = theSum + i
+    return theSum
+
+print(listsum([1,3,5,7,9]))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (lst_itsum)</span> </p>
+<button onclick="runit('lst_itsum',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('lst_itsum');">Save</button>
+<button class="ac_opt" onclick="requestCode('lst_itsum');">Load</button>
+<br />
+
+<canvas id="lst_itsum_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="lst_itsum_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Imaginem por um minuto que você não tem laços <code class="docutils literal"><span class="pre">while</span></code> ou
+<code class="docutils literal"><span class="pre">for</span></code>. Como você calcularia a soma de uma lista de números? Se você
+fosse um matemático poderia começar recordando que a adição é uma
+função definida para dois parâmetros, um par de números. Para
+redefinir o problema da adição de uma lista para a adição de pares de
+números, podemos reescrever a lista como uma expressão totalmente
+entre parênteses. Tal expressão poderia ser algo como:</p>
+<div class="math">
+\[((((1 + 3) + 5) + 7) + 9)\]</div>
+<p>Poderíamos também colocar os parênteses na ordem reversa,</p>
+<div class="math">
+\[(1 + (3 + (5 + (7 + 9))))\]</div>
+<p>Observe que o par de parênteses mais interno, <span class="math">\((7 + 9)\)</span>, é um
+problema que podemos resolver sem um laço ou qualquer construção
+especial. Na verdade, pode-se utilizar a seguinte sequência de
+simplificações para calcular uma soma final.</p>
+<div class="math">
+\[\begin{split}total = \  (1 + (3 + (5 + (7 + 9)))) \\
+total = \  (1 + (3 + (5 + 16))) \\
+total = \  (1 + (3 + 21)) \\
+total = \  (1 + 24) \\
+total = \  25\end{split}\]</div>
+<p>Como podemos usar essa ideia e transformá-la em um programa Python? Em primeiro lugar,
+vamos reformular o problema soma em termos de listas de Python. Poderíamos dizer que
+a soma da lista <code class="docutils literal"><span class="pre">numList</span></code> é a soma do primeiro elemento da lista
+(<code class="docutils literal"><span class="pre">numList</span> <span class="pre">[0]</span></code>), com a soma dos números no resto da lista (<code class="docutils literal"><span class="pre">numList</span>
+<span class="pre">[1:]</span></code>). De forma funcional podemos escrever:</p>
+<div class="math">
+\[  listSum(numList) = first(numList) + listSum(rest(numList))
+\label{eqn:listsum}\]</div>
+<p>Nesta equação <span class="math">\(first(numList)\)</span> retorna o primeiro elemento da
+lista e <span class="math">\(rest(numList)\)</span> retorna a lista com tudo menos o
+primeiro elemento.
+Isso pode ser expresso facilmente em Python como no
+<a class="reference internal" href="#lst-recsum"><span>Programa 2</span></a>.</p>
+
+<div id="lst_recsum" >
+<textarea cols="50" rows="12" id="lst_recsum_code" class="active_code">
+def listsum(numList):
+    if len(numList) == 1:
+        return numList[0]
+    else:
+        return numList[0] + listsum(numList[1:])
+
+print(listsum([1,3,5,7,9]))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (lst_recsum)</span> </p>
+<button onclick="runit('lst_recsum',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('lst_recsum');">Save</button>
+<button class="ac_opt" onclick="requestCode('lst_recsum');">Load</button>
+<br />
+
+<canvas id="lst_recsum_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="lst_recsum_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Existem algumas ideias-chave nesse programa para se estudar. Em
+primeiro lugar, na linha 2 estamos verificando se a lista possui
+apenas um elemento. Esse teste é fundamental e é a nossa cláusula de
+escape da função. A soma de uma lista de comprimento 1 é trivial; ela
+é o número na lista.
+Em segundo lugar, na linha 5, nossa função chama a si mesma! Esta é a
+razão pela qual chamamos <code class="docutils literal"><span class="pre">listsum</span></code> de algoritmo recursivo. Uma função recursiva
+é uma função que chama a si mesma.</p>
+<p>A <a class="reference internal" href="#fig-recsumin"><span>Figura 1</span></a> mostra a série de <strong>chamadas recursivas</strong>
+necessária para somar a lista <span class="math">\([1, 3, 5, 7, 9]\)</span>. Você deve pensar
+nessa série de chamadas como uma série de simplificações. Cada vez que fazemos uma
+chamada recursiva estamos resolvendo um problema menor, até chegar ao
+ponto em que o problema não pode ficar menor.</p>
+<div class="figure align-center" id="id1">
+<span id="fig-recsumin"></span><img alt="image" src="../_images/sumlistIn.png" />
+<p class="caption"><span class="caption-text">Série de Chamadas Recursivas Somando uma Lista de Números</span></p>
+</div>
+<p>Quando chegarmos ao ponto em que o problema é tão simples quanto ele
+pode ficar,  começamos a juntar as soluções de cada um dos pequenos
+problemas até que o problema inicial seja resolvido. A <a class="reference internal" href="#fig-recsumout"><span>Figura
+2</span></a> mostra as adições que são executadas a medida que
+<code class="docutils literal"><span class="pre">listsum</span></code> percorre o seu caminho para trás através de uma série de
+chamadas. Quando <code class="docutils literal"><span class="pre">listsum</span></code> retorna do problema mais alto, obtemos a
+solução para todo o problema.</p>
+<div class="figure align-center" id="id2">
+<span id="fig-recsumout"></span><img alt="image" src="../_images/sumlistOut.png" />
+<p class="caption"><span class="caption-text">Série de Retornos Recursivos da Adição de uma Lista de Números</span></p>
+</div>
+</div>
+<div class="section" id="as-tres-leis-da-recursao">
+<h2>As três leis da recursão<a class="headerlink" href="#as-tres-leis-da-recursao" title="Permalink to this headline">¶</a></h2>
+<p>Assim como os robôs de Asimov, todos os algoritmos recursivos devem
+obedecer a três leis importantes:</p>
+<ol class="arabic simple">
+<li>Um algoritmo recursivo deve ter um <em>caso básico</em></li>
+<li>Um algoritmo recursivo deve mudar o seu estado e se aproximar do caso básico.</li>
+<li>Um algoritmo recursivo deve chamar a si mesmo, recursivamente.</li>
+</ol>
+<p>Vamos olhar para cada uma dessas leis com mais detalhes e ver como elas foram
+utilizadas no algoritmo <code class="docutils literal"><span class="pre">listsum</span></code>. Em primeiro lugar, um caso básico é a condição
+que permite que o algoritmo recursivo pare de recorrer. Um caso básico
+é tipicamente um problema que é suficientemente pequeno para resolver
+diretamente. No caso do algoritmo <code class="docutils literal"><span class="pre">listsum</span></code> o caso básico é uma
+lista de comprimento 1.</p>
+<p>Para obedecer a segunda lei, temos de arranjar uma mudança de estado que leve
+o algoritmo para o caso básico. A mudança de estado significa que alguns
+dados utilizados pelo algoritmo são modificados. Normalmente, os dados que
+representam o problema são reduzidos de alguma forma. No algoritmo
+<code class="docutils literal"><span class="pre">listsum</span></code> nossa estrutura de dados primária é uma lista, por isso
+temos de concentrar o nosso esforço de mudança de estado na
+lista. Como o caso básico é uma lista de comprimento 1, uma progressão
+natural para o caso básico é encurtar a lista. Este é exatamente o que
+acontece na linha 5 do <a class="reference internal" href="#lst-recsum"><span>Programa 2</span></a> quando chamamos
+<code class="docutils literal"><span class="pre">listsum</span></code> com uma lista mais curta.</p>
+<p>A última lei é que o algoritmo deve chamar a si mesmo. Esta é a própria
+definição de recursão. A recursão é um conceito confuso para muitos
+programadores iniciantes. Como um programador novato, você aprendeu que
+funções são boas porque você pode ter um grande problema e dividi-lo
+em problemas menores. Os problemas menores podem ser resolvidos escrevendo uma
+função para resolver cada problema. Quando falamos de recursão pode parecer
+que estamos a falar em círculos. Nós temos um problema a resolver
+com uma função, mas a função resolve o problema chamando a si mesma!
+Mas a lógica não é circular de maneira alguma; a lógica de recursão é uma
+expressão elegante de resolver um problema por dividi-lo em
+problemas menores e mais fáceis.</p>
+<p>No restante deste capítulo, vamos ver outros exemplos de
+recursão. Em cada caso, vamos nos concentrar na concepção de uma solução para um
+problema usando as três leis da recursão.</p>
+<div class="admonition-teste-seu-entendimento admonition">
+<p class="first admonition-title">Teste seu entendimento</p>
+
+    <div id="question_recsimp_1">
+    <p>.recsimp.1: Quantas chamadas recursivas são feitas ao computar a soma da lista [2,4,6,8,10]?</p>
+    <form name="question_recsimp_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question_recsimp_1_opt_a" />
+    <label for= "question_recsimp_1_opt_a">  a) 6</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question_recsimp_1_opt_b" />
+    <label for= "question_recsimp_1_opt_b">  b) 5</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question_recsimp_1_opt_c" />
+    <label for= "question_recsimp_1_opt_c">  c) 4</label><br />
+    
+    <input type="radio" name="group1" value="d" id="question_recsimp_1_opt_d" />
+    <label for= "question_recsimp_1_opt_d">  d) 3</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question_recsimp_1','c',['Há apenas cinco números na lista, o número de chamadas recursivas não será maior que o tamanho da lista.', 'A primeira chamada de listsum não é uma chamada recursiva.', 'A primeira chamada recursiva passa a lista [4,6,8,10], a segunda [6,8,10] e assim por diante até [10].', 'Esse número de chamadas não seria suficiente para cobrir todos os números da lista.'])"/> 
+    </form>
+    <div id="question_recsimp_1_feedback">
+    </div>
+    </div>
+    <div class="last">
+    <div id="question_recsimp_2">
+    <p>.recsimp.2: Suponha que você precisa escrever uma função recursiva para calcular o fatorial de um número. A função fat(n) retorna n * n-1 * n-2 * ... Onde o fatorial de zero é definido como 1. Qual seria o caso básico mais apropriado?</p>
+    <form name="question_recsimp_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question_recsimp_2_opt_a" />
+    <label for= "question_recsimp_2_opt_a">  a) n == 0</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question_recsimp_2_opt_b" />
+    <label for= "question_recsimp_2_opt_b">  b) n == 1</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question_recsimp_2_opt_c" />
+    <label for= "question_recsimp_2_opt_c">  c) n &gt;= 0</label><br />
+    
+    <input type="radio" name="group1" value="d" id="question_recsimp_2_opt_d" />
+    <label for= "question_recsimp_2_opt_d">  d) n &lt;= 1</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question_recsimp_2','d',['Embora seja possível já que fat(0) é o mesmo que fat(1), há opção melhor e um pouco mais eficiente.', 'Essa é uma boa escolha, mas o que aconteceria se você chamar fat(0)?', 'Esse caso básico seria verdadeiro para todos os números maiores que zero e assim o fat de qualquer número positivo seria 1.', 'Excelente, essa é a forma mais eficiente e impede que o seu programa quebre ao tentar calcular o fatorial de um número negativo.'])"/> 
+    </form>
+    <div id="question_recsimp_2_feedback">
+    </div>
+    </div>
+    </div></div>
+</div>
+<div class="section" id="convertendo-um-inteiro-para-um-string-em-qualquer-base">
+<h2>Convertendo um inteiro para um string em qualquer base<a class="headerlink" href="#convertendo-um-inteiro-para-um-string-em-qualquer-base" title="Permalink to this headline">¶</a></h2>
+<p>Suponha que você queira converter um inteiro para uma cadeia em alguma
+base entre binário e hexadecimal. Por exemplo, converter o número
+inteiro 10 para um string com sua representação em decimal como
+<code class="docutils literal"><span class="pre">&quot;10&quot;</span></code>, ou um string com a sua representação em binário como
+<code class="docutils literal"><span class="pre">&quot;1010&quot;</span></code>. Embora existam muitos algoritmos para resolver este
+problema, incluindo o algoritmo discutido na sessão sobre pilha, a
+formulação recursiva do problema é muito elegante.</p>
+<p>Vejamos um exemplo concreto usando base 10 e o número 769. Suponha que
+temos uma sequência de caracteres que corresponde aos primeiros 10
+dígitos, como <code class="docutils literal"><span class="pre">convString</span> <span class="pre">=</span> <span class="pre">&quot;0123456789&quot;</span></code>. É fácil converter um
+número inferior a 10 para o seu string equivalente simplesmente
+acessando a sequência. Por exemplo, se o número é 9, então o string é
+<code class="docutils literal"><span class="pre">convString[9]</span></code> ou <code class="docutils literal"><span class="pre">&quot;9&quot;</span></code>. Se pudermos quebrar o número 769 em três
+números de um dígito, 7, 6 e 9, então convertê-lo para uma string é
+simples. Um número inferior a 10 parece ser um bom caso básico.</p>
+<p>O nosso caso básico sugere que o algoritmo geral terá os seguintes
+três componentes:</p>
+<ol class="arabic simple">
+<li>Reduzir o número original para uma série de números de um dígito.</li>
+<li>Converter o número de um dígito para um string usando convString.</li>
+<li>Concatenar os strings de um dígito para formar o resultado final.</li>
+</ol>
+<p>O próximo passo é descobrir como mudar de estado e fazer progressos
+para o caso básico. Como estamos trabalhando com um número inteiro, vamos
+considerar que operações matemáticas podemos utilizar para reduzir um
+número. Os candidatos mais prováveis são divisão e subtração. Embora
+subtração possa ser útil, não é claro o que devemos subtrair do quê. A
+divisão inteira com resto nos dá uma direção clara. Vejamos o que
+acontece se dividirmos um número pela base que estamos tentando
+converter.</p>
+<p>Usando divisão inteira para dividir 769 por 10, temos 76 com um resto
+de 9. Isso nos fornece dois bons resultados. Em primeiro lugar, a
+parte restante é um número menor que a base que pode ser convertido
+para um string imediatamente usando convString. Em segundo lugar,
+temos um número que é menor do que o original e nos move em direção ao
+caso básico de ter um número menor que a base. Agora o nosso trabalho
+é converter 76 na sua representação em string. Usaremos novamente a
+divisão inteira com resto para obter os resultados 7 e 6
+respectivamente. Finalmente, reduzimos o problema para converter 7,
+que podemos fazer facilmente uma vez que satisfaz a condição do caso
+básico de <span class="math">\(n &lt; base\)</span>, onde <span class="math">\(base = 10\)</span>. A série de
+operações que acabamos de realizar é ilustrada na <a class="reference internal" href="#fig-tostr"><span>Figura 3</span></a>. Note que os números que queremos guardar estão nas
+caixas de resto ao longo do lado direito do diagrama.</p>
+<div class="figure align-center" id="id3">
+<span id="fig-tostr"></span><img alt="image" src="../_images/toStr.png" />
+<p class="caption"><span class="caption-text">image</span></p>
+<div class="legend">
+<blockquote>
+<div>Convertendo um inteiro em um string na base 10</div></blockquote>
+</div>
+</div>
+<p>O <a class="reference internal" href="#lst-rectostr"><span>Programa 3</span></a> mostra o código em Python que
+implementa o algoritmo descrito acima para qualquer base entre 2
+e 16.</p>
+
+<div id="lst_rectostr" >
+<textarea cols="50" rows="12" id="lst_rectostr_code" class="active_code">
+def toStr(n,base):
+   convertString = "0123456789ABCDEF"
+   if n < base:
+      return convertString[n]
+   else:
+      return toStr(n//base,base) + convertString[n%base]
+
+print(toStr(1453,16))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (lst_rectostr)</span> </p>
+<button onclick="runit('lst_rectostr',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('lst_rectostr');">Save</button>
+<button class="ac_opt" onclick="requestCode('lst_rectostr');">Load</button>
+<br />
+
+<canvas id="lst_rectostr_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="lst_rectostr_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Observe que na linha 3 testamos o caso básico, onde <code class="docutils literal"><span class="pre">n</span></code> é menor que
+a base para a qual estamos convertendo. Quando detectamos o caso
+básico, paramos a recursão e retornamos o string em
+<code class="docutils literal"><span class="pre">convertString</span></code>. Na linha 6 nós satisfazemos tanto a segunda quanto
+a terceira lei fazendo a chamada recursiva e reduzindo o tamanho do
+problema usando divisão.</p>
+<p>Vamos simular o algoritmo de novo; desta vez, vamos converter o número 10
+em um string com sua representação na base 2 (<code class="docutils literal"><span class="pre">&quot;1010&quot;</span></code>).</p>
+<div class="figure align-center" id="id4">
+<span id="fig-tostr2"></span><img alt="image" src="../_images/toStrBase2.png" />
+<p class="caption"><span class="caption-text">Convertendo o número 10 para um string com sua representação na base 2</span></p>
+</div>
+<p>A <a class="reference internal" href="#fig-tostr2"><span>Figura 4</span></a> mostra que obtemos o resultado que
+estamos procurando, mas parece que a ordem dos dígitos está errada. O
+algoritmo funciona corretamente porque nós fazemos a chamada recursiva
+primeiro na linha 6 e então concatenamos o string com o restante.
+Se revertêssemos a ordem, concatenando os resultados de
+<code class="docutils literal"><span class="pre">convertString</span></code> com <code class="docutils literal"><span class="pre">toStr</span></code>, a cadeia resultante ficaria
+invertida! Mas, se esperarmos para concatenar após o retorno da
+chamada recursiva, obteremos o resultado na ordem correta. Isso é
+semelhante a nossa discussão de pilhas feita no capítulo anterior.</p>
+<div class="admonition-teste-seu-entendimento admonition">
+<p class="first admonition-title">Teste seu entendimento</p>
+<p>Escreva uma função que recebe um string como parâmetro e retorna um
+novo string que é o reverso do string de entrada.</p>
+
+<button id="butt_recursion_sc_1" onclick="createActiveCode('recursion_sc_1','from test import testEqual\ndef reverse(s):\n    return s\n\ntestEqual(reverse(%22hello%22),%22olleh%22)\ntestEqual(reverse(%22l%22),%22l%22)\ntestEqual(reverse(%22follow%22),%22wollof%22)\ntestEqual(reverse(%22%22),%22%22)'); $('#butt_recursion_sc_1').hide();">Open Editor</button>
+<div id="recursion_sc_1"></div>
+<br />
+<p>Escreva uma função que recebe um string como um parâmetro e retorna
+True se o string é um palíndromo, False contrário. Lembre-se que um
+string é um palíndromo se ele é o mesmo quando escrito de trás para
+a frente. Por exemplo: radar é um palíndromo. Como um bônus,
+palíndromos também podem ser frases, mas você precisa remover os
+espaços e pontuação antes de verificar. Por exemplo: &#8220;madam i&#8217;m
+adam&#8221; é um palíndromo. Outros palíndromos divertidas incluem:</p>
+<ul class="simple">
+<li>kayak</li>
+<li>aibohphobia</li>
+<li>Live not on evil</li>
+<li>Reviled did I live, said I, as evil I did deliver</li>
+<li>Go hang a salami; I&#8217;m a lasagna hog.</li>
+<li>Able was I ere I saw Elba</li>
+<li>Kanakanak &#8211;  uma cidade no Alaska</li>
+<li>Wassamassaw &#8211; uma cidade em South Dakota</li>
+</ul>
+<div class="last">
+<button id="butt_recursion_sc_2" onclick="createActiveCode('recursion_sc_2','from test import testEqual\ndef removeWhite(s):\n    return s\n\ndef isPal(s):\n    return False\n\ntestEqual(isPal(removeWhite(%22x%22)),True)\ntestEqual(isPal(removeWhite(%22radar%22)),True)\ntestEqual(isPal(removeWhite(%22hello%22)),False)\ntestEqual(isPal(removeWhite(%22%22)),True)\ntestEqual(isPal(removeWhite(%22hannah%22)),True)\ntestEqual(isPal(removeWhite(%22madam i%27m adam%22)),True)'); $('#butt_recursion_sc_2').hide();">Open Editor</button>
+<div id="recursion_sc_2"></div>
+<br />
+</div></div>
+</div>
+</div>
+<div class="section" id="pilha-de-execucao-implementando-recursao">
+<h1>Pilha de execução: implementando recursão<a class="headerlink" href="#pilha-de-execucao-implementando-recursao" title="Permalink to this headline">¶</a></h1>
+<p>Suponha que, em vez de concatenar o resultado da chamada recursiva
+para <code class="docutils literal"><span class="pre">toStr</span></code> com o string de <code class="docutils literal"><span class="pre">convertString</span></code>, modificamos nosso
+algoritmo para empilhar os strings em uma pilha antes de fazer a
+chamada recursiva. O código para esta algoritmo modificado é mostrado
+no <a class="reference internal" href="#lst-recstack"><span>Programa 4</span></a>.</p>
+
+<div id="lst_recstack" >
+<textarea cols="50" rows="12" id="lst_recstack_code" class="active_code">
+rStack = Stack()
+
+def toStr(n,base):
+    convertString = "0123456789ABCDEF"
+    if n < base:
+        rStack.push(convertString[n])
+    else:
+        rStack.push(convertString[n % base])
+        toStr(n // base, base)
+
+print(toStr(1453,16))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (lst_recstack)</span> </p>
+<button onclick="runit('lst_recstack',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('lst_recstack');">Save</button>
+<button class="ac_opt" onclick="requestCode('lst_recstack');">Load</button>
+<br />
+
+<canvas id="lst_recstack_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="lst_recstack_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Cada vez que fazemos uma chamada para <code class="docutils literal"><span class="pre">toStr</span></code>, empilhamos um caractere na pilha.
+Voltando ao exemplo anterior, podemos ver que após a quarta chamada
+para <code class="docutils literal"><span class="pre">toStr</span></code> a pilha seria algo como <a class="reference internal" href="#fig-recstack"><span>Figura 5</span></a>. Observe que agora podemos simplesmente desempilhar os
+caracteres da pilha e concatená-los para criar o resultado final,
+<code class="docutils literal"><span class="pre">&quot;1010&quot;</span></code>.</p>
+<div class="figure align-center" id="id5">
+<span id="fig-recstack"></span><img alt="../_images/recstack.png" src="../_images/recstack.png" />
+<p class="caption"><span class="caption-text">Strings colocados em uma pilha durante a conversão</span></p>
+</div>
+<p>O exemplo anterior nos fornece algumas dicas sobre como o Python
+implementa uma chamada de função recursiva. Quando uma função é
+chamada em Python, uma <strong>pilha de execução</strong> é alocado para lidar com
+as variáveis locais da função. Quando a função retorna, o valor de
+retorno é deixado no topo da pilha para ser acessado pela função de
+chamada. A <a class="reference internal" href="#fig-callstack"><span>Figura 6</span></a> ilustra a pilha de execução
+após a instrução de retorno na linha 4.</p>
+<div class="figure align-center" id="id6">
+<span id="fig-callstack"></span><img alt="../_images/callstack.png" src="../_images/callstack.png" />
+<p class="caption"><span class="caption-text">Pilha de execução gerada por <code class="docutils literal"><span class="pre">toStr(10,2)</span></code></span></p>
+</div>
+<p>Note que a chamada para <code class="docutils literal"><span class="pre">toStr(2//2,2)</span></code> deixa o valor de retorno
+<code class="docutils literal"><span class="pre">&quot;1&quot;</span></code> na pilha. Este valor de retorno é então usado em lugar da
+chamada de função (<code class="docutils literal"><span class="pre">toStr(1,2)</span></code>) na expressão
+<code class="docutils literal"><span class="pre">&quot;1&quot;+convertString[2%2]</span></code>, que vai deixar o string <code class="docutils literal"><span class="pre">&quot;10&quot;</span></code> no topo
+da pilha. Desta forma, a pilha de chamadas do Python funciona a pilha
+que usamos explicitamente no <a class="reference internal" href="#lst-recstack"><span>Programa 4</span></a>. Em
+nosso exemplo de soma de lista, você pode considerar que o valor de
+retorno na pilha toma o lugar de uma variável acumuladora.</p>
+<p>A pilha de execução também proporcionar um escopo para as variáveis utilizadas pela
+função. Ainda que estejamos chamando a mesma função várias vezes,
+cada chamada cria um novo escopo para as variáveis locais da função.</p>
+<p>Se você mantiver essa idéia da pilha em sua cabeça, você vai ver que é
+muito mais fácil escrever uma função recursiva corretamente.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Recursão</a></li>
+<li><a class="reference internal" href="#objetivos">Objetivos</a></li>
+<li><a class="reference internal" href="#o-que-e-recursao">O que é recursão?</a><ul>
+<li><a class="reference internal" href="#calculando-a-soma-de-uma-lista-de-numeros">Calculando a soma de uma lista de números</a></li>
+<li><a class="reference internal" href="#as-tres-leis-da-recursao">As três leis da recursão</a></li>
+<li><a class="reference internal" href="#convertendo-um-inteiro-para-um-string-em-qualquer-base">Convertendo um inteiro para um string em qualquer base</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pilha-de-execucao-implementando-recursao">Pilha de execução: implementando recursão</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../11-Dicionarios/dicionarios.html"
+                        title="previous chapter">Dicionários</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="graphical-ptbr.html"
+                        title="next chapter">Visualizando recursão</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="graphical-ptbr.html" title="Visualizando recursão"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../11-Dicionarios/dicionarios.html" title="Dicionários"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2012, Brad Miller, David Ranum.
+      Last updated on May 24, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

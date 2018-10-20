@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Django</title></head><body data-page-id="39"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Django</h1></div><div class="yui-ge"><div class="yui-u first"><p>&#8220;<i>Django is a high-level Python Web framework that encourages rapid development and clean, pragmatic design.</i>&#8221;
+
+</p><p><a href="http://www.djangoproject.com/">http://www.djangoproject.com/</a>
+</p><p>On this site:</p><dl><dt><a href="#installing">Installing Django on Windows</a>
+</dt><dt><a href="django-pageview.htm"><cite>The Django PageView Application</cite></a>
+</dt><dt><a href="django-multihost.htm"><cite>Serving Multiple Hosts from a Single Django Instance</cite></a>
+</dt><dt><a href="zone-django-notes.htm"><cite>Some Notes on Moving the Zone to Django</cite></a>
+</dt></dl><h2 id="installing">Installing Django on Windows in less than 5 minutes&#160;<a class="nav" href="#installing" title="bookmark!">#</a></h2><p> Assuming you have Python 2.4 or Python 2.5, <a href="exemaker.htm">exemaker</a>,
+and <a href="http://subversion.tigris.org/servlets/ProjectDocumentList?folderID=91">the <b>svn</b> Subversion command-line client</a>.</p><h3 id="installing-for-python-24">Python 2.4&#160;<a class="nav" href="#installing-for-python-24" title="bookmark!">#</a></h3></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide"> In a command line window, do:
+
+<pre class="wide">
+cd C:\Python24\Lib\site-packages
+svn co http://code.djangoproject.com/svn/django/trunk/django
+
+cd django\bin
+exemaker django-admin.py
+</pre></p></div><div class="yui-ge"><div class="yui-u first"><p> Install pysqlite 2 (for sqlite 3) from
+<s><a href="http://www.initd.org/tracker/pysqlite">http://www.initd.org/tracker/pysqlite</a></s> (dead link).  The latest stable version should work fine (currently <s><a href="http://initd.org/pub/software/pysqlite/releases/2.0/2.0.5/pysqlite-2.0.5.win32-py2.4.exe">2.0.5</a></s> (dead link)).
+
+<h3 id="installing-for-python-25">Python 2.5&#160;<a class="nav" href="#installing-for-python-25" title="bookmark!">#</a></h3></p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide"> In a command line window, do:
+
+<pre class="wide">
+cd C:\Python25\Lib\site-packages
+svn co http://code.djangoproject.com/svn/django/trunk/django
+
+cd django\bin
+exemaker django-admin.py
+</pre><h3 id="setting-up-django">Setting up Django&#160;<a class="nav" href="#setting-up-django" title="bookmark!">#</a></h3></p></div><div class="yui-ge"><div class="yui-u first"><p> Create a work directory, and use <b>django-admin</b> to create a project directory in there.
+
+<pre>
+mkdir c:\mytest
+cd c:\mytest
+django-admin startproject myproject
+</pre></p><p> Edit the DATABASE_ENGINE and DATABASE_NAME entries in the
+<b>settings.py</b> file:
+
+<pre>
+cd myproject
+notepad settings.py
+</pre></p><p> Set the variables to:
+
+<pre>
+DATABASE_ENGINE = 'sqlite3'
+DATABASE_NAME = 'mydata.db'
+</pre></p><p> (If you want, you can tweak other parameters at the same time.  See
+comments in the file for details.)
+
+</p><p> Start the server:
+
+<pre>
+python manage.py runserver
+</pre></p><p> Click <s><a href="http://localhost:8000">here</a></s> (dead link) to check that the
+server is running.
+
+</p><p> That&#8217;s it!
+
+</p><p>  The next step is to read the
+<s><a href="http://www.djangoproject.com/documentation/tutorial1/#creating-models">Django tutorial</a></s> (dead link).  Get to work! 
+
+</p><p>(to set up a deployment stack, with apache and a real database server,
+some more work is needed.  <s><a href="http://www.thinkhole.org/wp/2006/04/03/django-on-windows-howto/">this article</a></s> (dead link) shows you how to do that.)</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#installing">Installing Django on Windows in less than 5 minutes</a></li><li><ul><li><a href="#installing-for-python-24">Python 2.4</a></li><li><a href="#installing-for-python-25">Python 2.5</a></li><li><a href="#setting-up-django">Setting up Django</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

@@ -1,0 +1,431 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Técnicas em Projeto de Algoritmos &mdash; Princípios de Desenvolvimeto de Algoritmos em Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Princípios de Desenvolvimeto de Algoritmos em Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Algoritmos de Busca" href="04-busca.html" />
+    <link rel="prev" title="Recursão" href="02-recursao.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'algoritmos',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="04-busca.html" title="Algoritmos de Busca"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="02-recursao.html" title="Recursão"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Princípios de Desenvolvimeto de Algoritmos em Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="tecnicas-em-projeto-de-algoritmos">
+<h1>Técnicas em Projeto de Algoritmos<a class="headerlink" href="#tecnicas-em-projeto-de-algoritmos" title="Permalink to this headline">¶</a></h1>
+<p>Nossa atenção se voltará agora a um dos aspéctos especifícos de
+programação: <strong>eficiência</strong>.  O que está descrito aqui segue de perto a
+<em>Column 8</em> da <em>Part II: Performance</em> do livro <em>Programming Pearls</em> de
+John Bentley.</p>
+<p>Estudaremos quatro algoritmos para um problema bem simples <em>Segmento
+de soma máxima</em>.  A nossa ênfase será nas técnicas usadas no projeto
+de algoritmos que resolvem esse problema e no consumo de tempo de cada
+um desses algoritmos. Utilizaremos assim o problema como um &#8220;laboratório
+de ideias&#8221;.</p>
+<div class="section" id="objetivo">
+<h2>Objetivo<a class="headerlink" href="#objetivo" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>Introduzir conceitos de projeto de algoritmos</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="topicos">
+<h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>Segmento de soma máxima</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="segmento-de-soma-maxima">
+<span id="index-0"></span><h2>Segmento de soma máxima<a class="headerlink" href="#segmento-de-soma-maxima" title="Permalink to this headline">¶</a></h2>
+<p>A história sobre o problema que trataremos tem a sua origem em
+processamento de imagens e é descrita no livro <em>Programming Pearls</em>
+de Jon Bentley. O problema
+pode ser definido da seguinte forma:</p>
+<div class="admonition-segmento-de-soma-maxima admonition">
+<p class="first admonition-title">Segmento de Soma Máxima</p>
+<p class="last">Dada uma lista <cite>v</cite> de números, determinar o segmento de <cite>v</cite> de soma máxima</p>
+</div>
+<p>Em Python, um segmento ou fatia de uma lista <cite>v</cite> é indicada por dois indices <cite>e</cite> e <cite>d</cite>
+que indicam os limites a esquerda e a direita do segmento, como em <cite>v[e:d]</cite>, sendo o intervalo fechado em <cite>e</cite> e aberto em <cite>d</cite>.
+Assim, o segmento de soma máxima da lista:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="mi">31</span><span class="p">,</span> <span class="o">-</span><span class="mi">41</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="o">-</span><span class="mi">53</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">97</span><span class="p">,</span> <span class="o">-</span><span class="mi">93</span><span class="p">,</span> <span class="o">-</span><span class="mi">23</span><span class="p">,</span> <span class="mi">84</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>é <cite>v[2:7]</cite>, que tem soma 187.</p>
+<div class="section" id="primeira-ideia">
+<h3>Primeira ideia<a class="headerlink" href="#primeira-ideia" title="Permalink to this headline">¶</a></h3>
+<p>Vamos primeiramente estudar uma solução baseada na seguinte ideia:</p>
+<blockquote>
+<div>Para todos os pares de índices <cite>e</cite> e <cite>d</cite> tal que <cite>0&lt;=e&lt;=d&lt;n</cite>,
+verifique se a soma dos elementos de <cite>v[e:d]</cite> é maior que a soma máxima
+encontrada até agora.</div></blockquote>
+
+<div id="seg_max3" >
+<textarea cols="50" rows="12" id="seg_max3_code" class="active_code">
+def seg_max3(v):
+   ''' (list) -> int, int, int
+   Recebe uma lista v e retorna e, d e smax
+   onde v[e:d] eh fatia de soma maxima, com soma smax
+   '''
+   n = len(v)
+   smax = e = d = 0
+   for i in range(n):
+      for j in range(i, n):
+         s = 0
+         for k in range(i, j+1):
+            s += v[k]
+            if s > smax:
+               e, d, smax = i, j+1, s
+   return e, d, smax
+
+# teste da funcao
+v = [31, -41, 59, 26, -53, 58, 97, -93, -23, 84]
+print(seg_max3(v))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (seg_max3)</span> </p>
+<button onclick="runit('seg_max3',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('seg_max3');">Save</button>
+<button class="ac_opt" onclick="requestCode('seg_max3');">Load</button>
+<br />
+
+<canvas id="seg_max3_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="seg_max3_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="segunda-ideia">
+<h3>Segunda ideia<a class="headerlink" href="#segunda-ideia" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div>A soma da fatia <cite>v[e:d]</cite> pode ser calculada a partir da fatia <cite>v[e:d-1]</cite>.</div></blockquote>
+
+<div id="seg_max2" >
+<textarea cols="50" rows="12" id="seg_max2_code" class="active_code">
+def seg_max2(v):
+   ''' (list) -> int, int, int
+   Recebe uma lista v e retorna e, d e smax
+   onde v[e:d] eh fatia de soma maxima, com soma smax
+   '''
+   n = len(v)
+   smax = e = d = 0
+   for i in range(n):
+      s = 0
+      for j in range(i, n):
+         s += v[j]
+         if s > smax:
+            e, d, smax = i, j+1, s
+   return e, d, smax
+
+# teste da funcao
+v = [31, -41, 59, 26, -53, 58, 97, -93, -23, 84]
+print(seg_max2(v))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (seg_max2)</span> </p>
+<button onclick="runit('seg_max2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('seg_max2');">Save</button>
+<button class="ac_opt" onclick="requestCode('seg_max2');">Load</button>
+<br />
+
+<canvas id="seg_max2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="seg_max2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="terceira-ideia">
+<h3>Terceira ideia<a class="headerlink" href="#terceira-ideia" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div>Dividir para conquistar.
+Vamos dividir a lista no meio e calcular, recursivamente, a soma maxima nas sublistas a esquerda, direita e da soma máxima que cruza as sublistas.</div></blockquote>
+
+<div id="seg_maxR" >
+<textarea cols="50" rows="12" id="seg_maxR_code" class="active_code">
+def seg_maxR(v, ini, fim):
+   ''' (list, int, int) -> int, int, int
+   Recebe uma lista v e um intervalo ini,fim e retorna
+   e, d e smax onde v[e:d] eh fatia de soma maxima, com soma smax
+   '''
+
+   if ini >= fim:  # zero elementos
+      return 0
+   if ini+1 == fim: # um elemento
+      return v[ini]
+   meio = (ini + fim)//2
+
+   # soma maxima cruzada a esquerda
+   emax = s = 0
+   e = m-1
+   for i in range(m-1, ini-1, -1):
+       s += v[i]
+       if s > lmax:
+           emax, e = s, i
+
+   # soma maxima cruzada a direita
+   dmax = s = 0
+   d = m
+   for i in range(m, fim):
+      s += v[i]
+      if s > lmax:
+         lmax, d = s, i
+
+
+   maxc = emax + dmax
+   maxe = seg_maxR(v, ini, m)
+   maxd = seg_maxR(v, m, fim)
+
+# teste da funcao
+v = [31, -41, 59, 26, -53, 58, 97, -93, -23, 84]
+print(seg_maxR(v))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (seg_maxR)</span> </p>
+<button onclick="runit('seg_maxR',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('seg_maxR');">Save</button>
+<button class="ac_opt" onclick="requestCode('seg_maxR');">Load</button>
+<br />
+
+<canvas id="seg_maxR_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="seg_maxR_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="quarta-ideia">
+<h3>Quarta ideia<a class="headerlink" href="#quarta-ideia" title="Permalink to this headline">¶</a></h3>
+
+<div id="seg_max" >
+<textarea cols="50" rows="12" id="seg_max_code" class="active_code">
+def seg_max(v):
+   ''' (list) -> int, int, int
+   Recebe uma lista v e retorna e, d e smax
+   onde v[e:d] eh fatia de soma maxima, com soma smax
+   '''
+
+   n = len(v)
+   i = s = smax = e = d = 0
+   for j in range(n):
+      if s < 0:
+         i, s = j, v[j]
+      else:
+         s += v[j]
+      if s > smax:
+         e, d, smax = i, j+1, s
+   return e, d, smax
+
+# teste da funcao
+v = [31, -41, 59, 26, -53, 58, 97, -93, -23, 84]
+print(seg_max(v))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (seg_max)</span> </p>
+<button onclick="runit('seg_max',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('seg_max');">Save</button>
+<button class="ac_opt" onclick="requestCode('seg_max');">Load</button>
+<br />
+
+<canvas id="seg_max_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="seg_max_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Técnicas em Projeto de Algoritmos</a><ul>
+<li><a class="reference internal" href="#objetivo">Objetivo</a></li>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#segmento-de-soma-maxima">Segmento de soma máxima</a><ul>
+<li><a class="reference internal" href="#primeira-ideia">Primeira ideia</a></li>
+<li><a class="reference internal" href="#segunda-ideia">Segunda ideia</a></li>
+<li><a class="reference internal" href="#terceira-ideia">Terceira ideia</a></li>
+<li><a class="reference internal" href="#quarta-ideia">Quarta ideia</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="02-recursao.html"
+                        title="previous chapter">Recursão</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="04-busca.html"
+                        title="next chapter">Algoritmos de Busca</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="04-busca.html" title="Algoritmos de Busca"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="02-recursao.html" title="Recursão"
+             >previous</a> |</li>
+        <li><a href="index.html">Princípios de Desenvolvimeto de Algoritmos em Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on May 16, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

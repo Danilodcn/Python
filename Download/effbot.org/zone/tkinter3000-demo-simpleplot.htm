@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The Tkinter 3000 SimplePlot&nbsp;Widget</title></head><body data-page-id="329"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The Tkinter 3000 SimplePlot&nbsp;Widget</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">July 16, 2002 | Fredrik Lundh</p><p>This note describes how to create simple &#8220;plot&#8221; widgets with
+Tkinter 3000.  In all examples, there&#8217;s an external source that
+feeds coordinate pairs to the widget, and the widget draws a &#8220;dot&#8221;
+on the screen for each coordinate.</p><p>As a reference, we&#8217;ll use a Canvas-based implementation and
+a simple program using 5000 random coordinates:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">import</span> Tkinter
+
+<span class="pykeyword">class</span> <span class="pyclass">SimplePlot</span>(Tkinter.Canvas):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">plot</span>(self, x, y):
+        self.create_line((x, y, x+1, y), fill=<span class="pystring">"black"</span>)
+
+<span class="pycomment">#</span>
+<span class="pycomment"># test program</span>
+
+<span class="pykeyword">import</span> random, time
+
+
+root = Tkinter.Tk()
+root.title(<span class="pystring">"demoSimplePlot"</span>)
+
+widget = SimplePlot(root)
+widget.pack(fill=<span class="pystring">"both"</span>, expand=1)
+
+widget.update() <span class="pycomment"># display the widget</span>
+
+data = []
+<span class="pykeyword">for</span> i <span class="pykeyword">in</span> range(5000):
+    data.append((random.randint(0, 200), random.randint(0, 200)))
+
+t0 = time.time()
+
+<span class="pykeyword">for</span> x, y <span class="pykeyword">in</span> data:
+    widget.plot(x, y)
+
+widget.update() <span class="pycomment"># make sure everything is drawn</span>
+
+<span class="pykeyword">print</span> time.time() - t0, <span class="pystring">"seconds"</span>
+
+root.mainloop()</pre></div><div class="yui-ge"><div class="yui-u first"><p>On my slowest reference machine, it takes about 3.5 seconds
+to create all line fragments and display the data.</p><h3>Just the dots&#8230;</h3><p>The first Tkinter 3000 example simply draws dots in the foreground
+color, as they arrive.  To draw dots, we can either use a pen and draw
+short lines, or use a brush and draw a small rectangle.  It turns out
+that the latter is a bit faster; all in all, the following test program
+needs about 0.65 seconds to plot the same data.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>File: demoSimplePlot-1.py</b>
+<pre class="python wide">
+<span class="pykeyword">class</span> <span class="pyclass">SimplePlot</span>(Widget):
+
+    ui_option_foreground = <span class="pystring">"black"</span>
+
+    ui_option_width = 200
+    ui_option_height = 200
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_config</span>(self):
+        self.brush = self.ui_brush(self.ui_option_foreground)
+        <span class="pykeyword">return</span> int(self.ui_option_width), int(self.ui_option_height)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">plot</span>(self, x, y):
+        self.ui_draw.rectangle((x, y, x+1, y+1), self.brush)</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>However, unlike the Canvas, this version does not remember its
+contents.  If you iconify the window, or cover it with another window,
+the dots will have disappeared when the window is display again.</p><i>To be continued&#8230;</i></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

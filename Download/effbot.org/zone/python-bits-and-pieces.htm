@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Bits and Pieces of&nbsp;Python</title></head><body data-page-id="209"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Bits and Pieces of&nbsp;Python</h1></div><div class="yui-ge"><div class="yui-u first"><p align="right"><i>&#8220;Man tager om man s&#229; hafva kan&#8230;&#8221;</i></p><h2 id="creating-an-endless-sequence">Creating an Endless Sequence&#160;<a class="nav" href="#creating-an-endless-sequence" title="bookmark!">#</a></h2><p>This example shows a simple and straightforward way to
+do this, using a custom sequence wrapper.  This works in all
+versions of Python.</p><div class="example"> 
+<b>Example: creating an endless sequence</b>
+<pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">over_and_over_again</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, seq):
+        self.seq = seq
+        self.len = len(seq)
+    <span class="pykeyword">def</span> <span class="pyfunction">__getitem__</span>(self, index):
+        <span class="pykeyword">return</span> self.seq[index % self.len]
+
+<span class="pycomment"># zip stops when the shortest sequence ends</span>
+<span class="pykeyword">print</span> zip(range(12), over_and_over_again(<span class="pystring">"spam"</span>))</pre></div><p>In more recent versions, it&#8217;s possible to do the same thing in
+more &#8220;interesting&#8221; ways, using iterators and/or generators.  More
+on that later.</p><h2 id="populating-a-dictionary-inside-a-lambda">Populating a Dictionary Inside a Lambda&#160;<a class="nav" href="#populating-a-dictionary-inside-a-lambda" title="bookmark!">#</a></h2><p>In the following example, the &#8220;for k, v in x&#8221; part represents
+any function or expression returning a sequence of key/value pairs,
+where all keys are unique.  The goal is to turn this into a
+dictionary.  In 2.2, this is easy.  In 2.1, it&#8217;s possible to do
+this on a single line, without help from outside.  In earlier
+versions, it&#8217;s probably worth adding a helper function similar
+to 2.2&#8217;s dict factory&#8230;</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Example: populating a dictionary inside a lambda</b>
+<pre class="python wide">
+<span class="pycomment"># python 2.4 and later</span>
+func = <span class="pykeyword">lambda</span> x: dict((k, v) <span class="pykeyword">for</span> k, v <span class="pykeyword">in</span> x)
+
+<span class="pycomment"># python 2.2 and later</span>
+func = <span class="pykeyword">lambda</span> x: dict([(k, v) <span class="pykeyword">for</span> k, v <span class="pykeyword">in</span> x])
+
+<span class="pycomment"># python 2.1 and later (this is ugly!)</span>
+func = <span class="pykeyword">lambda</span> x: ([d <span class="pykeyword">for</span> d <span class="pykeyword">in</span> [{}], d.setdefault(k, v) <span class="pykeyword">for</span> k, v <span class="pykeyword">in</span> x])[0][0]</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>Note that the 2.1 version creates a tuple containing two list
+comprehensions, and it returns the first item in the first tuple
+member.</p><p>The first one creates an empty dictionary, and binds it to the
+<b>d</b> variable in a rather roundabout way: while you cannot use
+ordinary assignments inside a lambda, nothing stops you from using
+a list comprehesion to do the job for you.  Instead of writing:</p><pre class="python">
+variable = value</pre><p>you can simply write:</p><pre class="python">
+[variable <span class="pykeyword">for</span> variable <span class="pykeyword">in</span> [value]]</pre><p>The list comprehension converts a list with a single value to another
+list, containing the same value.  But as a side effect, it assigns the
+value to the given variable.</p><p>But let&#8217;s go back to the lambda.  The second list comprehension
+loops over the key/value pairs.  For each pair, it calls the
+<b>d.setdefault</b> method, which adds the key/value pair to
+the dictionary <b>d</b> if the key is not already there.  Which,
+assuming that all keys are unique (or that we don&#8217;t really care
+which value to use if they&#8217;re not), is good enough for this task.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#creating-an-endless-sequence">Creating an Endless Sequence</a></li><li><a href="#populating-a-dictionary-inside-a-lambda">Populating a Dictionary Inside a Lambda</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

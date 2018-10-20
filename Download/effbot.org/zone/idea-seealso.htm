@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The SeeAlso Markup&nbsp;Language</title></head><body data-page-id="127"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The SeeAlso Markup&nbsp;Language</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | May 2005</p><p>The <em>SeeAlso Markup Language</em> is a minimal XML dialect that can
+be used to generate links between different web-based documentation sets.
+A documentation generator can use one or more SeeAlso files to add outbound
+links to related documents at other sites.  A documention generator can also
+generate SeeAlso files, for use by other sites.</p><p>(To view it another way, a SeeAlso file is a collection of
+<a href="http://www.sixapart.com/pronet/docs/trackback_spec">trackbacks</a>,
+stored in a single XML file.)</p><p>Here&#8217;s a small SeeAlso file, which contains a single link:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="xml wide wide">
+&lt;<span class="pyfunction">seealso</span> src='http://effbot.org/python-seealso.xml'&gt;
+  &lt;<span class="pyfunction">item</span> href='http://www.effbot.org/librarybook/atexit.htm'&gt;
+    &lt;<span class="pyfunction">title</span>&gt;Using the &lt;<span class="pyfunction">em</span>&gt;atexit&lt;/<span class="pyfunction">em</span>&gt; module&lt;/<span class="pyfunction">title</span>&gt;
+    &lt;<span class="pyfunction">target</span>&gt;atexit&lt;/<span class="pyfunction">target</span>&gt;
+    &lt;<span class="pyfunction">target</span>&gt;atexit.register&lt;/<span class="pyfunction">target</span>&gt;
+  &lt;/<span class="pyfunction">item</span>&gt;
+&lt;/<span class="pyfunction">seealso</span>&gt;</pre></div><div class="yui-ge"><div class="yui-u first"><p>A larger example can be found
+<a href="/librarybook/seealso.xml">here</a>.
+Also see <a href="seealso-python-library.htm"><cite>Generating SeeAlso Indexes for the Python Library Reference</cite></a>.
+
+</p><p class="fixme">FIXME: Use a namespace?</p><h2 id="elements">Elements&#160;<a class="nav" href="#elements" title="bookmark!">#</a></h2><h3>The seealso Element</h3><p>This is the document root element.  It can contain zero or one
+<b>info</b> element, followed by zero or more <b>item</b> elements.</p><p>The <b>src</b> attribute contains the source URI for this document.
+An application may use this URI to look for a newer version of the file.
+The <b>src</b> attribute is optional; if omitted, the application will
+have to keep track of the source location in some other way.</p><h3>The info Element</h3><p>This element contains information about the SeeAlso origin site,
+such as site name, contact addresses, etc.  There are no standard
+subelements defined at this time, but you can use custom elements as
+long as they live in a distinct namespace.</p><p>Providing relevant <a href="http://dublincore.org/documents/dc-xml-guidelines/">Dublin Core properties</a> as <b>info</b> subelements is
+encouraged.</p><h3>The item Element</h3><p>This element contains information for a single SeeAlso item.  It
+should contain an <b>href</b> attribute that points to the associated
+resource.</p><p>This element can have zero or more <b>title</b>, <b>excerpt</b>,
+and <b>target</b> elements.  For maximum interoperability, you
+should include a <b>title</b> and a <b>target</b> element for
+each SeeAlso item.</p><h3>The title Element</h3><p>The title of the SeeAlso item.  An item should have at least
+one title.  Multiple titles are allowed, but should be avoided
+(if used, applications are free to use any of them).</p><p>The title should contain plain text, but the <b>em</b> element
+can be used to emphasize words or phrases.  No other HTML markup
+can be used.</p><h3>The excerpt Element</h3><p>An excerpt from the SeeAlso item, or any other description that
+is relevant.  As for titles, multiple excerpts are allowed, but should
+be avoided (if multiple excerpts are present, applications are free
+to use any of them).
+
+</p><p>The excerpt should contain plain text, but the <b>em</b> element
+can be used to emphasize words or phrases.  No other HTML markup
+can be used.</p><h3>The target Element</h3><p>The target resource for this SeeAlso item (that is, the resource
+which will link back to this item).</p><p>The target can be a URI, or use any other form relevant for the
+application.  For example, objects in the Python standard library
+can be identified by a dotted path (e.g. <b>Tkinter.Canvas.move</b>
+or <b>atexit.register</b>).</p><p>An item should have at least one target.  Multiple targets can be
+used, where appropriate.</p><p class="fixme">FIXME: Add some mechanism to specify &#8220;target domains&#8221;?
+Current effbot.org samples use a <b>target-domain</b> attribute in the
+<b>seealso</b> element.</p><h3>The em Element</h3><p>This element can be used to emphasize portions of a title or
+excerpt.  Applications are free to render emphasized portions in
+a suitable way (e.g. use italics), or to treat them as ordinary
+text.</p><p class="fixme">FIXME: Put this tag in the XHTML namespace?</p><h2>Using Custom Elements</h2><p>Other elements can be used freely, as long as they live in a
+distinct namespace.  You can for example use Dublin Core elements,
+RSS elements, or more extensive XHTML markup.</p><p>For interoperability, custom elements should be placed after
+the standard elements, and the document should be designed to make
+sense also if all custom elements are ignored.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#elements">Elements</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

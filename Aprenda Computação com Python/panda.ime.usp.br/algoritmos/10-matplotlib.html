@@ -1,0 +1,343 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Visualização de gráficos 2D usando matplotlib &mdash; Princípios de Desenvolvimeto de Algoritmos em Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Princípios de Desenvolvimeto de Algoritmos em Python: Edição Interativa" href="index.html" />
+    <link rel="prev" title="Tipos abstratos de dados - Arrays" href="09-arrays.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'algoritmos',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="09-arrays.html" title="Tipos abstratos de dados - Arrays"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Princípios de Desenvolvimeto de Algoritmos em Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="visualizacao-de-graficos-2d-usando-matplotlib">
+<h1>Visualização de gráficos 2D usando matplotlib<a class="headerlink" href="#visualizacao-de-graficos-2d-usando-matplotlib" title="Permalink to this headline">¶</a></h1>
+<p>Esse material foi baseado no <a class="reference external" href="http://matplotlib.org/Matplotlib.pdf">Manual do Matplotlib</a>.</p>
+<p>O <tt class="docutils literal"><span class="pre">matplotlib</span></tt> é uma biblioteca com recursos para a geração de gráficos
+2D a partir de arrays. Gráficos comuns podem ser criados com alta
+qualidade a partir de comandos simples, inspirados nos comandos
+gráficos do <a class="reference external" href="http://www.mathworks.com/products/matlab/">MATLAB</a>.</p>
+<p>O <tt class="docutils literal"><span class="pre">matplotlib</span></tt> pode ser conceitualmente dividido em 3 partes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">pylab</span></tt>: conjunto de funções disponíveis em <tt class="docutils literal"><span class="pre">matplotlib.pylab</span></tt> que
+permite a geração de código similar ao MATLAB.</li>
+<li><tt class="docutils literal"><span class="pre">frontend</span></tt> ou <tt class="docutils literal"><span class="pre">API</span></tt>: conjunto de classes que realizam o trabalho
+pesado, criando as figuras, texto, linhas etc. Essa é uma interface
+abstrata que independe da saída.</li>
+<li><tt class="docutils literal"><span class="pre">backends</span></tt>: conjunto de funções que dependem do dispositivo de saída
+(<em>display</em>).  Por exemplo, <tt class="docutils literal"><span class="pre">PS</span></tt> para gráficos em PostScript, <tt class="docutils literal"><span class="pre">SVG</span></tt>
+gera gráficos em Scalable Vector Graphics, <tt class="docutils literal"><span class="pre">Agg</span></tt> cria figuras no formato
+PNG, <tt class="docutils literal"><span class="pre">GTK</span></tt> permite que os gráficos sejam incluídos em aplicações
+<tt class="docutils literal"><span class="pre">GTK+</span></tt>, e assim para <tt class="docutils literal"><span class="pre">PDF</span></tt>, <tt class="docutils literal"><span class="pre">WxWidgets</span></tt>, <tt class="docutils literal"><span class="pre">Tkinter</span></tt>, etc.</li>
+</ul>
+</div></blockquote>
+<div class="section" id="instalacao">
+<h2>Instalação<a class="headerlink" href="#instalacao" title="Permalink to this headline">¶</a></h2>
+<p>Recomendamos a instalação do <a class="reference external" href="https://www.continuum.io/downloads">Anaconda</a>, que facilita a instalação e
+manutenção de uma ambiente Python apropriado para computação
+científica.</p>
+</div>
+<div class="section" id="pyplot">
+<h2>Pyplot<a class="headerlink" href="#pyplot" title="Permalink to this headline">¶</a></h2>
+<p>O conjunto de funções disponível em <tt class="docutils literal"><span class="pre">matplotlib.pyplot</span></tt> permitem que você crie uma figura,
+uma área para exibir o gráfico na figura, desenhe linhas na área do gráfico,
+decore o gráfico com rótulos, etc. A sintaxe utilizada é semelhante ao MATLAB.</p>
+<p>Cada função do <tt class="docutils literal"><span class="pre">pyplot</span></tt> muda alguma coisa na figura, por exemplo,
+cria uma figura, cria uma área dentro da figura para desenhar um
+gráfico, desenha linhas em um gráfico, decora o gráfico com rótulos,
+etc. No <tt class="docutils literal"><span class="pre">pyplot</span></tt>, vários estados são preservados após a chamada de uma
+função dentro de um contexto, simplificando assim o seu trabalho sobre
+a figura ou área de desenho atuais. Assim, você pode ter uma figura
+complexa formada por várias áreas de desenho distintas, e o <tt class="docutils literal"><span class="pre">pyplot</span></tt>
+mantém para você informações sobre para cada área de desenho.</p>
+<p>Para simplificar o seu trabalho ainda mais, o <tt class="docutils literal"><span class="pre">pyplot</span></tt> já inicia com uma
+figura e área de desenho padrão, que você não precisa definir,
+e assim o código para gerar um gráfico pode ser simplesmente:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span> <span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Muito Fácil&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="figure">
+<img alt="resultado do exemplo &quot;Muito Fácil&quot;" src="_images/plt_ex1.png" />
+</div>
+<p>O <tt class="docutils literal"><span class="pre">plot</span></tt> é um método bem poderoso
+que permite a definição de vários parâmetros, como a cor da linha,
+o tipo de marca utilizada em cada ponto, tipo da linha, etc. Por exemplo, observe o exemplo a seguir.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+
+<span class="n">data1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+<span class="n">data2</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data1</span><span class="p">)))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">data1</span><span class="p">,</span> <span class="s">&#39;go&#39;</span><span class="p">)</span> <span class="c"># green bolinha</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">data1</span><span class="p">,</span> <span class="s">&#39;k:&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;orange&#39;</span><span class="p">)</span> <span class="c"># linha pontilha orange</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">data2</span><span class="p">,</span> <span class="s">&#39;r^&#39;</span><span class="p">)</span> <span class="c"># red triangulo</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">data2</span><span class="p">,</span> <span class="s">&#39;k--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;blue&#39;</span><span class="p">)</span>  <span class="c"># linha tracejada azul</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">11</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Mais incrementado&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;eixo horizontal&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;que legal&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="figure">
+<img alt="resultado do exemplo &quot;mais incrementado&quot;" src="_images/plt_ex2.png" />
+</div>
+<p>Além de desenhar o gráfico das informações contidas em um array,
+o <tt class="docutils literal"><span class="pre">pyplot</span></tt> permite você definir para propriedades da sua figura,
+incluindo rótulos, os limites de cada eixo, título da figura, etc.</p>
+<p>Para saber mais, além de consultar
+o <a class="reference external" href="http://matplotlib.org/Matplotlib.pdf">Manual do Matplotlib</a>,
+dê uma olhada também na vasta <a class="reference external" href="http://matplotlib.org/examples/index.html">lista de exemplos disponíveis</a>.</p>
+</div>
+<div class="section" id="ipython">
+<h2>IPython<a class="headerlink" href="#ipython" title="Permalink to this headline">¶</a></h2>
+<p>Antes de gerar a versão final de um gráfico para, por exemplo,
+publicação no seu trabalho de conclusão de curso, você provavelmente
+vai querer ver e testar várias detalhes. Infelizmente, o Python shell
+não é um ambiente apropriado para realizar esse trabalho gráfico,
+sendo necessário utilizar o ambiente IPython (que vem com o Anaconda).</p>
+<p>O IPython é um Python shell mais interativo, integrado ao <tt class="docutils literal"><span class="pre">matplotlib</span></tt>.
+É possível acionar o modo <tt class="docutils literal"><span class="pre">pylab</span></tt> no IPython da seguinte forma:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; ipython
+Python 3.4.3 |Anaconda 2.3.0 (64-bit)| (default, Jun  4 2015, 15:29:08)
+Type &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+
+IPython 3.2.0 -- An enhanced Interactive Python.
+Anaconda is brought to you by Continuum Analytics.
+Please check out: http://continuum.io/thanks and https://anaconda.org
+?         -&gt; Introduction and overview of IPython&#39;s features.
+%quickref -&gt; Quick reference.
+help      -&gt; Python&#39;s own help system.
+object?   -&gt; Details about &#39;object&#39;, use &#39;object??&#39; for extra details.
+
+In [1]: %pylab
+Using matplotlib backend: Qt4Agg
+Populating the interactive namespace from numpy and matplotlib
+
+In [2]: x = randn(10000)
+
+In [3]: hist(x, 100)
+Out[3]:
+(array([   1.,    0.,    0.,    0.,    0.,    0.,    0.,    1.,    2.,
+            6.,    6.,    5.,   11.,    3.,    6.,   10.,   11.,   10.,
+            23.,   18.,   22.,   38.,   39.,   54.,   61.,   68.,   74.,
+            86.,   86.,  102.,  116.,  128.,  156.,  145.,  183.,  216.,
+            252.,  257.,  232.,  234.,  255.,  272.,  266.,  296.,  302.,
+            354.,  354.,  294.,  317.,  313.,  334.,  320.,  319.,  323.,
+            307.,  257.,  247.,  248.,  251.,  189.,  188.,  150.,  170.,
+            120.,  134.,  109.,   90.,   94.,   68.,   67.,   54.,   37.,
+            45.,   36.,   26.,   27.,   18.,   16.,   17.,   14.,    3.,
+            10.,    6.,    5.,    4.,    1.,    1.,    0.,    2.,    2.,
+            2.,    0.,    2.,    0.,    1.,    0.,    0.,    0.,    0.,    1.]),
+array([-3.92845013, -3.84610682, -3.7637635 , -3.68142019, -3.59907688,
+            -3.51673356, -3.43439025, -3.35204694, -3.26970362, -3.18736031,
+            -3.105017  , -3.02267368, -2.94033037, -2.85798706, -2.77564374,
+            -2.69330043, -2.61095712, -2.5286138 , -2.44627049, -2.36392718,
+            -2.28158386, -2.19924055, -2.11689724, -2.03455392, -1.95221061,
+            -1.8698673 , -1.78752398, -1.70518067, -1.62283736, -1.54049404,
+            -1.45815073, -1.37580742, -1.2934641 , -1.21112079, -1.12877748,
+            -1.04643416, -0.96409085, -0.88174754, -0.79940422, -0.71706091,
+            -0.6347176 , -0.55237428, -0.47003097, -0.38768766, -0.30534434,
+            -0.22300103, -0.14065772, -0.0583144 ,  0.02402891,  0.10637222,
+            0.18871554,  0.27105885,  0.35340216,  0.43574548,  0.51808879,
+            0.6004321 ,  0.68277542,  0.76511873,  0.84746204,  0.92980536,
+            1.01214867,  1.09449198,  1.1768353 ,  1.25917861,  1.34152192,
+            1.42386524,  1.50620855,  1.58855186,  1.67089518,  1.75323849,
+            1.8355818 ,  1.91792512,  2.00026843,  2.08261174,  2.16495506,
+            2.24729837,  2.32964168,  2.411985  ,  2.49432831,  2.57667162,
+            2.65901494,  2.74135825,  2.82370156,  2.90604488,  2.98838819,
+            3.0707315 ,  3.15307482,  3.23541813,  3.31776144,  3.40010476,
+            3.48244807,  3.56479138,  3.6471347 ,  3.72947801,  3.81182132,
+            3.89416464,  3.97650795,  4.05885126,  4.14119458,  4.22353789,
+            4.3058812 ]),
+&lt;a list of 100 Patch objects&gt;)
+
+In [4]:
+</pre></div>
+</div>
+<p>e pronto, você deve ver o seguinte gráfico em uma janela criada pelo matplotlib.</p>
+<div class="figure">
+<img alt="resultado do exemplo de histograma com IPython" src="_images/histograma.png" />
+</div>
+<p>Note que, no exemplo acima, não foi necessário importar o módulo
+<tt class="docutils literal"><span class="pre">matplotlib</span></tt> pois no modo <tt class="docutils literal"><span class="pre">pylab</span></tt>, o IPython importa esse módulo
+automaticamente. Ao receber qualquer comando seguinte que modifique o
+gráfico, o IPython também atualiza o gráfico automaticamente.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Visualização de gráficos 2D usando matplotlib</a><ul>
+<li><a class="reference internal" href="#instalacao">Instalação</a></li>
+<li><a class="reference internal" href="#pyplot">Pyplot</a></li>
+<li><a class="reference internal" href="#ipython">IPython</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="09-arrays.html"
+                        title="previous chapter">Tipos abstratos de dados - Arrays</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="09-arrays.html" title="Tipos abstratos de dados - Arrays"
+             >previous</a> |</li>
+        <li><a href="index.html">Princípios de Desenvolvimeto de Algoritmos em Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on May 16, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

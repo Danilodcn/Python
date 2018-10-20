@@ -1,0 +1,320 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capítulo 13: Classes e funções &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Capítulo 14: Classes e métodos" href="capitulo_14.html" />
+    <link rel="prev" title="Capítulo 12: Classes e objetos" href="capitulo_12.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="capitulo_14.html" title="Capítulo 14: Classes e métodos"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_12.html" title="Capítulo 12: Classes e objetos"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="capitulo-13-classes-e-funcoes">
+<h1><a class="toc-backref" href="#id1">Capítulo 13: Classes e funções</a><a class="headerlink" href="#capitulo-13-classes-e-funcoes" title="Link permanente para este título">¶</a></h1>
+<div class="contents topic" id="topicos">
+<p class="topic-title first">Tópicos</p>
+<ul class="simple">
+<li><a class="reference external" href="#capitulo-13-classes-e-funcoes" id="id1">Capítulo 13: Classes e funções</a><ul>
+<li><a class="reference external" href="#horario" id="id2">13.1 Horario</a></li>
+<li><a class="reference external" href="#funcoes-puras" id="id3">13.2 Funções Puras</a></li>
+<li><a class="reference external" href="#modificadores" id="id4">13.3 Modificadores</a></li>
+<li><a class="reference external" href="#o-que-e-melhor" id="id5">13.4 O que é melhor ?</a></li>
+<li><a class="reference external" href="#desenvolvimento-prototipado-versus-desenvolvimento-planejamento" id="id6">13.5 Desenvolvimento Prototipado versus Desenvolvimento Planejamento</a></li>
+<li><a class="reference external" href="#generalizacao" id="id7">13.6 Generalização</a></li>
+<li><a class="reference external" href="#algoritmos" id="id8">13.7 Algoritmos</a></li>
+<li><a class="reference external" href="#glossario" id="id9">13.8 Glossário</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="horario">
+<h2><a class="toc-backref" href="#id2">13.1 Horario</a><a class="headerlink" href="#horario" title="Link permanente para este título">¶</a></h2>
+<p>Como exemplo de outro tipo definido pelo usuário, vamos definir uma classe chamada <tt class="docutils literal"><span class="pre">Horario</span></tt> que grava os registros de horário do dia. Eis a definição da classe:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Horario</span><span class="p">:</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Podemos criar uma nova instância de <tt class="docutils literal"><span class="pre">Horario</span></tt> e determinar atributos para horas, minutos e segundos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">horario</span> <span class="o">=</span> <span class="n">Horario</span><span class="p">()</span>
+<span class="n">horario</span><span class="o">.</span><span class="n">horas</span> <span class="o">=</span> <span class="mi">11</span>
+<span class="n">horario</span><span class="o">.</span><span class="n">minutos</span> <span class="o">=</span> <span class="mi">59</span>
+<span class="n">horario</span><span class="o">.</span><span class="n">segundos</span> <span class="o">=</span> <span class="mi">30</span>
+</pre></div>
+</div>
+<p>O diagrama de estado para o objeto <tt class="docutils literal"><span class="pre">Horario</span></tt> parece com isso:</p>
+<img alt="_images/13_01_horario.png" src="_images/13_01_horario.png" />
+<blockquote>
+<p>Como exercício, escreva uma função &#8216;imprimirHorario&#8217; que tenha como argumento um objeto Horario e imprima-o na forma horas:minutos:segundos.</p>
+<p>Como um segundo exercício, escreva uma função booleana que tenha como argumento dois objetos Horario, h1 e h2, e retorne verdadeiro (1) se h1 vem depois de h2 cronologicamente, do contrário, retorne falso (0).</p>
+</blockquote>
+</div>
+<div class="section" id="funcoes-puras">
+<h2><a class="toc-backref" href="#id3">13.2 Funções Puras</a><a class="headerlink" href="#funcoes-puras" title="Link permanente para este título">¶</a></h2>
+<p>Nas próximas sessões, vamos escrever duas versões de uma função chamada <tt class="docutils literal"><span class="pre">adicionaHorario</span></tt>, que calcula a soma de dois horários. Elas vão demonstrar 2 tipos de funções: funções puras e funções modificadoras.</p>
+<p>Segue uma versão tosca de <tt class="docutils literal"><span class="pre">somaHorario</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">somaHorario</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="n">h2</span><span class="p">):</span>
+  <span class="n">soma</span> <span class="o">=</span> <span class="n">Horario</span><span class="p">()</span>
+  <span class="n">soma</span><span class="o">.</span><span class="n">horas</span> <span class="o">=</span> <span class="n">h1</span><span class="o">.</span><span class="n">horas</span> <span class="o">+</span> <span class="n">h2</span><span class="o">.</span><span class="n">horas</span>
+  <span class="n">soma</span><span class="o">.</span><span class="n">minutos</span> <span class="o">=</span> <span class="n">h1</span><span class="o">.</span><span class="n">minutos</span> <span class="o">+</span> <span class="n">h2</span><span class="o">.</span><span class="n">minutos</span>
+  <span class="n">soma</span><span class="o">.</span><span class="n">segundos</span> <span class="o">=</span> <span class="n">h1</span><span class="o">.</span><span class="n">segundos</span> <span class="o">+</span> <span class="n">h2</span><span class="o">.</span><span class="n">segundos</span>
+  <span class="k">return</span> <span class="n">soma</span>
+</pre></div>
+</div>
+<p>A função cria um novo objeto <tt class="docutils literal"><span class="pre">Horario</span></tt>, inicializa os seus atributos, e retorna uma referência para o novo objeto. Isso é chamado de função pura pois ela não modifica nenhum dos objetos que são passados como parâmetros e não tem nenhum efeito colateral, como imprimir um valor ou pegar entrada do usuário.</p>
+<p>Aqui está um exemplo de como usar esta função. Nós vamos criar dois objetos <tt class="docutils literal"><span class="pre">Horario</span></tt>: <tt class="docutils literal"><span class="pre">horarioAtual</span></tt>, que contém o horário atual; e <tt class="docutils literal"><span class="pre">horarioDoPao</span></tt>, que contém a quantidade de tempo que a máquina de fazer pão gasta para fazer pão. Então  vamos usar <tt class="docutils literal"><span class="pre">somaHorario</span></tt> para tentar saber quando o pão estará pronto. Se você não tiver terminado de escrever <tt class="docutils literal"><span class="pre">imprimirHorario</span></tt> ainda, de uma olhada na seção 14.2 antes de você continuar isso:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">horarioAtual</span> <span class="o">=</span> <span class="n">Horario</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">horarioAtual</span><span class="o">.</span><span class="n">horas</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">horarioAtual</span><span class="o">.</span><span class="n">minutos</span> <span class="o">=</span> <span class="mi">14</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">horarioAtual</span><span class="o">.</span><span class="n">segundos</span> <span class="o">=</span>  <span class="mi">30</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">horarioDoPao</span> <span class="o">=</span> <span class="n">Horario</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">horarioDoPao</span><span class="o">.</span><span class="n">horas</span> <span class="o">=</span>  <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">horarioDoPao</span><span class="o">.</span><span class="n">minutos</span> <span class="o">=</span>  <span class="mi">35</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">horarioDoPao</span><span class="o">.</span><span class="n">segundos</span> <span class="o">=</span>  <span class="mi">0</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">horarioTermino</span> <span class="o">=</span> <span class="n">somaHorario</span><span class="p">(</span><span class="n">horarioAtual</span><span class="p">,</span> <span class="n">horarioDoPao</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">imprimirHorario</span><span class="p">(</span><span class="n">horarioTermino</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A saída deste programa é 12:49:30, o que é correto. Por outro lado, existem casos onde o resultado não é correto. Você pode pensar em algum ?</p>
+<p>O problema é que esta função não lida com casos onde o número de segundos ou minutos é acrescentado em mais de sessenta. Quando isso acontece, temos de &#8220;transportar&#8221; os segundos extras para a coluna dos minutos ou os minutos extras na coluna das horas.</p>
+<p>Aqui está a segunda versão corrigida da função:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">somaHorario</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">):</span>
+        <span class="n">soma</span> <span class="o">=</span> <span class="n">Horario</span><span class="p">()</span>
+        <span class="n">soma</span><span class="o">.</span><span class="n">horas</span> <span class="o">=</span> <span class="n">t1</span><span class="o">.</span><span class="n">horas</span> <span class="o">+</span> <span class="n">t2</span><span class="o">.</span><span class="n">horas</span>
+        <span class="n">soma</span><span class="o">.</span><span class="n">minutos</span> <span class="o">=</span> <span class="n">t1</span><span class="o">.</span><span class="n">minutos</span> <span class="o">+</span> <span class="n">t2</span><span class="o">.</span><span class="n">minutos</span>
+        <span class="n">soma</span><span class="o">.</span><span class="n">segundos</span> <span class="o">=</span> <span class="n">t1</span><span class="o">.</span><span class="n">segundos</span> <span class="o">+</span> <span class="n">t2</span><span class="o">.</span><span class="n">segundos</span>
+
+        <span class="k">if</span> <span class="n">soma</span><span class="o">.</span><span class="n">segundos</span> <span class="o">&gt;=</span> <span class="mi">60</span><span class="p">:</span>
+                <span class="n">soma</span><span class="o">.</span><span class="n">segundos</span> <span class="o">=</span> <span class="n">soma</span><span class="o">.</span><span class="n">segundos</span> <span class="o">-</span> <span class="mi">60</span>
+                <span class="n">soma</span><span class="o">.</span><span class="n">minutos</span> <span class="o">=</span> <span class="n">soma</span><span class="o">.</span><span class="n">minutos</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">soma</span><span class="o">.</span><span class="n">minutos</span> <span class="o">&gt;=</span> <span class="mi">60</span><span class="p">:</span>
+                <span class="n">soma</span><span class="o">.</span><span class="n">minutos</span> <span class="o">=</span> <span class="n">soma</span><span class="o">.</span><span class="n">minutos</span> <span class="o">-</span> <span class="mi">60</span>
+                <span class="n">soma</span><span class="o">.</span><span class="n">horas</span> <span class="o">=</span> <span class="n">soma</span><span class="o">.</span><span class="n">horas</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">soma</span>
+</pre></div>
+</div>
+<p>Apesar desta função estar correta, ela está começando a ficar grande. Depois vamos sugerir uma aproximação alternativa que rende um código menor. Clique aqui para feedback</p>
+</div>
+<div class="section" id="modificadores">
+<h2><a class="toc-backref" href="#id4">13.3 Modificadores</a><a class="headerlink" href="#modificadores" title="Link permanente para este título">¶</a></h2>
+<p>Existem momentos quando é útil para uma função modificar um ou mais dos objetos que ela recebe como parâmetro. Usualmente, quem está chamando a função mantém uma referência para os objetos que ele passa, de forma que quaisquer mudanças que a função faz são visíveis para quem está chamando. Funções que trabalham desta forma são chamadas modificadores.</p>
+<p><tt class="docutils literal"><span class="pre">incrementar</span></tt>, que adiciona um número dado de segundos para um objeto Horario, que poderia ser escrito quase naturalmente como um modificador. Um rascunho tosco da função seria algo parecido com isso:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">incrementar</span><span class="p">(</span><span class="n">horario</span><span class="p">,</span> <span class="n">segundos</span><span class="p">):</span>
+        <span class="n">horario</span><span class="o">.</span><span class="n">segundos</span> <span class="o">=</span> <span class="n">horario</span><span class="o">.</span><span class="n">segundos</span> <span class="o">+</span> <span class="n">segundos</span>
+
+        <span class="k">if</span> <span class="n">horario</span><span class="o">.</span><span class="n">segundos</span> <span class="o">&gt;=</span> <span class="mi">60</span><span class="p">:</span>
+                <span class="n">horario</span><span class="o">.</span><span class="n">segundos</span> <span class="o">=</span> <span class="n">horario</span><span class="o">.</span><span class="n">segundos</span> <span class="o">-</span> <span class="mi">60</span>
+                <span class="n">horario</span><span class="o">.</span><span class="n">minutos</span> <span class="o">=</span> <span class="n">horario</span><span class="o">.</span><span class="n">minutos</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">horario</span><span class="o">.</span><span class="n">minutos</span> <span class="o">&gt;=</span> <span class="mi">60</span><span class="p">:</span>
+                <span class="n">horario</span><span class="o">.</span><span class="n">minutos</span> <span class="o">=</span> <span class="n">horario</span><span class="o">.</span><span class="n">minutos</span> <span class="o">-</span> <span class="mi">60</span>
+                <span class="n">horario</span><span class="o">.</span><span class="n">horas</span> <span class="o">=</span> <span class="n">horario</span><span class="o">.</span><span class="n">horas</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>A primeira linha executa a operação básica; o resto lida com os caso especiais que vimos antes.</p>
+<p>Esta função esta correta ? O que aconteceria se o parametro segundos for muito maior que sessenta ? Nesse caso, não é suficiente transportar apenas uma vez; teríamos de continuar fazendo isso até que segundos seja menor que sessenta. Uma solução seria substituir os comando if por comandos while:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">incrementar</span><span class="p">(</span><span class="n">horario</span><span class="p">,</span> <span class="n">segundos</span><span class="p">):</span>
+        <span class="n">horario</span><span class="o">.</span><span class="n">segundos</span> <span class="o">=</span> <span class="n">horario</span><span class="o">.</span><span class="n">segundos</span> <span class="o">+</span> <span class="n">segundos</span>
+
+        <span class="k">while</span> <span class="n">horario</span><span class="o">.</span><span class="n">segundos</span> <span class="o">&gt;=</span> <span class="mi">60</span><span class="p">:</span>
+                <span class="n">horario</span><span class="o">.</span><span class="n">segundos</span> <span class="o">=</span> <span class="n">horario</span><span class="o">.</span><span class="n">segundos</span> <span class="o">-</span> <span class="mi">60</span>
+                <span class="n">horario</span><span class="o">.</span><span class="n">minutos</span> <span class="o">=</span> <span class="n">horario</span><span class="o">.</span><span class="n">minutos</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="k">while</span> <span class="n">horario</span><span class="o">.</span><span class="n">minutos</span> <span class="o">&gt;=</span> <span class="mi">60</span><span class="p">:</span>
+                <span class="n">horario</span><span class="o">.</span><span class="n">minutos</span> <span class="o">=</span> <span class="n">horario</span><span class="o">.</span><span class="n">minutos</span> <span class="o">-</span> <span class="mi">60</span>
+                <span class="n">horario</span><span class="o">.</span><span class="n">horas</span> <span class="o">=</span> <span class="n">horario</span><span class="o">.</span><span class="n">horas</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Esta função agora esta correta, mas não é a solução mais eficiente.</p>
+<p>Como um exercício, reescreva esta função de maneira que ela não contenha nenhum loop. Como um segundo exercício, reescreva <tt class="docutils literal"><span class="pre">incrementar</span></tt> como uma função pura, e escreva chamadas de funções para as duas funções. Clique aqui para feedback</p>
+</div>
+<div class="section" id="o-que-e-melhor">
+<h2><a class="toc-backref" href="#id5">13.4 O que é melhor ?</a><a class="headerlink" href="#o-que-e-melhor" title="Link permanente para este título">¶</a></h2>
+<p>Qualquer coisa que pode ser feita com modificadores também podem ser feitas com funções puras. De fato, algumas linguagens de programação permitem apenas funções puras. Existe alguma evidência que programas que usam funções puras são desenvolvidos mais rapidamente e são menos propensos a erros que programas que usam modificadores. No entanto, modificadores as vezes são convenientes, e em alguns casos, programação funcional é menos eficiente.</p>
+<p>Em geral, recomendamos que você escreva funções puras sempre que for necessário e recorrer para modificadores somente se existir uma grande vantagem. Esta aproximação poderia ser chamada de um estilo de programação funcional. Clique aqui para feedback</p>
+</div>
+<div class="section" id="desenvolvimento-prototipado-versus-desenvolvimento-planejamento">
+<h2><a class="toc-backref" href="#id6">13.5 Desenvolvimento Prototipado versus Desenvolvimento Planejamento</a><a class="headerlink" href="#desenvolvimento-prototipado-versus-desenvolvimento-planejamento" title="Link permanente para este título">¶</a></h2>
+<p>Neste capítulo, demonstramos uma aproximação para o desenvolvimento de programas que chamamos de desenvolvimento prototipado. Em cada caso, escrevemos um rascunho tosco (ou prototipo) que executou os cálculos básicos e então, o testamos em uns poucos casos, corrigindo então, as falhas que fomos encontrando.</p>
+<p>Embora esta aproximação possa ser eficaz, ela pode conduzir para código que é desnecessariamente complicado desde que trata de muitos casos especiais e unreliable desde que é difícil saber se você encontrou todos os erros.</p>
+<p>An alternative is planned development, in which high-level insight into the problem can make the programming much easier. In this case, the insight is that a Time object is really a three-digit number in base 60! The second component is the &#8220;ones column,&#8221; the minute component is the &#8220;sixties column,&#8221; and the hourcomponent is the &#8220;thirty-six hundreds column.&#8221;</p>
+<p>When we wrote addTime and increment, we were effectively doing addition in base 60, which is why we had to carry from one column to the next.</p>
+<p>This observation suggests another approach to the whole problem     we can convert a Time object into a single number and take advantage of the fact that the computer knows how to do arithmetic with numbers. The following function converts a Timeobject into an integer:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">converterParaSegundos</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+  <span class="n">minutos</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">horas</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="n">t</span><span class="o">.</span><span class="n">minutos</span>
+  <span class="n">segundos</span> <span class="o">=</span> <span class="n">minutos</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="n">t</span><span class="o">.</span><span class="n">segundos</span>
+  <span class="k">return</span> <span class="n">segundos</span>
+</pre></div>
+</div>
+<p>Agora, tudo que precisamos é uma maneira de converter de um inteiro para um objeto <tt class="docutils literal"><span class="pre">Horario</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">criarHorario</span><span class="p">(</span><span class="n">segundos</span><span class="p">):</span>
+    <span class="n">horario</span> <span class="o">=</span> <span class="n">Time</span><span class="p">()</span>
+    <span class="n">horario</span><span class="o">.</span><span class="n">horas</span> <span class="o">=</span> <span class="n">segundos</span><span class="o">/</span><span class="mi">3600</span>
+    <span class="n">segundos</span> <span class="o">=</span> <span class="n">segundos</span> <span class="o">-</span> <span class="n">horario</span><span class="o">.</span><span class="n">horas</span> <span class="o">*</span> <span class="mi">3600</span>
+    <span class="n">horario</span><span class="o">.</span><span class="n">minutos</span> <span class="o">=</span> <span class="n">segundos</span><span class="o">/</span><span class="mi">60</span>
+    <span class="n">segundos</span> <span class="o">=</span> <span class="n">segundos</span> <span class="o">-</span> <span class="n">horario</span><span class="o">.</span><span class="n">minutos</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="n">horario</span><span class="o">.</span><span class="n">segundos</span> <span class="o">=</span> <span class="n">segundos</span>
+    <span class="k">return</span> <span class="n">horario</span>
+</pre></div>
+</div>
+<p>Você deve ter que pensar um pouco para se convencer que esta técnica de converter de uma base para outra é correta. Assumindo que você está convencido, você pode usar essas funções para reescrever somaHorario:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">somaHorario</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">):</span>
+    <span class="n">segundos</span> <span class="o">=</span> <span class="n">converterParaSegundos</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span> <span class="o">+</span> <span class="n">converterParaSegundos</span><span class="p">(</span><span class="n">t2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">criarHorario</span><span class="p">(</span><span class="n">segundos</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Esta versão é muito mais curta que a original, e é muito mais fácil para demonstrar que está correta (assumindo,  como sempre, que as funções que são chamadas estão corretas).</p>
+<p>Como um exercício, reescreva <tt class="docutils literal"><span class="pre">incrementar</span></tt> da mesma forma.
+Clique aqui para feedback</p>
+</div>
+<div class="section" id="generalizacao">
+<h2><a class="toc-backref" href="#id7">13.6 Generalização</a><a class="headerlink" href="#generalizacao" title="Link permanente para este título">¶</a></h2>
+<p>Algumas vezes, converter de base 60 para base 10 e voltar é mais difícil do que simplesmente lidar com horários. Conversão de base é mais abstrata; nossa intuição para lidar com horários é melhor.</p>
+<p>Mas se XXXX But if we have the insight to treat times as base 60 numbers and make the investment of writing the conversion functions (converterParaSeguntos e criarHorario), nós conseguimos um programa que é menor, fácil de ler e depurar, e mais confiável.</p>
+<p>É também fácil para adicionar funcionalidades depois. Por exemplo, imagine subtrair dois Horarios para encontrar a duração entre eles. Uma aproximação ingênua seria implementar subtração com empréstimo (?? borrowing - Isso mesmo ??). Usando as funções de conversão será mais fácil e provavelmente estará correto.</p>
+<p>Ironicamente, algumas vezes fazer um problema mais difícil (ou mais genérico) o torna mais simples (porque existem alguns poucos casos especiais e poucas oportunidades para errar). Clique aqui para feedback</p>
+</div>
+<div class="section" id="algoritmos">
+<h2><a class="toc-backref" href="#id8">13.7 Algoritmos</a><a class="headerlink" href="#algoritmos" title="Link permanente para este título">¶</a></h2>
+<p>Quando você escreve uma solução genérica para uma classe de problemas, ao contrário de uma solução específica para um único problema, você escreveu um algorítmo. Nós mencionamos isso antes mas não definimos cuidadosamente. Isso não é fácil para definir, então nós vamos tentar //a couple of approaches//.</p>
+<p>Primeiramente, considere alguma coisa que não seja um algorítmo. Quando você aprendeu a multiplicar números de um dígito, você provavelmente memorizou a tabela de multiplicação. Como resultado, você memorizou 100 soluções específicas. Esse tipo de conhecimento não é algorítmo.</p>
+<p>Mas se você é &#8220;preguiçoso&#8221;, você provavelmente trapaceou por ter aprendido alguns truques. Por exemplo, para encontrar o produto de n e 9, você pode escrever n-1 como o primeiro dígito e 10-n como o segundo dígito. Este truque é um solução genérica para multiplicar qualquer número de um dígito por 9. Isso é um algoritmo!</p>
+<p>De modo parecido, as técnicas que você aprendeu para adicionar //com transporte//, //subtraction with borrowing//, e divisão longa são todas algorítmos. Uma das características dos algorítmos é que eles não requerem nenhuma inteligência para  serem executados ( carry out ). Eles são processos mecânicos  no qual cada passo segue o último de acordo com um conjunto simples de regras.</p>
+<p>Na nossa opinião, é preocupante que humanos gastem tanto tempo na escola aprendendo a executar algoritmos que, literalmente, não requerem inteligência.</p>
+<p>Por outro lado, o processo de projetar algoritmos é interessante, intelectualmente desafiante, e uma parte central daquilo que chamamos programação.</p>
+<p>Algumas das coisas que as pessoas fazem naturalmente, sem dificuldade ou consciência, são as mais difíceis de se expressar através de algoritmos. Entender a linguagem natural é um bom exemplo. Todos nós fazemos isso, mas até hoje ninguém conseguiu explicar como fazemos isso, pelo menos não na forma de algoritmo. Clique aqui para feedback.</p>
+</div>
+<div class="section" id="glossario">
+<h2><a class="toc-backref" href="#id9">13.8 Glossário</a><a class="headerlink" href="#glossario" title="Link permanente para este título">¶</a></h2>
+<dl class="docutils">
+<dt>função pura (<em>pure function</em>)</dt>
+<dd>Uma função que não modifica nenhum dos objetos que ela recebe como
+parâmetro. A maioria das funções puras é frutífera.</dd>
+<dt>modificador (<em>modifier</em>)</dt>
+<dd>Uma função que muda um ou mais dos objetos que ela recebe como
+parâmetros. A maioria dos modificadores é nula.</dd>
+<dt>estilo de programação funcional (<em>functional programming style</em>)</dt>
+<dd>Um estilo de programação onde a maioria das funções são puras.</dd>
+<dt>desenvolvimento prototipado (<em>prototype development</em>)</dt>
+<dd>Uma maneira de desenvolver programas começando com um protótipo e gradualmente melhorando-o.</dd>
+<dt>desenvolvimento planejado (<em>planned development</em>)</dt>
+<dd>Uma maneira de desenvolver programas que envolvem uma percepção de alto nível do problema e mais planejamento do que desenvolvimento incremental ou desenvolvimento prototipado.</dd>
+<dt>algoritmo (<em>algorithm</em>)</dt>
+<dd>Um conjunto de instruções para resolver uma classe de problemas usando  um processo mecânico, não inteligente.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Capítulo 13: Classes e funções</a><ul>
+<li><a class="reference internal" href="#horario">13.1 Horario</a></li>
+<li><a class="reference internal" href="#funcoes-puras">13.2 Funções Puras</a></li>
+<li><a class="reference internal" href="#modificadores">13.3 Modificadores</a></li>
+<li><a class="reference internal" href="#o-que-e-melhor">13.4 O que é melhor ?</a></li>
+<li><a class="reference internal" href="#desenvolvimento-prototipado-versus-desenvolvimento-planejamento">13.5 Desenvolvimento Prototipado versus Desenvolvimento Planejamento</a></li>
+<li><a class="reference internal" href="#generalizacao">13.6 Generalização</a></li>
+<li><a class="reference internal" href="#algoritmos">13.7 Algoritmos</a></li>
+<li><a class="reference internal" href="#glossario">13.8 Glossário</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="capitulo_12.html"
+                        title="capítulo anterior">Capítulo 12: Classes e objetos</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="capitulo_14.html"
+                        title="próximo capítulo">Capítulo 14: Classes e métodos</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/capitulo_13.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="capitulo_14.html" title="Capítulo 14: Classes e métodos"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_12.html" title="Capítulo 12: Classes e objetos"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

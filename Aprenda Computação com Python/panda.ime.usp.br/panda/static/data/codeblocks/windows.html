@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Introdução à Computação - Instalação do Code::Blocks no Windows</title>
+<meta name="keywords" content="Instalação code::blocks, codeblocks, introdução, computação, windons">
+<meta name="description" content="instalação codeblocks no windows">
+<link rel="stylesheet" href="./estilo.css" type="text/css"/>
+
+</head>
+
+<body>
+
+<p class="dcc">
+<small><b><a href="http://www.ime.usp.br/mac/">Departamento de Ciência da
+Computação</a> - <a href="http://www.ime.usp.br/">IME</a> - <a href="http://www.usp.br/">USP</a></b></small><br>
+
+</p><center>
+<h1><i>Instalação do Code::Blocks no Windows</i></h1>
+</center>
+
+
+<p>
+<a href="http://www.codeblocks.org/"><i>Code::Blocks</i></a> é
+um ambiente integrado de desenvolvimento para as linguagens <i>C</i> e
+<i>C++</i>.
+Ele usa a implementação <i>Mingw</i> do <i>GCC</i>
+(<i>GNU</i> Compiler Collection) como seu compilador.
+Ele é "Free
+Software" (sob <a href="http://www.gnu.org/licenses/gpl.html"><i>GNU</i>
+General Public License</a>). Isso significa, entre outras coisas, que
+ele pode ser distribuído e copiado à vontade.
+</p>
+
+<p>
+Você pode utilizar outro compilador se desejar, mas
+deve se certificar que os seus programas
+podem ser compilados pela versão
+do <i>Code::Blocks</i> disponível nessa página e na sala Pró-Aluno
+antes de entregá-los.
+</p>
+
+<p>
+As telas abaixo foram geradas no Windows 7 em inglês.
+A instalação pode ser ligeiramente diferente para outras versões do
+Windows e se o idioma do seu Windows for outro.
+</p>
+
+<p>
+Depois de instalar o <i>Code::Blocks</i> veja a 
+<a href="./codeblocksintro.html">Aula Dirigida de Uso do <i>Code::Blocks</i></a>.
+</p>
+<p>&nbsp;</p>
+<hr>
+  
+<!----------------------------------------------------------->    
+  <h1>Instalação Básica do  <i>Code::Blocks</i></h1>
+  <ol>
+    <!----------------------------------------------------------->
+    <li>
+    <p> Baixe o arquivo de instalação daqui <a href="http://sourceforge.net/projects/codeblocks/files/Binaries/16.01/Windows/codeblocks-16.01mingw-setup.exe" download target="_blank"><i>codeblocks-16.01mingw-setup.exe</i></a>
+    [ 79.9MB ou 83783938 bytes ] para
+    uma pasta temporária. Esse arquivo pode ser
+    removido depois da instalação. Depois de clicar no link acima
+    será pedida uma confirmação de que você realmente quer baixar o
+  arquivo. Clique em <tt>Save File</tt> para continuar. A figura abaixo é da versão 13.12, mas não se preocupe com isso.
+    </p>
+
+<center>
+      <img src="./imgs/codeblocks-opening.png" alt="autorizacao" width="40%"> 
+</center>
+</li>
+    
+    <!----------------------------------------------------------->    
+<p>
+</p></li><li> Depois de baixado o instalador, ele deve ser executado. Para
+  tanto,  clique com o botão direito do mouse na janela
+  de <tt>Downloads</tt>  e escolha <tt>Open Containing Folder</tt>.
+<p>
+</p><center>
+      <img src="./imgs/codeblocks-open-folder.png" alt="abrir o instalador" width="50%"> 
+</center>
+    </li>
+
+    <!----------------------------------------------------------->    
+  <p>
+      </p><li> Em seguida, para começar a instalação basta clicar duas vezes
+(<i>double click</i>) no instalador <tt>codeblocks-16.01mingw-setup.exe</tt>.
+Se for pedida uma confirmação para a execução do instalador, clique
+em <tt>Run</tt> para continuar.
+  
+<p>
+</p><center>
+      <img src="./imgs/codeblocks-setup.png" alt="iniciar o instalador" width="50%"> 
+</center>
+ </li>
+    <!----------------------------------------------------------->    
+<p>
+</p><li> Durante a instalação escolha sempre as opções
+	    sugeridas pelo instalador. Clique em 
+            <tt>Next</tt> para o <i>Wizard</i>.
+    <p>
+</p><center>
+      <img src="./imgs/codeblocks-wizard.png" alt="wizard" width="40%"> 
+</center>
+ </li>
+
+    <!----------------------------------------------------------->    
+<p>
+</p><li> Na janela da lincença clique em <tt>I agree</tt>.
+    
+    <p>
+</p><center>
+      <img src="./imgs/codeblocks-agree.png" alt="licenca" width="40%"> 
+</center>
+ </li>
+        <!----------------------------------------------------------->    
+<p>
+</p><li> Clique em <tt>Next</tt> para o <i>Choose Components</i>.
+    
+    <p>
+</p><center>
+      <img src="./imgs/codeblocks-choose.png" alt="licenca" width="40%"> 
+</center>
+ </li>
+            <!----------------------------------------------------------->    
+<p>
+</p><li> Clique em <tt>Install</tt> para o <i>Choose Install Location</i>.
+    
+    <p>
+</p><center>
+      <img src="./imgs/codeblocks-install.png" alt="licenca" width="40%"> 
+</center>
+ </li>
+ </ol>
+
+ <!----------------------------------------------------------->    
+ <h1> Configurando o <i>Code::Blocks</i></h1>
+ 
+ <ol>
+   <li>
+   <p> Ao final da instalação, aparecerá a tela
+   abaixo. Você deverá clicar em <tt>Yes</tt>
+   para executar o <i>Code::Blocks</i>. 
+   </p><center>
+   <img src="./imgs/codeblocks-run-now.png" alt="licenca" width="40%">
+   
+   </center>
+   <p></p>
+   </li>
+   
+<!----------------------------------------------------------->    
+<li>
+   <p> A seguir, certifique se de que na próxima tela, <i>Compilers auto-detection</i>, 
+      o compilador selecionado seja o <tt>GCC</tt>. 
+       Na tela baixo veja a mensagem "<tt>Current default compiler: <font color="red">GNU GCC compiler</font></tt>". 
+       Depois clique em <tt>OK</tt>.
+	    </p><center>
+	    <img src="./imgs/codeblocks-gcc.png" border="0">
+	    </center>
+	    <p></p>
+	</li>
+<!----------------------------------------------------------->    
+	
+<!--
+	<li>
+	    <p> Na tela abaixo, clique em <tt>Close</tt> para fechar a
+	    janela de dicas (<i>tips</i>). 
+	    <center>
+	    <img src="imagens/dicas.jpg"  border="0">
+	    </center>
+	    </p>
+	</li>
+-->
+
+	
+	<li> <p> <a name="escolhas"></a>
+	    Na janela que aparecer, clique em <tt>OK</tt> para a
+	    escolha <i>Yes, associate Code::Blocks with C/C++ file
+	    types</i>, como indicado abaixo.
+	    </p>
+	<center> <img src="./imgs/codeblocks-associate.png" border="0" width="70%">
+	    </center>
+	</li>
+<!--	
+         <p> A seguir, feche a janela de t&iacute;tulo <i>Scripting console</i>.-->
+    
+	<li> <p> <a name="escolhas"></a>
+	    Agora, selecione  <tt>Settings...</tt> e
+	    depois <tt>Compiler</tt>, como indicado abaixo.
+	    </p>
+	    <center> <img src="./imgs/codeblocks-compiler.png" border="0" width="70%">
+	    </center>
+	</li>
+
+	<li>
+	    <p> <a name="diretivas"></a>
+	    Na tela que aparecer, assinale as 4 opções
+	    indicadas abaixo (<tt>-ansi</tt>,  <tt>-Wall</tt>, <tt>-pedantic</tt> e <tt>-O2</tt>) e clique em <tt>OK</tt>.
+	</p><center> <img src="imgs/codeblocks-flags.png" border="0" width="70%">
+	<center> <img src="./imgs/codeblocks-O2.png" border="0" width="70%">
+		    </center>
+	    <p></p>
+	</center></li>
+
+	<li>
+	    <p> Para finalizar, primeiro feche a janela do
+	    <i>Code::Blocks</i>.  Na tela que aparecer, clique em <tt>Yes</tt>.
+	    </p><center> <img src="./imgs/codeblocks-default-changed.png" border="0" width="70%">
+	    </center>
+	    <p></p>
+	</li>
+
+        <li><p> Observe que ainda sobrou uma janela
+	    do processo de instalação. Clique em <tt>Next</tt>.
+             </p><center> <img src="./imgs/codeblocks-default-complited.png" border="0">
+	    </center>
+	    <p></p>
+	</li>
+
+       <li><p> Finalmente, clique em <tt>Finish</tt> para encerrar o programa.
+             </p><center> <img src="./imgs/codeblocks-default-finish.png" border="0">
+	    </center>
+	    <p></p>
+	</li>
+		
+	<li>
+	    <p> Divirtam-se!
+	    </p>		
+      </li></ol>
+      <p></p>
+  
+      
+
+
+<hr>
+<!-- hhmts start -->Last modified: Fri Mar 04 17:59:00 BRT 2016 <!-- hhmts end -->
+
+
+
+ 
+ 
+</body>
+</html>

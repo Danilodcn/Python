@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Using Event Trackers to Simplify Tool&nbsp;Implementation</title></head><body data-page-id="364"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Using Event Trackers to Simplify Tool&nbsp;Implementation</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | September 2004 | Originally posted to <a href="http://online.effbot.org">online.effbot.org</a></p><p>The <a href="wck.htm">Widget Construction Kit
+</a> (WCK) uses different base classes for the code that draws a widget,
+and the code that implement the interactive behaviour.  The latter is
+called <i>controller</i>, and is used to handle incoming events, and
+update the widget accordingly.</p><p>Here&#8217;s a minimal example.  Here, the controller responds to button
+clicks by printing a message to the console, and the widget doesn&#8217;t do
+much at all.  (Besides providing a place for the user to click, that
+is.)</p><pre class="python">
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Controller, Widget, bind
+
+<span class="pykeyword">class</span> <span class="pyclass">MyController</span>(Controller):
+
+    @<span class="pydecorator">bind</span>(<span class="pystring">"&lt;Button-1&gt;"</span>)
+    <span class="pykeyword">def</span> <span class="pyfunction">click</span>(self, event):
+        <span class="pykeyword">print</span> <span class="pystring">"CLICK!"</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">MyWidget</span>(Widget):
+    ui_controller = MyController</pre><p>To save resources, the WCK framework shares controller instances,
+so there will only be one <b>MyController</b> instance in memory, even
+if you create multiple instances of the <b>MyWidget</b> widget.  If
+you need to access the widget in which an event originated, you can
+use the <b>event.widget</b> attribute:</p><pre class="python">
+    <span class="pykeyword">def</span> <span class="pyfunction">click</span>(self, event):
+        <span class="pykeyword">print</span> <span class="pystring">"CLICK!"</span>, event.widget</pre><p>Other event attributes include <b>event.x</b> and <b>event.y</b>
+for mouse events, and <b>event.char</b> for keyboard events.</p><p>Controllers can be used for a lot more than just clicking and
+typing.  Here&#8217;s a controller that allows the user to drag a line
+across a widget:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">class</span> <span class="pyclass">LineController</span>(Controller):
+
+    @<span class="pydecorator">bind</span>(<span class="pystring">"&lt;ButtonPress-1&gt;"</span>)
+    <span class="pykeyword">def</span> <span class="pyfunction">press</span>(self, event):
+        self.anchor = event.x, event.y
+
+    @<span class="pydecorator">bind</span>(<span class="pystring">"&lt;B1-Motion&gt;"</span>)
+    <span class="pykeyword">def</span> <span class="pyfunction">motion</span>(self, event):
+        event.widget.rubberband_line(self.anchor, (event.x, event.y))
+
+    @<span class="pydecorator">bind</span>(<span class="pystring">"&lt;ButtonRelease-1&gt;"</span>)
+    <span class="pykeyword">def</span> <span class="pyfunction">release</span>(self, event):
+        event.widget.add_line(self.anchor, (event.x, event.y))</pre></div><div class="yui-ge"><div class="yui-u first"><p>This controller uses <b>rubberband</b> and <b>add_line</b> methods
+on the widget.  Note that you can use this controller with any widget
+that implements these methods; the controller is not dependent on any
+specific widget class.</p><p>However, if you set out to implement a full-fledged drawing editor,
+you will want more than just a single line tool.  You probably want a
+tool palette from which the user can pick a tool, and you may also
+need to implement tools with a lot more options built into a single
+tool.  In earlier versions of the WCK, the easiest way to implement
+this would be to install a dispatching controller, which captured all
+events needed by your tools, and passed them on to the current tool.
+Here&#8217;s an example:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">Dispatcher</span>(Controller):
+
+    @<span class="pydecorator">bind</span>(<span class="pystring">"&lt;ButtonPress-1&gt;"</span>)
+    <span class="pykeyword">def</span> <span class="pyfunction">press</span>(self, event):
+        event.widget.tool.press(event)
+
+    @<span class="pydecorator">bind</span>(<span class="pystring">"&lt;B1-Motion&gt;"</span>)
+    <span class="pykeyword">def</span> <span class="pyfunction">motion</span>(self, event):
+        event.widget.tool.motion(event)
+
+    @<span class="pydecorator">bind</span>(<span class="pystring">"&lt;ButtonRelease-1&gt;"</span>)
+    <span class="pykeyword">def</span> <span class="pyfunction">release</span>(self, event):
+        event.widget.tool.release(event)</pre><p>In this example, the controller passes the events to corresponding
+methods on the widget&#8217;s <b>tool</b> attribute.  To change the tool,
+plug another tool handler into the widget.</p><p>Recent versions of the WCK provides a new way to implement complex
+tools.  Instead of adding an extra dispatcher, you can simply switch
+between controllers by calling the <b>ui_setcontroller</b> method.</p><p>For example, you can call the method directly from the buttons in
+your toolbar:</p><pre class="python">
+canvas = MyCanvas(...)
+
+<span class="pycomment"># build a toolbar</span>
+b1 = Button(
+    image=PEN_ICON,
+    command=<span class="pykeyword">lambda</span>: canvas.ui_setcontroller(PenTool)
+)
+b2 = Button(
+    image=BRUSH_ICON,
+    command=<span class="pykeyword">lambda</span>: canvas.ui_setcontroller(BrushTool)
+)
+...</pre><p>You can also use this mechanism to simplify the code for more
+complex tools.  Instead of creating a single tool controller that
+handles all possible cases, break the tool into smaller parts, called
+<i>trackers</i>.  For a rectangle drawing tool, you could use one
+tracker to activate the tool, another to draw arbitrary rectangles,
+a third one to select existing objects, a fourth one to draw squares,
+etc.</p><p>To illustrate the tracker pattern, let&#8217;s look at a larger example.
+Here&#8217;s the widget I&#8217;m going to use for this example:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">class</span> <span class="pyclass">RectangleWidget</span>(Widget):
+
+    ui_option_width = ui_option_height = 500
+
+    xy = None
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_config</span>(self):
+        <span class="pykeyword">return</span> int(self.ui_option_width), int(self.ui_option_height)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        <span class="pykeyword">if</span> self.xy:
+            draw.rectangle(self.xy, self.ui_brush(<span class="pystring">"red"</span>))</pre></div><div class="yui-ge"><div class="yui-u first"><p>This widget creates a 500x500 pixel drawing area, and can
+optionally draw a red rectangle on it.  To draw the rectangle, set the
+<b>xy</b> attribute and call <b>ui_damage()</b> to refresh the
+widget.</p><p>Let&#8217;s attach a simple tool to this widget.  This tool allows the
+you to draw a new rectangle, or move an existing rectangle around.  To
+move the existing rectangle, click the mouse on the rectangle, and
+drag it to the new location.  If you click outside, a new rectangle is
+drawn.</p><p>Here&#8217;s the main tool controller (which is also a tracker, of
+course).  If you click on the rectangle (that is, if the mouse
+coordinates are inside the <b>xy</b> rectangle), the controller hands
+control over to the MoveTracker controller.  Otherwise, it hands
+control over to the DrawTracker.</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">RectangleTool</span>(Controller):
+
+    @<span class="pydecorator">bind</span>(<span class="pystring">"&lt;Button-1&gt;"</span>)
+    <span class="pykeyword">def</span> <span class="pyfunction">click</span>(self, event):
+        widget = event.widget
+        widget.anchor = event.x, event.y
+        <span class="pykeyword">if</span> widget.xy:
+            x0, y0, x1, y1 = widget.xy
+            <span class="pykeyword">if</span> x0 &lt;= event.x &lt; x1 <span class="pykeyword">and</span> y0 &lt;= event.y &lt; y1:
+                widget.ui_setcontroller(MoveTracker)
+                <span class="pykeyword">return</span>
+                <span class="pykeyword">return</span>
+        widget.ui_setcontroller(DrawTracker)
+
+<span class="pykeyword">class</span> <span class="pyclass">RectangleWidget</span>(Widget):
+
+    ui_controller = RectangleTool
+
+    ...</pre><p>The <b>MoveTracker</b> simply moves all four corners, based on the
+difference between the last mouse position (stored in the
+<b>widget.anchor</b> attribute) and the current position:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">MoveTracker</span>(Controller):
+
+    @<span class="pydecorator">bind</span>(<span class="pystring">"&lt;B1-Motion&gt;"</span>)
+    <span class="pykeyword">def</span> <span class="pyfunction">move</span>(self, event):
+        widget = event.widget
+        dx = event.x - widget.anchor[0]
+        dy = event.y - widget.anchor[1]
+        x0, y0, x1, y1 = widget.xy
+        widget.xy = x0 + dx, y0 + dy, x1 + dx, y1 + dy
+        widget.anchor = event.x, event.y
+        widget.ui_damage()
+
+    @<span class="pydecorator">bind</span>(<span class="pystring">"&lt;ButtonRelease-1&gt;"</span>)
+    <span class="pykeyword">def</span> <span class="pyfunction">release</span>(self, event):
+        widget = event.widget
+        widget.ui_setcontroller(RectangleTool)</pre><p>And finally, the <b>DrawTracker</b> uses the anchor and the current
+position to determine the location of the rectangle, and updates the
+widget accordingly.  Also note that both controllers restore the
+original RectangleTool when the mouse button is released.</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">DrawTracker</span>(Controller):
+
+    @<span class="pydecorator">bind</span>(<span class="pystring">"&lt;B1-Motion&gt;"</span>)
+    <span class="pykeyword">def</span> <span class="pyfunction">draw</span>(self, event):
+        widget = event.widget
+        x0 = min(widget.anchor[0], event.x)
+        y0 = min(widget.anchor[1], event.y)
+        x1 = max(widget.anchor[0], event.x)
+        y1 = max(widget.anchor[1], event.y)
+        widget.xy = x0, y0, x1, y1
+        widget.ui_damage()
+
+    @<span class="pydecorator">bind</span>(<span class="pystring">"&lt;ButtonRelease-1&gt;"</span>)
+    <span class="pykeyword">def</span> <span class="pyfunction">release</span>(self, event):
+        widget = event.widget
+        widget.ui_setcontroller(RectangleTool)</pre><p>For a controller implementation for plain Tkinter, see
+<a href="tkcontroller.htm"><cite>The tkController Module</cite></a>.
+
+</p><p>To learn more about the Widget Construction Kit, see the
+<a href="wck-1.htm"><i>Writing Widgets in
+Python</i></a> article series over at effbot.org.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

@@ -1,0 +1,345 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Mais sobre números reais &mdash; Aulas de Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Aulas de Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Mais funções com reais" href="aula15.html" />
+    <link rel="prev" title="Strings e arquivos" href="aula13.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'aulasPython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="aula15.html" title="Mais funções com reais"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="aula13.html" title="Strings e arquivos"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="mais-sobre-numeros-reais">
+<h1>Mais sobre números reais<a class="headerlink" href="#mais-sobre-numeros-reais" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="topicos">
+<span id="index-0"></span><h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>Números reais e os problemas com o tipo <cite>float</cite></li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt>Em geral:</dt>
+<dd><ul class="first last simple">
+<li>Operações de divisão e multiplicação são &#8220;seguras&#8221;</li>
+<li>Adições e subtrações são &#8220;perigosas&#8221;, pois quando números de
+magnitudes muito diferentes são envolvidos, os dígitos menos
+significativos são perdidos.</li>
+<li>Essa perda de dígitos pode ser inevitável e sem consequência
+(quando os dígitos perdidos são insignificantes para o resultado
+final) ou catastróficos (quando a perda é magnificada e causa um
+grande erro no resultado).</li>
+<li>Quanto mais cálculos são realizados (em particular quando os
+cálculos são feitos de forma iterativa), mais importante é
+considerar esse problema.</li>
+<li>O método de cálculo pode ser estável (tende a reduzir os erros
+de arredondamento) ou instável (tende a magnificar os
+erros). Frequentemente, há soluções estáveis e instáveis para um
+problema.</li>
+<li>Para saber mais dê uma olhada em <a class="reference external" href="http://floating-point-gui.de/errors/propagation">http://floating-point-gui.de/errors/propagation</a>.</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="exercicio-14-1">
+<h3>Exercício 14.1<a class="headerlink" href="#exercicio-14-1" title="Permalink to this headline">¶</a></h3>
+<p>(exercício 2 da lista de exercícios sobre reais).
+Dado um número inteiro <span class="math">\(n &gt; 0\)</span>, determinar o número harmônico
+<span class="math">\(H_n\)</span> dado por</p>
+<div class="math">
+\[H_n = 1 + \frac{1}{2} + \frac{1}{3} + \frac{1}{4} + \ldots + \frac{1}{n}\]</div>
+<p>Imprima cada termo da sequência e o resultado final.
+Faça 2 implementações:</p>
+<blockquote>
+<div><ul class="simple">
+<li><ol class="first arabic">
+<li>Da direita para a esquerda e</li>
+</ol>
+</li>
+<li><ol class="first arabic" start="2">
+<li>da esquerda para direita.</li>
+</ol>
+</li>
+</ul>
+</div></blockquote>
+<p>Qual dessas formas é estável?</p>
+<p>Observe que para <span class="math">\(n = 10\)</span>, os resultados são iguais, mas para
+<span class="math">\(n = 100 \ldots\)</span></p>
+
+<div id="aula14_numero_harmonico_tentativa" >
+<textarea cols="50" rows="12" id="aula14_numero_harmonico_tentativa_code" class="active_code">
+# escreva o seu programa abaixo e remova o print()
+print("Vixe! Ainda nao fiz o exercicio!")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula14_numero_harmonico_tentativa)</span> </p>
+<button onclick="runit('aula14_numero_harmonico_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula14_numero_harmonico_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula14_numero_harmonico_tentativa');">Load</button>
+<br />
+
+<canvas id="aula14_numero_harmonico_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula14_numero_harmonico_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-14-2">
+<h3>Exercício 14.2<a class="headerlink" href="#exercicio-14-2" title="Permalink to this headline">¶</a></h3>
+<p>Dado um número real <span class="math">\(x\)</span> e um número real <span class="math">\(\text{epsilon} &gt; 0\)</span>, calcular uma
+aproximação de <span class="math">\(e^x\)</span> através da seguinte série infinita:</p>
+<div class="math">
+\[e^x = 1 + x + \frac{x^2} {2!} + \frac{x^3}{3!} + \ldots + \frac{x^k}{k!} + \ldots\]</div>
+<p>Inclua na aproximação todos os termos até o primeiro de valor absoluto
+(módulo) menor do que epsilon.</p>
+
+<div id="aula14_e_x" >
+<textarea cols="50" rows="12" id="aula14_e_x_code" class="active_code">
+# escreva o seu programa abaixo e remova o print()
+print("Vixe! Ainda nao fiz o exercicio!")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula14_e_x)</span> </p>
+<button onclick="runit('aula14_e_x',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula14_e_x');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula14_e_x');">Load</button>
+<br />
+
+<canvas id="aula14_e_x_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula14_e_x_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-14-3">
+<h3>Exercício 14.3<a class="headerlink" href="#exercicio-14-3" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>Dados números reais <span class="math">\(x &gt;= 0\)</span> e <span class="math">\(\text{epsilon} &gt; 0\)</span>, calcular uma aproximação da raiz quadrada de <span class="math">\(x\)</span> através da seguinte sequência:</dt>
+<dd><ul class="first last simple">
+<li><span class="math">\(r_0 = x\)</span> e</li>
+<li><span class="math">\(r_{n+1} = (r_n+ \frac{x}{r_n}) / 2\)</span>.</li>
+</ul>
+</dd>
+<dt>Exemplos:</dt>
+<dd><ul class="first last simple">
+<li>Para <span class="math">\(x = 3, r_0 = 3, r_1 = 2, r_2 = 1.75, r_3 = 1.732143, r_4 = 1.732051\)</span></li>
+<li>Para <span class="math">\(x = 4, r_0 = 4, r_1 = 2.5, r_2 = 2.05, r_3 = 2.000610, r_4 = 2.000000\)</span></li>
+<li>Para <span class="math">\(x = 5, r_0 = 5, r_1 = 3, r_2 = 2.33, r_3 = 2.238095, r_4 = 2.236068\)</span></li>
+<li>Para <span class="math">\(x = 0.81, r_0=0.81, r_1=0.905, r_2=0.9000138122, r_3=0.9000000001\)</span></li>
+</ul>
+</dd>
+</dl>
+<p>A aproximação será o primeiro valor <span class="math">\(r_{n+1}\)</span> tal que <span class="math">\(|r_{n+1}-r_n| &lt; \text{epsilon}\)</span>.</p>
+
+<div id="aula14_raiz_quadrada" >
+<textarea cols="50" rows="12" id="aula14_raiz_quadrada_code" class="active_code">
+# escreva o seu programa abaixo e remova o print()
+print("Vixe! Ainda nao fiz o exercicio!")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula14_raiz_quadrada)</span> </p>
+<button onclick="runit('aula14_raiz_quadrada',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula14_raiz_quadrada');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula14_raiz_quadrada');">Load</button>
+<br />
+
+<canvas id="aula14_raiz_quadrada_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula14_raiz_quadrada_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Mais sobre números reais</a><ul>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a><ul>
+<li><a class="reference internal" href="#exercicio-14-1">Exercício 14.1</a></li>
+<li><a class="reference internal" href="#exercicio-14-2">Exercício 14.2</a></li>
+<li><a class="reference internal" href="#exercicio-14-3">Exercício 14.3</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="aula13.html"
+                        title="previous chapter">Strings e arquivos</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="aula15.html"
+                        title="next chapter">Mais funções com reais</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="aula15.html" title="Mais funções com reais"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="aula13.html" title="Strings e arquivos"
+             >previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Mar 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

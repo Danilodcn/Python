@@ -1,0 +1,245 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capítulo 14: Classes e métodos &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Capítulo 15: Conjuntos de objetos" href="capitulo_15.html" />
+    <link rel="prev" title="Capítulo 13: Classes e funções" href="capitulo_13.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="capitulo_15.html" title="Capítulo 15: Conjuntos de objetos"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_13.html" title="Capítulo 13: Classes e funções"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="capitulo-14-classes-e-metodos">
+<h1><a class="toc-backref" href="#id1">Capítulo 14: Classes e métodos</a><a class="headerlink" href="#capitulo-14-classes-e-metodos" title="Link permanente para este título">¶</a></h1>
+<div class="contents topic" id="topicos">
+<p class="topic-title first">Tópicos</p>
+<ul class="simple">
+<li><a class="reference external" href="#capitulo-14-classes-e-metodos" id="id1">Capítulo 14: Classes e métodos</a><ul>
+<li><a class="reference external" href="#caracteristicas-da-orientacao-a-objetos" id="id2">14.1 Características da orientação a objetos</a></li>
+<li><a class="reference external" href="#exibehora-printtime" id="id3">14.2 exibeHora (printTime)</a></li>
+<li><a class="reference external" href="#um-outro-exemplo" id="id4">14.3 Um outro exemplo</a></li>
+<li><a class="reference external" href="#um-exemplo-mais-complicado" id="id5">14.4 Um exemplo mais complicado</a></li>
+<li><a class="reference external" href="#glossario" id="id6">14.10 Glossário</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p><strong>ATENÇÃO</strong> As referências cruzadas a nomes em códigos de outros capítulos (especialmente 13) ainda não foram unificadas...</p>
+<div class="section" id="caracteristicas-da-orientacao-a-objetos">
+<h2><a class="toc-backref" href="#id2">14.1 Características da orientação a objetos</a><a class="headerlink" href="#caracteristicas-da-orientacao-a-objetos" title="Link permanente para este título">¶</a></h2>
+<p>Python é uma <strong>linguagem de programação orientada a objetos</strong>, o que significa que ela tem características que suportam a <strong>programação orientada a objetos</strong>.</p>
+<p>Não é fácil definir programação orientada a objetos, mas temos visto already algumas de suas características:</p>
+<ul class="simple">
+<li>Programas são construídos sobre definições de objetos e definições de funções, e a maioria das computações é expressa em termos de operações sobre objetos.</li>
+<li>Cada definição de objeto corresponde a algum objeto ou conceito do mundo real, e as funções que operam com aqueles objetos correspondem à maneira como os objetos do mundo real interagem.</li>
+</ul>
+<p>Por exemplo, a classe <tt class="docutils literal"><span class="pre">Tempo</span></tt>, definida no capítulo 13 corresponde à maneira como as pessoas registram as horas do dia, e as funções que definimos correspondem aos tipos de coisas que as pessoas fazem com times. Do mesmo modo, as classes <tt class="docutils literal"><span class="pre">Ponto</span></tt> e <tt class="docutils literal"><span class="pre">Retângulo</span></tt> correspondem aos conceitos matemáticos de um ponto e de um retângulo.</p>
+<p>Até aqui, não tiramos vantagem das características fornecidas por Python que suportam a programação orientada a objetos. Estritamente falando, estas características não são necessárias. Na maior parte das vezes, elas fornecem uma sintaxe alternativa para as coisas que já fizemos, mas em muitos casos, a alternativa é mais concisa e convém mais acuradamente à estrutura do programa.</p>
+<p>Por exemplo, no programa <tt class="docutils literal"><span class="pre">Time</span></tt>, não existe uma conexão óbvia entre a definição da classe e a definição da função que segue. Com alguma investigação, fica aparente que toda função toma pelo menos um objeto <tt class="docutils literal"><span class="pre">Time</span></tt> como um parâmetro.</p>
+<p>Esta observação é a motivação por trás dos <strong>métodos</strong>. Já temos visto alguns métodos, tais como <tt class="docutils literal"><span class="pre">keys</span></tt> (<tt class="docutils literal"><span class="pre">chaves</span></tt>) e <tt class="docutils literal"><span class="pre">values</span></tt> (<tt class="docutils literal"><span class="pre">valores</span></tt>), os quais foram invocados em dicionários. Cada método é associado com uma classe e é intended para ser invocado em instâncias daquela classe.</p>
+<p>Métodos são simplesmente como funções, com duas diferenças:</p>
+<ul class="simple">
+<li>Métodos são definidos dentro da definição de uma classe para tornar explícita a relação entre a classe e o método.</li>
+<li>A sintaxe para a chamada do método é diferente da sintaxe para a chamada de uma função.</li>
+</ul>
+<p>Nas próximas seções, vamos pegar as funções dos dois capítulos anteriores e transformá-las em métodos. Esta transformação é puramente mecânica: você pode conseguí-la simplesmente seguindo uma seqüência de passos. Se você se sentir confortável convertendo de uma forma para a outra, você estará apto para escolher a melhor forma para seja o lá o que for que você estiver fazendo.</p>
+</div>
+<div class="section" id="exibehora-printtime">
+<h2><a class="toc-backref" href="#id3">14.2 exibeHora (printTime)</a><a class="headerlink" href="#exibehora-printtime" title="Link permanente para este título">¶</a></h2>
+<p>No capítulo 13, definimos uma classe chamada <tt class="docutils literal"><span class="pre">Horário</span></tt> (<tt class="docutils literal"><span class="pre">Time</span></tt>) e você escreveu uma função chamada <tt class="docutils literal"><span class="pre">exibeHora</span></tt> (<tt class="docutils literal"><span class="pre">printTime</span></tt>), que deve ter ficado mais ou menos assim:</p>
+<div class="highlight-python"><pre>class Horario:
+  pass
+
+def exibeHora(time)
+  print str(time.horas) + ?:? + \
+    str(time.minutos) + ?:? + \
+    str(time.segundos)</pre>
+</div>
+<p>Para chamar esta função, passamos um objeto <tt class="docutils literal"><span class="pre">Time</span></tt> como um parâmetro:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">horaCorrente</span> <span class="o">=</span> <span class="n">Hora</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">horaCorrente</span><span class="o">.</span><span class="n">horas</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">horaCorrente</span><span class="o">.</span><span class="n">minutos</span> <span class="o">=</span> <span class="mi">14</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">horaCorrente</span><span class="o">.</span><span class="n">segundos</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exibeHora</span><span class="p">(</span><span class="n">horaCorrente</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Para fazer de <tt class="docutils literal"><span class="pre">exibeHora</span></tt> um método, tudo o que temos a fazer é mover a definição da função para dentro da definição da classe. Note a mudança na endentação:</p>
+<div class="highlight-python"><pre>class Horario:
+  def exibeHora(time):
+    print str(time.horas) + ?:? + \
+      str(time.minutos) + ?:? + \
+      str(time.segundos)</pre>
+</div>
+<p>Agora podemos chamar <tt class="docutils literal"><span class="pre">exibeHora</span></tt> usando a natação de ponto:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">horaCorrente</span><span class="o">.</span><span class="n">exibeHora</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Como é usual, o objeto no qual o método é invocado aparece antes do ponto e o nome do método aparece depois do ponto.</p>
+<p>O objeto no qual o método é invocado é atribuído ao primeiro parâmetro, então, neste caso, <tt class="docutils literal"><span class="pre">horaCorrente</span></tt> é atribuído ao parâmetro <tt class="docutils literal"><span class="pre">time</span></tt>.</p>
+<p>Por convenção, o primeiro parâmetro de um método é chamado <tt class="docutils literal"><span class="pre">self</span></tt>. A razão para isto é um pouco convoluted, mas é baseada numa metáfora útil.</p>
+<p>A sintaxe para uma chamada de função, <tt class="docutils literal"><span class="pre">exibeHora(horaCorrente)</span></tt>, sugere que a função é um agente ativo. Diz algo como, ?Ei, <tt class="docutils literal"><span class="pre">exibeHora</span></tt>! Aqui está um objeto para você exibir.?</p>
+<p>Na programação orientada a objetos, os objetos são agentes ativos. Uma chamado do tipo <tt class="docutils literal"><span class="pre">horaCorrente.exibeHora()</span></tt> diz ?Ei, <tt class="docutils literal"><span class="pre">horaCorrente</span></tt>! Por favor exiba-se a si mesmo!?</p>
+<p>Esta mudança de perspectiva pode ser mais polida, mas não fica óbvio que seja útil. Nos exemplos que temos visto até aqui, pode ser que não seja. Mas às vezes, deslocar a responsabilidade das funções para cima dos objetos torna possível escrever funções mais versáteis, e torna mais fácil manter e reutilizar o código.</p>
+</div>
+<div class="section" id="um-outro-exemplo">
+<h2><a class="toc-backref" href="#id4">14.3 Um outro exemplo</a><a class="headerlink" href="#um-outro-exemplo" title="Link permanente para este título">¶</a></h2>
+<p>Vamos converter <tt class="docutils literal"><span class="pre">incremento</span></tt> (da Seção 13.3) em um método. Para poupar espaço, deixaremos de fora métodos definidos previamente(anteriormente?), mas você deve mantê-los em sua versão:</p>
+<div class="highlight-python"><pre>class Time:
+  #previous method definitions here...
+
+  def increment(self, segundos):
+  self.seconds = seconds + self.seconds
+
+  while self.segundos &gt;= 60:
+    self.seconds = self.segundos - 60
+    self.minutes = self.minutos + 1
+
+  while self.minutes &gt;= 60:
+    self.minutes = self.minutos - 60
+    self.hours = self.horas + 1</pre>
+</div>
+<p>A transformação é puramente mecânica ? movemos a definição do método para dentro da definição da classe e mudamos o nome do primeiro parâmetro.</p>
+<p>Agora podemos chamar <tt class="docutils literal"><span class="pre">incremento</span></tt> como um método:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">horaCorrente</span><span class="o">.</span><span class="n">incremento</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>De novo, o objeto no qual o método é chamado gets atribui ao primeiro parâmetro, <tt class="docutils literal"><span class="pre">self</span></tt>. O segundo parâmetro, <tt class="docutils literal"><span class="pre">segundo</span></tt> toma(gets) o valor <tt class="docutils literal"><span class="pre">500</span></tt>.</p>
+<blockquote>
+<em>Como um exercício, converta ?converteParaSegundos? (da Seção 13.5) para um método na classe ?Time?.</em></blockquote>
+</div>
+<div class="section" id="um-exemplo-mais-complicado">
+<h2><a class="toc-backref" href="#id5">14.4 Um exemplo mais complicado</a><a class="headerlink" href="#um-exemplo-mais-complicado" title="Link permanente para este título">¶</a></h2>
+<p>...</p>
+</div>
+<div class="section" id="glossario">
+<h2><a class="toc-backref" href="#id6">14.10 Glossário</a><a class="headerlink" href="#glossario" title="Link permanente para este título">¶</a></h2>
+<dl class="docutils">
+<dt>linguagem orientada a objetos</dt>
+<dd>Uma linguagem que provê características tais como classes definidas pelo usuário e herança, que facilitam a programação orientada a objetos.</dd>
+<dt>programação orientada a objetos</dt>
+<dd>Um estilo de programação na qual os dados e as operações que os manipulam estão organizados em classes e métodos.</dd>
+<dt>método</dt>
+<dd>Uma função que é definida dentro de uma definição de classe e é chamada em instâncias desta classe.</dd>
+<dt>override (sem traducao; termo consagrado)</dt>
+<dd>Substituir uma definição já pronta. Exemplos incluem substituir um parâmetro padrão por um argumento particular e substituir um método padrão, fornecendo um novo método com o mesmo nome.</dd>
+<dt>método de inicialização (tambem chamado de construtor)</dt>
+<dd>Um método especial que é invocado automaticamente quando um novo objeto é criado e que inicializa os atributos deste objeto.</dd>
+<dt>sobrecarga de operador</dt>
+<dd>Estender a funcionalidade dos operadores nativos (+, -, *, &gt;, &lt;, etc.) de forma que eles funcionem também com tipos definidos pelo usuário.</dd>
+<dt>produto escalar</dt>
+<dd>Operação definida na álgebra linear que multiplica dois pontos (com coordenadas (x,y,z)) e retorna um valor            numérico.</dd>
+<dt>multiplicação por escalar</dt>
+<dd>Operação definida na álgebra linear que multiplica cada uma das coordenadas de um ponto por um valor numérico.</dd>
+<dt>polimórfica</dt>
+<dd>Uma função que pode operar com mais de um tipo. Se todas as operações de uma função pode ser aplicadas a um certo tipo, então a função pode ser aplicada a este tipo.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Capítulo 14: Classes e métodos</a><ul>
+<li><a class="reference internal" href="#caracteristicas-da-orientacao-a-objetos">14.1 Características da orientação a objetos</a></li>
+<li><a class="reference internal" href="#exibehora-printtime">14.2 exibeHora (printTime)</a></li>
+<li><a class="reference internal" href="#um-outro-exemplo">14.3 Um outro exemplo</a></li>
+<li><a class="reference internal" href="#um-exemplo-mais-complicado">14.4 Um exemplo mais complicado</a></li>
+<li><a class="reference internal" href="#glossario">14.10 Glossário</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="capitulo_13.html"
+                        title="capítulo anterior">Capítulo 13: Classes e funções</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="capitulo_15.html"
+                        title="próximo capítulo">Capítulo 15: Conjuntos de objetos</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/capitulo_14.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="capitulo_15.html" title="Capítulo 15: Conjuntos de objetos"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_13.html" title="Capítulo 13: Classes e funções"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

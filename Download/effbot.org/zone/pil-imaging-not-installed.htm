@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>"The _imaging C module is not&nbsp;installed"</title></head><body data-page-id="189"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">"The _imaging C module is not&nbsp;installed"</h1></div><div class="yui-ge"><div class="yui-u first"><p><i>Also see the <s><a href="http://www.pythonware.com/products/pil/faq.htm">PIL FAQ</a></s> (dead link).</i></p><h3 id="not-installed">Why does PIL say &#8220;The _imaging C module is
+not installed&#8221;?&#160;<a class="nav" href="#not-installed" title="bookmark!">#</a></h3><p> 
+
+The PIL library consists of two main parts: a number of Python modules,
+usually stored in a <b>PIL</b> subdirectory, and a binary extension module
+called <b>_imaging</b>.  Depending on platform and version, the latter
+is stored in a file named <b>_imaging.pyd</b>, <b>_imaging.dll</b> or
+<b>_imaging.so</b> (or some variation thereof).</p><p>If Python fails to import the _imaging module, some parts of PIL
+still works.  You can for example import most modules, and open and
+identify most image files.  However, if you invoke a method that
+needs functions provided by the extension module, PIL raises an
+<b>ImportError</b>.</p><p>Things to check:</p><h3>Do you have an _imaging module?</h3><p>On Windows, look for a file called <b>_imaging.pyd</b> or (less
+common) <b>_imaging.dll</b>.  On Unix, look for a file called
+<b>_imaging.so</b> or <b>_imagingmodule.so</b>.  Some Unix platforms
+may use other extensions (e.g. <b>.sl</b>).</p><h3>Can Python find the _imaging module?</h3><p>As for all other Python modules, Python searches the Python module
+path when looking for the _imaging module.  If the module cannot be
+found on the path, Python will not load it.</p><p>To check what Python is doing, run the interpreter with the
+<b>-v</b> option, and import the <b>Image</b> module:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+$ <b>python -v</b>
+...
+&gt;&gt;&gt; <b>import Image</b>
+# C:\py21\PIL\Image.pyc matches C:\py21\PIL\Image.py
+import Image # precompiled from C:\py21\PIL\Image.pyc
+...
+import _imaging # dynamically loaded from C:\py21\PIL\_imaging.pyd
+...
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>Another way to check the path is to print the <b>sys.path</b>
+variable (it&#8217;s a Python list) and make sure it contains the right
+directories:</p><pre class="mark">
+import sys
+print sys.path
+</pre><p>You can either type the commands into a Python command line, or put
+them in a text file and run it as a Python script.</p><p>For information on how to modify the path on your platform, see
+your favourite Python tutorial.  If nothing else helps, you can simply
+modify the <b>sys.path</b> variable in your program.</p><h3>Can Python load the _imaging module?</h3><p>If everything looks fine this far, the problem might be that the
+module found by Python isn&#8217;t compatible with the Python interpreter.
+This problem is most common on Windows, where extensions built for a
+given minor version of Python (e.g. 2.1) only works with that version,
+or revisions thereof (e.g. 2.1.2, but not 2.2).</p><p>To check if this is the problem, start the interpreter, and import
+the <b>_imaging</b> module directly:</p><pre>
+$ <b>python</b>
+...
+&gt;&gt;&gt; <b>import _imaging</b>
+</pre><p>If the module is not compatible, earlier versions of Python usually
+says something like &#8220;<b>Unable to locate DLL</b>&#8221; (referring
+to the Python interpreter DLL).  Python 2.2 and later usually says
+&#8220;<b>Module use of pythonXX.dll conflicts with this version of
+Python.</b>&#8221;</p><p>If you get &#8220;<b>undefined symbol: ImagingRadianceEncode</b>&#8221; on
+Mandrake Linux, you have a broken PIL build.  You can either build
+PIL from the PythonWare sources, or make sure you have the latest
+version of the appropriate Mandrake package.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><ul><li><a href="#not-installed">Why does PIL say &#8220;The _imaging C module is
+not installed&#8221;?</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

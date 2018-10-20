@@ -1,0 +1,315 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Tutorial</title></head><body data-page-id="454"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><p><a href="overview.htm">back</a>&#160;<a href="concepts.htm">next</a></p><h1 class="maintitle">Tutorial</h1></div><div class="yui-ge"><div class="yui-u first"><h2 id="using-the-image-class">Using the Image Class&#160;<a class="nav" href="#using-the-image-class" title="bookmark!">#</a></h2><p>The most important class in the Python Imaging Library is the <a href="image.htm"><b>Image</b></a> class, defined in the module with
+the same name. You can create instances of this class in several ways;
+either by loading images from files, processing other images, or
+creating images from scratch.</p><p>To load an image from a file, use the <b>open</b> function in
+the <b>Image</b> module.</p><pre class="python">
+&gt;&gt;&gt; <span class="pykeyword">import</span> Image
+&gt;&gt;&gt; im = Image.open(<span class="pystring">"lena.ppm"</span>)</pre><p>If successful, this function returns an <b>Image</b> object.  You
+can now use instance attributes to examine the file contents.</p><pre class="python">
+&gt;&gt;&gt; <span class="pykeyword">print</span> im.format, im.size, im.mode
+PPM (512, 512) RGB</pre><p>The <b>format</b> attribute identifies the source of an image.
+If the image was not read from a file, it is set to None.
+The <b>size</b> attribute is a 2-tuple containing width and
+height (in pixels). The <b>mode</b> attribute defines the number
+and names of the bands in the image, and also the pixel type and
+depth. Common modes are <span>&#8220;L&#8221;</span> (luminance) for
+greyscale images, <span>&#8220;RGB&#8221;</span> for true colour images, and
+<span>&#8220;CMYK&#8221;</span> for pre-press images.</p><p>If the file cannot be opened, an <b>IOError</b> exception is
+raised.</p><p>Once you have an instance of the <b>Image</b> class, you can
+use the methods defined by this class to process and manipulate the
+image. For example, let&#8217;s display the image we just loaded:</p><pre class="python">
+    &gt;&gt;&gt; im.show()</pre><p>(The standard version of <b>show</b> is not very efficient, since
+it saves the image to a temporary file and calls the <b>xv</b> utility
+to display the image. If you don&#8217;t have <b>xv</b> installed, it won&#8217;t
+even work. When it does work though, it is very handy for debugging
+and tests.)</p><p>The following sections provide an overview of the different
+functions provided in this library.</p><h2 id="reading-and-writing-images">Reading and Writing Images&#160;<a class="nav" href="#reading-and-writing-images" title="bookmark!">#</a></h2><p>The Python Imaging Library supports a wide variety of image file
+formats.  To read files from disk, use the <a href="image.htm#image-open-function"><b>open</b></a> function in
+the <b>Image</b> module.  You don&#8217;t have to know the file format to
+open a file.  The library automatically determines the format based on
+the contents of the file.</p><p>To save a file, use the <a href="image.htm#image-save-method"><b>save</b></a> method of the
+<b>Image</b> class. When saving files, the name becomes
+important. Unless you specify the format, the library uses the
+filename extension to discover which file storage format to use.</p><div class="example">
+<b>Convert files to JPEG</b>
+<pre class="python">
+<span class="pykeyword">import</span> os, sys
+<span class="pykeyword">import</span> Image
+
+<span class="pykeyword">for</span> infile <span class="pykeyword">in</span> sys.argv[1:]:
+    f, e = os.path.splitext(infile)
+    outfile = f + <span class="pystring">".jpg"</span>
+    <span class="pykeyword">if</span> infile != outfile:
+        <span class="pykeyword">try</span>:
+            Image.open(infile).save(outfile)
+        <span class="pykeyword">except</span> IOError:
+            <span class="pykeyword">print</span> <span class="pystring">"cannot convert"</span>, infile</pre></div><p>A second argument can be supplied to the <b>save</b> method which
+explicitly specifies a file format.  If you use a non-standard
+extension, you must always specify the format this way:</p><div class="example">
+<b>Create JPEG Thumbnails</b>
+<pre class="python">
+<span class="pykeyword">import</span> os, sys
+<span class="pykeyword">import</span> Image
+
+size = 128, 128
+
+<span class="pykeyword">for</span> infile <span class="pykeyword">in</span> sys.argv[1:]:
+    outfile = os.path.splitext(infile)[0] + <span class="pystring">".thumbnail"</span>
+    <span class="pykeyword">if</span> infile != outfile:
+        <span class="pykeyword">try</span>:
+            im = Image.open(infile)
+            im.thumbnail(size)
+            im.save(outfile, <span class="pystring">"JPEG"</span>)
+        <span class="pykeyword">except</span> IOError:
+            <span class="pykeyword">print</span> <span class="pystring">"cannot create thumbnail for"</span>, infile</pre></div><p>It is important to note that the library doesn&#8217;t decode or load
+the raster data unless it really has to. When you open a file, the
+file header is read to determine the file format and extract things
+like mode, size, and other properties required to decode the file,
+but the rest of the file is not processed until later.</p><p>This means that opening an image file is a fast operation, which
+is independent of the file size and compression type.  Here&#8217;s a simple
+script to quickly identify a set of image files:</p><div class="example">
+<b>Identify Image Files</b>
+<pre class="python">
+<span class="pykeyword">import</span> sys
+<span class="pykeyword">import</span> Image
+
+<span class="pykeyword">for</span> infile <span class="pykeyword">in</span> sys.argv[1:]:
+    <span class="pykeyword">try</span>:
+        im = Image.open(infile)
+        <span class="pykeyword">print</span> infile, im.format, <span class="pystring">"%dx%d"</span> % im.size, im.mode
+    <span class="pykeyword">except</span> IOError:
+        <span class="pykeyword">pass</span></pre></div><h2 id="cutting-pasting-and-merging-images">Cutting, Pasting and Merging Images&#160;<a class="nav" href="#cutting-pasting-and-merging-images" title="bookmark!">#</a></h2><p>The <b>Image</b> class contains methods allowing you to manipulate
+regions within an image. To extract a sub-rectangle from an image, use
+the <a href="image.htm#image-crop-method"><b>crop</b></a>
+method.</p><div class="example">
+<b>Copying a subrectangle from an image</b>
+<pre class="python">
+    box = (100, 100, 400, 400)
+    region = im.crop(box)</pre></div><p>The region is defined by a 4-tuple, where coordinates are (left,
+upper, right, lower). The Python Imaging Library uses a coordinate
+system with (0, 0) in the upper left corner. Also note that
+coordinates refer to positions between the pixels, so the region in
+the above example is exactly 300x300 pixels.</p><p>The region could now be processed in a certain manner and pasted
+back.</p><div class="example">
+<b>Processing a subrectangle, and pasting it back</b>
+<pre class="python">
+    region = region.transpose(Image.ROTATE_180)
+    im.paste(region, box)</pre></div><p>When pasting regions back, the size of the region must match the
+given region exactly. In addition, the region cannot extend outside
+the image. However, the modes of the original image and the region
+do not need to match. If they don&#8217;t, the region is automatically
+converted before being pasted (see the section on <a href="#colour-transforms-section"><i>Colour Transforms</i></a>
+below for details).</p><p>Here&#8217;s an additional example:</p><div class="example">
+<b>Rolling an image</b>
+<pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">roll</span>(image, delta):
+    <span class="pystring">"Roll an image sideways"</span>
+
+    xsize, ysize = image.size
+
+    delta = delta % xsize
+    <span class="pykeyword">if</span> delta == 0: <span class="pykeyword">return</span> image
+
+    part1 = image.crop((0, 0, delta, ysize))
+    part2 = image.crop((delta, 0, xsize, ysize))
+    image.paste(part2, (0, 0, xsize-delta, ysize))
+    image.paste(part1, (xsize-delta, 0, xsize, ysize))
+
+    <span class="pykeyword">return</span> image</pre></div><p>For more advanced tricks, the paste method can also take a
+transparency mask as an optional argument.  In this mask, the value
+255 indicates that the pasted image is opaque in that position (that
+is, the pasted image should be used as is).  The value 0 means that
+the pasted image is completely transparent.  Values in-between
+indicate different levels of transparency.</p><p>The Python Imaging Library also allows you to work with the
+individual bands of an multi-band image, such as an RGB image.  The
+split method creates a set of new images, each containing one band
+from the original multi-band image.  The merge function takes a mode
+and a tuple of images, and combines them into a new image. The
+following sample swaps the three bands of an RGB image:</p><div class="example">
+<b>Splitting and merging bands</b>
+<pre class="python">
+r, g, b = im.split()
+im = Image.merge(<span class="pystring">"RGB"</span>, (b, g, r))</pre></div><p>Note that for a single-band image, <b>split</b> returns the image itself.  To work with individual colour bands, you may want to convert the image to &#8220;RGB&#8221; first.</p><h2 id="geometrical-transforms">Geometrical Transforms&#160;<a class="nav" href="#geometrical-transforms" title="bookmark!">#</a></h2><p>The <b>Image</b> class contains methods to <b>resize</b> and
+<b>rotate</b> an image. The former takes a tuple giving the new
+size, the latter the angle in degrees counter-clockwise.</p><div class="example">
+<b>Simple geometry transforms</b>
+<pre class="python">
+out = im.resize((128, 128))
+out = im.rotate(45) <span class="pycomment"># degrees counter-clockwise</span></pre></div><p>To rotate the image in 90 degree steps, you can either use
+the <b>rotate</b> method or the <b>transpose</b> method. The
+latter can also be used to flip an image around its horizontal or
+vertical axis.</p><div class="example">
+<b>Transposing an image</b>
+<pre class="python">
+out = im.transpose(Image.FLIP_LEFT_RIGHT)
+out = im.transpose(Image.FLIP_TOP_BOTTOM)
+out = im.transpose(Image.ROTATE_90)
+out = im.transpose(Image.ROTATE_180)
+out = im.transpose(Image.ROTATE_270)</pre></div><p>There&#8217;s no difference in performance or result between
+<b>transpose(ROTATE)</b> and corresponding <b>rotate</b>
+operations.</p><p>A more general form of image transformations can be carried out via
+the <a href="image.htm#image-transform-method"><b>transform</b></a>
+method. See the reference section for details.</p><h2 id="colour-transforms">Colour Transforms&#160;<a class="nav" href="#colour-transforms" title="bookmark!">#</a></h2><p>The Python Imaging Library allows you to convert images between
+different pixel representations using the convert function.</p><div class="example">
+<b>Converting between modes</b>
+<pre class="python">
+    im = Image.open(<span class="pystring">"lena.ppm"</span>).convert(<span class="pystring">"L"</span>)</pre></div><p>The library supports transformations between each supported mode
+and the <span>&#8220;L&#8221;</span> and <span>&#8220;RGB&#8221;</span> modes. To convert
+between other modes, you may have to use an intermediate image
+(typically an <span>&#8220;RGB&#8221;</span> image).</p><h2 id="image-enhancement">Image Enhancement&#160;<a class="nav" href="#image-enhancement" title="bookmark!">#</a></h2><p>The Python Imaging Library provides a number of methods and
+modules that can be used to enhance images.</p><h3 id="filters">Filters&#160;<a class="nav" href="#filters" title="bookmark!">#</a></h3><p>The <a href="imagefilter.htm"><b>ImageFilter</b></a> module
+contains a number of pre-defined enhancement filters that can be used
+with the <b>filter</b> method.</p><div class="example">
+<b>Applying filters</b>
+<pre class="python">
+<span class="pykeyword">import</span> ImageFilter
+out = im.filter(ImageFilter.DETAIL)</pre></div><h3 id="point-operations">Point Operations&#160;<a class="nav" href="#point-operations" title="bookmark!">#</a></h3><p>The <b>point</b> method can be used to translate the pixel values
+of an image (e.g. image contrast manipulation).  In most cases, a
+function object expecting one argument can be passed to the this
+method.  Each pixel is processed according to that function:</p><div class="example">
+<b>Applying point transforms</b>
+<pre class="python">
+<span class="pycomment"># multiply each pixel by 1.2</span>
+out = im.point(<span class="pykeyword">lambda</span> i: i * 1.2)</pre></div><p>Using the above technique, you can quickly apply any simple
+expression to an image. You can also combine the <b>point</b> and
+<b>paste</b> methods to selectively modify an image:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Processing individual bands</b>
+<pre class="python wide">
+<span class="pycomment"># split the image into individual bands</span>
+source = im.split()
+
+R, G, B = 0, 1, 2
+
+<span class="pycomment"># select regions where red is less than 100</span>
+mask = source[R].point(<span class="pykeyword">lambda</span> i: i &lt; 100 <span class="pykeyword">and</span> 255)
+
+<span class="pycomment"># process the green band</span>
+out = source[G].point(<span class="pykeyword">lambda</span> i: i * 0.7)
+
+<span class="pycomment"># paste the processed band back, but only where red was &lt; 100</span>
+source[G].paste(out, None, mask)
+
+<span class="pycomment"># build a new multiband image</span>
+im = Image.merge(im.mode, source)</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>Note the syntax used to create the mask:</p><pre class="python">
+    imout = im.point(<span class="pykeyword">lambda</span> i: expression <span class="pykeyword">and</span> 255)</pre><p>Python only evaluates the portion of a logical expression as is
+necessary to determine the outcome, and returns the last value
+examined as the result of the expression. So if the expression
+above is false (0), Python does not look at the second operand, and
+thus returns 0. Otherwise, it returns 255.</p><h3 id="enhancement">Enhancement&#160;<a class="nav" href="#enhancement" title="bookmark!">#</a></h3><p>For more advanced image enhancement, you can use the classes in the <a href="imageenhance.htm"><b>ImageEnhance</b></a> module. Once
+created from an image, an enhancement object can be used to quickly
+try out different settings.</p><p>You can adjust contrast, brightness, colour balance and
+sharpness in this way.</p><div class="example">
+<b>Enhancing images</b>
+<pre class="python">
+<span class="pykeyword">import</span> ImageEnhance
+
+enh = ImageEnhance.Contrast(im)
+enh.enhance(1.3).show(<span class="pystring">"30% more contrast"</span>)</pre></div><h2 id="image-sequences">Image Sequences&#160;<a class="nav" href="#image-sequences" title="bookmark!">#</a></h2><p>The Python Imaging Library contains some basic support for image
+sequences (also called <i>animation</i> formats). Supported
+sequence formats include FLI/FLC, GIF, and a few experimental
+formats. TIFF files can also contain more than one frame.</p><p>When you open a sequence file, PIL automatically loads the first
+frame in the sequence. You can use the <a href="image.htm#image-seek-method"><b>seek</b></a> and <a href="image.htm#image-tell-method"><b>tell</b></a> methods to move
+between different frames:</p><div class="example">
+<b>Reading sequences</b>
+<pre class="python">
+<span class="pykeyword">import</span> Image
+
+im = Image.open(<span class="pystring">"animation.gif"</span>)
+im.seek(1) <span class="pycomment"># skip to the second frame</span>
+
+<span class="pykeyword">try</span>:
+    <span class="pykeyword">while</span> 1:
+        im.seek(im.tell()+1)
+        <span class="pycomment"># do something to im</span>
+<span class="pykeyword">except</span> EOFError:
+    <span class="pykeyword">pass</span> <span class="pycomment"># end of sequence</span></pre></div><p>As seen in this example, you&#8217;ll get an <b>EOFError</b>
+exception when the sequence ends.</p><p>Note that most drivers in the current version of the library
+only allow you to seek to the <i>next</i> frame (as in the above
+example). To rewind the file, you may have to reopen it.</p><p>The following iterator class lets you to use the for-statement
+to loop over the sequence:</p><div class="example">
+<b>A sequence iterator class</b>
+<pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">ImageSequence</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, im):
+        self.im = im
+    <span class="pykeyword">def</span> <span class="pyfunction">__getitem__</span>(self, ix):
+        <span class="pykeyword">try</span>:
+            <span class="pykeyword">if</span> ix:
+                self.im.seek(ix)
+            <span class="pykeyword">return</span> self.im
+        <span class="pykeyword">except</span> EOFError:
+            <span class="pykeyword">raise</span> IndexError <span class="pycomment"># end of sequence</span>
+
+<span class="pykeyword">for</span> frame <span class="pykeyword">in</span> ImageSequence(im):
+    <span class="pycomment"># ...do something to frame...</span></pre></div><h2 id="postscript-printing">Postscript Printing&#160;<a class="nav" href="#postscript-printing" title="bookmark!">#</a></h2><p>The Python Imaging Library includes functions to print images,
+text and graphics on Postscript printers. Here&#8217;s a simple
+example:</p><div class="example">
+<b>Drawing Postscript</b>
+<pre class="python">
+<span class="pykeyword">import</span> Image
+<span class="pykeyword">import</span> PSDraw
+
+im = Image.open(<span class="pystring">"lena.ppm"</span>)
+title = <span class="pystring">"lena"</span>
+box = (1*72, 2*72, 7*72, 10*72) <span class="pycomment"># in points</span>
+
+ps = PSDraw.PSDraw() <span class="pycomment"># default is sys.stdout</span>
+ps.begin_document(title)
+
+<span class="pycomment"># draw the image (75 dpi)</span>
+ps.image(box, im, 75)
+ps.rectangle(box)
+
+<span class="pycomment"># draw centered title</span>
+ps.setfont(<span class="pystring">"HelveticaNarrow-Bold"</span>, 36)
+w, h, b = ps.textsize(title)
+ps.text((4*72-w/2, 1*72-h), title)
+
+ps.end_document()</pre></div><h2 id="more-on-reading-images">More on Reading Images&#160;<a class="nav" href="#more-on-reading-images" title="bookmark!">#</a></h2><p>As described earlier, the open function of the <b>Image</b> module
+is used to open an image file.  In most cases, you simply pass it the
+filename as an argument:</p><pre class="python">
+im = Image.open(<span class="pystring">"lena.ppm"</span>)</pre><p>If everything goes well, the result is an <b>Image</b> object.
+Otherwise, an <b>IOError</b> exception is raised.</p><p>You can use a file-like object instead of the filename.  The object
+must implement <b>read</b>, <b>seek</b> and <b>tell</b> methods, and
+be opened in binary mode.</p><div class="example">
+<b>Reading from an open file</b>
+<pre class="python">
+fp = open(<span class="pystring">"lena.ppm"</span>, <span class="pystring">"rb"</span>)
+im = Image.open(fp)</pre></div><p>To read an image from string data, use the <b>StringIO</b>
+class:</p><div class="example">
+<b>Reading from a string</b>
+<pre class="python">
+<span class="pykeyword">import</span> StringIO
+
+im = Image.open(StringIO.StringIO(buffer))</pre></div><p>Note that the library rewinds the file (using <b>seek(0)</b>)
+before reading the image header. In addition, seek will also be
+used when the image data is read (by the load method). If the image
+file is embedded in a larger file, such as a tar file, you can use
+the <b>ContainerIO</b> or <b>TarIO</b> modules to access
+it.</p><div class="example">
+<b>Reading from a tar archive</b>
+<pre class="python">
+<span class="pykeyword">import</span> TarIO
+
+fp = TarIO.TarIO(<span class="pystring">"Imaging.tar"</span>, <span class="pystring">"Imaging/test/lena.ppm"</span>)
+im = Image.open(fp)</pre></div><h3 id="controlling-the-decoder">Controlling the Decoder&#160;<a class="nav" href="#controlling-the-decoder" title="bookmark!">#</a></h3><p>Some decoders allow you to manipulate the image while reading it
+from a file.  This can often be used to speed up decoding when
+creating thumbnails (when speed is usually more important than
+quality) and printing to a monochrome laser printer (when only a
+greyscale version of the image is needed).</p><p>The <a href="image.htm#image-draft-method"><b>draft</b></a>
+method manipulates an opened but not yet loaded image so it as closely
+as possible matches the given mode and size.  This is done by
+reconfiguring the image decoder.</p><div class="example">
+<b>Reading in draft mode</b>
+<pre class="python">
+im = Image.open(file)
+<span class="pykeyword">print</span> <span class="pystring">"original ="</span>, im.mode, im.size
+
+im.draft(<span class="pystring">"L"</span>, (100, 100))
+<span class="pykeyword">print</span> <span class="pystring">"draft ="</span>, im.mode, im.size</pre></div><p>This prints something like:</p><pre class="python">
+original = RGB (512, 512)
+draft = L (128, 128)</pre><p>Note that the resulting image may not exactly match the
+requested mode and size. To make sure that the image is not larger
+than the given size, use the <b>thumbnail</b> method instead.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p><a href="overview.htm">back</a>&#160;<a href="concepts.htm">next</a></p></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to imagingbook index page.">::: imagingbook :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#using-the-image-class">Using the Image Class</a></li><li><a href="#reading-and-writing-images">Reading and Writing Images</a></li><li><a href="#cutting-pasting-and-merging-images">Cutting, Pasting and Merging Images</a></li><li><a href="#geometrical-transforms">Geometrical Transforms</a></li><li><a href="#colour-transforms">Colour Transforms</a></li><li><a href="#image-enhancement">Image Enhancement</a></li><li><ul><li><a href="#filters">Filters</a></li><li><a href="#point-operations">Point Operations</a></li><li><a href="#enhancement">Enhancement</a></li></ul></li><li><a href="#image-sequences">Image Sequences</a></li><li><a href="#postscript-printing">Postscript Printing</a></li><li><a href="#more-on-reading-images">More on Reading Images</a></li><li><ul><li><a href="#controlling-the-decoder">Controlling the Decoder</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

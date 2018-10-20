@@ -1,0 +1,1019 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9. Classes &mdash; Python v2.7.2 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.7.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Python v2.7.2 documentation"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="top" title="Python v2.7.2 documentation" href="../index.html" />
+    <link rel="up" title="O tutorial de Python" href="index.html" />
+    <link rel="next" title="10. Um breve passeio pela biblioteca padrão" href="stdlib.html" />
+    <link rel="prev" title="8. Erros e exceções" href="errors.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+ 
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="stdlib.html" title="10. Um breve passeio pela biblioteca padrão"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="errors.html" title="8. Erros e exceções"
+             accesskey="P">previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">Python v2.7.2 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">O tutorial de Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="classes">
+<span id="tut-classes"></span><h1>9. Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h1>
+<p>Em comparação com outras linguagens, o mecanismo de classes de Python introduz
+a programação orientada a objetos sem acrescentar muitas novidades de sintaxe
+ou semântica. É uma mistura de mecanismos equivalentes encontrados em C++ e
+Modula-3. As classes em Python oferecem todas as características tradicionais
+da programação a orientada a objetos: o mecanismo de herança permite múltiplas
+classes base (herança múltipla), uma classe derivada pode sobrescrever
+quaisquer métodos de uma classe ancestral, e um método pode invocar outro
+método homônimo de uma classe ancestral. Objetos podem armazenar uma
+quantidade arbitrária de dados de qualquer tipo. Assim como acontece com os
+módulos, as classes fazem parte da natureza dinâmica de Python: são criadas em
+tempo de execução, e podem ser alteradas após sua criação.</p>
+<p>Usando a terminologia de C++, todos os membros de uma classe (incluindo dados)
+são públicos, e todos as funções membro são virtuais. Como em Modula-3, não
+existem atalhos para referenciar membros do objeto de dentro dos seus métodos.
+Um método (função definida em uma classe) é declarado com um primeiro
+argumento explícito representando o objeto (instância da classe), que é
+fornecido implicitamente pela invocação. Como em Smalltalk, classes são
+objetos. Isso fornece uma semântica para importar e renomear. Ao contrário de
+C++ ou Modula-3, tipos pré-definidos podem ser utilizados como classes base
+para extensões de usuário por herança. Como em C++, mas diferentemente de
+Modula-3, a maioria dos operadores (aritméticos, indexação,etc) podem ser
+redefinidos para instâncias de classe.</p>
+<p>(Na falta de uma terminologia universalmente aceita para falar sobre classes,
+ocasionalmente farei uso de termos comuns em Smalltalk ou C++. Eu usaria
+termos de Modula-3, já que sua semântica é mais próxima a de Python, mas creio
+que poucos leitores já ouviram falar dessa linguagem.)</p>
+<div class="section" id="uma-palavra-sobre-nomes-e-objetos">
+<span id="tut-object"></span><h2>9.1. Uma palavra sobre nomes e objetos<a class="headerlink" href="#uma-palavra-sobre-nomes-e-objetos" title="Permalink to this headline">¶</a></h2>
+<p>Objetos têm individualidade, e vários nomes (inclusive em diferentes escopos)
+podem estar vinculados a um mesmo objeto. Isso é chamado de <em>aliasing</em> em
+outras linguagens. (N.d.T. <em>aliasing</em> é, literalmente, &#8220;apelidamento&#8221;: um
+mesmo objeto pode ter vários apelidos.) À primeira vista, esta característica
+não é muito apreciada, e pode ser seguramente ignorada ao lidar com tipos
+imutáveis (números, strings, tuplas). Entretanto, aliasing pode ter um efeito
+inesperado sobre a semântica de código Python envolvendo objetos mutáveis como
+listas, dicionários e a maioria dos outros tipos. Isso pode ser usado em
+benefício do programa, porque os <em>aliases</em> (apelidos) funcionam de certa forma
+como ponteiros. Por exemplo, passar um objeto como argumento é barato, pois só
+um ponteiro é passado na implementação; e se uma função modifica um objeto
+passado como argumento, o invocador verá a mudança &#8212; isso elimina a
+necessidade de ter dois mecanismos de passagem de parâmetros como em Pascal.</p>
+<p>N.d.T. Na terminologia de C++ e Java, o que o parágrafo acima denomina
+&#8220;apelidos&#8221; são identificadores de referências (variáveis de referência), e os
+ponteiros são as próprias referências. Se uma variável <tt class="docutils literal"><span class="pre">a</span></tt> está associada a
+um objeto qualquer, informalmente dizemos que a variável &#8220;contém&#8221; o objeto,
+mas na realidade o objeto existe independente da variável, e o conteúdo da
+variável é apenas uma referência (um ponteiro) para o objeto. O <em>aliasing</em>
+ocorre quando existem diversas variáveis, digamos <tt class="docutils literal"><span class="pre">a</span></tt>, <tt class="docutils literal"><span class="pre">b</span></tt> e <tt class="docutils literal"><span class="pre">c</span></tt>,
+apontando para o mesmo objeto.</p>
+</div>
+<div class="section" id="escopos-e-namespaces">
+<span id="tut-scopes"></span><h2>9.2. Escopos e <em>namespaces</em><a class="headerlink" href="#escopos-e-namespaces" title="Permalink to this headline">¶</a></h2>
+<p>Antes de introduzir classes, é preciso falar das regras de escopo em Python.
+Definições de classe fazem alguns truques com <em>namespaces</em> (espaços de nomes).
+Portanto, primeiro é preciso entender claramente como escopos e <em>namespaces</em>
+funcionam. Esse conhecimento é muito útil para o programador avançado em
+Python.</p>
+<p>Vamos começar com algumas definições.</p>
+<p>Um <em>namespace</em> (ou espaço de nomes) é um mapeamento que associa nomes a
+objetos. Atualmente, são implementados como dicionários em Python, mas isso
+não é perceptível (a não ser pelo desempenho), e pode mudar no futuro.
+Exemplos de espaços de nomes são: o conjunto de nomes pré-definidos (funções
+como <a class="reference internal" href="../library/functions.html#abs" title="abs"><tt class="xref py py-func docutils literal"><span class="pre">abs()</span></tt></a> e as exceções embutidas); nomes globais em um módulo; e nomes
+locais na invocação de uma função. De uma certa forma, os atributos de um
+objeto também formam um espaço de nomes. O mais importante é saber que não
+existe nenhuma relação entre nomes em espaços distintos. Por exemplo, dois
+módulos podem definir uma função de nome <tt class="docutils literal"><span class="pre">maximize</span></tt> sem confusão &#8212;
+usuários dos módulos devem prefixar a função com o nome do módulo para evitar
+colisão.</p>
+<p>A propósito, utilizo a palavra <em>atributo</em> para qualquer nome depois de um
+ponto. Na expressão <tt class="docutils literal"><span class="pre">z.real</span></tt>, por exemplo, <tt class="docutils literal"><span class="pre">real</span></tt> é um atributo do objeto
+<tt class="docutils literal"><span class="pre">z</span></tt>. Estritamente falando, referências para nomes em módulos são atributos:
+na expressão <tt class="docutils literal"><span class="pre">nomemod.nomefunc</span></tt>, <tt class="docutils literal"><span class="pre">nomemod</span></tt> é um objeto módulo e
+<tt class="docutils literal"><span class="pre">nomefunc</span></tt> é um de seus atributos. Neste caso, existe um mapeamento direto
+entre os os atributos de um módulo e os nomes globais definidos no módulo:
+eles compartilham o mesmo espaço de nomes! <a class="footnote-reference" href="#id4" id="id1">[1]</a></p>
+<p>Atributos podem ser somente para leitura ou para leitura e escrita. No segundo
+caso, é possível atribuir um novo valor ao atributo. (N.d.T. Também é possível
+criar novos atributos.) Atributos de módulos são passíveis de atribuição: você
+pode escrever <tt class="docutils literal"><span class="pre">nomemod.a_reposta</span> <span class="pre">=</span> <span class="pre">42</span></tt>. Atributos que aceitam escrita também
+podem ser apagados através do comando <a class="reference internal" href="../reference/simple_stmts.html#del"><tt class="xref std std-keyword docutils literal"><span class="pre">del</span></tt></a>. Por exemplo, <tt class="docutils literal"><span class="pre">del</span>
+<span class="pre">nomemod.a_reposta</span></tt> remove o atributo <tt class="xref py py-attr docutils literal"><span class="pre">a_resposta</span></tt> do objeto
+referenciado por <tt class="docutils literal"><span class="pre">nomemod</span></tt>.</p>
+<p>Espaços de nomes são criados em momentos diferentes e possuem diferentes
+ciclos de vida. O espaço de nomes que contém os nomes embutidos é criado
+quando o interpretador inicializa e nunca é removido. O espaço de nomes global
+de um módulo é criado quando a definição do módulo é lida, e normalmente duram
+até a terminação do interpretador. Os comandos executados pela invocação do
+interpretador, pela leitura de um script com programa principal, ou
+interativamente, são parte do módulo chamado <a class="reference internal" href="../library/__main__.html#module-__main__" title="__main__: The environment where the top-level script is run."><tt class="xref py py-mod docutils literal"><span class="pre">__main__</span></tt></a>, e portanto
+possuem seu próprio espaço de nomes. (Os nomes embutidos possuem seu
+próprio espaço de nomes no módulo chamado <a class="reference internal" href="../library/__builtin__.html#module-__builtin__" title="__builtin__: The module that provides the built-in namespace."><tt class="xref py py-mod docutils literal"><span class="pre">__builtin__</span></tt></a>.).</p>
+<p>O espaço de nomes local de uma função é criado quando a função é invocada, e
+apagado quando a função retorna ou levanta uma exceção que não é tratada na
+própria função. (Na verdade, uma forma melhor de descrever o que realmente
+acontece é que o espaço de nomes local é &#8220;esquecido&#8221; quando a função termina.)
+Naturalmente, cada invocação recursiva de uma função tem seu próprio espaço de
+nomes.</p>
+<p>Um <em>escopo</em> (<em>scope</em>) é uma região textual de um programa Python onde um
+espaço de nomes é diretamente acessível. Aqui, &#8220;diretamente acessível&#8221;
+significa que uma referência sem um prefixo qualificador permite o acesso ao
+nome.</p>
+<p>Ainda que escopos sejam determinados estaticamente, eles são usados
+dinamicamente. A qualquer momento durante a execução, existem no mínimo três
+escopos diretamente acessíveis:</p>
+<ul class="simple">
+<li>o escopo mais interno (que é acessado primeiro) contendo nomes locais;</li>
+<li>os escopos das funções que envolvem a função atual, que são acessados a
+partir do escopo mias próximo, contém nomes não-locais mas também
+não-globais;</li>
+<li>o penúltimo escopo contém os nomes globais do módulo atual;</li>
+<li>e o escopo mais externo (acessado por último) contém os nomes das funções
+embutidas e demais objetos pré-definidos do interpretador.</li>
+</ul>
+<p>Se um nome é declarado no escopo global, então todas as referências e
+atribuições valores vão diretamente para o escopo intermediário que contém os
+nomes globais do módulo. Caso contrário, todas as variáveis encontradas fora
+do escopo mais interno são apenas para leitura (a tentativa de atribuir
+valores a essas variáveis irá simplesmente criar uma <em>nova</em> variável local, no
+escopo interno, não alterando nada na variável de nome idêntico fora dele).</p>
+<p>Normalmente, o escopo local referencia os nomes locais da função corrente no
+texto do programa. Fora de funções, o escopo local referencia os nomes do
+escopo global: espaço de nomes do módulo. Definições de classes adicionam um
+outro espaço de nomes ao escopo local.</p>
+<p>É importante perceber que escopos são determinados estaticamente, pelo texto
+do código fonte: o escopo global de uma função definida em um módulo é o
+espaço de nomes deste módulo, sem importar de onde ou por qual apelido a
+função é invocada. Por outro lado, a busca de nomes é dinâmica, ocorrendo
+durante a execução. Porém, a evolução da linguagem está caminhando para uma
+resolução de nomes estática, em &#8220;tempo de compilação&#8221; (N.d.T. quando um módulo
+é carregado ele é compilado em memória), portanto não conte com a resolução
+dinâmica de nomes! (De fato, variáveis locais já são resolvidas
+estaticamente.)</p>
+<p>Uma peculiaridade de Python é que atribuições ocorrem sempre no escopo mais
+interno, exceto quando o comando <a class="reference internal" href="../reference/simple_stmts.html#global"><tt class="xref std std-keyword docutils literal"><span class="pre">global</span></tt></a> é usado. Atribuições não
+copiam dados, apenas associam nomes a objetos. O mesmo vale para remoções: o
+comando <tt class="docutils literal"><span class="pre">del</span> <span class="pre">x</span></tt> remove o vínculo de <tt class="docutils literal"><span class="pre">x</span></tt> do espaço de nomes do escopo
+local. De fato, todas as operações que introduzem novos nomes usam o escopo
+local. Em particular, instruções <a class="reference internal" href="../reference/simple_stmts.html#import"><tt class="xref std std-keyword docutils literal"><span class="pre">import</span></tt></a> e definições de funções
+associam o nome módulo ou da função ao escopo local. (A palavra reservada
+<a class="reference internal" href="../reference/simple_stmts.html#global"><tt class="xref std std-keyword docutils literal"><span class="pre">global</span></tt></a> pode ser usada para indicar que certas variáveis residem no
+escopo global ao invés do local.)</p>
+</div>
+<div class="section" id="primeiro-contato-com-classes">
+<span id="tut-firstclasses"></span><h2>9.3. Primeiro contato com classes<a class="headerlink" href="#primeiro-contato-com-classes" title="Permalink to this headline">¶</a></h2>
+<p>Classes introduzem novidades sintáticas, três novos tipos de objetos, e também
+alguma semântica nova.</p>
+<div class="section" id="sintaxe-de-definicao-de-classe">
+<span id="tut-classdefinition"></span><h3>9.3.1. Sintaxe de definição de classe<a class="headerlink" href="#sintaxe-de-definicao-de-classe" title="Permalink to this headline">¶</a></h3>
+<p>A forma mais simples de definir uma classe é:</p>
+<div class="highlight-python"><pre>class NomeDaClasse:
+    &lt;instrução-1&gt;
+    .
+    .
+    .
+    &lt;instrução-N&gt;</pre>
+</div>
+<p>Definições de classes, assim como definições de funções (instruções
+<a class="reference internal" href="../reference/compound_stmts.html#def"><tt class="xref std std-keyword docutils literal"><span class="pre">def</span></tt></a>), precisam ser executados antes que tenham qualquer efeito.
+(Por exemplo, você pode colocar uma definição de classe dentro de teste
+condicional <a class="reference internal" href="../reference/compound_stmts.html#if"><tt class="xref std std-keyword docutils literal"><span class="pre">if</span></tt></a> ou dentro de uma função.)</p>
+<p>Na prática, as instruções dentro da definição de uma classe em geral serão
+definições de funções, mas outras instruções são permitidas, e às vezes são
+bem úteis &#8212; voltaremos a este tema depois. Definições de funções dentro da
+classe normalmente têm um lista peculiar de parâmetros formais determinada
+pela convenção de chamada a métodos &#8212; isso também será explicado mais tarde.</p>
+<p>Quando se inicia a definição de classe, um novo namespace é criado, e usado
+como escopo local &#8212; assim, todas atribuições a variáveis locais ocorrem
+nesse namespace. Em particular, funções definidas aqui são vinculadas a nomes
+nesse escopo.</p>
+<p>Quando o processamento de uma definição de classe é completado (normalmente,
+sem erros), um <em>objeto classe</em> é criado. Este objeto encapsula o conteúdo do
+espaço de nomes criado pela definição da classe; aprenderemos mais sobre
+objetos classe na próxima seção. O escopo local que estava vigente antes da
+definição da classe é reativado, e o objeto classe é vinculado ao
+identificador da classe nesse escopo (no exemplo acima, <tt class="xref py py-class docutils literal"><span class="pre">NomeDaClasse</span></tt>
+é o identificador da classe).</p>
+</div>
+<div class="section" id="objetos-classe">
+<span id="tut-classobjects"></span><h3>9.3.2. Objetos classe<a class="headerlink" href="#objetos-classe" title="Permalink to this headline">¶</a></h3>
+<p>Objetos classe suportam dois tipos de operações: <em>referências a atributos</em> e
+<em>instanciação</em>.</p>
+<p><em>Referências a atributos</em> de classe utilizam a sintaxe padrão utilizada para
+quaisquer referências a atributos em Python: <tt class="docutils literal"><span class="pre">obj.nome</span></tt>. Atributos válidos
+são todos os nomes presentes dentro do namespace da classe quando o objeto
+classe foi criado. Portanto, se a definição da classe foi assim:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MinhaClasse</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Um exemplo simples de classe&quot;&quot;&quot;</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">12345</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;olá, mundo&#39;</span>
+</pre></div>
+</div>
+<p>então <tt class="docutils literal"><span class="pre">MinhaClasse.i</span></tt> e <tt class="docutils literal"><span class="pre">MinhaClasse.f</span></tt> são referências válidas, que
+acessam, respectivamente, um inteiro e um objeto função. É possível mudar os
+valores dos atributos da classe, ou mesmo criar novos atributos, fazendo uma
+atribuição simples assim: <tt class="docutils literal"><span class="pre">MinhaClasse.i</span> <span class="pre">=</span> <span class="pre">10</span></tt>. O nome <tt class="docutils literal"><span class="pre">__doc__</span></tt>
+identifica outro atributo válido da classe, referenciando a <em>docstring</em>
+associada à ela: <tt class="docutils literal"><span class="pre">&quot;Um</span> <span class="pre">exemplo</span> <span class="pre">simples</span> <span class="pre">de</span> <span class="pre">classe&quot;</span></tt>.</p>
+<p>Para <em>instanciar</em> uma classe, usa-se a sintaxe de invocar uma função. Apenas
+finja que o objeto classe do exemplo é uma função sem parâmetros, que devolve
+uma nova instância da classe. Continuando o exemplo acima:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">MinhaClasse</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>cria uma nova <em>instância</em> da classe e atribui o objeto resultante à variável
+local <tt class="docutils literal"><span class="pre">x</span></tt>.</p>
+<p>A operação de instanciação (&#8220;invocar&#8221; um objeto classe) cria um objeto vazio.
+Muitas classes preferem criar novos objetos com um estado inicial
+predeterminado. Para tanto, a classe pode definir um método especial
+chamado <a class="reference internal" href="../reference/datamodel.html#object.__init__" title="object.__init__"><tt class="xref py py-meth docutils literal"><span class="pre">__init__()</span></tt></a>, assim:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">dados</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+</div>
+<p>Quando uma classe define um método <a class="reference internal" href="../reference/datamodel.html#object.__init__" title="object.__init__"><tt class="xref py py-meth docutils literal"><span class="pre">__init__()</span></tt></a>, o processo de
+instanciação automaticamente invoca <a class="reference internal" href="../reference/datamodel.html#object.__init__" title="object.__init__"><tt class="xref py py-meth docutils literal"><span class="pre">__init__()</span></tt></a> sobre a instância recém
+criada. Em nosso exemplo, uma nova instância já inicializada pode ser obtida
+desta maneira:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">MinhaClasse</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Naturalmente, o método <a class="reference internal" href="../reference/datamodel.html#object.__init__" title="object.__init__"><tt class="xref py py-meth docutils literal"><span class="pre">__init__()</span></tt></a> pode ter parâmetros para maior
+flexibilidade. Neste caso, os argumentos fornecidos na invocação da classe
+serão passados para o método <a class="reference internal" href="../reference/datamodel.html#object.__init__" title="object.__init__"><tt class="xref py py-meth docutils literal"><span class="pre">__init__()</span></tt></a>. Por exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Complexo</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parte_real</span><span class="p">,</span> <span class="n">parte_imag</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">parte_real</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="n">parte_imag</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">Complexo</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">i</span>
+<span class="go">(3.0, -4.5)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="instancias">
+<span id="tut-instanceobjects"></span><h3>9.3.3. Instâncias<a class="headerlink" href="#instancias" title="Permalink to this headline">¶</a></h3>
+<p>Agora, o que podemos fazer com instâncias? As únicas operações reconhecidas
+por instâncias são referências a atributos. Existem dois tipos de nomes de
+atributos válidos: atributos de dados (<em>data attributes</em>) e métodos.</p>
+<p>Atributos de dados correspondem a &#8220;variáveis de instância&#8221; em Smalltalk, e a
+&#8220;data members&#8221; em C++. Atributos de dados não precisam ser declarados.
+Assim como variáveis locais, eles passam a existir na primeira vez em que é
+feita uma atribuição. Por exemplo, se <tt class="docutils literal"><span class="pre">x</span></tt> é uma instância da
+<tt class="xref py py-class docutils literal"><span class="pre">MinhaClasse</span></tt> criada acima, o próximo trecho de código irá exibir o
+valor <tt class="docutils literal"><span class="pre">16</span></tt>, sem deixar nenhum rastro na instância (por causa do uso de
+<a class="reference internal" href="../reference/simple_stmts.html#del"><tt class="xref std std-keyword docutils literal"><span class="pre">del</span></tt></a>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">x</span><span class="o">.</span><span class="n">contador</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">while</span> <span class="n">x</span><span class="o">.</span><span class="n">contador</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">contador</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">contador</span> <span class="o">*</span> <span class="mi">2</span>
+<span class="k">print</span> <span class="n">x</span><span class="o">.</span><span class="n">contador</span>
+<span class="k">del</span> <span class="n">x</span><span class="o">.</span><span class="n">contador</span>
+</pre></div>
+</div>
+<p>O outro tipo de referências a atributos são métodos. Um método é uma função
+que &#8220;pertence&#8221; a uma instância. (Em Python, o termo método não é aplicado
+exclusivamente a instâncias de classes definidas pelo usuário: outros tipos de
+objetos também podem ter métodos. Por exemplo, listas possuem os métodos
+append, insert, remove, sort, etc. Porém, na discussão a seguir usaremos o
+termo método apenas para se referir a métodos de classes definidas pelo
+usuário. Seremos explícitos ao falar de outros métodos.)</p>
+<p id="index-0">Nomes de métodos válidos de uma instância dependem de sua classe. Por
+definição, cada atributo de uma classe que é uma função corresponde a um
+método das instâncias. Em nosso exemplo, <tt class="docutils literal"><span class="pre">x.f</span></tt> é uma referência de método
+válida já que <tt class="docutils literal"><span class="pre">MinhaClasse.f</span></tt> é uma função, enquanto <tt class="docutils literal"><span class="pre">x.i</span></tt> não é, já que
+<tt class="docutils literal"><span class="pre">MinhaClasse.i</span></tt> não é uma função. Entretanto, <tt class="docutils literal"><span class="pre">x.f</span></tt> não é o mesmo que
+<tt class="docutils literal"><span class="pre">MinhaClasse.f</span></tt>. A referência <tt class="docutils literal"><span class="pre">x.f</span></tt> acessa um objeto método (<em>method
+object</em>), e a <tt class="docutils literal"><span class="pre">MinhaClasse.f</span></tt> acessa um objeto função.</p>
+</div>
+<div class="section" id="objetos-metodo">
+<span id="tut-methodobjects"></span><h3>9.3.4. Objetos método<a class="headerlink" href="#objetos-metodo" title="Permalink to this headline">¶</a></h3>
+<p>Normalmente, um método é invocado imediatamente após ser acessado:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">x</span><span class="o">.</span><span class="n">f</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>No exemplo <tt class="xref py py-class docutils literal"><span class="pre">MinhaClasse</span></tt> o resultado da expressão acima será a string
+<tt class="docutils literal"><span class="pre">'olá,</span> <span class="pre">mundo'</span></tt>. No entanto, não é obrigatório invocar o método
+imediatamente: como <tt class="docutils literal"><span class="pre">x.f</span></tt> é também um objeto (um objeto método), ele pode
+atribuído a uma variável invocado depois. Por exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">xf</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">f</span>
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">xf</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Esse código exibirá o texto <tt class="docutils literal"><span class="pre">'olá,</span> <span class="pre">mundo'</span></tt> até o mundo acabar.</p>
+<p>O que ocorre precisamente quando um método é invocado? Você deve ter notado
+que <tt class="docutils literal"><span class="pre">x.f()</span></tt> foi chamado sem nenhum parâmetro, porém a definição da função
+<tt class="xref py py-meth docutils literal"><span class="pre">f()</span></tt> especificava um parâmetro. O que aconteceu com esse parâmetro?
+Certamente Python levanta uma exceção quando uma função que declara um
+parâmetro é invocada sem nenhum argumento &#8212; mesmo que o argumento não
+seja usado no corpo da função...</p>
+<p>Talvez você já tenha adivinhado a resposta: o que os métodos têm de especial é
+que eles passam o objeto (ao qual o método está vinculado) como primeiro
+argumento da função definida na classe. No nosso exemplo, a chamada <tt class="docutils literal"><span class="pre">x.f()</span></tt>
+equivale exatamente <tt class="docutils literal"><span class="pre">MinhaClasse.f(x)</span></tt>. Em geral, chamar um método com uma
+lista de <em>n</em> argumentos é equivalente a chamar a função na classe
+correspondente passando a instância como o primeiro argumento antes dos demais
+<em>n</em> argumentos.</p>
+<p>Se você ainda não entendeu como métodos funcionam, talvez uma olhada na
+implementação de Python sirva para clarear as coisas. Quando um atributo de
+instância é referenciado e não é um atributo de dado, a busca continua na
+classe. Se o nome indica um atributo de classe válido que é um objeto função,
+um objeto método é criado pela composição da instância alvo e do objeto
+função. Quando o método é invocado com uma lista de argumentos, uma nova lista
+de argumentos é criada inserindo a instância na posição 0 da lista.
+Finalmente, o objeto função &#8212; empacotado dentro do objeto método &#8212; é
+invocado com a nova lista de argumentos.</p>
+</div>
+</div>
+<div class="section" id="observacoes-aleatorias">
+<span id="tut-remarks"></span><h2>9.4. Observações aleatórias<a class="headerlink" href="#observacoes-aleatorias" title="Permalink to this headline">¶</a></h2>
+<p>Atributos de dados sobrescrevem atributos métodos homônimos. Para evitar
+conflitos de nome acidentais, que podem gerar bugs de difícil rastreio em
+programas extensos, é sábio adotar algum tipo de convenção que minimize a
+chance de conflitos. Convenções comuns incluem: definir nomes de métodos com
+inicial maiúscula, prefixar atributos de dados com uma string única (quem sabe
+&#8220;_&#8221; [<em>underscore</em> ou sublinhado]), ou usar sempre verbos para nomear métodos
+e substantivos para atributos de dados.</p>
+<p>Atributos de dados podem ser referenciados por métodos da própria instância,
+bem como por qualquer outro usuário do objeto (também chamados &#8220;clientes&#8221; do
+objeto). Em outras palavras, classes não servem para implementar tipos
+puramente abstratos de dados. De fato, nada em Python torna possível assegurar
+o encapsulamento de dados &#8212; tudo é convenção. (Por outro lado, a
+implementação de Python, escrita em C, pode esconder completamente detalhes de
+um objeto ou controlar seu acesso, se necessário; isto pode ser utilizado por
+extensões de Python escritas em C.)</p>
+<p>Clientes devem utilizar atributos de dados com cuidado, pois podem bagunçar
+invariantes assumidas pelos métodos ao esbarrar em seus atributos de dados.
+Note que clientes podem adicionar à vontade atributos de dados a uma instância
+sem afetar a validade dos métodos, desde que seja evitado o conflito de nomes.
+Novamente, uma convenção de nomenclatura poupa muita dor de cabeça.</p>
+<p>Frequentemente, o primeiro argumento de um método é chamado <tt class="docutils literal"><span class="pre">self</span></tt>. Isso não
+passa de uma convenção: o identificador <tt class="docutils literal"><span class="pre">self</span></tt> não é uma palavra reservada
+nem possui qualquer significado especial em Python. Mas note que, ao seguir
+essa convenção, seu código se torna legível por uma grande comunidade de
+desenvolvedores Python e é possível que alguma <em>IDE</em> dependa dessa convenção
+para analisar seu código.</p>
+<p>Não existe atalho para referenciar atributos de dados (ou outros métodos!) de
+dentro de um método: sempre é preciso fazer referência explícita ao <tt class="docutils literal"><span class="pre">self.</span></tt>
+para acessar qualquer atributo da instância. Em minha opinião isso aumenta a
+legibilidade dos métodos: não há como confundir uma variável local com um
+atributo da instância quando lemos rapidamente um método desconhecido.</p>
+<p>Qualquer objeto função que é atributo de uma classe, define um método para as
+instâncias desta classe. Não é necessário que a definição da função esteja
+textualmente embutida na definição da classe. Atribuir um objeto função a uma
+variável local da classe é válido. Por exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Função definida fora da classe</span>
+<span class="k">def</span> <span class="nf">f1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">C</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">g</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;olá mundo&#39;</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">g</span>
+
+<span class="n">C</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">f1</span>
+</pre></div>
+</div>
+<p>Agora <tt class="docutils literal"><span class="pre">f</span></tt>, <tt class="docutils literal"><span class="pre">g</span></tt> e <tt class="docutils literal"><span class="pre">h</span></tt> são todos atributos da classe <tt class="xref py py-class docutils literal"><span class="pre">C</span></tt> que
+referenciam funções, e consequentemente são todos métodos de instâncias da
+classe <tt class="xref py py-class docutils literal"><span class="pre">C</span></tt>, onde <tt class="docutils literal"><span class="pre">h</span></tt> é equivalente a <tt class="docutils literal"><span class="pre">g</span></tt>. No entanto, essa prática
+serve apenas para confundir o leitor do programa.</p>
+<p>Métodos podem chamar outros métodos como atributos do argumento <tt class="docutils literal"><span class="pre">self</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Saco</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">def</span> <span class="nf">adicionar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">adicionar2vezez</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">adicionar</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">adicionar</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Métodos podem referenciar nomes globais da mesma forma que funções comuns. O
+escopo global associado a um método é o módulo contendo sua a definição de sua
+classe (a classe propriamente dita nunca é usada como escopo global!). Ainda
+que seja raro justificar o uso de dados globais em um método, há diversos usos
+legítimos do escopo global. Por exemplo, funções e módulos importados no
+escopo global podem ser usados por métodos, bem como as funções e classes
+definidas no próprio escopo global. Provavelmente, a classe contendo o método
+em questão também foi definida neste escopo global. Na próxima seção veremos
+razões pelas quais um método pode querer referenciar sua própria classe.</p>
+<p>Todo valor em Python é um objeto, e portanto tem uma <em>classe</em> (também
+conhecida como seu tipo, ou <em>type</em>). A classe de um objeto pode ser
+referenciada como <tt class="docutils literal"><span class="pre">objeto.__class__</span></tt>.</p>
+</div>
+<div class="section" id="heranca">
+<span id="tut-inheritance"></span><h2>9.5. Herança<a class="headerlink" href="#heranca" title="Permalink to this headline">¶</a></h2>
+<p>Obviamente, uma característica não seria digna do nome &#8220;classe&#8221; se não
+suportasse herança. A sintaxe para uma classe derivada é assim:</p>
+<div class="highlight-python"><pre>class NomeClasseDerivada(NomeClasseBase):
+    &lt;instrução-1&gt;
+    .
+    .
+    .
+    &lt;instrução-N&gt;</pre>
+</div>
+<p>O identificador <tt class="xref py py-class docutils literal"><span class="pre">NomeClasseBase</span></tt> deve estar definido no escopo que
+contém a definição da classe derivada. No lugar do nome da classe base, também
+são aceitas outras expressões. Isso é muito útil, por exemplo, quando a classe
+base é definida em outro módulo:</p>
+<div class="highlight-python"><pre>class NomeClasseDerivada(nomemod.NomeClasseBase):</pre>
+</div>
+<p>A execução de uma definição de classe derivada procede da mesma forma que a de
+uma classe base. Quando o objeto classe é construído, a classe base é
+lembrada. Isso é utilizado para resolver referências a atributos. Se um
+atributo requisitado não for encontrado na classe, ele é procurado na classe
+base. Essa regra é aplicada recursivamente se a classe base por sua vez for
+derivada de outra.</p>
+<p>Não há nada de especial sobre instanciação de classes derivadas.
+<tt class="docutils literal"><span class="pre">NomeClasseDerivada()</span></tt> cria uma nova instância da classe. Referências a
+métodos são resolvidas da seguinte forma: o atributo correspondente é
+procurado através da cadeia de classes base, e referências a métodos são
+válidas desde se essa procura produza um objeto função.</p>
+<p>Classes derivadas podem sobrescrever métodos das suas classes base. Uma vez
+que métodos não possuem privilégios especiais quando invocam outros métodos
+no mesmo objeto, um método na classe base que invocava um outro método da
+mesma classe base, pode efetivamente acabar invocando um método sobreposto por
+uma classe derivada. (Para programadores C++ isso significa que todos os
+métodos em Python são realmente virtuais.)</p>
+<p>Em uma classe derivada, um método que sobrescreva outro pode desejar na
+verdade estender, ao invés de substituir, o método sobrescrito de mesmo nome
+na classe base. A maneira mais simples de implementar esse comportamento é
+chamar diretamente o método na classe base, passando explicitamente a
+instância como primeiro argumento:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">NomeClasseBase</span><span class="o">.</span><span class="n">nomemetodo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">argumento1</span><span class="p">,</span> <span class="n">argumento2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Às vezes essa forma de invocação pode ser útil até mesmo em código que apenas
+usa a classe, sem estendê-la. (Note que para esse exemplo funcionar,
+<tt class="docutils literal"><span class="pre">NomeClasseBase</span></tt> precisa estar definida ou importada diretamente no escopo
+global do módulo.)</p>
+<p>Python tem duas funções embutidas que trabalham com herança:</p>
+<ul class="simple">
+<li>Use <a class="reference internal" href="../library/functions.html#isinstance" title="isinstance"><tt class="xref py py-func docutils literal"><span class="pre">isinstance()</span></tt></a> para verificar o tipo de uma instância:
+<tt class="docutils literal"><span class="pre">isinstance(obj,</span> <span class="pre">int)</span></tt> será <tt class="xref docutils literal"><span class="pre">True</span></tt> somente se <tt class="docutils literal"><span class="pre">obj.__class__</span></tt> é
+a classe <a class="reference internal" href="../library/functions.html#int" title="int"><tt class="xref py py-class docutils literal"><span class="pre">int</span></tt></a> ou alguma classe derivada de <a class="reference internal" href="../library/functions.html#int" title="int"><tt class="xref py py-class docutils literal"><span class="pre">int</span></tt></a>.</li>
+<li>Use <a class="reference internal" href="../library/functions.html#issubclass" title="issubclass"><tt class="xref py py-func docutils literal"><span class="pre">issubclass()</span></tt></a> para verificar herança entre classes:
+<tt class="docutils literal"><span class="pre">issubclass(bool,</span> <span class="pre">int)</span></tt> é <tt class="xref docutils literal"><span class="pre">True</span></tt> porque <a class="reference internal" href="../library/functions.html#bool" title="bool"><tt class="xref py py-class docutils literal"><span class="pre">bool</span></tt></a> é uma subclasse
+de <a class="reference internal" href="../library/functions.html#int" title="int"><tt class="xref py py-class docutils literal"><span class="pre">int</span></tt></a>.  Entretanto, <tt class="docutils literal"><span class="pre">issubclass(unicode,</span> <span class="pre">str)</span></tt> é <tt class="xref docutils literal"><span class="pre">False</span></tt>
+porque <a class="reference internal" href="../library/functions.html#unicode" title="unicode"><tt class="xref py py-class docutils literal"><span class="pre">unicode</span></tt></a> não é uma subclasse <a class="reference internal" href="../library/functions.html#str" title="str"><tt class="xref py py-class docutils literal"><span class="pre">str</span></tt></a> (essas duas classes
+derivam da mesma classe base: <a class="reference internal" href="../library/functions.html#basestring" title="basestring"><tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt></a>).</li>
+</ul>
+<div class="section" id="heranca-multipla">
+<span id="tut-multiple"></span><h3>9.5.1. Herança múltipla<a class="headerlink" href="#heranca-multipla" title="Permalink to this headline">¶</a></h3>
+<p>Python também suporta uma forma limitada de herança múltipla. Uma definição de
+classe com várias classes base tem esta forma:</p>
+<div class="highlight-python"><pre>class NomeClasseDerivada(Base1, Base2, Base3):
+    &lt;instrução-1&gt;
+    .
+    .
+    .
+    &lt;instrução-N&gt;</pre>
+</div>
+<p>A única regra que precisa ser explicada é a semântica de resolução para as
+referências a atributos herdados. Em classes no estilo antigo (old-style
+classes <a class="footnote-reference" href="#id5" id="id2">[2]</a>), a busca é feita em profundidade e da esquerda para a direita.
+Logo, se um atributo não é encontrado em <tt class="xref py py-class docutils literal"><span class="pre">NomeClasseDerivada</span></tt>, ele é
+procurado em <tt class="xref py py-class docutils literal"><span class="pre">Base1</span></tt>, e recursivamente nas classes bases de
+<tt class="xref py py-class docutils literal"><span class="pre">Base1</span></tt>, e apenas se não for encontrado lá a busca prosseguirá em
+<tt class="xref py py-class docutils literal"><span class="pre">Base2</span></tt>, e assim sucessivamente. (Para algumas pessoas a busca em
+largura &#8212; procurar antes em <tt class="xref py py-class docutils literal"><span class="pre">Base2</span></tt> e <tt class="xref py py-class docutils literal"><span class="pre">Base3</span></tt> do que nos
+ancestrais de <tt class="xref py py-class docutils literal"><span class="pre">Base1</span></tt> &#8212; parece mais natural. Entretanto, seria
+preciso conhecer toda a hierarquia de <tt class="xref py py-class docutils literal"><span class="pre">Base1</span></tt> para evitar um conflito
+com um atributo de <tt class="xref py py-class docutils literal"><span class="pre">Base2</span></tt>. Na prática, a busca em profundidade não
+diferencia entre atributos diretos ou herdados de <tt class="xref py py-class docutils literal"><span class="pre">Base1</span></tt>.)</p>
+<p>Em <em class="xref std std-term">new-style classes</em>), a ordem de resolução de
+métodos muda dinamicamente para suportar invocações cooperativas via
+<a class="reference internal" href="../library/functions.html#super" title="super"><tt class="xref py py-func docutils literal"><span class="pre">super()</span></tt></a>. Esta abordagem é conhecida em certas outras linguagens que têm
+herança múltipla como <em>call-next-method</em> (invocar próximo método) e é mais
+poderoso que o mecanismo de invocação via super encontrado em linguagens de
+herança simples.</p>
+<p>A ordenação dinâmica é necessária nas classes new-style, porque todos os casos
+de herança múltipla apresentam uma ou mais estruturas de diamante (um
+losango no grafo de herança, onde pelo menos uma das superclasses pode ser
+acessada através de vários caminhos a partir de uma classe derivada). Por
+exemplo, todas as classes new-style herdam de <a class="reference internal" href="../library/functions.html#object" title="object"><tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></a>, portanto,
+qualquer caso de herança múltipla envolvendo apenas classes new-style fornece
+mais de um caminho para chegar a <a class="reference internal" href="../library/functions.html#object" title="object"><tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></a>. Para evitar que uma classe
+base seja acessada mais de uma vez, o algoritmo dinâmico lineariza a ordem de
+pesquisa de uma maneira que:</p>
+<ul class="simple">
+<li>preserva a ordem da esquerda para a direita especificada em cada classe;</li>
+<li>acessa cada classe base apenas uma vez;</li>
+<li>é monotônica (significa que uma classe pode ser derivada sem que isso
+afete a ordem de precedência de suas classes base).</li>
+</ul>
+<p>Juntas, essas características tornam possível criar classes confiáveis e
+extensíveis usando herança múltipla. Para mais detalhes, veja <a class="reference external" href="http://www.python.org/download/releases/2.3/mro/">The Python 2.3
+Method Resolution Order</a></p>
+</div>
+</div>
+<div class="section" id="variaveis-privadas">
+<span id="tut-private"></span><h2>9.6. Variáveis privadas<a class="headerlink" href="#variaveis-privadas" title="Permalink to this headline">¶</a></h2>
+<p>Variáveis instância &#8220;privadas&#8221;, que não podem ser acessados ​​exceto em
+métodos do próprio objeto não existem em Python. No entanto, existe uma
+convenção que é seguida pela maioria dos programas em Python: um nome
+prefixado com um sublinhado (por exemplo: <tt class="docutils literal"><span class="pre">_spam</span></tt> ) deve ser tratado como
+uma parte não-pública da API (seja ele uma função, um método ou um atributo de
+dados). Tais nomes devem ser considerados um detalhe de implementação e
+sujeito a alteração sem aviso prévio.</p>
+<p>Uma vez que existe um caso de uso válido para a definição de atributos
+privados em classes (especificamente para evitar conflitos com nomes definidos
+em subclasses), existe um suporte limitado a identificadores privados em
+classes, chamado <em class="dfn">name mangling</em> (literalmente: desfiguração de nomes).
+Qualquer identificador no formato <tt class="docutils literal"><span class="pre">__spam</span></tt> (no mínimo dois underscores <tt class="docutils literal"><span class="pre">_</span></tt>
+no prefixo e no máximo um sufixo) é substituído por <tt class="docutils literal"><span class="pre">_nomeclasse__spam</span></tt>,
+onde <tt class="docutils literal"><span class="pre">nomeclasse</span></tt> é o nome da classe corrente (exceto quando o nome da classe
+é prefixado com um ou mais underscores <tt class="docutils literal"><span class="pre">_</span></tt>; nesse caso eles são omitidos).
+Essa desfiguração independe da posição sintática do identificador, desde que
+ele apareça dentro da definição de uma classe.</p>
+<p>A desfiguração de nomes é útil para que subclasses possam sobrescrever métodos
+sem quebrar invocações de métodos dentro de outra classe. Por exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Mapping</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">items_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__update</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span> <span class="c"># referencia ao nome privado</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span> <span class="c"># parte da API, pode ser sobrescrito</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">items_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="n">__update</span> <span class="o">=</span> <span class="n">update</span>   <span class="c"># nome privado do método update</span>
+
+<span class="k">class</span> <span class="nc">MappingSubclass</span><span class="p">(</span><span class="n">Mapping</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="c"># altera a assinatura de update()</span>
+        <span class="c"># mas não quebra o __init__() original</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">items_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note que as regras de desfiguração de nomes foram projetadas para evitar
+acidentes; ainda é possível acessar e alterar intencionalmente variáveis
+protegidas por esse mecanismo. De fato isso pode ser útil em certas
+circunstâncias, por exemplo, durante uma sessão com o <a class="reference internal" href="../library/pdb.html#module-pdb" title="pdb: The Python debugger for interactive interpreters."><tt class="xref py py-mod docutils literal"><span class="pre">pdb</span></tt></a>, o
+depurador interativo do Python.</p>
+<p>Código passado para <tt class="docutils literal"><span class="pre">exec</span></tt>, <tt class="docutils literal"><span class="pre">eval()</span></tt> ou <tt class="docutils literal"><span class="pre">execfile()</span></tt> não considera o
+nome da classe que invocou como sendo a classe corrente; isso é semelhante ao
+funcionamento da declaração <a class="reference internal" href="../reference/simple_stmts.html#global"><tt class="xref std std-keyword docutils literal"><span class="pre">global</span></tt></a>, cujo efeito se aplica somente
+ao código que é byte-compilado junto. A mesma restrição se aplica as funções
+<tt class="docutils literal"><span class="pre">getattr()</span></tt>, <tt class="docutils literal"><span class="pre">setattr()</span></tt> e <tt class="docutils literal"><span class="pre">delattr()</span></tt>, e quando acessamos diretamente o
+<tt class="docutils literal"><span class="pre">__dict__</span></tt> da classe: lá as chaves já estão desfiguradas.</p>
+</div>
+<div class="section" id="miscelanea">
+<span id="tut-odds"></span><h2>9.7. Miscelânea<a class="headerlink" href="#miscelanea" title="Permalink to this headline">¶</a></h2>
+<p>Às vezes, é útil ter um tipo semelhante ao &#8220;record&#8221; de Pascal ou ao &#8220;struct&#8221;
+de C, para agrupar alguns itens de dados. Uma definição de classe vazia
+funciona bem para este fim:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Empregado</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="n">joao</span> <span class="o">=</span> <span class="n">Empregado</span><span class="p">()</span> <span class="c"># Criar um registro de empregado vazio</span>
+
+<span class="c"># Preencher campos do registrp</span>
+<span class="n">joao</span><span class="o">.</span><span class="n">nome</span> <span class="o">=</span> <span class="s">u&#39;João da Silva&#39;</span>
+<span class="n">joao</span><span class="o">.</span><span class="n">depto</span> <span class="o">=</span> <span class="s">u&#39;laboratório de informática&#39;</span>
+<span class="n">joao</span><span class="o">.</span><span class="n">salario</span> <span class="o">=</span> <span class="mi">1000</span>
+</pre></div>
+</div>
+<p>Um trecho de código Python que espera um tipo abstrato de dado em particular,
+pode receber, ao invés disso, um objeto que emula os métodos que aquele tipo
+suporta. Por exemplo, se você tem uma função que formata dados obtidos de um
+objeto arquivo, pode passar como argumento para essa função uma instância de
+uma classe que implemente os métodos <tt class="xref py py-meth docutils literal"><span class="pre">read()</span></tt> e <a class="reference internal" href="../library/readline.html#module-readline" title="readline: GNU readline support for Python. (Unix)"><tt class="xref py py-meth docutils literal"><span class="pre">readline()</span></tt></a> que obtém
+os dados lendo um buffer ao invés de ler um arquivo real. (N.d.T. isso é um
+exemplo de &#8220;duck typing&#8221; <a class="footnote-reference" href="#id6" id="id3">[3]</a>.)</p>
+<p>Objetos método têm seus próprios atributos: <tt class="docutils literal"><span class="pre">m.im_self</span></tt> é uma referência à
+instância vinculada ao método <tt class="xref py py-meth docutils literal"><span class="pre">m()</span></tt>, e <tt class="docutils literal"><span class="pre">m.im_func</span></tt> é o objeto função
+(atributo da classe) que corresponde ao método.</p>
+</div>
+<div class="section" id="excecoes-tambem-sao-classes">
+<span id="tut-exceptionclasses"></span><h2>9.8. Exceções também são classes<a class="headerlink" href="#excecoes-tambem-sao-classes" title="Permalink to this headline">¶</a></h2>
+<p>Exceções definidas pelo usuário são identificadas por classes. Através deste
+mecanismo é possível criar hierarquias extensíveis de exceções.</p>
+<p>Há duas novas formas semanticamente válidas para o comando <a class="reference internal" href="../reference/simple_stmts.html#raise"><tt class="xref std std-keyword docutils literal"><span class="pre">raise</span></tt></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">raise</span> <span class="n">Classe</span><span class="p">,</span> <span class="n">instancia</span>
+
+<span class="k">raise</span> <span class="n">instancia</span>
+</pre></div>
+</div>
+<p>Na primeira forma, <tt class="docutils literal"><span class="pre">instancia</span></tt> deve ser uma instância de <tt class="xref py py-class docutils literal"><span class="pre">Classe</span></tt> ou
+de uma classe derivada dela. A segunda forma é um atalho para:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">raise</span> <span class="n">instancia</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="n">instancia</span>
+</pre></div>
+</div>
+<p>Em uma cláusula <a class="reference internal" href="../reference/compound_stmts.html#except"><tt class="xref std std-keyword docutils literal"><span class="pre">except</span></tt></a>, uma classe é compatível com a exceção
+levantada se é a mesma classe ou uma classe ancestral dela (mas não o
+contrário: uma cláusula <a class="reference internal" href="../reference/compound_stmts.html#except"><tt class="xref std std-keyword docutils literal"><span class="pre">except</span></tt></a> que menciona uma classe derivada
+daquela que foi levantada não vai capturar tal exceção). No exemplo a seguir
+será exibido B, C e D nessa ordem:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">B</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="n">B</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="k">class</span> <span class="nc">D</span><span class="p">(</span><span class="n">C</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">[</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">]:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">c</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">D</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;D&quot;</span>
+    <span class="k">except</span> <span class="n">C</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;C&quot;</span>
+    <span class="k">except</span> <span class="n">B</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;B&quot;</span>
+</pre></div>
+</div>
+<p>Se a ordem das cláusulas fosse invertida (<tt class="docutils literal"><span class="pre">except</span> <span class="pre">B</span></tt> no início), seria
+exibido B, B, B &#8212; somente a primeira cláusula <a class="reference internal" href="../reference/compound_stmts.html#except"><tt class="xref std std-keyword docutils literal"><span class="pre">except</span></tt></a> compatível é
+ativada.</p>
+<p>No caso de uma exceção não tratada, quando a mensagem de erro é gerada, o nome
+da classe da exceção é exibido, seguido de <tt class="docutils literal"><span class="pre">':</span> <span class="pre">'</span></tt> (dois pontos e um espaço),
+e finalmente aparece a instância da exceção convertida para string através da
+função embutida <a class="reference internal" href="../library/functions.html#str" title="str"><tt class="xref py py-func docutils literal"><span class="pre">str()</span></tt></a>.</p>
+</div>
+<div class="section" id="iteradores">
+<span id="tut-iterators"></span><h2>9.9. Iteradores<a class="headerlink" href="#iteradores" title="Permalink to this headline">¶</a></h2>
+<p>Você já deve ter notado que pode usar laços <a class="reference internal" href="../reference/compound_stmts.html#for"><tt class="xref std std-keyword docutils literal"><span class="pre">for</span></tt></a> com a maioria das
+coleções em Python:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">elemento</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+    <span class="k">print</span> <span class="n">elemento</span>
+<span class="k">for</span> <span class="n">elemento</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
+    <span class="k">print</span> <span class="n">elemento</span>
+<span class="k">for</span> <span class="n">chave</span> <span class="ow">in</span> <span class="p">{</span><span class="s">&#39;one&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;two&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">}:</span>
+    <span class="k">print</span> <span class="n">chave</span>
+<span class="k">for</span> <span class="n">car</span> <span class="ow">in</span> <span class="s">&quot;123&quot;</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">car</span>
+<span class="k">for</span> <span class="n">linha</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;myfile.txt&quot;</span><span class="p">):</span>
+    <span class="k">print</span> <span class="n">linha</span>
+</pre></div>
+</div>
+<p>Esse estilo de acesso é limpo, conciso e conveniente. O uso de iteradores
+promove uma unificação ao longo de toda a linguagem. Nos bastidores, o comando
+<a class="reference internal" href="../reference/compound_stmts.html#for"><tt class="xref std std-keyword docutils literal"><span class="pre">for</span></tt></a> aplica a função embutida <a class="reference internal" href="../library/functions.html#iter" title="iter"><tt class="xref py py-func docutils literal"><span class="pre">iter()</span></tt></a> à coleção. Essa função
+devolve um iterador que define o método <a class="reference internal" href="../library/functions.html#next" title="next"><tt class="xref py py-meth docutils literal"><span class="pre">next()</span></tt></a>, que acessa os elementos
+da coleção em sequência, um por vez. Quando acabam os elementos, <a class="reference internal" href="../library/functions.html#next" title="next"><tt class="xref py py-meth docutils literal"><span class="pre">next()</span></tt></a>
+levanta uma exceção <a class="reference internal" href="../library/exceptions.html#exceptions.StopIteration" title="exceptions.StopIteration"><tt class="xref py py-exc docutils literal"><span class="pre">StopIteration</span></tt></a>, indicando que o laço <a class="reference internal" href="../reference/compound_stmts.html#for"><tt class="xref std std-keyword docutils literal"><span class="pre">for</span></tt></a>
+deve encerrar. Este exemplo mostra como tudo funciona:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s">&#39;abc&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">it</span>
+<span class="go">&lt;iterator object at 0x00A1DB50&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">it</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="go">&#39;a&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">it</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="go">&#39;b&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">it</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="go">&#39;c&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">it</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n-Identifier">?</span>
+    <span class="n">it</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="nc">StopIteration</span>
+</pre></div>
+</div>
+<p>Observando o mecanismo por trás do protocolo dos iteradores, fica fácil
+adicionar esse comportamento às suas classes. Defina uma método
+<a class="reference internal" href="../reference/datamodel.html#object.__iter__" title="object.__iter__"><tt class="xref py py-meth docutils literal"><span class="pre">__iter__()</span></tt></a> que devolve um objeto que tenha um método <a class="reference internal" href="../library/functions.html#next" title="next"><tt class="xref py py-meth docutils literal"><span class="pre">next()</span></tt></a>. Se
+uma classe já define <a class="reference internal" href="../library/functions.html#next" title="next"><tt class="xref py py-meth docutils literal"><span class="pre">next()</span></tt></a>, então <a class="reference internal" href="../reference/datamodel.html#object.__iter__" title="object.__iter__"><tt class="xref py py-meth docutils literal"><span class="pre">__iter__()</span></tt></a> pode simplesmente
+devolver <tt class="docutils literal"><span class="pre">self</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Inversor</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Iterador para percorrer uma sequencia de trás para frente.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+    <span class="k">def</span> <span class="nf">next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">StopIteration</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">inv</span> <span class="o">=</span> <span class="n">Inversor</span><span class="p">(</span><span class="s">&#39;spam&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">iter</span><span class="p">(</span><span class="n">inv</span><span class="p">)</span>
+<span class="go">&lt;__main__.Reverse object at 0x00A1DB50&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">car</span> <span class="ow">in</span> <span class="n">inv</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">car</span>
+<span class="gp">...</span>
+<span class="go">m</span>
+<span class="go">a</span>
+<span class="go">p</span>
+<span class="go">s</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="geradores">
+<span id="tut-generators"></span><h2>9.10. Geradores<a class="headerlink" href="#geradores" title="Permalink to this headline">¶</a></h2>
+<p>Funções geradoras (<a class="reference internal" href="../glossary.html#term-generator"><em class="xref std std-term">generator</em></a>) são uma maneira fácil e
+poderosa de criar um iterador. Uma função geradora é escrita como uma função
+normal, mas usa o comando <a class="reference internal" href="../reference/simple_stmts.html#yield"><tt class="xref std std-keyword docutils literal"><span class="pre">yield</span></tt></a> para produzir resultados. (N.d.T.
+Quando invocada, a função geradora produz um objeto gerador.) Cada vez que
+<a class="reference internal" href="../library/functions.html#next" title="next"><tt class="xref py py-meth docutils literal"><span class="pre">next()</span></tt></a> é invocado, o gerador continua a partir de onde parou (ele mantem
+na memória seus dados internos e a próxima instrução a ser executada). Um
+exemplo mostra como geradores podem ser muito fáceis de criar:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">inversor</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">inversor</span><span class="p">(</span><span class="s">&#39;golf&#39;</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">char</span>
+<span class="gp">...</span>
+<span class="go">f</span>
+<span class="go">l</span>
+<span class="go">o</span>
+<span class="go">g</span>
+</pre></div>
+</div>
+<p>N.d.T. Veja como a função geradora produz um objeto gerador, que implementa
+o protocolo de iterador:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">gerador</span> <span class="o">=</span> <span class="n">inversor</span><span class="p">(</span><span class="s">&#39;golf&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gerador</span>
+<span class="go">&lt;generator object inversor at 0xb7797a2c&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gerador</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="go">&#39;f&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gerador</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="go">&#39;l&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gerador</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="go">&#39;o&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gerador</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="go">&#39;g&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gerador</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n-Identifier">&lt;module&gt;</span>
+<span class="nc">StopIteration</span>
+</pre></div>
+</div>
+<p>Qualquer coisa feita com geradores também pode ser feita com iteradores
+baseados numa classe, como descrito na seção anterior. O que torna geradores
+tão compactos é que os métodos <a class="reference internal" href="../reference/datamodel.html#object.__iter__" title="object.__iter__"><tt class="xref py py-meth docutils literal"><span class="pre">__iter__()</span></tt></a> e <a class="reference internal" href="../library/functions.html#next" title="next"><tt class="xref py py-meth docutils literal"><span class="pre">next()</span></tt></a> são criados
+automaticamente.</p>
+<p>Outro ponto chave é que as variáveis locais e o estado da execução são
+preservados automaticamente entre as chamadas de <a class="reference internal" href="../library/functions.html#next" title="next"><tt class="xref py py-meth docutils literal"><span class="pre">next()</span></tt></a>. Isto torna a
+função mais fácil de escrever e muito mais clara do que uma implementação
+usando variáveis de instância como <tt class="docutils literal"><span class="pre">self.index</span></tt> e <tt class="docutils literal"><span class="pre">self.data</span></tt>.</p>
+<p>Além disso, quando geradores terminam, eles levantam <a class="reference internal" href="../library/exceptions.html#exceptions.StopIteration" title="exceptions.StopIteration"><tt class="xref py py-exc docutils literal"><span class="pre">StopIteration</span></tt></a>
+automaticamente. Combinados, todos estes aspectos tornam a criação de
+iteradores tão fácil quanto escrever uma função normal.</p>
+</div>
+<div class="section" id="expressoes-geradoras">
+<span id="tut-genexps"></span><h2>9.11. Expressões geradoras<a class="headerlink" href="#expressoes-geradoras" title="Permalink to this headline">¶</a></h2>
+<p>Alguns geradores simples podem ser escritos sucintamente como expressões
+usando uma sintaxe similar a de abrangência de listas (<em>list comprehensions</em>),
+mas com parênteses ao invés de colchetes. Essas expressões são destinadas a
+situações em que o gerador é usado imediatamente como argumento para função.
+Uma expressão geradora é mais compacta, porém menos versátil do que uma função
+geradora, e tende a usar muito menos memória do que a abrangência de lista
+equivalente.</p>
+<p>Examplos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">sum</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>          <span class="c"># soma de quadrados</span>
+<span class="go">285</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xvec</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">yvec</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">y</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xvec</span><span class="p">,</span> <span class="n">yvec</span><span class="p">))</span>  <span class="c"># produto escalar (dot product)</span>
+<span class="go">260</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span><span class="p">,</span> <span class="n">sin</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">senos</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">91</span><span class="p">))</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">palavras_unicas</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">palavra</span> <span class="k">for</span> <span class="n">linha</span> <span class="ow">in</span> <span class="n">pagina</span>
+<span class="gp">... </span>                              <span class="k">for</span> <span class="n">palavra</span> <span class="ow">in</span> <span class="n">linha</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">melhor_aluno</span> <span class="o">=</span> <span class="nb">max</span><span class="p">((</span><span class="n">aluno</span><span class="o">.</span><span class="n">media</span><span class="p">,</span> <span class="n">aluno</span><span class="o">.</span><span class="n">nome</span><span class="p">)</span> <span class="k">for</span> <span class="n">aluno</span> <span class="ow">in</span> <span class="n">formados</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="s">&#39;golf&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">[&#39;f&#39;, &#39;l&#39;, &#39;o&#39;, &#39;g&#39;]</span>
+</pre></div>
+</div>
+<p class="rubric">Notas</p>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Exceto por um detalhe. Objetos módulo têm um atributo secreto apenas para
+leitura chamado <tt class="xref py py-attr docutils literal"><span class="pre">__dict__</span></tt> que é uma referência ao dicionário usado para
+implementar o namespace do módulo; o nome <tt class="xref py py-attr docutils literal"><span class="pre">__dict__</span></tt> é um atributo mas
+não um nome global. Obviamente, acessar esse atributo viola a abstração da
+implementação de namespaces, e é algo que só deve ser feito por ferramentas
+especiais, como depuradores &#8220;post-mortem&#8221;.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><p class="first">N.d.T. Os termos <em class="xref std std-term">new-style class</em> e
+&#8220;old-style class&#8221; referem-se a duas implementações de classes que
+convivem desde o Python 2.2. A implementação mais antiga, &#8220;old-style
+classes&#8221; foi preservada até o Python 2.7 para manter a compatibilidade com
+bibliotecas e scripts antigos, mas deixou de existir a partir do Python
+3.0. As &#8220;new-style classes&#8221; suportam o mecanismo de descritores, usado para
+implementar propriedades (<em>properties</em>). Recomenda-se que todo código
+Python novo use apenas &#8220;new-style classes&#8221;.</p>
+<p>Desde o Python 2.2, a forma de declarar uma classe determina se ela usa a
+implementação nova ou antiga. Qualquer classe derivada direta ou
+indiretamente de <a class="reference internal" href="../library/functions.html#object" title="object"><tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></a> é uma classe &#8220;new-style&#8221;. Objetos classe
+novos são do tipo <tt class="docutils literal"><span class="pre">type</span></tt> e objetos classe antigos são do tipo
+<tt class="docutils literal"><span class="pre">classobj</span></tt>. Veja este exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Nova</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">Nova</span><span class="p">)</span>
+<span class="go">&lt;type &#39;type&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Velha</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">Velha</span><span class="p">)</span>
+<span class="go">&lt;type &#39;classobj&#39;&gt;</span>
+</pre></div>
+</div>
+<p>Note que a definição acima é recursiva. Em particular, uma classe
+que herda de uma classe antiga e de uma nova é uma classe &#8220;new-style&#8221;,
+pois através da classe nova ela é uma subclasse indireta de <a class="reference internal" href="../library/functions.html#object" title="object"><tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></a>.
+Não é uma boa prática misturar os dois estilos de classes, mas eis um
+exemplo para ilustrar esse ponto:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Mista</span><span class="p">(</span><span class="n">Velha</span><span class="p">,</span> <span class="n">Nova</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">Mista</span><span class="p">)</span>
+<span class="go">&lt;type &#39;type&#39;&gt;</span>
+</pre></div>
+</div>
+<p class="last">Para saber mais sobre as diferenças, veja <a class="reference external" href="http://wiki.python.org/moin/NewClassVsClassicClass">New Class vs Classic Class</a> no wiki
+do python.org ou artigo original de Guido van Rossum, <a class="reference external" href="http://www.python.org/download/releases/2.2.3/descrintro/">Unifying types and
+classes in Python 2.2</a>.</p>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>N.d.T. Esse parágrafo descreve uma aplicação do conceito de &#8220;duck
+typing&#8221; (literalmente, &#8220;tipagem pato&#8221;), cuja ideia central é que os
+atributos e comportamentos de um objeto são mais importantes que seu tipo:
+&#8220;Quando vejo um pássaro que anda com um pato, nada como um pato, e grasna
+como um pato, chamo esse pássaro de pato.&#8221; (James Whitcomb Riley). Segundo
+a <a class="reference external" href="http://en.wikipedia.org/wiki/Duck_typing#History">Wikipedia</a> (em inglês), a metáfora dos atributos de um pato no contexto
+de programação orientada a objetos foi usada pela primeira vez por
+Alex Martelli no grupo <em>comp.lang.python</em> em 26/jul/2000. O assunto da
+mensagem era <a class="reference external" href="http://groups.google.com/group/comp.lang.python/msg/e230ca916be58835">polymorphism</a>.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">9. Classes</a><ul>
+<li><a class="reference internal" href="#uma-palavra-sobre-nomes-e-objetos">9.1. Uma palavra sobre nomes e objetos</a></li>
+<li><a class="reference internal" href="#escopos-e-namespaces">9.2. Escopos e <em>namespaces</em></a></li>
+<li><a class="reference internal" href="#primeiro-contato-com-classes">9.3. Primeiro contato com classes</a><ul>
+<li><a class="reference internal" href="#sintaxe-de-definicao-de-classe">9.3.1. Sintaxe de definição de classe</a></li>
+<li><a class="reference internal" href="#objetos-classe">9.3.2. Objetos classe</a></li>
+<li><a class="reference internal" href="#instancias">9.3.3. Instâncias</a></li>
+<li><a class="reference internal" href="#objetos-metodo">9.3.4. Objetos método</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#observacoes-aleatorias">9.4. Observações aleatórias</a></li>
+<li><a class="reference internal" href="#heranca">9.5. Herança</a><ul>
+<li><a class="reference internal" href="#heranca-multipla">9.5.1. Herança múltipla</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#variaveis-privadas">9.6. Variáveis privadas</a></li>
+<li><a class="reference internal" href="#miscelanea">9.7. Miscelânea</a></li>
+<li><a class="reference internal" href="#excecoes-tambem-sao-classes">9.8. Exceções também são classes</a></li>
+<li><a class="reference internal" href="#iteradores">9.9. Iteradores</a></li>
+<li><a class="reference internal" href="#geradores">9.10. Geradores</a></li>
+<li><a class="reference internal" href="#expressoes-geradoras">9.11. Expressões geradoras</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="errors.html"
+                        title="previous chapter">8. Erros e exceções</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="stdlib.html"
+                        title="next chapter">10. Um breve passeio pela biblioteca padrão</a></p>
+<h3>This Page</h3>
+<ul class="this-page-menu">
+  <li><a href="../bugs.html">Report a Bug</a></li>
+  <li><a href="../_sources/tutorial/classes.txt"
+         rel="nofollow">Show Source</a></li>
+</ul>
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="stdlib.html" title="10. Um breve passeio pela biblioteca padrão"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="errors.html" title="8. Erros e exceções"
+             >previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">Python v2.7.2 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >O tutorial de Python</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+    &copy; <a href="../copyright.html">Copyright</a> 1990-2012, Python Software Foundation.
+    <br />
+    The Python Software Foundation is a non-profit corporation.  
+    <a href="http://www.python.org/psf/donations/">Please donate.</a>
+    <br />
+    Last updated on Apr 03, 2012.
+    <a href="../bugs.html">Found a bug</a>?
+    <br />
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,955 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Lista: estrutura sequencial indexada &#8212; Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Funções com listas" href="10-funcoes-listas.html" />
+    <link rel="prev" title="Funções" href="08-funcoes.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulas',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'cc110',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulas/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="10-funcoes-listas.html" title="Funções com listas"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="08-funcoes.html" title="Funções"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="lista-estrutura-sequencial-indexada">
+<h1>Lista: estrutura sequencial indexada<a class="headerlink" href="#lista-estrutura-sequencial-indexada" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="topicos">
+<span id="index-0"></span><h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html">Listas</a></dt>
+<dd><ul class="first simple">
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html#concatenacao-e-repeticao">Concatenação e repetição</a>;</li>
+</ul>
+<ul class="last simple">
+<li><a class="reference external" href="https://panda.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html#comprimento-de-uma-lista">comprimento de uma lista</a>;</li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html#fatias-de-listas">Fatias de listas</a>;</li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html#apelidos-aliasing">Apelidos (aliasing)</a>;</li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html#clonando-listas">Clones de listas</a>.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Comando <cite>for</cite></dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/03-PythonTurtle/olatartaruga.html#o-laco-for">O comando for</a></li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/07-Iteracao/maisiteracao.html#mais-sobre-o-comando-for">Mais sobre o comando for</a>;</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="videos">
+<h2>Vídeos<a class="headerlink" href="#videos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://www.youtube.com/watch?v=krVca97F13I&amp;list=PLcoJJSvnDgcKpOi_UeneTNTIVOigRQwcn&amp;index=27">Coleções (listas, vetores)</a>;</li>
+<li><a class="reference external" href="https://www.youtube.com/watch?v=ctmPwp52b7w&amp;index=28&amp;list=PLcoJJSvnDgcKpOi_UeneTNTIVOigRQwcn">O comando for</a>;</li>
+<li><a class="reference external" href="https://www.youtube.com/watch?v=LrXapVI66so&amp;list=PLcoJJSvnDgcKpOi_UeneTNTIVOigRQwcn&amp;index=29">Manipulação de listas</a>;</li>
+<li><a class="reference external" href="https://www.youtube.com/watch?v=4TN8IdsJ78k&amp;list=PLcoJJSvnDgcKpOi_UeneTNTIVOigRQwcn&amp;index=30">Objetos na memória</a>.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="introducao">
+<h2>Introdução<a class="headerlink" href="#introducao" title="Permalink to this headline">¶</a></h2>
+<p>Até aqui, trabalhamos com variáveis simples, capazes de armazenar
+apenas um tipo, como <code class="docutils literal"><span class="pre">bool</span></code>, <code class="docutils literal"><span class="pre">float</span></code> e <code class="docutils literal"><span class="pre">int</span></code>.</p>
+<p>Nessa aula introduziremos o conceito de <em>lista</em> (= tipo <code class="docutils literal"><span class="pre">list</span></code>), uma estrutura
+sequencial indexada muito utilizada e uma das principais estruturas
+básicas do Python.</p>
+<p>Uma lista (= <code class="docutils literal"><span class="pre">list</span></code>) em Python é uma sequência ou coleção ordenada
+de valores de qualquer tipo ou classe tais como <code class="docutils literal"><span class="pre">int</span></code>, <code class="docutils literal"><span class="pre">float</span></code>, <code class="docutils literal"><span class="pre">bool</span></code>, <code class="docutils literal"><span class="pre">str</span></code>
+e mesmo <code class="docutils literal"><span class="pre">list</span></code>, entre outros.</p>
+<p>Diariamente utilizamos listas para organizar informação, como a lista
+de coisas a fazer, lista de compras, lista de filmes em cartaz etc.</p>
+<p>Existem várias maneiras de criarmos uma lista.
+A maneira mais simples é envolver os elementos da
+lista por colchetes ( <code class="docutils literal"><span class="pre">[</span></code> e <code class="docutils literal"><span class="pre">]</span></code>).
+Podemos criar a lista contendo os 5 primeiros
+primos da seguinte maneira:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">primos</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Podemos criar uma lista de vários objetos de tipos distintos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">uma_lista</span> <span class="o">=</span> <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="s2">&quot;oi&quot;</span><span class="p">,</span> <span class="mf">5.4</span><span class="p">,</span> <span class="bp">True</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">outra_lista</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;joão&quot;</span><span class="p">,</span> <span class="s2">&quot;masculino&quot;</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mf">1.78</span><span class="p">,</span> <span class="s2">&quot;brasileira&quot;</span><span class="p">,</span> <span class="s2">&quot;solteiro&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fernanda</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Fernanda&quot;</span><span class="p">,</span> <span class="s2">&quot;Montenegro&quot;</span><span class="p">,</span> <span class="mi">1929</span><span class="p">,</span> <span class="s2">&quot;Central do Brasil&quot;</span><span class="p">,</span> <span class="mi">1998</span><span class="p">,</span> <span class="s2">&quot;Atriz&quot;</span><span class="p">,</span> <span class="s2">&quot;Rio de Janeiro, RJ&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Observe o uso de colchetes (<code class="docutils literal"><span class="pre">[</span></code>, <code class="docutils literal"><span class="pre">]</span></code>) para marcar o início e o final
+da lista, e os elementos separados por vígula.</p>
+<p>Uma lista pode ser criada vazia, da seguinte forma:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lista_vazia</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="comprimento-de-uma-lista">
+<h2>Comprimento de uma lista<a class="headerlink" href="#comprimento-de-uma-lista" title="Permalink to this headline">¶</a></h2>
+<p id="index-1">A função <code class="docutils literal"><span class="pre">len()</span></code> retorna o <em>comprimento</em> (= o número de elementos ou objetos)
+de uma lista:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">primos</span><span class="p">)</span>
+<span class="go">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">uma_lista</span><span class="p">)</span>
+<span class="go">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">outra_lista</span><span class="p">)</span>
+<span class="go">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">fernanda</span><span class="p">)</span>
+<span class="go">7</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">lista_vazia</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="indices">
+<h2>Índices<a class="headerlink" href="#indices" title="Permalink to this headline">¶</a></h2>
+<p id="index-2">Cada valor na lista é identificado por um índice.</p>
+<p>Dizemos que uma lista é uma estrutura sequencial indexada
+pois os seus elementos podem ser acessados sequencialmente
+utilizando índices.
+O primeiro elemento da lista tem índice 0,
+o segundo tem índice 1, e assim por diante.
+Observe que, por começar pelo índice zero,
+o último elemento da lista  <code class="docutils literal"><span class="pre">primos</span></code>, o número 11,
+tem índice 4, sendo que essa lista tem comprimento 5.</p>
+<p>Para acessar um elemento de uma lista usamos
+o operador de indexação <code class="docutils literal"><span class="pre">[]</span></code>.
+A expressão dentro dos colchetes especifica o índice.
+O índice do primeiro elemento é 0.
+O seguinte programa imprime os valores da lista <code class="docutils literal"><span class="pre">primos</span></code>:</p>
+
+<div id="exemplo_percorrer_lista_com_while" >
+<textarea cols="50" rows="12" id="exemplo_percorrer_lista_com_while_code" class="active_code">
+primos = [2, 3, 5, 7, 11]
+i = 0
+while i < len(primos):
+    print( "elemento de indice %d = %d"%(i, primos[i]) )
+    i = i + 1
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exemplo_percorrer_lista_com_while)</span> </p>
+<button onclick="runit('exemplo_percorrer_lista_com_while',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exemplo_percorrer_lista_com_while');">Save</button>
+<button class="ac_opt" onclick="requestCode('exemplo_percorrer_lista_com_while');">Load</button>
+<br />
+
+<canvas id="exemplo_percorrer_lista_com_while_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exemplo_percorrer_lista_com_while_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Simule a execução desse programa e observe que a variável <code class="docutils literal"><span class="pre">i</span></code> recebe o
+valor zero que corresponde ao primeiro índice e, enquanto o índice for
+menor que o comprimento da lista (= <code class="docutils literal"><span class="pre">len(primos)</span></code>),
+o elemento de índice <code class="docutils literal"><span class="pre">i</span></code> é impresso.</p>
+<p><strong>Índices negativos</strong> indicam elementos da direita
+para a esquerda ao invés de  da esquerda para
+a direita.</p>
+
+<div id="indices_negativos" >
+<textarea cols="50" rows="12" id="indices_negativos_code" class="active_code">
+numeros = [17, 123, 87, 34, 66, 8398, 44]
+print("%3d: %d" %(2,numeros[2]))
+print("%3d: %d" %(5,numeros[-5]))
+print("%3d: %d" %(9-8,numeros[9-8]))
+print("%3d: %d" %(-2,numeros[-2]))
+print("%3d: %d" %(len(numeros)-1,numeros[len(numeros)-1]))
+print("%3d: %d" %(-7,numeros[-7]))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (indices_negativos)</span> </p>
+<button onclick="runit('indices_negativos',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('indices_negativos');">Save</button>
+<button class="ac_opt" onclick="requestCode('indices_negativos');">Load</button>
+<br />
+
+<canvas id="indices_negativos_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="indices_negativos_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Um erro comum em programas é a utilização de índices inválidos (= <em>list index out of range</em>):</p>
+
+<div id="indice_invalido_0" >
+<textarea cols="50" rows="12" id="indice_invalido_0_code" class="active_code">
+numeros = [17, 123, 87, 34, 66, 8398, 44]
+print("%3d: %d" %(len(numeros),numeros[len(numeros)])) # índice inválido
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (indice_invalido_0)</span> </p>
+<button onclick="runit('indice_invalido_0',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('indice_invalido_0');">Save</button>
+<button class="ac_opt" onclick="requestCode('indice_invalido_0');">Load</button>
+<br />
+
+<canvas id="indice_invalido_0_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="indice_invalido_0_pre" class="active_out">
+
+</pre>
+
+</div>
+
+
+<div id="indice_invalido_1" >
+<textarea cols="50" rows="12" id="indice_invalido_1_code" class="active_code">
+numeros = [17, 123, 87, 34, 66, 8398, 44]
+print("3d: %d" %(-8,numeros[-8])) # índice inválido
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (indice_invalido_1)</span> </p>
+<button onclick="runit('indice_invalido_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('indice_invalido_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('indice_invalido_1');">Load</button>
+<br />
+
+<canvas id="indice_invalido_1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="indice_invalido_1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+
+<div id="indice_invalido_2" >
+<textarea cols="50" rows="12" id="indice_invalido_2_code" class="active_code">
+lista_vazia = []
+lista_vazia[0] = 10   # índice inválido
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (indice_invalido_2)</span> </p>
+<button onclick="runit('indice_invalido_2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('indice_invalido_2');">Save</button>
+<button class="ac_opt" onclick="requestCode('indice_invalido_2');">Load</button>
+<br />
+
+<canvas id="indice_invalido_2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="indice_invalido_2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="concatenacao-e-repeticao">
+<h2>Concatenação e Repetição<a class="headerlink" href="#concatenacao-e-repeticao" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-nota-sobre-eficiencia-computacional admonition">
+<p class="first admonition-title">Nota sobre eficiência computacional</p>
+<p class="last">Por ser um curso introdutório, utilizaremos nesse curso
+apenas as operações de concatenação e fatiamento de listas. Nosso
+objetivo é empoderar os alunos para que
+eles possam entender, aprender e usar essas estruturas rapidamente
+em seus programas, independente da eficácia computacional dessas
+soluções, permitindo que o aluno mantenha foco no problema e não
+na linguagem.
+O custo computacional dessas soluções será abordado em
+cursos mais avançados.</p>
+</div>
+<p>Duas listas podem ser concatenadas utilizando o operador <code class="docutils literal"><span class="pre">+</span></code>.</p>
+
+<div id="concatenacao_1" >
+<textarea cols="50" rows="12" id="concatenacao_1_code" class="active_code">
+um = [10, 11, 12]
+dois = [20, 21]
+
+tres = um + dois
+print(tres)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (concatenacao_1)</span> </p>
+<button onclick="runit('concatenacao_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('concatenacao_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('concatenacao_1');">Load</button>
+<br />
+
+<canvas id="concatenacao_1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="concatenacao_1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Nesse exemplo, a concatenação da lista <code class="docutils literal"><span class="pre">um</span></code> com a lista <code class="docutils literal"><span class="pre">dois</span></code>
+cria uma nova lista formada por cópias dos elementos da lista <code class="docutils literal"><span class="pre">um</span></code> e
+<code class="docutils literal"><span class="pre">dois</span></code>.</p>
+<p>Uma lista vazia é o <strong>elemento neutro</strong> da concatenação de listas:</p>
+
+<div id="concatenacao_1" >
+<textarea cols="50" rows="12" id="concatenacao_1_code" class="active_code">
+um = [10, 11, 12]
+dois = [20, 21]
+
+tres = um + [] + dois + []
+print(tres)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (concatenacao_1)</span> </p>
+<button onclick="runit('concatenacao_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('concatenacao_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('concatenacao_1');">Load</button>
+<br />
+
+<canvas id="concatenacao_1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="concatenacao_1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>O exemplo abaixo, concatena a lista <code class="docutils literal"><span class="pre">um</span></code> três vezes:</p>
+
+<div id="concatenacao_2" >
+<textarea cols="50" rows="12" id="concatenacao_2_code" class="active_code">
+um = [10, 11, 12]
+
+tres = um + um + um
+print(tres)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (concatenacao_2)</span> </p>
+<button onclick="runit('concatenacao_2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('concatenacao_2');">Save</button>
+<button class="ac_opt" onclick="requestCode('concatenacao_2');">Load</button>
+<br />
+
+<canvas id="concatenacao_2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="concatenacao_2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Para concatenar uma lista repetidas vezes, podemos utilizar o operador
+<code class="docutils literal"><span class="pre">*</span></code> para <code class="docutils literal"><span class="pre">multiplicar</span></code> uma lista por um inteiro:</p>
+
+<div id="repeticao_1" >
+<textarea cols="50" rows="12" id="repeticao_1_code" class="active_code">
+um = [10, 11, 12]
+
+print("um + um + um", um + um + um)
+print("3 * um", 3 * um)
+print("um * 3", um * 3)
+print("[] * 3", [] * 3)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (repeticao_1)</span> </p>
+<button onclick="runit('repeticao_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('repeticao_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('repeticao_1');">Load</button>
+<br />
+
+<canvas id="repeticao_1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="repeticao_1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Observe que, assim como o <code class="docutils literal"><span class="pre">*</span></code> em operações aritméticas, o operador
+de repetição <code class="docutils literal"><span class="pre">*</span></code> de listas também é comutativo, assim como a
+repetição de listas vazias resulta em uma lista vazia.</p>
+<p>O operador de repetição <code class="docutils literal"><span class="pre">*</span></code> é bastante útil para criar uma lista de
+comprimento <code class="docutils literal"><span class="pre">N</span></code> com valor inicial determinado como:</p>
+
+<div id="repeticao_2" >
+<textarea cols="50" rows="12" id="repeticao_2_code" class="active_code">
+# cria lista de tamanho n com zeros
+n = int(input("Digite o tamanho da lista: "))
+lista = [0] * n
+print(lista)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (repeticao_2)</span> </p>
+<button onclick="runit('repeticao_2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('repeticao_2');">Save</button>
+<button class="ac_opt" onclick="requestCode('repeticao_2');">Load</button>
+<br />
+
+<canvas id="repeticao_2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="repeticao_2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="fatias-de-um-lista">
+<h2>Fatias de um lista<a class="headerlink" href="#fatias-de-um-lista" title="Permalink to this headline">¶</a></h2>
+<p>Muitas vezes, ao invés de considerar a lista completa, é necessário
+consider apenas um pedaço contínuo da lista, que podemos definir por 2
+índices que marcam o início e o fim desse pedaço, que chamamos de
+fatia da lista.</p>
+<p>Em Python, uma fatia de uma lista é definida colando o ínicio e o fim
+entre colchetes, separados por <cite>:</cite>, como:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">primos</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">primos</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">[3]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">primos</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+<span class="go">[5, 7]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">primos</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="c1"># observe que o início não precisa ser definido</span>
+<span class="go">[2, 3, 5]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">primos</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span> <span class="c1"># observe que o fim não precisa definido</span>
+<span class="go">[7, 11]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">primos</span><span class="p">[:]</span>
+<span class="go">[2, 3, 5, 7, 11]</span>
+</pre></div>
+</div>
+<p>Observe que o intervalo é sempre fechado à esquerda (inclui o
+primeiro elemento na fatia) e aberto à direita (não inclui o último elemento).
+A operação de fatiamento devolve uma cópia do pedaço da lista definido pelo intervalo.</p>
+</div>
+<div class="section" id="referencia-versus-copia">
+<h2>Referência versus cópia<a class="headerlink" href="#referencia-versus-copia" title="Permalink to this headline">¶</a></h2>
+<p id="index-3">Quando uma lista é atribuída a uma variável, dizemos que a variável
+passa a fazer uma <strong>referência</strong> a lista. Assim, várias variáveis com nomes
+distintos podem fazer referência a <strong>mesma</strong> lista.</p>
+
+<div id="clonar_uma_lista_0"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (clonar_uma_lista_0)</span> </p>
+<script type="text/javascript">
+var clonar_uma_lista_0_trace = {"code": "lista_1 = [\"oi\", 2, 3.14, True]\nlista_2 = lista_1\nlista_2[2] = 5\n\nprint(lista_1)  # observe que o elemento lista_1[2] TAMB\u00c9M foi modificado", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["lista_1"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_1": ["REF", 1]}, "heap": {"1": ["LIST", "oi", 2, 3.14, true]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["lista_1", "lista_2"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_2": ["REF", 1], "lista_1": ["REF", 1]}, "heap": {"1": ["LIST", "oi", 2, 3.14, true]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["lista_1", "lista_2"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_2": ["REF", 1], "lista_1": ["REF", 1]}, "heap": {"1": ["LIST", "oi", 2, 5, true]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["lista_1", "lista_2"], "stdout": "['oi', 2, 5, True]\n", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_2": ["REF", 1], "lista_1": ["REF", 1]}, "heap": {"1": ["LIST", "oi", 2, 5, true]}, "line": 5, "event": "return"}]};
+var clonar_uma_lista_0_vis;
+
+$(document).ready(function() {
+    clonar_uma_lista_0_vis = new ExecutionVisualizer('clonar_uma_lista_0',clonar_uma_lista_0_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(clonar_uma_lista_0_vis,'clonar_uma_lista_0');
+    allVisualizers.push(clonar_uma_lista_0_vis);
+});
+
+$(document).ready(function() {
+    $("#clonar_uma_lista_0_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'clonar_uma_lista_0'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    clonar_uma_lista_0_vis.redrawConnectors();
+});
+</script>
+<p>Nesse exemplo, para que possamos trabalhar com a <code class="docutils literal"><span class="pre">lista_2</span></code> sem
+alterar os elementos da <code class="docutils literal"><span class="pre">lista_1</span></code>, precisamos <strong>copiar</strong> a lista_1.</p>
+<p>A forma mais comum para copiar uma lista é criando uma fatia da lista
+inteira como:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">lista_1</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;oi&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">3.14</span><span class="p">,</span> <span class="bp">True</span><span class="p">]</span>
+<span class="n">lista_2</span> <span class="o">=</span> <span class="n">lista_1</span><span class="p">[:]</span>   <span class="c1"># cria uma cópia da lista_1</span>
+<span class="n">lista_2</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">lista_1</span><span class="p">)</span>  <span class="c1"># observe que o elemento lista_1[2] NÃO foi modificado</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="comando-for">
+<h2>Comando <code class="docutils literal"><span class="pre">for</span></code><a class="headerlink" href="#comando-for" title="Permalink to this headline">¶</a></h2>
+<p id="index-4">Vários problemas envolvendo listas requerem percorrer (varrer) todos
+os elementos da lista, um a um, do início até o fim. Nesses casos,
+podemos utilizar o comando <code class="docutils literal"><span class="pre">for</span></code>:</p>
+
+<div id="exemplo_percorrer_lista_com_for_elem"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (exemplo_percorrer_lista_com_for_elem)</span> </p>
+<script type="text/javascript">
+var exemplo_percorrer_lista_com_for_elem_trace = {"code": "primos = [2, 3, 5, 7, 11, 13]\nprint(\"Varredura usando for: \")\nfor elemento in primos:\n    print(\"Valor da vari\u00e1vel elemento: \", elemento)\nprint(\"Fim da varredura com for\")\n\nprint()\nprint(\"Varredura usando while: \")\ni = 0\nwhile i < len(primos):\n    print(\"Valor na posi\u00e7\u00e3o %d da lista: %d\"%(i, primo[i]))\n    i += 1", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["primos"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"primos": ["REF", 1]}, "heap": {"1": ["LIST", 2, 3, 5, 7, 11, 13]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["primos"], "stdout": "Varredura usando for: \n", "func_name": "<module>", "stack_to_render": [], "globals": {"primos": ["REF", 1]}, "heap": {"1": ["LIST", 2, 3, 5, 7, 11, 13]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["primos", "elemento"], "stdout": "Varredura usando for: \n", "func_name": "<module>", "stack_to_render": [], "globals": {"primos": ["REF", 1], "elemento": 2}, "heap": {"1": ["LIST", 2, 3, 5, 7, 11, 13]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["primos", "elemento"], "stdout": "Varredura usando for: \n('Valor da vari\\xc3\\xa1vel elemento: ', 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"primos": ["REF", 1], "elemento": 2}, "heap": {"1": ["LIST", 2, 3, 5, 7, 11, 13]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["primos", "elemento"], "stdout": "Varredura usando for: \n('Valor da vari\\xc3\\xa1vel elemento: ', 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"primos": ["REF", 1], "elemento": 3}, "heap": {"1": ["LIST", 2, 3, 5, 7, 11, 13]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["primos", "elemento"], "stdout": "Varredura usando for: \n('Valor da vari\\xc3\\xa1vel elemento: ', 2)\n('Valor da vari\\xc3\\xa1vel elemento: ', 3)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"primos": ["REF", 1], "elemento": 3}, "heap": {"1": ["LIST", 2, 3, 5, 7, 11, 13]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["primos", "elemento"], "stdout": "Varredura usando for: \n('Valor da vari\\xc3\\xa1vel elemento: ', 2)\n('Valor da vari\\xc3\\xa1vel elemento: ', 3)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"primos": ["REF", 1], "elemento": 5}, "heap": {"1": ["LIST", 2, 3, 5, 7, 11, 13]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["primos", "elemento"], "stdout": "Varredura usando for: \n('Valor da vari\\xc3\\xa1vel elemento: ', 2)\n('Valor da vari\\xc3\\xa1vel elemento: ', 3)\n('Valor da vari\\xc3\\xa1vel elemento: ', 5)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"primos": ["REF", 1], "elemento": 5}, "heap": {"1": ["LIST", 2, 3, 5, 7, 11, 13]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["primos", "elemento"], "stdout": "Varredura usando for: \n('Valor da vari\\xc3\\xa1vel elemento: ', 2)\n('Valor da vari\\xc3\\xa1vel elemento: ', 3)\n('Valor da vari\\xc3\\xa1vel elemento: ', 5)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"primos": ["REF", 1], "elemento": 7}, "heap": {"1": ["LIST", 2, 3, 5, 7, 11, 13]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["primos", "elemento"], "stdout": "Varredura usando for: \n('Valor da vari\\xc3\\xa1vel elemento: ', 2)\n('Valor da vari\\xc3\\xa1vel elemento: ', 3)\n('Valor da vari\\xc3\\xa1vel elemento: ', 5)\n('Valor da vari\\xc3\\xa1vel elemento: ', 7)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"primos": ["REF", 1], "elemento": 7}, "heap": {"1": ["LIST", 2, 3, 5, 7, 11, 13]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["primos", "elemento"], "stdout": "Varredura usando for: \n('Valor da vari\\xc3\\xa1vel elemento: ', 2)\n('Valor da vari\\xc3\\xa1vel elemento: ', 3)\n('Valor da vari\\xc3\\xa1vel elemento: ', 5)\n('Valor da vari\\xc3\\xa1vel elemento: ', 7)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"primos": ["REF", 1], "elemento": 11}, "heap": {"1": ["LIST", 2, 3, 5, 7, 11, 13]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["primos", "elemento"], "stdout": "Varredura usando for: \n('Valor da vari\\xc3\\xa1vel elemento: ', 2)\n('Valor da vari\\xc3\\xa1vel elemento: ', 3)\n('Valor da vari\\xc3\\xa1vel elemento: ', 5)\n('Valor da vari\\xc3\\xa1vel elemento: ', 7)\n('Valor da vari\\xc3\\xa1vel elemento: ', 11)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"primos": ["REF", 1], "elemento": 11}, "heap": {"1": ["LIST", 2, 3, 5, 7, 11, 13]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["primos", "elemento"], "stdout": "Varredura usando for: \n('Valor da vari\\xc3\\xa1vel elemento: ', 2)\n('Valor da vari\\xc3\\xa1vel elemento: ', 3)\n('Valor da vari\\xc3\\xa1vel elemento: ', 5)\n('Valor da vari\\xc3\\xa1vel elemento: ', 7)\n('Valor da vari\\xc3\\xa1vel elemento: ', 11)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"primos": ["REF", 1], "elemento": 13}, "heap": {"1": ["LIST", 2, 3, 5, 7, 11, 13]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["primos", "elemento"], "stdout": "Varredura usando for: \n('Valor da vari\\xc3\\xa1vel elemento: ', 2)\n('Valor da vari\\xc3\\xa1vel elemento: ', 3)\n('Valor da vari\\xc3\\xa1vel elemento: ', 5)\n('Valor da vari\\xc3\\xa1vel elemento: ', 7)\n('Valor da vari\\xc3\\xa1vel elemento: ', 11)\n('Valor da vari\\xc3\\xa1vel elemento: ', 13)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"primos": ["REF", 1], "elemento": 13}, "heap": {"1": ["LIST", 2, 3, 5, 7, 11, 13]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["primos", "elemento"], "stdout": "Varredura usando for: \n('Valor da vari\\xc3\\xa1vel elemento: ', 2)\n('Valor da vari\\xc3\\xa1vel elemento: ', 3)\n('Valor da vari\\xc3\\xa1vel elemento: ', 5)\n('Valor da vari\\xc3\\xa1vel elemento: ', 7)\n('Valor da vari\\xc3\\xa1vel elemento: ', 11)\n('Valor da vari\\xc3\\xa1vel elemento: ', 13)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"primos": ["REF", 1], "elemento": 13}, "heap": {"1": ["LIST", 2, 3, 5, 7, 11, 13]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["primos", "elemento"], "stdout": "Varredura usando for: \n('Valor da vari\\xc3\\xa1vel elemento: ', 2)\n('Valor da vari\\xc3\\xa1vel elemento: ', 3)\n('Valor da vari\\xc3\\xa1vel elemento: ', 5)\n('Valor da vari\\xc3\\xa1vel elemento: ', 7)\n('Valor da vari\\xc3\\xa1vel elemento: ', 11)\n('Valor da vari\\xc3\\xa1vel elemento: ', 13)\nFim da varredura com for\n", "func_name": "<module>", "stack_to_render": [], "globals": {"primos": ["REF", 1], "elemento": 13}, "heap": {"1": ["LIST", 2, 3, 5, 7, 11, 13]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["primos", "elemento"], "stdout": "Varredura usando for: \n('Valor da vari\\xc3\\xa1vel elemento: ', 2)\n('Valor da vari\\xc3\\xa1vel elemento: ', 3)\n('Valor da vari\\xc3\\xa1vel elemento: ', 5)\n('Valor da vari\\xc3\\xa1vel elemento: ', 7)\n('Valor da vari\\xc3\\xa1vel elemento: ', 11)\n('Valor da vari\\xc3\\xa1vel elemento: ', 13)\nFim da varredura com for\n()\n", "func_name": "<module>", "stack_to_render": [], "globals": {"primos": ["REF", 1], "elemento": 13}, "heap": {"1": ["LIST", 2, 3, 5, 7, 11, 13]}, "line": 8, "event": "step_line"}, {"ordered_globals": ["primos", "elemento"], "stdout": "Varredura usando for: \n('Valor da vari\\xc3\\xa1vel elemento: ', 2)\n('Valor da vari\\xc3\\xa1vel elemento: ', 3)\n('Valor da vari\\xc3\\xa1vel elemento: ', 5)\n('Valor da vari\\xc3\\xa1vel elemento: ', 7)\n('Valor da vari\\xc3\\xa1vel elemento: ', 11)\n('Valor da vari\\xc3\\xa1vel elemento: ', 13)\nFim da varredura com for\n()\nVarredura usando while: \n", "func_name": "<module>", "stack_to_render": [], "globals": {"primos": ["REF", 1], "elemento": 13}, "heap": {"1": ["LIST", 2, 3, 5, 7, 11, 13]}, "line": 9, "event": "step_line"}, {"ordered_globals": ["primos", "elemento", "i"], "stdout": "Varredura usando for: \n('Valor da vari\\xc3\\xa1vel elemento: ', 2)\n('Valor da vari\\xc3\\xa1vel elemento: ', 3)\n('Valor da vari\\xc3\\xa1vel elemento: ', 5)\n('Valor da vari\\xc3\\xa1vel elemento: ', 7)\n('Valor da vari\\xc3\\xa1vel elemento: ', 11)\n('Valor da vari\\xc3\\xa1vel elemento: ', 13)\nFim da varredura com for\n()\nVarredura usando while: \n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0, "primos": ["REF", 1], "elemento": 13}, "heap": {"1": ["LIST", 2, 3, 5, 7, 11, 13]}, "line": 10, "event": "step_line"}, {"ordered_globals": ["primos", "elemento", "i"], "stdout": "Varredura usando for: \n('Valor da vari\\xc3\\xa1vel elemento: ', 2)\n('Valor da vari\\xc3\\xa1vel elemento: ', 3)\n('Valor da vari\\xc3\\xa1vel elemento: ', 5)\n('Valor da vari\\xc3\\xa1vel elemento: ', 7)\n('Valor da vari\\xc3\\xa1vel elemento: ', 11)\n('Valor da vari\\xc3\\xa1vel elemento: ', 13)\nFim da varredura com for\n()\nVarredura usando while: \n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0, "primos": ["REF", 1], "elemento": 13}, "heap": {"1": ["LIST", 2, 3, 5, 7, 11, 13]}, "line": 11, "event": "step_line"}, {"ordered_globals": ["primos", "elemento", "i"], "stdout": "Varredura usando for: \n('Valor da vari\\xc3\\xa1vel elemento: ', 2)\n('Valor da vari\\xc3\\xa1vel elemento: ', 3)\n('Valor da vari\\xc3\\xa1vel elemento: ', 5)\n('Valor da vari\\xc3\\xa1vel elemento: ', 7)\n('Valor da vari\\xc3\\xa1vel elemento: ', 11)\n('Valor da vari\\xc3\\xa1vel elemento: ', 13)\nFim da varredura com for\n()\nVarredura usando while: \n", "exception_msg": "NameError: name 'primo' is not defined", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0, "primos": ["REF", 1], "elemento": 13}, "heap": {"1": ["LIST", 2, 3, 5, 7, 11, 13]}, "line": 11, "event": "exception"}]};
+var exemplo_percorrer_lista_com_for_elem_vis;
+
+$(document).ready(function() {
+    exemplo_percorrer_lista_com_for_elem_vis = new ExecutionVisualizer('exemplo_percorrer_lista_com_for_elem',exemplo_percorrer_lista_com_for_elem_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(exemplo_percorrer_lista_com_for_elem_vis,'exemplo_percorrer_lista_com_for_elem');
+    allVisualizers.push(exemplo_percorrer_lista_com_for_elem_vis);
+});
+
+$(document).ready(function() {
+    $("#exemplo_percorrer_lista_com_for_elem_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'exemplo_percorrer_lista_com_for_elem'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    exemplo_percorrer_lista_com_for_elem_vis.redrawConnectors();
+});
+</script>
+<p>Para usar o comando <code class="docutils literal"><span class="pre">for</span></code>, você precisa definir uma variável que vai
+receber o valor de um elemento da lista a cada iteração.
+Nesse exemplo, a variável <code class="docutils literal"><span class="pre">elemento</span></code> recebe o valor
+de cada elemento da lista <code class="docutils literal"><span class="pre">primos</span></code>, ou seja, primeiro o valor</p>
+<blockquote>
+<div>2, depois 3, 5, e assim por diante, até 13. A repetição termina
+quando o último elemento da lista <code class="docutils literal"><span class="pre">primos</span></code> for utilizado.</div></blockquote>
+<p>Observe também que a varredura da lista pode ser feita usando o
+comando <code class="docutils literal"><span class="pre">while</span></code>. A sequência de índices válidos é gerada variando
+a variável i de 0 até <code class="docutils literal"><span class="pre">len(primos)</span></code>.</p>
+<p>Muitas vezes é mais conveniente varrer uma lista usando uma variável
+que assume valores dentro do intervalo dos índices válidos. Com isso,
+temos mais poder e flexibilidade no acesso aos elementos da lista,
+como por exemplo, varrer a lista da direita para a esquerda, ou pegar
+apenas os elementos de índice par.</p>
+<p>Nesses casos também, quando queremos ter controle sobre os índices,
+é muito comum utilizar o comando <code class="docutils literal"><span class="pre">for</span></code> em conjunto com a função
+<code class="docutils literal"><span class="pre">range()</span></code>. Basicamente, devemos chamar a função <code class="docutils literal"><span class="pre">range()</span></code> para
+que ela &#8220;devolva uma lista&#8221;
+contendo os valores dos índices que queremos utilizar.</p>
+<p>A função <code class="docutils literal"><span class="pre">range()</span></code> recebe 3 parâmetros: <code class="docutils literal"><span class="pre">início</span></code>, <code class="docutils literal"><span class="pre">fim</span></code> e
+<code class="docutils literal"><span class="pre">passo</span></code>, que definem a sequência de números a ser criada. Modifique
+o trecho de programa abaixo para ver como a função range se comporta
+em conjunto com o <code class="docutils literal"><span class="pre">for</span></code>:</p>
+
+<div id="funcao_range_com_for" >
+<textarea cols="50" rows="12" id="funcao_range_com_for_code" class="active_code">
+inicio = 10
+fim    = 20
+passo  = 3
+for i in range(inicio, fim, passo):
+    print( i )
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (funcao_range_com_for)</span> </p>
+<button onclick="runit('funcao_range_com_for',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('funcao_range_com_for');">Save</button>
+<button class="ac_opt" onclick="requestCode('funcao_range_com_for');">Load</button>
+<br />
+
+<canvas id="funcao_range_com_for_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="funcao_range_com_for_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Observe que, como na definição de intervalos em fatias de lista,
+o intervalo de números cobertos pela função <code class="docutils literal"><span class="pre">range()</span></code> é fechado
+no <code class="docutils literal"><span class="pre">início</span></code> e aberto no <code class="docutils literal"><span class="pre">fim</span></code>.</p>
+<p>Quando o passo desejado é 1 (um), o valor não precisa ser
+passado a função <code class="docutils literal"><span class="pre">range()</span></code>, como abaixo:</p>
+
+<div id="funcao_range_com_passo_1" >
+<textarea cols="50" rows="12" id="funcao_range_com_passo_1_code" class="active_code">
+inicio = 5
+fim    = 11
+for i in range(inicio, fim):
+    print( i )
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (funcao_range_com_passo_1)</span> </p>
+<button onclick="runit('funcao_range_com_passo_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('funcao_range_com_passo_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('funcao_range_com_passo_1');">Load</button>
+<br />
+
+<canvas id="funcao_range_com_passo_1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="funcao_range_com_passo_1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Para facilitar mais ainda a varredura de listas, quando o início
+desejado é 0 (zero) e o passo 1 (um), você pode definir apenas o
+<code class="docutils literal"><span class="pre">fim</span></code>, como:</p>
+
+<div id="exemplo_percorrer_lista_com_for_range" >
+<textarea cols="50" rows="12" id="exemplo_percorrer_lista_com_for_range_code" class="active_code">
+primos = [2, 3, 5, 7, 11, 13]
+for i in range(len(primos)):
+    print( "%d: %d"%(i,primos[i]) )
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exemplo_percorrer_lista_com_for_range)</span> </p>
+<button onclick="runit('exemplo_percorrer_lista_com_for_range',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exemplo_percorrer_lista_com_for_range');">Save</button>
+<button class="ac_opt" onclick="requestCode('exemplo_percorrer_lista_com_for_range');">Load</button>
+<br />
+
+<canvas id="exemplo_percorrer_lista_com_for_range_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exemplo_percorrer_lista_com_for_range_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Nesse exemplo, usando a função <code class="docutils literal"><span class="pre">len()</span></code> o final do intervalo a ser
+gerado pela função <code class="docutils literal"><span class="pre">range()</span></code>. Para saber mais sobre essa função, consulte a
+<a class="reference external" href="https://docs.python.org/3/library/functions.html#func-range">documentação da função range()</a>.</p>
+<p>Para verificar se você entendeu como funciona a função <code class="docutils literal"><span class="pre">range()</span></code>,
+modifique o <code class="docutils literal"><span class="pre">inicio</span></code>, <code class="docutils literal"><span class="pre">fim</span></code> e <code class="docutils literal"><span class="pre">passo</span></code> no trecho de programa
+abaixo para varrer a lista de forma reversa, ou seja, da direita para
+a esquerda.</p>
+
+<div id="exemplo_percorrer_lista_reversa" >
+<textarea cols="50" rows="12" id="exemplo_percorrer_lista_reversa_code" class="active_code">
+primos = [2, 3, 5, 7, 11, 13]
+# modifique os valores abaixo
+inicio = 0
+fim    = len(primos)
+passo  = 1
+
+for i in range(inicio, fim, passo):
+    print( "%d: %d"%(i,primos[i]) )
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exemplo_percorrer_lista_reversa)</span> </p>
+<button onclick="runit('exemplo_percorrer_lista_reversa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exemplo_percorrer_lista_reversa');">Save</button>
+<button class="ac_opt" onclick="requestCode('exemplo_percorrer_lista_reversa');">Load</button>
+<br />
+
+<canvas id="exemplo_percorrer_lista_reversa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exemplo_percorrer_lista_reversa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicios-com-listas">
+<h2>Exercícios com listas<a class="headerlink" href="#exercicios-com-listas" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="exercicio-1">
+<h3>Exercício 1<a class="headerlink" href="#exercicio-1" title="Permalink to this headline">¶</a></h3>
+<p>(exercício 1 da <a class="reference external" href="https://www.ime.usp.br/~macmulti/exercicios/vetores/index.html">lista de exercícios sobre vetores</a>).</p>
+<p>Dados n &gt; 0 e uma sequência com n números reais, imprimí-los na ordem inversa a da leitura.</p>
+
+<div id="aula_lista_ex1_tentativa" >
+<textarea cols="50" rows="12" id="aula_lista_ex1_tentativa_code" class="active_code">
+def main():
+    # escreva o seu programa abaixo e remova o print()
+    print("Vixe! Ainda nao fiz o exercicio!")
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula_lista_ex1_tentativa)</span> </p>
+<button onclick="runit('aula_lista_ex1_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula_lista_ex1_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula_lista_ex1_tentativa');">Load</button>
+<br />
+
+<canvas id="aula_lista_ex1_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula_lista_ex1_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Clique <a class="reference external" href="exercicios/ex91.html">aqui</a> para ver uma solução.</p>
+</div>
+<div class="section" id="exercicio-2">
+<h3>Exercício 2<a class="headerlink" href="#exercicio-2" title="Permalink to this headline">¶</a></h3>
+<p>Dada uma sequência de <code class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">0</span></code> números reais, imprimi-los eliminando as repetições.</p>
+
+<div id="aula_lista_ex2_tentativa" >
+<textarea cols="50" rows="12" id="aula_lista_ex2_tentativa_code" class="active_code">
+def main():
+    # escreva o seu programa abaixo e remova o print()
+    print("Vixe! Ainda nao fiz o exercicio!")
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula_lista_ex2_tentativa)</span> </p>
+<button onclick="runit('aula_lista_ex2_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula_lista_ex2_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula_lista_ex2_tentativa');">Load</button>
+<br />
+
+<canvas id="aula_lista_ex2_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula_lista_ex2_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-3">
+<h3>Exercício 3<a class="headerlink" href="#exercicio-3" title="Permalink to this headline">¶</a></h3>
+<p>Dados dois números naturais <code class="docutils literal"><span class="pre">m</span></code> e <code class="docutils literal"><span class="pre">n</span></code> e duas sequências ordenadas com <code class="docutils literal"><span class="pre">m</span></code> e
+n números inteiros, obter uma única sequência ordenada contendo todos
+os elementos das sequências originais sem repetição.</p>
+<p>Sugestão: Imagine uma situação real, por exemplo, dois fichários de uma biblioteca.</p>
+
+<div id="aula_lista_ex3_tentativa" >
+<textarea cols="50" rows="12" id="aula_lista_ex3_tentativa_code" class="active_code">
+def main():
+    # escreva o seu programa abaixo e remova o print()
+    print("Vixe! Ainda nao fiz o exercicio!")
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula_lista_ex3_tentativa)</span> </p>
+<button onclick="runit('aula_lista_ex3_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula_lista_ex3_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula_lista_ex3_tentativa');">Load</button>
+<br />
+
+<canvas id="aula_lista_ex3_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula_lista_ex3_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-4">
+<h3>Exercício 4<a class="headerlink" href="#exercicio-4" title="Permalink to this headline">¶</a></h3>
+<p>Dados um número inteiro <code class="docutils literal"><span class="pre">n</span></code> e uma sequência com <code class="docutils literal"><span class="pre">n</span></code> números reais,
+determinar a maior soma de um segmento da sequência (com pelo menos um elemento).
+Um <em>segmento</em> é uma subsequência de números consecutivos.</p>
+<p>Para  <code class="docutils literal"><span class="pre">n</span> <span class="pre">==</span> <span class="pre">12</span></code> e a sequência</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="mi">5</span>   <span class="o">-</span><span class="mi">2</span>   <span class="o">-</span><span class="mi">2</span>   <span class="o">-</span><span class="mi">7</span>   <span class="mi">3</span>   <span class="mi">14</span>  <span class="mi">10</span>  <span class="o">-</span><span class="mi">3</span>   <span class="mi">9</span>   <span class="o">-</span><span class="mi">6</span>   <span class="mi">4</span>   <span class="mi">1</span>
+</pre></div>
+</div>
+<p>a soma do segmento de soma máxima é <code class="docutils literal"><span class="pre">3+14+10-3+9</span> <span class="pre">=</span> <span class="pre">33</span></code>.</p>
+
+<div id="aula_lista_ex4_tentativa" >
+<textarea cols="50" rows="12" id="aula_lista_ex4_tentativa_code" class="active_code">
+def main():
+    # escreva o seu programa abaixo e remova o print()
+    print("Vixe! Ainda nao fiz o exercicio!")
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula_lista_ex4_tentativa)</span> </p>
+<button onclick="runit('aula_lista_ex4_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula_lista_ex4_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula_lista_ex4_tentativa');">Load</button>
+<br />
+
+<canvas id="aula_lista_ex4_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula_lista_ex4_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Lista: estrutura sequencial indexada</a><ul>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#videos">Vídeos</a></li>
+<li><a class="reference internal" href="#introducao">Introdução</a></li>
+<li><a class="reference internal" href="#comprimento-de-uma-lista">Comprimento de uma lista</a></li>
+<li><a class="reference internal" href="#indices">Índices</a></li>
+<li><a class="reference internal" href="#concatenacao-e-repeticao">Concatenação e Repetição</a></li>
+<li><a class="reference internal" href="#fatias-de-um-lista">Fatias de um lista</a></li>
+<li><a class="reference internal" href="#referencia-versus-copia">Referência versus cópia</a></li>
+<li><a class="reference internal" href="#comando-for">Comando <code class="docutils literal"><span class="pre">for</span></code></a></li>
+<li><a class="reference internal" href="#exercicios-com-listas">Exercícios com listas</a><ul>
+<li><a class="reference internal" href="#exercicio-1">Exercício 1</a></li>
+<li><a class="reference internal" href="#exercicio-2">Exercício 2</a></li>
+<li><a class="reference internal" href="#exercicio-3">Exercício 3</a></li>
+<li><a class="reference internal" href="#exercicio-4">Exercício 4</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="08-funcoes.html"
+                        title="previous chapter">Funções</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="10-funcoes-listas.html"
+                        title="next chapter">Funções com listas</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="10-funcoes-listas.html" title="Funções com listas"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="08-funcoes.html" title="Funções"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Jun 12, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

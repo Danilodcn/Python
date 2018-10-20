@@ -1,0 +1,391 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2. Usando o interpretador Python &mdash; Python v2.7.2 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.7.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Python v2.7.2 documentation"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="top" title="Python v2.7.2 documentation" href="../index.html" />
+    <link rel="up" title="O tutorial de Python" href="index.html" />
+    <link rel="next" title="3. Uma introdução informal a Python" href="introduction.html" />
+    <link rel="prev" title="1. Abrindo o apetite" href="appetite.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+ 
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="3. Uma introdução informal a Python"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="appetite.html" title="1. Abrindo o apetite"
+             accesskey="P">previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">Python v2.7.2 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">O tutorial de Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="usando-o-interpretador-python">
+<span id="tut-using"></span><h1>2. Usando o interpretador Python<a class="headerlink" href="#usando-o-interpretador-python" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="disparando-o-interpretador">
+<span id="tut-invoking"></span><h2>2.1. Disparando o interpretador<a class="headerlink" href="#disparando-o-interpretador" title="Permalink to this headline">¶</a></h2>
+<p>O interpretador é frequentemente instalado como <tt class="file docutils literal"><span class="pre">/usr/local/bin/python</span></tt>
+nas máquinas onde está disponível; adicionando <tt class="file docutils literal"><span class="pre">/usr/local/bin</span></tt> ao
+caminho de busca (search path) da shell de seu UNIX torna-se possível
+iniciá-lo digitando:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">python</span>
+</pre></div>
+</div>
+<p>no console. Considerando que a escolha do diretório
+de instalação é uma opção de instalação, outras localizações são possíveis;
+verifique com seu guru local de Python ou com o administrador do sistema.
+(Ex.: <tt class="file docutils literal"><span class="pre">/usr/local/python</span></tt> é uma alternativa popular para instalação.)</p>
+<p>Em computadores com Windows, Python é instalado geralmente em
+<tt class="file docutils literal"><span class="pre">C:\Python27</span></tt>, apesar de você poder mudar isso enquanto está executando o
+instalador. Para adicionar esse diretório ao path, você pode digitar o
+seguinte comando no console:</p>
+<div class="highlight-python"><pre>set path=%path%;C:\python27</pre>
+</div>
+<p>Digitando um caractere EOF (end-of-file; fim de arquivo: <tt class="kbd docutils literal"><span class="pre">Control-D</span></tt> em
+Unix, <tt class="kbd docutils literal"><span class="pre">Control-Z</span></tt> em Windows) diretamente no prompt força o interpretador
+a sair com status de saída zero. Se isso não funcionar, você pode sair do
+interpretador digitando o seguinte: <tt class="docutils literal"><span class="pre">quit()</span></tt>.</p>
+<p>As características de edição de linha não são muito sofisticadas. Sobre UNIX,
+quem instalou o interpretador talvez tenha habilitado o suporte à biblioteca
+GNU readline, que adiciona facilidades mais elaboradas de edição e histórico
+de comandos. Teclar <tt class="kbd docutils literal"><span class="pre">Control-P</span></tt> no primeiro prompt oferecido pelo Python
+é, provavelmente, a maneira mais rápida de verificar se a edição de linha de
+comando é suportada. Se escutar um <em>beep</em>, você tem edição de linha de
+comando; veja o Apêndice <a class="reference internal" href="interactive.html#tut-interacting"><em>Edição interativa de entrada e substituição por histórico</em></a> para uma introdução às teclas
+especiais. Se nada acontecer, ou se ^P aparecer na tela, a opção de edição não
+está disponível; você apenas poderá usar o backspace para remover caracteres
+da linha atual.</p>
+<p>O interpretador trabalha de forma semelhante a uma shell de UNIX: quando
+disparado com a saída padrão conectada a um console de terminal (dispositivo
+tty), ele lê e executa comandos interativamente; quando disparado com um nome
+de arquivo como parâmetro ou com redirecionamento da entrada padrão para ler
+um arquivo, o interpretador irá ler e executar o <em>script</em> contido em tal
+arquivo.</p>
+<p>Uma segunda forma de rodar o interpretador é <tt class="docutils literal"><span class="pre">python</span> <span class="pre">-c</span> <span class="pre">*comando*</span> <span class="pre">[arg]</span> <span class="pre">...</span></tt>,
+que executa um ou mais comandos especificados na posição <em>comando</em>,
+analogamente à opção de shell <a class="reference internal" href="../using/cmdline.html#cmdoption-c"><em class="xref std std-option">-c</em></a>. Considerando que comandos Python
+frequentemente têm espaços em branco (ou outros caracteres que são
+especiais para a shell) é aconselhável que o <em>comando</em> esteja dentro de aspas
+duplas.</p>
+<p>Alguns módulos Python são também úteis como scripts. Estes podem ser chamados
+usando <tt class="docutils literal"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">*módulo*</span> <span class="pre">[arg]</span> <span class="pre">...</span></tt>, que executa o arquivo fonte do
+<em>módulo</em> como se você tivesse digitado seu caminho completo na linha de
+comando.</p>
+<p>Quando um arquivo de script é utilizado, as vezes é útil executá-lo e logo em
+seguida entrar em modo interativo. Isto pode ser feito acrescentando o
+argumento <a class="reference internal" href="../using/cmdline.html#cmdoption-i"><em class="xref std std-option">-i</em></a> antes do nome do script.</p>
+<div class="section" id="passagem-de-argumentos">
+<span id="tut-argpassing"></span><h3>2.1.1. Passagem de argumentos<a class="headerlink" href="#passagem-de-argumentos" title="Permalink to this headline">¶</a></h3>
+<p>Quando são de conhecimento do interpretador, o nome do script e demais
+argumentos da linha de comando da shell são acessíveis ao próprio script
+através da variável <tt class="docutils literal"><span class="pre">argv</span></tt> do módulo <tt class="docutils literal"><span class="pre">sys</span></tt>, que é uma lista de strings.
+Essa lista tem sempre ao menos um elemento; quando nenhum script ou argumento
+forem passados para o interpretador, <tt class="docutils literal"><span class="pre">sys.argv[0]</span></tt> será uma string vazia.
+Quando o nome do script for <tt class="docutils literal"><span class="pre">-</span></tt> (significando entrada padrão), o conteúdo de
+sys.argv[0] será <tt class="docutils literal"><span class="pre">'-'</span></tt>. Quando for utilizado <a class="reference internal" href="../using/cmdline.html#cmdoption-c"><em class="xref std std-option">-c</em></a> <em>comando</em>,
+<tt class="docutils literal"><span class="pre">sys.argv[0]</span></tt> conterá <tt class="docutils literal"><span class="pre">'-c'</span></tt>. Quando for utilizado <a class="reference internal" href="../using/cmdline.html#cmdoption-m"><em class="xref std std-option">-m</em></a> <em>módulo</em>,
+<tt class="docutils literal"><span class="pre">sys.argv[0]</span></tt> conterá o caminho completo do módulo localizado. Opções
+especificadas após <a class="reference internal" href="../using/cmdline.html#cmdoption-c"><em class="xref std std-option">-c</em></a> <em>comando</em> ou <a class="reference internal" href="../using/cmdline.html#cmdoption-m"><em class="xref std std-option">-m</em></a> <em>módulo</em> não serão
+consumidas pelo interpretador mas deixadas em <tt class="docutils literal"><span class="pre">sys.argv</span></tt> para serem tratadas
+pelo comando ou módulo.</p>
+</div>
+<div class="section" id="modo-interativo">
+<span id="tut-interactive"></span><h3>2.1.2. Modo interativo<a class="headerlink" href="#modo-interativo" title="Permalink to this headline">¶</a></h3>
+<p>Quando os comandos são lidos a partir do console (tty), diz-se que o
+interpretador está em modo interativo. Nesse modo ele solicita um próximo
+comando através do <em>prompt primário</em>, tipicamente três sinais de maior
+(<tt class="docutils literal"><span class="pre">&gt;&gt;&gt;</span></tt>); para linhas de continuação do comando atual, o <em>prompt secundário</em>
+padrão é formado por três pontos (<tt class="docutils literal"><span class="pre">...</span></tt>). O interpretador exibe uma
+mensagem de boas vindas, informando seu número de versão e um aviso de
+copyright antes de exibir o primeiro prompt:</p>
+<div class="highlight-python"><pre>python
+Python 2.7 (#1, Feb 28 2010, 00:02:06)
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt;</pre>
+</div>
+<p>Linhas de continuação são necessárias em construções multi-linha. Como
+exemplo, dê uma olhada nesse comando <a class="reference internal" href="../reference/compound_stmts.html#if"><tt class="xref std std-keyword docutils literal"><span class="pre">if</span></tt></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">o_mundo_eh_plano</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">o_mundo_eh_plano</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="s">&quot;Cuidado para não cair dele!&quot;</span>
+<span class="gp">...</span>
+<span class="go">Cuidado para não cair dele!</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="o-interpretador-e-seu-ambiente">
+<span id="tut-interp"></span><h2>2.2. O interpretador e seu ambiente<a class="headerlink" href="#o-interpretador-e-seu-ambiente" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="tratamento-de-erros">
+<span id="tut-error"></span><h3>2.2.1. Tratamento de erros<a class="headerlink" href="#tratamento-de-erros" title="Permalink to this headline">¶</a></h3>
+<p>Quando ocorre um erro, o interpretador exibe uma mensagem de erro como um
+<em>stack trace</em> (a situação da pilha de execução). No modo interativo, ele
+retorna ao prompt primário; quando a entrada vem de um arquivo, o
+interpretador aborta a execução com status de erro diferente de zero após
+exibir o stack trace (Exceções tratadas por um <a class="reference internal" href="../reference/compound_stmts.html#except"><tt class="xref std std-keyword docutils literal"><span class="pre">except</span></tt></a> em um comando
+<a class="reference internal" href="../reference/compound_stmts.html#try"><tt class="xref std std-keyword docutils literal"><span class="pre">try</span></tt></a> não são consideradas erros neste contexto). Alguns erros são
+incondicionalmente fatais e causam a saída com status diferente de zero; isto
+se aplica a inconsistências internas e alguns casos de exaustão de memória.
+Todas as mensagens de erro são escritas na saída de erros padrão (<em>standard
+error</em>), enquanto a saída dos demais comandos é direcionada para a saída
+padrão.</p>
+<p>Teclar o caractere de interrupção (tipicamente Control-C ou DEL) no prompt
+primário ou secundário cancela a entrada de dados corrente e volta ao
+prompt primário. <a class="footnote-reference" href="#id2" id="id1">[1]</a> Provocar a interrupção enquanto um comando está em
+execução levanta a exceção <a class="reference internal" href="../library/exceptions.html#exceptions.KeyboardInterrupt" title="exceptions.KeyboardInterrupt"><tt class="xref py py-exc docutils literal"><span class="pre">KeyboardInterrupt</span></tt></a>, a qual pode ser tratada
+em um comando <a class="reference internal" href="../reference/compound_stmts.html#try"><tt class="xref std std-keyword docutils literal"><span class="pre">try</span></tt></a>.</p>
+</div>
+<div class="section" id="scripts-executaveis-em-python">
+<span id="tut-scripts"></span><h3>2.2.2. Scripts executáveis em Python<a class="headerlink" href="#scripts-executaveis-em-python" title="Permalink to this headline">¶</a></h3>
+<p>Em sistemas UNIX, scripts Python podem ser transformados em executáveis, como shell scripts, pela inclusão desta linha no início do arquivo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#! /usr/bin/env python</span>
+</pre></div>
+</div>
+<p>(assumindo que o interpretador foi incluído no <span class="target" id="index-0"></span><tt class="xref std std-envvar docutils literal"><span class="pre">PATH</span></tt> do usuário e que
+o script tenha a permissão de acesso habilitada para execução). Os caracteres
+<tt class="docutils literal"><span class="pre">#!</span></tt> devem ser os dois primeiros do arquivo. Em algumas plataformas esta
+linha inicial deve ser finalizada no estilo UNIX com (<tt class="docutils literal"><span class="pre">'\\n'</span></tt>), e não com a
+marca de fim de linha do Windows (<tt class="docutils literal"><span class="pre">'\\r\\n'</span></tt>). Observe que o caractere
+<tt class="docutils literal"><span class="pre">'#'</span></tt> inicia uma linha de comentário em Python.</p>
+<p>Para atribuir modo executável ou permissão de execução ao seu script Python,
+utilize o comando <strong class="program">chmod</strong> do shell do UNIX:</p>
+<div class="highlight-python"><pre>$ chmod +x meuscript.py</pre>
+</div>
+<p>Em sistemas Windows, não há noção de um &#8220;modo executável&#8221;. O instalador de
+Python associa automaticamente arquivos <tt class="docutils literal"><span class="pre">.py</span></tt> arquivos a <tt class="docutils literal"><span class="pre">python.exe</span></tt> para
+que um clique duplo sobre um arquivo Python o execute como um script. A
+extensão pode também ser <tt class="docutils literal"><span class="pre">.pyw</span></tt>; nesse caso, a janela de console que
+normalmente aparece é suprimida.</p>
+</div>
+<div class="section" id="codificacao-em-arquivos-de-codigo-fonte">
+<span id="tut-source-encoding"></span><h3>2.2.3. Codificação em arquivos de código-fonte<a class="headerlink" href="#codificacao-em-arquivos-de-codigo-fonte" title="Permalink to this headline">¶</a></h3>
+<p>É possível usar codificação diferente de ASCII em arquivos de código Python. A
+melhor maneira de fazê-lo é através de um comentário adicional logo após a
+linha <tt class="docutils literal"><span class="pre">#!</span></tt>:</p>
+<div class="highlight-python"><pre># -*- coding: codificacao -*-</pre>
+</div>
+<p>Com essa declaração, todos os caracteres no código-fonte serão tratados de
+acordo com a codificação especificada, e será possível escrever strings
+Unicode diretamente, usando aquela codificação. A lista de codificações
+possíveis pode ser encontrada na Referência da Biblioteca Python, na seção
+<a class="reference internal" href="../library/codecs.html#module-codecs" title="codecs: Encode and decode data and streams."><tt class="xref py py-mod docutils literal"><span class="pre">codecs</span></tt></a>.</p>
+<p>Por exemplo, para escrever strings Unicode incluindo o símbolo monetário do
+Euro, a codificação ISO-8859-15 pode ser usada; nela símbolo do Euro tem o
+valor ordinal 164. Este script exibe o valor 8364 (código Unicode
+correspondente ao símbolo do Euro) e termina:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># -*- coding: iso-8859-15 -*-</span>
+
+<span class="n">currency</span> <span class="o">=</span> <span class="s">u&quot;€&quot;</span>
+<span class="k">print</span> <span class="nb">ord</span><span class="p">(</span><span class="n">currency</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Se o seu editor é capaz de salvar arquivos UTF-8 com <em>byte order mark</em>
+(conhecido como BOM), você pode usar isto ao invés da declaração de
+codificação. O IDLE é capaz de fazer isto se você habilitar
+<tt class="docutils literal"><span class="pre">Options/General/Default</span> <span class="pre">Source</span> <span class="pre">Encoding/UTF-8</span></tt>.
+Note que a assinatura BOM não é reconhecida por versões antigas (Python 2.2 e
+anteriores), nem pelo sistema operacional, invalidando a declaração <tt class="docutils literal"><span class="pre">#!</span></tt>
+(usada somente em sistemas UNIX).</p>
+<p>Usando UTF-8 (seja através da assinatura ou de uma declaração de codificação),
+caracteres da maioria das línguas do mundo podem ser usados simultaneamente em
+strings e comentários. Não é possível usar caracteres não-ASCII em
+identificadores. Para exibir todos esses caracteres adequadamente, seu editor
+deve reconhecer que o arquivo é UTF-8, e deve usar uma fonte que tenha todos
+os caracteres usados no arquivo.</p>
+</div>
+<div class="section" id="o-arquivo-de-inicializacao-para-o-modo-interativo">
+<span id="tut-startup"></span><h3>2.2.4. O arquivo de inicialização para o modo interativo<a class="headerlink" href="#o-arquivo-de-inicializacao-para-o-modo-interativo" title="Permalink to this headline">¶</a></h3>
+<p>Quando usamos Python interativamente, pode ser útil executar uma série de
+comandos ao iniciar cada sessão do interpretador. Isso pode ser feito
+configurando a variável de ambiente <span class="target" id="index-1"></span><a class="reference internal" href="../using/cmdline.html#envvar-PYTHONSTARTUP"><tt class="xref std std-envvar docutils literal"><span class="pre">PYTHONSTARTUP</span></tt></a> para indicar o
+nome de arquivo script que contém um script de inicialização. Essa
+característica assemelha-se aos arquivos <tt class="file docutils literal"><span class="pre">.profile</span></tt> de shells UNIX.</p>
+<p>Este arquivo só é processado em sessões interativas, nunca quando Python lê
+comandos de um script especificado como parâmetro, nem tampouco quando
+<tt class="file docutils literal"><span class="pre">/dev/tty</span></tt> é especificado como a fonte de leitura de comandos (que de
+outra forma se comporta como uma sessão interativa). O script de inicialização
+é executado no mesmo namespace (espaço nominal ou contexto léxico) em que os
+comandos da sessão interativa serão executados, sendo assim, os objetos
+definidos e módulos importados podem ser utilizados sem qualificação durante a
+sessão interativa. É possível também redefinir os prompts <tt class="docutils literal"><span class="pre">sys.ps1</span></tt> e
+<tt class="docutils literal"><span class="pre">sys.ps2</span></tt> neste arquivo.</p>
+<p>Se for necessário ler um script adicional de inicialização a partir do
+diretório atual, você pode programar isso a partir do script de
+inicialização global, por exemplo
+<tt class="docutils literal"><span class="pre">if</span> <span class="pre">os.path.isfile('.pythonrc.py'):</span> <span class="pre">execfile('.pythonrc.py')</span></tt>.
+Se você deseja utilizar o script de inicialização em outro script, você deve
+fazê-lo explicitamente da seguinte forma:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;PYTHONSTARTUP&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">filename</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="nb">execfile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="os-modulos-de-customizacao">
+<span id="tut-customize"></span><h3>2.2.5. Os módulos de customização<a class="headerlink" href="#os-modulos-de-customizacao" title="Permalink to this headline">¶</a></h3>
+<p>Python fornece dois hooks (ganchos) para que você possa personalizá-lo:
+<tt class="xref py py-mod docutils literal"><span class="pre">sitecustomize</span></tt> e <tt class="xref py py-mod docutils literal"><span class="pre">usercustomize</span></tt>. Para ver como funciona, você
+precisa primeiro encontrar o local de seu diretório site-packages de usuário.
+Inicie o Python e execute este código:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">site</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">site</span><span class="o">.</span><span class="n">getusersitepackages</span><span class="p">()</span>
+<span class="go">&#39;/home/user/.local/lib/python2.7/site-packages&#39;</span>
+</pre></div>
+</div>
+<p>Agora você pode criar um arquivo chamado <tt class="file docutils literal"><span class="pre">usercustomize.py</span></tt> nesse
+diretório e colocar o que quiser nele. Isso afetará toda invocação de Python,
+a menos ele seja iniciado com a opção <a class="reference internal" href="../using/cmdline.html#cmdoption-s"><em class="xref std std-option">-s</em></a> para desativar esta
+importação automática.</p>
+<p><tt class="xref py py-mod docutils literal"><span class="pre">sitecustomize</span></tt> funciona da mesma forma, mas normalmente é criado por um
+administrador do sistema no diretório site-packages global, e é importado
+antes de <tt class="xref py py-mod docutils literal"><span class="pre">usercustomize</span></tt>. Consulte a documentação do <a class="reference internal" href="../library/site.html#module-site" title="site: Module responsible for site-specific configuration."><tt class="xref py py-mod docutils literal"><span class="pre">site</span></tt></a> para
+mais detalhes.</p>
+<p class="rubric">Notas</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Um problema com o pacote Readline da GNU pode impedir isso.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">2. Usando o interpretador Python</a><ul>
+<li><a class="reference internal" href="#disparando-o-interpretador">2.1. Disparando o interpretador</a><ul>
+<li><a class="reference internal" href="#passagem-de-argumentos">2.1.1. Passagem de argumentos</a></li>
+<li><a class="reference internal" href="#modo-interativo">2.1.2. Modo interativo</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#o-interpretador-e-seu-ambiente">2.2. O interpretador e seu ambiente</a><ul>
+<li><a class="reference internal" href="#tratamento-de-erros">2.2.1. Tratamento de erros</a></li>
+<li><a class="reference internal" href="#scripts-executaveis-em-python">2.2.2. Scripts executáveis em Python</a></li>
+<li><a class="reference internal" href="#codificacao-em-arquivos-de-codigo-fonte">2.2.3. Codificação em arquivos de código-fonte</a></li>
+<li><a class="reference internal" href="#o-arquivo-de-inicializacao-para-o-modo-interativo">2.2.4. O arquivo de inicialização para o modo interativo</a></li>
+<li><a class="reference internal" href="#os-modulos-de-customizacao">2.2.5. Os módulos de customização</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="appetite.html"
+                        title="previous chapter">1. Abrindo o apetite</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="introduction.html"
+                        title="next chapter">3. Uma introdução informal a Python</a></p>
+<h3>This Page</h3>
+<ul class="this-page-menu">
+  <li><a href="../bugs.html">Report a Bug</a></li>
+  <li><a href="../_sources/tutorial/interpreter.txt"
+         rel="nofollow">Show Source</a></li>
+</ul>
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="3. Uma introdução informal a Python"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="appetite.html" title="1. Abrindo o apetite"
+             >previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">Python v2.7.2 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >O tutorial de Python</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+    &copy; <a href="../copyright.html">Copyright</a> 1990-2012, Python Software Foundation.
+    <br />
+    The Python Software Foundation is a non-profit corporation.  
+    <a href="http://www.python.org/psf/donations/">Please donate.</a>
+    <br />
+    Last updated on Oct 15, 2012.
+    <a href="../bugs.html">Found a bug</a>?
+    <br />
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Squeeze</title></head><body data-page-id="278"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Squeeze</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">June 10, 1997 | Fredrik Lundh</p><p class="note"><b>Note:</b>
+Squeeze was originally developed for Python 1.4, but still works
+with later versions.  However, the current Squeeze release (from
+1998) does not support Python packages.
+</p><p>The <em>squeeze</em> utility can be used to distribute a
+complete Python application as one or two files, and run it using
+a standard Python interpreter kit.</p><p><em>squeeze</em> compiles all Python modules used by the application
+(except for the standard library files), and packs them all in a
+single, usually compressed &#8220;bytecode package&#8221;. The <em>import</em>
+statement is then modified (using the <em>ihooks</em> module) to
+look in the package before searching for modules on the disk. You
+can also put arbitrary data files in the package, and access them
+via the <em>__main__</em> module.</p><p>The package itself can be stored in two different ways:</p><ol><li>As a separate binary package file (a PYZ file). In this
+        case, <em>squeeze</em> also generates a small bootstrap
+        script (typically 300 bytes) which locates and loads the
+        package file. When using compression, the size of the
+        resulting package is usually about 30% of the PY files;
+        only slightly larger than a corresponding ZIP file.</li><li>Embedded in a single Python script. This generates
+        somewhat larger files, but the result is a single text
+        file that can easily be mailed, posted, or used in other
+        environments which may mess up your scripts. No lines
+        are longer than 76 characters, and the file does not
+        include any critical whitespace.</li></ol><p>To generate and run squeezed applications (of any type), you
+need Python 1.4 or newer. To generate compressed packages, you
+need the ZLIB data compression module (which, of course, is also
+required to run the resulting package). Note that if the
+application itself is portable, the same package can be used on
+all platforms.</p><h2>Downloads</h2><p><a href="/downloads#squeeze">Squeeze</a> can be downloaded from
+the effbot.org downloads area.</p><h2>Reviews</h2><blockquote><p><em>&#8220;Fredrik Lundh is a friggin genius&#8221;<br />
+</em>&#8212; Aaron Watters, author of &#8216;Internet Programming with
+    Python&#8217;</p><p><em>&#8220;I agree &#8230; this is a friggin Good Thing&#8221;<br />
+</em>&#8212; Paul Everitt, Digital Creations</p></blockquote></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

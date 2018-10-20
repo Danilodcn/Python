@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Extracting plain text from&nbsp;HTML</title></head><body data-page-id="288"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Extracting plain text from&nbsp;HTML</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | August 2003 | Originally posted to <a href="http://online.effbot.org">online.effbot.org</a></p><div class="zone:include"><img align="right" alt="" height="59" src="data:image/gif;base64, R0lGODlhQQA7AOZ/AJPRpIW1lYrKnKioqOLj42KbdRxnNa3kurrXw5mZmYuLi9fo3ML1zOX06XW6 ioLEldPT05DOor3xxy52Rcrr0vX19XipiI3LoPz8/Hp6epzYrLHovaLUst3d3bnuxLXrwezs7PHx 8V2bcXm9jcPnzdP02qvcu4XBmX3BksvMy8TExHC1hWVmZt3w4pjVqG20g0SGWVpaWrKysorGnsr1 0rHcvy0uLn26kVWTafn5+UpnVEFDQry8vPj4+MTYy6LcsOjo6HSxiJjLqp3UsWaiepTOp2GgdW6s gqnit2mmfZjRrLXkwZbSp16JbXi2jKfKsrjfxabauZS4oJ/arq/Uu2upf+Pu5qTesobHmb/jyfH5 86PXtZrQqTuAUafgtKTatVR1Xszf0tjY2LjJvpnDpUmLXqnStkxRTW5vb6DXs3G4h02RYlugcJ3U rJ3QrpTGo3GfgJrTrp3Qq/D28mSnd6Xfs6fWt+v37qi0rPz+/dTg2KLArPb6957DqVuZb////yH5 BAEAAH8ALAAAAABBADsAAAf/gH+Cg4SFhoeIiYqLjHl3C1kmX1scHDVZC3yMm5yLWhRTLi4AABGm FwICWFgmLZ2vnXmgGhqio6QRF6iqqxFWsMCIGEs/U1O0oky4uburDw9Zf3ctYZFUJGENwY1LXlfF x7UuyqW5qbzPAijrI+0O72pCWXPbhyVIXnU/4Mjjy7vo5DxYh6LdiHcO1KhZ8cZVPUFaDuDLt89Y P3KnzmExggALwYLuEipc8eLEgnp5SEic+K0YLXEYzaUyYObZQJAhFS588WLGnWBzNhxYma9lOJjL Ur2YYAfLM4IGD4rcyRMBrDwLNgglWudAxX7+SukqEwDdTZwIdZLkaeYVnyxa/7ciQTLjCTGL4m6J NUCFl9OzBtOO5PnCKqc5NT7EHYqkjJQ63/DaIgWgSpctqVb9hRpS5Iq1K+htamDig+KtLgxkKQqO BAIfLUyQWkEngsa/gDsP5imEk5XSprUeMAJHIkUNBSasgTHhCQVSW1zYzoybs1TPPB3k2LQgigfT ipEYQMDVT4E0xwQYWODigQUKMs3mlqr2xQqHixak8fDdtBMYFBAVgQEk8EPWF1isd8oMLRThzFPs 5DTSClA0oocb/PXXRRdkLNAABUisAOBXMEgxynqlCDCBBQKs4EMDWXBwU1TwKOSAGRjkoQgGYQgh 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 xT3uPJDb3cdmNyECAQA7" width="65" /></div><p>As some readers may have noticed, my RSS feed no longer includes full
+articles; instead, each item contains the first 50-100 words from the
+corresponding article, as plain unstyled text.  I may switch back again
+when I stop posting &#8220;standard python library&#8221; articles&#8230;
+
+</p><p> If you want to use something similar in your feeds, here&#8217;s the code that
+does the work.  Tweak as necessary:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">textify</span>(html_snippet, maxwords=50):
+
+    <span class="pykeyword">import</span> formatter, htmllib, StringIO, string
+
+    <span class="pykeyword">class</span> <span class="pyclass">Parser</span>(htmllib.HTMLParser):
+        <span class="pykeyword">def</span> <span class="pyfunction">anchor_end</span>(self):
+            self.anchor = None
+
+    <span class="pykeyword">class</span> <span class="pyclass">Formatter</span>(formatter.AbstractFormatter):
+        <span class="pykeyword">pass</span>
+
+    <span class="pykeyword">class</span> <span class="pyclass">Writer</span>(formatter.DumbWriter):
+        <span class="pykeyword">def</span> <span class="pyfunction">send_label_data</span>(self, data):
+            self.send_flowing_data(data)
+            self.send_flowing_data(<span class="pystring">" "</span>)
+
+    o = StringIO.StringIO()
+    p = Parser(Formatter(Writer(o)))
+    p.feed(html_snippet)
+    p.close()
+
+    words = o.getvalue().split()
+
+    <span class="pykeyword">if</span> len(words) &lt;= 2*maxwords:
+        <span class="pykeyword">return</span> string.join(words)
+
+    <span class="pykeyword">return</span> string.join(words[:maxwords]) + <span class="pystring">" ..."</span></pre><p> The <b>HTMLParser</b> subclass disables anchor footnotes; the <b>DumbWriter</b> subclass makes sure that HTML list items have proper labels (or in other words, the subclass works around a bug in the standard library).</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

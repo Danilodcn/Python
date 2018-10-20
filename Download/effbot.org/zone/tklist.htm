@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The tkList Widget&nbsp;Wrapper</title></head><body data-page-id="2018"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The tkList Widget&nbsp;Wrapper</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | March 2008</p><p>The tkList module is a simple wrapper for <a href="http://effbot.org/tkinterbook/listbox.htm">the Tkinter Listbox widget</a>, which provides a somewhat more convenient API.</p><p>The wrapper adds two things: a vertical scrollbar, and a list-based API for populating and querying the widget. When adding data to the widget, the API lets you provide a custom mapping from list items to listbox entries, so you can often use an existing data structure right away.</p><p>Here&#8217;s a brief description of the extended API. For examples, see below.</p><blockquote><p><strong>setdata(sequence, render=str)</strong></p><p>Adds the contents of the given sequence to the listbox. The sequence can be a list, tuple, or any iterable object. The widget makes a shallow copy of the sequence. If a second argument is given, it should be a callable object that maps sequence items to strings.</p><p><strong>getdata()</strong></p><p>Returns the list displayed by the widget. This is a reference to the list object used by the widget, so the list should not be modified, unless you&#8217;re passing the result back to <strong>setdata</strong> immediately.</p><p><strong>getselection()</strong></p><p>Returns the current selection, as a list of items from the sequence passed to setdata. To get a list of indices instead, use <strong>curselection</strong>.</p><p><strong>curselection()</strong></p><p>Returns the current selection, as a list of integer indexes. Note that this differs somewhat from the original Listbox implementation, where this method returns a list of strings instead.</p></blockquote><p>Most standard Listbox methods work as usual, including things like <strong>size</strong> and the selection stuff. The <strong>insert</strong> method is disabled, however; to update the contents, use <strong>getdata</strong> to fetch the internal list, and <strong>setdata</strong> to replace it. The <strong>getdata</strong> method returns a shared list; it&#8217;s safe to modify it only if you&#8217;re passing the resulting list to <strong>setdata</strong>.</p><p>Note that you must pass in the renderer to every call to <strong>setdata</strong>. It&#8217;s almost always a good idea to update the widget in a single location in your program anyway, so this isn&#8217;t much of a problem in practice.</p><h2 id="downloading-the-module">Downloading the Module&#160;<a class="nav" href="#downloading-the-module" title="bookmark!">#</a></h2><p>The tkList wrapper is available from the effbot.org SVN server.  To use it, just download the file and put it somewhere on your Python path.</p><blockquote><p><a href="http://svn.effbot.org/public/stuff/sandbox/tkinter/tkList.py">http://svn.effbot.org/public/stuff/sandbox/tkinter/tkList.py</a></p></blockquote><h2 id="displaying-items">Displaying Items&#160;<a class="nav" href="#displaying-items" title="bookmark!">#</a></h2><p>To create and populate the widget, just create the widget as usual, and call the <strong>setdata</strong> method with the data you want to display, and, where necessary, a function that converts list items to strings. This example shows how to create the widget:</p><pre><code>import Tkinter as tk
+import tkList
+
+master = tk.Tk()
+
+# create widget
+w = tkList.List(master)
+w.setdata(...) # see below
+w.pack()
+
+master.mainloop()
+</code></pre><p>Here are some examples showing how to populate the widget. First, a plain list:</p><pre class="python"><span class="pycomment"># populate with list of strings</span>
+data = [<span class="pystring">"Sweden"</span>, <span class="pystring">"Norway"</span>, <span class="pystring">"Finland"</span>]
+w.setdata(data)</pre><p>Next, a rendered list.</p><pre class="python"><span class="pycomment"># populate with list of arbitrary objects, w. renderer</span>
+data = range(10)
+w.setdata(data, <span class="pykeyword">lambda</span> x: (x+1) * <span class="pystring">"-"</span>)</pre><p>You can also display arbitrary objects:</p><pre class="python"><span class="pycomment"># populate with list of arbitrary objects</span>
+data = [Person(<span class="pystring">u"Anja"</span>), Person(<span class="pystring">u"G&#246;ran"</span>)]
+w.setdata(data, <span class="pykeyword">lambda</span> item: item.name)</pre><p>Finally, an example displaying a sorted dictionary:</p><pre><code># populate with dict mapping region names to station codes
+# listbox displays region and station count
+data = {
+    u"South Sweden": [1, 2, 5, 10, 20],
+    u"North Sweden": [3, 4, 8, 9, 14, 16]
+    }
+w.setdata(
+    sorted(data.items(), key=lambda x: x.lower()),
+    lambda item: "%s (%d)" % (item[0], len(item[1])
+)
+</code></pre><h2 id="selecting-items">Selecting Items&#160;<a class="nav" href="#selecting-items" title="bookmark!">#</a></h2><p>To enable selection, use the standard <strong>selectmode</strong> option to set how items should be selected, and then use <strong>getselection</strong> to fetch the current selection. This method returns a subset of the list passed to <strong>setdata</strong>.</p><pre class="python">w = tkList.List(master, selectmode=tk.EXTENDED)
+w.pack()
+
+...
+
+<span class="pykeyword">print</span> w.getselection()</pre><p>If you need the numeric indexes instead, use the <strong>curselection</strong> method instead of <strong>getselection</strong>.</p><p>Here&#8217;s a larger example:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide"><span class="pykeyword">import</span> Tkinter <span class="pykeyword">as</span> tk
+<span class="pykeyword">import</span> tkList
+
+master = tk.Tk()
+
+<span class="pykeyword">def</span> <span class="pyfunction">callback</span>():
+    <span class="pykeyword">print</span> <span class="pystring">"GET"</span>, w.getselection()
+    <span class="pykeyword">print</span> <span class="pystring">"CUR"</span>, w.curselection()
+
+w = tkList.List(master, selectmode=tk.EXTENDED)
+w.setdata([<span class="pystring">"line %d"</span> % i <span class="pykeyword">for</span> i <span class="pykeyword">in</span> range(20)])
+w.pack()
+
+b = tk.Button(master, text=<span class="pystring">"show selection"</span>, command=callback)
+b.pack()
+
+tk.mainloop()</pre></div><div class="yui-ge"><div class="yui-u first"><p>This example lets you select items from the list, and click &#8220;show selection&#8221; to display the selection, as returned by <strong>getselection</strong> and <strong>curselection</strong>, respectively. Try changing EXTENDED to some other selection mode (e.g. BROWSE for single-item selections, or MULTIPLE for &#8220;check box&#8221; behaviour). See the Listbox documentation for details.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#downloading-the-module">Downloading the Module</a></li><li><a href="#displaying-items">Displaying Items</a></li><li><a href="#selecting-items">Selecting Items</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

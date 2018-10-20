@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Caching</title></head><body data-page-id="18"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Caching</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">August 2006 | Fredrik Lundh</p><p class="note"><b>Note:</b>
+This article is a stub.  A more detailed analysis of different simple
+cache implementations will be published later.  See the notes below for
+a rough summary.
+</p><p>The following is a simple cache implementation, which is suitable
+for relatively small caches (up to a few hundred items), and where
+it&#8217;s relatively costly to create or reload objects after a cache miss
+(e.g. a few milliseconds or more per object).
+
+<div class="example">
+<b>Simple cache implementation</b>
+<pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">Cache</span>:
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, maxsize=100):
+        self.cache = {}
+        self.order = [] <span class="pycomment"># least recently used first</span>
+        self.maxsize = maxsize
+
+    <span class="pykeyword">def</span> <span class="pyfunction">get</span>(self, key):
+        item = self.cache[key] <span class="pycomment"># KeyError if not present</span>
+        self.order.remove(key)
+        self.order.append(key)
+        <span class="pykeyword">return</span> item
+
+    <span class="pykeyword">def</span> <span class="pyfunction">set</span>(self, key, value):
+        <span class="pykeyword">if</span> self.cache.has_key(key):
+            self.order.remove(key)
+        <span class="pykeyword">elif</span> len(self.cache) &gt;= self.maxsize:
+            <span class="pycomment"># discard least recently used item</span>
+            <span class="pykeyword">del</span> self.cache[self.order.pop(0)]
+        self.cache[key] = value
+        self.order.append(key)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">size</span>(self):
+        <span class="pykeyword">return</span> len(self.cache)</pre></div></p><p>Usage:</p><pre class="python">
+cache = Cache(100)
+
+<span class="pykeyword">try</span>:
+    item = cache.get(key)
+<span class="pykeyword">except</span> KeyError:
+    item = item_factory()
+    cache.set(key, item)</pre></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">Note that this implementation uses an ordinary list to keep track of
+the access order, in order to be able to discard the least recently used
+items when the cache fills up.  The <a href="python-list.htm">list type</a>
+isn&#8217;t really optimized for this purpose, but this approach is surprisingly
+efficient for smaller caches, especially when the cache accesses follow an
+<a href="http://en.wikipedia.org/wiki/Pareto_distribution">80/20 pattern</a>.
+
+<hr /><div class="small"><h4>Notes:</h4><pre class="wide">
+
+(100k accesses, 100 slots, 500 items, 10 ms object
+creation, 1k per object, integer keys)
+
+baseline:     speed=1000s (0+1000) memory=0k
+
+memoization:  speed=5.22s (0.22+5.00) memory=500k
+keep last:    speed=989.86s (0.72+989.14) memory=1k
+clear all:    speed=532.51s (0.55+531.96) memory=100k
+clear pop:    speed=706.51s (0.76+705.75) memory=100k
+clear random: speed=400.61s (0.80+399.81) memory=100k
+clear lru:    speed=317.05s (0.78+316.27) memory=100k
+
+alternative implementations:
+
+carlson:      speed=320.22s (1.35+318.87) memory=100k
+http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/252524
+
+prodromou:    speed=343.61s (17.88+325.73) memory=100k
+http://freshmeat.net/projects/lrucache/
+
+the carlson implementation uses a manually maintained double-
+linked list, which is O(1), but is slower than a list for small
+caches.  the prodromou implementation uses a sorted heap of
+cache items, which turns out to be a lot slower.
+</pre></div></p></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

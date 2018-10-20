@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tipos abstratos de dados - filas &mdash; Princípios de Desenvolvimeto de Algoritmos em Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Princípios de Desenvolvimeto de Algoritmos em Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Tipos abstratos de dados - Pilhas" href="08-pilhas.html" />
+    <link rel="prev" title="Programação orientada a objetos" href="06-poo.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'algoritmos',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="08-pilhas.html" title="Tipos abstratos de dados - Pilhas"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="06-poo.html" title="Programação orientada a objetos"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Princípios de Desenvolvimeto de Algoritmos em Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="tipos-abstratos-de-dados-filas">
+<h1>Tipos abstratos de dados - filas<a class="headerlink" href="#tipos-abstratos-de-dados-filas" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="objetivo">
+<h2>Objetivo<a class="headerlink" href="#objetivo" title="Permalink to this headline">¶</a></h2>
+<p>Ilustrar o uso de <strong>filas</strong> como estrutura de dados utilizada na resolução de problemas computacionais.</p>
+</div>
+<div class="section" id="topicos">
+<h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>Tipos abstratos de dados: filas</li>
+<li>Uso de listas em Python para representar filas</li>
+<li>Definição de uma classe Fila Circular</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="tipo-abstrato-de-dados">
+<h2>Tipo abstrato de dados<a class="headerlink" href="#tipo-abstrato-de-dados" title="Permalink to this headline">¶</a></h2>
+<p>Já vimos que, em Python, todos os tipos (como <cite>int</cite>, <cite>float</cite>, e <cite>str</cite>)
+são classes. Definir uma classe é basicamente criar um novo tipo de dado.</p>
+<p>Um <strong>tipo abstrato de dados</strong> (TAD ou ADT do inglês <strong>abstract data type</strong>) define uma classe de objetos cujo comportamento lógico é dado por um conjunto de valores e um conjunto de operações (veja mais em <a class="reference external" href="http://pt.wikipedia.org/wiki/Tipo_Abstrato_de_Dado">Tipo Abstrato de Dado</a>).</p>
+<p>Nessa aula veremos como utilizar <strong>filas</strong>.</p>
+</div>
+<div class="section" id="fila">
+<h2>Fila<a class="headerlink" href="#fila" title="Permalink to this headline">¶</a></h2>
+<p>A <strong>fila</strong> é um tipo abstrato muito utilizado para modelar o
+comportamento do processamento de dados.
+Em uma fila, o <strong>primeiro</strong> elemento que chega é o <strong>primeiro</strong> elemento a ser processado (conhecido como <strong>FIFO</strong> do inglês <em>first-in first-out</em>). Para saber mais sobre usos desse tipo abstrato de dado em computação veja a página do Prof. Paulo Feofilloff sobre <a class="reference external" href="http://www.ime.usp.br/~pf/algoritmos/aulas/fila.html">Filas</a>.</p>
+<p>A documentação do Python recomenda o uso da classe <cite>deque</cite> do módulo <cite>collections</cite> para a implementação de filas. O tipo <cite>deque</cite> oferece o método <cite>popleft()</cite>, para remover o primeiro elemento da <cite>deque</cite> de forma eficiente.</p>
+<p>Mas quando o tamanho máximo de uma fila é conhecido, podemos utilizar uma lista em Python de tamanho fixo e índices para controlar a fila, evitando assim o trabalho de remover e inserir elementos. Uma possível implementação seria:</p>
+
+<div id="aula_classe_Fila_basica" >
+<textarea cols="50" rows="12" id="aula_classe_Fila_basica_code" class="active_code">
+def main():
+    # testes da classe Fila
+    f = Fila(10)
+    f.insere("alho")
+    f.insere("cebola")
+    f.insere("pimenta")
+    print(f.remove())
+    f.insere("sal")
+    print(f.remove())
+    print(f.remove())
+    print(f.remove())
+
+class Fila:
+    def __init__(self, max):
+        self.elemento = [0]*max # cria uma fila com max elementos, todos zero
+        self.ini = 0
+        self.fim  = 0
+    def insere(self, ele):
+        self.elemento[self.fim] = ele
+        self.fim += 1
+    def remove(self):
+        obj = self.elemento[self.ini]
+        self.ini += 1
+        return obj
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula_classe_Fila_basica)</span> </p>
+<button onclick="runit('aula_classe_Fila_basica',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula_classe_Fila_basica');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula_classe_Fila_basica');">Load</button>
+<br />
+
+<canvas id="aula_classe_Fila_basica_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula_classe_Fila_basica_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="section" id="exercicio-1">
+<h3>Exercício 1<a class="headerlink" href="#exercicio-1" title="Permalink to this headline">¶</a></h3>
+<p>A classe <cite>Fila</cite> como definida anteriormente tem vários problemas.
+Por exemplo, ao utilizá-la várias vezes, o índice <cite>fim</cite> chega ao
+tamanho máximo da fila, mas pode haver espaço sobrando. Uma forma de
+se evitar esse problema é usando uma <strong>fila circular</strong>. Nesse caso, quando
+o índice <cite>fim</cite> ou <cite>ini</cite> chegam ao tamanho máximo, eles voltam a zero.</p>
+<p>Reescreva a classe <cite>Fila</cite> para que se torne circular.</p>
+
+<div id="fila_ex01_tentativa" >
+<textarea cols="50" rows="12" id="fila_ex01_tentativa_code" class="active_code">
+def main():
+    # escreva testes para a classe FilaCircular
+    print("Vixe! ainda nao escrevi os testes")
+
+class FilaCircular:
+    def __init__(self, max):
+        self.elemento = [0]*max # cria uma fila com max elementos, todos zero
+        self.ini = 0
+        self.fim  = 0
+    def insere(self, ele):
+        self.elemento[self.fim] = ele
+        self.fim += 1
+        if self.fim == len(self.elemento):
+            self.fim = 0
+    def remove(self):
+        # reescreva o metodo remove para fila circular
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (fila_ex01_tentativa)</span> </p>
+<button onclick="runit('fila_ex01_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('fila_ex01_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('fila_ex01_tentativa');">Load</button>
+<br />
+
+<canvas id="fila_ex01_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="fila_ex01_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-2">
+<h3>Exercício 2<a class="headerlink" href="#exercicio-2" title="Permalink to this headline">¶</a></h3>
+<p>Inclua os seguintes métodos na classe <cite>FilaCircular</cite>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><cite>vazia()</cite>: que retorna <cite>True</cite> se a fila está vazia e <cite>False</cite> caso contrário. Uma fila está vazia quando o índice <cite>ini == fim</cite>.</li>
+<li><cite>cheia()</cite>: que retorna <cite>True</cite> se a fila está cheia e <cite>False</cite> caso contrário. Uma fila está cheia quando o índice <cite>fim+1</cite> é igual ao tamanho da fila e <cite>ini</cite> igual a zero, ou quando <cite>fim+1 == ini</cite>. Ou seja, a fila está cheia quando <cite>(fim+1)%N == ini</cite>.</li>
+</ul>
+</div></blockquote>
+<p>Modifique os métodos <cite>insere</cite> e <cite>remove</cite> para inserir apenas quando a fila não está cheia (e imprime uma mensagem de erro apropriada) e remover apenas quando a pilha não estiver vazia (retorna None caso esteja).</p>
+</div>
+<div class="section" id="exercicio-3">
+<h3>Exercício 3<a class="headerlink" href="#exercicio-3" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="http://www.ime.usp.br/~pf/algoritmos/aulas/fila.html">Exercício 2.5 das notas de aula do Prof. Feofilloff sobre filas</a>.</p>
+<p>Imagine um tabuleiro quadriculado com <cite>m×n</cite> casas dispostas em <cite>m</cite>
+linhas e <cite>n</cite> colunas.  Algumas casas estão livres e outras estão
+bloqueadas. As casas livres são marcadas com <cite>-</cite> e as bloqueadas com
+<cite>#</cite>. Há um robô na casa <cite>(1,1)</cite>, que é livre. O robô só pode andar de
+uma casa livre para outra. Em cada passo, só pode andar para a casa
+que está ao norte, a leste, ao sul ou a oeste. Ajude o robô a
+encontrar a saída, que está na posição <cite>(m,n)</cite>.</p>
+<p><strong>Sugestão</strong>: Faça uma moldura de casas bloqueadas.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tipos abstratos de dados - filas</a><ul>
+<li><a class="reference internal" href="#objetivo">Objetivo</a></li>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#tipo-abstrato-de-dados">Tipo abstrato de dados</a></li>
+<li><a class="reference internal" href="#fila">Fila</a><ul>
+<li><a class="reference internal" href="#exercicio-1">Exercício 1</a></li>
+<li><a class="reference internal" href="#exercicio-2">Exercício 2</a></li>
+<li><a class="reference internal" href="#exercicio-3">Exercício 3</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="06-poo.html"
+                        title="previous chapter">Programação orientada a objetos</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="08-pilhas.html"
+                        title="next chapter">Tipos abstratos de dados - Pilhas</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="08-pilhas.html" title="Tipos abstratos de dados - Pilhas"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="06-poo.html" title="Programação orientada a objetos"
+             >previous</a> |</li>
+        <li><a href="index.html">Princípios de Desenvolvimeto de Algoritmos em Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on May 16, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

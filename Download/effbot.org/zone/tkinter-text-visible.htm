@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Find Visible Region in a Text&nbsp;Widget</title></head><body data-page-id="320"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Find Visible Region in a Text&nbsp;Widget</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">April 29, 1999 | Fredrik Lundh</p><p>To get the index of the first visible character, use 
+<b>text.index(&#8220;@0,0&#8221;)</b>.</p><p>To get the index of the last visible character (the
+end of the last visible line), use
+<b>text.index(&#8220;@0,%d&#8221; % text.winfo_height())</b>.</p><p>Example:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+root = Tk()
+
+<span class="pycomment"># create a scrolled text widget</span>
+
+frame = Frame(root, bd=2, relief=SUNKEN)
+
+scrollbar = Scrollbar(frame, orient=VERTICAL)
+scrollbar.pack(fill=Y, side=RIGHT)
+
+text = Text(frame, bd=0)
+text.pack()
+
+<span class="pykeyword">for</span> i <span class="pykeyword">in</span> range(1, 1000):
+    text.insert(END, <span class="pystring">"line %s\n"</span> % i)
+
+<span class="pycomment"># attach scrollbar</span>
+text.config(yscrollcommand=scrollbar.set)
+scrollbar.config(command=text.yview)
+
+frame.pack()
+
+label = Label(root)
+label.pack()
+
+<span class="pykeyword">def</span> <span class="pyfunction">report_position</span>():
+
+    <span class="pycomment"># get (beginning of) first visible line</span>
+    top = text.index(<span class="pystring">"@0,0"</span>)
+
+    <span class="pycomment"># get (end of) last visible line</span>
+    bottom = text.index(<span class="pystring">"@0,%d"</span> % text.winfo_height())
+
+    <span class="pycomment"># update the label</span>
+    label.config(text=<span class="pystring">"top:    %s\nbottom: %s"</span> % (top, bottom))
+    root.after(100, report_position) <span class="pycomment"># update 10 times a second</span>
+
+report_position()
+
+mainloop()</pre></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

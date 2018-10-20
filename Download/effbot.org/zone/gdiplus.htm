@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>GDI+</title></head><body data-page-id="115"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">GDI+</h1></div><div class="yui-ge"><div class="yui-u first"><p>GDI+ is Microsoft&#8217;s second generation drawing API for Windows.</p><p>It supports a PostScript/PDF like drawing model, including support
+for antialiasing and alpha layers.</p><p>For details, see <s><a href="http://msdn.microsoft.com/library/en-us/gdicpp/gdiplus/gdiplus.asp">the MSDN GDI+ documentation</a></s> (dead link).</p><p>I&#8217;m using GDI+ in the <a href="sandbox-miniwck">MiniWCK</a> project,
+among others.
+
+<h3>Building GDI+ Applications with old compilers</h3></p><p class="info">November 25, 2003 | Fredrik Lundh</p><p>I recently found myself having to build a GDI+ application using stock
+VC 5.0 and VC 6.0 installations (updated with service packs, but using
+the original SDK files).</p><p>The following tweaks makes it possible to use the latest <b>GdiPlus.h</b>
+headers (from the Windows SDK) with the original <b>Windows.h</b> provided
+with the compilers:</p><pre class="c">
+<span class="pykeyword">#if</span> _MSC_VER &lt;= 1100
+<span class="pycomment">/* hacks for VC 5.0 */</span>
+<span class="pykeyword">#define</span> MIDL_INTERFACE(x) <span class="pykeyword">struct</span>
+<span class="pykeyword">typedef</span> <span class="pykeyword">unsigned</span> <span class="pykeyword">int</span> UINT32;
+<span class="pykeyword">typedef</span> <span class="pykeyword">unsigned</span> <span class="pykeyword">int</span> UINT_PTR;
+<span class="pykeyword">#define</span> STRICT
+<span class="pykeyword">#endif</span>
+
+<span class="pykeyword">#if</span> _MSC_VER &lt;= 1200
+<span class="pycomment">/* hacks for VC 5.0 and VC 6.0 */</span>
+<span class="pykeyword">#if</span> defined(_WIN64)
+<span class="pykeyword">typedef</span> <span class="pykeyword">unsigned</span> __int64 ULONG_PTR;
+<span class="pykeyword">#else</span>
+<span class="pykeyword">typedef</span> <span class="pykeyword">unsigned</span> <span class="pykeyword">long</span> ULONG_PTR;
+<span class="pykeyword">#endif</span>
+<span class="pykeyword">#endif</span>
+
+<span class="pykeyword">#include</span> <span class="pystring">"Windows.h"</span>
+<span class="pykeyword">#include</span> <span class="pystring">"GdiPlus.h"</span> <span class="pycomment">/* from a recent Windows SDK */</span></pre></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

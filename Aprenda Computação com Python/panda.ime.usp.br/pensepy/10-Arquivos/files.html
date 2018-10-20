@@ -1,0 +1,1039 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Trabalhando com Arquivos &mdash; Como pensar como um Cientista da Computação: Edição Interativa em Python</title>
+    
+    <link rel="stylesheet" href="../_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="../_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="../_static/codemirror.js"></script>
+    <script type="text/javascript" src="../_static/python.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="../_static/assess.js"></script>
+    <script type="text/javascript" src="../_static/animationbase.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="../_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Como pensar como um Cientista da Computação: Edição Interativa em Python" href="../index.html" />
+    <link rel="next" title="Dicionários" href="../11-Dicionarios/dicionarios.html" />
+    <link rel="prev" title="Listas" href="../09-Listas/listas.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/pensePython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'pensePython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/pensePython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../11-Dicionarios/dicionarios.html" title="Dicionários"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../09-Listas/listas.html" title="Listas"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="trabalhando-com-arquivos">
+<h1>Trabalhando com Arquivos<a class="headerlink" href="#trabalhando-com-arquivos" title="Permalink to this headline">¶</a></h1>
+<p>Até agora, os dados que temos usado nos programas deste livro ou estão
+inseridos diretamente no código ou são digitados pelo usuário a medida
+que são lidos. Na vida real dados estão em um arquivo. Por exemplo as
+imagens na unidade de processamento de imagens residem em arquivos que
+estão no disco rígido (<em>hard drive</em>) do seu computador. Página na
+Internet, documentos, músicas são outros exemplos de dados que vivem
+em arquivos. Neste capítulo apresentaremos de maneira sucinta os
+conceitos de Python necessários para usar em programas dados que
+estão em arquivos.</p>
+<p>Para os nossos propósitos, suporemos que os nosso arquivos de dados
+contém texto&#8211;isto é, arquivos de caracteres. Os programas em Python
+que você escreve são armazenados em arquivos de texto. Podemos criar
+esses arquivos de diversas maneiras. Por exemplo, podemos usar um
+editor de textos para digitar e salvar os dados. Podemos também baixar
+(<em>download</em>) os dados de uma página na Internet (<em>website</em>) e salvá-los
+em um arquivo. Não importa como os arquivos são criados, Python nos permitira
+manipular o seu conteúdo.</p>
+<p>Em Python, devemos <strong>abrir</strong> (<em>open</em>) arquivos antes de usá-los e <strong>fechar</strong>
+(<em>close</em>) os arquivos depois de que tivermos terminado de utilizá-los.
+Como você pode imaginar, depois de aberto um arquivo passa a ser um objeto
+Python de maneira semelhante que outros dados. <a class="reference internal" href="#filemethods1a"><span>Table 1</span></a>
+mostra os métodos que podem ser usados para abrir e fechar arquivos.</p>
+<table border="1" class="docutils" id="filemethods1a">
+<colgroup>
+<col width="12%" />
+<col width="17%" />
+<col width="71%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Nome de Método</strong></th>
+<th class="head"><strong>Uso</strong></th>
+<th class="head"><strong>Explicação</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">open</span></code></td>
+<td><code class="docutils literal"><span class="pre">open(nome_arquivo,'r')</span></code></td>
+<td>Abre um arquivo chamado nome_arquivo e o usa para leitura.  Retorna uma referëncia para um objeto <em>file</em>.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">open</span></code></td>
+<td><code class="docutils literal"><span class="pre">open(nome_arquivo,'w')</span></code></td>
+<td>Abre um arquivo chamado nome_arquivo e o usa para escrita.  Retorna uma referëncia para um objeto <em>file</em>.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">close</span></code></td>
+<td><code class="docutils literal"><span class="pre">ref_arquivo.close()</span></code></td>
+<td>Utilização do arquivo referenciado pela variável ref_arquivo terminou.</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="encontrando-um-arquivo-disco">
+<h2>Encontrando um arquivo disco<a class="headerlink" href="#encontrando-um-arquivo-disco" title="Permalink to this headline">¶</a></h2>
+<p>Abrir um arquivo requer que você, como programador, e o Python entre em
+acordo sobre onde está o arquivo no seu disco. A maneira que os arquivos
+são localizados no disco e através do seu <strong>caminho</strong> (<em>path</em>). Você pode
+pensar em <code class="docutils literal"><span class="pre">nome_arquivo</span></code> como o <em>primeiro nome</em> do arquivo e o caminho
+como o <em>nome completo</em>. Por exemplo em um Mac se o usuário <code class="docutils literal"><span class="pre">hofstadter</span></code> salvar
+o arquivo  <code class="docutils literal"><span class="pre">penny.txt</span></code> no seu diretório (<em>home directory</em>) o caminho é
+<code class="docutils literal"><span class="pre">/Users/hofstadter/penny.txt</span></code>.
+No Linux caminho poderia ser <code class="docutils literal"><span class="pre">/home/hofstadter/penny.txt</span></code> .
+No computadores com o sistema operacional Windows o caminho parece um
+pouco diferente, mas os princípios são os mesmos. Por exemplo no Windows
+o caminho poderia ser <code class="docutils literal"><span class="pre">C:\Users\hofstadter\My</span> <span class="pre">Documents\penny.txt</span></code>.</p>
+<p>Você também pode acessar arquivos em pastas (<em>folders</em>), também chamados de
+diretórios (<em>directories</em>), no seu diretório adicionando um barra e o
+nome da pasta. Por exemplo, suponha que em um Mac o usuário <code class="docutils literal"><span class="pre">hofstadter`</span>
+<span class="pre">armazena</span> <span class="pre">arquivos</span> <span class="pre">para</span> <span class="pre">usar</span> <span class="pre">com</span> <span class="pre">o</span> <span class="pre">editor</span> <span class="pre">PyCharm</span> <span class="pre">na</span> <span class="pre">pasta</span> <span class="pre">MAC2166,</span>
+<span class="pre">que</span> <span class="pre">por</span> <span class="pre">sua</span> <span class="pre">vez</span> <span class="pre">está</span> <span class="pre">dentro</span> <span class="pre">da</span> <span class="pre">pasta</span> <span class="pre">ProjetosPyCharm.</span>
+<span class="pre">O</span> <span class="pre">nome</span> <span class="pre">completo</span> <span class="pre">de</span> <span class="pre">um</span> <span class="pre">arquivo</span> <span class="pre">``penny.py</span></code> armazenado na pasta MAC2166 seria
+<code class="docutils literal"><span class="pre">/Users/hofstadter/ProjetosPyCharm/MAC2166/penny.py</span></code></p>
+<p>Aqui está uma regra importante para ser lembrada: se o seu arquivo de dados e
+o seu programa Python estão no mesmo diretório você pode usar simplesmente
+o nome do arquivo. <code class="docutils literal"><span class="pre">open('penny.txt','r')</span></code> .
+Se o seu arquivo de dados  e o seu programa Python estão em diretórios diferentes
+então você deve usar o caminho até o arquivo
+<code class="docutils literal"><span class="pre">open('/Users/hofstadter/penny.txt','r')</span></code>.</p>
+</div>
+<div class="section" id="abrindo-e-fechando-arquivos">
+<h2>Abrindo e fechando arquivos<a class="headerlink" href="#abrindo-e-fechando-arquivos" title="Permalink to this headline">¶</a></h2>
+<p>Como exemplo, suponha que temos um texto chamado <code class="docutils literal"><span class="pre">qbdata.txt</span></code> que contem os dados
+a seguir representando estatísticas sobre o <em>quarterbacks</em> da NFL. Apesar de ser
+possível digitarmos esses dados cada vez que tivéssemos que usá-los, podemos imaginar
+que além de tomar bastante tempo fazer isso também seria uma fonte de erros.  Além disso,
+é provável que houvesse dados de outros <em>quarterbacks</em> e outros anos. O formato de
+arquivo de dados é o seguinte:</p>
+<div class="highlight-python"><div class="highlight"><pre>First Name, Last Name, Position, Team, Completions, Attempts, Yards, TDs Ints, Comp%, Rating
+</pre></div>
+</div>
+<pre id="qbdata.txt">
+Colt McCoy QB, CLE  135 222 1576    6   9   60.8%   74.5
+Josh Freeman QB, TB 291 474 3451    25  6   61.4%   95.9
+Michael Vick QB, PHI    233 372 3018    21  6   62.6%   100.2
+Matt Schaub QB, HOU 365 574 4370    24  12  63.6%   92.0
+Philip Rivers QB, SD    357 541 4710    30  13  66.0%   101.8
+Matt Hasselbeck QB, SEA 266 444 3001    12  17  59.9%   73.2
+Jimmy Clausen QB, CAR   157 299 1558    3   9   52.5%   58.4
+Joe Flacco QB, BAL  306 489 3622    25  10  62.6%   93.6
+Kyle Orton QB, DEN  293 498 3653    20  9   58.8%   87.5
+Jason Campbell QB, OAK  194 329 2387    13  8   59.0%   84.5
+Peyton Manning QB, IND  450 679 4700    33  17  66.3%   91.9
+Drew Brees QB, NO   448 658 4620    33  22  68.1%   90.9
+Matt Ryan QB, ATL   357 571 3705    28  9   62.5%   91.0
+Matt Cassel QB, KC  262 450 3116    27  7   58.2%   93.0
+Mark Sanchez QB, NYJ    278 507 3291    17  13  54.8%   75.3
+Brett Favre QB, MIN 217 358 2509    11  19  60.6%   69.9
+David Garrard QB, JAC   236 366 2734    23  15  64.5%   90.8
+Eli Manning QB, NYG 339 539 4002    31  25  62.9%   85.3
+Carson Palmer QB, CIN   362 586 3970    26  20  61.8%   82.4
+Alex Smith QB, SF   204 342 2370    14  10  59.6%   82.1
+Chad Henne QB, MIA  301 490 3301    15  19  61.4%   75.4
+Tony Romo QB, DAL   148 213 1605    11  7   69.5%   94.9
+Jay Cutler QB, CHI  261 432 3274    23  16  60.4%   86.3
+Jon Kitna QB, DAL   209 318 2365    16  12  65.7%   88.9
+Tom Brady QB, NE    324 492 3900    36  4   65.9%   111.0
+Ben Roethlisberger QB, PIT  240 389 3200    17  5   61.7%   97.0
+Kerry Collins QB, TEN   160 278 1823    14  8   57.6%   82.2
+Derek Anderson QB, ARI  169 327 2065    7   10  51.7%   65.9
+Ryan Fitzpatrick QB, BUF    255 441 3000    23  15  57.8%   81.8
+Donovan McNabb QB, WAS  275 472 3377    14  15  58.3%   77.1
+Kevin Kolb QB, PHI  115 189 1197    7   7   60.8%   76.1
+Aaron Rodgers QB, GB    312 475 3922    28  11  65.7%   101.2
+Sam Bradford QB, STL    354 590 3512    18  15  60.0%   76.5
+Shaun Hill QB, DET  257 416 2686    16  12  61.8%   81.3
+</pre><p>Para abrir esse arquivo temos que usar a função <code class="docutils literal"><span class="pre">open</span></code>. A variável
+<code class="docutils literal"><span class="pre">ref_arquivo</span></code> mantém uma referência ao objeto do tipo <code class="docutils literal"><span class="pre">file</span></code> retornado por
+<code class="docutils literal"><span class="pre">open</span></code>. Quando terminamos de usar o dados do arquivo, podemos fechá-lo usando
+o método <code class="docutils literal"><span class="pre">close</span></code>. Depois que o arquivo estiver fechado, qualquer tentativa
+de usar <code class="docutils literal"><span class="pre">ref_arquivo</span></code> resultará em erro.</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ref_arquivo</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;qbdata.txt&quot;</span><span class="p">,</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ref_arquivo</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="iterando-sobre-as-linha-de-um-arquivo">
+<h2>Iterando sobre as linha de um Arquivo<a class="headerlink" href="#iterando-sobre-as-linha-de-um-arquivo" title="Permalink to this headline">¶</a></h2>
+<p>Agora usaremos o arquivo <code class="docutils literal"><span class="pre">qbdata.txt</span></code> como entrada de um programa que
+faz um pouco de processamento de dados. No programa nós iremos <strong>ler</strong>
+(<em>read</em>) cada linha do arquivo e imprimi-la com algum texto adicional.
+Como arquivos de texto são uma sequência de linhas com texto, nós
+usaremos um laço <em>for</em> para iterar sobre cada linha do arquivo.</p>
+<p>Um <strong>linha</strong> (<em>line</em>) de um arquivo é definida como uma sequência de
+caracteres até e incluindo um caractere especial chamado de <strong>nova
+linha</strong> (<em>newline</em>).  Se você examinar um string que contém um
+caractere de nova linha você verá ele representado como <code class="docutils literal"><span class="pre">\n</span></code>. Só
+você imprime um string contendo um caractere de nova linha você não
+verá o <code class="docutils literal"><span class="pre">\n</span></code>, você verá apenas o seu efeito, ou seja, uma mudança de
+linha. Quando estamos digitando um programa em Python e pressionamos a
+tecla <code class="docutils literal"><span class="pre">enter</span></code> ou <code class="docutils literal"><span class="pre">return</span></code>, o editor insere um caractere de nova
+linha no texto naquele ponto.</p>
+<p>A medida com o laço <em>for</em> itera sobre cada linha do arquivo a variável
+de controle do laço conterá uma referência para um string com
+o conteúdo da linha corrente do arquivo. O padrão geral para processar cada linha
+de um arquivo texto é o seguinte:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">linha</span> <span class="ow">in</span> <span class="n">ref_arquivo</span><span class="p">:</span>
+    <span class="n">comando1</span>
+    <span class="n">comando2</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>Para processar todos os dados sobre os <em>quarterbacks</em>, usamos o laço
+<em>for</em> para iterar sobre as linhas do arquivo. Usando o método <code class="docutils literal"><span class="pre">split</span></code>
+podemos quebrar cada linha em uma lista contendo todos os campos de interesse
+sobre o <em>quarterback. Podemos pegar os valores correspondente ao
+*first name</em>, <em>last name</em> e examinar as avaliações para contruir
+uma sentença simples como mostrada em <a class="reference internal" href="#readingfile1"><span>Listing 1</span></a>.</p>
+
+<div id="files_for" >
+<textarea cols="50" rows="12" id="files_for_code" class="active_code">
+ref_arquivo = open("qbdata.txt","r")
+
+for linha in ref_arquivo:
+    valores = linha.split()
+    print('QB ', valores[0], valores[1], 'obteve a avaliacao ', valores[10] )
+
+ref_arquivo.close()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (files_for)</span> </p>
+<button onclick="runit('files_for',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('files_for');">Save</button>
+<button class="ac_opt" onclick="requestCode('files_for');">Load</button>
+<br />
+
+<canvas id="files_for_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="files_for_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="metodos-alternativos-para-ler-arquivos">
+<h2>Métodos alternativos para ler arquivos<a class="headerlink" href="#metodos-alternativos-para-ler-arquivos" title="Permalink to this headline">¶</a></h2>
+<p>Além do laço <code class="docutils literal"><span class="pre">for</span></code> Python fornece três métodos para lermos dados de
+um arquivo. O método <code class="docutils literal"><span class="pre">readline</span></code> lê uma linha de um arquivo e retorna
+essa linha como um string. O string retornado por <code class="docutils literal"><span class="pre">readline</span></code> conterá
+o caractere de nova linha (<code class="docutils literal"><span class="pre">'\n'</span></code>) no final. Este método retorna o
+string vazio (<code class="docutils literal"><span class="pre">&quot;&quot;</span></code>) quando chegamos ao final do arquivo.  O método
+<code class="docutils literal"><span class="pre">readlines</span></code> retorna o todo o conteúdo do arquivo em uma lista de
+strings, cada item da lista representa uma linha do arquivo.  Também é
+possível ler todo o conteúdo de um arquivo em um único string como o
+método <code class="docutils literal"><span class="pre">read</span></code>.  <a class="reference internal" href="#filemethods2a"><span>Table 2</span></a> resume esses métodos
+e <a class="reference internal" href="#filesession"><span>Session 2</span></a> mostra eles em ação.</p>
+<p>Note que necessitamos reabrir um arquivo antes de lê-lo a partir da primeira linha.
+Cada arquivo de uma marca que indica a posição corrente do arquivo que está prestes
+a ser lida. Cada vez que um desses métodos ;e chamado a marca se move para o
+caractere que vem em seguida do último caractere retornado. No caso de <code class="docutils literal"><span class="pre">readline</span></code>
+o marcado se move para o primeiro caractere da próxima linha. Nos caso de <code class="docutils literal"><span class="pre">read</span></code>
+ou <code class="docutils literal"><span class="pre">readlines</span></code> a marca se move para o final do arquivo.</p>
+<div class="highlight-python" id="filesession"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ref_arquivo</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;qbdata.txt&quot;</span><span class="p">,</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">linha</span> <span class="o">=</span> <span class="n">ref_arquivo</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">linha</span>
+<span class="go">&#39;Colt McCoy QB, CLE\t135\t222\t1576\t6\t9\t60.8%\t74.5\n&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ref_arquivo</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;qbdata.txt&quot;</span><span class="p">,</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lista_de_linhas</span> <span class="o">=</span> <span class="n">ref_arquivo</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lista_de_linhas</span><span class="p">))</span>
+<span class="go">34</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">lista_de_linhas</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+<span class="go">[&#39;Colt McCoy QB, CLE\t135\t222\t1576\t6\t9\t60.8%\t74.5\n&#39;,</span>
+<span class="go"> &#39;Josh Freeman QB, TB\t291\t474\t3451\t25\t6\t61.4%\t95.9\n&#39;,</span>
+<span class="go"> &#39;Michael Vick QB, PHI\t233\t372\t3018\t21\t6\t62.6%\t100.2\n&#39;,</span>
+<span class="go"> &#39;Matt Schaub QB, HOU\t365\t574\t4370\t24\t12\t63.6%\t92.0\n&#39;]</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ref_arquivo</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;qbdata.txt&quot;</span><span class="p">,</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">string_arquivo</span> <span class="o">=</span> <span class="n">ref_arquivo</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">string_arquivo</span><span class="p">))</span>
+<span class="go">1708</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">string_arquivo</span><span class="p">[:</span><span class="mi">256</span><span class="p">])</span>
+<span class="go">Colt McCoy QB, CLE  135     222     1576    6       9       60.8%   74.5</span>
+<span class="go">Josh Freeman QB, TB 291     474     3451    25      6       61.4%   95.9</span>
+<span class="go">Michael Vick QB, PHI        233     372     3018    21      6       62.6%   100.2</span>
+<span class="go">Matt Schaub QB, HOU 365     574     4370    24      12      63.6%   92.0</span>
+<span class="go">Philip Rivers QB, SD        357     541     4710    30      13      66.0%   101.8</span>
+<span class="go">Matt Ha</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<span class="target" id="filemethods2a"></span><table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="25%" />
+<col width="57%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Método</strong></th>
+<th class="head"><strong>Uso</strong></th>
+<th class="head"><strong>Efeito</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">write</span></code></td>
+<td><code class="docutils literal"><span class="pre">ref_arquivo.write(s)</span></code></td>
+<td>Adiciona o string <code class="docutils literal"><span class="pre">s</span></code> no final do arquivo.
+ref_arquivo deve ser uma referência a um arquivo que
+foi aberto para escrita (<code class="docutils literal"><span class="pre">&quot;w&quot;</span></code>).</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">read(n)</span></code></td>
+<td><code class="docutils literal"><span class="pre">ref_arquivo.read()</span></code></td>
+<td>Lê e retorna um string de <code class="docutils literal"><span class="pre">n</span></code> caracteres ou o
+arquivo inteiro como um string se <code class="docutils literal"><span class="pre">n</span></code> não é
+fornecido.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">readline(n)</span></code></td>
+<td><code class="docutils literal"><span class="pre">ref_arquivo.readline()</span></code></td>
+<td>Retorna a próxima linha do arquivo com todo o
+texto e incluindo o caractere de nova linha.
+Se <code class="docutils literal"><span class="pre">n</span></code> é fornecido como argumento então somente n caracteres
+são retornados se a linha tem mais do que <code class="docutils literal"><span class="pre">n</span></code>
+caracteres.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">readlines(n)</span></code></td>
+<td><code class="docutils literal"><span class="pre">ref_arquivo.readlines()</span></code></td>
+<td>Retorna uma lista de strings, cada um representado o
+conteúdo de uma linha do arquivo.
+Se <code class="docutils literal"><span class="pre">n</span></code> não é fornecido, todas as linhas do arquivo são
+retornadas. Se <code class="docutils literal"><span class="pre">n</span></code> é fornecido como argumento então
+<code class="docutils literal"><span class="pre">n</span></code> caracteres serão lidos mas <code class="docutils literal"><span class="pre">n</span></code> é arrendondado
+para cima de tal forma que uma linha inteira seja
+retornada.</td>
+</tr>
+</tbody>
+</table>
+<p>Agora olhemos outra maneira de lermos nosso arquivo usando um laço
+<code class="docutils literal"><span class="pre">while</span></code>. Isto é importante pois muitas outras linguagens de programação
+não tem algo semelhante ao estilo do laço <code class="docutils literal"><span class="pre">for</span></code> para ler arquivos mais
+elas admitem algo semelhante ao padrão que mostraremos aqui.</p>
+
+<div id="files_while" >
+<textarea cols="50" rows="12" id="files_while_code" class="active_code">
+ref_arquivo = open("qbdata.txt","r")
+linha = ref_arquivo.readline()
+while linha:
+    valores = linha.split()
+    print('QB ', valores[0], valores[1], 'obteve a avaliacao ', valores[10] )
+    linha = ref_arquivo.readline()
+
+ref_arquivo.close()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (files_while)</span> </p>
+<button onclick="runit('files_while',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('files_while');">Save</button>
+<button class="ac_opt" onclick="requestCode('files_while');">Load</button>
+<br />
+
+<canvas id="files_while_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="files_while_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Algo importante a ser notado é que na linha dois temos o
+comando <code class="docutils literal"><span class="pre">linha</span> <span class="pre">=</span> <span class="pre">ref_arquivo.readline()</span></code>. Isto é muito
+importante pois a condição do <code class="docutils literal"><span class="pre">while</span></code> necessita que o valor
+da variável <code class="docutils literal"><span class="pre">linha</span></code>. Chamamos essa leitura inicial de
+<strong>priming read</strong>.</p>
+</div>
+<div class="section" id="glossario">
+<h2>Glossário<a class="headerlink" href="#glossario" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-open">open</dt>
+<dd>Devemos abrir (<em>open</em>)  um arquivo antes de ler o seu conteúdo: <code class="docutils literal"><span class="pre">ref_arquivo</span> <span class="pre">=</span> <span class="pre">open(nome_arquivo,&quot;r&quot;)</span></code>.
+Devemos também abrir um arquivo antes de escrever nele: <code class="docutils literal"><span class="pre">ref_arquivo</span> <span class="pre">=</span> <span class="pre">open(nome_arquivo,&quot;w&quot;)</span></code>.</dd>
+<dt id="term-close">close</dt>
+<dd>devemos fechar (<em>close</em>) um aqruivo depois que acabamos de manipulá-lo: <code class="docutils literal"><span class="pre">ref_arquivo.close()</span></code>.</dd>
+<dt id="term-read">read</dt>
+<dd>Método que lê e retorna o conteúdo inteiro de um arquivo em um string.  É frequentemented usado em um
+comando de atribuição de tal forma que a variável seja uma referência para um string com o
+conteúdo do arquivo: <code class="docutils literal"><span class="pre">string_arquivo</span> <span class="pre">=</span> <span class="pre">ref_arquivo.read()</span></code></dd>
+<dt id="term-readline">readline</dt>
+<dd>Método que lê e retorna o conteúdo da linha corrente de um arquivo como string: <code class="docutils literal"><span class="pre">linha_str</span> <span class="pre">=</span> <span class="pre">ref_arquivo.readline()</span></code>.
+O caractere de nova linha e incluído no final do string.</dd>
+<dt id="term-readlines">readlines</dt>
+<dd>Método que lê e retorna o conteúdo de um arquivo como uma lista de strings.
+Cada linha do arquivo é representado por um string da lista:  <code class="docutils literal"><span class="pre">lista_de_linhas</span> <span class="pre">=</span> <span class="pre">ref_arquivo.readlines()</span></code>.</dd>
+</dl>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<p>Aqui está um arquivo <code class="docutils literal"><span class="pre">notas_estudantes.dat</span></code> que contém uma
+linha para cada aluno de uma turma de estudantes.  O nome de cada
+estudante está no início da cada linha e é seguido pelas suas notas.</p>
+     <pre id="notas_estudantes.dat">
+jose 10 15 20 30 40
+pedro 23 16 19 22
+suzana 8 22 17 14 32 17 24 21 2 9 11 17
+gisela 12 28 21 45 26 10
+joao 14 32 25 16 89
+     </pre><ol class="arabic">
+<li><p class="first">Usando o arquivo texto <code class="docutils literal"><span class="pre">notas_estudantes.dat</span></code> escreva um programa que imprime o
+nome dos alunos que têm mais de seis notas.</p>
+
+<button id="butt_ex_10_1" onclick="createActiveCode('ex_10_1',''); $('#butt_ex_10_1').hide();">Open Editor</button>
+<div id="ex_10_1"></div>
+<br />
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first">Usando o arquivo texto <code class="docutils literal"><span class="pre">notas_estudantes.dat</span></code> escreva um programa que calcula a
+média das notas de cada estudante e imprime o nome e a média de cada estudante.</p>
+
+<button id="butt_ex_10_2" onclick="createActiveCode('ex_10_2',''); $('#butt_ex_10_2').hide();">Open Editor</button>
+<div id="ex_10_2"></div>
+<br />
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first">Usando o arquivo texto <code class="docutils literal"><span class="pre">notas_estudantes.dat</span></code> escreva um programa que calcula a
+nota mínima e máxima de cada estudante e imprima o nome de cada aluno junto com
+a suam notá máxima e mínima.</p>
+
+<button id="butt_ex_10_3" onclick="createActiveCode('ex_10_3',''); $('#butt_ex_10_3').hide();">Open Editor</button>
+<div id="ex_10_3"></div>
+<br />
+</li>
+</ol>
+     <pre id='lab.dat'>
+44 71
+79 37
+78 24
+41 76
+19 12
+19 32
+28 36
+22 58
+89 92
+91 6
+53 7
+27 80
+14 34
+8 81
+80 19
+46 72
+83 96
+88 18
+96 48
+77 67
+    </pre><ol class="arabic" start="4">
+<li><p class="first">Cada linha do arquivo <code class="docutils literal"><span class="pre">lab.dat</span></code> contém um par x,y de coordenadas.
+Escreva uma função chamada <code class="docutils literal"><span class="pre">plot_regressao</span></code> que le os dados desse arquivo
+e usa a tartaruga para desenhar pontos e a reta que melhor aproxima os dados de acordo
+com as formulas</p>
+<blockquote>
+<div><blockquote>
+<div><p>y = bar{y} + m(x - bar{x})</p>
+<p>m = frac{sum{x_iy_i - nbar{x}bar{y}}}{sum{x_i^2}-nbar{x}^2}</p>
+</div></blockquote>
+<p>onde <span class="math">\(\bar{x}\)</span> é a média dos x-valores, <span class="math">\(\bar{y}\)</span> é a média do y-valores
+e <span class="math">\(n\)</span> é o número de pontos e <span class="math">\(\sum\)</span> é o operador somatório.
+Por exmplo <span class="math">\(\sum{x_i}\)</span> é a soma de todos os x-valores.</p>
+<p>Seu programa deve analizar os pontos e corretamente dimensionar a janela
+usando <code class="docutils literal"><span class="pre">setworldcoordinates</span></code> de tal forma que cada ponto possa ser desenhado.
+O seu programa deve desenhar a reta que melhor aproxima os dados usando uma
+cor diferente dos pontos.</p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic" start="5">
+<li><p class="first">No final deste capítulo há uma arquivo muito longo chamado <code class="docutils literal"><span class="pre">misterio.dat</span></code>
+A linhas deste arquivo contém ou a palavra CIMA ot BAIXO ou um par de números. CIMA e BAIXO são
+instruções para a tartaruga colocar a sua cauda para cima ou para baixo. O par de números são
+coordenadas x,y. Escreva um programa que lê o arquivo <code class="docutils literal"><span class="pre">misterio.dat</span></code> e usa a tartaruga
+para desenhar a figura descrita pelos comandos e cojunto de pontos no arquivo.</p>
+
+<button id="butt_ex_10_5" onclick="createActiveCode('ex_10_5',''); $('#butt_ex_10_5').hide();">Open Editor</button>
+<div id="ex_10_5"></div>
+<br />
+</li>
+</ol>
+<pre id="misterio.dat">
+CIMA
+-218 185
+BAIXO
+-240 189
+-246 188
+-248 183
+-246 178
+-244 175
+-240 170
+-235 166
+-229 163
+-220 158
+-208 156
+-203 153
+-194 148
+-187 141
+-179 133
+-171 119
+-166 106
+-163 87
+-161 66
+-162 52
+-164 44
+-167 28
+-171 6
+-172 -15
+-171 -30
+-165 -46
+-156 -60
+-152 -67
+-152 -68
+CIMA
+-134 -61
+BAIXO
+-145 -66
+-152 -78
+-152 -94
+-157 -109
+-157 -118
+-151 -128
+-146 -135
+-146 -136
+CIMA
+-97 -134
+BAIXO
+-98 -138
+-97 -143
+-96 -157
+-96 -169
+-98 -183
+-104 -194
+-110 -203
+-114 -211
+-117 -220
+-120 -233
+-122 -243
+-123 -247
+-157 -248
+-157 -240
+-154 -234
+-154 -230
+-153 -229
+-149 -226
+-146 -223
+-145 -219
+-143 -214
+-142 -210
+-141 -203
+-139 -199
+-136 -192
+-132 -184
+-130 -179
+-132 -171
+-133 -162
+-134 -153
+-138 -145
+-143 -137
+-143 -132
+-142 -124
+-138 -112
+-134 -104
+-132 -102
+CIMA
+-97 -155
+BAIXO
+-92 -151
+-91 -147
+-89 -142
+-89 -135
+-90 -129
+-90 -128
+CIMA
+-94 -170
+BAIXO
+-83 -171
+-68 -174
+-47 -177
+-30 -172
+-15 -171
+-11 -170
+CIMA
+12 -96
+BAIXO
+9 -109
+9 -127
+7 -140
+5 -157
+9 -164
+22 -176
+37 -204
+40 -209
+49 -220
+55 -229
+57 -235
+57 -238
+50 -239
+49 -241
+51 -248
+53 -249
+63 -245
+70 -243
+57 -249
+62 -250
+71 -250
+75 -250
+81 -250
+86 -248
+86 -242
+84 -232
+85 -226
+81 -221
+77 -211
+73 -205
+67 -196
+62 -187
+58 -180
+51 -171
+47 -164
+46 -153
+50 -141
+53 -130
+54 -124
+57 -112
+56 -102
+55 -98
+CIMA
+48 -164
+BAIXO
+54 -158
+60 -146
+64 -136
+64 -131
+CIMA
+5 -152
+BAIXO
+1 -150
+-4 -145
+-8 -138
+-14 -128
+-19 -119
+-17 -124
+CIMA
+21 -177
+BAIXO
+14 -176
+7 -174
+-6 -174
+-14 -170
+-19 -166
+-20 -164
+CIMA
+-8 -173
+BAIXO
+-8 -180
+-5 -189
+-4 -201
+-2 -211
+-1 -220
+-2 -231
+-5 -238
+-8 -241
+-9 -244
+-7 -249
+6 -247
+9 -248
+16 -247
+21 -246
+24 -241
+27 -234
+27 -226
+27 -219
+27 -209
+27 -202
+28 -193
+28 -188
+28 -184
+CIMA
+-60 -177
+BAIXO
+-59 -186
+-57 -199
+-56 -211
+-59 -225
+-61 -233
+-65 -243
+-66 -245
+-73 -246
+-81 -246
+-84 -246
+-91 -245
+-91 -244
+-88 -231
+-87 -225
+-85 -218
+-85 -211
+-85 -203
+-85 -193
+-88 -185
+-89 -180
+-91 -175
+-92 -172
+-93 -170
+CIMA
+-154 -93
+BAIXO
+-157 -87
+-162 -74
+-168 -66
+-172 -57
+-175 -49
+-178 -38
+-178 -26
+-178 -12
+-177 4
+-175 17
+-172 27
+-168 36
+-161 48
+-161 50
+CIMA
+-217 178
+BAIXO
+-217 178
+-217 177
+-215 176
+-214 175
+-220 177
+-223 178
+-223 178
+-222 178
+CIMA
+-248 185
+BAIXO
+-245 184
+-240 182
+-237 181
+-234 179
+-231 177
+-229 176
+-228 175
+-226 174
+-224 173
+-223 173
+-220 172
+-217 172
+-216 171
+-214 170
+-214 169
+CIMA
+-218 186
+BAIXO
+-195 173
+-183 165
+-175 159
+-164 151
+-158 145
+-152 139
+-145 128
+-143 122
+-139 112
+-138 105
+-134 95
+-131 88
+-129 78
+-126 67
+-125 62
+-125 54
+-124 44
+-125 38
+-126 30
+-125 27
+-125 8
+-126 5
+-125 -9
+-122 -15
+-115 -25
+-109 -32
+-103 -39
+-95 -42
+-84 -45
+-72 -47
+-56 -48
+-41 -47
+-31 -46
+-18 -45
+-1 -44
+9 -43
+34 -45
+50 -52
+67 -61
+83 -68
+95 -80
+112 -97
+142 -115
+180 -132
+200 -146
+227 -159
+259 -175
+289 -185
+317 -189
+349 -190
+375 -191
+385 -192
+382 -196
+366 -199
+352 -204
+343 -204
+330 -205
+315 -209
+296 -212
+276 -214
+252 -208
+237 -202
+218 -197
+202 -193
+184 -187
+164 -179
+147 -173
+128 -168
+116 -164
+102 -160
+88 -158
+78 -159
+69 -162
+57 -164
+56 -165
+51 -165
+CIMA
+68 -144
+BAIXO
+83 -143
+96 -141
+109 -139
+119 -146
+141 -150
+161 -155
+181 -163
+195 -169
+208 -179
+223 -187
+241 -191
+247 -193
+249 -194
+CIMA
+-6 -141
+BAIXO
+-15 -146
+-29 -150
+-42 -154
+-51 -153
+-60 -152
+-60 -152
+CIMA
+-90 -134
+BAIXO
+-85 -131
+-79 -128
+-78 -123
+-80 -115
+-82 -106
+-80 -101
+-76 -101
+CIMA
+-81 -132
+BAIXO
+-76 -130
+-71 -126
+-72 -124
+CIMA
+43 -118
+BAIXO
+44 -125
+47 -135
+41 -156
+37 -160
+40 -166
+47 -171
+47 -171
+CIMA
+-106 -153
+BAIXO
+-107 -167
+-106 -178
+-109 -192
+-114 -198
+-116 -201
+</pre>
+mysteryt.dat</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Trabalhando com Arquivos</a><ul>
+<li><a class="reference internal" href="#encontrando-um-arquivo-disco">Encontrando um arquivo disco</a></li>
+<li><a class="reference internal" href="#abrindo-e-fechando-arquivos">Abrindo e fechando arquivos</a></li>
+<li><a class="reference internal" href="#iterando-sobre-as-linha-de-um-arquivo">Iterando sobre as linha de um Arquivo</a></li>
+<li><a class="reference internal" href="#metodos-alternativos-para-ler-arquivos">Métodos alternativos para ler arquivos</a></li>
+<li><a class="reference internal" href="#glossario">Glossário</a></li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../09-Listas/listas.html"
+                        title="previous chapter">Listas</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../11-Dicionarios/dicionarios.html"
+                        title="next chapter">Dicionários</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../11-Dicionarios/dicionarios.html" title="Dicionários"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../09-Listas/listas.html" title="Listas"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2012, Brad Miller, David Ranum.
+      Last updated on May 24, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

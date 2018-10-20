@@ -1,0 +1,726 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Funções com listas &mdash; Aulas de Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Aulas de Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Matrizes" href="aula11.html" />
+    <link rel="prev" title="Introdução" href="aula09.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'aulasPython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="aula11.html" title="Matrizes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="aula09.html" title="Introdução"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="funcoes-com-listas">
+<h1>Funções com listas<a class="headerlink" href="#funcoes-com-listas" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="topicos">
+<span id="index-0"></span><h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>fatias de listas;</li>
+<li>cuidado com atribuição de listas;</li>
+<li>clone (= <em>cópia</em>) de listas;</li>
+<li>cuidados com a questão <em>Referências versus clones</em> no que diz
+respeito a listas como argumentos de funções.</li>
+</ul>
+</div></blockquote>
+<div class="section" id="fatias">
+<h3>Fatias<a class="headerlink" href="#fatias" title="Permalink to this headline">¶</a></h3>
+<p>Muitas vezes, ao invés de considerar a lista completa, é necessário
+consider apenas um pedaço contínuo da lista, que podemos definir por 2
+índices que marcam o início e o fim desse pedaço, que chamamos de
+fatia da lista.</p>
+<p>Em Python, uma fatia de uma lista é definida colando o ínicio e o fim
+entre colchetes, separados por <cite>:</cite>, como:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">primos</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">primos</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">[3]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">primos</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+<span class="go">[5, 7]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">primos</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="c"># observe que o início não precisa ser definido</span>
+<span class="go">[2, 3, 5]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">primos</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span> <span class="c"># observe que o fim não precisa definido</span>
+<span class="go">[7, 11]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">primos</span><span class="p">[:]</span>
+<span class="go">[2, 3, 5, 7, 11]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="referencias-versus-clones">
+<h3>Referências versus clones<a class="headerlink" href="#referencias-versus-clones" title="Permalink to this headline">¶</a></h3>
+<p id="index-1">Atribuição de listas criam uma nova referência para lista, não criam
+um <em>clone</em> (= <em>cópia</em>) da lista.</p>
+
+<div id="clonar_uma_lista_0"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (clonar_uma_lista_0)</span> </p>
+<script type="text/javascript">
+var clonar_uma_lista_0_trace = {"code": "lista_1 = [\"oi\",2,3.14,True]\nlista_2 = lista_1\nlista_2[2] = 5", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["lista_1"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_1": ["REF", 1]}, "heap": {"1": ["LIST", "oi", 2, 3.14, true]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["lista_1", "lista_2"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_2": ["REF", 1], "lista_1": ["REF", 1]}, "heap": {"1": ["LIST", "oi", 2, 3.14, true]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["lista_1", "lista_2"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_2": ["REF", 1], "lista_1": ["REF", 1]}, "heap": {"1": ["LIST", "oi", 2, 5, true]}, "line": 3, "event": "return"}]};
+var clonar_uma_lista_0_vis;
+
+$(document).ready(function() {
+    clonar_uma_lista_0_vis = new ExecutionVisualizer('clonar_uma_lista_0',clonar_uma_lista_0_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(clonar_uma_lista_0_vis,'clonar_uma_lista_0');
+    allVisualizers.push(clonar_uma_lista_0_vis);
+});
+
+$(document).ready(function() {
+    $("#clonar_uma_lista_0_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'clonar_uma_lista_0'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    clonar_uma_lista_0_vis.redrawConnectors();
+});
+</script>
+<p>Algumas maneiras de clonarmos uma lista são:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">usando fatiamento (= <em>slice</em>); está é a forma <em>pythonica</em>:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="n">lista_2</span> <span class="o">=</span> <span class="n">lista_1</span><span class="p">[:]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">escrevendo uma função; está é a forma pedagógica:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">clone_lista</span><span class="p">(</span><span class="n">lista</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;(list) -&gt; list</span>
+
+<span class="sd">    Recebe uma lista e retorna um clone dessa lista.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">clone</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">objeto</span> <span class="ow">in</span> <span class="n">lista</span><span class="p">:</span>
+        <span class="n">clone</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">objeto</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">clone</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>Exemplo de clonagem com fatiamento:</p>
+
+<div id="clonar_uma_lista_1"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (clonar_uma_lista_1)</span> </p>
+<script type="text/javascript">
+var clonar_uma_lista_1_trace = {"code": "lista_1 = [\"oi\", 2, 3.14, True]\nlista_2 = lista_1[:]", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["lista_1"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_1": ["REF", 1]}, "heap": {"1": ["LIST", "oi", 2, 3.14, true]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["lista_1", "lista_2"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_2": ["REF", 2], "lista_1": ["REF", 1]}, "heap": {"1": ["LIST", "oi", 2, 3.14, true], "2": ["LIST", "oi", 2, 3.14, true]}, "line": 2, "event": "return"}]};
+var clonar_uma_lista_1_vis;
+
+$(document).ready(function() {
+    clonar_uma_lista_1_vis = new ExecutionVisualizer('clonar_uma_lista_1',clonar_uma_lista_1_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(clonar_uma_lista_1_vis,'clonar_uma_lista_1');
+    allVisualizers.push(clonar_uma_lista_1_vis);
+});
+
+$(document).ready(function() {
+    $("#clonar_uma_lista_1_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'clonar_uma_lista_1'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    clonar_uma_lista_1_vis.redrawConnectors();
+});
+</script>
+<p>Exemplo de clonagem com uma função:</p>
+
+<div id="clonar_uma_lista_2"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (clonar_uma_lista_2)</span> </p>
+<script type="text/javascript">
+var clonar_uma_lista_2_trace = {"code": "def clone_lista(lista):\n    '''(list) -> list\n    Recebe uma lista e retorna um clone\n    da lista.\n    '''\n    clone = []\n    for objeto in lista:\n        clone.append(objeto)\n    return clone\n\nlista_1 = [\"oi\", 2, 3.14, True]\nlista_2 = lista_1 # apelido; referencia\nlista_3 = clone_lista(lista_1) # clone\nlista_4 = lista_3[:] # clone\nlista_4[1] = False\nlista_1[0] = 5", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["clone_lista"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"clone_lista": ["REF", 1]}, "heap": {"1": ["FUNCTION", "clone_lista(lista)", null]}, "line": 11, "event": "step_line"}, {"ordered_globals": ["clone_lista", "lista_1"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"clone_lista": ["REF", 1], "lista_1": ["REF", 2]}, "heap": {"1": ["FUNCTION", "clone_lista(lista)", null], "2": ["LIST", "oi", 2, 3.14, true]}, "line": 12, "event": "step_line"}, {"ordered_globals": ["clone_lista", "lista_1", "lista_2"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"clone_lista": ["REF", 1], "lista_2": ["REF", 2], "lista_1": ["REF", 2]}, "heap": {"1": ["FUNCTION", "clone_lista(lista)", null], "2": ["LIST", "oi", 2, 3.14, true]}, "line": 13, "event": "step_line"}, {"ordered_globals": ["clone_lista", "lista_1", "lista_2"], "stdout": "", "func_name": "clone_lista", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"lista": ["REF", 2]}, "is_highlighted": true, "is_parent": false, "func_name": "clone_lista", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "clone_lista_f1", "ordered_varnames": ["lista"]}], "globals": {"clone_lista": ["REF", 1], "lista_2": ["REF", 2], "lista_1": ["REF", 2]}, "heap": {"1": ["FUNCTION", "clone_lista(lista)", null], "2": ["LIST", "oi", 2, 3.14, true]}, "line": 1, "event": "call"}, {"ordered_globals": ["clone_lista", "lista_1", "lista_2"], "stdout": "", "func_name": "clone_lista", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"lista": ["REF", 2]}, "is_highlighted": true, "is_parent": false, "func_name": "clone_lista", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "clone_lista_f1", "ordered_varnames": ["lista"]}], "globals": {"clone_lista": ["REF", 1], "lista_2": ["REF", 2], "lista_1": ["REF", 2]}, "heap": {"1": ["FUNCTION", "clone_lista(lista)", null], "2": ["LIST", "oi", 2, 3.14, true]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["clone_lista", "lista_1", "lista_2"], "stdout": "", "func_name": "clone_lista", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"clone": ["REF", 3], "lista": ["REF", 2]}, "is_highlighted": true, "is_parent": false, "func_name": "clone_lista", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "clone_lista_f1", "ordered_varnames": ["lista", "clone"]}], "globals": {"clone_lista": ["REF", 1], "lista_2": ["REF", 2], "lista_1": ["REF", 2]}, "heap": {"1": ["FUNCTION", "clone_lista(lista)", null], "2": ["LIST", "oi", 2, 3.14, true], "3": ["LIST"]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["clone_lista", "lista_1", "lista_2"], "stdout": "", "func_name": "clone_lista", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"clone": ["REF", 3], "lista": ["REF", 2], "objeto": "oi"}, "is_highlighted": true, "is_parent": false, "func_name": "clone_lista", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "clone_lista_f1", "ordered_varnames": ["lista", "clone", "objeto"]}], "globals": {"clone_lista": ["REF", 1], "lista_2": ["REF", 2], "lista_1": ["REF", 2]}, "heap": {"1": ["FUNCTION", "clone_lista(lista)", null], "2": ["LIST", "oi", 2, 3.14, true], "3": ["LIST"]}, "line": 8, "event": "step_line"}, {"ordered_globals": ["clone_lista", "lista_1", "lista_2"], "stdout": "", "func_name": "clone_lista", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"clone": ["REF", 3], "lista": ["REF", 2], "objeto": "oi"}, "is_highlighted": true, "is_parent": false, "func_name": "clone_lista", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "clone_lista_f1", "ordered_varnames": ["lista", "clone", "objeto"]}], "globals": {"clone_lista": ["REF", 1], "lista_2": ["REF", 2], "lista_1": ["REF", 2]}, "heap": {"1": ["FUNCTION", "clone_lista(lista)", null], "2": ["LIST", "oi", 2, 3.14, true], "3": ["LIST", "oi"]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["clone_lista", "lista_1", "lista_2"], "stdout": "", "func_name": "clone_lista", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"clone": ["REF", 3], "lista": ["REF", 2], "objeto": 2}, "is_highlighted": true, "is_parent": false, "func_name": "clone_lista", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "clone_lista_f1", "ordered_varnames": ["lista", "clone", "objeto"]}], "globals": {"clone_lista": ["REF", 1], "lista_2": ["REF", 2], "lista_1": ["REF", 2]}, "heap": {"1": ["FUNCTION", "clone_lista(lista)", null], "2": ["LIST", "oi", 2, 3.14, true], "3": ["LIST", "oi"]}, "line": 8, "event": "step_line"}, {"ordered_globals": ["clone_lista", "lista_1", "lista_2"], "stdout": "", "func_name": "clone_lista", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"clone": ["REF", 3], "lista": ["REF", 2], "objeto": 2}, "is_highlighted": true, "is_parent": false, "func_name": "clone_lista", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "clone_lista_f1", "ordered_varnames": ["lista", "clone", "objeto"]}], "globals": {"clone_lista": ["REF", 1], "lista_2": ["REF", 2], "lista_1": ["REF", 2]}, "heap": {"1": ["FUNCTION", "clone_lista(lista)", null], "2": ["LIST", "oi", 2, 3.14, true], "3": ["LIST", "oi", 2]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["clone_lista", "lista_1", "lista_2"], "stdout": "", "func_name": "clone_lista", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"clone": ["REF", 3], "lista": ["REF", 2], "objeto": 3.14}, "is_highlighted": true, "is_parent": false, "func_name": "clone_lista", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "clone_lista_f1", "ordered_varnames": ["lista", "clone", "objeto"]}], "globals": {"clone_lista": ["REF", 1], "lista_2": ["REF", 2], "lista_1": ["REF", 2]}, "heap": {"1": ["FUNCTION", "clone_lista(lista)", null], "2": ["LIST", "oi", 2, 3.14, true], "3": ["LIST", "oi", 2]}, "line": 8, "event": "step_line"}, {"ordered_globals": ["clone_lista", "lista_1", "lista_2"], "stdout": "", "func_name": "clone_lista", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"clone": ["REF", 3], "lista": ["REF", 2], "objeto": 3.14}, "is_highlighted": true, "is_parent": false, "func_name": "clone_lista", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "clone_lista_f1", "ordered_varnames": ["lista", "clone", "objeto"]}], "globals": {"clone_lista": ["REF", 1], "lista_2": ["REF", 2], "lista_1": ["REF", 2]}, "heap": {"1": ["FUNCTION", "clone_lista(lista)", null], "2": ["LIST", "oi", 2, 3.14, true], "3": ["LIST", "oi", 2, 3.14]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["clone_lista", "lista_1", "lista_2"], "stdout": "", "func_name": "clone_lista", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"clone": ["REF", 3], "lista": ["REF", 2], "objeto": true}, "is_highlighted": true, "is_parent": false, "func_name": "clone_lista", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "clone_lista_f1", "ordered_varnames": ["lista", "clone", "objeto"]}], "globals": {"clone_lista": ["REF", 1], "lista_2": ["REF", 2], "lista_1": ["REF", 2]}, "heap": {"1": ["FUNCTION", "clone_lista(lista)", null], "2": ["LIST", "oi", 2, 3.14, true], "3": ["LIST", "oi", 2, 3.14]}, "line": 8, "event": "step_line"}, {"ordered_globals": ["clone_lista", "lista_1", "lista_2"], "stdout": "", "func_name": "clone_lista", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"clone": ["REF", 3], "lista": ["REF", 2], "objeto": true}, "is_highlighted": true, "is_parent": false, "func_name": "clone_lista", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "clone_lista_f1", "ordered_varnames": ["lista", "clone", "objeto"]}], "globals": {"clone_lista": ["REF", 1], "lista_2": ["REF", 2], "lista_1": ["REF", 2]}, "heap": {"1": ["FUNCTION", "clone_lista(lista)", null], "2": ["LIST", "oi", 2, 3.14, true], "3": ["LIST", "oi", 2, 3.14, true]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["clone_lista", "lista_1", "lista_2"], "stdout": "", "func_name": "clone_lista", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"clone": ["REF", 3], "lista": ["REF", 2], "objeto": true}, "is_highlighted": true, "is_parent": false, "func_name": "clone_lista", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "clone_lista_f1", "ordered_varnames": ["lista", "clone", "objeto"]}], "globals": {"clone_lista": ["REF", 1], "lista_2": ["REF", 2], "lista_1": ["REF", 2]}, "heap": {"1": ["FUNCTION", "clone_lista(lista)", null], "2": ["LIST", "oi", 2, 3.14, true], "3": ["LIST", "oi", 2, 3.14, true]}, "line": 9, "event": "step_line"}, {"ordered_globals": ["clone_lista", "lista_1", "lista_2"], "stdout": "", "func_name": "clone_lista", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"__return__": ["REF", 3], "clone": ["REF", 3], "lista": ["REF", 2], "objeto": true}, "is_highlighted": true, "is_parent": false, "func_name": "clone_lista", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "clone_lista_f1", "ordered_varnames": ["lista", "clone", "objeto", "__return__"]}], "globals": {"clone_lista": ["REF", 1], "lista_2": ["REF", 2], "lista_1": ["REF", 2]}, "heap": {"1": ["FUNCTION", "clone_lista(lista)", null], "2": ["LIST", "oi", 2, 3.14, true], "3": ["LIST", "oi", 2, 3.14, true]}, "line": 9, "event": "return"}, {"ordered_globals": ["clone_lista", "lista_1", "lista_2", "lista_3"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_3": ["REF", 3], "lista_2": ["REF", 2], "lista_1": ["REF", 2], "clone_lista": ["REF", 1]}, "heap": {"1": ["FUNCTION", "clone_lista(lista)", null], "2": ["LIST", "oi", 2, 3.14, true], "3": ["LIST", "oi", 2, 3.14, true]}, "line": 14, "event": "step_line"}, {"ordered_globals": ["clone_lista", "lista_1", "lista_2", "lista_3", "lista_4"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_3": ["REF", 3], "lista_2": ["REF", 2], "lista_1": ["REF", 2], "clone_lista": ["REF", 1], "lista_4": ["REF", 4]}, "heap": {"1": ["FUNCTION", "clone_lista(lista)", null], "2": ["LIST", "oi", 2, 3.14, true], "3": ["LIST", "oi", 2, 3.14, true], "4": ["LIST", "oi", 2, 3.14, true]}, "line": 15, "event": "step_line"}, {"ordered_globals": ["clone_lista", "lista_1", "lista_2", "lista_3", "lista_4"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_3": ["REF", 3], "lista_2": ["REF", 2], "lista_1": ["REF", 2], "clone_lista": ["REF", 1], "lista_4": ["REF", 4]}, "heap": {"1": ["FUNCTION", "clone_lista(lista)", null], "2": ["LIST", "oi", 2, 3.14, true], "3": ["LIST", "oi", 2, 3.14, true], "4": ["LIST", "oi", false, 3.14, true]}, "line": 16, "event": "step_line"}, {"ordered_globals": ["clone_lista", "lista_1", "lista_2", "lista_3", "lista_4"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"lista_3": ["REF", 3], "lista_2": ["REF", 2], "lista_1": ["REF", 2], "clone_lista": ["REF", 1], "lista_4": ["REF", 4]}, "heap": {"1": ["FUNCTION", "clone_lista(lista)", null], "2": ["LIST", 5, 2, 3.14, true], "3": ["LIST", "oi", 2, 3.14, true], "4": ["LIST", "oi", false, 3.14, true]}, "line": 16, "event": "return"}]};
+var clonar_uma_lista_2_vis;
+
+$(document).ready(function() {
+    clonar_uma_lista_2_vis = new ExecutionVisualizer('clonar_uma_lista_2',clonar_uma_lista_2_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(clonar_uma_lista_2_vis,'clonar_uma_lista_2');
+    allVisualizers.push(clonar_uma_lista_2_vis);
+});
+
+$(document).ready(function() {
+    $("#clonar_uma_lista_2_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'clonar_uma_lista_2'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    clonar_uma_lista_2_vis.redrawConnectors();
+});
+</script>
+</div>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="exercicio-10-1">
+<h3>Exercício 10.1<a class="headerlink" href="#exercicio-10-1" title="Permalink to this headline">¶</a></h3>
+<p>Escreva a função abaixo:</p>
+
+<div id="aula10_ex101_tentativa" >
+<textarea cols="50" rows="12" id="aula10_ex101_tentativa_code" class="active_code">
+#-------------------------------------------------
+def pertence(item,lista):
+    '''(objeto, list) -> bool
+
+    Recebe uma lista de itens e um item e
+    retorna True se o item eh um elemento da lista e
+    False em caso contrario.
+    '''
+    print("Vixe! Ainda nao fiz a funcao!")
+
+
+#---------------------------------------------------
+# testes
+lista  = [1, "oi", 3.14, 7, True]
+
+# teste 1
+if pertence("oi",lista):
+    print("Passou no primeiro teste! :-)")
+else:
+    print("Nao passou no primeiro teste! :-(")
+
+# teste 2
+if pertence(True,lista):
+    print("Passou no segundo teste! :-)")
+else:
+    print("Nao passou no segundo teste! :-(")
+
+# teste 3
+if not pertence(False,lista):
+    print("Passou no terceiro teste! :-)")
+else:
+    print("Nao passou no terceiro teste! :-(")
+
+# outros testes
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula10_ex101_tentativa)</span> </p>
+<button onclick="runit('aula10_ex101_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula10_ex101_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula10_ex101_tentativa');">Load</button>
+<br />
+
+<canvas id="aula10_ex101_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula10_ex101_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-10-2">
+<h3>Exercício 10.2<a class="headerlink" href="#exercicio-10-2" title="Permalink to this headline">¶</a></h3>
+<p>Escreva um programa que dados
+um número inteiro <tt class="docutils literal"><span class="pre">n</span></tt> e uma sequência com <tt class="docutils literal"><span class="pre">n</span></tt> números inteiros,
+imprimi-los eliminando as repetições.</p>
+<p>Escreva uma solução que usa a função <tt class="docutils literal"><span class="pre">pertence()</span></tt>
+do exercício anterior.</p>
+<p>Escreva uma solução que usa as construções</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">lista</span><span class="p">:</span>
+    <span class="o">|</span>
+    <span class="o">|</span> <span class="n">bloco</span> <span class="n">de</span> <span class="n">comandos</span> <span class="n">a</span> <span class="n">serem</span> <span class="n">executados</span>
+    <span class="o">|</span> <span class="n">se</span> <span class="n">item</span> <span class="n">pertence</span> <span class="n">a</span> <span class="n">lista</span>
+    <span class="o">|</span>
+
+<span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">lista</span><span class="p">:</span>
+    <span class="o">|</span>
+    <span class="o">|</span> <span class="n">bloco</span> <span class="n">de</span> <span class="n">comandos</span> <span class="n">a</span> <span class="n">serem</span> <span class="n">executados</span>
+    <span class="o">|</span> <span class="n">se</span> <span class="n">item</span> <span class="n">nao</span> <span class="n">pertence</span> <span class="n">a</span> <span class="n">lista</span>
+    <span class="o">|</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">lista</span><span class="p">:</span>
+    <span class="o">|</span>
+    <span class="o">|</span> <span class="n">bloco</span> <span class="n">de</span> <span class="n">comandos</span> <span class="n">a</span> <span class="n">serem</span> <span class="n">executados</span>
+    <span class="o">|</span> <span class="n">se</span> <span class="n">item</span> <span class="n">nao</span> <span class="n">pertence</span> <span class="n">a</span> <span class="n">lista</span>
+    <span class="o">|</span>
+</pre></div>
+</div>
+
+<div id="aula10_ex102_tentativa" >
+<textarea cols="50" rows="12" id="aula10_ex102_tentativa_code" class="active_code">
+#-----------------------------------------------
+def main():
+    '''
+    Dada uma sequencia de n > 0 numeros inteiros,
+    imprimi-la eliminando as repeticoes.
+    '''
+    # escreva o seu programa abaixo e remova o print()
+    print("Vixe! Ainda nao fiz o exercicio!")
+
+#-----------------------------------------------
+def pertence(item,lista):
+    '''(objeto, list) -> bool
+
+    Recebe uma lista de itens e um item e
+    retorna True se o item eh um elemento da lista e
+    False em caso contrario.
+    '''
+    print("Vixe! Ainda nao fiz a funcao!")
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula10_ex102_tentativa)</span> </p>
+<button onclick="runit('aula10_ex102_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula10_ex102_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula10_ex102_tentativa');">Load</button>
+<br />
+
+<canvas id="aula10_ex102_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula10_ex102_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-10-3">
+<h3>Exercício 10.3<a class="headerlink" href="#exercicio-10-3" title="Permalink to this headline">¶</a></h3>
+<p>Escreva a função abaixo:</p>
+
+<div id="aula10_ex103_tentativa" >
+<textarea cols="50" rows="12" id="aula10_ex103_tentativa_code" class="active_code">
+#-----------------------------------------------
+def indice(item, lista):
+    '''(objeto,list) -> int ou None
+
+    Recebe um objeto 'item' e uma lista 'lista' e retorna o
+    indice da posicao em que item ocorre na lista.
+    Caso item nao ocorra na lista a funcao retorna None
+    '''
+    print("Vixe! Ainda nao fiz a funcao!")
+
+
+#-----------------------------------------------
+# testes
+lista  = [1, "oi", 3.14, 7, True]
+
+# teste 1
+if indice("oi",lista) == 1:
+    print("Passou no primeiro teste! :-)")
+else:
+    print("Nao passou no primeiro teste! :-(")
+
+# teste 2
+if indice(True,lista) == 4:
+    print("Passou no segundo teste! :-)")
+else:
+    print("Nao passou no segundo teste! :-(")
+
+# teste 3
+if indice(False,lista) == None:
+    print("Passou no terceiro teste! :-)")
+else:
+    print("Nao passou no terceiro teste! :-(")
+
+# outros testes
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula10_ex103_tentativa)</span> </p>
+<button onclick="runit('aula10_ex103_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula10_ex103_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula10_ex103_tentativa');">Load</button>
+<br />
+
+<canvas id="aula10_ex103_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula10_ex103_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-10-4">
+<h3>Exercício 10.4<a class="headerlink" href="#exercicio-10-4" title="Permalink to this headline">¶</a></h3>
+<p>Escreva um programa que dados um número inteiro <tt class="docutils literal"><span class="pre">n</span></tt> e uma sequência
+com <tt class="docutils literal"><span class="pre">n</span></tt> números inteiros, conta e imprime o número de vezes que cada
+número ocorre na sequência.</p>
+<p>Escreva uma solução que usa a função <tt class="docutils literal"><span class="pre">indice()</span></tt>
+do exercício anterior.</p>
+
+<div id="aula10_ex104_tentativa" >
+<textarea cols="50" rows="12" id="aula10_ex104_tentativa_code" class="active_code">
+#-----------------------------------------------
+def main():
+    '''
+    Dados n e uma sequencia com n numeros inteiros,
+    conta e imprime o numero de vezes que cada
+    numero ocorre na sequencia.
+    '''
+    # escreva o seu programa abaixo e remova o print()
+    print("Vixe! Ainda nao fiz o exercicio!")
+
+#-----------------------------------------------
+def indice(item, lista):
+    '''(objeto,list) -> int ou None
+
+    Recebe um objeto 'item' e uma lista 'lista' e retorna o
+    indice da posicao em que item ocorre na lista.
+    Caso item nao ocorra na lista a funcao retorna None
+    '''
+    print("Vixe! Ainda nao fiz a funcao!")
+
+
+#-----------------------------------------------
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula10_ex104_tentativa)</span> </p>
+<button onclick="runit('aula10_ex104_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula10_ex104_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula10_ex104_tentativa');">Load</button>
+<br />
+
+<canvas id="aula10_ex104_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula10_ex104_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-10-5">
+<h3>Exercício 10.5<a class="headerlink" href="#exercicio-10-5" title="Permalink to this headline">¶</a></h3>
+<p>Escreva a função abaixo:</p>
+
+<div id="aula10_ex105_tentativa" >
+<textarea cols="50" rows="12" id="aula10_ex105_tentativa_code" class="active_code">
+def soma_elementos(ini, fim, lista):
+    """ (int, int, lista) --> int
+
+    Recebe uma lista `lista` de numero e dois indices ini e fim,
+    retorna a soma da sublista (= fatia) formada pelos elementos de
+    indices ini, ini+1,...,fim-1.
+
+    Pre-condicao: a funcao supoe que:
+
+           0 <= ini <= fim <= len(lista)
+    """
+    # escreva abaixo o corpo da função
+    print("Vixe! Ainda nao fiz a funcao!")
+
+
+#-----------------------------------------------
+# testes
+lista  = [1, 2, 3, 4, 5]
+
+# teste 1
+if soma_elementos(0,len(lista),lista) == 15:
+    print("Passou no primeiro teste! :-)")
+else:
+    print("Nao passou no primeiro teste! :-(")
+
+# teste 2
+if soma_elementos(1,4,lista) == 9:
+    print("Passou no segundo teste! :-)")
+else:
+    print("Nao passou no segundo teste! :-(")
+
+# teste 3
+if soma_elementos(2,2,lista) == 0:
+    print("Passou no terceiro teste! :-)")
+else:
+    print("Nao passou no terceiro teste! :-(")
+
+# outros testes
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula10_ex105_tentativa)</span> </p>
+<button onclick="runit('aula10_ex105_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula10_ex105_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula10_ex105_tentativa');">Load</button>
+<br />
+
+<canvas id="aula10_ex105_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula10_ex105_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-10-6">
+<h3>Exercício 10.6<a class="headerlink" href="#exercicio-10-6" title="Permalink to this headline">¶</a></h3>
+<p>Usando a função do exercício anterior, escreva um programa que leia
+n&gt;0 e uma sequência com n números reais, e determina um segmento de
+soma máxima.</p>
+<p>Na sequência</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">5</span>   <span class="o">-</span><span class="mi">2</span>   <span class="o">-</span><span class="mi">2</span>   <span class="o">-</span><span class="mi">7</span>   <span class="mi">3</span>   <span class="mi">14</span>  <span class="mi">10</span>  <span class="o">-</span><span class="mi">3</span>   <span class="mi">9</span>   <span class="o">-</span><span class="mi">6</span>   <span class="mi">4</span>   <span class="mi">1</span>
+</pre></div>
+</div>
+<p>a soma máxima de um segmento é <tt class="docutils literal"><span class="pre">3+14+10-3+9</span> <span class="pre">=</span> <span class="pre">33</span></tt>.</p>
+
+<div id="aula10_ex106_tentativa" >
+<textarea cols="50" rows="12" id="aula10_ex106_tentativa_code" class="active_code">
+#-----------------------------------------------
+def main():
+    """
+    programa que calcula segmento de soma maxima
+    """
+    # escreva abaixo o corpo da funcao
+    print("Vixe! Ainda nao fiz o exercicio!")
+
+#-----------------------------------------------
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula10_ex106_tentativa)</span> </p>
+<button onclick="runit('aula10_ex106_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula10_ex106_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula10_ex106_tentativa');">Load</button>
+<br />
+
+<canvas id="aula10_ex106_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula10_ex106_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="leitura-complementar">
+<h3>Leitura complementar<a class="headerlink" href="#leitura-complementar" title="Permalink to this headline">¶</a></h3>
+<p>A leitura e vídeos sugeridos aqui, em geral, contém (muito?) mais tópicos do
+que os que vistos durante a aula.
+Os tópicos não vistos na aula serão cobertos em algum momento mais oportuno.</p>
+<p>Leitura das seções:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html#pertinencia-em-uma-lista">Pertinência em uma Lista</a>;</li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html#fatias-de-listas">Fatias de listas</a>;</li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html#apelidos-aliasing">Apelidos (aliasing)</a>;</li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html#clonando-listas">Clonando listas</a>;</li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html#repeticoes-e-referencias">Repetições e referências</a>; e</li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html#listas-como-parametros">Listas como parâmetros</a>;</li>
+</ul>
+</div></blockquote>
+<p>do capítulo
+<a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/">Listas</a>
+do livro interativo
+<a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/index.html">Como pensar como um Cientísta da Computação</a>.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Funções com listas</a><ul>
+<li><a class="reference internal" href="#topicos">Tópicos</a><ul>
+<li><a class="reference internal" href="#fatias">Fatias</a></li>
+<li><a class="reference internal" href="#referencias-versus-clones">Referências versus clones</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a><ul>
+<li><a class="reference internal" href="#exercicio-10-1">Exercício 10.1</a></li>
+<li><a class="reference internal" href="#exercicio-10-2">Exercício 10.2</a></li>
+<li><a class="reference internal" href="#exercicio-10-3">Exercício 10.3</a></li>
+<li><a class="reference internal" href="#exercicio-10-4">Exercício 10.4</a></li>
+<li><a class="reference internal" href="#exercicio-10-5">Exercício 10.5</a></li>
+<li><a class="reference internal" href="#exercicio-10-6">Exercício 10.6</a></li>
+<li><a class="reference internal" href="#leitura-complementar">Leitura complementar</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="aula09.html"
+                        title="previous chapter">Introdução</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="aula11.html"
+                        title="next chapter">Matrizes</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="aula11.html" title="Matrizes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="aula09.html" title="Introdução"
+             >previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Mar 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

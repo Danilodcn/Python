@@ -1,0 +1,342 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Apêndice B: Criando um novo tipo de dado &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Apêndice C: Leituras recomendadas" href="apendice_c.html" />
+    <link rel="prev" title="Apêndice A: Depuração" href="apendice_a.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="apendice_c.html" title="Apêndice C: Leituras recomendadas"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="apendice_a.html" title="Apêndice A: Depuração"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="apendice-b-criando-um-novo-tipo-de-dado">
+<h1><a class="toc-backref" href="#id1">Apêndice B: Criando um novo tipo de dado</a><a class="headerlink" href="#apendice-b-criando-um-novo-tipo-de-dado" title="Link permanente para este título">¶</a></h1>
+<div class="contents topic" id="topicos">
+<p class="topic-title first">Tópicos</p>
+<ul class="simple">
+<li><a class="reference external" href="#apendice-b-criando-um-novo-tipo-de-dado" id="id1">Apêndice B: Criando um novo tipo de dado</a><ul>
+<li><a class="reference external" href="#b-1-multiplicacao-de-fracoes" id="id2">B.1 Multiplicação de frações</a></li>
+<li><a class="reference external" href="#b-2-soma-de-fracoes" id="id3">B.2 Soma de frações</a></li>
+<li><a class="reference external" href="#b-3-simplificando-fracoes-o-algoritmo-de-euclides" id="id4">B.3 Simplificando frações: O algoritmo de Euclides</a></li>
+<li><a class="reference external" href="#b-4-comparando-fracoes" id="id5">B.4 Comparando frações</a></li>
+<li><a class="reference external" href="#b-5-indo-mais-alem" id="id6">B.5 Indo mais além...</a><ul>
+<li><a class="reference external" href="#b-5-1-exercicio" id="id7">B.5.1 Exercício</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#b-6-glossario" id="id8">B.6 Glossário</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Em linguagens com suporte à orientação a objetos, programadores podem criar novos tipos de dados que se comportam de forma semelhante aos tipos de dados built-in. Vamos explorar esse recurso criando uma classe chamada <tt class="docutils literal"><span class="pre">Fracao</span></tt>. Esta classe terá comportamento muito semelhante aos tipos numéricos da linguagem: <tt class="docutils literal"><span class="pre">int</span></tt>, <tt class="docutils literal"><span class="pre">long</span></tt> e <tt class="docutils literal"><span class="pre">float</span></tt>.</p>
+<p>Frações, também conhecidas como números racionais, são valores que podem ser expressos como uma razão de dois números inteiros, por exemplo, 5/6. No exemplo fornecido, o 5 representa o numerador, o número que fica em cima, que é dividido, e o 6 representa o denominador, o número que fica embaixo, pelo qual a divisão é feita. A fração 5/6 pode ser lida &#8220;cinco dividido por seis&#8221;.</p>
+<p>O primeiro passo é definir a classe <tt class="docutils literal"><span class="pre">Fracao</span></tt> com o método <tt class="docutils literal"><span class="pre">__init__</span></tt> que recebe como parâmetros o numerador e o denominador, sendo ambos do tipo <tt class="docutils literal"><span class="pre">int</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Fracao</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numerador</span><span class="p">,</span> <span class="n">denominador</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numerador</span> <span class="o">=</span> <span class="n">numerador</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">denominador</span> <span class="o">=</span> <span class="n">denominador</span>
+</pre></div>
+</div>
+<p>A passagem do denominador é opcional. Uma Fracao com apenas um parâmetro representa um número inteiro. Sendo o numerador n, a fração construída será n/1.</p>
+<p>O próximo passo é escrever o método <tt class="docutils literal"><span class="pre">__str__</span></tt> que exibe as frações corretamente: a forma numerador/denominador.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Fracao</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;</span><span class="si">%d</span><span class="s">/</span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numerador</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">denominador</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Para testar o que foi feito até aqui, salve a classe <tt class="docutils literal"><span class="pre">Fracao</span></tt> em um arquivo chamado <tt class="docutils literal"><span class="pre">Fracao.py</span></tt> e importe-a no interpretador interativo. Criaremos uma instância da classe e imprimiremos ele na tela:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">Fracao</span> <span class="kn">import</span> <span class="n">Fracao</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">numero</span> <span class="o">=</span> <span class="n">Fracao</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="s">&quot;A fração é &quot;</span><span class="p">,</span> <span class="n">numero</span>
+<span class="go">A fração é 5/6</span>
+</pre></div>
+</div>
+<p>Como de costume, o comando <tt class="docutils literal"><span class="pre">print</span></tt> chama implicitamente o método <tt class="docutils literal"><span class="pre">__str__</span></tt>.</p>
+<div class="section" id="b-1-multiplicacao-de-fracoes">
+<h2><a class="toc-backref" href="#id2">B.1 Multiplicação de frações</a><a class="headerlink" href="#b-1-multiplicacao-de-fracoes" title="Link permanente para este título">¶</a></h2>
+<p>É interessante que nossas frações possam ser somadas, subtraídas, multiplicadas, divididas, etc. Enfim, todas as operações matemáticas das frações. Para que isso seja possível, vamos usar o recurso de sobrecarga de operadores.</p>
+<p>Começaremos pela multiplicação por que é a operação mais fácil de ser implementada. Para multiplicar duas frações, criamos uma nova fração, onde o numerador é o produto dos numeradores das frações multiplicadas e o denominador é o produto dos numeradores das frações multiplicadas. O método utilizado em Python para sobrecarga do operador <tt class="docutils literal"><span class="pre">*</span></tt> chama-se <tt class="docutils literal"><span class="pre">__mul__</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Fracao</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Fracao</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numerador</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">numerador</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">denominador</span> <span class="o">*</span> <span class="n">ohter</span><span class="o">.</span><span class="n">denominador</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Vamos testar este método criando e multiplicando duas frações:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">Fracao</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="n">Fracao</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="go">15/24</span>
+</pre></div>
+</div>
+<p>O método funciona, mas pode ser aprimorado! Podemos melhorar o método visando possibilitar a multiplicação de uma fração por um inteiro. Usaremos a função <tt class="docutils literal"><span class="pre">isinstance</span></tt> para verificar se o objeto <tt class="docutils literal"><span class="pre">other</span></tt> é um inteiro, para em seguida convertê-lo em uma fração.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Fracao</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">Fracao</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Fracao</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numerador</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">numerador</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">denominador</span> <span class="o">*</span> <span class="n">ohter</span><span class="o">.</span><span class="n">denominador</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Agora conseguimos multiplicar funções por inteiros, mas só se a fração estiver à esquerda do operador <tt class="docutils literal"><span class="pre">*</span></tt>. Vejamos um exemplo em que nossa multiplicação funciona e outro no qual ela não funciona:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">Fracao</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="mi">4</span>
+<span class="go">20/6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">Fracao</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="go">TypeError: __mul__ nor __rmul__ defined for these operands</span>
+</pre></div>
+</div>
+<p>O erro nos da uma dica: não mexemos em nenhum <tt class="docutils literal"><span class="pre">__rmul__</span></tt>.</p>
+<p>Para realizar a multiplicação, busca no elemento à esquerda do operador <tt class="docutils literal"><span class="pre">*</span></tt> o método <tt class="docutils literal"><span class="pre">__mul__</span></tt> compatível com a multiplicação realizada (no nosso caso, que receba um inteiro e uma fração, nesta ordem). Se o método não for encontrado, o Python buscará no elemento à direita do operador <tt class="docutils literal"><span class="pre">*</span></tt> o método <tt class="docutils literal"><span class="pre">__rmul__</span></tt> compatível com a multiplicação realizada (que então deve ser lida da direita para a esquerda). Como a multiplicação é lida da direita para a esquerda, temos que o nosso método <tt class="docutils literal"><span class="pre">__rmul__</span></tt> deve ser igual ao método <tt class="docutils literal"><span class="pre">__mul__</span></tt> implementado anteriormente.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Fracao</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="n">__rmul__</span> <span class="o">=</span> <span class="n">__mul__</span>
+</pre></div>
+</div>
+<p>Fazendo assim, dizemos que o método <tt class="docutils literal"><span class="pre">__rmul__</span></tt> funciona da mesma forma que o método <tt class="docutils literal"><span class="pre">__mul__</span></tt>. Agora, quando multiplicarmos <tt class="docutils literal"><span class="pre">4</span> <span class="pre">*</span> <span class="pre">Fracao(5,</span> <span class="pre">6)</span></tt>, o interpretador Python chamará o método <tt class="docutils literal"><span class="pre">__rmul__</span></tt> do objeto <tt class="docutils literal"><span class="pre">Fracao</span></tt>, passando o 4 como parâmetro.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">Fracao</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="go">20/6</span>
+</pre></div>
+</div>
+<p>Como o método <tt class="docutils literal"><span class="pre">__rmul__</span></tt> é também o método <tt class="docutils literal"><span class="pre">__mul__</span></tt>, e o método <tt class="docutils literal"><span class="pre">__mul__</span></tt> consegue trabalhar com parâmetro do tipo inteiro, nossa multiplicação está completa.</p>
+</div>
+<div class="section" id="b-2-soma-de-fracoes">
+<h2><a class="toc-backref" href="#id3">B.2 Soma de frações</a><a class="headerlink" href="#b-2-soma-de-fracoes" title="Link permanente para este título">¶</a></h2>
+<p>Somar é mais complicado do que multiplicar, pelo menos quando estamos somando frações e temos que implementar isso em uma linguagem de programação. Mas não se assuste, não é tão complicado assim. A soma de a/b com c/d é (a*d+c*b)/(b*d).</p>
+<p>Tomando a multiplicação como base, podemos facilmente implementar os métodos <tt class="docutils literal"><span class="pre">__add__</span></tt> e <tt class="docutils literal"><span class="pre">__radd__</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Fracao</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">Fracao</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Fracao</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numerador</span>   <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">denominador</span> <span class="o">+</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">denominador</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">numerador</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">denominador</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">denominador</span><span class="p">)</span>
+
+    <span class="n">__radd__</span> <span class="o">=</span> <span class="n">__add__</span>
+</pre></div>
+</div>
+<p>Podemos testar o método usando frações e inteiros:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">Fracao</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="n">Fracao</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="go">60/36</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">Fracao</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span>
+<span class="go">23/6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">Fracao</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="go">17/6</span>
+</pre></div>
+</div>
+<p>Os dois primeiros exemplos chamam o método <tt class="docutils literal"><span class="pre">__add__</span></tt>, enquanto o último exemplo chama o método <tt class="docutils literal"><span class="pre">__radd__</span></tt>.</p>
+</div>
+<div class="section" id="b-3-simplificando-fracoes-o-algoritmo-de-euclides">
+<h2><a class="toc-backref" href="#id4">B.3 Simplificando frações: O algoritmo de Euclides</a><a class="headerlink" href="#b-3-simplificando-fracoes-o-algoritmo-de-euclides" title="Link permanente para este título">¶</a></h2>
+<p>No exemplo anterior, calculamos a soma de 5/6 com 5/6 e obtivemos o resultado 60/36. O resultado está correto, porém não está representado na melhor forma possível. O ideal é simplificarmos a fração. Para simplificar ao máximo esta fração, devemos dividir o numerador e o denominador pelo máximo divisor comum (MDC) deles, que é 12. Fazendo isso, chegamos à forma mais simples da fração, que é 5/3.</p>
+<p>De forma geral, sempre que um objeto do tipo <tt class="docutils literal"><span class="pre">Fracao</span></tt> for criado, a fração deve ser simplificada, através da divisão do numerador e do denominador pelo seu MDC. Quando a fração já está em sua forma mais simples, o MDC vale 1.</p>
+<p>Euclides de Alexandria (aprox. 325 a. C. &#8211; 365 a. C.) desenvolveu um algoritmo para encontrar o MDC de dois inteiros <tt class="docutils literal"><span class="pre">m</span></tt> e <tt class="docutils literal"><span class="pre">n</span></tt>:</p>
+<blockquote>
+Se <tt class="docutils literal"><span class="pre">n</span></tt> é múltiplo de <tt class="docutils literal"><span class="pre">m</span></tt>, então <tt class="docutils literal"><span class="pre">n</span></tt> é o MDC. Caso contrário, o MDC é o MDC de <tt class="docutils literal"><span class="pre">n</span></tt> e o resto da divisão de <tt class="docutils literal"><span class="pre">m</span></tt> por <tt class="docutils literal"><span class="pre">n</span></tt>.</blockquote>
+<p>Esta definição recursiva pode ser representada de forma concisa pela função:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">mdc</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">m</span> <span class="o">%</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">n</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">mdc</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">%</span> <span class="n">n</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Na primeira linha da função, utilizamos o operador de módulo para checar se <tt class="docutils literal"><span class="pre">m</span></tt> é divisível por <tt class="docutils literal"><span class="pre">n</span></tt>. Na última linha, usamos o mesmo operador para obter o resto da divisão de <tt class="docutils literal"><span class="pre">m</span></tt> por <tt class="docutils literal"><span class="pre">n</span></tt>.</p>
+<p>Já que todas as operações que escrevemos criam um novo objeto do tipo <tt class="docutils literal"><span class="pre">Fracao</span></tt>, podemos utilizar a função <tt class="docutils literal"><span class="pre">mdc</span></tt> no método <tt class="docutils literal"><span class="pre">__init__</span></tt> de nossa classe:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Fracao</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numerador</span><span class="p">,</span> <span class="n">denominador</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">mdc</span><span class="p">(</span><span class="n">numerador</span><span class="p">,</span> <span class="n">denominador</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numerador</span> <span class="o">=</span> <span class="n">numerador</span> <span class="o">/</span> <span class="n">m</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">denominador</span> <span class="o">=</span> <span class="n">denominador</span> <span class="o">/</span> <span class="n">m</span>
+</pre></div>
+</div>
+<p>Agora, sempre que criarmos uma fração, ela será reduzida:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Fracao</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">36</span><span class="p">)</span>
+<span class="go">-25/9</span>
+</pre></div>
+</div>
+<p>Sempre que o denominador é negativo, o sinal negativo deve passar para o numerador. O interessante é que, ao usarmos o Algoritmo de Euclides, esta operação ocorre de forma transparente.</p>
+<p>Antes de seguirmos para o próximo passo, vamos ver como está nossa classe <tt class="docutils literal"><span class="pre">Fracao</span></tt> completa?</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Fracao</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numerador</span><span class="p">,</span> <span class="n">denominador</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">mdc</span><span class="p">(</span><span class="n">numerador</span><span class="p">,</span> <span class="n">denominador</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numerador</span> <span class="o">=</span> <span class="n">numerador</span> <span class="o">/</span> <span class="n">m</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">denominador</span> <span class="o">=</span> <span class="n">denominador</span> <span class="o">/</span> <span class="n">m</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;</span><span class="si">%d</span><span class="s">/</span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numerador</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">denominador</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">Fracao</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Fracao</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numerador</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">numerador</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">denominador</span> <span class="o">*</span> <span class="n">ohter</span><span class="o">.</span><span class="n">denominador</span><span class="p">)</span>
+
+    <span class="n">__rmul__</span> <span class="o">=</span> <span class="n">__mul__</span>
+
+    <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">Fracao</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Fracao</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numerador</span>   <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">denominador</span> <span class="o">+</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">denominador</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">numerador</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">denominador</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">denominador</span><span class="p">)</span>
+
+    <span class="n">__radd__</span> <span class="o">=</span> <span class="n">__add__</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="b-4-comparando-fracoes">
+<h2><a class="toc-backref" href="#id5">B.4 Comparando frações</a><a class="headerlink" href="#b-4-comparando-fracoes" title="Link permanente para este título">¶</a></h2>
+<p>Suponha que tenhamos duas frações (instâncias da classe <tt class="docutils literal"><span class="pre">Fracao</span></tt>), <tt class="docutils literal"><span class="pre">a</span></tt> e <tt class="docutils literal"><span class="pre">b</span></tt>, e nós fazemos a comparação <tt class="docutils literal"><span class="pre">a</span> <span class="pre">==</span> <span class="pre">b</span></tt>. A implementação padrão do operador <tt class="docutils literal"><span class="pre">==</span></tt> realiza um &#8220;teste raso&#8221;, ou seja, verifica se <tt class="docutils literal"><span class="pre">a</span></tt> e <tt class="docutils literal"><span class="pre">b</span></tt> são o mesmo objeto.</p>
+<p>Queremos personalizar este retorno, de forma que a comparação retorne <tt class="xref docutils literal"><span class="pre">True</span></tt> se <tt class="docutils literal"><span class="pre">a</span></tt> e <tt class="docutils literal"><span class="pre">b</span></tt> tiverem o mesmo valor, o que é chamado de &#8220;teste profundo&#8221;.</p>
+<p>Temos que ensinar às frações como elas devem se comparar. Como foi visto na seção 15.4, todos os operadores de comparação podem ser sobrecarregados por apenas um método: <tt class="docutils literal"><span class="pre">__cmp__</span></tt>.</p>
+<p>Por convenção, o método <tt class="docutils literal"><span class="pre">__cmp__</span></tt> retorna um número negativo se <tt class="docutils literal"><span class="pre">self</span></tt> for menor que <tt class="docutils literal"><span class="pre">other</span></tt>, zero se eles forem iguais e um número positivo se <tt class="docutils literal"><span class="pre">self</span></tt> for maior que <tt class="docutils literal"><span class="pre">other</span></tt>.</p>
+<p>A forma mais simples de comparar frações é através da multiplicação cruzada (denominador * numerador e vice-versa). Se <tt class="docutils literal"><span class="pre">a/b</span> <span class="pre">&gt;</span> <span class="pre">c/d</span></tt>, então <tt class="docutils literal"><span class="pre">ad</span> <span class="pre">&gt;</span> <span class="pre">bc</span></tt>. Tendo isso em mente, vamos criar o <tt class="docutils literal"><span class="pre">__cmp__</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Fracao</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">__cmp__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="n">diferenca</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numerador</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">denominador</span> <span class="o">-</span>
+                     <span class="bp">self</span><span class="o">.</span><span class="n">denominador</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">numerador</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">diferenca</span>
+</pre></div>
+</div>
+<p>Se <tt class="docutils literal"><span class="pre">self</span></tt> for maior que <tt class="docutils literal"><span class="pre">other</span></tt>, a <tt class="docutils literal"><span class="pre">diferenca</span></tt> será positiva. Se <tt class="docutils literal"><span class="pre">other</span></tt> for maior, a <tt class="docutils literal"><span class="pre">diferenca</span></tt> será negativa. Se os dois forem iguais, a <tt class="docutils literal"><span class="pre">diferenca</span></tt> será zero.</p>
+</div>
+<div class="section" id="b-5-indo-mais-alem">
+<h2><a class="toc-backref" href="#id6">B.5 Indo mais além...</a><a class="headerlink" href="#b-5-indo-mais-alem" title="Link permanente para este título">¶</a></h2>
+<p>Obviamente, não terminamos de representar uma fração. Ainda temos que implementar a subtração sobrescrevendo o método <tt class="docutils literal"><span class="pre">__sub__</span></tt> e a divisão sobrescrevendo o método <tt class="docutils literal"><span class="pre">__div__</span></tt>.</p>
+<p>Uma forma de tratar tais operações é sobrescrever os métodos de negação (<tt class="docutils literal"><span class="pre">__neg__</span></tt>) e de inversão (<tt class="docutils literal"><span class="pre">__invert__</span></tt>). Assim, podemos fazer a subtração através da negação do elemento à direita do operador e somando, e podemos fazer a divisão através da inversão do elemento à direita do operador e multiplicando.</p>
+<p>Depois, temos que implementar os métodos <tt class="docutils literal"><span class="pre">__rsub__</span></tt> e <tt class="docutils literal"><span class="pre">__rdiv__</span></tt>. Infelizmente, não podemos utilizar o mesmo &#8220;macete&#8221; utilizado para multiplicação e soma, por que a divisão e a subtração não são comutativas, ou seja, a ordem dos fatores altera o resultado final.</p>
+<p>As negações unárias, que representam o uso do sinal de negação com apenas um elemento, são implementadas através da sobrescrita do método <tt class="docutils literal"><span class="pre">__neg__</span></tt>.</p>
+<p>Potências podem ser calculadas através do método <tt class="docutils literal"><span class="pre">__pow__</span></tt>, mas a implementação é um pouco complicada. Se o expoente da potência não for um inteiro, o resultado provavelmente não poderá ser representado como uma fração. Por exemplo, <tt class="docutils literal"><span class="pre">Fracao(2)</span> <span class="pre">**</span> <span class="pre">Fracao(2)</span></tt> é a raiz quadrada de 2, que é um número irracional, e números irracionais não pode ser representados por frações. Logo, é uma tarefa complicada implementar uma versão genérica do método <tt class="docutils literal"><span class="pre">__pow__</span></tt>.</p>
+<p>Existe, ainda, uma outra extensão para a classe <tt class="docutils literal"><span class="pre">Fracao</span></tt> que pode vir à mente. Até aqui, assumimos que o numerador e o denominador são números inteiros.</p>
+<div class="section" id="b-5-1-exercicio">
+<h3><a class="toc-backref" href="#id7">B.5.1 Exercício</a><a class="headerlink" href="#b-5-1-exercicio" title="Link permanente para este título">¶</a></h3>
+<p>Como exercício, finalize a implementação da classe <tt class="docutils literal"><span class="pre">Fracao</span></tt>, tornando-a capaz de tratar subtração, divisão e potenciação.</p>
+</div>
+</div>
+<div class="section" id="b-6-glossario">
+<h2><a class="toc-backref" href="#id8">B.6 Glossário</a><a class="headerlink" href="#b-6-glossario" title="Link permanente para este título">¶</a></h2>
+<dl class="docutils">
+<dt>máximo divisor comum (MDC)</dt>
+<dd>O maior inteiro positivo que tem como múltiplo o numerador e o denominador de uma fração.</dd>
+<dt>negação unária</dt>
+<dd>É a operação que calcula a inversão de um elemento, usualmente representada com um sinal de menos <tt class="docutils literal"><span class="pre">-</span></tt> à esquerda do elemento. É chamada unária pelo contraste com a operação binária que usa o sinal de menos, a subtração.</dd>
+<dt>simplificar</dt>
+<dd>Transformar uma fração em sua equivalente com o MDC valendo 1</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Apêndice B: Criando um novo tipo de dado</a><ul>
+<li><a class="reference internal" href="#b-1-multiplicacao-de-fracoes">B.1 Multiplicação de frações</a></li>
+<li><a class="reference internal" href="#b-2-soma-de-fracoes">B.2 Soma de frações</a></li>
+<li><a class="reference internal" href="#b-3-simplificando-fracoes-o-algoritmo-de-euclides">B.3 Simplificando frações: O algoritmo de Euclides</a></li>
+<li><a class="reference internal" href="#b-4-comparando-fracoes">B.4 Comparando frações</a></li>
+<li><a class="reference internal" href="#b-5-indo-mais-alem">B.5 Indo mais além...</a><ul>
+<li><a class="reference internal" href="#b-5-1-exercicio">B.5.1 Exercício</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#b-6-glossario">B.6 Glossário</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="apendice_a.html"
+                        title="capítulo anterior">Apêndice A: Depuração</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="apendice_c.html"
+                        title="próximo capítulo">Apêndice C: Leituras recomendadas</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/apendice_b.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="apendice_c.html" title="Apêndice C: Leituras recomendadas"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="apendice_a.html" title="Apêndice A: Depuração"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

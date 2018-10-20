@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Using the ElementTree Module to Generate SOAP Messages, Part 3: Dealing with Qualified&nbsp;Names</title></head><body data-page-id="103"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><p><a href="elementsoap-2.htm">back</a>&#160;<a href="elementsoap-4.htm">next</a></p><h1 class="maintitle">Using the ElementTree Module to Generate SOAP Messages, Part 3: Dealing with Qualified&nbsp;Names</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">November 22, 2003 | Fredrik Lundh</p><p class="note"><b>Note:</b>
+A distribution kit containing the source code for this article is
+available from <a href="http://effbot.org/downloads#elementsoap">the
+effbot.org downloads site</a> (look for ElementSOAP 0.2 or later).</p><h2 id="xml-namespaces">XML Namespaces&#160;<a class="nav" href="#xml-namespaces" title="bookmark!">#</a></h2><p><a href="http://www.w3.org/TR/REC-xml-names/"><i>XML namespaces</i></a>
+is an extension to the core XML specification, which lets you associate
+every element tag and attribute name with an URL.  For example, all SOAP
+1.1 elements belong to the <b>http://schemas.xmlsoap.org/soap/envelope/</b>
+URL.</p><p>To be able to associate an URL with a tag or name, the XML namespace
+model relies on something called
+<a href="http://www.w3.org/TR/REC-xml-names/#ns-qualnames"><i>qualified names</i></a>, or QNames.  A qualified name consists of a <i>namespace
+prefix</i> and a <i>local part</i>, where the prefix maps to an URL
+via special namespace declarations (<b>xmlns</b> attributes) in
+surrounding elements.  The declarations are part of the document markup;
+on the application level, only the URL/local part pair really matters.
+The namespace prefix is just an encoding detail.</p><p>For more information on namespaces, see James Clark&#8217;s <a href="http://www.jclark.com/xml/xmlns.htm"><cite>XML Namespaces</cite></a>
+article.</p><p>The <a href="http://effbot.org/zone/element.htm">ElementTree</a> library
+uses a generic namespace-aware parser, which automatically maps each qualified
+name to a <i>universal name</i> in Clark&#8217;s &#8220;<b>{url}local</b>&#8221; notation,
+and removes prefixes and namespace declarations from the parsed tree.
+After all, the XML namespaces specification clearly states that it only
+applies to element tags (types) and attribute names, and that applications
+should use the namespace URL, not the prefix.</p><p>Unfortunately, the SOAP designers <a href="http://arxiv.org/abs/cond-mat/0212043">didn&#8217;t actually read the namespace specification</a>, so they&#8217;re
+using qualified names all over the place.  You can see all variants in
+the following Fault response example:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="xml wide wide">
+&lt;<span class="pyfunction">soap:Envelope</span> xmlns:soap='...'&gt;
+  &lt;<span class="pyfunction">soap:Body</span>&gt;
+    &lt;<span class="pyfunction">soap:Fault</span> soap:encodingStyle='...'&gt;
+      &lt;<span class="pyfunction">faultcode</span>&gt;soap:Server&lt;/<span class="pyfunction">faultcode</span>&gt;
+      &lt;<span class="pyfunction">faultstring</span>&gt;Argument must be 100 or less.&lt;/<span class="pyfunction">faultstring</span>&gt;
+      &lt;<span class="pyfunction">faultactor</span>&gt;/system&lt;/<span class="pyfunction">faultactor</span>&gt;
+      &lt;<span class="pyfunction">detail</span> xmlns:xsi='...' xmlns:xsd='...' &gt;
+        &lt;<span class="pyfunction">argument</span> xsi:type='xsd:integer'&gt;200&lt;/<span class="pyfunction">argument</span>&gt;
+        &lt;<span class="pyfunction">version</span> xsi:type='xsd:string'&gt;2.0 beta 1&lt;/<span class="pyfunction">version</span>&gt;
+      &lt;/<span class="pyfunction">detail</span>&gt;
+      ...
+    &lt;/<span class="pyfunction">soap:Fault</span>&gt;
+  &lt;/<span class="pyfunction">soap:Body</span>&gt;
+&lt;/<span class="pyfunction">soap:Envelope</span>&gt;</pre></div><div class="yui-ge"><div class="yui-u first"><p>Here, <b>soap:Envelope</b> is an <b>Envelope</b> element associated
+with the namespace given by the <b>xmlns:soap</b> attribute.  The
+ElementTree parser represents this tag as &#8220;<b>{http://schemas.xmlsoap.org/soap/envelope/}Envelope</b>&#8220;.</p><p>The <b>Body</b> and <b>Fault</b> elements are associated with the same
+namespace, and the Fault element also contains an attribute name from the
+same namespace; <b>soap:encodingStyle</b>.  The parser maps these to
+&#8220;{url}local&#8221;-style strings as well.</p><p>But what about the <b>faultcode</b> element?  The element tag
+doesn&#8217;t belong to a namespace, but that &#8220;<b>soap:Server</b>&#8221; text
+content sure looks like a qualified name.  Let&#8217;s check what
+<a href="http://www.w3.org/TR/SOAP/#_Toc478383507">the SOAP specification</a>
+has to say about fault codes:</p><blockquote><i>
+The faultcode MUST be present in a SOAP Fault element and the faultcode
+value MUST be a qualified name as defined in [XML Namespaces], section 3.
+</i></blockquote><p>Umm.  So it is a qualified name.  Who cares that section 1 of the namespaces
+specification says that XML namespaces only apply to element tags and
+attribute names; let&#8217;s just pick a section we like, and ignore the rest
+of the specification.  Guess someone else has to <a href="http://www.w3.org/2001/tag/doc/qnameids-2002-04-30">sort out the mess</a>.</p><p>And of course, SOAP uses qualified names not only in text sections, but
+also in attribute values, as can be seen in the <b>argument</b> element:</p><pre class="xml">
+&lt;<span class="pyfunction">detail</span> xmlns:xsi='...' xmlns:xsd='...' &gt;
+  &lt;<span class="pyfunction">argument</span> xsi:type='xsd:integer'&gt;200&lt;/<span class="pyfunction">argument</span>&gt;</pre><p>(Here, the <b>xsd:integer</b> attribute string refers to the namespace
+given by the <b>xmlns:xsd</b> attribute in the parent element).</p><h2 id="handling-qualified-names-in-soap">Handling Qualified Names in SOAP&#160;<a class="nav" href="#handling-qualified-names-in-soap" title="bookmark!">#</a></h2><p class="note"><b>Update 2005-12-06:</b>
+The <a href="element-iterparse.htm"><b>iterparse</b></a> mechanism
+in recent versions of ElementTree provides a more efficient way to deal
+with namespaces in non-standard locations.</p><p>So, you cannot use a generic namespace-aware parser if you want to
+properly process SOAP messages.  What can you do about this?  Here are
+some possible solutions:</p><ol><li>Ignore the whole mess.  Make the SOAP layer ignore the prefix when
+it looks for type information and deals with faults, and hope that you&#8217;ll
+never have to deal with a SOAP service where this would be a problem.
+</li><li>Create a SOAP-specific parser, and make it map <b>xsi:type</b> and
+<b>faultcode</b> contents to qualified names during parsing.
+</li><li>Create a modified parser that makes namespace tables available to
+the application level.  You can then use these tables to map prefixes
+to namespaces URLs in the SOAP layer.
+</li></ol><p><a name="qnames-2">In practice, solution 1</a> will work better than
+you may expect, since most servers are using only standard error codes,
+and tend to use unique names for custom types.  You can use the
+following function to &#8220;clean up&#8221; the QName strings before using
+them:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">fixqname</span>(qname):
+    prefix, local = qname.split(<span class="pystring">":"</span>)
+    <span class="pykeyword">return</span> local</pre><p>On the other hand, implementing solutions 2 and 3 is actually easier that
+it may sound, thanks to an experimental class in the ElementTree library.
+This class, <b>FancyTreeBuilder</b>, is similar to the built-in parser
+but calls hook methods whenever it enters or leaves an element during
+parsing:</p><pre class="python">
+<span class="pykeyword">from</span> elementtree <span class="pykeyword">import</span> XMLTreeBuilder
+
+<span class="pykeyword">class</span> <span class="pyclass">MyParser</span>(XMLTreeBuilder.FancyTreeBuilder):
+    <span class="pykeyword">def</span> <span class="pyfunction">start</span>(self, element):
+        ... prepare element before adding it to the tree...
+    <span class="pykeyword">def</span> <span class="pyfunction">end</span>(self, element):
+        ... process element after adding it to the tree...</pre><p>These hooks may modify the element (and its subelements, in the
+<b>end</b> hook) in place, and they also have access to a list of active
+namespace declarations via the <b>namespaces</b> attribute.</p><p>The following parser uses the <b>start</b> hook to attach a copy of
+the current set of namespace declarations to each element:</p><pre class="python">
+<span class="pykeyword">from</span> elementtree <span class="pykeyword">import</span> ElementTree, XMLTreeBuilder
+
+<span class="pykeyword">class</span> <span class="pyclass">NamespaceParser</span>(XMLTreeBuilder.FancyTreeBuilder):
+    <span class="pykeyword">def</span> <span class="pyfunction">start</span>(self, element):
+        element.namespaces = self.namespaces[:]</pre><p>To use the class when parsing, pass in an instance of the parser
+class to the <b>parse</b> function:</p><pre class="python">
+tree = ElementTree.parse(file, NamespaceParser())</pre><p>When you use this parser, each element will have a <b>namespaces</b>
+attribute, which is a list of (prefix, uri) tuples, one for each namespace
+that applies to the current elememt.  The following function takes a
+qualified name and the element the name is used in, and returns an
+Element-style full name:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">def</span> <span class="pyfunction">fixqname</span>(element, qname):
+    prefix, local = qname.split(<span class="pystring">":"</span>)
+    <span class="pykeyword">for</span> p, url <span class="pykeyword">in</span> element.namespaces:
+        <span class="pykeyword">if</span> prefix == p:
+            <span class="pykeyword">return</span> <span class="pystring">"{%s}%s"</span> % (url, local)
+    <span class="pykeyword">raise</span> SyntaxError(<span class="pystring">"unknown namespace prefix (%s)"</span> % prefix)</pre></div><div class="yui-ge"><div class="yui-u first"><p>Here&#8217;s a version of the <b>SoapService</b> class that uses this parser,
+and uses the <b>fixqname</b> helper to deal with the <b>faultcode</b>
+element.</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">SoapService</span>:
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, url=None):
+        self.__client = HTTPClient(url <span class="pykeyword">or</span> self.url)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">call</span>(self, action, request):
+        <span class="pycomment"># build SOAP envelope</span>
+        envelope = Element(NS_SOAP_ENV + <span class="pystring">"Envelope"</span>)
+        body = SubElement(envelope, NS_SOAP_ENV + <span class="pystring">"Body"</span>)
+        body.append(request)
+        <span class="pycomment"># call the server</span>
+        <span class="pykeyword">try</span>:
+            parser = NamespaceParser()
+            response = self.__client.do_request(
+                tostring(envelope),
+                extra_headers=[(<span class="pystring">"SOAPAction"</span>, action)],
+                parser=parser
+                )
+        <span class="pykeyword">except</span> HTTPError, v:
+            <span class="pykeyword">if</span> v[0] == 500:
+                <span class="pycomment"># might be a SOAP fault</span>
+                response = ElementTree.parse(v[3], parser)
+        response = response.find(body.tag)[0]
+        <span class="pykeyword">if</span> response.tag == NS_SOAP_ENV + <span class="pystring">"Fault"</span>:
+            faultcode = response.find(<span class="pystring">"faultcode"</span>)
+            <span class="pykeyword">raise</span> SoapFault(
+                fixqname(faultcode, faultcode.text),
+                response.findtext(<span class="pystring">"faultstring"</span>),
+                response.findtext(<span class="pystring">"faultactor"</span>),
+                response.find(<span class="pystring">"detail"</span>)
+                )
+
+        <span class="pykeyword">return</span> response</pre><p>With this code in place, the <a href="elementsoap-2.htm#element-soap-faults">invalid argument example</a> from the earlier article now
+prints the expanded faultcode:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+&gt;&gt;&gt; g.doGoogleSearch("hello", maxResults=100)
+Traceback (most recent call last):
+  File "myprogram.py", line 24, in doGoogleSearch
+  File "ElementSOAP.py", line 78, in call
+    response.find("detail")
+ElementSOAP.SoapFault:
+(u'{http://schemas.xmlsoap.org/soap/envelope/}Server',
+'Exception from service object: maxResults must be 10 or less.',
+'/search/beta2', &lt;Element detail at 9dfcb4&gt;)
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>The new parser also opens up for some more automation when writing
+method wrappers; more on in a later article.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p><a href="elementsoap-2.htm">back</a>&#160;<a href="elementsoap-4.htm">next</a></p></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#xml-namespaces">XML Namespaces</a></li><li><a href="#handling-qualified-names-in-soap">Handling Qualified Names in SOAP</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

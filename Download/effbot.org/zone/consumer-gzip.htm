@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Gzip Consumer&nbsp;Class</title></head><body data-page-id="32"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Gzip Consumer&nbsp;Class</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">January 27, 2003 | Fredrik Lundh</p><p>The following <a href="consumer.htm">consumer</a> class provides gzip
+decoding on the fly.  The consumer acts like a filter, passing decoded data
+on to another consumer object.</p><p>The consumer&#8217;s <b>feed</b> and <b>close</b> methods may raise
+<b>IOError</b> or <b>zlib.error</b> exceptions, if the input data
+is not a valid gzip stream.</p><p>Note that this class delegates all method calls to the underlying
+target consumer.  This allows you to use <b>GzipConsumer(consumer)</b>
+instead of a plain <b>consumer</b>, in many cases.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>The GzipConsumer Class</b>
+<pre class="python wide">
+<span class="pycomment"># File: GzipConsumer.py</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">GzipConsumer</span>:
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, consumer):
+        self.__consumer = consumer
+        self.__decoder = None
+        self.__data = <span class="pystring">""</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__getattr__</span>(self, key):
+        <span class="pycomment"># delegate unknown methods/attributes</span>
+        <span class="pykeyword">return</span> getattr(self.__consumer, key)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">feed</span>(self, data):
+        <span class="pykeyword">if</span> self.__decoder <span class="pykeyword">is</span> None:
+            <span class="pycomment"># check if we have a full gzip header</span>
+            data = self.__data + data
+            <span class="pykeyword">try</span>:
+                i = 10
+                flag = ord(data[3])
+                <span class="pykeyword">if</span> flag &amp; 4: <span class="pycomment"># extra</span>
+                    x = ord(data[i]) + 256*ord(data[i+1])
+                    i = i + 2 + x
+                <span class="pykeyword">if</span> flag &amp; 8: <span class="pycomment"># filename</span>
+                    <span class="pykeyword">while</span> ord(data[i]):
+                        i = i + 1
+                    i = i + 1
+                <span class="pykeyword">if</span> flag &amp; 16: <span class="pycomment"># comment</span>
+                    <span class="pykeyword">while</span> ord(data[i]):
+                        i = i + 1
+                    i = i + 1
+                <span class="pykeyword">if</span> flag &amp; 2: <span class="pycomment"># crc</span>
+                    i = i + 2
+                <span class="pykeyword">if</span> len(data) &lt; i:
+                    <span class="pykeyword">raise</span> IndexError(<span class="pystring">"not enough data"</span>)
+                <span class="pykeyword">if</span> data[:3] != <span class="pystring">"\x1f\x8b\x08"</span>:
+                    <span class="pykeyword">raise</span> IOError(<span class="pystring">"invalid gzip data"</span>)
+                data = data[i:]
+            <span class="pykeyword">except</span> IndexError:
+                self.__data = data
+                <span class="pykeyword">return</span> <span class="pycomment"># need more data</span>
+            <span class="pykeyword">import</span> zlib
+            self.__data = <span class="pystring">""</span>
+            self.__decoder = zlib.decompressobj(-zlib.MAX_WBITS)
+        data = self.__decoder.decompress(data)
+        <span class="pykeyword">if</span> data:
+            self.__consumer.feed(data)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">close</span>(self):
+        <span class="pykeyword">if</span> self.__decoder:
+            data = self.__decoder.flush()
+            <span class="pykeyword">if</span> data:
+                self.__consumer.feed(data)
+        self.__consumer.close()</pre></div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

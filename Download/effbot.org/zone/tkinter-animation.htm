@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>A Simple Animation&nbsp;Engine</title></head><body data-page-id="294"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">A Simple Animation&nbsp;Engine</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">April 25, 1998 | Fredrik Lundh</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Animated objects</b>
+<pre class="python wide">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+<span class="pykeyword">class</span> <span class="pyclass">Blob</span>:
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, canvas, xy, ink, delta):
+
+        self.canvas = canvas
+
+        self.id = self.canvas.create_oval(
+            -10-abs(delta), -10,
+            11+abs(delta), 11,
+            fill=ink
+            )
+
+        self.canvas.move(self.id, xy[0], xy[1])
+
+        <span class="pykeyword">if</span> delta &gt; 0:
+            self.delta = delta
+            self.start = self.right
+        <span class="pykeyword">else</span>:
+            self.delta = -delta
+            self.start = self.left
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__call__</span>(self):
+        <span class="pykeyword">return</span> self.start <span class="pycomment"># get things going</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">right</span>(self):
+
+        xy = self.canvas.coords(self.id)
+        <span class="pykeyword">if</span> xy[2] &gt;= self.canvas.winfo_width():
+            <span class="pykeyword">return</span> self.left()
+
+        self.canvas.move(self.id, self.delta, 0)
+
+        <span class="pykeyword">return</span> self.right
+
+    <span class="pykeyword">def</span> <span class="pyfunction">left</span>(self):
+
+        xy = self.canvas.coords(self.id)
+        <span class="pykeyword">if</span> xy[0] &lt;= 0:
+            <span class="pykeyword">return</span> self.right()
+
+        self.canvas.move(self.id, -self.delta, 0)
+
+        <span class="pykeyword">return</span> self.left
+
+root = Tk()
+root.title(<span class="pystring">"Blobs"</span>)
+root.resizable(0, 0)
+
+frame = Frame(root, bd=5, relief=SUNKEN)
+frame.pack()
+
+canvas = Canvas(frame, width=500, height=200, bd=0, highlightthickness=0)
+canvas.pack()
+
+items = [
+    Blob(canvas, (100, 50), <span class="pystring">"red"</span>, 5),
+    Blob(canvas, (100, 80), <span class="pystring">"blue"</span>, -5),
+    Blob(canvas, (100, 120), <span class="pystring">"green"</span>, 1),
+    Blob(canvas, (100, 150), <span class="pystring">"gold"</span>, 20)
+    ]
+
+root.update() <span class="pycomment"># fix geometry</span>
+
+<span class="pycomment"># loop over items</span>
+
+<span class="pykeyword">try</span>:
+    <span class="pykeyword">while</span> 1:
+        <span class="pykeyword">for</span> i <span class="pykeyword">in</span> range(len(items)):
+            items[i] = items[i]()
+            root.update_idletasks() <span class="pycomment"># redraw</span>
+        root.update() <span class="pycomment"># process events</span>
+<span class="pykeyword">except</span> TclError:
+    <span class="pykeyword">pass</span> <span class="pycomment"># to avoid errors when the window is closed</span></pre></div></div><div class="yui-ge"><div class="yui-u first"><p>
+<img alt="" height="187" src="/media/cache/59f6d1f726da9a66da1168c625898152.png" width="400" />
+</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

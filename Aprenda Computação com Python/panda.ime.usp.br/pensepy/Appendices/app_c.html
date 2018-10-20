@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Configurando Ubuntu para Desenvolvimento em Python &mdash; Como pensar como um Cientista da Computação: Edição Interativa em Python</title>
+    
+    <link rel="stylesheet" href="../_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="../_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="../_static/codemirror.js"></script>
+    <script type="text/javascript" src="../_static/python.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="../_static/assess.js"></script>
+    <script type="text/javascript" src="../_static/animationbase.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="../_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Como pensar como um Cientista da Computação: Edição Interativa em Python" href="../index.html" />
+    <link rel="next" title="Customizing and Contributing to the Book" href="app_d.html" />
+    <link rel="prev" title="Etceteras" href="app_b.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/pensePython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'pensePython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/pensePython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="app_d.html" title="Customizing and Contributing to the Book"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="app_b.html" title="Etceteras"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="configurando-ubuntu-para-desenvolvimento-em-python">
+<h1>Configurando Ubuntu para Desenvolvimento em Python<a class="headerlink" href="#configurando-ubuntu-para-desenvolvimento-em-python" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><em>Nota:</em> as instruções a seguir supõem que você está conectado a
+Internet e que você tem os repositórios de pacotes <code class="docutils literal"><span class="pre">main</span></code> e
+<code class="docutils literal"><span class="pre">universe``habilitados.</span>&nbsp; <span class="pre">É</span> <span class="pre">suposto</span> <span class="pre">que</span> <span class="pre">todos</span> <span class="pre">os</span> <span class="pre">shells</span> <span class="pre">de</span>
+<span class="pre">comandos</span> <span class="pre">unix</span> <span class="pre">são</span> <span class="pre">executados</span> <span class="pre">a</span> <span class="pre">partir</span> <span class="pre">do</span> <span class="pre">se</span> <span class="pre">*home</span> <span class="pre">directory*</span>
+<span class="pre">($HOME).</span> <span class="pre">Finalmente,</span> <span class="pre">todo</span> <span class="pre">comando</span> <span class="pre">que</span> <span class="pre">começa</span> <span class="pre">dom</span> <span class="pre">``sudo</span></code> supõe
+que você tem poderes de administrador do seu computador. Se você não
+tem &#8212; por favor peça ao administrador para instalar os programas
+necessários.</div></blockquote>
+<p>A seguir estão instruções para configurar o ambiente do Ubuntu 9.10 (Karmic)
+para usar com este livro (N.d.T. mais recente do Ubuntu é 14.10 (Utopic)).
+Eu uso Ubuntu GNU/Linux para ambos desenvolvimento e teste deste livro,
+logo este é apena o sistema sobre o qual eu posso pessoalmente responder
+questões sobre configuração.</p>
+<p>No espírito de software livre e colaboração aberta, por favor, contacte-me se
+se você desejar manter um apêndice similar para o seu sistema favorito.
+Eu ficarei mais do que feliz em colocar um link para ele no projeto do livro aberto
+(<em>Open Book Project</em>), contanto que você concorde em responder algumas questões
+de retorno em relação a ele.</p>
+<p>Obrigado!</p>
+<div class="line-block">
+<div class="line"><a class="reference external" href="mailto:jeff&#37;&#52;&#48;elkner&#46;net">Jeffrey Elkner</a></div>
+<div class="line">Governor&#8217;s Career and Technical Academy in Arlington</div>
+<div class="line">Arlington, Virginia</div>
+</div>
+<div class="section" id="vim">
+<h2>Vim<a class="headerlink" href="#vim" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://www.vim.org">Vim</a> pode ser usado muito efetivamente para o desenvolvimento
+de programas em Python, mas Ubuntu vem apenas com o pacote <cite>vim-tiny</cite> instalado por
+default, assim ele não suporta o sistema de coloração ou auto tabulação do programa.</p>
+<p>Para usar Vim, faça o seguinte:</p>
+<ol class="arabic">
+<li><p class="first">Na linha de comando do prompt do unix execute:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ sudo apt-get install vim-gnome
+</pre></div>
+</div>
+</li>
+</ol>
+<p>#. Crie um arquivo em seu diretório (<em>home directory</em>) chamado <cite>.vimrc</cite>
+que contém:</p>
+<div class="highlight-python"><div class="highlight"><pre>syntax enable
+filetype indent on
+set et
+set sw=4
+set smarttab
+map &lt;f2&gt; :w\|!python %
+</pre></div>
+</div>
+<p>Quando você editar um arquivo com a extensão <cite>.py</cite>, você agora texto colorido
+de acordo com a sintaxe e tabulação automática. Pressionando a tecla isso deve
+executar o seu programa, e voltar ao editor quando o programa terminar a sua
+execu,cão.</p>
+<p>Para aprender a usar vim, execute o seguinte comando no prompt do shell do unix:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ vimtutor
+</pre></div>
+</div>
+</div>
+<div class="section" id="gasp">
+<span id="installing-gasp"></span><h2>GASP<a class="headerlink" href="#gasp" title="Permalink to this headline">¶</a></h2>
+<p>Vários estudos de caso usam GASP (Graphics API for Students for Python),
+que é a única biblioteca adicional necessária para usar este livro.</p>
+<p>Para instalar GASP no Ubuntu 9.04 (Jaunty) ou versões mais recentes, execute o
+seguinte comando no prompt do shell do unix:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ sudo apt-get install python-gasp
+</pre></div>
+</div>
+<p>ou use o administrador de pacotes synaptic.</p>
+<div class="section" id="getting-gasp-from-launchpad">
+<h3>Getting GASP from Launchpad<a class="headerlink" href="#getting-gasp-from-launchpad" title="Permalink to this headline">¶</a></h3>
+<p>Para instalar a última versão do GASP no seu diretório (<em>home directory</em>),
+execute os comandos a seguir na linha do prompt do unix:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ sudo apt-get install bzr
+$ bzr branch lp:gasp-code
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="ambiente-home">
+<h2>Ambiente <cite>$HOME</cite><a class="headerlink" href="#ambiente-home" title="Permalink to this headline">¶</a></h2>
+<p>O que está a seguir cria um ambiente útil no seu diretório para
+acrescentar suas próprias bibliotecas em Python e <em>scripts</em> executáveis:</p>
+<ol class="arabic">
+<li><p class="first">Na linha de comando do prompt do unix em seu diretório, crie os
+subdiretórios <cite>bin</cite> e  <cite>lib/python</cite> executando os seguintes comandos:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ mkdir bin lib
+$ mkdir lib/python
+</pre></div>
+</div>
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first">Acrescente a linhas a seguir no final do arquivo <cite>.bashrc</cite> que está no
+seu diretório:</p>
+<div class="highlight-python"><div class="highlight"><pre>PYTHONPATH=$HOME/lib/python
+EDITOR=vim
+
+export PYTHONPATH EDITOR
+</pre></div>
+</div>
+<p>This will set your prefered editor to Vim, add your own <cite>lib/python</cite>
+subdirectory for your Python libraries to your Python path, and add your own
+<cite>bin</cite> directory as a place to put executable scripts. You need to logout and
+log back in before your local <cite>bin</cite> directory will be in your <a class="reference external" href="http://en.wikipedia.org/wiki/Path_(variable)">search path</a>.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="making-a-python-script-executable-and-runnable-from-anywhere">
+<h2>Making a python script executable and runnable from anywhere<a class="headerlink" href="#making-a-python-script-executable-and-runnable-from-anywhere" title="Permalink to this headline">¶</a></h2>
+<p>On unix systems, Python scripts can be made <em>executable</em> using the following
+process:</p>
+<ol class="arabic">
+<li><p class="first">Add this line as the first line in the script:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="ch">#!/usr/bin/env python</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">At the unix command prompt, type the following to make <cite>myscript.py</cite>
+executable:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ chmod +x myscript.py
+</pre></div>
+</div>
+</li>
+<li><p class="first">Move <cite>myscript.py</cite> into your <cite>bin</cite> directory, and it will be runnable from
+anywhere.</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Configurando Ubuntu para Desenvolvimento em Python</a><ul>
+<li><a class="reference internal" href="#vim">Vim</a></li>
+<li><a class="reference internal" href="#gasp">GASP</a><ul>
+<li><a class="reference internal" href="#getting-gasp-from-launchpad">Getting GASP from Launchpad</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ambiente-home">Ambiente <cite>$HOME</cite></a></li>
+<li><a class="reference internal" href="#making-a-python-script-executable-and-runnable-from-anywhere">Making a python script executable and runnable from anywhere</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="app_b.html"
+                        title="previous chapter">Etceteras</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="app_d.html"
+                        title="next chapter">Customizing and Contributing to the Book</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="app_d.html" title="Customizing and Contributing to the Book"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="app_b.html" title="Etceteras"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2012, Brad Miller, David Ranum.
+      Last updated on May 24, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

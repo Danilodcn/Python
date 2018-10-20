@@ -1,0 +1,763 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Exercícios com objetos &mdash; Aulas de Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Aulas de Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Exercícios" href="aula19.html" />
+    <link rel="prev" title="Introdução" href="aula17.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'aulasPython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="aula19.html" title="Exercícios"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="aula17.html" title="Introdução"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="exercicios-com-objetos">
+<h1>Exercícios com objetos<a class="headerlink" href="#exercicios-com-objetos" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="objetivo">
+<h2>Objetivo<a class="headerlink" href="#objetivo" title="Permalink to this headline">¶</a></h2>
+<p>Ao final dessa aula, você deve ser capaz de construir
+classes e escrever programas utilizando objetos dessas classes.</p>
+</div>
+<div class="section" id="topicos">
+<h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>Método com parâmetros com valores default.</li>
+<li>Métodos especiais para operadores comuns como &#8216;+&#8217;, &#8216;-&#8216;, &#8216;*&#8217;, e &#8216;/&#8217;.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="leituras-complementares">
+<h2>Leituras complementares<a class="headerlink" href="#leituras-complementares" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://interactivepython.org/runestone/static/pythonds/Introduction/ObjectOrientedProgramminginPythonDefiningClasses.html#a-fraction-class">Classe Fração</a>;</li>
+<li><a class="reference external" href="http://www.python-course.eu/python3_object_oriented_programming.php">Tutorial de POO em Python</a>.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="exercicio-comentado">
+<h2>Exercício comentado<a class="headerlink" href="#exercicio-comentado" title="Permalink to this headline">¶</a></h2>
+<p>Vimos que um número harmônico <span class="math">\(H_n\)</span> de um inteiro
+<span class="math">\(n &gt; 0\)</span> é dado por</p>
+<div class="math">
+\[H_n = 1 + \frac{1}{2} + \frac{1}{3} + \frac{1}{4} + \ldots + \frac{1}{n}\]</div>
+<p>Vamos fazer 2 implementações:</p>
+<blockquote>
+<div><ul class="simple">
+<li><ol class="first arabic">
+<li>DE - da direita para a esquerda e</li>
+</ol>
+</li>
+<li><ol class="first arabic" start="2">
+<li>ED - da esquerda para direita.</li>
+</ol>
+</li>
+</ul>
+</div></blockquote>
+<p>Qual dessas formas é estável?</p>
+<p>Observe que para <span class="math">\(n = 10\)</span>, os resultados são iguais, mas para
+<span class="math">\(n = 100 \ldots\)</span></p>
+
+<div id="aula18_numero_harmonico_tentativa" >
+<textarea cols="50" rows="12" id="aula18_numero_harmonico_tentativa_code" class="active_code">
+n = 100
+soma_ed = 0
+soma_de  = 0
+
+for i in range (1, n+1):
+    soma_ed += 1/i
+    soma_de += 1/(n+1-i)
+
+print("Soma ED  :", soma_ed)
+print("Soma DE  :", soma_de)
+print("Diferenca:", soma_de-soma_ed)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula18_numero_harmonico_tentativa)</span> </p>
+<button onclick="runit('aula18_numero_harmonico_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula18_numero_harmonico_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula18_numero_harmonico_tentativa');">Load</button>
+<br />
+
+<canvas id="aula18_numero_harmonico_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula18_numero_harmonico_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>A razão da diferença é que ambas as somas são aproximadas mas, ao
+somar os números &#8220;grandes&#8221; primeiro, a precisão da soma devido a
+grande quantidade de números &#8220;pequenos&#8221; é perdida. Portanto o
+resultado da soma <cite>DE</cite> (de <cite>1/n</cite> a <cite>1</cite>) é mais preciso que da soma
+<cite>ED</cite>.</p>
+<p>Nesse exercício, vamos criar uma classe de números fracionários que
+permita realizar a soma sem perda de precisão.</p>
+<p><strong>Definição da classe `Racional`</strong></p>
+<p>Escreva uma classe <cite>Racional</cite> que representa um número racional, que pode ser expresso por um numerador e um denominador inteiros. Essa classe deve ter ao menos os seguintes métodos:</p>
+<blockquote>
+<div><ul class="simple">
+<li>add (para adição de racionais)</li>
+<li>sub (para subtração)</li>
+<li>mul (para multiplicação)</li>
+<li>div (para divisão)</li>
+</ul>
+</div></blockquote>
+<div class="section" id="a-caminho-de-uma-solucao">
+<h3>A caminho de uma solução<a class="headerlink" href="#a-caminho-de-uma-solucao" title="Permalink to this headline">¶</a></h3>
+<p>Como um número racional é definido por seu numerador e denominador, precisamos de ao menos dois atributos para representá-los. Esses atributos podem ser carregados quando criamos um racional. Além disso, podemos também imaginar como será a representação textual de um racional, que pode ser o numerador seguido pelo denominador, separados por <cite>/</cite>.</p>
+<p>Até agora a classe <cite>Racional</cite> seria:</p>
+
+<div id="Racional_v0" >
+<textarea cols="50" rows="12" id="Racional_v0_code" class="active_code">
+class Racional:
+    def __init__(self, n, d):
+        self.num = n
+        self.den = d
+
+    def __str__(self):
+        return "%d/%d"%(self.num, self.den)
+
+# testes
+a = Racional(2, 3)
+print(a)
+b = Racional(1, 4)
+print(b)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (Racional_v0)</span> </p>
+<button onclick="runit('Racional_v0',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('Racional_v0');">Save</button>
+<button class="ac_opt" onclick="requestCode('Racional_v0');">Load</button>
+<br />
+
+<canvas id="Racional_v0_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="Racional_v0_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Em muitos casos, é útil criar um objeto com valores pré-determinados, ou &#8220;default&#8221;. Por exemplo, podemos definir que
+o valor default de um Racional seja <cite>0/1</cite> (por que <cite>0/0</cite> seria uma má ideia?). Nesse caso, basta modificar
+o cabeçalho do método construtor <cite>__init__</cite> da seguinte forma:</p>
+
+<div id="Racional_v1" >
+<textarea cols="50" rows="12" id="Racional_v1_code" class="active_code">
+class Racional:
+    def __init__(self, n=0, d=1):
+        self.num = n
+        self.den = d
+
+    def __str__(self):
+        return "%d/%d"%(self.num, self.den)
+
+# testes
+r1 = Racional()
+r2 = Racional(4)
+r3 = Racional(3,2)
+print(r1)
+print(r2)
+print(r3)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (Racional_v1)</span> </p>
+<button onclick="runit('Racional_v1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('Racional_v1');">Save</button>
+<button class="ac_opt" onclick="requestCode('Racional_v1');">Load</button>
+<br />
+
+<canvas id="Racional_v1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="Racional_v1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Observe que agora o valor default de <cite>n</cite> é <cite>0</cite> (parâmetro
+correspondente ao numerador) e de <cite>d</cite> é <cite>1</cite>. Devido aos valores
+default, podemos definir os valores de <cite>n</cite> e <cite>d</cite> apenas quando são
+diferentes de <cite>0</cite> e <cite>1</cite> respectivamente. Nesse caso, observe que o
+valor do racional <cite>r1</cite> é <cite>0/1</cite>, o de <cite>r2</cite> é <cite>4/1</cite> e o de <cite>r3</cite>, que
+recebeu os 2 argumentos, é <cite>3/2</cite>. Quando apenas 1 argumento é passado,
+a ordem dos parâmetros se torna importante. Assim, na criação do
+racional <cite>r2</cite>, o segundo parâmetro (correspondente ao denominador) não
+foi fornecido e assume portanto o seu valor default <cite>1</cite>.</p>
+<p><strong>Mas e se eu quiser passar apenas o valor do denominador?</strong></p>
+<p>Nesse caso, o Python permite que você passe os parâmetros usando os
+nomes definidos no cabeçalho do método. Assim:</p>
+<div class="highlight-python"><div class="highlight"><pre>`r4 = Racional(d=-1)`
+</pre></div>
+</div>
+<p>e até:</p>
+<div class="highlight-python"><div class="highlight"><pre>`r5 = Racional(d=3, n=2)`
+</pre></div>
+</div>
+<p>são chamadas válidas.</p>
+<p>É possível ainda misturar parâmetros com e sem valores default. Se
+você decidir por misturar, procure agrupar os parâmetros com valores
+default no final do cabeçalho, para deixar as chamadas mais
+consistentes, como:</p>
+<div class="highlight-python"><div class="highlight"><pre>`def metodo(self, a, b, c = 0, d = 1):`
+</pre></div>
+</div>
+<p>Experimente colocar outros parâmetros no <cite>__init__</cite> (e crie outros
+métodos!) usando o trecho de código abaixo:</p>
+
+<div id="Racional_v2" >
+<textarea cols="50" rows="12" id="Racional_v2_code" class="active_code">
+class Racional:
+    def __init__(self, a, b, n=0, d=1):
+        self.num = n
+        self.den = d
+        print("Construtor: ", a, b, n, d)
+        # observe que a e b não se tornam atributos de Racional
+
+    def __str__(self):
+        return "%d/%d"%(self.num, self.den)
+
+# testes
+r1 = Racional('in', 'out')
+r2 = Racional('a', 'b', 4)
+r3 = Racional('x', 'y', d=5, n=3)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (Racional_v2)</span> </p>
+<button onclick="runit('Racional_v2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('Racional_v2');">Save</button>
+<button class="ac_opt" onclick="requestCode('Racional_v2');">Load</button>
+<br />
+
+<canvas id="Racional_v2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="Racional_v2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="admonition-polimorfismo admonition">
+<p class="first admonition-title">Polimorfismo</p>
+<p>o uso de valores default é permitido também no cabeçalho de funções
+comuns (não apenas métodos) do Python.</p>
+<p class="last">Esse recurso é conhecido como <strong>polimorfismo</strong>, visto que permite
+que uma mesma função seja chamada de <strong>formas diferentes</strong>
+(com um número diferente de argumentos).</p>
+</div>
+<p><strong>E para alterar os valores do numerador e denominador criados com os valores default?</strong></p>
+<p>Nesse caso, poderíamos simplesmente alterar os atributos diretamente</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r1</span> <span class="o">=</span> <span class="n">Racional</span><span class="p">()</span>
+<span class="n">r1</span><span class="o">.</span><span class="n">num</span><span class="p">,</span> <span class="n">r1</span><span class="o">.</span><span class="n">den</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p>Obviamente nesse caso seria mais simples escrever <cite>r1 =
+Racional(2,3)</cite>. Em orientação à objetos também é comum usar um método
+para ler e escrever os valores de atributos, como os métodos <cite>put</cite> e
+<cite>get</cite>:</p>
+
+<div id="Racional_v3"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (Racional_v3)</span> </p>
+<script type="text/javascript">
+var Racional_v3_trace = {"code": "class Racional:\n    def __init__(self, n=0, d=1):\n        self.put(n, d)\n\n    def __str__(self):\n        return \"%d/%d\"%(self.num, self.den)\n\n    def get(self):\n        return self.num, self.den\n\n    def put(self, n=0, d=1):\n        self.num, self.den = n, d\n\n# testes\nr1 = Racional()\nprint(r1)\n\nr1.put(4,2)\nprint(r1)\n\nn, d = r1.get()\nprint(\"n=%d, d=%d\"%(n, d))", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": [], "stdout": "", "func_name": "Racional", "stack_to_render": [{"frame_id": 1, "encoded_locals": {}, "is_highlighted": true, "is_parent": false, "func_name": "Racional", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "Racional_f1", "ordered_varnames": []}], "globals": {}, "heap": {}, "line": 1, "event": "call"}, {"ordered_globals": [], "stdout": "", "func_name": "Racional", "stack_to_render": [{"frame_id": 1, "encoded_locals": {}, "is_highlighted": true, "is_parent": false, "func_name": "Racional", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "Racional_f1", "ordered_varnames": []}], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": [], "stdout": "", "func_name": "Racional", "stack_to_render": [{"frame_id": 1, "encoded_locals": {}, "is_highlighted": true, "is_parent": false, "func_name": "Racional", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "Racional_f1", "ordered_varnames": []}], "globals": {}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": [], "stdout": "", "func_name": "Racional", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"__init__": ["REF", 1]}, "is_highlighted": true, "is_parent": true, "func_name": "Racional", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p", "ordered_varnames": ["__init__"]}], "globals": {}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1]}, "line": 5, "event": "step_line"}, {"ordered_globals": [], "stdout": "", "func_name": "Racional", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"__str__": ["REF", 2], "__init__": ["REF", 1]}, "is_highlighted": true, "is_parent": true, "func_name": "Racional", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p", "ordered_varnames": ["__init__", "__str__"]}], "globals": {}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1]}, "line": 8, "event": "step_line"}, {"ordered_globals": [], "stdout": "", "func_name": "Racional", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": true, "is_parent": true, "func_name": "Racional", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p", "ordered_varnames": ["__init__", "__str__", "get"]}], "globals": {}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1]}, "line": 11, "event": "step_line"}, {"ordered_globals": [], "stdout": "", "func_name": "Racional", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": true, "is_parent": true, "func_name": "Racional", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}], "globals": {}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__init__", ["REF", 1]]]}, "line": 11, "event": "return"}, {"ordered_globals": ["Racional"], "stdout": "", "func_name": "<module>", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}], "globals": {"Racional": ["REF", 6]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]]}, "line": 15, "event": "step_line"}, {"ordered_globals": ["Racional"], "stdout": "", "func_name": "__init__", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}, {"frame_id": 2, "encoded_locals": {"self": ["REF", 7], "d": 1, "n": 0}, "is_highlighted": true, "is_parent": false, "func_name": "__init__", "is_zombie": false, "parent_frame_id_list": [1], "unique_hash": "__init___f2", "ordered_varnames": ["self", "n", "d"]}], "globals": {"Racional": ["REF", 6]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional"]}, "line": 2, "event": "call"}, {"ordered_globals": ["Racional"], "stdout": "", "func_name": "__init__", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}, {"frame_id": 2, "encoded_locals": {"self": ["REF", 7], "d": 1, "n": 0}, "is_highlighted": true, "is_parent": false, "func_name": "__init__", "is_zombie": false, "parent_frame_id_list": [1], "unique_hash": "__init___f2", "ordered_varnames": ["self", "n", "d"]}], "globals": {"Racional": ["REF", 6]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional"]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["Racional"], "stdout": "", "func_name": "put", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}, {"frame_id": 2, "encoded_locals": {"self": ["REF", 7], "d": 1, "n": 0}, "is_highlighted": false, "is_parent": false, "func_name": "__init__", "is_zombie": false, "parent_frame_id_list": [1], "unique_hash": "__init___f2", "ordered_varnames": ["self", "n", "d"]}, {"frame_id": 3, "encoded_locals": {"self": ["REF", 7], "d": 1, "n": 0}, "is_highlighted": true, "is_parent": false, "func_name": "put", "is_zombie": false, "parent_frame_id_list": [1], "unique_hash": "put_f3", "ordered_varnames": ["self", "n", "d"]}], "globals": {"Racional": ["REF", 6]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional"]}, "line": 11, "event": "call"}, {"ordered_globals": ["Racional"], "stdout": "", "func_name": "put", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}, {"frame_id": 2, "encoded_locals": {"self": ["REF", 7], "d": 1, "n": 0}, "is_highlighted": false, "is_parent": false, "func_name": "__init__", "is_zombie": false, "parent_frame_id_list": [1], "unique_hash": "__init___f2", "ordered_varnames": ["self", "n", "d"]}, {"frame_id": 3, "encoded_locals": {"self": ["REF", 7], "d": 1, "n": 0}, "is_highlighted": true, "is_parent": false, "func_name": "put", "is_zombie": false, "parent_frame_id_list": [1], "unique_hash": "put_f3", "ordered_varnames": ["self", "n", "d"]}], "globals": {"Racional": ["REF", 6]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional"]}, "line": 12, "event": "step_line"}, {"ordered_globals": ["Racional"], "stdout": "", "func_name": "put", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}, {"frame_id": 2, "encoded_locals": {"self": ["REF", 7], "d": 1, "n": 0}, "is_highlighted": false, "is_parent": false, "func_name": "__init__", "is_zombie": false, "parent_frame_id_list": [1], "unique_hash": "__init___f2", "ordered_varnames": ["self", "n", "d"]}, {"frame_id": 3, "encoded_locals": {"__return__": null, "self": ["REF", 7], "d": 1, "n": 0}, "is_highlighted": true, "is_parent": false, "func_name": "put", "is_zombie": false, "parent_frame_id_list": [1], "unique_hash": "put_f3", "ordered_varnames": ["self", "n", "d", "__return__"]}], "globals": {"Racional": ["REF", 6]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional", ["den", 1], ["num", 0]]}, "line": 12, "event": "return"}, {"ordered_globals": ["Racional"], "stdout": "", "func_name": "__init__", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}, {"frame_id": 2, "encoded_locals": {"__return__": null, "self": ["REF", 7], "d": 1, "n": 0}, "is_highlighted": true, "is_parent": false, "func_name": "__init__", "is_zombie": false, "parent_frame_id_list": [1], "unique_hash": "__init___f2", "ordered_varnames": ["self", "n", "d", "__return__"]}], "globals": {"Racional": ["REF", 6]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional", ["den", 1], ["num", 0]]}, "line": 3, "event": "return"}, {"ordered_globals": ["Racional", "r1"], "stdout": "", "func_name": "<module>", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}], "globals": {"Racional": ["REF", 6], "r1": ["REF", 7]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional", ["den", 1], ["num", 0]]}, "line": 16, "event": "step_line"}, {"ordered_globals": ["Racional", "r1"], "stdout": "", "func_name": "__str__", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}, {"frame_id": 4, "encoded_locals": {"self": ["REF", 7]}, "is_highlighted": true, "is_parent": false, "func_name": "__str__", "is_zombie": false, "parent_frame_id_list": [1], "unique_hash": "__str___f4", "ordered_varnames": ["self"]}], "globals": {"Racional": ["REF", 6], "r1": ["REF", 7]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional", ["den", 1], ["num", 0]]}, "line": 5, "event": "call"}, {"ordered_globals": ["Racional", "r1"], "stdout": "", "func_name": "__str__", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}, {"frame_id": 4, "encoded_locals": {"self": ["REF", 7]}, "is_highlighted": true, "is_parent": false, "func_name": "__str__", "is_zombie": false, "parent_frame_id_list": [1], "unique_hash": "__str___f4", "ordered_varnames": ["self"]}], "globals": {"Racional": ["REF", 6], "r1": ["REF", 7]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional", ["den", 1], ["num", 0]]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["Racional", "r1"], "stdout": "", "func_name": "__str__", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}, {"frame_id": 4, "encoded_locals": {"__return__": "0/1", "self": ["REF", 7]}, "is_highlighted": true, "is_parent": false, "func_name": "__str__", "is_zombie": false, "parent_frame_id_list": [1], "unique_hash": "__str___f4", "ordered_varnames": ["self", "__return__"]}], "globals": {"Racional": ["REF", 6], "r1": ["REF", 7]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional", ["den", 1], ["num", 0]]}, "line": 6, "event": "return"}, {"ordered_globals": ["Racional", "r1"], "stdout": "0/1\n", "func_name": "<module>", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}], "globals": {"Racional": ["REF", 6], "r1": ["REF", 7]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional", ["den", 1], ["num", 0]]}, "line": 18, "event": "step_line"}, {"ordered_globals": ["Racional", "r1"], "stdout": "0/1\n", "func_name": "put", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}, {"frame_id": 5, "encoded_locals": {"self": ["REF", 7], "d": 2, "n": 4}, "is_highlighted": true, "is_parent": false, "func_name": "put", "is_zombie": false, "parent_frame_id_list": [1], "unique_hash": "put_f5", "ordered_varnames": ["self", "n", "d"]}], "globals": {"Racional": ["REF", 6], "r1": ["REF", 7]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional", ["den", 1], ["num", 0]]}, "line": 11, "event": "call"}, {"ordered_globals": ["Racional", "r1"], "stdout": "0/1\n", "func_name": "put", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}, {"frame_id": 5, "encoded_locals": {"self": ["REF", 7], "d": 2, "n": 4}, "is_highlighted": true, "is_parent": false, "func_name": "put", "is_zombie": false, "parent_frame_id_list": [1], "unique_hash": "put_f5", "ordered_varnames": ["self", "n", "d"]}], "globals": {"Racional": ["REF", 6], "r1": ["REF", 7]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional", ["den", 1], ["num", 0]]}, "line": 12, "event": "step_line"}, {"ordered_globals": ["Racional", "r1"], "stdout": "0/1\n", "func_name": "put", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}, {"frame_id": 5, "encoded_locals": {"__return__": null, "self": ["REF", 7], "d": 2, "n": 4}, "is_highlighted": true, "is_parent": false, "func_name": "put", "is_zombie": false, "parent_frame_id_list": [1], "unique_hash": "put_f5", "ordered_varnames": ["self", "n", "d", "__return__"]}], "globals": {"Racional": ["REF", 6], "r1": ["REF", 7]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional", ["den", 2], ["num", 4]]}, "line": 12, "event": "return"}, {"ordered_globals": ["Racional", "r1"], "stdout": "0/1\n", "func_name": "<module>", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}], "globals": {"Racional": ["REF", 6], "r1": ["REF", 7]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional", ["den", 2], ["num", 4]]}, "line": 19, "event": "step_line"}, {"ordered_globals": ["Racional", "r1"], "stdout": "0/1\n", "func_name": "__str__", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}, {"frame_id": 6, "encoded_locals": {"self": ["REF", 7]}, "is_highlighted": true, "is_parent": false, "func_name": "__str__", "is_zombie": false, "parent_frame_id_list": [1], "unique_hash": "__str___f6", "ordered_varnames": ["self"]}], "globals": {"Racional": ["REF", 6], "r1": ["REF", 7]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional", ["den", 2], ["num", 4]]}, "line": 5, "event": "call"}, {"ordered_globals": ["Racional", "r1"], "stdout": "0/1\n", "func_name": "__str__", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}, {"frame_id": 6, "encoded_locals": {"self": ["REF", 7]}, "is_highlighted": true, "is_parent": false, "func_name": "__str__", "is_zombie": false, "parent_frame_id_list": [1], "unique_hash": "__str___f6", "ordered_varnames": ["self"]}], "globals": {"Racional": ["REF", 6], "r1": ["REF", 7]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional", ["den", 2], ["num", 4]]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["Racional", "r1"], "stdout": "0/1\n", "func_name": "__str__", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}, {"frame_id": 6, "encoded_locals": {"__return__": "4/2", "self": ["REF", 7]}, "is_highlighted": true, "is_parent": false, "func_name": "__str__", "is_zombie": false, "parent_frame_id_list": [1], "unique_hash": "__str___f6", "ordered_varnames": ["self", "__return__"]}], "globals": {"Racional": ["REF", 6], "r1": ["REF", 7]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional", ["den", 2], ["num", 4]]}, "line": 6, "event": "return"}, {"ordered_globals": ["Racional", "r1"], "stdout": "0/1\n4/2\n", "func_name": "<module>", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}], "globals": {"Racional": ["REF", 6], "r1": ["REF", 7]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional", ["den", 2], ["num", 4]]}, "line": 21, "event": "step_line"}, {"ordered_globals": ["Racional", "r1"], "stdout": "0/1\n4/2\n", "func_name": "get", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}, {"frame_id": 7, "encoded_locals": {"self": ["REF", 7]}, "is_highlighted": true, "is_parent": false, "func_name": "get", "is_zombie": false, "parent_frame_id_list": [1], "unique_hash": "get_f7", "ordered_varnames": ["self"]}], "globals": {"Racional": ["REF", 6], "r1": ["REF", 7]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional", ["den", 2], ["num", 4]]}, "line": 8, "event": "call"}, {"ordered_globals": ["Racional", "r1"], "stdout": "0/1\n4/2\n", "func_name": "get", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}, {"frame_id": 7, "encoded_locals": {"self": ["REF", 7]}, "is_highlighted": true, "is_parent": false, "func_name": "get", "is_zombie": false, "parent_frame_id_list": [1], "unique_hash": "get_f7", "ordered_varnames": ["self"]}], "globals": {"Racional": ["REF", 6], "r1": ["REF", 7]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional", ["den", 2], ["num", 4]]}, "line": 9, "event": "step_line"}, {"ordered_globals": ["Racional", "r1"], "stdout": "0/1\n4/2\n", "func_name": "get", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}, {"frame_id": 7, "encoded_locals": {"__return__": ["REF", 8], "self": ["REF", 7]}, "is_highlighted": true, "is_parent": false, "func_name": "get", "is_zombie": false, "parent_frame_id_list": [1], "unique_hash": "get_f7", "ordered_varnames": ["self", "__return__"]}], "globals": {"Racional": ["REF", 6], "r1": ["REF", 7]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional", ["den", 2], ["num", 4]], "8": ["TUPLE", 4, 2]}, "line": 9, "event": "return"}, {"ordered_globals": ["Racional", "r1", "d", "n"], "stdout": "0/1\n4/2\n", "func_name": "<module>", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}], "globals": {"n": 4, "Racional": ["REF", 6], "d": 2, "r1": ["REF", 7]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional", ["den", 2], ["num", 4]]}, "line": 22, "event": "step_line"}, {"ordered_globals": ["Racional", "r1", "d", "n"], "stdout": "0/1\n4/2\nn=4, d=2\n", "func_name": "<module>", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"put": ["REF", 4], "__return__": ["REF", 5], "__str__": ["REF", 2], "__init__": ["REF", 1], "get": ["REF", 3]}, "is_highlighted": false, "is_parent": true, "func_name": "Racional", "is_zombie": true, "parent_frame_id_list": [], "unique_hash": "Racional_f1_p_z", "ordered_varnames": ["__init__", "__str__", "get", "put", "__return__"]}], "globals": {"n": 4, "Racional": ["REF", 6], "d": 2, "r1": ["REF", 7]}, "heap": {"1": ["FUNCTION", "__init__(self, n, d)", 1], "2": ["FUNCTION", "__str__(self)", 1], "3": ["FUNCTION", "get(self)", 1], "4": ["FUNCTION", "put(self, n, d)", 1], "5": ["DICT", ["get", ["REF", 3]], ["__str__", ["REF", 2]], ["put", ["REF", 4]], ["__doc__", null], ["__init__", ["REF", 1]]], "6": ["CLASS", "Racional", [], ["__init__", ["REF", 1]], ["__str__", ["REF", 2]], ["get", ["REF", 3]], ["put", ["REF", 4]]], "7": ["INSTANCE", "Racional", ["den", 2], ["num", 4]]}, "line": 22, "event": "return"}]};
+var Racional_v3_vis;
+
+$(document).ready(function() {
+    Racional_v3_vis = new ExecutionVisualizer('Racional_v3',Racional_v3_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(Racional_v3_vis,'Racional_v3');
+    allVisualizers.push(Racional_v3_vis);
+});
+
+$(document).ready(function() {
+    $("#Racional_v3_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'Racional_v3'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    Racional_v3_vis.redrawConnectors();
+});
+</script>
+<p><strong>Operações com Racionais</strong></p>
+<p>As operações de multiplicação e divisão são relativamente simples. Na
+multiplicação basta multiplicar os numerodores e os denominadores, e
+na divisão basta multiplicar o primeiro pelo inverso do segundo
+racional.</p>
+<p>No caso da adição e subtração, é necessário transformar os racionais para
+um mesmo denominador, antes de somar e subtrair os numeradores.</p>
+<p>No exercício abaixo, escreva os métodos <cite>div</cite>, <cite>add</cite> e <cite>sub</cite> (para
+divisão, adição e subtração), e alguns testes. Antes de escrever os
+seus métodos,
+observe o código do método <cite>mul</cite> que preserva os estados dos objetos
+<cite>self</cite> e <cite>other</cite>, e retorna um outro (nova instância) racional. Faça o
+mesmo para <cite>div</cite>, <cite>add</cite> e <cite>sub</cite>.</p>
+
+<div id="Racional_v4" >
+<textarea cols="50" rows="12" id="Racional_v4_code" class="active_code">
+class Racional:
+    def __init__(self, n=0, d=1):
+        self.put(n, d)
+
+    def __str__(self):
+        return "%d/%d"%(self.num, self.den)
+
+    def get(self):
+        return self.num, self.den
+
+    def put(self, n=0, d=1):
+        self.num, self.den = n, d
+
+    def mul(self, other):
+        n = self.num * other.num
+        d = self.den * other.den
+        return Racional(n, d)
+
+    # escreva aqui o seu codigo para os metodos
+    # div
+    # add
+    # sub
+    # e ao menos um teste para cada metodo
+
+
+# testes
+r1 = Racional(2)
+r2 = Racional(1,5)
+print(r1, '*', r2, '=>', r1.mul(r2))
+# teste do div:
+# print(r1, '/', r2, '=>', r1.div(r2))
+#
+# outros testes
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (Racional_v4)</span> </p>
+<button onclick="runit('Racional_v4',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('Racional_v4');">Save</button>
+<button class="ac_opt" onclick="requestCode('Racional_v4');">Load</button>
+<br />
+
+<canvas id="Racional_v4_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="Racional_v4_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-18-1">
+<h3>Exercício 18.1<a class="headerlink" href="#exercicio-18-1" title="Permalink to this headline">¶</a></h3>
+<p>Altere a classe <cite>Racional</cite> para que, quando o denominador for 1, ele imprima apenas o valor do numerador.</p>
+</div>
+<div class="section" id="exercicio-18-2">
+<h3>Exercício 18.2<a class="headerlink" href="#exercicio-18-2" title="Permalink to this headline">¶</a></h3>
+<p>Altere o construtor da classe <cite>Racional</cite> para que, quando o numerador
+e o denominador possam ser reduzidos, a fração reduzida seja armazenada.</p>
+<p>Exemplo: para a chamada <cite>Racional(12, 20)</cite> o valor de <cite>self.num</cite> e
+<cite>self.den</cite> devem ser, respectivamente, 3 e 5.</p>
+<p><strong>Dica</strong>: crie uma função (ou, se preferir, um método) com <cite>mdc</cite>
+que recebe 2 números inteiros <cite>a</cite> e <cite>b</cite> e retorna o máximo divisor
+comum entre <cite>a</cite> e <cite>b</cite> usando o algoritmo de Euclides.</p>
+</div>
+<div class="section" id="exercicio-18-3">
+<h3>Exercício 18.3<a class="headerlink" href="#exercicio-18-3" title="Permalink to this headline">¶</a></h3>
+<p>Para tornar a classe <cite>Racional</cite> mais interessante, é possível
+modificar o comportamento dos símbolos comumente utilizados para
+adição, subtração, divisão e multiplicação (<cite>+</cite>, <cite>-</cite>, <cite>/</cite>, <cite>*</cite>) para
+que possamos escrever programas usando expressões como</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r1</span> <span class="o">=</span> <span class="n">Racional</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">r2</span> <span class="o">=</span> <span class="n">Racional</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">r3</span> <span class="o">=</span> <span class="n">Racional</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">r4</span> <span class="o">=</span> <span class="n">r1</span> <span class="o">+</span> <span class="n">r2</span> <span class="o">*</span> <span class="n">r3</span>
+</pre></div>
+</div>
+<p>Para isso, ao invés de escrever os métodos <cite>add</cite>, <cite>sub</cite> etc, podemos os
+seguintes métodos especiais:</p>
+<blockquote>
+<div><ul class="simple">
+<li><cite>__add__</cite>: para adição (<cite>+</cite>)</li>
+<li><cite>__sub__</cite>: para subtração (<cite>-</cite>)</li>
+<li><cite>__mul__</cite>: para multiplicação (<cite>*</cite>)</li>
+<li><cite>__truediv__</cite>: para divisão (<cite>/</cite>)</li>
+</ul>
+</div></blockquote>
+<p>Altere a classe <cite>Racional</cite> para utilizar esses métodos ao invés de
+<cite>add</cite>, <cite>sub</cite>, etc (provavelmente, basta modificar o nome dos métodos
+apropriados), e  mofifique os testes para utilizar esses operadores.</p>
+<p>Para saber sobre esses e outros métodos mágicos, acesse esse <a class="reference external" href="http://www.python-course.eu/python3_magic_methods.php">tutorial</a>.</p>
+
+<div id="Racional_v5" >
+<textarea cols="50" rows="12" id="Racional_v5_code" class="active_code">
+def mdc(a, b):
+    ''' (int, int) -> int
+    recebe dois inteiros diferentes de zero e retorna o maximo
+    divisor comum entre a e b'''
+    if b == 0: return a
+    if a == 0: return b
+    while a%b != 0:
+        a, b = b, a%b
+    return b
+
+class Racional:
+    def __init__(self, n=0, d=1):
+        div = mdc(n, d)
+        self.put(n/div, d/div)
+
+    def __str__(self):
+        return "%d/%d"%(self.num, self.den)
+
+    def get(self):
+        return self.num, self.den
+
+    def put(self, n=0, d=1):
+        self.num, self.den = n, d
+
+    def __add__(self, other):
+        n = self.num * other.den + self.den * other.num
+        d = self.den * other.den
+        return Racional(n, d)
+
+    # escreva aqui o seu codigo para os metodos
+    # __truediv__
+    # __mul__
+    # __sub__
+    # e ao menos um teste para cada metodo
+
+
+# testes
+r1 = Racional(2)
+r2 = Racional(1,5)
+print(r1, '+', r2, '=>', r1 + r2)
+# teste do div:
+# print(r1, '/', r2, '=>', r1 / r2)
+#
+# outros testes
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (Racional_v5)</span> </p>
+<button onclick="runit('Racional_v5',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('Racional_v5');">Save</button>
+<button class="ac_opt" onclick="requestCode('Racional_v5');">Load</button>
+<br />
+
+<canvas id="Racional_v5_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="Racional_v5_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-18-4">
+<h3>Exercício 18.4<a class="headerlink" href="#exercicio-18-4" title="Permalink to this headline">¶</a></h3>
+<p>O programa a seguir calcula o harmônico de um dado número inteiro
+<span class="math">\(n\)</span> utilizando a soma <cite>ED</cite> (da esquerda para a direita). Rode o
+programa e verifique se há diferença entre os métodos usando a soma de
+números reais e a soma de números racionais.</p>
+<p>Modifique o programa para incluir o cálculo da direita para a esquerda
+(<cite>DE</cite>).</p>
+<p>OBSERVAÇÃO: Caso você encontre problemas ao executar esse código
+no seu navegador, copie o código para um editor como o IDLE3 e
+execute o programa em seu computador.</p>
+
+<div id="aula18_numero_harmonico_tentativa_com_racional" >
+<textarea cols="50" rows="12" id="aula18_numero_harmonico_tentativa_com_racional_code" class="active_code">
+def main():
+    # modifique o codigo para incluir o calculo de DE
+    # e verifique se o resultado é diferente de ED usando
+    # soma de reais e soma de racionais.
+
+    n = 50
+    soma_ed = 0
+    soma_ed_rac = Racional()
+
+    for i in range(1, n+1):
+        soma_ed = soma_ed + 1/i
+        soma_ed_rac = soma_ed_rac + Racional(1, i)
+
+    print("Soma ED:          ", soma_ed)
+    print("Soma ED racional: ", soma_ed_rac)
+    print("                = ", soma_ed_rac.num/soma_ed_rac.den)
+
+def mdc(a, b):
+    ''' (int, int) -> int
+        recebe dois inteiros diferentes de zero e retorna o maximo
+        divisor comum entre a e b'''
+    if b == 0: return a
+    if a == 0: return b
+    while a%b != 0:
+        a, b = b, a%b
+    return b
+
+class Racional:
+    def __init__(self, n=0, d=1):
+        div = mdc(n, d)
+        self.num = n//div
+        self.den = d//div
+
+    def __str__(self):
+        return "%d/%d"%(self.num, self.den)
+
+    def __add__(self, other):
+        n = self.num * other.den + self.den * other.num
+        d = self.den * other.den
+        return Racional(n, d)
+
+    # escreva aqui o seu codigo para os metodos
+    # __truediv__
+    # __mul__
+    # __sub__
+    # e ao menos um teste para cada metodo
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula18_numero_harmonico_tentativa_com_racional)</span> </p>
+<button onclick="runit('aula18_numero_harmonico_tentativa_com_racional',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula18_numero_harmonico_tentativa_com_racional');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula18_numero_harmonico_tentativa_com_racional');">Load</button>
+<br />
+
+<canvas id="aula18_numero_harmonico_tentativa_com_racional_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula18_numero_harmonico_tentativa_com_racional_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-18-5">
+<h3>Exercício 18.5<a class="headerlink" href="#exercicio-18-5" title="Permalink to this headline">¶</a></h3>
+<p>Escreva uma classe <cite>Ponto3D</cite> que representa um ponto no espaço tridimensional,
+com as seguintes operações:</p>
+<blockquote>
+<div><ul class="simple">
+<li>distância à origem</li>
+<li>distância entre dois pontos</li>
+<li>ponto médio entre dois pontos</li>
+<li><cite>__str__</cite> que devolve um string</li>
+</ul>
+</div></blockquote>
+<p>Nesse caso, os atributos podem ser 3 reais representando as coordenadas do ponto.</p>
+
+<div id="exercício_18_5_tentativa" >
+<textarea cols="50" rows="12" id="exercício_18_5_tentativa_code" class="active_code">
+class Ponto3D:
+    # escreva os metodos da classe Ponto 3D
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exercício_18_5_tentativa)</span> </p>
+<button onclick="runit('exercício_18_5_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exercício_18_5_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('exercício_18_5_tentativa');">Load</button>
+<br />
+
+<canvas id="exercício_18_5_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exercício_18_5_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Exercícios com objetos</a><ul>
+<li><a class="reference internal" href="#objetivo">Objetivo</a></li>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#leituras-complementares">Leituras complementares</a></li>
+<li><a class="reference internal" href="#exercicio-comentado">Exercício comentado</a><ul>
+<li><a class="reference internal" href="#a-caminho-de-uma-solucao">A caminho de uma solução</a></li>
+<li><a class="reference internal" href="#exercicio-18-1">Exercício 18.1</a></li>
+<li><a class="reference internal" href="#exercicio-18-2">Exercício 18.2</a></li>
+<li><a class="reference internal" href="#exercicio-18-3">Exercício 18.3</a></li>
+<li><a class="reference internal" href="#exercicio-18-4">Exercício 18.4</a></li>
+<li><a class="reference internal" href="#exercicio-18-5">Exercício 18.5</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="aula17.html"
+                        title="previous chapter">Introdução</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="aula19.html"
+                        title="next chapter">Exercícios</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="aula19.html" title="Exercícios"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="aula17.html" title="Introdução"
+             >previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Mar 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

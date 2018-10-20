@@ -1,0 +1,475 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capítulo 6: Iteração &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Capítulo 7: Strings" href="capitulo_07.html" />
+    <link rel="prev" title="Capítulo 5: Funções frutíferas" href="capitulo_05.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="capitulo_07.html" title="Capítulo 7: Strings"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_05.html" title="Capítulo 5: Funções frutíferas"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="capitulo-6-iteracao">
+<h1><a class="toc-backref" href="#id3">Capítulo 6: Iteração</a><a class="headerlink" href="#capitulo-6-iteracao" title="Link permanente para este título">¶</a></h1>
+<div class="contents topic" id="topicos">
+<p class="topic-title first">Tópicos</p>
+<ul class="simple">
+<li><a class="reference external" href="#capitulo-6-iteracao" id="id3">Capítulo 6: Iteração</a><ul>
+<li><a class="reference external" href="#reatribuicoes" id="id4">6.1 Reatribuições</a></li>
+<li><a class="reference external" href="#o-comando-while" id="id5">6.2 O comando <tt class="docutils literal"><span class="pre">while</span></tt></a></li>
+<li><a class="reference external" href="#tabelas" id="id6">6.3 Tabelas</a></li>
+<li><a class="reference external" href="#tabelas-de-duas-dimensoes-ou-bi-dimensionais" id="id7">6.4 Tabelas de duas dimensões (ou bi-dimensionais)</a></li>
+<li><a class="reference external" href="#encapsulamento-e-generalizacao" id="id8">6.5 Encapsulamento e generalização</a></li>
+<li><a class="reference external" href="#mais-encapsulamento" id="id9">6.6 Mais encapsulamento</a></li>
+<li><a class="reference external" href="#variaveis-locais" id="id10">6.7 Variáveis locais</a></li>
+<li><a class="reference external" href="#mais-generalizacao" id="id11">6.8 Mais generalização</a></li>
+<li><a class="reference external" href="#funcoes" id="id12">6.9 Funções</a></li>
+<li><a class="reference external" href="#glossario" id="id13">6.10 Glossário</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="reatribuicoes">
+<h2><a class="toc-backref" href="#id4">6.1 Reatribuições</a><a class="headerlink" href="#reatribuicoes" title="Link permanente para este título">¶</a></h2>
+<p>Como você talvez já tenha descoberto, é permitido fazer mais de uma atribuição à mesma variável. Uma nova atribuição faz uma variável existente referir-se a um novo valor (sem se referir mais ao antigo).:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">bruno</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="k">print</span> <span class="n">bruno</span><span class="p">,</span>
+<span class="n">bruno</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="k">print</span> <span class="n">bruno</span>
+</pre></div>
+</div>
+<p>A saída deste programa é <tt class="docutils literal"><span class="pre">5</span></tt> <tt class="docutils literal"><span class="pre">7</span></tt>, porque na primeira vez que <tt class="docutils literal"><span class="pre">bruno</span></tt> é impresso, seu valor é 5 e na segunda vez, seu valor é 7. A vírgula no final do primeiro comando <tt class="docutils literal"><span class="pre">print</span></tt> suprime a nova linha no final da saída, que é o motivo pelo qual as duas saídas aparecem na mesma linha.</p>
+<p>Veja uma <strong>reatribuição</strong> em um diagrama de estado:</p>
+<img alt="_images/06_01_atribuicao.png" src="_images/06_01_atribuicao.png" />
+<p>Com a reatribuição torna-se ainda mais importante distinguir entre uma operação de atribuição e um comando de igualdade. Como Python usa o sinal de igual ( <tt class="docutils literal"><span class="pre">=</span></tt> ) para atribuição, existe a tendência de lermos um comando como <tt class="docutils literal"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">b</span></tt> como um comando de igualdade. Mas não é!</p>
+<p>Em primeiro lugar, igualdade é comutativa e atribuição não é. Por exemplo, em matemática, se a = 7 então 7 = a. Mas em Python, o comando <tt class="docutils literal"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">7</span></tt> é permitido e <tt class="docutils literal"><span class="pre">7</span> <span class="pre">=</span> <span class="pre">a</span></tt> não é.</p>
+<p>Além disso, em matemática, uma expressão de igualdade é sempre verdadeira. Se a = b agora, então, a será sempre igual a b. Em Python, um comando de atribuição pode tornar duas variáveis iguais, mas elas não têm que permanecer assim:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="c"># a e b agora são iguais</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mi">3</span> <span class="c"># a e b não são mais iguais</span>
+</pre></div>
+</div>
+<p>A terceira linha muda o valor de <tt class="docutils literal"><span class="pre">a</span></tt> mas não muda o valor de <tt class="docutils literal"><span class="pre">b</span></tt>, então, elas não são mais iguais. (Em algumas linguagens de programação, um símbolo diferente é usado para atribuição, como <tt class="docutils literal"><span class="pre">&lt;-</span></tt> ou <tt class="docutils literal"><span class="pre">:=</span></tt>, para evitar confusão.)</p>
+<p>Embora a reatribuição seja freqüentemente útil, você deve usá-la com cautela. Se o valor das variáveis muda freqüentemente, isto pode fazer o código difícil de ler e de depurar.</p>
+</div>
+<div class="section" id="o-comando-while">
+<h2><a class="toc-backref" href="#id5">6.2 O comando <tt class="docutils literal"><span class="pre">while</span></tt></a><a class="headerlink" href="#o-comando-while" title="Link permanente para este título">¶</a></h2>
+<p>Os computadores são muito utilizados para automatizar tarefas repetitivas. Repetir tarefas idênticas ou similares sem cometer erros é uma coisa que os computadores fazem bem e que as pessoas fazem poorly.</p>
+<p>Vimos dois programas, <tt class="docutils literal"><span class="pre">nLinhas</span></tt> e <tt class="docutils literal"><span class="pre">contagemRegressiva</span></tt>, que usam recursividade (recursão) para fazer a repetição, que também é chamada <strong>iteração</strong>. Porque a iteração é muito comum, Python tem várias características para torná-la mais fácil. A primeira delas em que vamos dar uma olhada é o comando <tt class="docutils literal"><span class="pre">while</span></tt>.</p>
+<p>Aqui está como fica <tt class="docutils literal"><span class="pre">contagemRegressiva</span></tt> com um comando <tt class="docutils literal"><span class="pre">while</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">contagemRegressiva</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+  <span class="k">while</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">n</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span>
+  <span class="k">print</span> <span class="s">&quot;Fogo!&quot;</span>
+</pre></div>
+</div>
+<p>Desde que removemos a chamada recursiva, esta função não é recursiva.</p>
+<p>Você quase pode ler o comando <tt class="docutils literal"><span class="pre">while</span></tt> como se fosse Inglês. Ele significa, &#8220;Enquanto (while) <tt class="docutils literal"><span class="pre">n</span></tt> for maior do que <tt class="docutils literal"><span class="pre">0</span></tt>, siga exibindo o valor de <tt class="docutils literal"><span class="pre">n</span></tt> e diminuindo <tt class="docutils literal"><span class="pre">1</span></tt> do valor de <tt class="docutils literal"><span class="pre">n</span></tt>. Quando chegar a <tt class="docutils literal"><span class="pre">0</span></tt>, exiba a palavra <tt class="docutils literal"><span class="pre">Fogo!</span></tt>&#8220;.</p>
+<p>Mais formalmente, aqui está o fluxo de execução para um comando <tt class="docutils literal"><span class="pre">while</span></tt>:</p>
+<ol class="arabic simple">
+<li>Teste a condição, resultando 0 ou 1.</li>
+<li>Se a condição for falsa (0), saia do comando while e continue a execução a partir do próximo comando.</li>
+<li>Se a condição for verdadeira (1), execute cada um dos comandos dentro do corpo e volte ao passo 1.</li>
+</ol>
+<p>O corpo consiste de todos os comandos abaixo do cabeçalho, com a mesma endentação.</p>
+<p>Este tipo de fluxo é chamado de um <strong>loop</strong> (ou laço) porque o terceiro passo cria um &#8220;loop&#8221; ou um laço de volta ao topo. Note que se a condição for falsa na primeira vez que entrarmos no loop, os comandos dentro do loop jamais serão executados.</p>
+<p>O corpo do loop poderia alterar o valor de uma ou mais variáveis de modo que eventualmente a condição se torne falsa e o loop termine. Se não for assim, o loop se repetirá para sempre, o que é chamado de um <strong>loop infinito</strong>. Uma fonte de diversão sem fim para os cientistas da computação é a observação de que as instruções da embalagem de shampoo, &#8220;Lave, enxágüe, repita&#8221; é um loop infinito.</p>
+<p>No caso de <tt class="docutils literal"><span class="pre">contagemRegressiva</span></tt>, podemos provar que o loop terminará porque sabemos que o valor de n é finito, e podemos ver que o valor de n diminui dentro de cada repetição (iteração) do loop, então, eventualmente chegaremos ao 0. Em outros casos, isto não é tão simples de afirmar:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">sequencia</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+  <span class="k">while</span> <span class="n">n</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">n</span><span class="p">,</span>
+    <span class="k">if</span> <span class="n">n</span><span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>              <span class="c"># n é par</span>
+      <span class="n">n</span> <span class="o">=</span> <span class="n">n</span><span class="o">/</span><span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>                     <span class="c"># n é impar</span>
+      <span class="n">n</span> <span class="o">=</span> <span class="n">n</span><span class="o">*</span><span class="mi">3</span><span class="o">+</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>A condição para este loop é <tt class="docutils literal"><span class="pre">n</span> <span class="pre">!=</span> <span class="pre">1</span></tt>, então o loop vai continuar até que <tt class="docutils literal"><span class="pre">n</span></tt> seja <tt class="docutils literal"><span class="pre">1</span></tt>, o que tornará a condição falsa.</p>
+<p>Dentro de cada repetição (iteração) do loop, o programa gera o valor de <tt class="docutils literal"><span class="pre">n</span></tt> e então checa se ele é par ou impar. Se ele for par, o valor de <tt class="docutils literal"><span class="pre">n</span></tt> é dividido por <tt class="docutils literal"><span class="pre">2</span></tt>. Se ele for impar, o valor é substituído por <tt class="docutils literal"><span class="pre">n*3+1</span></tt>. Por exemplo, se o valor inicial (o argumento passado para <tt class="docutils literal"><span class="pre">seqüência</span></tt>) for 3, a seqüência resultante será <tt class="docutils literal"><span class="pre">3</span></tt>, <tt class="docutils literal"><span class="pre">10</span></tt>, <tt class="docutils literal"><span class="pre">5</span></tt>, <tt class="docutils literal"><span class="pre">16</span></tt>, <tt class="docutils literal"><span class="pre">8</span></tt>, <tt class="docutils literal"><span class="pre">4</span></tt>, <tt class="docutils literal"><span class="pre">2</span></tt>, <tt class="docutils literal"><span class="pre">1</span></tt>.</p>
+<p>Já que <tt class="docutils literal"><span class="pre">n</span></tt> às vezes aumenta e às vezes diminui, não existe uma prova óbvia de que <tt class="docutils literal"><span class="pre">n</span></tt> jamais venha a alcançar 1, ou de que o programa termine. Para alguns valores particulares de <tt class="docutils literal"><span class="pre">n</span></tt>, podemos provar o término. Por exemplo, se o valor inicial for uma potência de dois, então o valor de <tt class="docutils literal"><span class="pre">n</span></tt> será par dentro de cada repetição (iteração) do loop até que alcance 1. O exemplo anterior termina com uma dessas seqüências começando em 16.</p>
+<p>Valores específicos à parte, A questão interessante é se há como provarmos que este programa termina para todos os valores de <tt class="docutils literal"><span class="pre">n</span></tt>. Até hoje, ninguém foi capaz de provar que sim ou que não!</p>
+<p>Como um exercício, reescreva a função <tt class="docutils literal"><span class="pre">nLinhas</span></tt> da seção 4.9 usando iteração em vez de recursão.</p>
+</div>
+<div class="section" id="tabelas">
+<h2><a class="toc-backref" href="#id6">6.3 Tabelas</a><a class="headerlink" href="#tabelas" title="Link permanente para este título">¶</a></h2>
+<p>Uma das coisas para qual os loops são bons é para gerar dados tabulares. Antes que os computadores estivessem readily disponíveis, as pessoas tinham que calcular logaritmos, senos, cossenos e outras funções matemáticas à mão. Para tornar isto mais fácil, os livros de matemática continham longas tabelas listando os valores destas funções. Criar as tabelas era demorado e entediante, e elas tendiam a ser cheias de erros.</p>
+<p>Quando os computadores entraram em cena, uma das reações iniciais foi &#8220;Isto é ótimo! Podemos usar computadores para geras as tabelas, assim não haverá erros.&#8221; Isto veio a se tornar verdade (na maioria das vezes) mas shortsighted. Rapidamente, porém, computadores e calculadoras tornaram-se tão pervasivos que as tabelas ficaram obsoletas.</p>
+<p>Bem, quase. Para algumas operações, os computadores usam tabelas de valores para conseguir uma resposta aproximada e então realizar cálculos para melhorar a aproximação. Em alguns casos, têm havido erros nas tabelas underlying, o caso mais famoso sendo o da tabela usada pelo processador Pentium da Intel para executar a divisão em ponto-flutuante.</p>
+<p>Embora uma tabela de logaritmos não seja mais tão útil quanto já foi um dia, ela ainda dá um bom exemplo de iteração. O seguinte programa gera uma seqüência de valores na coluna da esquerda e seus respectivos logaritmos na coluna da direita:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="k">while</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mf">10.0</span><span class="p">:</span>
+  <span class="k">print</span> <span class="n">x</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mf">1.0</span>
+</pre></div>
+</div>
+<p>A string <tt class="docutils literal"><span class="pre">'\t'</span></tt> representa um caracter de <strong>tabulação</strong>.</p>
+<p>Conforme caracteres e strings vão sendo mostrados na tela, um ponteiro invisível chamado <strong>cursor</strong> marca aonde aparecerá o próximo caractere. Depois de um comando <tt class="docutils literal"><span class="pre">print</span></tt>, o cursor normalmente vai para o início de uma nova linha.</p>
+<p>O caractere de tabulação desloca o cursor para a direita até que ele encontre uma das marcas de tabulação. Tabulação é útil para fazer colunas de texto line up, como na saída do programa anterior:</p>
+<div class="highlight-python"><pre>1.0   0.0
+2.0   0.69314718056
+3.0   1.09861228867
+4.0   1.38629436112
+5.0   1.60943791243
+6.0   1.79175946923
+7.0   1.94591014906
+8.0   2.07944154168
+9.0   2.19722457734</pre>
+</div>
+<p>Se estes valores parecem odd, lembre-se que a função <tt class="docutils literal"><span class="pre">log</span></tt> usa a base <tt class="docutils literal"><span class="pre">e</span></tt>. Já que potências de dois são tão importantes em ciência da computação, nós freqüentemente temos que achar logaritmos referentes à base 2. Para fazermos isso, podemos usar a seguinte fórmula:</p>
+<p>(XXX diagramar fórmula matemática)</p>
+<dl class="docutils">
+<dt>log2 x = loge x                 (6.1)</dt>
+<dd>loge 2</dd>
+</dl>
+<p>Alterando o comando de saída para:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">x</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>o que resultará em:</p>
+<div class="highlight-python"><pre>1.0   0.0
+2.0   1.0
+3.0   1.58496250072
+4.0   2.0
+5.0   2.32192809489
+6.0   2.58496250072
+7.0   2.80735492206
+8.0   3.0
+9.0   3.16992500144</pre>
+</div>
+<p>Podemos ver que 1, 2, 4 e 8 são potências de dois porque seus logaritmos na base 2 são números redondos. Se precisássemos encontrar os logaritmos de outras potências de dois, poderíamos modificar o programa deste modo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="k">while</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mf">100.0</span><span class="p">:</span>
+  <span class="k">print</span> <span class="n">x</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+  <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mf">2.0</span>
+</pre></div>
+</div>
+<p>Agora, em vez de somar algo a x a cada iteração do loop, o que resulta numa seqüência aritmética, nós multiplicamos x por algo, resultando numa seqüência geométrica. O resultado é:</p>
+<div class="highlight-python"><pre>1.0   0.0
+2.0   1.0
+4.0   2.0
+8.0   3.0
+16.0  4.0
+32.0  5.0
+64.0  6.0</pre>
+</div>
+<p>Por causa do caractere de tabulação entre as colunas, a posição da segunda coluna não depende do número de dígitos na primeira coluna.</p>
+<p>Tabelas de logaritmos podem não ser mais úteis, mas para cientistas da computação, conhecer as potências de dois é!</p>
+<p>Como um exercício, modifique este programa de modo que ele produza as potências de dois acima de 65.535 (ou seja, 216). Imprima e memorize-as.</p>
+<p>O caractere de barra invertida em <tt class="docutils literal"><span class="pre">'\t'</span></tt> indica o início de uma seqüência de escape. Seqüências de escape são usadas para representar caracteres invisíveis como de tabulação e de nova linha. A seqüência <tt class="docutils literal"><span class="pre">\n</span></tt> representa uma nova linha.</p>
+<p>Uma seqüência de escape pode aparecer em qualquer lugar em uma string; no exemplo, a seqüência de escape de tabulação é a única coisa dentro da string.</p>
+<p>Como você acha que se representa uma barra invertida em uma string?</p>
+<p>Como um exercício, escreva um única string que</p>
+<dl class="docutils">
+<dt>produza</dt>
+<dd><dl class="first last docutils">
+<dt>esta</dt>
+<dd>saída.</dd>
+</dl>
+</dd>
+</dl>
+</div>
+<div class="section" id="tabelas-de-duas-dimensoes-ou-bi-dimensionais">
+<h2><a class="toc-backref" href="#id7">6.4 Tabelas de duas dimensões (ou bi-dimensionais)</a><a class="headerlink" href="#tabelas-de-duas-dimensoes-ou-bi-dimensionais" title="Link permanente para este título">¶</a></h2>
+<p>Uma tabela de duas dimensões é uma tabela em que você lê o valor na interseção entre uma linha e uma coluna. Uma tabela de multiplicação é um bom exemplo. Digamos que você queira imprimir uma tabela de multiplicação de 1 a 6.</p>
+<p>Uma boa maneira de começar é escrever um loop que imprima os múltiplos de 2, todos em uma linha:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">while</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">6</span><span class="p">:</span>
+  <span class="k">print</span> <span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="p">,</span> <span class="s">&#39;   &#39;</span><span class="p">,</span>
+  <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="k">print</span>
+</pre></div>
+</div>
+<p>A primeira linha inicializa a variável chamada <tt class="docutils literal"><span class="pre">i</span></tt>, a qual age como um contador ou <strong>variável de controle do loop</strong>. Conforme o loop é executado, o valor de <tt class="docutils literal"><span class="pre">i</span></tt> é incrementado de 1 a 6. Quando <tt class="docutils literal"><span class="pre">i</span></tt> for 7, o loop termina. A cada repetição (iteração) do loop, é mostrado o valor de <tt class="docutils literal"><span class="pre">2*i</span></tt>, seguido de três espaços.</p>
+<p>De novo, a vírgula no comando <tt class="docutils literal"><span class="pre">print</span></tt> suprime a nova linha. Depois que o loop se completa, o segundo comando <tt class="docutils literal"><span class="pre">print</span></tt> inicia uma nova linha.</p>
+<p>A saída do programa é:</p>
+<div class="highlight-python"><pre>2     4     6     8     10     12</pre>
+</div>
+<p>Até aqui, tudo bem. O próximo passo é <strong>encapsular</strong> e <strong>generalizar</strong>.</p>
+</div>
+<div class="section" id="encapsulamento-e-generalizacao">
+<h2><a class="toc-backref" href="#id8">6.5 Encapsulamento e generalização</a><a class="headerlink" href="#encapsulamento-e-generalizacao" title="Link permanente para este título">¶</a></h2>
+<p>Encapsulamento é o processo de wrapping um pedaço de código em uma função, permitindo que você tire vantagem de todas as coisas para as quais as funções são boas. Você já viu dois exemplos de encapsulamento: <tt class="docutils literal"><span class="pre">imprimeParidade</span></tt> na seção 4.5; e <tt class="docutils literal"><span class="pre">eDivisivel</span></tt> na seção 5.4</p>
+<p>Generalização significa tomar algo que é específico, tal como imprimir os múltiplos de 2, e torná-lo mais geral, tal como imprimir os múltiplos de qualquer inteiro.</p>
+<p>Esta função encapsula o loop anterior e generaliza-o para imprimir múltiplos de n:</p>
+<div class="highlight-python"><pre>def imprimeMultiplos(n):
+i = 1
+while i &lt;= 6:
+  print n*i, '\t ',
+  i = i + 1
+print</pre>
+</div>
+<p>Para encapsular, tudo o que tivemos que fazer foi adicionar a primeira linha, que declara o nome de uma função e sua lista de parâmetros. Para generalizar, tudo o que tivemos que fazer foi substituir o valor 2 pelo parâmetro <tt class="docutils literal"><span class="pre">n</span></tt>.</p>
+<p>Se chamarmos esta função com o argumento 2, teremos a mesma saída que antes. Com o argumento <tt class="docutils literal"><span class="pre">3</span></tt>, a saída é:</p>
+<div class="highlight-python"><pre>3     6       9       12      15      18</pre>
+</div>
+<p>Com o argumento <tt class="docutils literal"><span class="pre">4</span></tt>, a saída é:</p>
+<div class="highlight-python"><pre>4     8       12      16      20      24</pre>
+</div>
+<p>Agora você provavelmente pode adivinhar como imprimir uma tabela de multiplicação - chamando <tt class="docutils literal"><span class="pre">imprimeMultiplos</span></tt> repetidamente com argumentos diferentes. De fato, podemos usar um outro loop:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">while</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">6</span><span class="p">:</span>
+  <span class="n">imprimeMultiplos</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+  <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Note o quanto este loop é parecido com aquele dentro de <tt class="docutils literal"><span class="pre">imprimeMultiplos</span></tt>. Tudo o que fiz foi substituir o comando <tt class="docutils literal"><span class="pre">print</span></tt> pela chamada à função.</p>
+<p>A saída deste programa é uma tabela de multiplicação:</p>
+<div class="highlight-python"><pre>1     2       3       4       5       6
+2     4       6       8       10      12
+3     6       9       12      15      18
+4     8       12      16      20      24
+5     10      15      20      25      30
+6     12      18      24      30      36</pre>
+</div>
+</div>
+<div class="section" id="mais-encapsulamento">
+<h2><a class="toc-backref" href="#id9">6.6 Mais encapsulamento</a><a class="headerlink" href="#mais-encapsulamento" title="Link permanente para este título">¶</a></h2>
+<p>Para demonstrar de novo o encapsulamento, vamos pegar o código do final da seção 6.5 e acondicioná-lo, envolvê-lo em uma função:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">imprimeTabMult</span><span class="p">():</span>
+  <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">6</span><span class="p">:</span>
+    <span class="n">imprimeMultiplos</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Este processo é um <strong>plano de desenvolvimento</strong> comum. Nós desenvolvemos código escrevendo linhas de código fora de qualquer função, ou digitando-as no interpretador. Quando temos o código funcionando, extraímos ele e o embalamos em uma função.</p>
+<p>Este plano de desenvolvimento é particularmente útil se você não sabe, quando você começa a escrever, como dividir o programa em funções. Esta técnica permite a você projetar enquanto desenvolve.</p>
+</div>
+<div class="section" id="variaveis-locais">
+<h2><a class="toc-backref" href="#id10">6.7 Variáveis locais</a><a class="headerlink" href="#variaveis-locais" title="Link permanente para este título">¶</a></h2>
+<p>Você pode estar pensando como podemos utilizar a mesma variável, <tt class="docutils literal"><span class="pre">i</span></tt>, em ambos, <tt class="docutils literal"><span class="pre">imprimeMultiplos</span></tt> e <tt class="docutils literal"><span class="pre">imprimeTabMult</span></tt>. Isto não causaria problemas quando uma das funções mudasse o valor da variável?</p>
+<p>A resposta é não, porque o <tt class="docutils literal"><span class="pre">i</span></tt> em <tt class="docutils literal"><span class="pre">imprimeMultiplos</span></tt> e o <tt class="docutils literal"><span class="pre">i</span></tt> em <tt class="docutils literal"><span class="pre">imprimeTabMult</span></tt> não são a mesma variável.</p>
+<p>Variáveis criadas dentro de uma definição de função são locais; você não pode acessar uma variável local de fora da função em que ela &#8220;mora&#8221;. Isto significa que você é livre para ter múltiplas variáveis com o mesmo nome, desde que elas não estejam dentro da mesma função.</p>
+<p>O diagrama de pilha para este programa mostra que duas variáveis chamadas <tt class="docutils literal"><span class="pre">i</span></tt> não são a mesma variável. Elas podem se referir a valores diferentes e alterar o valor de uma não afeta à outra.</p>
+<img alt="_images/06_02_pilha4.png" src="_images/06_02_pilha4.png" />
+<p>O valor de <tt class="docutils literal"><span class="pre">i</span></tt> em <tt class="docutils literal"><span class="pre">imprimeTabMult</span></tt> vai de 1 a 6. No diagrama, <tt class="docutils literal"><span class="pre">i</span></tt> agora é 3. Na próxima iteração do loop <tt class="docutils literal"><span class="pre">i</span></tt> será 4. A cada iteração do loop, <tt class="docutils literal"><span class="pre">imprimeTabMult</span></tt> chama <tt class="docutils literal"><span class="pre">imprimeMultiplos</span></tt> com o valor corrente de <tt class="docutils literal"><span class="pre">i</span></tt> como argumento. O valor é atribuído ao parâmetro <tt class="docutils literal"><span class="pre">n</span></tt>.</p>
+<p>Dentro de <tt class="docutils literal"><span class="pre">imprimeMultiplos</span></tt>, o valor de <tt class="docutils literal"><span class="pre">i</span></tt> vai de 1 a 6. No diagrama, <tt class="docutils literal"><span class="pre">i</span></tt> agora é <tt class="docutils literal"><span class="pre">2</span></tt>. Mudar esta variável não tem efeito sobre o valor de <tt class="docutils literal"><span class="pre">i</span></tt> em <tt class="docutils literal"><span class="pre">imprimeTabMult</span></tt>.</p>
+<p>É comum e perfeitamente legal ter variáveis locais diferentes com o mesmo nome. Em particular, nomes como <tt class="docutils literal"><span class="pre">i</span></tt> e <tt class="docutils literal"><span class="pre">j</span></tt> são muito usados para variáveis de controle de loop. Se você evitar utilizá-los em uma função só porque você já os usou em outro lugar, você provavelmente tornará seu programa mais difícil de ler.</p>
+</div>
+<div class="section" id="mais-generalizacao">
+<h2><a class="toc-backref" href="#id11">6.8 Mais generalização</a><a class="headerlink" href="#mais-generalizacao" title="Link permanente para este título">¶</a></h2>
+<p>Como um outro exemplo de generalização, imagine que você precise de um programa que possa imprimir uma tabela de multiplicação de qualquer tamanho, não apenas uma tabela de seis por seis. Você poderia adicionar um parâmetro a <tt class="docutils literal"><span class="pre">imprimeTabMult</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">imprimeTabMult</span><span class="p">(</span><span class="n">altura</span><span class="p">):</span>
+  <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">altura</span><span class="p">:</span>
+    <span class="n">imprimeMultiplos</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Nós substituímos o valor 6 pelo parâmetro altura. Se chamarmos <tt class="docutils literal"><span class="pre">imprimeTabMult</span></tt> com o argumento 7, ela mostra:</p>
+<div class="highlight-python"><pre>1     2       3       4       5       6
+2     4       6       8       10      12
+3     6       9       12      15      18
+4     8       12      16      20      24
+5     10      15      20      25      30
+6     12      18      24      30      36
+7     14      21      28      35      42</pre>
+</div>
+<p>Isto é bom, exceto que nós provavelmente quereríamos que a tabela fosse quadrada - com o mesmo número de linhas e colunas. Para fazer isso, adicionamos outro parâmetro a <tt class="docutils literal"><span class="pre">imprimeMultiplos</span></tt> para especificar quantas colunas a tabela deveria ter.</p>
+<p>Só para confundir, chamamos este novo parâmetro de <tt class="docutils literal"><span class="pre">altura</span></tt>, demonstrando que diferentes funções podem ter parâmetros com o mesmo nome (como acontece com as variáveis locais). Aqui está o programa completo:</p>
+<div class="highlight-python"><pre>def imprimeMultiplos(n, altura):
+  i = 1
+  while i  &lt;= altura:
+    print n*i, 't',
+    i = i + 1
+  print
+
+def imprimeTabMult(altura):
+  i = 1
+  while i &lt;= altura:
+  imprimeMultiplos(i, altura)
+  i = i + 1</pre>
+</div>
+<p>Note que quando adicionamos um novo parâmetro, temos que mudar a primeira linha da função (o cabeçalho da função), e nós também temos que mudar o lugar de onde a função é chamada em <tt class="docutils literal"><span class="pre">imprimeTabMult</span></tt>.</p>
+<p>Como esperado, este programa gera uma tabela quadrada de sete por sete:</p>
+<div class="highlight-python"><pre>1     2       3       4       5       6       7
+2     4       6       8       10      12      14
+3     6       9       12      15      18      21
+4     8       12      16      20      24      28
+5     10      15      20      25      30      35
+6     12      18      24      30      36      42
+7     14      21      28      35      42      49</pre>
+</div>
+<p>Quando você generaliza uma função apropriadamente, você muitas vezes tem um programa com capacidades que você não planejou. Por exemplo, você pode ter notado que, porque ab = ba, todas as entradas na tabela aparecem duas vezes. Você poderia economizar tinta imprimindo somente a metade da tabela. Para fazer isso, você tem que mudar apenas uma linha em <tt class="docutils literal"><span class="pre">imprimeTabMult</span></tt>. Mude:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">imprimeTabMult</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">altura</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>para:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">imprimeTabMult</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>e você terá:</p>
+<div class="highlight-python"><pre>1
+2     4
+3     6       9
+4     8       12      16
+5     10      15      20      25
+6     12      18      24      30      36
+7     14      21      28      35      42      49</pre>
+</div>
+<p>Como um exercício, trace a execução desta versão de <tt class="docutils literal"><span class="pre">imprimeTabMult</span></tt> e explique como ela funciona.</p>
+</div>
+<div class="section" id="funcoes">
+<h2><a class="toc-backref" href="#id12">6.9 Funções</a><a class="headerlink" href="#funcoes" title="Link permanente para este título">¶</a></h2>
+<ul class="simple">
+<li>Há pouco tempo mencionamos &#8220;todas as coisas para as quais as funções são boas.&#8221; Agora, você pode estar pensando que coisas exatamente são estas. Aqui estão algumas delas:</li>
+<li>Dar um nome para uma seqüência de comandos torna seu programa mais fácil de ler e de depurar.</li>
+<li>Dividir um programa longo em funções permite que você separe partes do programa, depure-as isoladamente, e então as componha em um todo.</li>
+<li>Funções facilitam tanto recursão quanto iteração.</li>
+<li>Funções bem projetadas são freqüentemente úteis para muitos programas. Uma vez que você escreva e depure uma, você pode reutilizá-la.</li>
+</ul>
+</div>
+<div class="section" id="glossario">
+<h2><a class="toc-backref" href="#id13">6.10 Glossário</a><a class="headerlink" href="#glossario" title="Link permanente para este título">¶</a></h2>
+<dl class="docutils">
+<dt>reatribuição (<em>multiple assignment</em> <a class="footnote-reference" href="#id2" id="id1">[1]</a>)</dt>
+<dd>quando mais de um valor é atribuído a mesma variável durante a execução do programa.</dd>
+</dl>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>N.T.: O termo <em>multiple assignment</em> (ou atribuição múltipla) é usado com mais frequência para descrever a sintaxe <tt class="docutils literal"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">b</span> <span class="pre">=</span> <span class="pre">c</span></tt>. Por este motivo optamos pelo termo reatribuição no contexto da seção 6.1 desse capítulo.</td></tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>iteração (<em>iteration</em>)</dt>
+<dd>execução repetida de um conjunto de comandos/instruções (statements) usando uma chamada recursiva de função ou um laço (loop).</dd>
+<dt>laço (<em>loop</em>)</dt>
+<dd>um comando/instrução ou conjunto de comandos/instruções que executam repetidamente até que uma condição de interrupção seja atingida.</dd>
+<dt>laço infinito (<em>infinite loop</em>)</dt>
+<dd>um laço em que a condição de interrupção nunca será atingida.</dd>
+<dt>corpo (<em>body</em>)</dt>
+<dd>o conjunto de comandos/instruções que pertencem a um laço.</dd>
+<dt>variável de laço (<em>loop variable</em>)</dt>
+<dd>uma variável usada como parte da condição de interrupção do laço.</dd>
+<dt>tabulação (<em>tab</em>)</dt>
+<dd>um carácter especial que faz com que o cursor mova-se para a próxima parada estabelecida de tabulação na linha atual.</dd>
+<dt>nova-linha (<em>newline</em>)</dt>
+<dd>um carácter especial que faz com que o cursor mova-se para o início da próxima linha.</dd>
+<dt>cursor (<em>cursor</em>)</dt>
+<dd>um marcador invisível que determina onde o próximo carácter var ser impresso.</dd>
+<dt>sequência de escape (<em>escape sequence</em>)</dt>
+<dd>um carácter de escape () seguido por um ou mais caracteres imprimíveis, usados para definir um carácter não imprimível.</dd>
+<dt>encapsular (<em>encapsulate</em>)</dt>
+<dd>quando um programa grande e complexo é dividido em componentes (como funções) e estes são isolados um do outro (pelo uso de variáveis locais, por exemplo).</dd>
+<dt>generalizar (<em>generalize</em>)</dt>
+<dd>quando algo que é desnecessariamente específico (como um valor constante) é substituído por algo apropriadamente geral (como uma variável ou um parâmetro). Generalizações dão maior versatilidade ao código, maior possibilidade de reuso, e em algumas situações até mesmo maior facilidade para escrevê-lo.</dd>
+<dt>plano de desenvolvimento (<em>development plan</em>)</dt>
+<dd>um processo definido para desenvolvimento de um programa. Neste capítulo, nós demonstramos um estilo de desenvolvimento baseado em escrever código para executar tarefas simples e específicas, usando  encapsulamento e generalização.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Capítulo 6: Iteração</a><ul>
+<li><a class="reference internal" href="#reatribuicoes">6.1 Reatribuições</a></li>
+<li><a class="reference internal" href="#o-comando-while">6.2 O comando <tt class="docutils literal"><span class="pre">while</span></tt></a></li>
+<li><a class="reference internal" href="#tabelas">6.3 Tabelas</a></li>
+<li><a class="reference internal" href="#tabelas-de-duas-dimensoes-ou-bi-dimensionais">6.4 Tabelas de duas dimensões (ou bi-dimensionais)</a></li>
+<li><a class="reference internal" href="#encapsulamento-e-generalizacao">6.5 Encapsulamento e generalização</a></li>
+<li><a class="reference internal" href="#mais-encapsulamento">6.6 Mais encapsulamento</a></li>
+<li><a class="reference internal" href="#variaveis-locais">6.7 Variáveis locais</a></li>
+<li><a class="reference internal" href="#mais-generalizacao">6.8 Mais generalização</a></li>
+<li><a class="reference internal" href="#funcoes">6.9 Funções</a></li>
+<li><a class="reference internal" href="#glossario">6.10 Glossário</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="capitulo_05.html"
+                        title="capítulo anterior">Capítulo 5: Funções frutíferas</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="capitulo_07.html"
+                        title="próximo capítulo">Capítulo 7: Strings</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/capitulo_06.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="capitulo_07.html" title="Capítulo 7: Strings"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_05.html" title="Capítulo 5: Funções frutíferas"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

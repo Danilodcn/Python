@@ -1,0 +1,272 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Tkinter Geometry&nbsp;Managers</title></head><body data-page-id="306"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Tkinter Geometry&nbsp;Managers</h1></div><div class="yui-ge"><div class="yui-u first"><p>Note: <i>this is a work in progress</i></p><h1>Introduction</h1><p>As we&#8217;ve seen, creating a new widget doesn&#8217;t mean that it appears
+on the screen.  To display it, you need to call a special method:
+either <b>grid</b>, <b>pack</b> (which we&#8217;ve used in all examples this
+far), or <b>place</b>.</p><p>The <b>pack</b> method doesn&#8217;t really display the widget; it adds
+the widget to a list of widgets managed by the parent widget.  An idle
+task [TERM?] will take care of the rest as soon as Tkinter has nothing
+better to do.</p><p>Here&#8217;s a simple example:</p><pre class="python">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+root = Tk()
+
+label = Label(root, text=<span class="pystring">"Message"</span>)
+label.pack()
+
+button = Button(root, text=<span class="pystring">"Quit"</span>, command=root.destroy)
+button.pack()
+
+mainloop()</pre><p>The first call to <b>pack</b> simply adds the <b>label</b> widget
+to the list of widgets managed by the <b>root</b> window (which
+behaves pretty much like any other <b>Toplevel</b> widget).  It also
+schedules an idle task [TERM?] which will call the geometry manager at
+a later time.</p><p>The second call adds the <b>button</b> widget to the <b>root</b>
+list.  The idle task has still not run, so this method doesn&#8217;t add a
+new one.</p><p>Finally, the <b>mainloop</b> will sooner or later get around to
+call the idle task.  The geometry manager then loops over all it&#8217;s
+children in one go, calculates the appropriate size for each of them
+based on their &#8220;natural&#8221; size [TERM?], displays them, and finally asks
+the root window to resize itself.</p><p>Note that the use of an idle task means that the geometry manager
+isn&#8217;t directly involved by the call to <b>pack</b>.  This allows you
+to pack a whole bunch of widgets, and have them all managed in a
+single pass by the manager&#8217;s geometry algorithms.</p><p>Now, let&#8217;s take a closer look at the different geometry managers
+provided by Tkinter.</p><h1>The Grid Manager</h1><p>As the sound implies, this manager organizes its children in a
+grid. The master widget is split into a number of rows and columns,
+and each &#8220;cell&#8221; in this grid can hold a single widget.</p><p>[image goes here]</p><p>To use the grid manager for a widget, use the <b>grid</b>
+method:</p><p><b>grid(row=index, column=index, options&#8230;)</b>. This method
+places the widget in the given cell.  The grid manager will make sure
+that both the row and the column is large enough to display the entire
+widget, and position it correctly.</p><p>If you leave out the <b>row</b> option, the widget is placed in the
+first empty row.  If you leave out the <b>column</b> option, the
+widget is placed in the leftmost column (index 0).</p><pre class="python">
+<span class="pycomment"># Example: File: grid-example-1.py</span>
+
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+root = Tk()
+
+w = Label(root, text=<span class="pystring">"Additive:"</span>)
+w.grid(sticky=E)
+w = Label(root, text=<span class="pystring">"Subtractive:"</span>)
+w.grid(sticky=E)
+
+w = Label(root, text=<span class="pystring">"Cyan"</span>, bg=<span class="pystring">"cyan"</span>, height=2)
+w.grid(row=1, column=1)
+w = Label(root, text=<span class="pystring">"Magenta"</span>, bg=<span class="pystring">"magenta"</span>, fg=<span class="pystring">"white"</span>)
+w.grid(row=1, column=2)
+w = Label(root, text=<span class="pystring">"Yellow"</span>, bg=<span class="pystring">"yellow"</span>, height=2)
+w.grid(row=1, column=3)
+
+w = Label(root, text=<span class="pystring">"Red"</span>, bg=<span class="pystring">"red"</span>, fg=<span class="pystring">"white"</span>, height=2)
+w.grid(row=0, column=1)
+w = Label(root, text=<span class="pystring">"Green"</span>, bg=<span class="pystring">"green"</span>, height=3)
+w.grid(row=0, column=2)
+w = Label(root, text=<span class="pystring">"Blue"</span>, bg=<span class="pystring">"blue"</span>, fg=<span class="pystring">"white"</span>)
+w.grid(row=0, column=3)
+
+mainloop()</pre><h4><b class="mark">Things to Notice</b></h4><p><b class="mark">Rows and columns are made large enough to fit the largest
+widget</b>. The labels have different widths, and I&#8217;ve used the
+<b>height</b> option to vary their height.  Note how each row and
+column are made wide enough to show all widgets, and that the widgets
+are centered in the resulting cells.  You can use options to change
+this in different ways; see the next section for details.</p><p><b class="mark">Using default values for row and column</b>.
+The first two labels use default values for the <b>row</b> and <b>column</b>
+options.  As a result, they are both placed in column 0, in the rows 0
+and 1.</p><p><b class="mark">You can place the widgets into the grid in any order</b>.
+It&#8217;s only the row and column numbers that count when the grid manager lays
+the widgets out.  Although it&#8217;s not shown here, you can also leave
+empty rows and columns if that makes your code simpler.</p><h2>Rows, Columns, and Cells</h2><p>[minsize] [pad]</p><p>The <b>grid_size</b> method returns the number of columns and rows
+allocated by the grid manager.  You can use this function to add new
+rows (or columns) to a grid:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">add_entry</span>(master, text):
+
+    column, row = master.grid_size()
+
+    label = Label(master, text=text)
+    label.grid(row=row, column=0, sticky=E, padx=2)
+
+    entry = Entry(master)
+    entry.grid(row=row, column=1, sticky=E+W)
+
+    <span class="pykeyword">return</span> entry</pre><p>[grid_location]</p><h2>Expanding and Filling</h2><p>By default, the grid manager lets each widget keep its natural size
+[TERM?].  If the cell turns out to be larger than this size, the
+widget is placed in the middle of the cell.</p><p>You can use the <b>sticky</b> option to modify this behavior.  This
+option tells the geometry manager to &#8220;attach&#8221; the widget to one or
+more of the cell borders.</p><p>[ILLUSTRATION]</p><p>The option value is a string, which can contain one or more of the
+characters &#8220;n&#8221; (north), &#8220;s&#8221; (south), &#8220;w&#8221; (west), and &#8220;e&#8221; (east).  For
+example, &#8220;n&#8221; centers the widget along the upper cell border.  &#8220;se&#8221;
+moves the widget to the lower right corner.</p><p>If you attach the widget to two opposite borders, it&#8217;s resized as
+necessary.  For example, &#8220;ns&#8221; stretches the widget vertically, while
+&#8220;we&#8221; stretches it horizontally.  Finally, &#8220;nswe&#8221; makes the widget fill
+the entire cell.</p><p>Instead of string values, you can use the builtin constants N, S,
+E, W, NE, NW, SE, and SW.  To combine these, use the &#8220;+&#8221; operator.</p><p>[grid_columnconfigure grid_rowconfigure weight]</p><p>[padding]</p><h2>Spans</h2><p>Usually, widgets occupy a single cell in the grid.  You can use the
+<b>columnspan</b> and <b>rowspan</b> options to change this for any
+given widget.</p><p>The <b>columnspan</b> option tells the geometry manager that a
+widget should occupy not only its original cell, but also one or more
+extra cells to the right.  The option value is the total number of
+cells to occupy.</p><p>The <b>rowspan</b> option is similar, but it tells the manager to
+occupy extra cells under the original.</p><p>[example]</p><h2>Geometry Propagation</h2><p>[grid_propagate]</p><p>[example]</p><p>[note: continues in ch09b.txt]
+
+<h1>The Pack Manager</h1></p><p>The pack manager places its children on top of each other in
+columns, or side by side in rows.</p><p>This manager is a quite elaborate piece of code.  Too elaborate to
+fully understand in one sitting, perhaps, so I&#8217;m not going to tell you
+the full story until later.  Let&#8217;s start with a simplified version of
+the story.</p><h2>&#8220;The Pack Geometry Manager For Dummies&#8221;</h2><p>This far, we&#8217;ve learned two things:</p><ol><li>To make a widget visible, use a geometry manager</li><li>The grid geometry manager is a geometry manager</li></ol><p>Sounds like all we need to know, doesn&#8217;t it?  Why learn another
+geometry manager?</p><p>Well, there is a reason why I used the pack manager in all examples
+leading up to this chapter.  The pack manager is much easier to use in
+a few, but quite common situations:</p><ol><li>Put a widget inside a frame (or any other container widget), and
+have it fill the entire frame</li><li>Place a number of widgets <b>on top of each other</b></li><li>Place a number of widgets <b>side by side</b></li></ol><h3>Filling a Frame (Or Any Other Container Widget)</h3><p>A common situation is when you want to place a widget inside a
+container widget, and have it fill the entire parent.  Here&#8217;s a simple
+example: a listbox placed in the root window:</p><pre class="python">
+<span class="pycomment"># Example: File: pack-listbox-1.py</span>
+
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+root = Tk()
+
+listbox = Listbox(root)
+listbox.pack()
+
+<span class="pykeyword">for</span> i <span class="pykeyword">in</span> range(20):
+    listbox.insert(END, str(i))
+
+mainloop()</pre><p>By default, the listbox is made large enough to show 10 items.  But
+this listbox contains twice as many.  Wouldn&#8217;t it be reasonable if we
+could show them all simply by increasing the size the root window?</p><p>Of course, it isn&#8217;t that easy.  The listbox [FIXME]</p><h3>Packing Things On Top Of Each Other</h3><p>To put a number of widgets in a column, use the <b>pack</b> method
+without any options:</p><p><b>pack()</b>. This method centers the widget along the top border
+of the parent widget.  If other widgets are packed in the same parent,
+this widget is placed just under them.</p><pre class="python">
+<span class="pycomment"># Example: File: pack-example-1.py</span>
+
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+root = Tk()
+
+w = Label(root, text=<span class="pystring">"Red"</span>, bg=<span class="pystring">"red"</span>, fg=<span class="pystring">"white"</span>)
+w.pack()
+w = Label(root, text=<span class="pystring">"Green"</span>, bg=<span class="pystring">"green"</span>, fg=<span class="pystring">"black"</span>)
+w.pack()
+w = Label(root, text=<span class="pystring">"Blue"</span>, bg=<span class="pystring">"blue"</span>, fg=<span class="pystring">"white"</span>)
+w.pack()
+
+mainloop()</pre><p>You can use the <b>fill=X</b> option to make all widgets as wide as
+the parent widget:</p><pre class="python">
+<span class="pycomment"># Example: File: pack-example-2.py</span>
+
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+root = Tk()
+
+w = Label(root, text=<span class="pystring">"Red"</span>, bg=<span class="pystring">"red"</span>, fg=<span class="pystring">"white"</span>)
+w.pack(fill=X)
+w = Label(root, text=<span class="pystring">"Green"</span>, bg=<span class="pystring">"green"</span>, fg=<span class="pystring">"black"</span>)
+w.pack(fill=X)
+w = Label(root, text=<span class="pystring">"Blue"</span>, bg=<span class="pystring">"blue"</span>, fg=<span class="pystring">"white"</span>)
+w.pack(fill=X)
+
+mainloop()</pre><h3>Packing Widgets Side By Side</h3><p>To pack widgets side by side, use the <b>side</b> option.  If you
+wish to make the widgets as high as the parent, use the <b>fill=Y</b>
+option too:</p><pre class="python">
+<span class="pycomment"># Example: File: pack-example-3.py</span>
+
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+root = Tk()
+
+w = Label(root, text=<span class="pystring">"Red"</span>, bg=<span class="pystring">"red"</span>, fg=<span class="pystring">"white"</span>)
+w.pack(side=LEFT)
+w = Label(root, text=<span class="pystring">"Green"</span>, bg=<span class="pystring">"green"</span>, fg=<span class="pystring">"black"</span>)
+w.pack(side=LEFT)
+w = Label(root, text=<span class="pystring">"Blue"</span>, bg=<span class="pystring">"blue"</span>, fg=<span class="pystring">"white"</span>)
+w.pack(side=LEFT)
+
+mainloop()</pre><p>If you need to create more complex layouts, the standard answer is
+to use the grid manager instead, or to use nested <b>Frame</b>
+widgets.  For example, here&#8217;s a simple entry form using frames within
+frames:</p><pre class="python">
+<span class="pycomment"># Example: File: pack-entry-form-1.py</span>
+
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+root = Tk()
+
+<span class="pykeyword">def</span> <span class="pyfunction">add_entry</span>(master, text):
+
+    frame = Frame(master)
+
+    label = Label(frame, text=text)
+    label.pack(side=LEFT)
+
+    entry = Entry(frame)
+    entry.pack(side=LEFT)
+
+    frame.pack()
+
+add_entry(root, <span class="pystring">"First"</span>)
+add_entry(root, <span class="pystring">"Second"</span>)
+add_entry(root, <span class="pystring">"Third"</span>)
+
+mainloop()</pre><p>It might be simple, but it&#8217;s no simpler than the corresponding grid
+code, and the result is much worse.  The main problem is that since
+the labels have different widths, the entry fields don&#8217;t line up.  You
+could use the <b>width</b> option to make all the labels equally
+wide:</p><pre class="python">
+<span class="pycomment"># Example: From file: pack-entry-form-2.py</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">add_entry</span>(master, text):
+
+    frame = Frame(master)
+
+    label = Label(frame, text=text, width=10)
+    label.pack(side=LEFT)
+
+    entry = Entry(frame)
+    entry.pack(side=LEFT)
+
+    frame.pack()</pre><p>This has some drawbacks, including the problem of picking an
+appropriate width.  If width is too small, the <b>Label</b> widget
+will not display the entire label.</p><p>A less obvious way is to tweak the packer options a little.  First,
+use the <b>fill</b> option to make all frames as wide as the parent
+widget, and then pack the entry field towards the <b>right</b>
+border:</p><pre class="python">
+<span class="pycomment"># Example: From file: pack-entry-form-3.py (portions)</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">add_entry</span>(master, text):
+
+    frame = Frame(master)
+
+    label = Label(frame, text=text)
+    label.pack(side=LEFT)
+
+    entry = Entry(frame)
+    entry.pack(side=RIGHT)
+
+    frame.pack(fill=X)</pre><p>Much better, but the labels are still left justified.  What if we
+want them to be right justified, like in the grid examples?</p><p>Well, nothing is impossible.  Just pack the labels <b>after</b> the
+entry widget, and pack them against the right border.  This way, they
+will end up just to the left of the entry fields:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">add_entry</span>(master, text):
+
+    frame = Frame(master)
+
+    entry = Entry(frame)
+    entry.pack(side=RIGHT)
+
+    label = Label(frame, text=text)
+    label.pack(side=RIGHT)
+
+    frame.pack(fill=X)</pre><p>That&#8217;s more like it.  But given that this is not very obvious, and
+no shorter than the corresponding grid code, it&#8217;s probably a good idea
+to use the grid manager for cases like this.</p><h2>How Things Really Work</h2><p>[FIXME]</p><p>By default, the areas used by the pack manager is similar to the
+cells used by the grid managers.  If at all possible, the area is made
+large enough to hold the widget,</p><p>However, some of the details are a bit less obvious in this case.
+If you pack a widget along the top or bottom side, the area allocated
+to that widget is high enough to display the entire widget, but as
+wide as the <b>entire</b> parent widget.</p><p>Likewise, if you pack a widget along the left or right side, the
+area is as wide as the widget, but as high as the <b>entire</b> parent
+widget.</p><p>FIXME lets each widget keep its natural size [TERM?].  If the cell
+turns out to be larger than this size, the widget is placed in the
+middle of the cell.</p><p>You can use the <b>sticky</b> option to modify this behavior.  This
+option tells the geometry manager to &#8220;attach&#8221; the widget to one or
+more of the cell borders.</p><h2>Geometry Propagation</h2><h1>The Place Manager</h1><p>FIXME</p><h1>The Notebook Component</h1><p>FIXME</p><h2>Rolling Your Own Geometry Manager</h2><p>FIXME</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

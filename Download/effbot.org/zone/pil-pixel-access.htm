@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Pixel Access&nbsp;Objects</title></head><body data-page-id="193"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Pixel Access&nbsp;Objects</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | October 2005 | Originally posted to <a href="http://online.effbot.org">online.effbot.org</a></p><p>I just added support for a new &#8220;pixel access&#8221; method to PIL 1.1.6.  The
+<b>load</b> method now returns a pixel access object, which behaves like
+a 2-dimensional mapping.  You can use the access object on both sides of
+an assignment statement; as an expression, it fetches the given pixel
+value, and as an assignment target, it updates the image:</p><pre class="python">
+pix = im.load()
+
+<span class="pycomment"># get pixel value</span>
+<span class="pykeyword">print</span> pix[x, y]
+
+<span class="pycomment"># put pixel value</span>
+pix[x, y] = value</pre><p>Performance is pretty good.  For example, here are reimplementations
+of the standard <b>point</b> method.  The first one uses the &#8220;old&#8221; pixel
+API (<b>getpixel</b>, <b>putpixel</b>), while the latter uses the new
+array API:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">old_point</span>(im, lut):
+    out = Image.new(im.mode, im.size, None)
+    <span class="pykeyword">for</span> y <span class="pykeyword">in</span> xrange(im.size[0]):
+        <span class="pykeyword">for</span> x <span class="pykeyword">in</span> xrange(im.size[1]):
+            out.putpixel((x, y), lut[im.getpixel((x, y))])
+    <span class="pykeyword">return</span> out
+
+<span class="pykeyword">def</span> <span class="pyfunction">new_point</span>(im, lut):
+    out = Image.new(im.mode, im.size, None)
+    ipixel = im.load()
+    opixel = out.load()
+    <span class="pykeyword">for</span> y <span class="pykeyword">in</span> xrange(im.size[0]):
+        <span class="pykeyword">for</span> x <span class="pykeyword">in</span> xrange(im.size[1]):
+            opixel[x, y] = lut[ipixel[x, y]]
+    <span class="pykeyword">return</span> out</pre><p>On a 2.8 GHz PC, using a 512x512 grayscale image, the <b>old_point</b>
+implementation needs 1.9 seconds to process the image (~140,000 pixels
+per second), while the <b>new_point</b> version needs 0.15 seconds
+(~1,750,000 pixels per second).  Not too bad.</p><p>On the other hand, for a trivial example like this, you can use the
+<b>getdata</b> and <b>putdata</b> bulk operations instead:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">bulk_point</span>(im, lut):
+    out = Image.new(im.mode, im.size, None)
+    out.putdata([lut[x] <span class="pykeyword">for</span> x <span class="pykeyword">in</span> im.getdata()])
+    <span class="pykeyword">return</span> out</pre><p>On this machine, this is twice as fast as the <b>new_point</b> version.
+And <b>point</b> is of course even faster; it needs <b>0.7 milliseconds</b>
+for this test.</p><p>But being able to process nearly 2 million pixels per second in Python
+on average hardware is pretty amazing.  When I started working with image
+processing, you had to use hand-tuned assembler to get anywhere near to that
+kind of performance.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Using PIL On Large&nbsp;Images</title></head><body data-page-id="191"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Using PIL On Large&nbsp;Images</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">April 21, 1999 | Fredrik Lundh</p><p><i>Q. Where are the memory bottlenecks likely to be:  in Python itself,
+or in PIL?  I&#8217;m finding that you basically need to be able to hold the
+entire image in RAM, plus OS, etc.  It doesn&#8217;t seem to be effectively
+using the virtual memory on my Win98 or NT test machines, or there&#8217;s
+an arbitrary memory limit somewhere in the code.</i></p><p>PIL is copying all data to a RAM image memory, except
+under a few special circumstances (more on those later).
+It allocates one byte per pixel for &#8220;1&#8221;, &#8220;L&#8221;, and &#8220;P&#8221; images,
+and four bytes per pixel for all other formats.</p><p>So I suspect the problem is on the operating system side
+(in my experience, most operating systems tend to give up
+when a single process attempts to grow much larger than
+the physical memory &#8212; and to thrash heavily long before
+that&#8230;)</p><p><i>Anyone have suggestions for using Python/PIL with such large images,
+short of parsing the files pixel for pixel (or line by line)?  I&#8217;d hate to
+have to start over again in C, because Python is so convenient for this
+type of thing (if not amazingly fast).</i></p><p>Well, here&#8217;s a trick that might work for you.  try this:</p><pre class="python">
+&gt;&gt;&gt; <span class="pykeyword">import</span> Image
+&gt;&gt;&gt; i = Image.open(filename)
+&gt;&gt;&gt; i.size
+(512, 512)
+&gt;&gt;&gt; i.tile
+[(<span class="pystring">'raw'</span>, (0, 0, 512, 512), 128, (<span class="pystring">'RGB'</span>, 0, 1))]</pre><p>The <b>tile</b> attribute contains a list of &#8220;tile descriptors&#8221;, which
+are used to load the image from file.</p><ul><li>The first descriptor item should be &#8220;raw&#8221; &#8212; if it isn&#8217;t, the file
+is compressed, and can most likely not be read in pieces.</li><li>The second item is the tile extent (a rectangle)</li><li>The third item is the offset from the start of the file to the
+data for that tile.</li><li>The final item is a list of arguments to the decoder.</li></ul><p>The interesting thing is that you can change these parameters
+just after you&#8217;ve opened the file.  for example, to read only the
+first 128 lines of this file, do as follows:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+&gt;&gt;&gt; i.size = (512, 128)
+&gt;&gt;&gt; i.tile = [(<span class="pystring">'raw'</span>, (0, 0, 512, 128), 128, (<span class="pystring">'RGB'</span>, 0, 1))]
+
+&gt;&gt;&gt; i.load()</pre></div><div class="yui-ge"><div class="yui-u first"><p>(the call to <b>load</b> explicitly reads the data from disk)</p><p>To read the following 128 lines, you must open the
+file again, and modify also the offset argument.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+&gt;&gt;&gt; i = Image.open(filename)
+&gt;&gt;&gt; i.size = (512, 128)
+&gt;&gt;&gt; i.tile = [(<span class="pystring">'raw'</span>, (0, 0, 512, 128), 128 + 128*(3*512), (<span class="pystring">'RGB'</span>, 0, 1))]</pre></div><div class="yui-ge"><div class="yui-u first"><p>And so on.  Writing a small loop to do this shouldn&#8217;t
+be that difficult.</p><p align="center" class="mark">:::</p><p><i>I also wonder if maybe a hack to PIL which used mmap() would be a
+solution which would make it VM-friendly.  If so, it might be easier
+than to recode it in C (and possible would speed up PIL for &#8216;smaller&#8217;
+images as well.</i></p><p>PIL already contains such a hack, which is enabled under
+these circumstances:</p><ul><li>You&#8217;re on a platform that supports
+<a href="/tag/python.mmap">the <b>mmap</b> module.</a></li><li>You&#8217;re opening an image using the &#8220;raw&#8221; decoder.</li><li>The image has an internal format which is
+compatible with PIL&#8217;s internal pixel layout for
+that mode.</li></ul><p>(or in other words, the image must be &#8220;L&#8221;, &#8220;P&#8221;, &#8220;RGBX&#8221;,
+&#8220;RGBA&#8221;, or &#8220;CMYK&#8221;, and be stored in an uncompressed format.)</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

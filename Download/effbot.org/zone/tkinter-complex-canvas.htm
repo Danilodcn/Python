@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Tkinter Tricks: Using Complex Numbers to Rotate Canvas&nbsp;Items</title></head><body data-page-id="299"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Tkinter Tricks: Using Complex Numbers to Rotate Canvas&nbsp;Items</h1></div><div class="yui-ge"><div class="yui-u first"><p>Python&#8217;s <s><a href="http://docs.python.org/lib/typesnumeric.html">complex number</a></s> (dead link) type can be used to represent coordinates in a 2-dimensional
+graphics system.  Simply store the X coordinate as the real part, and the
+Y coordinate as the imaginary part.</p><p>Complex numbers provide a compact way of storing 2D coordinates,
+but they also make it really easy to manipulate coordinate values.
+For example, to translate a coordinate, just add the offset (represented
+as complex number).  And to rotate a coordinate, all you have to do is to
+multiply the coordinate with a complex number representing the angle.</p><p>First, you need a complex number that represents the angle.  If you
+have the angle, you can use the <b>cmath.exp</b> function:</p><pre class="python">
+<span class="pykeyword">import</span> cmath, math
+cangle = cmath.exp(angle*1j) <span class="pycomment"># angle in radians</span></pre><p>Alternatively, if you have two deltas (dx, dy), you can calculate
+the complex angle directly from the deltas:</p><pre class="python">
+cangle = complex(dx, dy)
+cangle = cangle / abs(cangle)</pre><p>(the <i>cangle</i> complex value can be seen as a unit vector, with
+one end at (0, 0)).
+
+</p><p>To rotate a coordinate around (0, 0), convert the coordinate to a
+complex number, and multiply it with the complex angle:</p><pre class="python">
+<span class="pykeyword">for</span> x, y <span class="pykeyword">in</span> coordinates:
+    v = cangle * complex(x, y)
+    <span class="pykeyword">print</span> v.real, v.imag</pre><p>To rotate around an arbitrary point, create a complex number
+corresponding to that point, subtract that number before you multiply
+with the angle, and add it back afterwards:</p><pre class="python">
+center = complex(xoffset, yoffset)
+<span class="pykeyword">for</span> x, y <span class="pykeyword">in</span> coordinates:
+    v = cangle * (complex(x, y) - center) + center
+    <span class="pykeyword">print</span> v.real, v.imag</pre><p>The following Tkinter example allows the user to use the mouse to
+rotate an item around a given center point.</p><pre class="python">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+<span class="pykeyword">import</span> math
+
+c = Canvas(width=200, height=200)
+c.pack()
+
+<span class="pycomment"># a square</span>
+xy = [(50, 50), (150, 50), (150, 150), (50, 150)]
+
+polygon_item = c.create_polygon(xy)
+
+center = 100, 100
+
+<span class="pykeyword">def</span> <span class="pyfunction">getangle</span>(event):
+    dx = c.canvasx(event.x) - center[0]
+    dy = c.canvasy(event.y) - center[1]
+    <span class="pykeyword">try</span>:
+        <span class="pykeyword">return</span> complex(dx, dy) / abs(complex(dx, dy))
+    <span class="pykeyword">except</span> ZeroDivisionError:
+        <span class="pykeyword">return</span> 0.0 <span class="pycomment"># cannot determine angle</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">press</span>(event):
+    <span class="pycomment"># calculate angle at start point</span>
+    <span class="pykeyword">global</span> start
+    start = getangle(event)
+
+<span class="pykeyword">def</span> <span class="pyfunction">motion</span>(event):
+    <span class="pycomment"># calculate current angle relative to initial angle</span>
+    <span class="pykeyword">global</span> start
+    angle = getangle(event) / start
+    offset = complex(center[0], center[1])
+    newxy = []
+    <span class="pykeyword">for</span> x, y <span class="pykeyword">in</span> xy:
+        v = angle * (complex(x, y) - offset) + offset
+        newxy.append(v.real)
+        newxy.append(v.imag)
+    c.coords(polygon_item, *newxy)
+
+c.bind(<span class="pystring">"&lt;Button-1&gt;"</span>, press)
+c.bind(<span class="pystring">"&lt;B1-Motion&gt;"</span>, motion)
+
+mainloop()</pre><p>Note that for the Tkinter canvas, this only works properly for lines
+and polygons (all other items are always aligned with the canvas coordinate
+system).  To rotate a rectangle, for example, you must first convert it to
+a polygon.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Tkinter Tricks: Using ImageWin to Display Images on&nbsp;Windows</title></head><body data-page-id="307"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Tkinter Tricks: Using ImageWin to Display Images on&nbsp;Windows</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | September 2004 | Originally posted to <a href="http://online.effbot.org">online.effbot.org</a></p><p>Tkinter provides a <a href="/tkinterbook/photoimage.htm">PhotoImage</a> class that you can use to display images in a Tkinter widget.  The standard implementation can read GIF and PGM/PPM images; if you need more formats, you can use the corresponding class in PIL&#8217;s <a href="/imagingbook/imagetk.htm">ImageTk</a> module instead.</p><p>Here&#8217;s a small display widget, using a Label to display a PIL image object:</p><pre class="python">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+<span class="pykeyword">from</span> ImageTk <span class="pykeyword">import</span> PhotoImage
+
+<span class="pykeyword">class</span> <span class="pyclass">ImageView</span>(Frame):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, master, **options):
+        Frame.__init__(self, master, **options)
+        self.view = Label(self)
+        self.view.place(relwidth=1, relheight=1)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">setimage</span>(self, image):
+        photo = PhotoImage(image)
+        self.view.config(image=photo)
+        self.view.photo = photo <span class="pycomment"># keep a reference!</span></pre><p>To use this widget class, make sure you pass in an appropriate <b>width</b>
+and <b>height</b> when you create the widget, and call the <b>setimage</b>
+with <a href="/imagingbook/image.htm">a PIL Image object</a> to update the image.  Note that since the label is placed, not packed, the outer
+widget will not resize itself (use <b>config</b> if you need to change the
+size).</p><p>On my machine, converting a 512x512 RGB image to a PhotoImage object,
+and displaying it, takes about 30 milliseconds (using a stock 2.3.3 interpreter).  In other words, this machine can display just over 30
+images a second.</p><p>On Windows, PIL also provides a <a href="/imagingbook/imagewin.htm">ImageWin</a> module, which can convert a PIL image to a Windows bitmap (a &#8220;DIB&#8221;), and copy that bitmap to the screen.  With a
+little trickery, we can use this class also under Tkinter.  Here&#8217;s an
+implementation:</p><pre class="python">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+<span class="pykeyword">from</span> ImageWin <span class="pykeyword">import</span> Dib, HWND
+
+<span class="pykeyword">class</span> <span class="pyclass">ImageView</span>(Frame):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, master, **options):
+        Frame.__init__(self, master, **options)
+        self.dib = None
+        self.bind(<span class="pystring">"&lt;Expose&gt;"</span>, self._expose)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">setimage</span>(self, image):
+        self.config(bg=<span class="pystring">""</span>) <span class="pycomment"># don't update the background</span>
+        self.dib = Dib(image)
+        self.event_generate(<span class="pystring">"&lt;Expose&gt;"</span>)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">_expose</span>(self, event):
+        <span class="pykeyword">if</span> self.dib:
+            self.dib.expose(HWND(self.winfo_id()))</pre><p>Here, the Frame widget itself is used to display the image.  When
+<b>setimage</b> is called, the frame background is set to an empty string,
+to prevent Tkinter from drawing the background.  We then create the
+bitmap, and generate an explicit &lt;Expose&gt; event to force an update.
+When Tkinter gets around to process that event, the <b>_expose</b>
+method is called, and it simply copies the image to the screen.</p><p>With this code, the display time drops to under 8 milliseconds per
+image, or some 130 frames per second.</p><p>To use this in portable code, you can do something like:</p><pre class="python">
+<span class="pykeyword">try</span>:
+    <span class="pykeyword">import</span> ImageWin
+    <span class="pycomment"># make sure we can create DIBs</span>
+    dib = ImageWin.Dib(<span class="pystring">"L"</span>, (1, 1))
+<span class="pykeyword">except</span> (ImportError, AttributeError):
+    ImageWin = None
+
+...
+
+<span class="pykeyword">if</span> ImageWin:
+    <span class="pykeyword">class</span> <span class="pyclass">ImageView</span>(Frame):
+        ... windows version
+<span class="pykeyword">else</span>:
+    <span class="pykeyword">class</span> <span class="pyclass">ImageView</span>(Frame):
+        ... generic tkinter version
+
+...
+
+view = ImageView(...)</pre></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

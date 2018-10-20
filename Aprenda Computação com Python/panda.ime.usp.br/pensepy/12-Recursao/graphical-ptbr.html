@@ -1,0 +1,436 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Visualizando recursão &mdash; Como pensar como um Cientista da Computação: Edição Interativa em Python</title>
+    
+    <link rel="stylesheet" href="../_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="../_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="../_static/codemirror.js"></script>
+    <script type="text/javascript" src="../_static/python.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="../_static/assess.js"></script>
+    <script type="text/javascript" src="../_static/animationbase.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="../_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Como pensar como um Cientista da Computação: Edição Interativa em Python" href="../index.html" />
+    <link rel="next" title="Glossário" href="introexercises-ptbr.html" />
+    <link rel="prev" title="Recursão" href="recursionsimple-ptbr.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/pensePython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'pensePython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/pensePython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="introexercises-ptbr.html" title="Glossário"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="recursionsimple-ptbr.html" title="Recursão"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="visualizando-recursao">
+<h1>Visualizando recursão<a class="headerlink" href="#visualizando-recursao" title="Permalink to this headline">¶</a></h1>
+<p>Na seção anterio vimos alguns problemas que eram fáceis de resolver usando recursão; no entanto, pode ainda ser difícil encontrar um modelo mental ou uma maneira de visualizar o que está acontecendo em uma função recursiva. Isso pode fazer a recursividade difícil para as pessoas compreenderem. Neste
+seção, vamos ver alguns exemplos de uso de recursão para desenhar
+algumas figuras interessantes. À medida que você vê essas figuras se formando você vai ganhar uma nova visão sobre o processo recursivo que pode ser útil para cimentar a sua compreensão sobre recursão.</p>
+<p>A ferramenta que usaremos para nossas ilustrações é o módulo gráfico de tartarugas do Python chamado <code class="docutils literal"><span class="pre">turtle</span></code>. O módulo <code class="docutils literal"><span class="pre">turtle</span></code> é padrão em todas as versões do Python e é muito fácil de usar. A metáfora é bastante
+simples. Você pode criar uma tartaruga e a tartaruga pode se mover para frente, para trás, virar à esquerda, virar à direita, etc. A tartaruga pode ter sua cauda para cima ou para baixo. Quando a cauda da tartaruga está voltada para baixo ela desenha uma linha ao se mover.
+Para aumentar o valor artístico da tartaruga você pode
+alterar a largura da cauda, bem como a cor da tinta que é carregada na cauda.</p>
+<p>Vamos ilustrar algumas noções básicas de gráficos de tartaruga com um
+exemplo simples. Usaremos o módulo turtle para desenhar uma espiral de
+forma recursiva. O <a class="reference internal" href="#lst-turt1"><span>programa 1</span></a> mostra como isso é
+feito. Depois de importar o módulo <code class="docutils literal"><span class="pre">turtle</span></code> criamos uma
+tartaruga. Quando a tartaruga é criado ele também cria uma janela para
+si onde pode desenhar. Em seguida, definimos a função drawSpiral.
+O caso básico dessa função é quando o comprimento da linha que desejamos desenhar, dado pelo parâmetro <code class="docutils literal"><span class="pre">len</span></code>, é menor ou igual a zero. Se o comprimento da linha é maior do que zero, nós instruímos a tartaruga a ir para a frente por <code class="docutils literal"><span class="pre">len</span></code> unidades e, em seguida, virar 90 graus à direita.
+O passo recursivo é quando chamamos drawSpiral novamente com um comprimento reduzido. No fim do <a class="reference internal" href="#lst-turt1"><span>programa 1</span></a> você vai notar que chamamos a função <code class="docutils literal"><span class="pre">myWin.exitonclick()</span></code>. Este é um método bem prático da
+janela que coloca a tartaruga em modo de espera até que você clique no interior da janela, depois do qual o programa realiza a limpeza e termina.</p>
+
+<div id="lst_turt1" >
+<textarea cols="50" rows="12" id="lst_turt1_code" class="active_code">
+import turtle
+
+myTurtle = turtle.Turtle()
+myWin = turtle.Screen()
+
+def drawSpiral(myTurtle, lineLen):
+    if lineLen > 0:
+        myTurtle.forward(lineLen)
+        myTurtle.right(90)
+        drawSpiral(myTurtle,lineLen-5)
+
+drawSpiral(myTurtle,100)
+myWin.exitonclick()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (lst_turt1)</span> </p>
+<button onclick="runit('lst_turt1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('lst_turt1');">Save</button>
+<button class="ac_opt" onclick="requestCode('lst_turt1');">Load</button>
+<br />
+
+<canvas id="lst_turt1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="lst_turt1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Isso é realmente tudo que você precisa saber sobre gráficos de
+tartaruga para fazer alguns desenhos bastante impressionantes.
+Em nosso próximo programa vamos desenhar uma árvore fractal.
+Fractais são estudados em um ramo da matemática e têm muito em comum com a recursividade. A definição de um fractal é que, quando você olha para ele, o fractal tem a mesma forma básica não importa o quanto você a amplia. Alguns exemplos da natureza são as costas dos continentes, flocos de neve, montanhas e até mesmo árvores ou arbustos. A natureza fractal de muitos destes fenômenos naturais torna possível aos programadores gerar cenários por computador muito realistas usados em filmes. Em nosso próximo exemplo vamos gerar uma árvore fractal.</p>
+<p>Para entender como isso vai funcionar, é útil pensar em como nós poderíamos descrever uma árvore usando um vocabulário fractal. Lembre-se que dissemos
+acima que um fractal é algo que parece ser o mesmo em todos os níveis de ampliação. Se traduzirmos isto para árvores e arbustos nós podemos dizer que mesmo um pequeno galho tem a mesma forma e características de
+uma árvore inteira. Usando essa idéia, poderíamos dizer que uma <em>árvore</em> é um tronco,
+com uma <em>árvore</em> menor indo para a direita e outra <em>árvore</em> mais pequena indo para a esquerda. Se você pensar nessa definição recursivamente, isso
+significa que vamos aplicar a definição recursiva de uma árvore para ambas
+as árvores menores, à esquerda e à direita.</p>
+<p>Vamos traduzir essa idéia para algum código em Python. O <a class="reference internal" href="#lst-fractree"><span>programa 2</span></a> mostra como nós podemos usar nossa tartaruga para gerar uma árvore fractal. Vamos ver o código um pouco mais de perto. Você pode ver que, nas linhas 5 e 7 fazemos chamadas recursivas. Na linha 5 fazemos a chamada recursiva logo após a tartaruga virar 20 graus para a direita; esta é a árvore direita mencionada acima. Em seguida, na linha 7 a tartaruga faz outra chamada recursiva, mas desta vez depois de virar 40 graus à esquerda. A razão pela qual a tartaruga deve virar 40 graus à esquerda é que ela precisa desfazer a virada inicial de 20 graus para a direita e, em seguida, virar mais 20 graus para a esquerda, a fim de desenhar a árvore esquerda. Além disso, observe que cada vez que fazemos uma chamada recursiva para <code class="docutils literal"><span class="pre">tree</span></code> subtraímos uma certa quantidade do parâmetro <code class="docutils literal"><span class="pre">branchLen</span></code>; isso é para se certificar de que as árvores recursivas fiquem cada vez menores. Você também deve reconhecer o comando <code class="docutils literal"><span class="pre">if</span></code> inicial na linha 2 como um teste do caso básico quando <code class="docutils literal"><span class="pre">branchLen</span></code> fica muito pequeno.</p>
+<div class="highlight-python" id="lst-fractree"><div class="highlight"><pre><span class="k">def</span> <span class="nf">tree</span><span class="p">(</span><span class="n">branchLen</span><span class="p">,</span><span class="n">t</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">branchLen</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">branchLen</span><span class="p">)</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">right</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+        <span class="n">tree</span><span class="p">(</span><span class="n">branchLen</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span><span class="n">t</span><span class="p">)</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span>
+        <span class="n">tree</span><span class="p">(</span><span class="n">branchLen</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="n">t</span><span class="p">)</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">right</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">branchLen</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A janela activecode abaixo mostra um programa completo para este exemplo de árvore (<a class="reference internal" href="#lst-complete-tree"><span>programa 3</span></a>). Antes de executar o código pense em como você espera ver a árvore tomar forma. Observe as chamadas recursivas e pense em como esta árvore vai se desdobrar. Será que ela vai
+ser desenhada de forma simétrica com as metades direita e esquerda da árvore
+sendo moldadas simultaneamente? Ou será que lado direito vai ser desenhado primeiro e depois o lado esquerdo?</p>
+
+<div id="lst_complete_tree" >
+<textarea cols="50" rows="12" id="lst_complete_tree_code" class="active_code">
+import turtle
+
+def tree(branchLen,t):
+    if branchLen > 5:
+        t.forward(branchLen)
+        t.right(20)
+        tree(branchLen-15,t)
+        t.left(40)
+        tree(branchLen-15,t)
+        t.right(20)
+        t.backward(branchLen)
+
+def main():
+    t = turtle.Turtle()
+    myWin = turtle.Screen()
+    t.left(90)
+    t.up()
+    t.backward(100)
+    t.down()
+    t.color("green")
+    tree(75,t)
+    myWin.exitonclick()
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (lst_complete_tree)</span> </p>
+<button onclick="runit('lst_complete_tree',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('lst_complete_tree');">Save</button>
+<button class="ac_opt" onclick="requestCode('lst_complete_tree');">Load</button>
+<br />
+
+<canvas id="lst_complete_tree_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="lst_complete_tree_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Observe como cada ponto de ramificação na árvore corresponde a uma chamada recursiva, e observe como a árvore é desenhada para a direita, o caminho  todo até chegar no seu galho mais curto. Você pode ver isso na <a class="reference internal" href="#fig-tree1"><span>figura 1</span></a>. Agora, observe
+como o programa trabalha o seu caminho de volta no tronco até que todo o lado direito da árvore é desenhado. Você pode ver a metade direita da árvore na <a class="reference internal" href="#fig-tree2"><span>figura 2</span></a>. Em seguida, o lado esquerdo da árvore é desenhado, mas não indo para a esquerda tão longe quanto possível. Em vez disso, uma vez mais, o
+lado direito da árvore esquerda é desenhado totalmente. Esse processo se repete até que, finalmente, o menor galho à esquerda é desenhado.</p>
+<div class="figure align-center" id="id1">
+<span id="fig-tree1"></span><img alt="../_images/tree1.png" src="../_images/tree1.png" />
+<p class="caption"><span class="caption-text">O início de uma árvore fractal</span></p>
+</div>
+<div class="figure align-center" id="id2">
+<span id="fig-tree2"></span><img alt="../_images/tree2.png" src="../_images/tree2.png" />
+<p class="caption"><span class="caption-text">A primeira metade da árvore</span></p>
+</div>
+<p>Este simples programa de árvore é apenas um ponto de partida. Você vai
+notar que a árvore não parece ser particularmente realista porque a natureza
+não é tão simétrica quanto um programa de computador. Os exercícios no final
+do capítulo vão lhe dar algumas idéias de como explorar algumas
+opções interessantes para fazer a sua árvore parecer mais realista.</p>
+<div class="admonition-experimente admonition">
+<p class="first admonition-title">Experimente</p>
+<blockquote>
+<div><p>Modifique o programa recursivo de árvore utilizando um ou todas as seguintes idéias:</p>
+<ul class="simple">
+<li>Modifique a espessura dos ramos de modo que à medida que <code class="docutils literal"><span class="pre">branchLen</span></code> fica menor, a linha fica mais fina.</li>
+<li>Modifique a cor dos ramos de modo que à medida que <code class="docutils literal"><span class="pre">branchLen</span></code> fica muito pequeno, ele é colorido como uma folha.</li>
+<li>Modifique o ângulo utilizado para virar a tartaruga para que em cada ramo o ângulo seja selecionado aleatoriamente dentro de algum intervalo. Por exemplo, sorteie um ângulo entre 15 e 45 graus. Experimente vários valores até achar valores bons.</li>
+<li>Modifique o <code class="docutils literal"><span class="pre">branchLen</span></code> de forma recursiva para que em vez de sempre subtrair a mesma quantidade, subtraia uma quantidade aleatória dentro de algum intervalo.</li>
+</ul>
+</div></blockquote>
+<div class="last">
+<button id="butt_recursion_sc_3" onclick="createActiveCode('recursion_sc_3',''); $('#butt_recursion_sc_3').hide();">Open Editor</button>
+<div id="recursion_sc_3"></div>
+<br />
+</div></div>
+<div class="section" id="triangulo-de-sierpinski">
+<h2>Triângulo de Sierpinski<a class="headerlink" href="#triangulo-de-sierpinski" title="Permalink to this headline">¶</a></h2>
+<p>Outro fractal que apresenta a propriedade de auto-similaridade é o
+Triângulo de Sierpinski. Um exemplo é mostrado na <a class="reference internal" href="#fig-sierpinski"><span>figura 3</span></a>. O
+Triângulo de Sierpinski ilustra um algoritmo recursivo de três vias. O
+processo de desenhar um triângulo de Sierpinski com a mão é simples. Comece
+com um único triângulo grande. Divida este triângulo grande em quatro novos
+triângulos, ligando o ponto médio de cada lado. Ignorando o
+triângulo central que você acabou de criar, aplique o mesmo procedimento para cada um dos demais três triângulos. Cada vez que você criar um novo conjunto de triângulos, aplique recursivamente este procedimento para os três triângulos de menores dos cantos. Você pode continuar a aplicar este procedimento indefinidamente se você tiver um lápis suficientemente afiado. Antes de continuar a leitura, experimente desenhar o triângulo de Sierpinski você mesmo, usando o método descrito.</p>
+<div class="figure align-center" id="id3">
+<span id="fig-sierpinski"></span><img alt="../_images/sierpinski.png" src="../_images/sierpinski.png" />
+<p class="caption"><span class="caption-text">O triângulo de Sierpinski</span></p>
+</div>
+<p>Como podemos continuar aplicando o algoritmo indefinidamente, qual o caso básico? Veremos que o caso básico é definido arbitrariamente pelo número de vezes que desejamos dividir o triângulo em pedaços. Às vezes chamamos este número de &#8220;grau&#8221; do fractal. Cada vez que fazemos uma chamada recursiva, subtraímos 1 do grau até chegarmos a 0. Quando
+chegarmos a um grau de 0, paramos de fazer chamadas recursivas. O código que
+gerou o triângulo de Sierpinski na <a class="reference internal" href="#fig-sierpinski"><span>figura 3</span></a> é mostrado no <a class="reference internal" href="#lst-st"><span>programa 4</span></a>.</p>
+
+<div id="lst_st" >
+<textarea cols="50" rows="12" id="lst_st_code" class="active_code">
+import turtle
+
+def drawTriangle(points,color,myTurtle):
+    myTurtle.fillcolor(color)
+    myTurtle.up()
+    myTurtle.goto(points[0][0],points[0][1])
+    myTurtle.down()
+    myTurtle.begin_fill()
+    myTurtle.goto(points[1][0],points[1][1])
+    myTurtle.goto(points[2][0],points[2][1])
+    myTurtle.goto(points[0][0],points[0][1])
+    myTurtle.end_fill()
+
+def getMid(p1,p2):
+    return ( (p1[0]+p2[0]) / 2, (p1[1] + p2[1]) / 2)
+
+def sierpinski(points,degree,myTurtle):
+    colormap = ['blue','red','green','white','yellow',
+                'violet','orange']
+    drawTriangle(points,colormap[degree],myTurtle)
+    if degree > 0:
+        sierpinski([points[0],
+                        getMid(points[0], points[1]),
+                        getMid(points[0], points[2])],
+                   degree-1, myTurtle)
+        sierpinski([points[1],
+                        getMid(points[0], points[1]),
+                        getMid(points[1], points[2])],
+                   degree-1, myTurtle)
+        sierpinski([points[2],
+                        getMid(points[2], points[1]),
+                        getMid(points[0], points[2])],
+                   degree-1, myTurtle)
+
+def main():
+   myTurtle = turtle.Turtle()
+   myWin = turtle.Screen()
+   myPoints = [[-100,-50],[0,100],[100,-50]]
+   sierpinski(myPoints,3,myTurtle)
+   myWin.exitonclick()
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (lst_st)</span> </p>
+<button onclick="runit('lst_st',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('lst_st');">Save</button>
+<button class="ac_opt" onclick="requestCode('lst_st');">Load</button>
+<br />
+
+<canvas id="lst_st_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="lst_st_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>O programa em <a class="reference internal" href="#lst-st"><span>programa 4</span></a> segue as ideias descritas acima. A
+primeira coisa que <code class="docutils literal"><span class="pre">sierpinski</span></code> faz é desenhar o triângulo exterior. Em seguida, há três chamadas recursivas, uma para cada um dos triângulos novos nos cantos, criados quando ligamos os pontos médios. Mais uma vez, usamos o módulo padrão turtle que vem com o Python. Você pode aprender todos os detalhes dos métodos disponíveis no módulo turtle usando
+<code class="docutils literal"><span class="pre">help('turtle')</span></code> no prompt do Python.</p>
+<p>Veja o código e pense sobre a ordem em que os triângulos
+serão desenhados. Embora a ordem exata dos cantos depende de como o
+conjunto inicial é especificado, vamos supor que os cantos são ordenados da seguinte forma:
+inferior esquerdo, superior e inferior direito. Devido à forma como a função <code class="docutils literal"><span class="pre">sierpinski</span></code> chama a si mesma, <code class="docutils literal"><span class="pre">sierpinski</span></code> realiza o seu trabalho até o menor triângulo permitido no canto inferior esquerdo, e então começa a preencher o resto dos triângulos em seu caminho de volta. Em seguida, ele preenche os triângulos no canto superior, realizando o trabalho em direção ao menor triângulo superior.
+Finalmente, ele preenche os triângulos do canto inferior direito, realizando o trabalho em direção ao
+menor triângulo no canto inferior direito.</p>
+<p>Às vezes, é útil pensar em um algoritmo recursivo em termos de um
+diagrama de chamadas de função. A <a class="reference internal" href="#fig-stcalltree"><span>figura 4</span></a> mostra que as chamadas recursivas são feitas sempre indo para a esquerda. As funções ativas são mostradas em preto e as chamadas de função inativas estão em cinza.
+Quanto mais fundo você olha na <a class="reference internal" href="#fig-stcalltree"><span>figura 4</span></a>, menor
+ficam os triângulos. A função termina desenhando um nível de cada vez;
+uma vez que ela termina o canto inferior esquerdo ela se move para o canto superior e assim por diante.</p>
+<div class="figure align-center" id="id4">
+<span id="fig-stcalltree"></span><img alt="../_images/stCallTree.png" src="../_images/stCallTree.png" />
+<p class="caption"><span class="caption-text">Construindo um triângulo de Sierpinski</span></p>
+</div>
+<p>A função <code class="docutils literal"><span class="pre">sierpinski</span></code> depende muito da função <code class="docutils literal"><span class="pre">getMid</span></code>.
+<code class="docutils literal"><span class="pre">getMid</span></code> usa como argumentos dois pontos finais e retorna o ponto médio entre eles. Além disso, o <a class="reference internal" href="#lst-st"><span>programa 4</span></a> tem uma função que
+desenha um triângulo preenchido usando os métodos <code class="docutils literal"><span class="pre">begin_fill</span></code> e <code class="docutils literal"><span class="pre">end_fill</span></code> de turtle. Isto significa que cada grau do triângulo de Sierpinsky é desenhado em uma cor diferente.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Visualizando recursão</a><ul>
+<li><a class="reference internal" href="#triangulo-de-sierpinski">Triângulo de Sierpinski</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="recursionsimple-ptbr.html"
+                        title="previous chapter">Recursão</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="introexercises-ptbr.html"
+                        title="next chapter">Glossário</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="introexercises-ptbr.html" title="Glossário"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="recursionsimple-ptbr.html" title="Recursão"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2012, Brad Miller, David Ranum.
+      Last updated on May 24, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

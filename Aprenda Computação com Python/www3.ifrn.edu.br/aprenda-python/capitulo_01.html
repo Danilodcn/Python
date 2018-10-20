@@ -1,0 +1,332 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capítulo 1: O caminho do programa &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Capítulo 2: Variáveis, expressões e comandos" href="capitulo_02.html" />
+    <link rel="prev" title="Apresentação" href="apresentacao.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="capitulo_02.html" title="Capítulo 2: Variáveis, expressões e comandos"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="apresentacao.html" title="Apresentação"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="capitulo-1-o-caminho-do-programa">
+<h1><a class="toc-backref" href="#id1">Capítulo 1: O caminho do programa</a><a class="headerlink" href="#capitulo-1-o-caminho-do-programa" title="Link permanente para este título">¶</a></h1>
+<div class="contents topic" id="topicos">
+<p class="topic-title first">Tópicos</p>
+<ul class="simple">
+<li><a class="reference external" href="#capitulo-1-o-caminho-do-programa" id="id1">Capítulo 1: O caminho do programa</a><ul>
+<li><a class="reference external" href="#a-linguagem-de-programacao-python" id="id2">1.1     A linguagem de programação Python</a></li>
+<li><a class="reference external" href="#o-que-e-um-programa" id="id3">1.2     O que é um programa?</a></li>
+<li><a class="reference external" href="#o-que-e-depuracao-debugging" id="id4">1.3     O que é depuração (<em>debugging</em>)?</a><ul>
+<li><a class="reference external" href="#erros-de-sintaxe" id="id5">1.3.1 Erros de sintaxe</a></li>
+<li><a class="reference external" href="#erros-em-tempo-de-execucao-runtime-errors" id="id6">1.3.2 Erros em tempo de execução (<em>runtime errors</em>)</a></li>
+<li><a class="reference external" href="#erros-de-semantica-ou-de-logica" id="id7">1.3.3 Erros de semântica (ou de lógica)</a></li>
+<li><a class="reference external" href="#depuracao-experimental-debugging" id="id8">1.3.4 Depuração experimental (<em>debugging</em>)</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#linguagens-naturais-e-linguagens-formais" id="id9">1.4     Linguagens naturais e linguagens formais</a></li>
+<li><a class="reference external" href="#o-primeiro-programa" id="id10">1.5     O primeiro programa</a></li>
+<li><a class="reference external" href="#glossario" id="id11">1.6 Glossário</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>O objetivo deste livro é ensinar o leitor a pensar como um cientista da computação. Essa maneira de pensar combina algumas das melhores características da matemática, da engenharia e das ciências naturais. Como os matemáticos, os cientistas da computação usam linguagens formais para representar ideias (especificamente, computações). Como os engenheiros, eles projetam coisas, montando sistemas a partir de componentes e avaliando as vantagens e desvantagens de diferentes alternativas. Como os cientistas naturais, eles observam o comportamento de sistemas complexos, formulam hipóteses e testam previsões.</p>
+<p>A habilidade mais importante de um cientista da computação é a <strong>solução de problemas</strong>. Solução de problemas é a habilidade de formular questões, pensar criativamente sobre soluções possíveis e expressar uma solução de forma clara e precisa. Ocorre que aprender a programar é uma excelente oportunidade de praticar a habilidade da solução de problemas. É por isso que este capítulo se chama &#8220;O caminho do programa&#8221;.</p>
+<p>Em certo nível, você estará aprendendo a programar, habilidade que é útil em si mesma. Em outro nível, você usará a programação como um meio para atingir um objetivo. À medida que você for avançando na leitura, esse objetivo ficará mais claro.</p>
+<div class="section" id="a-linguagem-de-programacao-python">
+<h2><a class="toc-backref" href="#id2">1.1     A linguagem de programação Python</a><a class="headerlink" href="#a-linguagem-de-programacao-python" title="Link permanente para este título">¶</a></h2>
+<p>Python é a linguagem de programação que você vai estudar neste livro. Python é um exemplo de <strong>linguagem de programação de alto nível</strong>. Outras linguagens de alto nível de que você já pode ter ouvido falar são C++, PHP e Java.</p>
+<p>Como você pode deduzir a partir da expressão &#8220;linguagem de alto nível&#8221;, também existem as &#8220;linguagens de baixo nível&#8221;, às vezes chamadas de &#8220;linguagens de máquina&#8221; ou &#8220;linguagem assembly&#8221; (linguagens de montagem). De forma simples, o computador só consegue executar programas escritos em linguagens de baixo nível. Deste modo, programas escritos em linguagens de alto nível precisam ser processados antes que possam rodar. Esse processamento extra toma algum tempo, o que é uma pequena desvantagem em relação às linguagens de alto nível.</p>
+<p>Mas as vantagens são enormes. Primeiro, é muito mais fácil programar em uma linguagem de alto nível. É mais rápido escrever programas em uma linguagem de alto nível; eles são mais curtos e mais fáceis de ler, e há maior probabilidade de esterem corretos. Segundo, as linguagens de alto nível são <strong>portáveis</strong>, o que significa que podem rodar em diferentes tipos de computador, com pouca ou nenhuma modificação. Programas em baixo nível só podem rodar em um único tipo de computador e precisam ser re-escritos para rodar em outro tipo.</p>
+<p>Devido a essas vantagens, quase todos os programas são escritos em linguagens de alto nível. As de baixo nível são utilizadas somente para umas poucas aplicações especializadas.</p>
+<p>Dois tipos de programas processam linguagens de alto nível, traduzindo-as em linguagens de baixo nível: <strong>interpretadores</strong> e <strong>compiladores</strong>. O interpretador lê um programa escrito em linguagem de alto nível e o executa, ou seja, faz o que o programa diz. Ele processa o programa um pouco de cada vez, alternadamente: hora lendo algumas linhas, hora executando essas linhas e realizando cálculos.</p>
+<img alt="_images/01_01_interpretador.png" src="_images/01_01_interpretador.png" />
+<p>O compilador lê o programa e o traduz completamente antes que o programa comece a rodar. Neste caso, o programa escrito em linguagem de alto nível é chamado de <strong>código fonte</strong>, e o programa traduzido é chamado de <strong>código objeto</strong> ou <strong>executável</strong>. Uma vez que um programa é compilado, você pode executá-lo repetidamente, sem que precise de nova tradução.</p>
+<img alt="_images/01_02_compilador.png" src="_images/01_02_compilador.png" />
+<p>Python é considerada uma linguagem interpretada, pois os programas em Python são executados por um interpretador. Existem duas maneiras de usar o interpretador: no modo de linha de comando e no modo de script. No modo de linha de comando, você digita programas em Python e o interpretador mostra o resultado:</p>
+<div class="highlight-python"><pre>$ python
+Python 2.5.2 (r252:60911, Jan  4 2009, 17:40:26)
+[GCC 4.3.2] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt; print 1 + 1
+2</pre>
+</div>
+<p>A primeira linha deste exemplo é o comando que inicia o interpretador Python. As três linhas seguintes são mensagens do interpretador. A quarta linha começa com <tt class="docutils literal"><span class="pre">&gt;&gt;&gt;</span></tt>, que é o sinal usado pelo interpretador para indicar que ele está pronto. No exemplo anterior, digitamos <tt class="docutils literal"><span class="pre">print</span> <span class="pre">1</span> <span class="pre">+</span> <span class="pre">1</span></tt> e o interpretador respondeu <tt class="docutils literal"><span class="pre">2</span></tt>.</p>
+<p>Você também pode escrever um programa em um arquivo e usar o interpretador para executar o conteúdo desse arquivo. Um arquivo como este é chamado de <strong>script</strong>. Por exemplo, usamos um editor de texto para criar um arquivo chamado <tt class="docutils literal"><span class="pre">leticia.py</span></tt> com o seguinte conteúdo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Por convenção, arquivos que contenham programas em Python têm nomes que terminam com <tt class="docutils literal"><span class="pre">.py</span></tt>.</p>
+<p>Para executar o programa, temos de dizer ao interpretador o nome do script:</p>
+<div class="highlight-python"><pre>$ python leticia.py
+2</pre>
+</div>
+<p>Em outros ambientes de desenvolvimento, os detalhes da execução de programas podem ser diferentes. Além disso, a maioria dos programas são mais interessantes do que esse.</p>
+<p>A maioria dos exemplos neste livro são executados a partir da linha de comando. Trabalhar com a linha de comando é conveniente no desenvolvimento e testagem de programas, porque você pode digitar os programas e executá-los imediatamente. Uma vez que você tem um programa que funciona, deve guardá-lo em um script, de forma a poder executá-lo ou modificá-lo no futuro.</p>
+</div>
+<div class="section" id="o-que-e-um-programa">
+<h2><a class="toc-backref" href="#id3">1.2     O que é um programa?</a><a class="headerlink" href="#o-que-e-um-programa" title="Link permanente para este título">¶</a></h2>
+<p>Um <strong>programa</strong> é uma sequência de instruções que especificam como executar um cálculo ou determinada tarefa. Tal tarefa pode matemática, como solucionar um sistema de equações ou encontrar as raízes de um polinômio, mas também pode ser simbólica, como buscar e substituir uma palavra em um documento ou (estranhamente) compilar um programa.</p>
+<p>Os detalhes são diferentes em diferentes linguagens, mas algumas instruções básicas aparecem em praticamente todas as linguagens:</p>
+<dl class="docutils">
+<dt><em>entrar:</em></dt>
+<dd>Pegar dados do teclado, de um arquivo ou de algum outro dispositivo de entrada.</dd>
+<dt><em>sair:</em></dt>
+<dd>Mostrar dados na tela ou enviar dados para um arquivo ou outro dispositivo de saída.</dd>
+<dt><em>calcular:</em></dt>
+<dd>Executar operações matemáticas básicas, como adição e multiplicação.</dd>
+<dt><em>executar condicionalmente:</em></dt>
+<dd>Checar certas condições e executar a sequência apropriada de instruções.</dd>
+<dt><em>repetir:</em></dt>
+<dd>Executar alguma ação repetidamente, normalmente com alguma variação.</dd>
+</dl>
+<p>Acredite se quiser: isso é praticamente tudo. Todos os programas que você já usou, não importa quão complicados, são feitos de instruções mais ou menos parecidas com essas. Assim, poderíamos definir programação como o processo de dividir uma tarefa grande e complexa em subtarefas cada vez menores, até que as subtarefas sejam simples o suficiente para serem executadas com uma dessas instruções básicas.</p>
+<p>Isso pode parecer um pouco vago, mas vamos voltar a esse tópico mais adiante, quando falarmos sobre <strong>algoritmos</strong>.</p>
+</div>
+<div class="section" id="o-que-e-depuracao-debugging">
+<h2><a class="toc-backref" href="#id4">1.3     O que é depuração (<em>debugging</em>)?</a><a class="headerlink" href="#o-que-e-depuracao-debugging" title="Link permanente para este título">¶</a></h2>
+<p>Programar é um processo complicado e, como é feito por seres humanos, frequentemente conduz a erros. Por mero capricho, erros em programas são chamados de <strong>bugs</strong> e o processo de encontrá-los e corrigi-los é chamado de <strong>depuração</strong> (<em>debugging</em>).</p>
+<p>Três tipos de erro podem acontecer em um programa: erros de sintaxe, erros em tempo de execução (<em>runtime errors</em>) e erros de semântica (também chamados de erros de lógica). Distinguir os três tipos ajuda a localizá-los mais rápido:</p>
+<div class="section" id="erros-de-sintaxe">
+<h3><a class="toc-backref" href="#id5">1.3.1 Erros de sintaxe</a><a class="headerlink" href="#erros-de-sintaxe" title="Link permanente para este título">¶</a></h3>
+<p>O interpretador do Python só executa um programa se ele estiver sintaticamente correto; caso contrário, o processo falha e retorna uma mensagem de erro. <strong>Sintaxe</strong> se refere à estrutura de um programa e às regras sobre esta estrutura. Por exemplo, em português, uma frase deve começar com uma letra maiúscula e terminar com um ponto.</p>
+<p>esta frase contém um <strong>erro de sintaxe</strong>. Assim como esta</p>
+<p>Para a maioria dos leitores, uns errinhos de sintaxe não chegam a ser um problema significativo e é por isso que conseguimos ler a poesia moderna de e. e. cummings sem cuspir mensagens de erro. Python não é tão indulgente. Se o seu programa tiver um único erro de sintaxe em algum lugar, o interpretador Python vai exibir uma mensagem de erro e vai terminar - e o programa não vai rodar. Durante as primeiras semanas da sua carreira como programador, você provavelmente perderá um bocado de tempo procurando erros de sintaxe. Conforme for ganhando experiência, entretanto, cometerá menos erros e os localizará mais rápido.</p>
+</div>
+<div class="section" id="erros-em-tempo-de-execucao-runtime-errors">
+<h3><a class="toc-backref" href="#id6">1.3.2 Erros em tempo de execução (<em>runtime errors</em>)</a><a class="headerlink" href="#erros-em-tempo-de-execucao-runtime-errors" title="Link permanente para este título">¶</a></h3>
+<p>O segundo tipo de erro é o erro de <em>runtime</em>, ou erro em tempo de execução, assim chamado porque só aparece quando você roda o programa. Esses erros são também conhecidos como <strong>exceções</strong>, porque normalmente indicam que alguma coisa excepcional (e ruim) aconteceu.</p>
+<p>Erros de runtime são raros nos programas simples que você vai ver nos primeiros capítulos - então, vai demorar um pouco até você se deparar com um erro desse tipo.</p>
+</div>
+<div class="section" id="erros-de-semantica-ou-de-logica">
+<h3><a class="toc-backref" href="#id7">1.3.3 Erros de semântica (ou de lógica)</a><a class="headerlink" href="#erros-de-semantica-ou-de-logica" title="Link permanente para este título">¶</a></h3>
+<p>O terceiro tipo de erro é o <strong>erro de semântica</strong> (mais comumente chamado erro de lógica). Mesmo que o seu programa tenha um erro de semântica, ele vai rodar com sucesso, no sentido de que o computador não vai gerar nenhuma mensagem de erro. Só que o programa não vai fazer a coisa certa, vai fazer alguma outra coisa. Especificamente, aquilo que você tiver dito para ele fazer (o computador trabalha assim: seguindo ordens).</p>
+<p>O problema é que o programa que você escreveu não é aquele que você queria escrever. O significado do programa (sua semântica ou lógica) está errado. Identificar erros semânticos pode ser complicado, porque requer que você trabalhe de trás para frente, olhando a saída do programa e tentando imaginar o que ele está fazendo.</p>
+</div>
+<div class="section" id="depuracao-experimental-debugging">
+<h3><a class="toc-backref" href="#id8">1.3.4 Depuração experimental (<em>debugging</em>)</a><a class="headerlink" href="#depuracao-experimental-debugging" title="Link permanente para este título">¶</a></h3>
+<p>Uma das habilidades mais importantes que você vai adquirir é a de depurar. Embora possa ser frustrante, depurar é uma das partes intelectualmente mais ricas, desafiadoras e interessantes da programação.</p>
+<p>De certa maneira, a depuração é como um trabalho de detetive. Você se depara com pistas, e tem que deduzir os processos e eventos que levaram aos resultados que aparecem.</p>
+<p>Depurar também é como uma ciência experimental. Uma vez que você tem uma ideia do que está errado, você modifica o seu programa e tenta de novo. Se a sua hipótese estava correta, então você consegue prever o resultado da modificação e fica um passo mais perto de um programa que funciona. Se a sua hipótese estava errada, você tem que tentar uma nova. Como Sherlock Holmes mostrou: &#8220;Quando você tiver eliminado o impossível, aquilo que restou, ainda que improvável, deve ser a verdade.&#8221; (Arthur Conan Doyle, <em>O signo dos quatro</em>).</p>
+<p>Para algumas pessoas, programação e depuração são a mesma coisa. Ou seja, programar é o processo de gradualmente depurar um programa, até que ele faça o que você quer. A ideia é começar com um programa que faça <em>alguma coisa</em> e ir fazendo pequenas modificações, depurando-as conforme avança, de modo que você tenha sempre um programa que funciona.</p>
+<p>Por exemplo, o Linux é um sistema operacional que contém milhares de linhas de código, mas começou como um programa simples, que Linus Torvalds usou para explorar o chip Intel 80386. De acordo com Larry Greenfield, &#8220;Um dos primeiros projetos de Linus Torvalds foi um programa que deveria alternar entre imprimir AAAA e BBBB. Isso depois evoluiu até o Linux&#8221;. (<em>The Linux User&#8217;s Guide</em>  Versão Beta 1)</p>
+<p>Capítulos posteriores farão mais sugestões sobre depuração e outras práticas de programação.</p>
+</div>
+</div>
+<div class="section" id="linguagens-naturais-e-linguagens-formais">
+<h2><a class="toc-backref" href="#id9">1.4     Linguagens naturais e linguagens formais</a><a class="headerlink" href="#linguagens-naturais-e-linguagens-formais" title="Link permanente para este título">¶</a></h2>
+<p><strong>Linguagens naturais</strong> são as linguagens que as pessoas falam, como o português, o inglês e o espanhol. Elas não foram projetadas pelas pessoas (muito embora as pessoas tentem colocar alguma ordem nelas); elas evoluíram naturalmente.</p>
+<p><strong>Linguagens formais</strong> são linguagens que foram projetadas por pessoas, para aplicações específicas. Por exemplo, a notação que os matemáticos usam é uma linguagem formal, que é particularmente boa em denotar relações entre números e símbolos. Os químicos usam uma linguagem formal para representar a estrutura química das moléculas. E, mais importante:</p>
+<blockquote>
+<strong>Linguagens de programação são linguagens formais que foram desenvolvidas para expressar computações.</strong></blockquote>
+<p>As linguagens formais tendem a ter regras estritas quanto à sintaxe. Por exemplo, <strong>3 + 3 = 6</strong> é uma expressão matemática sintaticamente correta, mas <strong>3=+6$</strong> não é. <strong>H2O</strong> é um nome químico sintaticamente correto, mas <strong>2Zz</strong> não é.</p>
+<p>As regras de sintaxe são de dois tipos, um relacionado aos <strong>símbolos</strong>, outro à estrutura. Os símbolos são os elementos básicos da linguagem, como as palavras, números, e elementos químicos. Um dos problemas com <strong>3=+6$</strong> é que <strong>$</strong> não é um símbolo válido em linguagem matemática (pelo menos até onde sabemos). Do mesmo modo, <strong>2Zz</strong> é inválida porque não existe nenhum elemento cuja abreviatura seja <strong>Zz</strong>.</p>
+<p>O segundo tipo de erro de sintaxe está relacionado à estrutura de uma expressão, quer dizer, ao modo como os símbolos estão arrumados. A expressão <strong>3=+6$</strong> é estruturalmente inválida, porque você não pode colocar um sinal de &#8220;mais&#8221; imediatamente após um sinal de &#8220;igual&#8221;. Do mesmo modo, fórmulas moleculares devem ter índices subscritos colocados depois do nome do elemento, não antes.</p>
+<blockquote>
+Faça este exercício: crie o que pareça ser uma frase bem estruturada em português com símbolos irreconhecíveis dentro dela. Depois escreva outra frase com todos os símbolos válidos, mas com uma estrutura inválida.</blockquote>
+<p>Quando você lê uma frase em português ou uma expressão em uma linguagem formal, você tem de imaginar como é a estrutura da frase (embora, em uma linguagem natural, você faça isso inconscientemente). Este processo, na computação, é chamado <strong>parsing</strong> (análise sintática).</p>
+<p>Por exemplo, quando você ouve a frase, &#8220;Caiu a ficha&#8221;, entende que &#8220;a ficha&#8221; é o sujeito e &#8220;caiu&#8221; é o verbo. Uma vez que você analisou a frase, consegue entender o seu significado, ou a semântica da frase. Assumindo que você saiba o que é uma ficha e o que significa cair, você entenderá o sentido geral dessa frase.</p>
+<p>Muito embora as linguagens formais e as naturais tenham muitas características em comum (símbolos, estrutura, sintaxe e semântica), existem muitas diferenças:</p>
+<dl class="docutils">
+<dt><em>ambiguidade:</em></dt>
+<dd>As linguagens naturais estão cheias de ambiguidades, que as pessoas contornam usando pistas contextuais e outras informações. Já as linguagens formais são desenvolvidas para serem quase ou totalmente desprovidas de ambiguidade, o que significa que qualquer expressão tem precisamente só um sentido, independentemente do contexto.</dd>
+<dt><em>redundância:</em></dt>
+<dd>Para compensar a ambiguidade e reduzir maus entendidos, emprega-se muita redundância nas linguagens naturais, o que frequentemente as torna prolixas. As linguagens formais são menos redundantes e mais concisas.</dd>
+<dt><em>literalidade:</em></dt>
+<dd>As linguagens naturais estão cheias de expressões idiomáticas e metáforas. Se eu digo &#8220;Caiu a ficha&#8221;, é possível que não exista ficha nenhuma, nem nada que tenha caído. Nas linguagens formais, não há sentido ambíguo.</dd>
+</dl>
+<p>Pessoas que crescem falando uma linguagem natural, ou seja, todo mundo, muitas vezes têm dificuldade de se acostumar com uma linguagem formal. De certa maneira, a diferença entre linguagens formais e naturais é como a diferença entre poesia e prosa, porém mais acentuada:</p>
+<dl class="docutils">
+<dt><em>poesia:</em></dt>
+<dd>As palavras são usadas pela sua sonoridade, além de seus sentidos, e o poema como um todo cria um efeito ou uma reação emocional. A ambiguidade não é apenas frequente, mas na maioria das vezes, proposital.</dd>
+<dt><em>prosa:</em></dt>
+<dd>O sentido literal das palavras é mais importante, e a estrutura contribui mais para o significado. A prosa é mais fácil de analisar do que a poesia, mas ainda é, muitas vezes, ambígua.</dd>
+<dt><em>programas:</em></dt>
+<dd>O significado de um programa de computador é exato e literal, e pode ser inteiramente entendido pela análise de seus símbolos e de sua estrutura.</dd>
+</dl>
+<p>Aqui vão algumas sugestões para a leitura de programas (e de outras linguagens formais). Primeiro, lembre-se de que linguagens formais são muito mais densas do que linguagens naturais, por isso, é mais demorado lê-las. A estrutura também é muito importante, logo, geralmente não é uma boa ideia ler de cima para baixo, da esquerda para a direita. Em vez disso, aprenda a analisar o programa na sua cabeça, identificando os símbolos e interpretando a estrutura. Finalmente, os detalhes são importantes. Pequenas coisas, como erros ortográficos e má pontuação, com as quais você pode se safar nas linguagens naturais, podem fazer uma grande diferença em uma linguagem formal.</p>
+</div>
+<div class="section" id="o-primeiro-programa">
+<h2><a class="toc-backref" href="#id10">1.5     O primeiro programa</a><a class="headerlink" href="#o-primeiro-programa" title="Link permanente para este título">¶</a></h2>
+<p>Tradicionalmente, o primeiro programa escrito em uma nova linguagem de programação é chamado de &#8220;Alô, Mundo!&#8221; porque tudo que ele faz é apresentar as palavras &#8220;Alô, Mundo!&#8221;. Em Python, ele é assim:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">&quot;Alô, Mundo!&quot;</span>
+</pre></div>
+</div>
+<p>Isso é um exemplo de um <strong>comando print</strong>, que, na realidade, não &#8220;imprime&#8221; nada em papel. Ele apresenta o valor na tela. Neste caso, o resultado são as palavras:</p>
+<div class="highlight-python"><pre>Alô, Mundo!</pre>
+</div>
+<p>As aspas no programa marcam o começo e o fim do valor, elas não aparecem no resultado final.</p>
+<p>Algumas pessoas julgam a qualidade de uma linguagem de programação pela simplicidade do programa &#8220;Alô, Mundo!&#8221;. Por esse padrão, Python se sai tão bem quanto possível.</p>
+</div>
+<div class="section" id="glossario">
+<h2><a class="toc-backref" href="#id11">1.6 Glossário</a><a class="headerlink" href="#glossario" title="Link permanente para este título">¶</a></h2>
+<dl class="docutils">
+<dt>algoritmo (<em>algorithm</em>)</dt>
+<dd>Processo geral para solução de uma certa categoria de problema.</dd>
+<dt>análise sintática (<em>parse</em>)</dt>
+<dd>Examinar um programa e analisar sua estrutura sintática.</dd>
+<dt><em>bug</em></dt>
+<dd>Erro em um programa.</dd>
+<dt>código fonte (<em>source code</em>)</dt>
+<dd>Um programa em uma linguagem de alto nível, antes de ter sido compilado.</dd>
+<dt>código objeto (<em>object code</em>)</dt>
+<dd>A saída do compilador, depois que ele traduziu o programa.</dd>
+<dt>comando <cite>print</cite> (<em>`print` statement</em>)</dt>
+<dd>Instrução que leva o interpretador Python a apresentar um valor na tela.</dd>
+<dt>compilar (<em>compile</em>)</dt>
+<dd>Traduzir todo um programa escrito em uma linguagem de alto nível para uma de baixo nível de uma só vez, em preparação para uma execução posterior.</dd>
+<dt>depuração (<em>debugging</em>)</dt>
+<dd>O processo de encontrar e remover qualquer um dos três tipos de erros de programação.</dd>
+<dt>erro de semântica ou lógica (<em>semantic error</em>)</dt>
+<dd>Erro em um programa, que o leva a fazer algo diferente do que pretendia o programador.</dd>
+<dt>erro de sintaxe (<em>syntax error</em>)</dt>
+<dd>Erro em um programa, que torna impossível a análise sintática (logo, também impossível a interpretação).</dd>
+<dt>erro em tempo de execução (<em>runtime error</em>)</dt>
+<dd>Erro que não ocorre até que o programa seja executado, mas que impede que o programa continue.</dd>
+<dt>exceção (<em>exception</em>)</dt>
+<dd>Um outro nome para um erro em tempo de execução ou erro de <em>runtime</em>.</dd>
+<dt>executável (<em>executable</em>)</dt>
+<dd>Um outro nome para código objeto que está pronto para ser executado.</dd>
+<dt>interpretar (<em>interpret</em>)</dt>
+<dd>Executar um programa escrito em uma linguagem de alto nível, traduzindo-o uma linha de cada vez.</dd>
+<dt>linguagem de alto nível (<em>high-level language</em>)</dt>
+<dd>Uma linguagem de programação como Python: projetada para ser fácil para os seres humanos utilizarem.</dd>
+<dt>linguagem de baixo nível (<em>low-level language</em>)</dt>
+<dd>Uma linguagem de programação que é concebida para ser fácil para um computador, tal como a linguagem de máquina ou a linguagem montagem (<em>assembly language</em>)</dd>
+<dt>linguagem formal (<em>formal language</em>)</dt>
+<dd>Qualquer linguagem desenvolvida pelas pessoas para propósitos específicos, tais como, a representação de ideias matemáticas ou programas de computadores; todas as linguagens de programação são linguagens formais.</dd>
+<dt>linguagem natural (<em>natural language</em>)</dt>
+<dd>Qualquer língua falada pelos seres humanos que tenha evoluído naturalmente.</dd>
+<dt>portabilidade (<em>portability</em>)</dt>
+<dd>Propriedade que um programa tem de rodar em mais de um tipo de computador.</dd>
+<dt>programa (<em>program</em>)</dt>
+<dd>Conjunto de instruções que especifica uma computação.</dd>
+<dt><em>script</em></dt>
+<dd>Um programa guardado em um arquivo (normalmente um que será interpretado).</dd>
+<dt>semântica (<em>semantics</em>)</dt>
+<dd>O significado de um programa.</dd>
+<dt>símbolo (<em>token</em>)</dt>
+<dd>Um elemento básico da estrutura sintática de um programa, análogo a uma palavra em uma linguagem natural.</dd>
+<dt>sintaxe (<em>syntax</em>)</dt>
+<dd>A estrutura de um programa.</dd>
+<dt>solução de problemas (<em>problem solving</em>)</dt>
+<dd>O processo de formular um problema, encontrar uma solução e expressar esta solução.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Capítulo 1: O caminho do programa</a><ul>
+<li><a class="reference internal" href="#a-linguagem-de-programacao-python">1.1     A linguagem de programação Python</a></li>
+<li><a class="reference internal" href="#o-que-e-um-programa">1.2     O que é um programa?</a></li>
+<li><a class="reference internal" href="#o-que-e-depuracao-debugging">1.3     O que é depuração (<em>debugging</em>)?</a><ul>
+<li><a class="reference internal" href="#erros-de-sintaxe">1.3.1 Erros de sintaxe</a></li>
+<li><a class="reference internal" href="#erros-em-tempo-de-execucao-runtime-errors">1.3.2 Erros em tempo de execução (<em>runtime errors</em>)</a></li>
+<li><a class="reference internal" href="#erros-de-semantica-ou-de-logica">1.3.3 Erros de semântica (ou de lógica)</a></li>
+<li><a class="reference internal" href="#depuracao-experimental-debugging">1.3.4 Depuração experimental (<em>debugging</em>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#linguagens-naturais-e-linguagens-formais">1.4     Linguagens naturais e linguagens formais</a></li>
+<li><a class="reference internal" href="#o-primeiro-programa">1.5     O primeiro programa</a></li>
+<li><a class="reference internal" href="#glossario">1.6 Glossário</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="apresentacao.html"
+                        title="capítulo anterior">Apresentação</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="capitulo_02.html"
+                        title="próximo capítulo">Capítulo 2: Variáveis, expressões e comandos</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/capitulo_01.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="capitulo_02.html" title="Capítulo 2: Variáveis, expressões e comandos"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="apresentacao.html" title="Apresentação"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

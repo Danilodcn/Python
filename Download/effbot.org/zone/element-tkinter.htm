@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Generating Tkinter User Interfaces from&nbsp;XML</title></head><body data-page-id="95"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Generating Tkinter User Interfaces from&nbsp;XML</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | August 2003 | Originally posted to <a href="http://online.effbot.org">online.effbot.org</a></p><p class="note"><b>Note:</b>
+Simon Forman has combined a small custom language with ideas from this article into a tool for generating Tkinter user interfaces from short textual descriptions, called <a href="http://www.pygoo.com/">Pygoo</a>.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide"> The following snippet takes an <a href="http://effbot.org/zone/element-index.htm">element tree</a>, and uses it to populate a Tkinter <b>Frame</b>
+widget.
+
+<pre class="python wide">
+<span class="pykeyword">import</span> Tkinter
+
+<span class="pykeyword">def</span> <span class="pyfunction">realize</span>(master, element):
+    <span class="pykeyword">if</span> element.tag == <span class="pystring">"form"</span>:
+        frame = Tkinter.Frame(master, **element.attrib)
+        <span class="pykeyword">for</span> subelement <span class="pykeyword">in</span> element:
+            widget = realize(frame, subelement)
+            widget.pack()
+        <span class="pykeyword">return</span> frame
+    <span class="pykeyword">else</span>:
+        options = element.attrib
+        <span class="pykeyword">if</span> element:
+            options = options.copy()
+            <span class="pykeyword">for</span> subelement <span class="pykeyword">in</span> element:
+                options[subelement.tag] = subelement.text
+        widget_factory = getattr(Tkinter, element.tag.capitalize())
+        <span class="pykeyword">return</span> widget_factory(master, **options)</pre></p></div><div class="yui-ge"><div class="yui-u first"><p> The function supports two kinds of elements; <b>form</b> elements
+and widget elements such as <b>entry</b>, <b>label</b>, <b>text</b>,
+etc.
+
+</p><p> Form elements are used to create and populate Tkinter frame widgets.
+Each form element can contain one or more widget elements, and can also
+contain other forms.  Attributes on a form element as passed as options
+to the underlying frame widget.
+
+</p><p> Widget elements map directly to the corresponding Tkinter widget,
+with options taken from the element attributes.  For widget elements,
+subelements are also mapped to Tkinter options.  For example, you can
+specify label text using either a <b>text</b> attribute or a
+<b>text</b> subelement.
+
+</p><p>
+Let&#8217;s try it out:
+
+<pre class="python">
+<span class="pykeyword">from</span> elementtree.ElementTree <span class="pykeyword">import</span> XML
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> Tk
+
+form = XML(<span class="pystring">"""\</span>
+&lt;form&gt;
+    &lt;label&gt;&lt;text&gt;entry:&lt;/text&gt;&lt;/label&gt;
+    &lt;entry width='30' bg='gold' /&gt;
+    &lt;checkbutton&gt;&lt;text&gt;checkbutton&lt;/text&gt;&lt;/checkbutton&gt;
+    &lt;button text='OK' /&gt;
+    &lt;button text='Cancel' /&gt;
+&lt;/form&gt;
+""")
+
+root = Tk()
+root.title(<span class="pystring">"ElementTk"</span>)
+
+frame = realize(root, form)
+frame.pack()
+
+root.mainloop()</pre></p><p> Here&#8217;s the resulting window:
+
+<blockquote>
+<img alt="" height="148" src="data:image/png;base64,&#10;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&#10;" width="194" />
+</blockquote></p><p> To add some behaviour to this example, you need a way to get your hands
+on the actual widget instances.  Tkinter&#8217;s <b>name</b> option comes in
+handy; by naming the widgets, you can access them via the frame&#8217;s
+<b>children</b> attribute:
+
+<pre class="python">
+<span class="pykeyword">from</span> elementtree.ElementTree <span class="pykeyword">import</span> XML
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> Tk
+
+form = XML(<span class="pystring">"""\</span>
+&lt;form&gt;
+    &lt;label&gt;&lt;text&gt;entry:&lt;/text&gt;&lt;/label&gt;
+    &lt;entry name='entry' width='30' bg='gold' /&gt;
+    &lt;checkbutton&gt;&lt;text&gt;checkbutton&lt;/text&gt;&lt;/checkbutton&gt;
+    &lt;button name='ok' text='OK' /&gt;
+    &lt;button name='cancel' text='Cancel' /&gt;
+&lt;/form&gt;
+""")
+
+root = Tk()
+
+frame = realize(root, form)
+frame.pack()
+
+<span class="pykeyword">def</span> <span class="pyfunction">ok</span>():
+    <span class="pykeyword">print</span> frame.children[<span class="pystring">"entry"</span>].get()
+    root.quit()
+
+<span class="pycomment"># add button behaviour</span>
+frame.children[<span class="pystring">"ok"</span>].config(command=ok)
+frame.children[<span class="pystring">"cancel"</span>].config(command=root.quit)
+
+root.mainloop()</pre></p><p> Not perfect, but it&#8217;s good enough to play with.  (If you have any good ideas on how to make it better, feel free to leave a comment).</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

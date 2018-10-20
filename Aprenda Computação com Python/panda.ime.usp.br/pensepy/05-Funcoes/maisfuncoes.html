@@ -1,0 +1,524 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Functions Revisited &mdash; Como pensar como um Cientista da Computação: Edição Interativa em Python</title>
+    
+    <link rel="stylesheet" href="../_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="../_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="../_static/codemirror.js"></script>
+    <script type="text/javascript" src="../_static/python.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="../_static/assess.js"></script>
+    <script type="text/javascript" src="../_static/animationbase.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="../_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Como pensar como um Cientista da Computação: Edição Interativa em Python" href="../index.html" />
+    <link rel="next" title="Decisões e Seleção" href="../06-Selecao/selecao.html" />
+    <link rel="prev" title="Lessons from a Triangle" href="../Labs/lab04_01a.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/pensePython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'pensePython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/pensePython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../06-Selecao/selecao.html" title="Decisões e Seleção"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../Labs/lab04_01a.html" title="Lessons from a Triangle"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="functions-revisited">
+<h1>Functions Revisited<a class="headerlink" href="#functions-revisited" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="index-0"></span><span class="target" id="index-1"></span><div class="section" id="desenvolvimento-de-programas">
+<span id="index-2"></span><h2>Desenvolvimento de programas<a class="headerlink" href="#desenvolvimento-de-programas" title="Permalink to this headline">¶</a></h2>
+<p>A essa altura você já deve ser capaz de olhar para uma função completa
+e dizer o que ela faz. Além disso, se você tem feito os exercícios,
+você já escreveu algumas funções simples. Ao escrever funções mais
+complexas, você pode encontrar algumas dificuldades, em particular com
+erros semânticos e em tempo de execução.</p>
+<p>Para trabalhar com programas cada vez mais complexos, nós vamos
+sugerir o uso da técnica chamada de <strong>desenvolvimento incremental</strong>. O
+objetivo do desenvolvimento incremental é evitar longas sessões de
+depuração por meio da adição e teste de pequenas porções de código de
+cada vez.</p>
+<p>Como exemplo, imagine que você deseje calcular a distância entre dois pontos, dados pelas coordenadas (x<sub>1</sub>, y<sub>1</sub>) e
+(x<sub>2</sub>, y<sub>2</sub>). Pelo teorema de Pytágoras, a distância é dada por:</p>
+<img alt="Fórmula de distância" src="../_images/distance_formula.png" />
+<p>O primeiro passo é considerar como a função <code class="docutils literal"><span class="pre">distancia</span></code> deve se parecer em Python. Em outras palavras, quais são as entradas (parâmetros) e qual a saída (valor retornado)?</p>
+<p>Nesse caso, os dois pontos formam a entrada, que podemos representar por meio de quatro parâmetros. O valor retornado é a distância, que é um valor real (ponto flutuante).</p>
+<p>Já podemos começar escrevendo um esboço da função que captura o nosso pensamento até agora.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">distancia</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+<p>Obviamente, esta versão da função não calcula distâncias; ela sempre retorna zero. Mas ela está sintaticamente correta e pode ser executada, o que significa que podemos testá-la antes de torná-la mais complexa.</p>
+<p>Para testar a nova função, podemos chamá-la com valores pré determinados.</p>
+
+<div id="ch06_distance1" >
+<textarea cols="50" rows="12" id="ch06_distance1_code" class="active_code">
+def distancia(x1, y1, x2, y2):
+    return 0.0
+
+print(distancia(1, 2, 4, 6))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch06_distance1)</span> </p>
+<button onclick="runit('ch06_distance1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch06_distance1');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch06_distance1');">Load</button>
+<br />
+
+<canvas id="ch06_distance1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch06_distance1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Esses valores foram escolhidos para que a distância horizontal seja 3 e a vertical 4; dessa forma, o resultado da função deve ser 5 (que corresponde a hipotenusa do triângulo 3-4-5). Ao testar uma função, é importante conhecer a resposta correta para cada entrada fornecida.</p>
+<p>Com esse teste inicial podemos confirmar que a função está sintaticamente correta e agora podemos começar a adicionar linhas de código. Após cada mudança incremental, testamos a função novamente. Caso um erro acontecer nesse ponto, sabemos onde ele deve estar, no pedaço que foi adicionado por último.</p>
+<p>Um primeiro passo para computar a distância é encontrar as diferenças
+x<sub>2</sub>- x<sub>1</sub> e y<sub>2</sub>- y<sub>1</sub>. Vamos armazenar esses valores em variáveis temporárias de nome <code class="docutils literal"><span class="pre">dx</span></code> e <code class="docutils literal"><span class="pre">dy</span></code>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">distancia</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">):</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="n">y2</span> <span class="o">-</span> <span class="n">y1</span>
+    <span class="k">return</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+<p>A seguir calculamos a soma dos quadrados de <code class="docutils literal"><span class="pre">dx</span></code> e <code class="docutils literal"><span class="pre">dy</span></code>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">distancia</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">):</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="n">y2</span> <span class="o">-</span> <span class="n">y1</span>
+    <span class="n">dsquared</span> <span class="o">=</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">dy</span><span class="o">**</span><span class="mi">2</span>
+    <span class="k">return</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+<p>Novamente, podemos executar o programa novamente para verificar o valor de <code class="docutils literal"><span class="pre">dsquared</span></code> (que deve ser 25).</p>
+<p>Finalmente, usando o expoente fracionário <code class="docutils literal"><span class="pre">0.5</span></code> para encontrar a raiz quadrada, calculamos e retornamos o resultado.</p>
+
+<div id="ch06_distancefinal" >
+<textarea cols="50" rows="12" id="ch06_distancefinal_code" class="active_code">
+def distancia(x1, y1, x2, y2):
+    dx = x2 - x1
+    dy = y2 - y1
+    dsquared = dx**2 + dy**2
+    result = dsquared**0.5
+    return result
+
+print(distancia(1, 2, 4, 6))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch06_distancefinal)</span> </p>
+<button onclick="runit('ch06_distancefinal',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch06_distancefinal');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch06_distancefinal');">Load</button>
+<br />
+
+<canvas id="ch06_distancefinal_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch06_distancefinal_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Se tudo funcionar corretamente, acabamos. Caso contrário, podemos imprimir o valor de <code class="docutils literal"><span class="pre">result</span></code> antes do comando return.</p>
+<p>Quando você estiver começando a programar, o melhor é adicionar apenas uma ou duas linhas de código de cada vez. À medida que você ganhar mais experiência, você vai conseguir escrever e depurar blocos cada vez maiores. Essa forma de aprender é muito parecida com a forma que aprendemos a ler, primeiro as letras, depois sílabas, palavras, frases, sentenças, parágrafos, etc., ou a maneira que aprendemos a representar música &#8212; a partir de notas individuais para acordes, barras, frases, e assim por diante.</p>
+<p>Os aspectos principais do processo são:</p>
+<ol class="arabic simple">
+<li>Começe com um esqueleto funcional do programa e faça pequenas mudanças incrementais. A qualquer momento, caso ocorrer um erro, você sabe exatamente onde ele se encontra.</li>
+<li>Use variáveis temporárias para manter valores intermediários. Dessa forma é fácil inspecionar os seus valores.</li>
+<li>Uma vez que o programa esteja funcionando, você pode consolidar vários comandos em expressões compostas. Mas faça isso apenas quando a alteração não torne o programa mais difícil de ler.</li>
+</ol>
+</div>
+<div class="section" id="composicao">
+<span id="index-3"></span><h2>Composição<a class="headerlink" href="#composicao" title="Permalink to this headline">¶</a></h2>
+<p>Como já vimos, é possível chamar uma função de dentro de outra. Esse recurso é chamado de <strong>composição</strong>.</p>
+<p>Por exemplo, vamos escrever uma função que recebe dois pontos, o centro de um círculo e um ponto no perímetro, e computa a área do círculo.</p>
+<p>Considere que o ponto central é armazenado nas variáveis <code class="docutils literal"><span class="pre">xc</span></code> e <code class="docutils literal"><span class="pre">yc</span></code>, e o ponto no perímetro em <code class="docutils literal"><span class="pre">xp</span></code> e <code class="docutils literal"><span class="pre">yp</span></code>. O primeiro passo é encontrar o raio do círculo, que é a distância entre os dois pontos.
+Felizmente, nós acabamos de escrever a função <code class="docutils literal"><span class="pre">distancia</span></code> e podemos reutilizá-la.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">radius</span> <span class="o">=</span> <span class="n">distancia</span><span class="p">(</span><span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>O segundo passo é encontrar a área do círculo usando o raio e retornar o resultado. Vamos usar uma de nossas funções anteriores novamente:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">result</span> <span class="o">=</span> <span class="n">area</span><span class="p">(</span><span class="n">radius</span><span class="p">)</span>
+<span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+<p>Encapsulando tudo em uma função temos:</p>
+
+<div id="ch06_newarea" >
+<textarea cols="50" rows="12" id="ch06_newarea_code" class="active_code">
+def distancia(x1, y1, x2, y2):
+        dx = x2 - x1
+        dy = y2 - y1
+        dsquared = dx**2 + dy**2
+        result = dsquared**0.5
+        return result
+
+def area(radius):
+    b = 3.14159 * radius**2
+    return b
+
+def area2(xc, yc, xp, yp):
+    radius = distancia(xc, yc, xp, yp)
+    result = area(radius)
+    return result
+
+print(area2(0,0,1,1))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch06_newarea)</span> </p>
+<button onclick="runit('ch06_newarea',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch06_newarea');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch06_newarea');">Load</button>
+<br />
+
+<canvas id="ch06_newarea_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch06_newarea_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Vamos chamar esta função de <code class="docutils literal"><span class="pre">area2</span></code> para distingui-la da função <code class="docutils literal"><span class="pre">area</span></code> definida anteriormente. Dentro de um módulo, cada função deve ter o seu próprio nome (único, diferente de outros nomes).</p>
+<p>Note que poderíamos ter escrito a composição sem armazenar os valores intermediários.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">area2</span><span class="p">(</span><span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">area</span><span class="p">(</span><span class="n">distancia</span><span class="p">(</span><span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="funcao-booleana">
+<span id="index-4"></span><h2>Função Booleana<a class="headerlink" href="#funcao-booleana" title="Permalink to this headline">¶</a></h2>
+<p>Funções booleanas retornam valores booleanos que são muito convenientes para esconder testes complicados dentro de funções. Por exemplo:</p>
+
+<div id="ch06_boolfun1" >
+<textarea cols="50" rows="12" id="ch06_boolfun1_code" class="active_code">
+def eDivisivel(x, y):
+    if x % y == 0:
+        return True
+    else:
+        return False
+
+print(eDivisivel(10,5))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch06_boolfun1)</span> </p>
+<button onclick="runit('ch06_boolfun1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch06_boolfun1');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch06_boolfun1');">Load</button>
+<br />
+
+<canvas id="ch06_boolfun1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch06_boolfun1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>O nome da função é <code class="docutils literal"><span class="pre">eDivisivel</span></code>. É comum atribuir a <strong>funções booleanas</strong> nomes que soem como perguntas. <code class="docutils literal"><span class="pre">eDivisivel</span></code> (é divisível?) retorna <code class="docutils literal"><span class="pre">True</span></code> ou <code class="docutils literal"><span class="pre">False</span></code> para indicar se <code class="docutils literal"><span class="pre">x</span></code> é ou não divisível por <code class="docutils literal"><span class="pre">y</span></code>.</p>
+<p>Podemos fazer a função mais concisa se aproveitarmos o fato da condição do comando <code class="docutils literal"><span class="pre">if</span></code> ser, ela mesma, uma expressão booleana. Podemos retornar o valor da expressão diretamente, evitando assim o uso do comando <code class="docutils literal"><span class="pre">if</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">eDivisivel</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">%</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>Funções booleanas são frequentemente usadas em comandos condicionais:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">eDivisivel</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="o">...</span> <span class="c1"># faça isso ...</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="o">...</span> <span class="c1"># faça outra coisa ...</span>
+</pre></div>
+</div>
+<p>Pode ser tentador escrever algo como:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">eDivisivel</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+</pre></div>
+</div>
+<p>mas a comparação não é necessária.</p>
+
+<div id="ch06_boolfun2" >
+<textarea cols="50" rows="12" id="ch06_boolfun2_code" class="active_code">
+def eDivisivel(x, y):
+    if x % y == 0:
+        return True
+    else:
+        return False
+
+if eDivisivel(10,5):
+    print("That works")
+else:
+    print("Those values are no good")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch06_boolfun2)</span> </p>
+<button onclick="runit('ch06_boolfun2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch06_boolfun2');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch06_boolfun2');">Load</button>
+<br />
+
+<canvas id="ch06_boolfun2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch06_boolfun2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Teste usando alguns outros pares de valores para ver os resultados.</p>
+</div>
+<div class="section" id="programando-com-estilo">
+<span id="index-5"></span><h2>Programando Com Estilo<a class="headerlink" href="#programando-com-estilo" title="Permalink to this headline">¶</a></h2>
+<p>É muito importante deixar o programa fácil de ler pois, na prática, programas são lidos e modificados com muito mais frequencia com que são escritos.</p>
+<p>Vamos falar mais sobre estilo a medida que nossos programas se tornem mais complexos, mas alguns pontos já podem ser considerados:</p>
+<ul class="simple">
+<li>use 4 espaços para tabulação</li>
+<li>imports devem ser colocados no início do arquivo</li>
+<li>a definição de funções devem ser separadas por duas linhas em branco</li>
+<li>mantenha a definição de funções juntas no início do arquivo.</li>
+<li>mantenha os comandos do programa principal (ou nível mais alto), incluindo as chamadas de funções, juntas no final do arquivo.</li>
+</ul>
+</div>
+<div class="section" id="glossario">
+<h2>Glossário<a class="headerlink" href="#glossario" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-codigo-morto">código morto</dt>
+<dd>Parte de um programa que nunca é executado, em geral
+por aparecer após um comando <code class="docutils literal"><span class="pre">return</span></code>.</dd>
+<dt id="term-composicao-de-funcoes">composição (de funções)</dt>
+<dd>Chamada de uma função dentro do corpo de outra função,
+ou usar o valor de uma função como argumento na chamada
+de outra função.</dd>
+<dt id="term-desenvolvimento-incremental">desenvolvimento incremental</dt>
+<dd>Um método de desenvolvimento de programas que simplifica
+a depuração por adicionar e testar apenas pequenas porções
+de código de cada vez.</dd>
+<dt id="term-funcao-chatterbox">função chatterbox</dt>
+<dd>Uma função que interage com o usuário (usando <code class="docutils literal"><span class="pre">input</span></code>
+ou <code class="docutils literal"><span class="pre">print</span></code>) quando não deveria. Funções silenciosas
+que apenas convertem os valores da entrada no resultado
+da saída são as mais úteis em geral.</dd>
+<dt id="term-funcao-produtiva-fruitful">função produtiva (fruitful)</dt>
+<dd>Uma função que retorna um valor ao invés de <code class="docutils literal"><span class="pre">None</span></code>.</dd>
+<dt id="term-none">None</dt>
+<dd>Um valor especial em Python. Um uso comum de <code class="docutils literal"><span class="pre">None</span></code>
+é em funções que não retornam valor (terminam sem retornar
+um valor).</dd>
+<dt id="term-scaffolding">scaffolding</dt>
+<dd>Código usado durante o desenvolvimento do programa para ajudar
+no desenvolvimento e depuração. O código de teste unitário
+que usamos nesse capítulo são exemplos de scaffolding.</dd>
+<dt id="term-valor-de-retorno">valor de retorno</dt>
+<dd>O valor produzido como resultado da chamada de uma função.</dd>
+<dt id="term-variavel-temporaria">variável temporária</dt>
+<dd>Uma variável usada para armazenar um valor intermediário em
+uma computação complexa.</dd>
+</dl>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Escreva uma função <code class="docutils literal"><span class="pre">para_segundos</span></code> que converte horas, minutos e segundos em um número total de segundos.</p>
+</li>
+<li><p class="first">Estenda a função <code class="docutils literal"><span class="pre">para_segundos</span></code> para que ela trabalhe com
+valores reais como entrada (exemplo: 1.5 minuto). A função deve
+retornar sempre um valor inteiro de segundos (truncando a parte
+fracionária).</p>
+</li>
+<li><p class="first">Escreva três funções que são o inverso de <code class="docutils literal"><span class="pre">para_segundos</span></code>:</p>
+<ol class="arabic simple">
+<li><code class="docutils literal"><span class="pre">horas_em</span></code> retorna o número de horas completas dentro
+de um número de segundos</li>
+<li><code class="docutils literal"><span class="pre">minutos_em</span></code> retorna o número de minutos completos
+restantes dentro de um número de segundos,
+após a remoção das horas.</li>
+<li><code class="docutils literal"><span class="pre">segundos_em</span></code> retorna o número de segundos restantes
+após a remoção das horas e minutos completos.</li>
+</ol>
+<p>Você pode assumir que o número total de segundos passado para essas funções é um inteiro.</p>
+</li>
+<li><p class="first">Escreva uma função <code class="docutils literal"><span class="pre">compare</span></code> que retorna <code class="docutils literal"><span class="pre">1</span></code> se <code class="docutils literal"><span class="pre">a</span> <span class="pre">&gt;</span> <span class="pre">b</span></code>, <code class="docutils literal"><span class="pre">0</span></code> se <code class="docutils literal"><span class="pre">a</span> <span class="pre">==</span> <span class="pre">b</span></code>, e <code class="docutils literal"><span class="pre">-1</span></code> se <code class="docutils literal"><span class="pre">a</span> <span class="pre">&lt;</span> <span class="pre">b</span></code>.</p>
+</li>
+<li><p class="first">Escreva uma função chamada <code class="docutils literal"><span class="pre">hipotenusa</span></code> que retorna o comprimento da hipotenusa de um triângulo retângulo dados os comprimentos dos dois lados como parâmetros.</p>
+</li>
+<li><p class="first">Escreva uma função <code class="docutils literal"><span class="pre">inclinacao(x1,</span> <span class="pre">y1,</span> <span class="pre">x2,</span> <span class="pre">y2)</span></code> que
+retorna a inclinação da linha que passa pelos pontos
+<code class="docutils literal"><span class="pre">(x1,</span> <span class="pre">y1)</span></code> e <code class="docutils literal"><span class="pre">(x2,</span> <span class="pre">y2)</span></code>.</p>
+<p>A seguir use a função <code class="docutils literal"><span class="pre">inclinacao</span></code> em outra função chamada
+<code class="docutils literal"><span class="pre">intersecta(x1,</span> <span class="pre">y1,</span> <span class="pre">x2,</span> <span class="pre">y2)</span></code> que retorna a altura
+(interseção com y) do ponto onde a linha que passa pelos
+pontos <code class="docutils literal"><span class="pre">(x1,</span> <span class="pre">y1)</span></code> e <code class="docutils literal"><span class="pre">(x2,</span> <span class="pre">y2)</span></code> cruza o eixo y.</p>
+</li>
+<li><p class="first">Escreva a função <code class="docutils literal"><span class="pre">f2c(t)</span></code> que retorna o valor em
+graus Celsius dada uma temperatura em
+Fahrenheit.</p>
+</li>
+<li><p class="first">Agora o contrário, escreva a função <code class="docutils literal"><span class="pre">c2f</span></code> que converte
+Celsius em Fahrenheit.</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Functions Revisited</a><ul>
+<li><a class="reference internal" href="#desenvolvimento-de-programas">Desenvolvimento de programas</a></li>
+<li><a class="reference internal" href="#composicao">Composição</a></li>
+<li><a class="reference internal" href="#funcao-booleana">Função Booleana</a></li>
+<li><a class="reference internal" href="#programando-com-estilo">Programando Com Estilo</a></li>
+<li><a class="reference internal" href="#glossario">Glossário</a></li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../Labs/lab04_01a.html"
+                        title="previous chapter">Lessons from a Triangle</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../06-Selecao/selecao.html"
+                        title="next chapter">Decisões e Seleção</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../06-Selecao/selecao.html" title="Decisões e Seleção"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../Labs/lab04_01a.html" title="Lessons from a Triangle"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2012, Brad Miller, David Ranum.
+      Last updated on May 24, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

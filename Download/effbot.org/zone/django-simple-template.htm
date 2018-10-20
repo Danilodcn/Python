@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Simple Django-like&nbsp;Templating</title></head><body data-page-id="45"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Simple Django-like&nbsp;Templating</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">October 2006 | Fredrik Lundh</p><p>I&#8217;m currently working on a new version of the ludicrously simple
+content management system I&#8217;m using for <b>zone.effbot.org</b>, and
+wanted a template system that was a bit more flexible than the old
+<b>replace</b>-based hack I&#8217;d been using.
+
+</p><p>I ended up implementing a small subset of the
+<s><a href="http://www.djangoproject.com/documentation/templates/">Django template
+syntax</a></s> (dead link), partially because the syntax is pretty okay, partially because
+the Django&#8217;s template rendering model provides a separation between templates
+and code that has worked very well in earlier projects.  (But mostly
+because it&#8217;s fun to play with minimalistic reimplementations of larger
+designs.  Do you really need all that code?)
+
+</p><p>Here&#8217;s a small Django template (a simplified version of an example
+from the Django documentation):</p><pre class="xml django">
+&lt;<span class="pyfunction">h1</span>&gt;{{ section.title }}&lt;/<span class="pyfunction">h1</span>&gt;
+
+&lt;<span class="pyfunction">h2</span>&gt;
+  &lt;<span class="pyfunction">a</span> href="{{ story.get_absolute_url }}"&gt;
+    {{ story.headline|upper }}
+  &lt;/<span class="pyfunction">a</span>&gt;
+&lt;/<span class="pyfunction">h2</span>&gt;
+&lt;<span class="pyfunction">p</span>&gt;{{ story.tease|truncatewords:"100" }}&lt;/<span class="pyfunction">p</span>&gt;</pre><p>The {{ &#8230; }} sections are Django variable markers, which are
+replaced with the specified content when the template is rendered.</p><p>The variables are looked up in a given rendering context, and the dot
+notation is used as a general access mechanism; what looks like an
+attribute can be either a key in a dictionary, an attribute, the
+result of a method call, or, for numeric attributes, an item in a sequence.
+This makes it easy to tweak the underlying data model, without having
+to change the templates.</p><p>(Django also supports {% &#8230; %} syntax for blocks, but that&#8217;s outside
+the scope of this article.  At least this version of it.)
+
+<h2 id="parsing">Parsing the Template&#160;<a class="nav" href="#parsing" title="bookmark!">#</a></h2></p><p>But enough talk; let&#8217;s look at some code instead.</p><p>To locate the Django variables, you need to parse the template.  Since
+the format is really simple, parsing it is pretty simple too;  you can
+create a token stream simply by splitting the template on &#8220;{{&#8221; and &#8220;}}&#8221;
+markers, and then use an
+<a href="simple-iterator-parser.htm">iterator-based parser</a>
+approach to do the actual parsing.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide"><pre class="python wide">
+<span class="pykeyword">import</span> re
+
+<span class="pykeyword">def</span> <span class="pyfunction">render</span>(template, context):
+    next = iter(re.split(<span class="pystring">"({{|}})"</span>, template)).next
+    data = []
+    <span class="pykeyword">try</span>:
+        token = next()
+        <span class="pykeyword">while</span> 1:
+            <span class="pykeyword">if</span> token == <span class="pystring">"{{"</span>: <span class="pycomment"># variable</span>
+                data.append(variable(next(), context))
+                <span class="pykeyword">if</span> next() != <span class="pystring">"}}"</span>:
+                    <span class="pykeyword">raise</span> SyntaxError(<span class="pystring">"missing variable terminator"</span>)
+            <span class="pykeyword">else</span>:
+                data.append(token) <span class="pycomment"># literal</span>
+            token = next()
+    <span class="pykeyword">except</span> StopIteration:
+        <span class="pykeyword">pass</span>
+    <span class="pykeyword">return</span> data
+
+<span class="pykeyword">def</span> <span class="pyfunction">variable</span>(name, context):
+    <span class="pykeyword">return</span> <span class="pystring">"VARIABLE"</span> <span class="pycomment"># stub!</span></pre></div></div><div class="yui-ge"><div class="yui-u first"><p>Running the <b>render</b> function on the sample template gives you
+the following output.</p><pre class="python">
+[<span class="pystring">'\n&lt;h1&gt;'</span>, <span class="pystring">'VARIABLE'</span>, <span class="pystring">'&lt;/h1&gt;\n\n&lt;h2&gt;\n  &lt;a href="'</span>,
+<span class="pystring">'VARIABLE'</span>, <span class="pystring">'"&gt;\n    '</span>, <span class="pystring">'VARIABLE'</span>, <span class="pystring">'\n  &lt;/a&gt;\n&lt;/h2&gt;\n&lt;p&gt;'</span>,
+<span class="pystring">'VARIABLE'</span>, <span class="pystring">'&lt;/p&gt;\n'</span>]</pre><p>Note that the render function returns a list of string fragments.
+Since we&#8217;re going to write this to a pipe or a file anyway, there&#8217;s
+really no need to turn this into a single string object.  Just use
+<b>writelines</b> instead of <b>write</b>, and you&#8217;re done.</p><h2 id="evaluating">Evaluating Variables&#160;<a class="nav" href="#evaluating" title="bookmark!">#</a></h2><p>The next step is to implement the <b>variable</b> function.
+Django resolves variable names against a given context object, where
+each part of the name is interpreted as either:
+
+<ul><li>Dictionary item (<i>object</i>[<i>key</i>]), or
+</li><li>Attribute (<i>object.key</i>), or
+</li><li>Method (<i>object.key</i>()), or
+</li><li>Sequence item (<i>object</i>[int(<i>key</i>)])
+</li></ul></p><p>in that order.
+
+</p><p>In other words, when Django sees <b>section.title</b>, it first
+looks for <b>section[&#8220;title&#8221;]</b>, then for <b>section.title</b>, then
+for <b>section.title()</b>, and finally for
+<b>section[int(&#8220;title&#8221;)]</b>.  If none of these work, the result is
+(usually) set to an empty string.
+
+</p><p>The following <b>variable</b> function implements the first three;
+if you need support for sequence items, extending this function should
+be straightforward.</p><div class="example"><pre class="python">
+TEMPLATE_STRING_IF_INVALID = <span class="pystring">""</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">variable</span>(name, context):
+    name = name.strip()
+    <span class="pykeyword">if</span> <span class="pystring">"|"</span> <span class="pykeyword">in</span> name:
+        name, filters = name.split(<span class="pystring">"|"</span>, 1)
+    obj = context
+    <span class="pykeyword">for</span> item <span class="pykeyword">in</span> name.split(<span class="pystring">"."</span>):
+        <span class="pykeyword">try</span>:
+            obj = obj[item] <span class="pycomment"># dictionary member</span>
+        <span class="pykeyword">except</span> (KeyError, AttributeError):
+            <span class="pykeyword">try</span>:
+                obj = getattr(obj, item) <span class="pycomment"># or attribute</span>
+            <span class="pykeyword">except</span> AttributeError:
+                obj = TEMPLATE_STRING_IF_INVALID
+                <span class="pykeyword">break</span>
+            <span class="pykeyword">else</span>:
+                <span class="pykeyword">if</span> callable(obj): <span class="pycomment"># or method</span>
+                    obj = obj()
+    <span class="pykeyword">return</span> obj</pre></div><h2 id="filters">Applying Filters&#160;<a class="nav" href="#filters" title="bookmark!">#</a></h2><p>Django also supports variable filters, which are listed after the
+actual variable definition, and separated from the variables and from
+each other by vertical bars (|).</p><p>The version above ignored all filters.  Here&#8217;s a somewhat enhanced
+version that supports a single optional filter (from the set of filters
+in the FILTERS dictionary).  This version still ignores unknown filters,
+but that&#8217;s good enough for my current purposes:</p><div class="example"><pre class="python">
+<span class="pykeyword">import</span> cgi, string
+
+TEMPLATE_STRING_IF_INVALID = <span class="pystring">""</span>
+
+FILTERS = {
+    <span class="pystring">"escape"</span>: cgi.escape,
+    <span class="pystring">"upper"</span>: string.upper,
+    <span class="pystring">"lower"</span>: string.lower,
+    }
+
+<span class="pykeyword">def</span> <span class="pyfunction">variable</span>(name, context):
+    name = name.strip()
+    <span class="pykeyword">if</span> <span class="pystring">"|"</span> <span class="pykeyword">in</span> name:
+        name, filters = name.split(<span class="pystring">"|"</span>, 1)
+    <span class="pykeyword">else</span>:
+        filters = None
+    obj = context
+    <span class="pykeyword">for</span> item <span class="pykeyword">in</span> name.split(<span class="pystring">"."</span>):
+        <span class="pykeyword">try</span>:
+            obj = obj[item] <span class="pycomment"># dictionary member</span>
+        <span class="pykeyword">except</span> (KeyError, AttributeError):
+            <span class="pykeyword">try</span>:
+                obj = getattr(obj, item) <span class="pycomment"># or attribute</span>
+            <span class="pykeyword">except</span> AttributeError:
+                obj = TEMPLATE_STRING_IF_INVALID
+                <span class="pykeyword">break</span>
+            <span class="pykeyword">else</span>:
+                <span class="pykeyword">if</span> callable(obj): <span class="pycomment"># or method</span>
+                    obj = obj()
+    <span class="pykeyword">if</span> filters:
+        <span class="pykeyword">try</span>:
+            obj = FILTERS[filters](obj)
+        <span class="pykeyword">except</span> KeyError:
+            <span class="pykeyword">pass</span>
+    <span class="pykeyword">return</span> obj</pre></div><p>With all this in place, you can quickly parse and render a template
+with a single call to the <b>render</b> function.  The following example
+introduces two simple classes, and uses a dictionary as the context
+object.</p><pre class="python">
+&gt;&gt;&gt; <span class="pykeyword">class</span> <span class="pyclass">SectionObject</span>:
+...     title = <span class="pystring">"Section"</span>
+...
+&gt;&gt;&gt; <span class="pykeyword">class</span> <span class="pyclass">StoryObject</span>:
+...     <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, headline, tease):
+...         self.headline = headline
+...         self.tease = tease
+...     <span class="pykeyword">def</span> <span class="pyfunction">get_absolute_url</span>(self):
+...         <span class="pykeyword">return</span> <span class="pystring">"AbsoluteUrl"</span>
+...
+&gt;&gt;&gt; context = dict(
+...     section=SectionObject(),
+...     story=StoryObject(<span class="pystring">"Headline"</span>, <span class="pystring">"Tease"</span>)
+...     )
+...
+&gt;&gt;&gt; <span class="pykeyword">import</span> sys
+&gt;&gt;&gt; sys.stdout.writelines(render(template, context))</pre><pre>
+</pre><pre class="xml">
+&lt;<span class="pyfunction">h1</span>&gt;Section Title&lt;/<span class="pyfunction">h1</span>&gt;
+
+&lt;<span class="pyfunction">h2</span>&gt;
+  &lt;<span class="pyfunction">a</span> href="AbsoluteUrl"&gt;
+    HEADLINE
+  &lt;/<span class="pyfunction">a</span>&gt;
+&lt;/<span class="pyfunction">h2</span>&gt;
+&lt;<span class="pyfunction">p</span>&gt;Tease&lt;/<span class="pyfunction">p</span>&gt;</pre><p>Note that the current implementation parses the template and generates
+the output in a single step.  That&#8217;s good enough for one-shot generation of
+static web pages, or for use from CGI scripts, but for heavier use, you may
+want to cache and reuse the parsed representation in one way or another.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#parsing">Parsing the Template</a></li><li><a href="#evaluating">Evaluating Variables</a></li><li><a href="#filters">Applying Filters</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

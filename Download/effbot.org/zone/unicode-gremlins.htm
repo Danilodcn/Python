@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Mapping Windows CP1252 Gremlins to&nbsp;Unicode</title></head><body data-page-id="339"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Mapping Windows CP1252 Gremlins to&nbsp;Unicode</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">April 26, 2003 | Fredrik Lundh</p><p>Some applications add CP1252 (Windows, Western Europe) characters
+to documents marked up as ISO 8859-1 (Latin 1) or other encodings.
+These characters are not valid ISO-8859-1 characters, and may cause
+all sorts of problems in processing and display applications.</p><p>The following code fragment shows how you can map CP1252-specific
+characters to their Unicode counterparts.  To convert the resulting
+string to a suitable target encoding, see
+<a href="unicode-objects.htm"><cite>Python Unicode Objects</cite></a>.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Mapping Windows CP1252 Characters to Unicode</b>
+<pre class="python wide">
+cp1252 = {
+    <span class="pycomment"># from http://www.microsoft.com/typography/unicode/1252.htm</span>
+    <span class="pystring">u"\x80"</span>: <span class="pystring">u"\u20AC"</span>, <span class="pycomment"># EURO SIGN</span>
+    <span class="pystring">u"\x82"</span>: <span class="pystring">u"\u201A"</span>, <span class="pycomment"># SINGLE LOW-9 QUOTATION MARK</span>
+    <span class="pystring">u"\x83"</span>: <span class="pystring">u"\u0192"</span>, <span class="pycomment"># LATIN SMALL LETTER F WITH HOOK</span>
+    <span class="pystring">u"\x84"</span>: <span class="pystring">u"\u201E"</span>, <span class="pycomment"># DOUBLE LOW-9 QUOTATION MARK</span>
+    <span class="pystring">u"\x85"</span>: <span class="pystring">u"\u2026"</span>, <span class="pycomment"># HORIZONTAL ELLIPSIS</span>
+    <span class="pystring">u"\x86"</span>: <span class="pystring">u"\u2020"</span>, <span class="pycomment"># DAGGER</span>
+    <span class="pystring">u"\x87"</span>: <span class="pystring">u"\u2021"</span>, <span class="pycomment"># DOUBLE DAGGER</span>
+    <span class="pystring">u"\x88"</span>: <span class="pystring">u"\u02C6"</span>, <span class="pycomment"># MODIFIER LETTER CIRCUMFLEX ACCENT</span>
+    <span class="pystring">u"\x89"</span>: <span class="pystring">u"\u2030"</span>, <span class="pycomment"># PER MILLE SIGN</span>
+    <span class="pystring">u"\x8A"</span>: <span class="pystring">u"\u0160"</span>, <span class="pycomment"># LATIN CAPITAL LETTER S WITH CARON</span>
+    <span class="pystring">u"\x8B"</span>: <span class="pystring">u"\u2039"</span>, <span class="pycomment"># SINGLE LEFT-POINTING ANGLE QUOTATION MARK</span>
+    <span class="pystring">u"\x8C"</span>: <span class="pystring">u"\u0152"</span>, <span class="pycomment"># LATIN CAPITAL LIGATURE OE</span>
+    <span class="pystring">u"\x8E"</span>: <span class="pystring">u"\u017D"</span>, <span class="pycomment"># LATIN CAPITAL LETTER Z WITH CARON</span>
+    <span class="pystring">u"\x91"</span>: <span class="pystring">u"\u2018"</span>, <span class="pycomment"># LEFT SINGLE QUOTATION MARK</span>
+    <span class="pystring">u"\x92"</span>: <span class="pystring">u"\u2019"</span>, <span class="pycomment"># RIGHT SINGLE QUOTATION MARK</span>
+    <span class="pystring">u"\x93"</span>: <span class="pystring">u"\u201C"</span>, <span class="pycomment"># LEFT DOUBLE QUOTATION MARK</span>
+    <span class="pystring">u"\x94"</span>: <span class="pystring">u"\u201D"</span>, <span class="pycomment"># RIGHT DOUBLE QUOTATION MARK</span>
+    <span class="pystring">u"\x95"</span>: <span class="pystring">u"\u2022"</span>, <span class="pycomment"># BULLET</span>
+    <span class="pystring">u"\x96"</span>: <span class="pystring">u"\u2013"</span>, <span class="pycomment"># EN DASH</span>
+    <span class="pystring">u"\x97"</span>: <span class="pystring">u"\u2014"</span>, <span class="pycomment"># EM DASH</span>
+    <span class="pystring">u"\x98"</span>: <span class="pystring">u"\u02DC"</span>, <span class="pycomment"># SMALL TILDE</span>
+    <span class="pystring">u"\x99"</span>: <span class="pystring">u"\u2122"</span>, <span class="pycomment"># TRADE MARK SIGN</span>
+    <span class="pystring">u"\x9A"</span>: <span class="pystring">u"\u0161"</span>, <span class="pycomment"># LATIN SMALL LETTER S WITH CARON</span>
+    <span class="pystring">u"\x9B"</span>: <span class="pystring">u"\u203A"</span>, <span class="pycomment"># SINGLE RIGHT-POINTING ANGLE QUOTATION MARK</span>
+    <span class="pystring">u"\x9C"</span>: <span class="pystring">u"\u0153"</span>, <span class="pycomment"># LATIN SMALL LIGATURE OE</span>
+    <span class="pystring">u"\x9E"</span>: <span class="pystring">u"\u017E"</span>, <span class="pycomment"># LATIN SMALL LETTER Z WITH CARON</span>
+    <span class="pystring">u"\x9F"</span>: <span class="pystring">u"\u0178"</span>, <span class="pycomment"># LATIN CAPITAL LETTER Y WITH DIAERESIS</span>
+}
+
+<span class="pykeyword">import</span> re
+
+<span class="pykeyword">def</span> <span class="pyfunction">kill_gremlins</span>(text):
+    <span class="pycomment"># map cp1252 gremlins to real unicode characters</span>
+    <span class="pykeyword">if</span> re.search(<span class="pystring">u"[\x80-\x9f]"</span>, text):
+        <span class="pykeyword">def</span> <span class="pyfunction">fixup</span>(m):
+            s = m.group(0)
+            <span class="pykeyword">return</span> cp1252.get(s, s)
+        <span class="pykeyword">if</span> isinstance(text, type(<span class="pystring">""</span>)):
+            <span class="pycomment"># make sure we have a unicode string</span>
+            text = unicode(text, <span class="pystring">"iso-8859-1"</span>)
+        text = re.sub(<span class="pystring">u"[\x80-\x9f]"</span>, fixup, text)
+    <span class="pykeyword">return</span> text</pre></div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

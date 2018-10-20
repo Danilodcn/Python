@@ -1,0 +1,2175 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Variáveis, Expressões e Comandos &mdash; Como pensar como um Cientista da Computação: Edição Interativa em Python</title>
+    
+    <link rel="stylesheet" href="../_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="../_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="../_static/codemirror.js"></script>
+    <script type="text/javascript" src="../_static/python.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="../_static/assess.js"></script>
+    <script type="text/javascript" src="../_static/animationbase.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="../_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Como pensar como um Cientista da Computação: Edição Interativa em Python" href="../index.html" />
+    <link rel="next" title="Olá, tartaruguinhas!" href="../03-PythonTurtle/olatartaruga.html" />
+    <link rel="prev" title="O Caminho do Programa" href="../01-Introducao/introducao.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/pensePython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'pensePython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/pensePython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../03-PythonTurtle/olatartaruga.html" title="Olá, tartaruguinhas!"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../01-Introducao/introducao.html" title="O Caminho do Programa"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="variaveis-expressoes-e-comandos">
+<h1>Variáveis, Expressões e Comandos<a class="headerlink" href="#variaveis-expressoes-e-comandos" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="index-0"></span><a id="typesnconvert_thumb" > <img src="../_static/valuesNtypes.png" /></a>
+<div id="typesnconvert" class="video_popup" >
+<video controls  >
+    <source src="http://knuth.luther.edu/~bmiller/thinkcsVideos/TypesNTypeConversion.mov" type="video/mp4"></source>
+    <source src="http://knuth.luther.edu/~bmiller/thinkcsVideos/TypesNTypeConversion.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#typesnconvert_thumb').click(function(e) {
+         $('#typesnconvert').show();
+         $('#typesnconvert_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'typesnconvert'});
+         // Log the run event
+      });
+   });
+</script>
+<p>No início do aprendizado de qualquer linguagem de programação existem
+alguns conceitos e idéias básicas que são necessários.  O objetivo deste
+capítulo é introduzi-lo ao vocabulário básico de programação e alguns
+dos conceitos fundamentais de Python.</p>
+<div class="section" id="variaveis-e-tipos-de-dados">
+<h2>Variáveis e tipos de dados<a class="headerlink" href="#variaveis-e-tipos-de-dados" title="Permalink to this headline">¶</a></h2>
+<p>Um <strong>valor</strong> é um dos coisas fundamentais &#8212; como uma palavra ou
+número &#8212; que um programa manipula. Os valores que vimos até o
+momento são <code class="docutils literal"><span class="pre">5</span></code> (o resultado quando fazemos a adição <code class="docutils literal"><span class="pre">2</span> <span class="pre">+</span> <span class="pre">3</span></code>), e
+<code class="docutils literal"><span class="pre">&quot;Olá,</span> <span class="pre">mundo!&quot;</span></code>. Nós frequentemente nos referimos a esses valores
+como <strong>objetos</strong> e usaremos as palavras valor e objeto
+indiscriminadamente.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Na verdade, o 2 e o 3 que são parte da adição acima são também
+valores (objetos).</p>
+</div>
+<p>Esses objetos são classificados em <strong>classes</strong> ou <strong>tipos de dados</strong>
+diferentes: <code class="docutils literal"><span class="pre">4</span></code> é um <em>inteiro</em>, e <code class="docutils literal"><span class="pre">&quot;Olá,</span> <span class="pre">mundo!&quot;</span></code> é um <em>string</em> ou <em>texto</em>
+<em>cadeia de caracteres</em>, que recebe esse nome pois contém uma sequência
+de letras ou caracteres.  (N.T. Utilizamos também o termo em inglês
+<em>string</em> já que esse é comumente usado por programadores.)
+Você (e o interpretador) podem identificar
+strings pois estes estão envolvidos por aspas.</p>
+<p>Se você não está seguro sobre a classe a que pertence um valor, Python
+tem uma função chamada <strong>type</strong> que pode dizer-lhe isto.</p>
+
+<div id="ch02_1" >
+<textarea cols="50" rows="12" id="ch02_1_code" class="active_code">
+print(type("Ola, mundo!"))
+print(type(17))
+print("Ola, mundo")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_1)</span> </p>
+<button onclick="runit('ch02_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_1');">Load</button>
+<br />
+
+<pre id="ch02_1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Não é surpresa que strings pertençam a uma classe chamada <strong>str</strong> e inteiros
+pertencem a classe chamada <strong>int</strong>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Quando mostramos o valor de um string usando a função
+<code class="docutils literal"><span class="pre">print</span></code>, como na terceira linha acima, as aspas não estão
+presentes. O valor de um string é a sequência de caracteres entre
+as aspas.  As aspas são apenas necessárias para ajudar o Python a
+saber qual é o valor delimitando-o.</p>
+</div>
+<p>No Python shell, não é necessário usar a função <code class="docutils literal"><span class="pre">print`</span></code> para ver o
+valor mostrado acima.  O shell executa a função e automaticamente
+imprime o resultado. Por exemplo, consider a seção do shell exibida
+abaixo.  Quando pedimos para o shell executar <code class="docutils literal"><span class="pre">type(&quot;Hello,</span>
+<span class="pre">World!&quot;)</span></code>, ele imprime a reposta apropriada e na próxima linha continua
+exibindo o prompt para um novo uso.</p>
+<div class="highlight-python"><div class="highlight"><pre>Python 3.3.0 (default, Sep 29 2012, 17:14:58)
+[GCC 4.7.2] on linux
+Type &quot;copyright&quot;, &quot;credits&quot; or &quot;license()&quot; for more information.
+&gt;&gt;&gt; type(&quot;Ola, mundo!&quot;)
+&lt;class &#39;str&#39;&gt;
+&gt;&gt;&gt; type(17)
+&lt;class &#39;int&#39;&gt;
+&gt;&gt;&gt; &quot;Ola, mundo!&quot;
+&#39;Ola, mundo!&#39;
+</pre></div>
+</div>
+<p>Observe que no último exemplo, nós simplesmente pedimos ao shell que
+avaliasse o string &#8220;Ola, mundo&#8221;.  O resultado é como você poderia
+imaginar, o próprio string.</p>
+<p>Continuando com nossa discussão sobre tipos de dados, números com
+ponto decimal (e não vírgula decimal) pertencem à classe chamada
+<strong>float</strong>, pois esses números são representados em uma forma que é
+chamada de <em>ponto flutuante</em> (<em>floating-point</em>). No presente estágio,
+você pode usar as palavras <em>classe</em> e <em>tipo</em> indiscriminadamente.  Em
+capítulos mais adiante nós voltaremos a tratar de classe e a buscar uma
+compreensão mais profunda desse conceito.</p>
+
+<div id="ch02_2" >
+<textarea cols="50" rows="12" id="ch02_2_code" class="active_code">
+print(type(3.2))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_2)</span> </p>
+<button onclick="runit('ch02_2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_2');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_2');">Load</button>
+<br />
+
+<pre id="ch02_2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>E valores como <code class="docutils literal"><span class="pre">&quot;17&quot;</span></code> e <code class="docutils literal"><span class="pre">&quot;3.2&quot;</span></code>?
+Eles parecem números, mas eles estão envolvoltos entre aspas como um string.</p>
+
+<div id="ch02_3" >
+<textarea cols="50" rows="12" id="ch02_3_code" class="active_code">
+print(type("17"))
+print(type("3.2"))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_3)</span> </p>
+<button onclick="runit('ch02_3',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_3');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_3');">Load</button>
+<br />
+
+<pre id="ch02_3_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Eles são strings!</p>
+<p>Strings em Python podem ser delimitados por apóstrofos (<code class="docutils literal"><span class="pre">'</span></code>) aspas
+(<code class="docutils literal"><span class="pre">&quot;</span></code>), ou três de cada (<code class="docutils literal"><span class="pre">'''</span></code> ou <code class="docutils literal"><span class="pre">&quot;&quot;&quot;</span></code>)</p>
+
+<div id="ch02_4" >
+<textarea cols="50" rows="12" id="ch02_4_code" class="active_code">
+print(type('Esse e um string.') )
+print(type("E esse tambem eh um string.") )
+print(type("""e esse.""") )
+print(type('''e mesmo esse...''') )
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_4)</span> </p>
+<button onclick="runit('ch02_4',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_4');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_4');">Load</button>
+<br />
+
+<pre id="ch02_4_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Strings com aspas podem conter apóstrofos, como em <code class="docutils literal"><span class="pre">&quot;O</span> <span class="pre">símbolo</span> <span class="pre">'</span> <span class="pre">é</span> <span class="pre">um</span>
+<span class="pre">apóstrofo&quot;</span></code>, e strings com apóstrofos podem conter aspas, como em
+<code class="docutils literal"><span class="pre">'Os</span> <span class="pre">cavaleiros</span> <span class="pre">que</span> <span class="pre">dizem</span> <span class="pre">&quot;Ni!&quot;'</span></code>.  Strings delimitados por três
+aspas ou apóstrofos são chamadas de strings triplos (<em>triple quoted
+strings</em>).  Eles podem conter aspas, apóstrofos ou strings entre aspas
+ou apóstrofos:</p>
+
+<div id="ch02_5" >
+<textarea cols="50" rows="12" id="ch02_5_code" class="active_code">
+print('''"Oh nao", exclamou ela, "A bicleta esta quebrada!"''')
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_5)</span> </p>
+<button onclick="runit('ch02_5',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_5');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_5');">Load</button>
+<br />
+
+<pre id="ch02_5_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Strings triplos podem até se estender por várias linhas:</p>
+
+<div id="ch02_6" >
+<textarea cols="50" rows="12" id="ch02_6_code" class="active_code">
+mensagem = """Esta mensagem ira
+se estende varias
+linhas."""
+print(mensagem)
+
+print("""Esta mensagem se estende
+por varias linhas
+do texto.""")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_6)</span> </p>
+<button onclick="runit('ch02_6',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_6');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_6');">Load</button>
+<br />
+
+<pre id="ch02_6_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Python não se importa se você usa aspas, apóstrofes, aspas triplas ou
+apóstrofes triplos para envolver um string. Uma vez verificado que o
+texto do seu programa ou comando está sintaticamente correto, a
+maneira com que o valor será armazenada é identica em todos os casos
+e o símbolos delimitadores não fazem parte do valor.
+Entretanto, quando o interpretador exibe um string, ele tem que
+decidir qual símbolo usar para fazer com que ele se pareça um string.</p>
+
+<div id="ch02_7" >
+<textarea cols="50" rows="12" id="ch02_7_code" class="active_code">
+print('Este e um string.')
+print("""E este tambem e.""")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_7)</span> </p>
+<button onclick="runit('ch02_7',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_7');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_7');">Load</button>
+<br />
+
+<pre id="ch02_7_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Os projetista da linguagem Python usualmente decidem delimitar seus
+strings por apóstrofos. O que você acha que aconteceria se o string já
+possui-se um apóstrofo?</p>
+<p>Quando você digita um inteiro grande, você poderia ficar tentado a
+usar vírgulas (N.T. em países de língua inglês) ou ponto (N.T. em
+países de língua portuguesa) entre grupos de três dígitos, como em
+<code class="docutils literal"><span class="pre">42,000</span></code> ou <code class="docutils literal"><span class="pre">42.000</span></code>. Esses não são inteiros legítimos em Python,
+mas têm outros significados, que são legitimos:</p>
+
+<div id="ch02_8" >
+<textarea cols="50" rows="12" id="ch02_8_code" class="active_code">
+print(42000)
+print(42,000)
+print(42.000)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_8)</span> </p>
+<button onclick="runit('ch02_8',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_8');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_8');">Load</button>
+<br />
+
+<pre id="ch02_8_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Bem, isto não é de maneira alguma o que esperávamos!  Devido à
+vírgula, Python decide tratar <code class="docutils literal"><span class="pre">42,000</span></code> como um <em>par</em> de valores.
+Já, no caso do ponto, Python trata <code class="docutils literal"><span class="pre">42.000</span></code> como uma representação
+como <em>float</em> do número 42. De fato, a função print pode imprimir
+qualquer número de valores, contanto que estejam separados por
+vírgulas. Observe que os valores são separados por espaços quando são
+exibidos.</p>
+
+<div id="ch02_8a" >
+<textarea cols="50" rows="12" id="ch02_8a_code" class="active_code">
+print(42, 17, 56, 34, 11, 4.35, 32)
+print(3.4, "hello", 45)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_8a)</span> </p>
+<button onclick="runit('ch02_8a',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_8a');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_8a');">Load</button>
+<br />
+
+<pre id="ch02_8a_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Lembre-se de não escrever os seus números inteiros com vírgulas,
+pontos ou espaços, não importa quão grande eles sejam. Também reveja o
+que dissemos no capítulo anterior: linguagens formais são rigorosas, a
+notação é concisa, e mesmo com a menor das modificações o resultado
+pode significar algo bem diferente do que você pretendia.</p>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question2_1_1">
+    <p>2.1.1: Como você pode determinar o tipo de uma variável?</p>
+    <form name="test_question2_1_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question2_1_1_opt_a" />
+    <label for= "test_question2_1_1_opt_a">  a) Imprimindo o valor e determinando o tipo de baseado no valor exibido.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question2_1_1_opt_b" />
+    <label for= "test_question2_1_1_opt_b">  b) Usando a função type.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question2_1_1_opt_c" />
+    <label for= "test_question2_1_1_opt_c">  c) Usando o valor em uma equação conhecida e imprimindo o valor resultante.</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question2_1_1_opt_d" />
+    <label for= "test_question2_1_1_opt_d">  d) Olhando para a declaração da variável.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question2_1_1','b',['Você pode ser capaz de determinar o tipo de dados baseado no valor exibido,
+mas isto pode ser enganoso, como quando strings são impressas,
+elas são exibidas sem aspas ou apóstrofos envolvendo-as.', 'A função type lhe dirá a que classe pertence o valor.', 'Somente valores numéricos podem ser usados em equações.', 'Em Python variáveis não são declaradas.'])"/> 
+    </form>
+    <div id="test_question2_1_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question2_1_2">
+    <p>2.1.2: Qual é o tipo do valor 'que tipo de dado é esse'?</p>
+    <form name="test_question2_1_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question2_1_2_opt_a" />
+    <label for= "test_question2_1_2_opt_a">  a) caractere</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question2_1_2_opt_b" />
+    <label for= "test_question2_1_2_opt_b">  b) inteiro</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question2_1_2_opt_c" />
+    <label for= "test_question2_1_2_opt_c">  c) float</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question2_1_2_opt_d" />
+    <label for= "test_question2_1_2_opt_d">  d) string</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question2_1_2','d',['Não é um simples caractere.', 'o valor não é numérico.', 'O valor não é númerico com um ponto decimal.', 'Strings podem ser envolvidas por apóstrofos.'])"/> 
+    </form>
+    <div id="test_question2_1_2_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="funcoes-para-conversao-de-valores">
+<span id="index-2"></span><h2>Funções para conversão de valores<a class="headerlink" href="#funcoes-para-conversao-de-valores" title="Permalink to this headline">¶</a></h2>
+<p>Algumas vezes é necessário converter valores de um tipo para o
+outro. Python fornece alguns funções simples que permitirão que
+façamos isso. As funções <cite>int</cite>, <cite>float</cite> e <cite>str</cite> irão (tentar)
+converter seus argumentos para os tipos <cite>int</cite>, <cite>float</cite> e <cite>str</cite>,
+respectivamente.  Nós as chamamos de funções para
+<strong>conversão de valores</strong>.</p>
+<p>A função <cite>int</cite> pode converter para int um argumento numérico em ponto
+flutuante ou um string.  Para números em ponto flutuante, a parte
+decimal do número é <em>descartada</em> - um processo que chamaremso de
+<em>trucamento para zero</em> ou simplesmente <em>truncamento</em> do número.
+Vejamos isto isto em ação:</p>
+
+<div id="ch02_20" >
+<textarea cols="50" rows="12" id="ch02_20_code" class="active_code">
+print(3.14, int(3.14))
+print(3.9999, int(3.9999))       # Isto não arredonda para o inteiro mais próximo
+print(3.0,int(3.0))
+print(-3.999,int(-3.999))        # Observe que o resultado está mais próximo de zero
+
+print("2345",int("2345"))        # examina um string para produzir um int
+print(17,int(17))                # int também funciona sobre inteiros
+print(int("23garafas"))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_20)</span> </p>
+<button onclick="runit('ch02_20',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_20');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_20');">Load</button>
+<br />
+
+<pre id="ch02_20_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>O último exemplo mostra que o string deve representar um número
+sintaticamente legal, em caso contrário você receberá um daqueles
+erros de execução desagradáveis. Modifique o exemplo removendo
+<code class="docutils literal"><span class="pre">garafas</span></code> e execute novamente o programa. Você deverá ver o inteiro
+<code class="docutils literal"><span class="pre">23</span></code>.</p>
+<p>O conversor de tipos <cite>float</cite> transforma um inteiro, um float ou um
+string representado um float de maneira sintaticamente legal em um
+float.</p>
+
+<div id="ch02_21" >
+<textarea cols="50" rows="12" id="ch02_21_code" class="active_code">
+print(float("123.45"))
+print(type(float("123.45")))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_21)</span> </p>
+<button onclick="runit('ch02_21',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_21');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_21');">Load</button>
+<br />
+
+<pre id="ch02_21_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>O conversor de tipo <cite>str</cite> transforma os seus argumentos em um
+string. Lembre-se que quando imprimimos um string, os apóstrofes ou
+aspas que o delimitam são removidos.
+Entretanto, se imprimimos o tipo de um string vemos que ele é <cite>str</cite>.</p>
+
+<div id="ch02_22" >
+<textarea cols="50" rows="12" id="ch02_22_code" class="active_code">
+print(str(17))
+print(str(123.45))
+print(type(str(123.45)))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_22)</span> </p>
+<button onclick="runit('ch02_22',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_22');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_22');">Load</button>
+<br />
+
+<pre id="ch02_22_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question2_2_1">
+    <p>2.2.1: Qual valor é exibido pelo seguinte comando:
+<pre>
+print( int(53.785) )
+</pre></p>
+    <form name="test_question2_2_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question2_2_1_opt_a" />
+    <label for= "test_question2_2_1_opt_a">  a) Nada, é produzido um erro de execução.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question2_2_1_opt_b" />
+    <label for= "test_question2_2_1_opt_b">  b) 53</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question2_2_1_opt_c" />
+    <label for= "test_question2_2_1_opt_c">  c) 54</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question2_2_1_opt_d" />
+    <label for= "test_question2_2_1_opt_d">  d) 53.785</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question2_2_1','b',['Este é um comando válido em Python.
+Ele chama a função int com o argumento 53.785 e então imprime o valor retornado', 'A função int remove a parte fracionária de um número, esse será o valor impresso.', 'Na conversão para um inteiro, a função int não arredonda.', 'A função int remove a parte parte fracionária de 53.785 e
+retorna o inteiro resultante, que será impresso em seguida.'])"/> 
+    </form>
+    <div id="test_question2_2_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="variaveis">
+<span id="index-3"></span><h2>Variáveis<a class="headerlink" href="#variaveis" title="Permalink to this headline">¶</a></h2>
+<a id="assignvid_thumb" > <img src="../_static/assignment.png" /></a>
+<div id="assignvid" class="video_popup" >
+<video controls  >
+    <source src="http://knuth.luther.edu/~bmiller/thinkcsVideos/Variables.mov" type="video/mp4"></source>
+    <source src="http://knuth.luther.edu/~bmiller/thinkcsVideos/Variables.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#assignvid_thumb').click(function(e) {
+         $('#assignvid').show();
+         $('#assignvid_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'assignvid'});
+         // Log the run event
+      });
+   });
+</script>
+<p>Uma das características mais poderosas de uma linguagem de programação
+é sua capacidade de manipular <strong>variáveis</strong>.
+Uma variável é um nome que se refere a um valor.</p>
+<p><strong>Comandos de atribuição</strong> (<em>assignment statement</em>) criam uma nova
+variável e também fornecem a elas o valor ao qual farão referência.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">mensagem</span> <span class="o">=</span> <span class="s2">&quot;O que ha velhinho?&quot;</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">17</span>
+<span class="n">pi</span> <span class="o">=</span> <span class="mf">3.14159</span>
+</pre></div>
+</div>
+<p>Este exemplo faz três atribuições. A primeira atribui o string <code class="docutils literal"><span class="pre">&quot;O</span>
+<span class="pre">que</span> <span class="pre">há</span> <span class="pre">velhinho?&quot;</span></code> a uma nova variável chamada <code class="docutils literal"><span class="pre">mensagem</span></code>.
+O segundo atribui o inteiro <cite>17`</cite> a <code class="docutils literal"><span class="pre">n</span></code>, e o terceiro atribui o
+número em ponto-flutuante <code class="docutils literal"><span class="pre">3.14159</span></code> a variável chamada <code class="docutils literal"><span class="pre">pi</span></code>.</p>
+<p>O <strong>operador de atribuição</strong>, <code class="docutils literal"><span class="pre">=</span></code>, não deve ser confundido com
+<em>igualdade</em>, para a qual usamos <code class="docutils literal"><span class="pre">==</span></code>. O comando de atribuição
+associa o <em>nome</em>, que está à esquerda do operador, como o <em>valor</em>, que
+está à direita. Por esta razão é que você receberá um mensagem de erro
+se fizer:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">17</span> <span class="o">=</span> <span class="n">n</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">Quando estiver lendo ou escrevendo um programa, diga para você mesmo &#8220;17 é
+atribuído a n&#8221; ou &#8220;n recebe o valor 17&#8221; ou &#8220;n é uma referência ao objeto 17&#8221; ou &#8220;n
+se refere ao objeto 17&#8221;. Não diga &#8220;n é igual a 17&#8221;.</p>
+</div>
+<p>Uma maneira comum de se representar variáveis no papel é escrevendo o
+nome da variável com uma flecha apontado para o valor da
+variável. Este tipo de representação, conhecido como <strong>diagrama de
+referência</strong>, é frequentemente chamado de <strong>estado instantâneo</strong> pois
+mostra o estado de cada variável em um instante de tempo
+particular. (Imagine isto como sendo o &#8220;estado de mente&#8221; da variável.)
+Este diagrama mostra o resultado da execução de comandos de
+atribuição.</p>
+<img alt="Reference Diagram" src="../_images/refdiagram1.png" />
+<p>Se você pedir para que o valor de uma variável seja impresso, Python
+exibirá o valor que está atualmente associado à variável. Em outras
+palavras, ao imprimir uma variável será exibido o valor ao qual a
+variável se refere.</p>
+
+<div id="ch02_9" >
+<textarea cols="50" rows="12" id="ch02_9_code" class="active_code">
+mensagem = "O que ha velhinho?"
+n = 17
+pi = 3.14159
+
+print(mensagem)
+print(n)
+print(pi)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_9)</span> </p>
+<button onclick="runit('ch02_9',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_9');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_9');">Load</button>
+<br />
+
+<pre id="ch02_9_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Em cada comando o resultado será o valor da váriável. Para ver isto em
+mais detalhes, podemos executar o programa usando codelens.</p>
+
+<div id="ch02_9_codelens"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (ch02_9_codelens)</span> </p>
+<script type="text/javascript">
+var ch02_9_codelens_trace = {"code": "mensagem = \"O que ha velhinho?\"\nn = 17\npi = 3.14159\n\nprint(mensagem)\nprint(n)\nprint(pi)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["mensagem"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"mensagem": "O que ha velhinho?"}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["mensagem", "n"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"mensagem": "O que ha velhinho?", "n": 17}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["mensagem", "n", "pi"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"pi": 3.1416, "mensagem": "O que ha velhinho?", "n": 17}, "heap": {}, "line": 5, "event": "step_line"}, {"ordered_globals": ["mensagem", "n", "pi"], "stdout": "O que ha velhinho?\n", "func_name": "<module>", "stack_to_render": [], "globals": {"pi": 3.1416, "mensagem": "O que ha velhinho?", "n": 17}, "heap": {}, "line": 6, "event": "step_line"}, {"ordered_globals": ["mensagem", "n", "pi"], "stdout": "O que ha velhinho?\n17\n", "func_name": "<module>", "stack_to_render": [], "globals": {"pi": 3.1416, "mensagem": "O que ha velhinho?", "n": 17}, "heap": {}, "line": 7, "event": "step_line"}, {"ordered_globals": ["mensagem", "n", "pi"], "stdout": "O que ha velhinho?\n17\n3.14159\n", "func_name": "<module>", "stack_to_render": [], "globals": {"pi": 3.1416, "mensagem": "O que ha velhinho?", "n": 17}, "heap": {}, "line": 7, "event": "return"}]};
+var ch02_9_codelens_vis;
+
+$(document).ready(function() {
+    ch02_9_codelens_vis = new ExecutionVisualizer('ch02_9_codelens',ch02_9_codelens_trace,
+                                {embeddedMode: false,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(ch02_9_codelens_vis,'ch02_9_codelens');
+    allVisualizers.push(ch02_9_codelens_vis);
+});
+
+$(document).ready(function() {
+    $("#ch02_9_codelens_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'ch02_9_codelens'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    ch02_9_codelens_vis.redrawConnectors();
+});
+</script>
+<p>Agora, como você pode executar um comando por vez, você pode ver as
+variáveis e os valores a que elas se referem a medida que são criadas.</p>
+<p>Variáveis também tem tipos; novamente, podemos perguntar ao interpretador o tipo das variáveis.</p>
+
+<div id="ch02_10" >
+<textarea cols="50" rows="12" id="ch02_10_code" class="active_code">
+mensagem = "O que ha velhinho?"
+n = 17
+pi = 3.14159
+
+print(type(mensagem))
+print(type(n))
+print(type(pi))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_10)</span> </p>
+<button onclick="runit('ch02_10',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_10');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_10');">Load</button>
+<br />
+
+<pre id="ch02_10_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>O tipo de uma variável é o tipo do objeto a que ela está se referindo no momento.</p>
+<p>Usamos variáveis em programas para &#8220;lembrar&#8221; coisas, como o placar
+atual de um jogo de futebol. Mas variáveis são <em>variáveis</em>.
+Isto significa que elas podem ser alterados ao longo do tempo,
+exatamente como o placar de um jogo de futebol. Você pode atribuir um
+valor a uma variável e mais tarde atribuir um valor diferente a mesma
+variável.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Isso é diferente do que ocorre em matemática. Em matemática, se
+você dá a <cite>x</cite> o valor 3, esse valor não pode ser alterado durante
+os seus cálculos.</p>
+</div>
+<p>Para verificar isso, leia e execute o seguinte programa.  Você notará
+que mudamos o valor da variável <cite>dia</cite> três vezes e na terceira vez
+atribuímos um valor de um tipo diferente dos anteriores</p>
+
+<div id="ch02_11"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (ch02_11)</span> </p>
+<script type="text/javascript">
+var ch02_11_trace = {"code": "dia = \"quinta-feira\"\nprint(dia)\ndia = \"sexta-feira\"\nprint(dia)\ndia = 21\nprint(dia)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["dia"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"dia": "quinta-feira"}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["dia"], "stdout": "quinta-feira\n", "func_name": "<module>", "stack_to_render": [], "globals": {"dia": "quinta-feira"}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["dia"], "stdout": "quinta-feira\n", "func_name": "<module>", "stack_to_render": [], "globals": {"dia": "sexta-feira"}, "heap": {}, "line": 4, "event": "step_line"}, {"ordered_globals": ["dia"], "stdout": "quinta-feira\nsexta-feira\n", "func_name": "<module>", "stack_to_render": [], "globals": {"dia": "sexta-feira"}, "heap": {}, "line": 5, "event": "step_line"}, {"ordered_globals": ["dia"], "stdout": "quinta-feira\nsexta-feira\n", "func_name": "<module>", "stack_to_render": [], "globals": {"dia": 21}, "heap": {}, "line": 6, "event": "step_line"}, {"ordered_globals": ["dia"], "stdout": "quinta-feira\nsexta-feira\n21\n", "func_name": "<module>", "stack_to_render": [], "globals": {"dia": 21}, "heap": {}, "line": 6, "event": "return"}]};
+var ch02_11_vis;
+
+$(document).ready(function() {
+    ch02_11_vis = new ExecutionVisualizer('ch02_11',ch02_11_trace,
+                                {embeddedMode: false,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(ch02_11_vis,'ch02_11');
+    allVisualizers.push(ch02_11_vis);
+});
+
+$(document).ready(function() {
+    $("#ch02_11_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'ch02_11'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    ch02_11_vis.redrawConnectors();
+});
+</script>
+<p>Uma tarefa grande em programação diz respeito a fazer o computador
+lembrar coisas, e.g. <em>O número de chamadas perdidas do seu telefone</em>,
+e atualiza ou modificar a variável quando uma nova chamada é perdida.</p>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question2_3_2">
+    <p>2.3.2: Qual é o valor impresso ao final da seguinte sequência de comandos?
+<pre>
+dia = "quinta-feira"
+dia = 32.5
+dia = 19
+print(dia)
+</pre></p>
+    <form name="test_question2_3_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question2_3_2_opt_a" />
+    <label for= "test_question2_3_2_opt_a">  a) Nada é impresso, ocorre um erro de execução.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question2_3_2_opt_b" />
+    <label for= "test_question2_3_2_opt_b">  b) quinta-feira</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question2_3_2_opt_c" />
+    <label for= "test_question2_3_2_opt_c">  c) 32.5</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question2_3_2_opt_d" />
+    <label for= "test_question2_3_2_opt_d">  d) 19</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question2_3_2','d',['Não é ilegal alterar o tipo de um dado ao qual uma variável se refere', 'Este é o primero valor atribuído à variável dia, mas o comando seguinte atribui à variável outro valor.', 'Esse é o segundo valor atribuído à variável dia, mas o comando seguinte atribui à variável um outro valor.', 'A variável dia contém o último valor que lhe foi atribuído antes do comando de impressão.'])"/> 
+    </form>
+    <div id="test_question2_3_2_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="nomes-de-variaveis-e-palavras-reservadas">
+<span id="index-4"></span><h2>Nomes de variáveis e palavras reservadas<a class="headerlink" href="#nomes-de-variaveis-e-palavras-reservadas" title="Permalink to this headline">¶</a></h2>
+<p><strong>Nomes de variáveis</strong> podem ser arbitrariamente longos.  Eles podem
+conter letras e dígitos, mas eles devem começar com uma letra um
+caractere underscore.  Apesar de ser possível usar letras maiúsculas,
+por convenção não usaremos. Se você usar, lembre-se que a letra ser
+maiúscula ou minúscula faz diferença. <code class="docutils literal"><span class="pre">Beto`</span> <span class="pre">e</span> <span class="pre">``beto</span></code> são variáveis
+diferentes.</p>
+<p>O caractere underscore (<code class="docutils literal"><span class="pre">_</span></code>) pode aparecer no nome.
+Ele é usado frequentemente em nomes formados por mais de uma palavra,
+como <code class="docutils literal"><span class="pre">meu_nome</span></code> ou <code class="docutils literal"><span class="pre">preço_do_chá_na_china</span></code>.
+Existem algumas situações em que os nomes começando com um underscore
+têm um significado especial, portanto é mais seguro que iniciantes
+usem variáveis que começam com uma letra.</p>
+<p>Se você der a uma variável um nome ilegal, ocorrerá um erro de sintaxe.
+No exemploa seguir, cada nome de variável é ilegal.</p>
+<div class="highlight-python"><div class="highlight"><pre>76trombones = &quot;grande parada&quot;
+mais$ = 1000000
+class = &quot;Ciencia da Computacao 101&quot;
+</pre></div>
+</div>
+<p>O nome <code class="docutils literal"><span class="pre">76trombones</span></code> é ilegal pois não começa com uma letra.
+Já  <code class="docutils literal"><span class="pre">mais$</span></code> é ilegal pois contém um caractere ilegal, o símbolo de
+cifrão. Mas o que está errado com <code class="docutils literal"><span class="pre">class</span></code>?</p>
+<p>Ocorre que <code class="docutils literal"><span class="pre">class</span></code> é uma das <strong>palavras reservadas</strong> (<em>keywords</em>) de Python.
+As palavras reservadas definem a sintaxe da linguage e sua estrutura e
+não podem ser usadas como nomes de variáveis.
+Python tem pouco mais de trinta palavras reservadas (e uma vez ou
+outra melhorias em Python introduzem ou eliminam uma ou duas):</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>and</td>
+<td>as</td>
+<td>assert</td>
+<td>break</td>
+<td>class</td>
+<td>continue</td>
+</tr>
+<tr class="row-even"><td>def</td>
+<td>del</td>
+<td>elif</td>
+<td>else</td>
+<td>except</td>
+<td>exec</td>
+</tr>
+<tr class="row-odd"><td>finally</td>
+<td>for</td>
+<td>from</td>
+<td>global</td>
+<td>if</td>
+<td>import</td>
+</tr>
+<tr class="row-even"><td>in</td>
+<td>is</td>
+<td>lambda</td>
+<td>nonlocal</td>
+<td>not</td>
+<td>or</td>
+</tr>
+<tr class="row-odd"><td>pass</td>
+<td>raise</td>
+<td>return</td>
+<td>try</td>
+<td>while</td>
+<td>with</td>
+</tr>
+<tr class="row-even"><td>yield</td>
+<td>True</td>
+<td>False</td>
+<td>None</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>Você pode desejar mater está lista à mão.
+Se o interpretador reclamar sobre um dos nomes de suas variáveis e
+você  não sabe a razão, veja se ele está nesta lista.</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p>Iniciantes algumas vezes confundem &#8220;significado para leitores humanos&#8221;
+com &#8220;significativo para o computador&#8221;. Assim, eles imaginarão erroneamente
+que ao chamarem uma variável de <code class="docutils literal"><span class="pre">média</span></code> ou <code class="docutils literal"><span class="pre">pi</span></code>, ele irá de
+alguma maneira automática calcular a média ou automaticamente
+associará a vaŕiável <code class="docutils literal"><span class="pre">pi</span></code> com o valor 3.14159. Não! O computador
+não associa um significado semântico aos nomes de veriáveis.</p>
+<p class="last">Assim, você encontrará professores que deliberadamente não escolhem
+nomes significativos de variáveis quando estão lecionando para
+iniciantes &#8212; não por não acharem que é um bom hábito, mas porque
+eles estão tentando enfatizar a mensagem que você, o programador,
+deve escrever o código de programa para calcular a média, ou que
+você deve escrever um comando de atribuição para dar a uma variável
+o valor que você deseja que ela receba.</p>
+</div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question2_4_1">
+    <p>2.4.1: Verdadeiro ou falso: o seguinte nome é legal para uma variável em Python: Uma_boa_nota_é_A+</p>
+    <form name="test_question2_4_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question2_4_1_opt_a" />
+    <label for= "test_question2_4_1_opt_a">  a) Verdadeiro</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question2_4_1_opt_b" />
+    <label for= "test_question2_4_1_opt_b">  b) Falso</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question2_4_1','b',['-  O caractere + não é permitido no nome de uma variável.', '-  O caractere + não é permitido no nome de uma variável (tod o resto neste nome é legal, inclusive acento).'])"/> 
+    </form>
+    <div id="test_question2_4_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="comandos-e-expressoes">
+<span id="index-5"></span><h2>Comandos e expressões<a class="headerlink" href="#comandos-e-expressoes" title="Permalink to this headline">¶</a></h2>
+<a id="expression_vid_thumb" > <img src="../_static/expressions.png" /></a>
+<div id="expression_vid" class="video_popup" >
+<video controls  >
+    <source src="http://knuth.luther.edu/~bmiller/thinkcsVideos/Expressions.mov" type="video/mp4"></source>
+    <source src="http://knuth.luther.edu/~bmiller/thinkcsVideos/Expressions.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#expression_vid_thumb').click(function(e) {
+         $('#expression_vid').show();
+         $('#expression_vid_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'expression_vid'});
+         // Log the run event
+      });
+   });
+</script>
+<p>Um <strong>comando</strong> (<em>statement</em>) é uma instrução que o interpretador
+Python pode executar. Até agora só vimos o comando de atribuição.
+Outros tipos de comando que veremos em breve são o comando <code class="docutils literal"><span class="pre">while</span></code>,
+o comando <code class="docutils literal"><span class="pre">for</span></code>, o comando <code class="docutils literal"><span class="pre">if</span></code> e o comando <code class="docutils literal"><span class="pre">import</span></code>. (Existem
+outros tipos também!)</p>
+<p id="index-6">Uma <strong>expressão</strong> (<em>expression</em>) é uma combinação de valores,
+variáveis, operadores e chamadas de funções. Expressões necessitam ser
+calculadas. Se você pde ao Pyhton que</p>
+
+<div id="ch02_13" >
+<textarea cols="50" rows="12" id="ch02_13_code" class="active_code">
+print(1 + 1)
+print(len("Ola"))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_13)</span> </p>
+<button onclick="runit('ch02_13',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_13');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_13');">Load</button>
+<br />
+
+<pre id="ch02_13_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Neste exemplo <code class="docutils literal"><span class="pre">len</span></code> é uma função nativa (<em>built-in</em>) no Python que
+returna o número de caracteres em um string. Vimos anteriormente que
+as funções <code class="docutils literal"><span class="pre">print</span></code> e <code class="docutils literal"><span class="pre">type</span></code>, logo este é o nosso terceiro exemplo
+de uma função!</p>
+<p>O <em>cálculo de uma expressão</em> (<em>evaluation of an expression</em>) produz um
+valor, que é a razão do expressão poder aparecer do lado direito de em
+um comando de atribuição. Um valor por si só é uma expressão e o mesmo
+para uma variável. Calcular o valor de uma variável resulta no valor
+ao qual a variável se refere.</p>
+
+<div id="ch02_14" >
+<textarea cols="50" rows="12" id="ch02_14_code" class="active_code">
+y = 3.14
+x = len("Ola")
+print(x)
+print(y)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_14)</span> </p>
+<button onclick="runit('ch02_14',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_14');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_14');">Load</button>
+<br />
+
+<pre id="ch02_14_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Se dermos uma olhada neste exemplo simples do Python shell, veremos uma
+das diferenças entre comando e expressões.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="mf">3.14</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="s2">&quot;Ola&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="go">3.14</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span>
+<span class="go">3.14</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>Note que quando entramos com o comando de atribuição, <code class="docutils literal"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">3.14</span></code>,
+somente o prompt é retornado.  Não existe valor. Isto é devido ao fato
+de que comando, como comando de atribuição, não retornam valor
+algum. Eles são simplesmente executados.</p>
+<p>Por outro lado, o resultado da execução de um comando de atribuição é a criação de uma referência da variável, <code class="docutils literal"><span class="pre">y</span></code>, para o valor, <code class="docutils literal"><span class="pre">3.14</span></code>. Quando executamos a função print com <code class="docutils literal"><span class="pre">y</span></code> como argumento, nós vemos o valor ao qual y se refere. De fato, digitando apenas <code class="docutils literal"><span class="pre">y</span></code> obtermos o mesmo resultado.</p>
+<p>..operator, operand, expression, integer division</p>
+</div>
+<div class="section" id="operadores-e-operandos">
+<span id="index-7"></span><h2>Operadores e operandos<a class="headerlink" href="#operadores-e-operandos" title="Permalink to this headline">¶</a></h2>
+<p><strong>Operadores</strong> são símbolos especiais que representam computações como adição,
+multiplicação e divisão. Os valores sobre os quais o operador trabalha são
+chamados operandos.</p>
+<p>As seguintes expressões são legais em Python e os seus significados são
+mais ou menos claros:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">20</span> <span class="o">+</span> <span class="mi">32</span>
+<span class="n">hora</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">hora</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="n">minutos</span>
+<span class="n">minutos</span> <span class="o">/</span> <span class="mi">60</span>
+<span class="mi">5</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="p">(</span><span class="mi">5</span> <span class="o">+</span> <span class="mi">9</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">15</span> <span class="o">-</span> <span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Os símbolos <code class="docutils literal"><span class="pre">+</span></code>, <code class="docutils literal"><span class="pre">-</span></code>, <code class="docutils literal"><span class="pre">*</span></code> e o uso de parênteses têm o mesmo significado
+em Python do que têm em matemática. O asterisco (<code class="docutils literal"><span class="pre">*</span></code>) é i símbolo
+usado para indicar multiplicação, e o <code class="docutils literal"><span class="pre">**</span></code> é os ímbolo da exponenciação.
+Adição, subtração, multiplicação e exponenciação fazem o que você espera.</p>
+
+<div id="ch02_15" >
+<textarea cols="50" rows="12" id="ch02_15_code" class="active_code">
+print(2 + 3)
+print(2 - 3)
+print(2 * 3)
+print(2 ** 3)
+print(3 ** 2)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_15)</span> </p>
+<button onclick="runit('ch02_15',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_15');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_15');">Load</button>
+<br />
+
+<pre id="ch02_15_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Quando o nome de uma variável aparece no lugar de um operando, ele é
+substituido pelo valor a que ele se refere antes da operação ser realizada.
+Por exemplo, veja o que pode ser feito se desejamos converter 645 minutos em horas;</p>
+
+<div id="ch02_16" >
+<textarea cols="50" rows="12" id="ch02_16_code" class="active_code">
+minutos = 645
+horas = minutos / 60
+print(horas)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_16)</span> </p>
+<button onclick="runit('ch02_16',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_16');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_16');">Load</button>
+<br />
+
+<pre id="ch02_16_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Em Python 3, operador de divisão usa o símbolo <cite>/</cite> que sempre
+apresenta o resultado em ponto flutuante.</p>
+<p>No exemplo anterior, suponha que desejamos agora saber o número de
+horas <em>cheias</em> e quantos minutos restantes temos em 645
+minutos. Python oferece divisão de dois sabores diferentes.  O segundo
+é chamado de <strong>divisão inteira</strong> (<em>integer division</em>) e usa os
+operador <cite>//</cite>. Ele sempre <em>trunca</em> o resultado para o menor inteiro (à
+esquerda da linha real).</p>
+
+<div id="ch02_17" >
+<textarea cols="50" rows="12" id="ch02_17_code" class="active_code">
+print(7 / 4)
+print(7 // 4)
+minutos = 645
+horas = minutos // 60
+print(horas)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_17)</span> </p>
+<button onclick="runit('ch02_17',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_17');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_17');">Load</button>
+<br />
+
+<pre id="ch02_17_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Tome cuidado para escolher o operador de divisão correto.  Se você
+está trabalhando com um expressão que necessita de ponto flutuante,
+use o operador <cite>/</cite>.  Se você deseja um resultado inteiro use <cite>//</cite>.</p>
+<span class="target" id="index-8"></span><p>O <strong>operador módulo</strong> (<em>modulus operator</em>), também chamado de
+<strong>operador resto</strong> (<em>remainder operator</em>) ou <strong>operador resto da
+divisão</strong> (<em>integer remainder operator</em>) trabalho sobre os inteiros (e
+expressões inteiras) e devolve o resto da divisão do primeiro operando
+pelo segundo.  In Python, o operador resto utiliza o símbolo de
+porcentagem (<code class="docutils literal"><span class="pre">%</span></code>). A sintaxe é a mesma da dos outros operadores</p>
+
+<div id="ch02_18" >
+<textarea cols="50" rows="12" id="ch02_18_code" class="active_code">
+quociente = 7 // 3  # divisão inteira
+print(quociente)
+resto = 7 % 3
+print(resto)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_18)</span> </p>
+<button onclick="runit('ch02_18',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_18');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_18');">Load</button>
+<br />
+
+<pre id="ch02_18_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Assim, 7 dividido por 3 é 2 com resto 1.</p>
+<p>O operador resto é surpreendentemente útil.
+Por exemplo, você pode utilizá-lo para verificar se um número é
+divisível por outro &#8212; se <code class="docutils literal"><span class="pre">x</span> <span class="pre">%</span> <span class="pre">y</span></code> é zero, então <code class="docutils literal"><span class="pre">x</span></code> é divisível
+por <code class="docutils literal"><span class="pre">y</span></code>. Também, você pode extrair o dígito ou dígitos mais à
+direita de um número. Por exemplo, <code class="docutils literal"><span class="pre">x</span> <span class="pre">%</span> <span class="pre">10</span></code> é o dígito mais a
+direita de <code class="docutils literal"><span class="pre">x</span></code> (na base 10). Similarmente <code class="docutils literal"><span class="pre">x</span> <span class="pre">%</span> <span class="pre">100</span></code> é o número
+formao pelos dois último dígitos de <code class="docutils literal"><span class="pre">x</span></code>.</p>
+<p>Finalmente, retornando ao nosso exemplo de tempo, o operador resto é
+extremamente útil para fazermos conversões, digamos, de segundos para
+horas, minutos e segundos. Se começamos com um certo número de segundos,
+digamos 7684, o programa a seguir usa divisão inteira e resto de
+divisão para converter segundos para uma forma mais clara.
+Siga o código passo a passo para se
+certificar que você entende como os operadores divisão e resto são
+usados para computar os valores corretos.</p>
+
+<div id="ch02_19_codelens"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (ch02_19_codelens)</span> </p>
+<script type="text/javascript">
+var ch02_19_codelens_trace = {"code": "total_segs = 7684\nhoras = total_segs // 3600\nsegs_restantes = total_segs % 3600\nminutos =  segs_restantes // 60\nsegs_restantes_final = segs_restantes  % 60", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["total_segs"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"total_segs": 7684}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["total_segs", "horas"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"horas": 2, "total_segs": 7684}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["total_segs", "horas", "segs_restantes"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"horas": 2, "segs_restantes": 484, "total_segs": 7684}, "heap": {}, "line": 4, "event": "step_line"}, {"ordered_globals": ["total_segs", "horas", "segs_restantes", "minutos"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"horas": 2, "segs_restantes": 484, "minutos": 8, "total_segs": 7684}, "heap": {}, "line": 5, "event": "step_line"}, {"ordered_globals": ["total_segs", "horas", "segs_restantes", "minutos", "segs_restantes_final"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"horas": 2, "minutos": 8, "segs_restantes": 484, "total_segs": 7684, "segs_restantes_final": 4}, "heap": {}, "line": 5, "event": "return"}]};
+var ch02_19_codelens_vis;
+
+$(document).ready(function() {
+    ch02_19_codelens_vis = new ExecutionVisualizer('ch02_19_codelens',ch02_19_codelens_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(ch02_19_codelens_vis,'ch02_19_codelens');
+    allVisualizers.push(ch02_19_codelens_vis);
+});
+
+$(document).ready(function() {
+    $("#ch02_19_codelens_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'ch02_19_codelens'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    ch02_19_codelens_vis.redrawConnectors();
+});
+</script>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question2_6_1">
+    <p>2.6.1: O que imprime o seguinte comando?
+<pre>
+print (18 / 4)
+</pre></p>
+    <form name="test_question2_6_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question2_6_1_opt_a" />
+    <label for= "test_question2_6_1_opt_a">  a) 4.5</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question2_6_1_opt_b" />
+    <label for= "test_question2_6_1_opt_b">  b) 5</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question2_6_1_opt_c" />
+    <label for= "test_question2_6_1_opt_c">  c) 4</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question2_6_1_opt_d" />
+    <label for= "test_question2_6_1_opt_d">  d) 2</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question2_6_1','a',['O operator / faz divisão exeta e retorna um número
+em ponto flutuante.', 'O operador / faz divisão exata e retorna um número
+em ponto flutiante.', 'O operador / faz divisão exata e retorna um número
+em ponto flutiante.', 'O operador / faz divisão exata e retorna um número
+em ponto flutiante.'])"/> 
+    </form>
+    <div id="test_question2_6_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question2_6_2">
+    <p>2.6.2: O que imprime o seguinte comando?
+<pre>
+print (18 // 4)
+</pre></p>
+    <form name="test_question2_6_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question2_6_2_opt_a" />
+    <label for= "test_question2_6_2_opt_a">  a) 4.25</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question2_6_2_opt_b" />
+    <label for= "test_question2_6_2_opt_b">  b) 5</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question2_6_2_opt_c" />
+    <label for= "test_question2_6_2_opt_c">  c) 4</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question2_6_2_opt_d" />
+    <label for= "test_question2_6_2_opt_d">  d) 2</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question2_6_2','c',['- O operador // faz divisão inteira e retorna um inteiro.', '- O operador // faz divisão inteira e retorna um
+inteiro, mas ele trunca o valor da divisão. Ele não o arredonda.', '- O operador // faz divisão inteira e retorna um
+inteiro truncado.', '- O operador // faz divisão inteira e retorna o
+resultado da divisão (não o resto).'])"/> 
+    </form>
+    <div id="test_question2_6_2_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question2_6_3">
+    <p>2.6.3:  O que imprime o seguinte comando?
+<pre>
+print (18 % 4)
+</pre></p>
+    <form name="test_question2_6_3_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question2_6_3_opt_a" />
+    <label for= "test_question2_6_3_opt_a">  a) 4.25</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question2_6_3_opt_b" />
+    <label for= "test_question2_6_3_opt_b">  b) 5</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question2_6_3_opt_c" />
+    <label for= "test_question2_6_3_opt_c">  c) 4</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question2_6_3_opt_d" />
+    <label for= "test_question2_6_3_opt_d">  d) 2</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question2_6_3','d',['O operador % retorna o resto da divisão.', 'O operador % retorna o resto da divisão.', 'O operador % retorna o resto da divisão.', 'O operador % retorna o resto da divisão.'])"/> 
+    </form>
+    <div id="test_question2_6_3_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="input">
+<span id="index-9"></span><span id="id1"></span><h2>Input<a class="headerlink" href="#input" title="Permalink to this headline">¶</a></h2>
+<a id="inputvid_thumb" > <img src="../_static/inputthumb.png" /></a>
+<div id="inputvid" class="video_popup" >
+<video controls  >
+    <source src="http://knuth.luther.edu/~pythonworks/thinkcsVideos/input.mov" type="video/mp4"></source>
+    <source src="http://knuth.luther.edu/~pythonworks/thinkcsVideos/input.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#inputvid_thumb').click(function(e) {
+         $('#inputvid').show();
+         $('#inputvid_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'inputvid'});
+         // Log the run event
+      });
+   });
+</script>
+<p>O program da seção anterior funciona corretamente, mas é muito
+limitado pois somente trabalha com o valor <code class="docutils literal"><span class="pre">total_segs</span></code>. E se
+desejássemos reescrever o programa de maneira que ele fique mais
+geral. Uma coisa que poderíamos fazer é permitir o usuário entrar com
+qualquer número de segundos. O programa então imprimiria o resultado
+apropriado para para esse valor inicial.</p>
+<p>Para fazermos isto necessitamos de uma maneira para receber valores (<em>input</em>) do
+usuário. Felizmente, Python possui uma função nativa para
+realizar essa tarefa. Essa função é chamada <code class="docutils literal"><span class="pre">input</span></code>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">n</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Por favor, entre com o seu nome: &quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A função imput permite que apresentemos um texto ou <strong>prompt</strong> ao
+usuário (<em>prompt string</em>). Quando a função é executada o texto é
+exibido. O usuário da programa pode digitar o nome e pressionar a tecla
+<cite>enter</cite>. Quando isto ocorre o texto que foi digitado é retornado pela
+função <cite>input</cite> e, no presente caso, atribuído à variável <cite>n</cite>.</p>
+
+<div id="inputfun" >
+<textarea cols="50" rows="12" id="inputfun_code" class="active_code">
+n = input("Por favor, entre com o seu nome: ")
+print("Ola", n)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (inputfun)</span> </p>
+<button onclick="runit('inputfun',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('inputfun');">Save</button>
+<button class="ac_opt" onclick="requestCode('inputfun');">Load</button>
+<br />
+
+<canvas id="inputfun_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="inputfun_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Mesmo que você pessa ao usuário para digitar a sua idade, você
+receberá como resposta um string como <code class="docutils literal"><span class="pre">&quot;17&quot;</span></code>. Será o se trabalho,
+como programador, converter esse string para int ou float, usando as
+funções de conversão <cite>int</cite> ou <cite>float</cite> que vimos anteriormente.</p>
+
+<div id="int_secs" >
+<textarea cols="50" rows="12" id="int_secs_code" class="active_code">
+segundos_str = input("Por favor, entre com o número de segundos que deseja converter: ")
+total_segs = int(secondos_str)
+
+horas = total_segs // 3600
+segs_restantes = total_segs % 3600
+minutos =  segs_restantes // 60
+segs_restantes_final = segs_restantes  % 60
+
+print("Hrs=", horas, "mins=", minutos, "segs=", segs_restantes_final)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (int_secs)</span> </p>
+<button onclick="runit('int_secs',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('int_secs');">Save</button>
+<button class="ac_opt" onclick="requestCode('int_secs');">Load</button>
+<br />
+
+<canvas id="int_secs_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="int_secs_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>A variável <code class="docutils literal"><span class="pre">segundos_str</span></code> irá se referir ao atring que foi digitado
+pelo usuário. Como dissemos anteriormente, mesmo que esse string seja
+<code class="docutils literal"><span class="pre">7684`,</span> <span class="pre">ele</span> <span class="pre">é</span> <span class="pre">ainda</span> <span class="pre">um</span> <span class="pre">string</span> <span class="pre">e</span> <span class="pre">não</span> <span class="pre">um</span> <span class="pre">número.</span> <span class="pre">Para</span> <span class="pre">convertê-lo</span> <span class="pre">para</span>
+<span class="pre">um</span> <span class="pre">inteiro</span> <span class="pre">usamos</span> <span class="pre">a</span> <span class="pre">função</span> <span class="pre">``int</span></code>. O resultado será referenciado por
+<code class="docutils literal"><span class="pre">total_segs</span></code>. Agora, cada vez que executamos o programa, você pode
+entrar com um novo valor para o número de segundos a serem convertidos.</p>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question2_7_1">
+    <p>2.7.1: O que é impresso pelo seguinte comando?
+<pre>
+n = input("Por favor, entre com sua idade: ")
+# usuário entra com 18
+print ( type(n) )
+</pre></p>
+    <form name="test_question2_7_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question2_7_1_opt_a" />
+    <label for= "test_question2_7_1_opt_a">  a) &lt;class 'str'&gt;</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question2_7_1_opt_b" />
+    <label for= "test_question2_7_1_opt_b">  b) &lt;class 'int'&gt;</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question2_7_1_opt_c" />
+    <label for= "test_question2_7_1_opt_c">  c) &lt;class 18&gt;</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question2_7_1_opt_d" />
+    <label for= "test_question2_7_1_opt_d">  d) 18</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question2_7_1','a',['Tudo que é digitado pelo usuário é lido como um string.', 'Mesmo que o usuário digite um inteiro, esse valor não
+é lido pelo programa como um inteiro.', '18 é o valor do que foi digitado, não o tipo do dado.', '18 é o valor do que foi digitado, não o tipo do dado.'])"/> 
+    </form>
+    <div id="test_question2_7_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="ordem-das-operacoes">
+<span id="index-10"></span><h2>Ordem das operações<a class="headerlink" href="#ordem-das-operacoes" title="Permalink to this headline">¶</a></h2>
+<a id="precedencevid_thumb" > <img src="../_static/precedencethumb.png" /></a>
+<div id="precedencevid" class="video_popup" >
+<video controls  >
+    <source src="http://knuth.luther.edu/~pythonworks/thinkcsVideos/precedence.mov" type="video/mp4"></source>
+    <source src="http://knuth.luther.edu/~pythonworks/thinkcsVideos/precedence.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#precedencevid_thumb').click(function(e) {
+         $('#precedencevid').show();
+         $('#precedencevid_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'precedencevid'});
+         // Log the run event
+      });
+   });
+</script>
+<a id="associativityvid_thumb" > <img src="../_static/associativitythumb.png" /></a>
+<div id="associativityvid" class="video_popup" >
+<video controls  >
+    <source src="http://knuth.luther.edu/~pythonworks/thinkcsVideos/associativity.mov" type="video/mp4"></source>
+    <source src="http://knuth.luther.edu/~pythonworks/thinkcsVideos/associativity.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#associativityvid_thumb').click(function(e) {
+         $('#associativityvid').show();
+         $('#associativityvid_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'associativityvid'});
+         // Log the run event
+      });
+   });
+</script>
+<p>Quando mais de um operador aparece em um expressão, a ordem em que são
+realizadas as operações dependem das <strong>regras de precedência</strong> (<em>rules
+of precedence</em>). Python segue as regras de precedência dos seus
+operadores matemáticos da mesma forma que matemática.</p>
+<ol class="arabic simple">
+<li>Parenteses tem a mais alta precedência e podem ser usados para
+forçar que uma expressão seja calculada na ordem que você
+deseja. Como expressões entre parênteses são calculadas primeiro
+<code class="docutils literal"><span class="pre">2*(3-1)</span></code> é 4, e <code class="docutils literal"><span class="pre">(1+1)**(5-2)</span></code> é 8. Você pode usar parântese
+para tornar uma expressão mais legível, como em <code class="docutils literal"><span class="pre">(minutos</span> <span class="pre">*</span> <span class="pre">100)</span> <span class="pre">/</span>
+<span class="pre">60</span></code>, mesmo que isto não mude o resultado.</li>
+<li>Exponeciação tem a segunda precedência mais alta, assim
+<code class="docutils literal"><span class="pre">2**1+1```é</span> <span class="pre">3</span> <span class="pre">e</span> <span class="pre">não</span> <span class="pre">4,</span> <span class="pre">e</span> <span class="pre">``3*1**3</span></code> é 3 e não 27. Você pode
+explicar o por que?</li>
+<li>Multiplicação e ambas as divisões têm a mesma precedência, que são
+mais altas que adição e subtração, que também têm a mesma
+precedência. Logo, <code class="docutils literal"><span class="pre">2*3-1``é</span> <span class="pre">5</span> <span class="pre">e</span> <span class="pre">não</span> <span class="pre">4,</span> <span class="pre">e</span> <span class="pre">``5-2*2</span></code> é 1 e não 6.</li>
+<li>Operadores com a <em>mesma</em> precedência são executados  da esquerda
+para a direira. Em álgebra dizemos que eles são <em>associativos à
+esquerda</em> (<em>left-associative</em>). Desta forma na expressão <code class="docutils literal"><span class="pre">6-3+3</span></code>
+a subtração é realizada primeiro e tem como resultado 3.
+Depois adicionamos 2 e obtemos o resultado 5. Se os operadores
+tivessem sido executados da direira para a esquerda o resultado
+seria <code class="docutils literal"><span class="pre">6-(3+2)</span></code> que é 1.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<blockquote>
+<div>Devido a alguma peculiaridade histórica, uma  exceção à regra
+associativa à esquerda é o operador exponenciação <cite>**</cite>. Uma dica
+útil é sempre usar parênteses para forçar a ordem exata que você
+deseja quando há exponenciações envolvidas.</div></blockquote>
+
+<div id="ch02_23" >
+<textarea cols="50" rows="12" id="ch02_23_code" class="active_code">
+print(2 ** 3 ** 2)     # o ** mais a direira e executado primeiro!
+print((2 ** 3) ** 2)   # use parenteses para forçar a ordem desejada!
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_23)</span> </p>
+<button onclick="runit('ch02_23',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_23');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_23');">Load</button>
+<br />
+
+<pre id="ch02_23_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question2_8_1">
+    <p>2.8.1: Qua é o valor a expressão a seguir?
+<pre>
+16 - 2 * 5 // 3 + 1
+</pre></p>
+    <form name="test_question2_8_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question2_8_1_opt_a" />
+    <label for= "test_question2_8_1_opt_a">  a) 14</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question2_8_1_opt_b" />
+    <label for= "test_question2_8_1_opt_b">  b) 24</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question2_8_1_opt_c" />
+    <label for= "test_question2_8_1_opt_c">  c) 3</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question2_8_1_opt_d" />
+    <label for= "test_question2_8_1_opt_d">  d) 13.667</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question2_8_1','a',['Usando parênteses, a éxpressão (2*5) é calculada
+primeiro, depois (10 // 3), então (16-3), e então
+(13+1).', 'Lembre que * tem precedência sobre -.', 'Lembre que // tem preceDência sobre -.', 'Lembre que // faz divisão inteira.'])"/> 
+    </form>
+    <div id="test_question2_8_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question2_8_2">
+    <p>2.8.2: What is the value of the following expression:
+<pre>
+2 ** 2 ** 3 * 3
+</pre></p>
+    <form name="test_question2_8_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question2_8_2_opt_a" />
+    <label for= "test_question2_8_2_opt_a">  a) 768</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question2_8_2_opt_b" />
+    <label for= "test_question2_8_2_opt_b">  b) 128</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question2_8_2_opt_c" />
+    <label for= "test_question2_8_2_opt_c">  c) 12</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question2_8_2_opt_d" />
+    <label for= "test_question2_8_2_opt_d">  d) 256</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question2_8_2','a',['Exponenciação tem precedência sobre multiplicação, mas
+a precedência é da direita para a esquerda! Assim 2 **
+3 é 8, 2 ** 8 é 256 e 256 * 3 é 768.', 'Exponenciação (**) é calculada da direita para a
+esquerda, assim calcule 2 ** 3 primeiro.', 'Há duas exponenciações.', 'Lembre de multiplicar por 3.'])"/> 
+    </form>
+    <div id="test_question2_8_2_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="reatribuicao">
+<h2>Reatribuição<a class="headerlink" href="#reatribuicao" title="Permalink to this headline">¶</a></h2>
+<a id="reassignmentvid_thumb" > <img src="../_static/reassignmentthumb.png" /></a>
+<div id="reassignmentvid" class="video_popup" >
+<video controls  >
+    <source src="http://knuth.luther.edu/~pythonworks/thinkcsVideos/reassignment.mov" type="video/mp4"></source>
+    <source src="http://knuth.luther.edu/~pythonworks/thinkcsVideos/reassignment.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#reassignmentvid_thumb').click(function(e) {
+         $('#reassignmentvid').show();
+         $('#reassignmentvid_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'reassignmentvid'});
+         // Log the run event
+      });
+   });
+</script>
+<p>Como mencionamos anteriormente, é legal fazer mais que uma atribuição
+para a mesma variável. Uma nova atribuição faz com que a variável
+existente se refira a um novo valor (e pare de se referir ao valor antigo).</p>
+
+<div id="ch07_reassign1" >
+<textarea cols="50" rows="12" id="ch07_reassign1_code" class="active_code">
+bruce = 5
+print(bruce)
+bruce = 7
+print(bruce)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch07_reassign1)</span> </p>
+<button onclick="runit('ch07_reassign1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch07_reassign1');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch07_reassign1');">Load</button>
+<br />
+
+<canvas id="ch07_reassign1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch07_reassign1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>A primeira vez que <code class="docutils literal"><span class="pre">bruce</span></code> é impresso, o seu valor é 5, e na segunda
+vez, seu valor é 7. O comando de atribuição muda o valor (o objeto) ao
+qual <code class="docutils literal"><span class="pre">bruce</span></code> se refere.</p>
+<p>Aqui está como uma <strong>reatribuição</strong> se parece em um diagrama de
+referências:</p>
+<img alt="reassignment" src="../_images/reassign1.png" />
+<p>É importante notar que em matemática, uma igualdade é sempre
+verdadeira. Se <code class="docutils literal"><span class="pre">a</span> <span class="pre">é</span> <span class="pre">igual</span> <span class="pre">a</span> <span class="pre">b</span></code> agora, então <code class="docutils literal"><span class="pre">a</span> <span class="pre">será</span> <span class="pre">sempre</span> <span class="pre">igual</span> <span class="pre">a</span>
+<span class="pre">b</span></code>
+Em Python, um comando de atribuição pode fazer duas variáveis iguais,
+mas devido a possibilidade de reatribuição, elas não precisam
+permanecer desta forma.</p>
+
+<div id="ch07_reassign2" >
+<textarea cols="50" rows="12" id="ch07_reassign2_code" class="active_code">
+a = 5
+b = a    # depois desta linha, a e b são iguais
+print(a,b)
+a = 3    # depois desta linha, a e b não são mais iguais
+print(a,b)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch07_reassign2)</span> </p>
+<button onclick="runit('ch07_reassign2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch07_reassign2');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch07_reassign2');">Load</button>
+<br />
+
+<canvas id="ch07_reassign2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch07_reassign2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Linha 4 altera o valor de <code class="docutils literal"><span class="pre">a</span></code> mas não altera o valor de <code class="docutils literal"><span class="pre">b</span></code>, logo
+eles não são mais iguais. Teremos muito mais a dizer sobre igualdade
+em um capítulo mais adiante.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>In some programming languages, a different
+symbol is used for assignment, such as <code class="docutils literal"><span class="pre">&lt;-</span></code> or <code class="docutils literal"><span class="pre">:=</span></code>.  The intent is
+that this will help to avoid confusion.  Python
+chose to use the tokens <code class="docutils literal"><span class="pre">=</span></code> for assignment, and <code class="docutils literal"><span class="pre">==</span></code> for equality.  This is a popular
+choice also found in languages like C, C++, Java, and C#.</p>
+<p class="last">Em algumas linguagens, um símbolos diferentes são usado para
+indicar atribuição, como <code class="docutils literal"><span class="pre">&lt;-</span></code> ou <code class="docutils literal"><span class="pre">:=</span></code>. A intensão é evita
+confusão. Python optou por usar <code class="docutils literal"><span class="pre">=</span></code> para atribuição e <code class="docutils literal"><span class="pre">==</span></code>
+para igualdade. Esta é uma escolha popular e também encontrada
+em liguagens como C, C++, Java e C#.</p>
+</div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question2_9_1">
+    <p>2.9.1: Depois das atribuições a seguir, quais são os valores de x e y?
+<pre>
+x = 15
+y = x
+x = 22
+</pre></p>
+    <form name="test_question2_9_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question2_9_1_opt_a" />
+    <label for= "test_question2_9_1_opt_a">  a) x é 15 e y é 15</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question2_9_1_opt_b" />
+    <label for= "test_question2_9_1_opt_b">  b) x é 22 e y é 22</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question2_9_1_opt_c" />
+    <label for= "test_question2_9_1_opt_c">  c) x é 15 e y é 22</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question2_9_1_opt_d" />
+    <label for= "test_question2_9_1_opt_d">  d) x é 22 e y é 15</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question2_9_1','d',['A última atribuição dá a x um valor diferente.', 'Não, x e y são duas variáveis diferentes. Só porque x
+é alterada nna última atribuição isto não altera o
+valor que foi copiado em y pela segunda atribuição.', 'A última atribuição altera x, mas não altera y.', 'Sim, x tem o valor 22 e y o valor 15.'])"/> 
+    </form>
+    <div id="test_question2_9_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="atualizacao-de-variaveis">
+<h2>Atualização de variáveis<a class="headerlink" href="#atualizacao-de-variaveis" title="Permalink to this headline">¶</a></h2>
+<a id="updatevid_thumb" > <img src="../_static/updatethumb.png" /></a>
+<div id="updatevid" class="video_popup" >
+<video controls  >
+    <source src="http://knuth.luther.edu/~pythonworks/thinkcsVideos/update.mov" type="video/mp4"></source>
+    <source src="http://knuth.luther.edu/~pythonworks/thinkcsVideos/update.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#updatevid_thumb').click(function(e) {
+         $('#updatevid').show();
+         $('#updatevid_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'updatevid'});
+         // Log the run event
+      });
+   });
+</script>
+<p>Uma das forma mais comuns de reatribuição é <strong>atualização</strong> (<em>update</em>)
+onde o novo valor da variável depende do antigo. Por exemplo.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Isto significa pegue o valor de x, adicione um, e atualize x com o
+novo valor. O novo valor de x é o anterior mais 1. Apesar desse
+comando de atribuição parecer um pouco estranho, lembre-se que
+executar uma atribuição é um processo de dois passos. Primeiro, o
+valor da lado direito da expressão é calculado. Segundo, faça com que
+o nome da variável que está no lado esquerdo se refira ao novo objeto
+resultante. O fato que <code class="docutils literal"><span class="pre">x</span></code> aparece em ambos os lados não importa.
+A semântica do comando de atribuição se encarrega que não haja
+confusão sobre o resultado.</p>
+
+<div id="ch07_update1" >
+<textarea cols="50" rows="12" id="ch07_update1_code" class="active_code">
+x = 6        # inicialize x
+print(x)
+x = x + 1    # atualize x
+print(x)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch07_update1)</span> </p>
+<button onclick="runit('ch07_update1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch07_update1');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch07_update1');">Load</button>
+<br />
+
+<canvas id="ch07_update1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch07_update1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Se você tentar atualizar uma variável que não existe, você receberá
+uma mensagem de erro pois Python calcula o valor da expressão que está
+do lado direito do operador de atribuição antes de atribuir o
+resultado ao nome a variável do lado esquerdo. Antes que você possa
+atualizar uma variável, você deve <strong>*inicializá-la</strong> (<em>initialize</em>
+it), usualmente com uma atribuição simples. No exemplo anterior, <code class="docutils literal"><span class="pre">x</span></code>
+foi inicializada com 6.</p>
+<p>Atualizar uma variável adicionando-se 1 é chmado de <strong>incremento</strong>
+(<em>increment</em>); subtrair 1 é chamado <strong>decremento</strong>
+(<em>decrement</em>). Alguns programadores também falam sobre <strong>bumping</strong> uma
+variável, que também significa incrementá-la de 1.</p>
+<div class="admonition-advanced-topics admonition">
+<p class="first admonition-title">Advanced Topics</p>
+<ul class="last simple">
+<li><a class="reference external" href="at_1_1.html">Topic 1:</a> Python além do Navegador.  Está é uma
+introdução gentil ao uso de Python a partir da linha de comando.
+Vermos isto mais adiante, entretanto se você está curiosos sobre
+como é Python fora do contexto deste livro eletrônico, você pode
+dar uma olhada aqui. Também há instruções para a instalação de
+Python em seu computador.</li>
+<li><a class="reference external" href="http://interactivepython.org/courselib/static/diveintopython3/index.html">Topic 2:</a> Dive Into Python 3,
+este é um livro online escrito por Mark Pilgrim. Se você teve
+alguma experiência prévia de programação esse livro leva você
+mais a fundo com os dois pés.</li>
+</ul>
+</div>
+<p><strong>Teste o seu entendimento</strong></p>
+
+    <div id="test_question2_10_1">
+    <p>2.10.1: O que é impresso pelo comando a seguir?
+<pre>
+x = 12
+x = x - 1
+print (x)
+</pre></p>
+    <form name="test_question2_10_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question2_10_1_opt_a" />
+    <label for= "test_question2_10_1_opt_a">  a) 12</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question2_10_1_opt_b" />
+    <label for= "test_question2_10_1_opt_b">  b) -1</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question2_10_1_opt_c" />
+    <label for= "test_question2_10_1_opt_c">  c) 11</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question2_10_1_opt_d" />
+    <label for= "test_question2_10_1_opt_d">  d) Nada.  Ocorre um erro pois x não pode igual a x - 1</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question2_10_1','c',['O valor de x é alterado pelo segundo comando.', 'No segundo comando, utilize o valor de  x antes de subtrair 1.', 'Sim, o comando atribui a x o valor atual mesnos 1.', 'Lembre que variáveis em Python são diferentes de
+variáveis em matemática e que elas guardam valores
+(temporariamente), mas podem ser alteradas.'])"/> 
+    </form>
+    <div id="test_question2_10_1_feedback">
+    </div>
+    </div>
+    <div class="admonition-scratch-editor admonition">
+<p class="first admonition-title">Scratch Editor</p>
+<div class="last">
+<button id="butt_sf_scratch_1" onclick="createActiveCode('sf_scratch_1',''); $('#butt_sf_scratch_1').hide();">Open Editor</button>
+<div id="sf_scratch_1"></div>
+<br />
+</div></div>
+</div>
+<div class="section" id="glossario">
+<h2>Glossário<a class="headerlink" href="#glossario" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-avaliar-evaluate">avaliar (<em>evaluate</em>)</dt>
+<dd>Simplificar uma expressão realizando as operações em ordem para
+obter um valor simples.</dd>
+<dt id="term-classe-class">classe (<em>class</em>)</dt>
+<dd>Veja <strong>tipo de dado</strong> (<em>data type</em>) abaixo</dd>
+<dt id="term-comando-statement">comando (<em>statement</em>)</dt>
+<dd>Instrução que o interpretador Python pode executar. Até agora
+vimos apenas o comando de atribuição, mas logo encontraremos
+outros comandos como <code class="docutils literal"><span class="pre">import</span></code> e <code class="docutils literal"><span class="pre">for</span></code>.</dd>
+<dt id="term-comando-de-atribuicao-assignment-statement">comando de atribuição (<em>assignment statement</em>)</dt>
+<dd><p class="first">Um comando que atribui um valor a um nome (variável). À
+esquerdo do operador de atribuição, <code class="docutils literal"><span class="pre">=</span></code>, fica o nome. Á
+direita do símbolo de atribuição fica a expressão que é
+calculada pelo interpretador Python e é atribuído ao nome.
+A diferença entre os lados esquerdo e direito do comando de
+atribuição é sempre confuso para os novos programadores. Na
+atribuição a seguir:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">n</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p class="last"><code class="docutils literal"><span class="pre">n</span></code> tem papeis bem diferentes em cada um dos lados do <code class="docutils literal"><span class="pre">=</span></code>.
+Do lado direito ´´n´´&#8217;é um <em>valor</em> e faz parte da <em>expressão</em>
+que será calculada pelo interpretador Python antes de ser
+atribuído ao nome do lado direito.</p>
+</dd>
+<dt id="term-comentario-comment">comentário (<em>comment</em>)</dt>
+<dd>Informação em um programa que dirigido a outros programadores
+(ou qualquer um que esteja lendo o código fonte) e não tem
+efeito algum na execução do programa.</dd>
+<dt id="term-decremento-decrement">decremento (<em>decrement</em>)</dt>
+<dd>Decrescer de 1.</dd>
+<dt id="term-diagrama-de-referencia-reference-diagram">diagrama de referência (<em>reference diagram</em>)</dt>
+<dd>Um figura mostrando uma variável com um flecha apontado para o
+valor (objeto) ao qual a variável se refere. Veja também **
+A picture showing a variable with an arrow pointing to the
+value (object) that the variable refers to. See also <strong>estado
+instantâneo</strong> (<em>state snapshot</em>).</dd>
+<dt id="term-divisao-inteira-integer-division">divisão inteira (<em>integer division</em>)</dt>
+<dd>um operador que divide um inteiro por outro e retorna um
+número inteiro. Divisão inteira resulta no número de vezes que
+o numerador é divisivel pelo denominador e discarta qualquer
+resto.</dd>
+<dt id="term-estado-instantaneo-state-snapshot">estado instantâneo (<em>state snapshot</em>)</dt>
+<dd>Uma representação gráfica de um conjunto de variáveis e dos
+valores aos quais elas se referem durante um instante
+particular da execução do programa.</dd>
+<dt id="term-expressao-expression">expressão (<em>expression</em>)</dt>
+<dd>Uma combinação de operadores e operandos (variáveis e valores)
+que tem valor simples como resultado. Expressão são avaliadas
+para dar o resultado.</dd>
+<dt id="term-float">float</dt>
+<dd>Um tipo de dado do Python que armazena um número em <em>ponto
+flutuante</em>. Números em ponto flutuante são armazenados em duas
+partes: uma <em>base</em> e um <em>expoente</em>. Quando o número é impresso
+na forma padrão eles se parecem com números decimais. Cuidado
+com erros de arredondamento quando você usa <code class="docutils literal"><span class="pre">float</span></code> e
+lembresse que ele são apenas valores aproximados.</dd>
+<dt id="term-funcao-para-conversao-de-tipo-type-conversion-function">função para conversão de tipo (<em>type conversion function</em>)</dt>
+<dd>Uma função que pode converter um valor de um tipo para outro.</dd>
+<dt id="term-incremento-incrementar-increment">incremento/incrementar (<em>increment</em>)</dt>
+<dd>Substantivo e verbo, incrementar significa adicionar 1 a uma variável.</dd>
+<dt id="term-inicializacao-de-uma-variavel-initialization-of-a-variable">inicialização (de uma variável) (<em>initialization (of a variable)</em>)</dt>
+<dd>Inicializar uma variável é dar a ele um valor inicial.
+como em Python variáveis não existem até que elas recebam
+algum valor, elas são inicializadas quando são criadas. Em
+outras linguagens de programação este não é o caso, e
+variáveis podem ser criadas sem terem sido inicializadas,
+nesse caso elas  tem um valor <em>default</em> ou <em>lixo</em>.</dd>
+<dt id="term-int">int</dt>
+<dd>Um tipo de dado do Python que contém números inteiros
+positivos e negativos.</dd>
+<dt id="term-palavra-reservada-keyword">palavra reservada (<em>keyword</em>)</dt>
+<dd>Uma palavra que é utilizada pelo compilador/interpretador na
+análise sintática do programa; você não pode usar palavras
+reservadas como <code class="docutils literal"><span class="pre">if</span></code>, <code class="docutils literal"><span class="pre">def</span></code> e <code class="docutils literal"><span class="pre">while</span></code> como nomes de variáveis.</dd>
+<dt id="term-nome-de-uma-variavel-variable-name">nome de uma variável (<em>variable name</em>)</dt>
+<dd>Nome dado a uma variável. Em Python nomes de variáveis são uma
+sequência de letras (a..z, A..Z, e _) e dígitos (0..9) que
+começa com uma letra. Em uma prática de programação boa, nomes
+de variáveis devem ser escolhido de tal maneira que descrevam
+o seu uso pelo programa, fazendo que o programa seja <em>auto
+documentado</em> (<em>self documenting</em>).</dd>
+<dt id="term-objeto-object">objeto (<em>object</em>)</dt>
+<dd>Também conhecido como valor. Objetos são elementos
+fundamentais. Programas são projetados para manipular esses
+elementos (ou programadores dão ordens para que operações sejam
+realizadas sobre eles).</dd>
+<dt id="term-operador-operator">operador (<em>operator</em>)</dt>
+<dd>Um símbolo especial que representa um computação simples como
+adição, multiplicação ou concatenação de strings.</dd>
+<dt id="term-operador-modulo-modulus-operator">operador módulo (<em>modulus operator</em>)</dt>
+<dd>Chamado também de operador resto ou operado resto
+da divisão. Fornece o resto da divisão depois de uma divisão inteira.</dd>
+<dt id="term-operando-operand">operando (<em>operand</em>)</dt>
+<dd>Um dos valores manipulados por um operador.</dd>
+<dt id="term-prompt-string">prompt string</dt>
+<dd>Texto apresentado ao usuário indicando o tipo valor que se espera
+que seja digitado e de entrada ao programa.</dd>
+<dt id="term-regras-de-precedencia-rules-of-precedence">regras de precedência (<em>rules of precedence</em>)</dt>
+<dd>Conjunto de regras que governam a ordem em que expressões
+envolvendo vários operadores e operandos é
+avaliada/calculada.</dd>
+<dt id="term-simbolo-de-atribuicao-assignment-token">símbolo de atribuição (<em>assignment token</em>)</dt>
+<dd><code class="docutils literal"><span class="pre">=</span></code> é o símbolo de atribuição usado por Python e não deve
+ser confundido com o operador matemático de comparação que usa
+o mesmo símbolo.</dd>
+<dt id="term-str">str</dt>
+<dd>Tipo de dado do Python que armazena um atring de caracteres.</dd>
+<dt id="term-tipo-de-dado-data-type">tipo de dado (<em>data type</em>)</dt>
+<dd>Um conjunto de valores. O tipo de um valor determina como ele
+pode ser usado em uma expressão. Até agora, os tipos de dado
+que você viu são inteiros (<code class="docutils literal"><span class="pre">int</span></code>), números em ponto
+flutuante (<code class="docutils literal"><span class="pre">float</span></code>) e strings (<code class="docutils literal"><span class="pre">str</span></code>).
+program <em>self documenting</em>.</dd>
+<dt id="term-valor-value">valor (<em>value</em>)</dt>
+<dd>Um número ou string (ou outras coisas que veremos mais tarde)
+que podem ser armazenados em uma variável ou calculado por uma
+expressão.</dd>
+<dt id="term-variavel-variable">variável (<em>variable</em>)</dt>
+<dd>Nome que se refere a um valor.</dd>
+</dl>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Calcule de cabeça as seguintes expressões numéricas e depois use a
+janela do <em>active code</em> para verificar as suas respostas:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><code class="docutils literal"><span class="pre">5</span> <span class="pre">**</span> <span class="pre">2</span></code></li>
+<li><code class="docutils literal"><span class="pre">9</span> <span class="pre">*</span> <span class="pre">5</span></code></li>
+<li><code class="docutils literal"><span class="pre">15</span> <span class="pre">/</span> <span class="pre">12</span></code></li>
+<li><code class="docutils literal"><span class="pre">12</span> <span class="pre">/</span> <span class="pre">15</span></code></li>
+<li><code class="docutils literal"><span class="pre">15</span> <span class="pre">//</span> <span class="pre">12</span></code></li>
+<li><code class="docutils literal"><span class="pre">12</span> <span class="pre">//</span> <span class="pre">15</span></code></li>
+<li><code class="docutils literal"><span class="pre">5</span> <span class="pre">%</span> <span class="pre">2</span></code></li>
+<li><code class="docutils literal"><span class="pre">9</span> <span class="pre">%</span> <span class="pre">5</span></code></li>
+<li><code class="docutils literal"><span class="pre">15</span> <span class="pre">%</span> <span class="pre">12</span></code></li>
+<li><code class="docutils literal"><span class="pre">12</span> <span class="pre">%</span> <span class="pre">15</span></code></li>
+<li><code class="docutils literal"><span class="pre">6</span> <span class="pre">%</span> <span class="pre">6</span></code></li>
+<li><code class="docutils literal"><span class="pre">0</span> <span class="pre">%</span> <span class="pre">7</span></code></li>
+</ol>
+</div></blockquote>
+</li>
+</ol>
+<blockquote>
+<div>
+<div id="ch02_ex1" >
+<textarea cols="50" rows="12" id="ch02_ex1_code" class="active_code">
+print(5**2)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch02_ex1)</span> </p>
+<button onclick="runit('ch02_ex1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch02_ex1');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch02_ex1');">Load</button>
+<br />
+
+<canvas id="ch02_ex1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch02_ex1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div></blockquote>
+<ol class="arabic" start="2">
+<li><p class="first">Você olha para um relógio e são exatamente 2 da tarde. Você coloca um
+alarme para tocar daqui a 51 horas. A que horas o alarme ira tocar?</p>
+
+<button id="butt_ex_2_2" onclick="createActiveCode('ex_2_2',''); $('#butt_ex_2_2').hide();">Open Editor</button>
+<div id="ex_2_2"></div>
+<br />
+</li>
+<li><p class="first">Escreva um programa em Python que resolve a versão geral do
+problema acima. Peça ao usuário que entre com a hora atual (em
+horas) e que entre com o número de horas que deverá esperar antes
+do alarme tocar. Seu programa deve imprimir a hora que o alarme irá
+tocar.</p>
+
+<button id="butt_ex_2_3" onclick="createActiveCode('ex_2_3',''); $('#butt_ex_2_3').hide();">Open Editor</button>
+<div id="ex_2_3"></div>
+<br />
+</li>
+<li><p class="first">Você terá umas férias maravilhosas que começam no dia 3,
+quarta-feira. Você retornará das sua férias  depois de 137 noites
+(Uauu!). Escreva um programa que pede o dia do mês e o dia da
+semana em que  você irá viajar e pede ainda o número de dias que
+você ficará de férias e imprime o dia da semana que você voltará.</p>
+
+<button id="butt_ex_2_4" onclick="createActiveCode('ex_2_4','# Problem 4\n# Meu Nome:'); $('#butt_ex_2_4').hide();">Open Editor</button>
+<div id="ex_2_4"></div>
+<br />
+</li>
+<li><p class="first">Considere a sentença: <em>Só trabalho sem diversão faz de João em chato.</em>
+Armazene cada palavra em uma variável, então imprima a sentença em uma linha usando a função
+<code class="docutils literal"><span class="pre">print</span></code>.</p>
+</li>
+</ol>
+<blockquote>
+<div>
+<button id="butt_ex_2_5" onclick="createActiveCode('ex_2_5',''); $('#butt_ex_2_5').hide();">Open Editor</button>
+<div id="ex_2_5"></div>
+<br />
+</div></blockquote>
+<ol class="arabic">
+<li><p class="first">Acrescente parênteses à expressão <code class="docutils literal"><span class="pre">6</span> <span class="pre">*</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">2</span></code> para mudar o esu
+valor de 4 para -6.</p>
+
+<button id="butt_ex_2_6" onclick="createActiveCode('ex_2_6',''); $('#butt_ex_2_6').hide();">Open Editor</button>
+<div id="ex_2_6"></div>
+<br />
+</li>
+<li><p class="first">A fórmula para calcular o valor final de juros compostos
+(<em>compound interest</em>) é mostrada  na Wikipedia como</p>
+<img alt="formula for compound interest" src="../_images/compoundInterest.png" />
+<p>Escreva um programa em Python que atribui o valor 10000 para a
+variáveç <cite>P `, atribui para `n`o valor 12 e atribui para `r</cite> a taxa
+de juros de 8% (0.08). O programa deve pedir ao usuário o número
+<cite>t</cite> de anos. Calcule e imprima o valor final depois de <cite>t</cite> anos.</p>
+
+<button id="butt_ex_2_7" onclick="createActiveCode('ex_2_7',''); $('#butt_ex_2_7').hide();">Open Editor</button>
+<div id="ex_2_7"></div>
+<br />
+</li>
+<li><p class="first">Escreva um programa que calcula a área do círculo.
+O programa deve pedir ao usuário que entre com o valor do raio.
+Em seguida o programa deve imprimir uma mensagem  com a resposta.</p>
+
+<button id="butt_ex_2_8" onclick="createActiveCode('ex_2_8',''); $('#butt_ex_2_8').hide();">Open Editor</button>
+<div id="ex_2_8"></div>
+<br />
+</li>
+<li><p class="first">Escreva um programa que calcula a área de um retângulo.
+O programa deve pedir ao usuário que entre com a altura e a largura
+do retângulo. Em seguida deve imprimir uma mensagem com a resposta.</p>
+
+<button id="butt_ex_2_9" onclick="createActiveCode('ex_2_9',''); $('#butt_ex_2_9').hide();">Open Editor</button>
+<div id="ex_2_9"></div>
+<br />
+</li>
+<li><p class="first">Escreva um programa que calcula o consumo de gasolina de uma carro
+em quilômetros por litro.
+O programa deve pedir ao usuário que entre com o número de
+quilômetros percorridos e o número de litros de gasolina
+consumidos. Em seguida o programa deve imprimir a resposta.</p>
+
+<button id="butt_ex_2_10" onclick="createActiveCode('ex_2_10',''); $('#butt_ex_2_10').hide();">Open Editor</button>
+<div id="ex_2_10"></div>
+<br />
+</li>
+<li><p class="first">Escreva um programa que converta uma temperatura de graus Celsius para
+Fahrenheit.</p>
+
+<button id="butt_ex_2_11" onclick="createActiveCode('ex_2_11',''); $('#butt_ex_2_11').hide();">Open Editor</button>
+<div id="ex_2_11"></div>
+<br />
+</li>
+<li><p class="first">Escreva um programa que converta uma temperatura de Farenheit
+para graus Celsius.</p>
+
+<button id="butt_ex_2_12" onclick="createActiveCode('ex_2_12',''); $('#butt_ex_2_12').hide();">Open Editor</button>
+<div id="ex_2_12"></div>
+<br />
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Variáveis, Expressões e Comandos</a><ul>
+<li><a class="reference internal" href="#variaveis-e-tipos-de-dados">Variáveis e tipos de dados</a></li>
+<li><a class="reference internal" href="#funcoes-para-conversao-de-valores">Funções para conversão de valores</a></li>
+<li><a class="reference internal" href="#variaveis">Variáveis</a></li>
+<li><a class="reference internal" href="#nomes-de-variaveis-e-palavras-reservadas">Nomes de variáveis e palavras reservadas</a></li>
+<li><a class="reference internal" href="#comandos-e-expressoes">Comandos e expressões</a></li>
+<li><a class="reference internal" href="#operadores-e-operandos">Operadores e operandos</a></li>
+<li><a class="reference internal" href="#input">Input</a></li>
+<li><a class="reference internal" href="#ordem-das-operacoes">Ordem das operações</a></li>
+<li><a class="reference internal" href="#reatribuicao">Reatribuição</a></li>
+<li><a class="reference internal" href="#atualizacao-de-variaveis">Atualização de variáveis</a></li>
+<li><a class="reference internal" href="#glossario">Glossário</a></li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../01-Introducao/introducao.html"
+                        title="previous chapter">O Caminho do Programa</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../03-PythonTurtle/olatartaruga.html"
+                        title="next chapter">Olá, tartaruguinhas!</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../03-PythonTurtle/olatartaruga.html" title="Olá, tartaruguinhas!"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../01-Introducao/introducao.html" title="O Caminho do Programa"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2012, Brad Miller, David Ranum.
+      Last updated on May 24, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

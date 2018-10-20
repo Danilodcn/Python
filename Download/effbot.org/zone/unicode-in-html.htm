@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Using Unicode characters in&nbsp;HTML</title></head><body data-page-id="340"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Using Unicode characters in&nbsp;HTML</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | October 2003 | Originally posted to <a href="http://online.effbot.org">online.effbot.org</a></p><p>Jeremy Hylton writes: &#8220;<i><a href="http://www.python.org/~jeremy/weblog/031015.html">I have
+been struggling with Unicode for my weblog aggregator. There are
+several feeds that include Unicode data in the title or description. I
+tried to generate HTML output with a UTF-8 encoding, but that didn&#8217;t
+seem to work.</a></i>&#8221;
+
+</p><p> Later in that article, Jeremy asks &#8220;<i>Isn&#8217;t there some way to specify
+that stdout should use iso-8859-1 to encode all Unicode strings?</i>&#8221;
+
+</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide"> There is some stuff in the <b>codecs</b> module that you can tweak for
+this purpose, but it&#8217;s probably easier to write your own file wrapper.
+Here&#8217;s one way to do it:
+
+<pre class="python wide">
+<span class="pykeyword">class</span> <span class="pyclass">encoder</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, file, encoding=<span class="pystring">"iso-8859-1"</span>):
+        self.file = file
+        self.encoding = encoding
+    <span class="pykeyword">def</span> <span class="pyfunction">write</span>(self, text):
+        self.file.write(text.encode(self.encoding, <span class="pystring">"replace"</span>))
+
+sys.stdout = encoder(sys.stdout)</pre></p></div><div class="yui-ge"><div class="yui-u first"><p> The <b>&#8220;replace&#8221;</b> argument tells the encoder to replace non-ISO
+characters with question marks, instead of raising an exception.
+
+</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide"> A better solution would be to encode non-ISO characters using HTML
+character references.  It&#8217;s fairly easy to do this using e.g. a
+regular expression (use <b>re.sub</b> with a callback that maps runs
+of non-ISO characters to references), but Python 2.3 makes it even
+easier: simply change <b>&#8220;replace&#8221;</b> to <b>&#8220;xmlcharrefreplace&#8221;</b>,
+and the encoder replaces any character that it cannot encode with the
+corresponding character reference:
+
+<pre class="python wide">
+<span class="pykeyword">class</span> <span class="pyclass">encoder</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, file, encoding=<span class="pystring">"iso-8859-1"</span>):
+        self.file = file
+        self.encoding = encoding
+    <span class="pykeyword">def</span> <span class="pyfunction">write</span>(self, text):
+        self.file.write(text.encode(self.encoding, <span class="pystring">"xmlcharrefreplace"</span>))
+
+sys.stdout = encoder(sys.stdout)</pre></p></div><div class="yui-g"><p class="wide"> To make things even more robust, consider writing the document as plain
+ASCII, and use character references for all non-ASCII characters.
+ISO-8859-1 is the default encoding for HTTP, but HTML character encodings
+is <a href="http://www.w3.org/TR/html401/charset.html#spec-char-encoding">something of a mess</a>,
+and it might be better to be safe than sorry:
+
+<pre class="python wide">
+<span class="pykeyword">class</span> <span class="pyclass">encoder</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, file):
+        self.file = file
+    <span class="pykeyword">def</span> <span class="pyfunction">write</span>(self, text):
+        self.file.write(text.encode(<span class="pystring">"ascii"</span>, <span class="pystring">"xmlcharrefreplace"</span>))
+
+sys.stdout = encoder(sys.stdout)
+
+<span class="pykeyword">print</span> <span class="pystring">u"voffo g&#246;r di p&#229; detta viset?"</span></pre></p></div><div class="yui-ge"><div class="yui-u first"><p> This example prints:
+
+<pre>
+voffo g&amp;#246;r di p&amp;#229; detta viset?
+</pre></p><p> Unfortunately, this isn&#8217;t enough to solve Jeremy&#8217;s problem; it handles
+non-ASCII characters in titles and descriptions, but what if the title
+or description contains a less-than character (&lt;) or an ampersand
+(&amp;)?
+
+</p><p> Maybe the explicit encoding idea wasn&#8217;t so bad, after all.  Just make
+sure to encode the text strings, instead of the resulting HTML:
+
+<pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">encode</span>(text):
+    text = text.replace(<span class="pystring">"&amp;"</span>, <span class="pystring">"&amp;amp;"</span>) <span class="pycomment"># must be first!</span>
+    text = text.replace(<span class="pystring">"&lt;"</span>, <span class="pystring">"&amp;lt;"</span>)
+    text = text.replace(<span class="pystring">"&gt;"</span>, <span class="pystring">"&amp;gt;"</span>)
+    text = text.replace(<span class="pystring">"'"</span>, <span class="pystring">"&amp;apos;"</span>)
+    text = text.replace(<span class="pystring">'"'</span>, <span class="pystring">"&amp;quot;"</span>)
+    <span class="pykeyword">return</span> text.encode(<span class="pystring">"ascii"</span>, <span class="pystring">"xmlcharrefreplace"</span>)
+
+<span class="pykeyword">print</span> <span class="pystring">"&lt;a href='%s'&gt;%s&lt;/a&gt;"</span> % (encode(guid), encode(title))</pre></p><p> (if you want to speed things up, you can leave out the &amp;gt; line,
+and perhaps also the &amp;apos; line; for the latter to work, make
+sure to only use single quotes around HTML attributes).
+
+</p><p> Alternatively, you can wrap all non-HTML strings in a special wrapper
+class, and do the encoding in the <b>__str__</b> method:
+
+<pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">text</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, text):
+        self.text = text
+    <span class="pykeyword">def</span> <span class="pyfunction">__str__</span>(self):
+        <span class="pykeyword">return</span> encode(self.text)
+
+<span class="pykeyword">print</span> <span class="pystring">"&lt;a href='%s'&gt;%s&lt;/a&gt;"</span> % (text(guid), text(title))</pre></p><p> If you plan to print the same string in multiple places, the wrapper
+approach allows you to wrap the strings early on, and forget about the
+encoding when you print the strings:
+
+<pre class="python">
+guid = text(article.getguid())
+title = text(article.gettitle())
+
+...
+
+<span class="pykeyword">print</span> <span class="pystring">"&lt;a href='%s'&gt;%s&lt;/a&gt;"</span> % (guid, title)
+
+titles.append(title)
+
+...
+
+<span class="pykeyword">for</span> title <span class="pykeyword">in</span> titles:
+    <span class="pykeyword">print</span> <span class="pystring">"%s&lt;br /&gt;"</span> % title</pre></p><p> (again, if you want to speed things up, you can encode the string in
+the constructor instead of doing over and over again in the <b>__str__</b>
+method.)</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Asyncore and&nbsp;Signals</title></head><body data-page-id="11"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Asyncore and&nbsp;Signals</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">July 10, 2002 | Fredrik Lundh (with help from Erik Heneryd)</p><p>The <b>asyncore</b> module can misbehave on some platforms
+(Linux, at least), when the process is receiving signals.  What
+usually happens is that asyncore generates bogus <b>handle_recv</b>
+or <b>handle_accept</b> calls.</p><h3>bogus calls to handle_recv: recv fails</h3><p>When this happens, the <b>recv</b> call will raise a socket error
+exception with the error code set to EWOULDBLOCK or EAGAIN.</p><p>To work around this, it&#8217;s easiest to simply modify the asyncore
+module.  Just add code to check for EWOULDBLOCK and EAGAIN to the
+<b>recv</b> call, like this:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+    <span class="pycomment"># in asyncore.py</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">recv</span>(self, buffer_size):
+        <span class="pykeyword">try</span>:
+            data = self.socket.recv(buffer_size)
+            <span class="pykeyword">if</span> <span class="pykeyword">not</span> data:
+                <span class="pycomment"># a closed connection is indicated by signaling</span>
+                <span class="pycomment"># a read condition, and having recv() return 0.</span>
+                self.handle_close()
+                <span class="pykeyword">return</span> <span class="pystring">''</span>
+            <span class="pykeyword">else</span>:
+                <span class="pykeyword">return</span> data
+        <span class="pykeyword">except</span> socket.error, why:
+            <span class="pycomment"># winsock sometimes throws ENOTCONN</span>
+            <span class="pykeyword">if</span> why[0] <span class="pykeyword">in</span> [ECONNRESET, ENOTCONN, ESHUTDOWN]:
+                self.handle_close()
+                <span class="pykeyword">return</span> <span class="pystring">''</span></pre></div><div class="yui-ge"><div class="yui-u first"><pre class="highlight">
+<b>            # no data available</b>
+<b>            elif why[0] in [EWOULDBLOCK, EAGAIN]:</b>
+<b>                return ''</b></pre><pre class="python">
+            <span class="pykeyword">else</span>:
+                <span class="pykeyword">raise</span> socket.error, why</pre><p>Note that on Linux, EWOULDBLOCK is the same thing as EAGAIN.
+Cannot hurt to look for them both, though&#8230;</p><h3>bogus calls to handle_accept: accept fails</h3><p>When this happens, the <b>accept</b> method will return None
+instead of a (socket, address) tuple.  The workaround is to check
+for this condition inside your handle_accept event handler:</p><pre class="python">
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_accept</span>(self):
+        <span class="pykeyword">try</span>:
+            sock, addr = self.accept()
+        <span class="pykeyword">except</span> TypeError:
+            <span class="pykeyword">return</span> <span class="pycomment"># ignore this event</span></pre><p>The underlying problem is that the socket&#8217;s <b>accept</b> call may
+raise an EWOULDBLOCK exception.  Unfortunately, there&#8217;s no obvious way
+to detect this without actually calling the method.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

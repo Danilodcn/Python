@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Importing Python&nbsp;Modules</title></head><body data-page-id="149"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Importing Python&nbsp;Modules</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">January 07, 1999 | Updated February 02, 2001 | Fredrik Lundh</p><h2 id="introduction">Introduction&#160;<a class="nav" href="#introduction" title="bookmark!">#</a></h2><p>The <i>import</i> and <i>from-import</i> statements are a
+constant cause of serious confusion for newcomers to Python.
+Luckily, once you&#8217;ve figured out what they really do, you&#8217;ll never
+have problems with them again.</p><p>This note tries to sort out some of the more common issues
+related to <i>import</i> and <i>from-import</i> and everything.</p><h2 id="many-ways">There are Many Ways to Import a Module&#160;<a class="nav" href="#many-ways" title="bookmark!">#</a></h2><p>Python provides at least three different ways to import modules.
+You can use the <i>import</i> statement, the <i>from</i> statement,
+or the builtin <i>__import__</i> function. (There are more
+contrived ways to do this too, but that&#8217;s outside the scope for
+this small note.)</p><p>Anyway, here&#8217;s how these statements and functions work:</p><ul><li><p><b>import X</b> imports the module X, and creates a reference
+to that module in the current namespace. Or in other words, after
+you&#8217;ve run this statement, you can use <i>X.name</i> to refer to
+things defined in module X.</p></li><li><p><b>from X import *</b> imports the module X, and creates
+references in the current namespace to all <i>public</i> objects
+defined by that module (that is, everything that doesn&#8217;t have a
+name starting with &#8220;_&#8221;). Or in other words, after you&#8217;ve run this
+statement, you can simply use a plain <i>name</i> to refer to
+things defined in module X. But X itself is not defined, so <i>
+X.name</i> doesn&#8217;t work. And if <i>name</i> was already defined,
+it is replaced by the new version. And if <i>name</i> in X is
+changed to point to some other object, your module won&#8217;t notice.</p></li><li><p><b>from X import a, b, c</b> imports the module X, and creates
+references in the current namespace to the given objects. Or in
+other words, you can now use <i>a</i> and <i>b</i> and <i>c</i> in
+your program.</p></li><li><p>Finally, <b>X = __import__(&#8216;X&#8217;)</b> works like <b>import X</b>,
+with the difference that you 1) pass the module name as a string,
+and 2) explicitly assign it to a variable in your current
+namespace.</p></li></ul><h2 id="which-way-should-i-use">Which Way Should I Use?&#160;<a class="nav" href="#which-way-should-i-use" title="bookmark!">#</a></h2><p>Short answer: always use <b>import</b>.</p><p>As usual, there are a number of exceptions to this rule:</p><ul><li><p><b>The Module Documentation Tells You To Use from-import</b>.
+The most common example in this category is <i>Tkinter</i>, which
+is carefully designed to add only the widget classes and related
+constants to your current namespace. Using <b>import Tkinter</b>
+only makes your program harder to read; something that is generally
+a bad idea.</p></li><li><p><b>You&#8217;re Importing a Package Component</b>. When you need a
+certain submodule from a package, it&#8217;s often much more convenient
+to write <b>from io.drivers import zip</b> than <b>import
+io.drivers.zip</b>, since the former lets you refer to the module
+simply as <b>zip</b> instead of its full name. In this case, the
+<i>from-import</i> statement acts pretty much like a plain <i>
+import</i>, and there&#8217;s not much risk for confusion.</p></li><li><p><b>You Don&#8217;t Know the Module Name Before Execution</b>. In this
+case, use <i>__import__(module)</i> where <i>module</i> is a Python
+string. Also see the next item.</p></li><li><p><b>You Know Exactly What You&#8217;re Doing</b>. If you think you do,
+just go ahead and use <i>from-import</i>. But think twice before
+you ask for help ;-)</p></li></ul><h2 id="what-does-python-do">What Does Python Do to Import a Module?&#160;<a class="nav" href="#what-does-python-do" title="bookmark!">#</a></h2><p>When Python imports a module, it first checks the module
+registry (<i>sys.modules</i>) to see if the module is already
+imported. If that&#8217;s the case, Python uses the existing module
+object as is.</p><p>Otherwise, Python does something like this:</p><ol><li>Create a new, empty module object (this is essentially a
+dictionary)</li><li>Insert that module object in the <i>sys.modules</i>
+dictionary</li><li>Load the module code object (if necessary, compile the module
+first)</li><li>Execute the module code object in the new module&#8217;s
+namespace.  All variables assigned by the code will be available
+via the module object.</li></ol><p>This means that it&#8217;s fairly cheap to import an already imported
+module; Python just has to look the module name up in a
+dictionary.</p><h2 id="import-gothas">Import Gotchas&#160;<a class="nav" href="#import-gothas" title="bookmark!">#</a></h2><h3 id="using-modules-as-scripts">Using Modules as Scripts&#160;<a class="nav" href="#using-modules-as-scripts" title="bookmark!">#</a></h3><p>If you run a module as a script (i.e. give its name to the
+interpreter, rather than importing it), it&#8217;s loaded under the
+module name <i>__main__</i>.</p><p>If you then import the same module from your program, it&#8217;s
+reloaded and reexecuted under its real name. If you&#8217;re not careful,
+you may end up doing things twice.</p><h3 id="circular-imports">Circular Imports&#160;<a class="nav" href="#circular-imports" title="bookmark!">#</a></h3><p>In Python, things like <i>def</i>, <i>class</i>, and <i>import</i>
+are statements too.</p><p>Modules are executed during import, and new functions and
+classes won&#8217;t appear in the module&#8217;s namespace until the <i>def</i>
+(or <i>class</i>) statement has been executed.</p><p>This has some interesting implications if you&#8217;re doing recursive
+imports.</p><p>Consider a module <i>X</i> which imports module <i>Y</i> and
+then defines a function called <i>spam</i>:</p><pre class="python">
+    <span class="pycomment"># module X</span>
+
+    <span class="pykeyword">import</span> Y
+
+    <span class="pykeyword">def</span> <span class="pyfunction">spam</span>():
+        <span class="pykeyword">print</span> <span class="pystring">"function in module x"</span></pre><p>If you import <i>X</i> from your main program, Python will load
+the code for <i>X</i> and execute it. When Python reaches the <b>
+import Y</b> statement, it loads the code for <i>Y</i>, and starts
+executing it instead.</p><p>At this time, Python has installed module objects for both <i>X</i>
+and <i>Y</i> in <i>sys.modules</i>. But <i>X</i> doesn&#8217;t contain anything
+yet; the <b>def spam</b> statement hasn&#8217;t been executed.</p><p>Now, if <i>Y</i> imports <i>X</i> (a recursive import), it&#8217;ll
+get back a reference to an empty <i>X</i> module object. Any
+attempt to access the <i>X.spam</i> function on the module level
+will fail.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+    <span class="pycomment"># module Y</span>
+
+    <span class="pykeyword">from</span> X <span class="pykeyword">import</span> spam <span class="pycomment"># doesn't work: spam isn't defined yet!</span></pre></div><div class="yui-ge"><div class="yui-u first"><p>Note that you don&#8217;t have to use from-import to get into trouble:</p><pre class="python">
+    <span class="pycomment"># module Y</span>
+
+    <span class="pykeyword">import</span> X
+
+    X.spam() <span class="pycomment"># doesn't work either: spam isn't defined yet!</span></pre><p>To fix this, either refactor your program to avoid circular imports
+(moving stuff to a separate module often helps), or move the imports to
+the end of the module (in this case, if you move <b>import Y</b> to the
+end of module X, everything will work just fine).</p><p class="info">Copyright &#169; 1998-2001 by Fredrik Lundh</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#introduction">Introduction</a></li><li><a href="#many-ways">There are Many Ways to Import a Module</a></li><li><a href="#which-way-should-i-use">Which Way Should I Use?</a></li><li><a href="#what-does-python-do">What Does Python Do to Import a Module?</a></li><li><a href="#import-gothas">Import Gotchas</a></li><li><ul><li><a href="#using-modules-as-scripts">Using Modules as Scripts</a></li><li><a href="#circular-imports">Circular Imports</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

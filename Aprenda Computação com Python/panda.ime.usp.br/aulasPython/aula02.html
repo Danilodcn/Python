@@ -1,0 +1,642 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Variáveis, expressões e comandos &mdash; Aulas de Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Aulas de Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Execuções condicionais e alternativas" href="aula03.html" />
+    <link rel="prev" title="Introdução" href="aula01.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'aulasPython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="aula03.html" title="Execuções condicionais e alternativas"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="aula01.html" title="Introdução"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="variaveis-expressoes-e-comandos">
+<h1>Variáveis, expressões e comandos<a class="headerlink" href="#variaveis-expressoes-e-comandos" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="index-0"></span><div class="section" id="topicos">
+<span id="index-1"></span><h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://panda.ime.usp.br/pensepy/static/pensepy/02-Conceitos/conceitos.html">Capítulo 2: Variáveis, expressões e comandos</a></li>
+<li>comando de atribuição</li>
+<li>escrita na tela (= <tt class="docutils literal"><span class="pre">input()</span></tt>)</li>
+<li>leitura via teclado  (= <tt class="docutils literal"><span class="pre">print()</span></tt>)</li>
+<li>classes <tt class="docutils literal"><span class="pre">str</span></tt> e <tt class="docutils literal"><span class="pre">int</span></tt></li>
+<li>função de conversão <tt class="docutils literal"><span class="pre">int()</span></tt></li>
+<li><a class="reference external" href="while.html">Comando de repetição: while</a></li>
+<li>expressões lógicas e operadores relacionais</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="estrutura-de-um-programa">
+<h2>Estrutura de um programa<a class="headerlink" href="#estrutura-de-um-programa" title="Permalink to this headline">¶</a></h2>
+<p>Utilizaremos a seguinte estrutura para um programa em Python.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c"># comandos</span>
+    <span class="o">...</span>
+
+
+<span class="c">#------</span>
+<span class="c"># a linha a seguir inicia a execução do programa</span>
+<span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="variaveis">
+<h2>Variáveis<a class="headerlink" href="#variaveis" title="Permalink to this headline">¶</a></h2>
+<p>Uma <strong>variável</strong> é um nome que se <em>refere</em> a um valor.
+Um comando de atribuição <em>cria</em> uma nova variável e lhe dá um valor.</p>
+<p>Variáveis são usadas para guardarmos valores que serão usados mais tarde no programa.</p>
+</div>
+<div class="section" id="atribuicao">
+<h2>Atribuição<a class="headerlink" href="#atribuicao" title="Permalink to this headline">¶</a></h2>
+<p>Um <strong>comando</strong> é uma unidade de código que o interpretador pode executar.
+Um comando de <strong>atribuição</strong> tem a seguinte forma:</p>
+<div class="highlight-python"><div class="highlight"><pre>variável = expressão
+</pre></div>
+</div>
+<p>Significado:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>o valor da expressão é calculado;</li>
+<li>a variável é criada;</li>
+<li>a variável passa a fazer referência/guardar o valor</li>
+</ol>
+</div></blockquote>
+<p>Exemplos</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">num</span>  <span class="o">=</span> <span class="mi">15</span>
+<span class="n">soma</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c"># este é um comentário</span>
+<span class="n">soma</span> <span class="o">=</span> <span class="n">soma</span> <span class="o">+</span> <span class="n">num</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<p>Cada nome de variáveis é uma letra ou o símbolo <tt class="docutils literal"><span class="pre">'_'</span></tt> (underscore) seguida de letras,
+números e <tt class="docutils literal"><span class="pre">'_'</span></tt>. Atenção, maiúscula é diferente de minúscula.
+Assim <tt class="docutils literal"><span class="pre">maior</span></tt> e <tt class="docutils literal"><span class="pre">Maior</span></tt> são duas variáveis diferentes.</p>
+</div>
+<div class="section" id="exercicio-2-1">
+<h2>Exercício 2.1<a class="headerlink" href="#exercicio-2-1" title="Permalink to this headline">¶</a></h2>
+<p>Dados dois inteiros <tt class="docutils literal"><span class="pre">a</span></tt> e <tt class="docutils literal"><span class="pre">b</span></tt>, calcular a sua soma.</p>
+<p>Tentativa 0: execute o programa abaixo e veja o que acontece.</p>
+
+<div id="aula02_ex1_1" >
+<textarea cols="50" rows="12" id="aula02_ex1_1_code" class="active_code">
+def main():
+    a = 3
+    b = 4
+    soma = a + b
+    print("A soma de a + b eh igual a soma")
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula02_ex1_1)</span> </p>
+<button onclick="runit('aula02_ex1_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula02_ex1_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula02_ex1_1');">Load</button>
+<br />
+
+<pre id="aula02_ex1_1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Observe que tudo entre aspas (&#8221;) define um texto ou <em>string</em>. Mas queremos
+imprimir o <strong>valor</strong> das variáveis e não o <strong>nome</strong> delas.</p>
+<div class="section" id="print">
+<h3>print()<a class="headerlink" href="#print" title="Permalink to this headline">¶</a></h3>
+<p>A função <tt class="docutils literal"><span class="pre">print()</span></tt> é utilizada para o programa exibir mensagens.
+Por exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&quot;Olá, mundo!&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">&quot;A soma é&quot;</span><span class="p">,</span> <span class="n">soma</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Escreve na tela do computador</p>
+<div class="highlight-python"><div class="highlight"><pre>Olá, mundo!
+A soma é XXXX
+</pre></div>
+</div>
+<p>onde <tt class="docutils literal"><span class="pre">XXXX</span></tt> é o valor ao qual a variável <tt class="docutils literal"><span class="pre">soma</span></tt> se refere.</p>
+<p>Tentativa 1: execute o programa abaixo e veja o que acontece.</p>
+<dl class="docutils">
+<dt>Observe que o <tt class="docutils literal"><span class="pre">print()</span></tt> recebeu dois <strong>valores</strong> separados por vírgula:</dt>
+<dd><ul class="first last simple">
+<li>um string (entre aspas) e</li>
+<li>o nome de uma variável</li>
+</ul>
+</dd>
+</dl>
+<p>O string é impresso diretamente (pois esse é o seu <strong>valor</strong>) e, ao invés de
+imprimir o nome da variável soma, o <tt class="docutils literal"><span class="pre">print()</span></tt> exibe o valor ao qual a
+variável <tt class="docutils literal"><span class="pre">soma</span></tt> se refere, ou, dito mais simplesmente, o valor da variável
+<tt class="docutils literal"><span class="pre">soma</span></tt>.</p>
+<p>Mas e como imprimir os valores de <tt class="docutils literal"><span class="pre">a</span></tt> e <tt class="docutils literal"><span class="pre">b</span></tt> ao invés de seus nomes?</p>
+<p>Tentativa 2: execute o programa abaixo e veja o que acontece.</p>
+
+<div id="aula02_ex1_3" >
+<textarea cols="50" rows="12" id="aula02_ex1_3_code" class="active_code">
+def main():
+    a = 3
+    b = 4
+    soma = a + b
+    print("A soma de", a, "+", b, "eh igual a", soma)
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula02_ex1_3)</span> </p>
+<button onclick="runit('aula02_ex1_3',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula02_ex1_3');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula02_ex1_3');">Load</button>
+<br />
+
+<pre id="aula02_ex1_3_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Agora sim, a mensagem ficou bem mais clara.
+Mas como fazer com que os valores a serem somados sejam definidos por um
+usuário?</p>
+<p>Tentativa 3: execute o programa abaixo e veja o que acontece.</p>
+
+<div id="aula02_ex1_4" >
+<textarea cols="50" rows="12" id="aula02_ex1_4_code" class="active_code">
+def main():
+    a = input("Digite o primeiro numero: ")
+    b = input("Digite o segundo numero: ")
+    soma = a + b
+    print("A soma de", a, "+", b, "eh igual a", soma)
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula02_ex1_4)</span> </p>
+<button onclick="runit('aula02_ex1_4',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula02_ex1_4');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula02_ex1_4');">Load</button>
+<br />
+
+<canvas id="aula02_ex1_4_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula02_ex1_4_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="input">
+<h3>input()<a class="headerlink" href="#input" title="Permalink to this headline">¶</a></h3>
+<p>Um programa pode utilizar a função <tt class="docutils literal"><span class="pre">input()</span></tt> para receber os dados ou valores
+que um usuário fornece através do teclado. O formato típico de um comando leitura é</p>
+<div class="highlight-python"><div class="highlight"><pre>variável = input(&quot;Prompt&quot;)
+</pre></div>
+</div>
+<p>O programa pára e espera pela digitação de algum texto seguido do ENTER.
+<tt class="docutils literal"><span class="pre">&quot;Prompt&quot;</span></tt> é opcional e pode indicar o que programa deseja.
+Por exemplo,</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">nome</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">&quot;Qual é o seu nome? &quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">nome</span><span class="p">,</span> <span class="s">&quot;, me fale sobre você.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>O valor que o usuário fornece e que será retornada pelo <tt class="docutils literal"><span class="pre">input()</span></tt>
+é sempre um string e não um número.
+Quando o operador <tt class="docutils literal"><span class="pre">+</span></tt> é realizado sobre strings, eles são concatenados (&#8220;grudados&#8221;)
+em vez de adicionados. Como veremos mais tarde, a operação de <em>concatenar</em> strings através
+do operador <tt class="docutils literal"><span class="pre">+</span></tt> é muito útil.</p>
+<p>No momento desejamos adicionar dois números inteiros.
+Precisamos, portanto, de um maneira para converter um string em um
+número inteiro, para que o Python obtenha a soma desses números.
+Para ler um valor e converté-lo para um número inteiro utilizamos
+a função de conversão <tt class="docutils literal"><span class="pre">int()</span></tt>.</p>
+</div>
+<div class="section" id="strings">
+<h3>Strings<a class="headerlink" href="#strings" title="Permalink to this headline">¶</a></h3>
+<p>Uma <strong>string</strong> é texto entre aspas (<tt class="docutils literal"><span class="pre">&quot;</span></tt>) ou apóstrofo (<tt class="docutils literal"><span class="pre">'</span></tt>)</p>
+</div>
+<div class="section" id="valores">
+<h3>Valores<a class="headerlink" href="#valores" title="Permalink to this headline">¶</a></h3>
+<p>Programas manipulam valores.
+Valores podem ser de diferentes <strong>tipos</strong> ou <strong>classes</strong>.
+Até agora vimos que um
+<strong>valor</strong> pode ser um número inteiro (classe <tt class="docutils literal"><span class="pre">int</span></tt>) ou um texto
+(classe <tt class="docutils literal"><span class="pre">str</span></tt>). Por exemplo, <tt class="docutils literal"><span class="pre">&quot;Oi&quot;</span></tt> é um string  (valor da classe <tt class="docutils literal"><span class="pre">str</span></tt>),
+<tt class="docutils literal"><span class="pre">23</span></tt>  é um inteiro (valor da classe <tt class="docutils literal"><span class="pre">int</span></tt>), e
+<tt class="docutils literal"><span class="pre">&quot;23&quot;</span></tt> é um string  (valor da classe <tt class="docutils literal"><span class="pre">str</span></tt>).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="s">&quot;Oi&quot;</span><span class="p">)</span>
+<span class="go">&lt;class &#39;str&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>
+<span class="go">&lt;class &#39;int&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="s">&quot;23&quot;</span><span class="p">)</span>
+<span class="go">&lt;class &#39;str&#39;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="operacoes-sobre-strings">
+<h3>Operacões sobre strings<a class="headerlink" href="#operacoes-sobre-strings" title="Permalink to this headline">¶</a></h3>
+<p>O operador <tt class="docutils literal"><span class="pre">+</span></tt> concatena dois strings.</p>
+<p>Tentativa 4:  execute o programa abaixo e veja como ele se comporta.</p>
+
+<div id="aula02_ex1_5" >
+<textarea cols="50" rows="12" id="aula02_ex1_5_code" class="active_code">
+def main():
+    # a_str e b_str guardam strings
+    a_str = input("Digite o primeiro numero: ")
+    b_str = input("Digite o segundo numero: ")
+
+    # a_int e b_int guardam inteiros
+    a_int = int(a_str) # converte string/texto para inteiro
+    b_int = int(b_str) # converte string/texto para inteiro
+
+    # calcule a soma entre valores que são números inteiros
+    soma = a_int + b_int
+
+    # imprima a soma
+    print("A soma de", a_int, "+", b_int, "eh igual a", soma)
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula02_ex1_5)</span> </p>
+<button onclick="runit('aula02_ex1_5',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula02_ex1_5');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula02_ex1_5');">Load</button>
+<br />
+
+<canvas id="aula02_ex1_5_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula02_ex1_5_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="int">
+<h3>int()<a class="headerlink" href="#int" title="Permalink to this headline">¶</a></h3>
+<p>A função <tt class="docutils literal"><span class="pre">int()</span></tt> converte um dado string para um número inteiro.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="s">&quot;123&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span> <span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">&lt;class &#39;int&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s">&quot;valor inteiro =&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+<span class="go">valor inteiro = 123</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>O string deve ser algo como <tt class="docutils literal"><span class="pre">&quot;123&quot;</span></tt> ou  <tt class="docutils literal"><span class="pre">&quot;-5&quot;</span></tt>, pois senão ocorrerá um
+erro.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="s">&quot;1.5&quot;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">ValueError</span>: <span class="n">invalid literal for int() with base 10: &#39;1.5&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="s">&quot;a156&quot;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">ValueError</span>: <span class="n">invalid literal for int() with base 10: &#39;a156&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">ValueError</span>: <span class="n">invalid literal for int() with base 10: &#39;a156&#39;</span>
+</pre></div>
+</div>
+<p>Como não precisamos guardar as respostas na forma de texto,
+podemos simplificar o programa compondo as funções <tt class="docutils literal"><span class="pre">int()</span></tt>
+e <tt class="docutils literal"><span class="pre">input()</span></tt> da seguinte forma:</p>
+<p>Tentativa 5:</p>
+
+<div id="aula02_ex1_6" >
+<textarea cols="50" rows="12" id="aula02_ex1_6_code" class="active_code">
+def main():
+    a = int(input("Digite o primeiro numero: "))
+    b = int(input("Digite o segundo numero: "))
+    soma = a + b
+    print("A soma de", a, "+", b, "eh igual a", soma)
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula02_ex1_6)</span> </p>
+<button onclick="runit('aula02_ex1_6',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula02_ex1_6');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula02_ex1_6');">Load</button>
+<br />
+
+<canvas id="aula02_ex1_6_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula02_ex1_6_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+<div class="section" id="exercicio-2-2">
+<h2>Exercício 2.2<a class="headerlink" href="#exercicio-2-2" title="Permalink to this headline">¶</a></h2>
+<p>Dada uma sequência de números inteiros diferentes de zero,
+terminada por um zero, calcular a sua soma. Por exemplo,
+para a sequência:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">12</span>   <span class="mi">17</span>   <span class="mi">4</span>   <span class="o">-</span><span class="mi">6</span>   <span class="mi">8</span>   <span class="mi">0</span>
+</pre></div>
+</div>
+<p>o seu programa deve escrever o número <tt class="docutils literal"><span class="pre">35</span></tt>.</p>
+<p>Tente escrever a sua solução primeiro e, depois,
+clique <a class="reference external" href="exercicios/ex22.html">aqui</a> para ver uma.</p>
+
+<div id="aula02_ex2_tentativa" >
+<textarea cols="50" rows="12" id="aula02_ex2_tentativa_code" class="active_code">
+# escreva o seu programa
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula02_ex2_tentativa)</span> </p>
+<button onclick="runit('aula02_ex2_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula02_ex2_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula02_ex2_tentativa');">Load</button>
+<br />
+
+<canvas id="aula02_ex2_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula02_ex2_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="section" id="comando-de-repeticao-while">
+<h3>Comando de repetição: while<a class="headerlink" href="#comando-de-repeticao-while" title="Permalink to this headline">¶</a></h3>
+<p>Leitura sobre <a class="reference external" href="while.html">o comando de repetição while</a>.</p>
+</div>
+<div class="section" id="expressoes-logicas">
+<h3>Expressões lógicas<a class="headerlink" href="#expressoes-logicas" title="Permalink to this headline">¶</a></h3>
+<p>Condições ou <strong>expressões lógicas</strong> (<em>boolean expressions</em>) são expressões cujo valor
+é verdadeiro (=``True`` em Python) ou falso (=``False`` em Python) e
+usam, entre outros, os operadores relacionais:</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">&gt;</span></tt>  (maior);</li>
+<li><tt class="docutils literal"><span class="pre">&gt;=</span></tt> (maior ou igual);</li>
+<li><tt class="docutils literal"><span class="pre">&lt;</span></tt> (menor);</li>
+<li><tt class="docutils literal"><span class="pre">&lt;=</span></tt> (menor ou igual);</li>
+<li><tt class="docutils literal"><span class="pre">==</span></tt>  (igual); ou</li>
+<li><tt class="docutils literal"><span class="pre">!=</span></tt>  (diferente).</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="exercicio-2-3">
+<h2>Exercício 2.3<a class="headerlink" href="#exercicio-2-3" title="Permalink to this headline">¶</a></h2>
+<p>Nota: Exercício 4 da <a class="reference external" href="http://www.ime.usp.br/~macmulti/exercicios/inteiros/index.html">lista sobre inteiros</a>.</p>
+<p>Dados números inteiros <tt class="docutils literal"><span class="pre">n</span></tt> e <tt class="docutils literal"><span class="pre">k</span></tt>, com <tt class="docutils literal"><span class="pre">k</span> <span class="pre">&gt;=</span> <span class="pre">0</span></tt>,
+calcular <tt class="docutils literal"><span class="pre">n</span></tt> elevado a <tt class="docutils literal"><span class="pre">k</span></tt>.
+Por exemplo, dados os números <tt class="docutils literal"><span class="pre">3</span></tt> e <tt class="docutils literal"><span class="pre">4</span></tt> o seu
+programa deve escrever o número <tt class="docutils literal"><span class="pre">81</span></tt>.</p>
+<p>Tente escrever a sua solução abaixo primeiro e, depois,
+clique <a class="reference external" href="exercicios/ex23.html">aqui</a> para ver uma.</p>
+
+<div id="aula02_ex3_tentativa" >
+<textarea cols="50" rows="12" id="aula02_ex3_tentativa_code" class="active_code">
+# escreva o seu programa
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula02_ex3_tentativa)</span> </p>
+<button onclick="runit('aula02_ex3_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula02_ex3_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula02_ex3_tentativa');">Load</button>
+<br />
+
+<canvas id="aula02_ex3_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula02_ex3_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="section" id="exercicio-2-4">
+<h3>Exercício 2.4<a class="headerlink" href="#exercicio-2-4" title="Permalink to this headline">¶</a></h3>
+<p>Nota: Exercício 8 da <a class="reference external" href="http://www.ime.usp.br/~macmulti/exercicios/inteiros/index.html">lista sobre inteiros</a>.</p>
+<p>Dado um número inteiro <tt class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;=</span> <span class="pre">0</span></tt>, calcular <tt class="docutils literal"><span class="pre">n!</span></tt>.</p>
+<p>Tente escrever a sua solução abaixo primeiro e, depois,
+clique <a class="reference external" href="exercicios/ex24.html">aqui</a> para ver uma.</p>
+
+<div id="aula02_ex4_tentativa" >
+<textarea cols="50" rows="12" id="aula02_ex4_tentativa_code" class="active_code">
+# escreva o seu programa
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula02_ex4_tentativa)</span> </p>
+<button onclick="runit('aula02_ex4_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula02_ex4_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula02_ex4_tentativa');">Load</button>
+<br />
+
+<canvas id="aula02_ex4_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula02_ex4_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Variáveis, expressões e comandos</a><ul>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#estrutura-de-um-programa">Estrutura de um programa</a></li>
+<li><a class="reference internal" href="#variaveis">Variáveis</a></li>
+<li><a class="reference internal" href="#atribuicao">Atribuição</a></li>
+<li><a class="reference internal" href="#exercicio-2-1">Exercício 2.1</a><ul>
+<li><a class="reference internal" href="#print">print()</a></li>
+<li><a class="reference internal" href="#input">input()</a></li>
+<li><a class="reference internal" href="#strings">Strings</a></li>
+<li><a class="reference internal" href="#valores">Valores</a></li>
+<li><a class="reference internal" href="#operacoes-sobre-strings">Operacões sobre strings</a></li>
+<li><a class="reference internal" href="#int">int()</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercicio-2-2">Exercício 2.2</a><ul>
+<li><a class="reference internal" href="#comando-de-repeticao-while">Comando de repetição: while</a></li>
+<li><a class="reference internal" href="#expressoes-logicas">Expressões lógicas</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercicio-2-3">Exercício 2.3</a><ul>
+<li><a class="reference internal" href="#exercicio-2-4">Exercício 2.4</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="aula01.html"
+                        title="previous chapter">Introdução</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="aula03.html"
+                        title="next chapter">Execuções condicionais e alternativas</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="aula03.html" title="Execuções condicionais e alternativas"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="aula01.html" title="Introdução"
+             >previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Mar 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

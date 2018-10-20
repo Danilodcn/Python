@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The wckToolTips&nbsp;Module</title></head><body data-page-id="2010"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The wckToolTips&nbsp;Module</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | September 2007</p><p>The <strong>wckToolTips</strong> lets you add tooltips (aka &#8220;balloon help&#8221;) to arbitrary Tkinter widgets (including WCK widgets).</p><p>This implementation is light-weight and relatively non-intrusive; it uses a single global tooltip controller for all widgets, which is attached via a custom binding class (<strong>bindtags</strong>), and adds a single attribute reference to the target widget.</p><h2 id="installation">Installation&#160;<a class="nav" href="#installation" title="bookmark!">#</a></h2><p>You can get the module from the effbot.org WCK sandbox:</p><blockquote><p><a href="http://svn.effbot.org/public/stuff/sandbox/wcklib/">http://svn.effbot.org/public/stuff/sandbox/wcklib/</a></p></blockquote><p>Note that despite the name, this module does not depend on
+the WCK library.  You can still use it with WCK widgets, of
+course.</p><h2 id="usage">Usage&#160;<a class="nav" href="#usage" title="bookmark!">#</a></h2><p>To add a tooltip to a widget, just call the <strong>register</strong> method with the widget and the tip text:</p><pre class="python"><span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+<span class="pykeyword">import</span> wckToolTips
+
+root = Tk()
+
+b = Button(root, text=<span class="pystring">"Click me!"</span>, command=root.quit)
+b.pack()
+
+wckToolTips.register(b, <span class="pystring">"This button exits the program"</span>)
+
+mainloop()</pre><p>There&#8217;s no need to unregister the text; the tooltip information is automatically discarded when the widget is destroyed.  If you want to explicitly unregister the text from an existing widget, use the <strong>unregister</strong> method.</p><p>You can use a callback instead of a text string.  The callback is called with the target widget and the mouse coordinates, and should return a string:</p><pre class="python">...
+
+<span class="pykeyword">def</span> <span class="pyfunction">help</span>(widget, position):
+    <span class="pykeyword">import</span> time
+    <span class="pykeyword">return</span> <span class="pystring">"The time is "</span> + time.asctime()
+
+wckToolTips.register(b, help)</pre><p>Note that the callback is called once for each time a tip is displayed for a given widget; there&#8217;s currently no way to update the text if the user moves the mouse pointer around inside the widget itself, without moving it out of the widget.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#installation">Installation</a></li><li><a href="#usage">Usage</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Notes on Tkinter&nbsp;Performance</title></head><body data-page-id="313"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Notes on Tkinter&nbsp;Performance</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Updated July 14, 2002 | Posted April 20, 1999 | Fredrik Lundh</p><p><i>From a comp.lang.python post</i></p><blockquote><i>
+Note that the canvas seems to have respectable optimizations in place so
+the less that is visible (e.g. the more you&#8217;re zoomed in, the faster
+redraws get.  Also if only a partial area needs redrawn, it redraws it
+fairly quickly relative to the full-expose frame rate.  It&#8217;s obvious
+there&#8217;s some optimization going on when you load to make drawing faster.
+</i></blockquote><p>Some background: the <b>Canvas</b> widget uses a straight-forward
+<a href="damage-repair.htm">damage/repair</a> model.  Changes to the
+canvas, and external events such as <b>Expose</b>, all update a single
+&#8220;dirty rectangle&#8221;.  They also register an idle task (after_idle) which
+redraws the canvas when you get back to the main loop.</p><p>When it&#8217;s time to redraw the canvas, the widget starts by
+allocating a pixmap (on X windows, this is an image memory
+stored on the display) with the same size as the dirty rectangle.</p><p>It then loops over the canvas items, and redraws <i>all</i>
+items whose bounding box touch the dirty rectangle (this means
+that diagonal lines may be redrawn also if they don&#8217;t actually
+cover the rectangle, but this is usually no big deal).</p><p>Finally, the widget copies the pixmap to the display, and
+releases the pixmap.  The copy operation is a very fast operation
+on most modern hardware.</p><p>A few additional notes:</p><ul><li><p>Most Tk widgets use double-buffering to prevent flicker
+(this includes simple widgets like buttons and labels).  There&#8217;s
+no way to change this in current version of Tk.</p></li><li><p>Most Tk widgets also use delayed drawing.  That is, they
+respond to modifications and external events by scheduling
+an idle task, not by updating the screen directly.  In some
+cases, this can result in an application that feels a bit
+sluggish.  There&#8217;s no way to change this in current versions
+of Tk, but you can work around this problem by calling
+<b>update_idletasks</b> whenever you&#8217;ve changed anything
+(also see below).</p></li><li><p>The repeated allocation of pixmaps can seriously affect
+performance if you&#8217;re animating stuff in a maximized window
+on a large truecolor display&#8230; (we all have 1800x1440 32-bit
+displays, don&#8217;t we?)</p></li><li><p>Since the canvas uses a <i>single</i> dirty rectangle, you
+can get better performance in some situations by forcing updates.
+For example, if you&#8217;re changing things in different parts of the
+canvas without returning to the main loop, adding explicit
+calls to <b>update_idletasks()</b> allows the canvas to update a
+few small rectangles, instead of a large one with many more
+objects.</p></li><li>The <b>Text</b> widget is a bit smarter than the canvas: it
+keeps track of what&#8217;s already drawn, and can move things around
+on the screen instead of redrawing everything all the time.</li></ul><p>Guess I should mention <a href="wck-index.htm">uiToolkit</a> here, but I&#8217;ll leave that
+for another day&#8230; (but briefly, uiToolkit allows you to switch
+off double-buffering or keep the buffer between updates, supports
+immediate redraw, and allows you to implement widgets with more
+sophisticated damage control).</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

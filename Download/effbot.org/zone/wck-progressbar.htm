@@ -1,0 +1,239 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The WCK ProgressBar&nbsp;Widget</title></head><body data-page-id="360"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The WCK ProgressBar&nbsp;Widget</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Updated September 7, 2003 | June 15, 2003 | Fredrik Lundh</p><p>This widget implements a simple progress bar, using
+<a href="wck.htm">the WCK toolkit</a>.  Call the <b>set</b> method
+with a value between 0.0 and 1.0 to set the current progress.  The widget
+redraws itself immediately, so you don&#8217;t have to call <b>update</b> or
+<b>update_idletasks</b>, if you don&#8217;t want to.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>A simple progress bar</b>
+<pre class="python wide">
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget, FONT, BACKGROUND
+<span class="pykeyword">import</span> sys
+
+<span class="pykeyword">if</span> sys.platform == <span class="pystring">"win32"</span>:
+    FOREGROUND = <span class="pystring">"systemhighlight"</span>
+<span class="pykeyword">else</span>:
+    FOREGROUND = <span class="pystring">"dark blue"</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">ProgressBar</span>(Widget):
+
+    ui_option_width = 0 <span class="pycomment"># 0=autosize</span>
+    ui_option_height = 0
+
+    ui_option_foreground = FOREGROUND
+    ui_option_background = BACKGROUND
+
+    ui_option_font = FONT
+
+    ui_option_padx = 2
+    ui_option_pady = 2
+
+    ui_option_relief = <span class="pystring">"sunken"</span>
+    ui_option_borderwidth = 2
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, master, **options):
+        self.value = 0 <span class="pycomment"># current value (0-100)</span>
+        self.ui_init(master, options)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_config</span>(self):
+        <span class="pycomment"># calculate default size</span>
+        w = int(self.ui_option_width)
+        <span class="pykeyword">if</span> w &lt;= 0:
+            w = 100
+        h = int(self.ui_option_height)
+        <span class="pykeyword">if</span> h &lt;= 0:
+            f = self.ui_font(self.ui_option_foreground, self.ui_option_font)
+            h = f.height
+        w = w + 2*int(self.ui_option_padx)
+        h = h + 2*int(self.ui_option_pady)
+        <span class="pykeyword">return</span> w, h
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_clear</span>(self,  draw, x0, y0, x1, y1):
+        <span class="pykeyword">pass</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        w, h = self.ui_size()
+        bar = int(w*self.value) / 100
+        draw.rectangle(
+            (0, 0, bar, h), self.ui_brush(self.ui_option_foreground)
+        )
+        draw.rectangle(
+            (bar, 0, w, h), self.ui_brush(self.ui_option_background)
+        )
+
+    <span class="pykeyword">def</span> <span class="pyfunction">set</span>(self, value):
+        <span class="pystring">"Set a new progress value (0.0 to 1.0, wrapping)"</span>
+
+        value = int(value * 100 + 0.5)
+        <span class="pykeyword">if</span> value &lt; 0 <span class="pykeyword">or</span> value &gt; 100:
+            value = value % 100
+        self.value = value
+        <span class="pycomment"># update immediately</span>
+        self.ui_handle_repair(self.ui_draw, 0, 0, 0, 0)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">get</span>(self):
+        <span class="pystring">"Get the current progress value"</span>
+
+        <span class="pykeyword">return</span> self.value / 100.0</pre><pre class="wide">
+<img alt="" height="48" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAHQAAAAwCAIAAABPMckKAAAEGUlEQVR4nGK8cuEEwyigAcgpqAAA AAD//2JhYGDQ1jcfaJcMN9DY2MjAwAAAAAD//2KBcK5ePDmgjhmeAAAAAP//YhpoBwxnAAAAAP// YkHmmIUsItMUFmYWVhYWFhZWVjiDBSKIYLCwsLCysLAyQxkszKysLKTqYmVlIeyaAQV6bDfgbAAA AAD//xpNuTQEAAAAAP//GuwJASuINOUnXrGjo+P+/ftJUp/WtYEMWyC6kAEAAAD//xqSgctAdA28 ZsMO8tRTogsOAAAAAP//whm4X+9MwxTkVslCU4MmAgfXd1czMDAY+vUQ4zi6AR0DC1xStGjvAwAA AP//wl7mYg1ZNHE0NW8v9b0810VFlw0qoGNggRYxmCKYAAAAAP//IlAsYCZVZAauZDuYAdYUSjCY rlw4AQlNiHaIeoKJHQAAAP//whm4mAEHLwTwhOyTk+0MDAwqDo3IgsdW5jIwMDgnzMbvlEEO4OEL 5xLUAgAAAP//wl4scKtkoeV6tOIVogCz9JAxr1SwqUUWObW2gIGBwS5mOmHnD3oAD1AiC2gAAAAA ///C2c5FDkq0ohYSssSUCec3lTAwMFiFTybGKYMfwJMtwWIEAgAAAAD//yK2E4EW1sSH77AB8HIW udjFDwAAAAD//yIcuFhbCPDwxa8X0hSDlLk0ApByEBnRyBYGjGKBoF0AAAAA//8iqhNBTAoV1it6 e6kPs0IzC55wam3BoSWZg6RCIy/0MQtZYopdAAAAAP//IhC4mGkT3mDALBbEjcrgQzCarq2QkRcG Bgar8MmQIRiCriEDkNT4p/PMAAAAAP//IuxhtEYCpuCAAFw9Tmqpp0QXHAAAAAD//yKtEzFIgKOj I03VU6ILGQAAAAD//xqSAzeY40+D0xYAAAAA//8aHc+lIQAAAAD//0JJuafWxA2UO5DAPwaGXwwM vwbaGVQAAAAAAP//QglcGjUSRw74//8/8hAwAAAA//9CL3Prayvo657hA0KDA9BEAAAAAP//wlKh dS//RA+3kAUGR8FFLAAAAAD//xqt0GgIAAAAAP//Gg1cGgIAAAAA//8aDVwaAgAAAAD//xoNXBoC AAAAAP//Gg1cGgIAAAAA//8aDVwaAgAAAAD//xoNXBoCAAAAAP//Gg1cGgIAAAAA//8aDVwaAgAA AAD//xoNXBoCAAAAAP//Gg1cGgIAAAAA//8aDVwaAgAAAAD//xoNXBoCAAAAAP//Gg1cGgIAAAAA //8aDVwaAgAAAAD//xoNXBoCAAAAAP//Qh8sDw0OCA0eEJcMQwAAAAD//0IJ3P///w+UO4YlAAAA AP//Qgnc0X2U1AUAAAAA//8aLXNpCAAAAAD//2JhgO0CHgVUBwAAAAD//2J0cHAYaDcMWwAAAAD/ /wMAzxXy8PtSP3wAAAAASUVORK5CYII= " width="116" />
+</pre></div></div><div class="yui-ge"><div class="yui-u first"><h3>Usage</h3><p>Create the progress bar as usual.  To update the bar, call the <b>set</b>
+method with a floating point value between 0.0 and 1.0 (100%).</p><pre class="python">
+progress = ProgressBar(master)
+progress.pack()
+
+count = 1000
+
+<span class="pykeyword">for</span> i <span class="pykeyword">in</span> range(count):
+    <span class="pycomment"># do something...</span>
+    progress.set(float(i+1) / count)</pre><h3>Displaying a Progress Percentage</h3><p>Here&#8217;s an enhanced version of the <b>ProgressBar</b> widget.  This
+version displays the current progress over the bar, using contrasting
+colors.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>An enhanced progress bar</b>
+<pre class="python wide">
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget, FONT, BACKGROUND
+<span class="pykeyword">import</span> sys
+
+<span class="pykeyword">if</span> sys.platform == <span class="pystring">"win32"</span>:
+    FOREGROUND = <span class="pystring">"systemhighlight"</span>
+<span class="pykeyword">else</span>:
+    FOREGROUND = <span class="pystring">"dark blue"</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">ProgressBar</span>(Widget):
+
+    ui_option_width = 0 <span class="pycomment"># 0=autosize</span>
+    ui_option_height = 0
+
+    ui_option_format = <span class="pystring">"%d%%"</span> <span class="pycomment"># None or empty=no label</span>
+
+    ui_option_foreground = FOREGROUND
+    ui_option_background = BACKGROUND
+
+    ui_option_font = FONT
+
+    ui_option_padx = 2
+    ui_option_pady = 2
+
+    ui_option_relief = <span class="pystring">"sunken"</span>
+    ui_option_borderwidth = 2
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, master, **options):
+        self.value = 0 <span class="pycomment"># current value (0-100)</span>
+        self.size = None
+        self.ui_init(master, options)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_config</span>(self):
+
+        <span class="pycomment"># calculate widget size</span>
+        w = int(self.ui_option_width)
+        <span class="pykeyword">if</span> w &lt;= 0:
+            w = 100
+        h = int(self.ui_option_height)
+        <span class="pykeyword">if</span> h &lt;= 0:
+            f = self.ui_font(self.ui_option_foreground, self.ui_option_font)
+            h = f.height
+
+        w = w + 2*int(self.ui_option_padx)
+        h = h + 2*int(self.ui_option_pady)
+
+        <span class="pykeyword">return</span> w, h
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_resize</span>(self, width, height):
+
+        self.size = width, height
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_clear</span>(self,  draw, x0, y0, x1, y1):
+
+        <span class="pykeyword">pass</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> self.size:
+            <span class="pykeyword">return</span>
+        w, h = self.size
+
+        bar = int(w*self.value) / 100
+
+        <span class="pykeyword">try</span>:
+            text = self.ui_option_format % int(self.value)
+        <span class="pykeyword">except</span> TypeError:
+            <span class="pycomment"># malformed format string: use a reasonable default</span>
+            text = str(int(self.value)) + <span class="pystring">"%"</span>
+
+        <span class="pykeyword">if</span> text:
+            <span class="pycomment"># calculate text geometry</span>
+            fgfont = self.ui_font(
+                self.ui_option_foreground, self.ui_option_font
+                )
+            bgfont = self.ui_font(
+                self.ui_option_background, self.ui_option_font
+                )
+            textwidth, textheight = fgfont.measure(text)
+            tx0 = (w - textwidth) / 2
+            tx1 = tx0 + textwidth
+            ty0 = (h - textheight) / 2
+        <span class="pykeyword">else</span>:
+            tx0 = tx1 = w <span class="pycomment"># no text</span>
+
+        fg = self.ui_brush(self.ui_option_foreground)
+        bg = self.ui_brush(self.ui_option_background)
+
+        <span class="pycomment"># draw the part to the left of the text</span>
+        <span class="pykeyword">if</span> bar &lt; tx0:
+            draw.rectangle((0, 0, bar, h), fg)
+            draw.rectangle((bar, 0, tx0, h), bg)
+        <span class="pykeyword">else</span>:
+            draw.rectangle((0, 0, tx0, h), fg)
+
+        <span class="pykeyword">if</span> tx0 &gt;= w:
+            <span class="pykeyword">return</span> <span class="pycomment"># nothing left to draw</span>
+
+        <span class="pycomment"># draw the text label, using a pixmap</span>
+        <span class="pykeyword">if</span> tx0 &lt; tx1:
+            label = self.ui_pixmap(tx1 - tx0, h)
+            <span class="pykeyword">if</span> bar &lt;= tx1:
+                label.rectangle((0, 0, tx1 - tx0, h), bg)
+                label.text((0, ty0), text, fgfont)
+                <span class="pykeyword">if</span> bar &gt; tx0:
+                    <span class="pycomment"># text covers end of bar</span>
+                    bglabel = self.ui_pixmap(bar - tx0, h)
+                    bglabel.rectangle((0, 0, bar - tx0, h), fg)
+                    bglabel.text((0, ty0), text, bgfont)
+                    label.paste(bglabel)
+            <span class="pykeyword">else</span>:
+                label.rectangle((0, 0, tx1 - tx0, h), fg)
+                label.text((0, ty0), text, bgfont)
+            draw.paste(label, (tx0, 0))
+
+        <span class="pycomment"># draw the part to the right of the text</span>
+        <span class="pykeyword">if</span> bar &gt; tx1:
+            draw.rectangle((tx1, 0, bar, h), fg)
+            draw.rectangle((bar, 0, w, h), bg)
+        <span class="pykeyword">else</span>:
+            draw.rectangle((tx1, 0, w, h), bg)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">set</span>(self, value):
+        <span class="pystring">"Set a new progress value (0.0 to 1.0, wrapping)"</span>
+
+        value = int(value * 100 + 0.5)
+        <span class="pykeyword">if</span> value &lt; 0 <span class="pykeyword">or</span> value &gt; 100:
+            value = value % 100
+        self.value = value
+
+        <span class="pycomment"># update immediately</span>
+        self.ui_handle_repair(self.ui_draw, 0, 0, 0, 0)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">get</span>(self):
+        <span class="pystring">"Get the current progress value"</span>
+
+        <span class="pykeyword">return</span> self.value / 100.0</pre><pre class="wide">
+<img alt="" height="48" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAHQAAAAwCAIAAABPMckKAAAEhUlEQVR4nGK8cuEEwyigAcgpqAAA AAD//2JhYGDQ1jcfaJcMN9DY2MjAwAAAAAD//2KBcK5ePDmgjhmeAAAAAP//YhpoBwxnAAAAAP// YkHmmIUsItMUFmYWVhYWFhZWVjiDBSKIYLCwsLCysLAyQxkszKysLKTqYmVlIeyaAQV6bDfgbAAA AAD//xpNuTQEAAAAAP//GuwJASuINOUnXrGjo+P+/ftJUp/WtYEMWyC6kAEAAAD//xqSgctAdA28 ZsMO8tRTogsOAAAAAP//whm4X+9MwxTkVslCU4MmAgfXd1czMDAY+vUQ4zi6AR0DC1xStGjvAwAA AP//wl7mYg1ZNHE0NW8v9b0810VFlw0qoGNggRYxmCKYAAAAAP//IlAsYCZVZAauZDuYAdYUSjCY rlw4AQlNiHaIeoKJHQAAAP//whm4mAEHLwTwhOyTk+0MDAwqDo3IgsdW5jIwMDgnzMbvlEEO4OEL 5xLUAgAAAP//wl4scKtkoeV6tOIVogCz9JAxr1SwqUUWObW2gIGBwS5mOmHnD3oAD1AiC2gAAAAA ///C2c5FDkq0ohYSssSUCec3lTAwMFiFTybGKYMfwJMtwWIEAgAAAAD//yK2E4EW1sSH77AB8HIW udjFDwAAAAD//yIcuFhbCPDwxa8X0hSDlLk0ApByEBnRyBYGjGKBoF0AAAAA//8iqhNBTAoV1it6 e6kPs0IzC55wam3BoSWZg6RCIy/0MQtZYopdAAAAAP//IhC4mGkT3mDALBbEjcrgQzCarq2QkRcG Bgar8MmQIRiCriEDkNT4p/PMAAAAAP//IuxhtEYCpuCAAFw9Tmqpp0QXHAAAAAD//yKtEzFIgKOj I03VU6ILGQAAAAD//xqSAzeY40+D0xYAAAAA//8aHc+lIQAAAAD//0JJuafWxA2UO5DAPwaGXwwM vwbaGVQAAAAAAP//QglcGjUSRw74//8/8hAwAAAA//9CL3Prayvo657hA0KDA9BEAAAAAP//wlKh dS//RA+3kAUGR8FFLAAAAAD//xqt0GgIAAAAAP//Gg1cGgIAAAAA//8aDVwaAgAAAAD//xqMnQi0 ghWyVAUiaBayCC6LLD44AQAAAP//GoyBy4Cx9ufUmjh4UELCFx7KmIzBAwAAAAD//xqkgUsQIAc3 w6AMWQYGBgAAAAD//xqkgYuW9wmqGYQhy8DAAAAAAP//GqSBCw9TeArFo3JwhiwDAwMAAAD//xqM rQXiF1sO5pBlYGAAAAAA//8ajIFLJECuyshe/EpTAAAAAP//GoyBS0xiRGskECw9BgQAAAAA//8a jGUuZmMWs70FV4DWbBhUAAAAAP//GoyBy4Ct2MUTgoMwWCEAAAAA//8ajMXCsAEAAAAA//8aDVwa AgAAAAD//xoNXBoCAAAAAP//Qi9zQ4MDQoMHxCXDEAAAAAD//0IJ3P///w+UO4YlAAAAAP//Qgnc 0X2U1AUAAAAA//8aLXNpCAAAAAD//2JhgO0CHgVUBwAAAAD//2J0cHAYaDcMWwAAAAD//wMAvTBR 4V8MZrQAAAAASUVORK5CYII= " width="116" />
+</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>The <b>ui_handle_repair</b> function contains a lot of code, but most
+of that code is there to draw the text label on top of the bar, and to do
+that without flicker.  The widget solves this by drawing the progress bar
+in three steps:</p><ol><li>The portions to the left of the text label.
+</li><li>The text label.  This is drawn into a pixmap, which is copied to
+the screen when done.  If the label covers the end of the progress bar,
+we&#8217;ll use an extra pixmap in order to draw different parts of the label
+in different colors.
+</li><li>The portions to the right of the text label.
+</li></ol></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

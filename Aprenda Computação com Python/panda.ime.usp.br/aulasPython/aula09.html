@@ -1,0 +1,693 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introdução &mdash; Aulas de Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Aulas de Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Funções com listas" href="aula10.html" />
+    <link rel="prev" title="Exercícios" href="aula08.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'aulasPython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="aula10.html" title="Funções com listas"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="aula08.html" title="Exercícios"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="introducao">
+<h1>Introdução<a class="headerlink" href="#introducao" title="Permalink to this headline">¶</a></h1>
+<p>Nesta segunda fase da disciplina estudaremos,
+não necessariamente nessa ordem e não exclusivamente:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">listas (= <em>vetores</em>): o tipo <em>list</em>, índices, referências, clones,</p>
+</li>
+<li><p class="first">funções que manipulam listas com listas, funções <tt class="docutils literal"><span class="pre">len()</span></tt> e método <tt class="docutils literal"><span class="pre">append()</span></tt>;</p>
+</li>
+<li><p class="first">listas de listas (em particular <em>matrizes</em>);</p>
+</li>
+<li><dl class="first docutils">
+<dt>família de comandos <tt class="docutils literal"><span class="pre">for</span></tt>:</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">for</span> <span class="pre">i</span> <span class="pre">in</span> <span class="pre">range(início,fim,passo):</span></tt>;</li>
+<li><tt class="docutils literal"><span class="pre">for</span> <span class="pre">char</span> <span class="pre">in</span> <span class="pre">string:</span></tt>;</li>
+<li><tt class="docutils literal"><span class="pre">for</span> <span class="pre">item</span> <span class="pre">in</span> <span class="pre">lista:</span></tt>.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">mais sobre <em>strings</em> (tipo <tt class="docutils literal"><span class="pre">str</span></tt>)  e <tt class="docutils literal"><span class="pre">floats</span></tt> (tipo <tt class="docutils literal"><span class="pre">float</span></tt>).</p>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="listas">
+<h1>Listas<a class="headerlink" href="#listas" title="Permalink to this headline">¶</a></h1>
+<p id="index-0">Até aqui, trabalhamos com variáveis simples, capazes de armazenar
+apenas um tipo, como <tt class="docutils literal"><span class="pre">bool</span></tt>, <tt class="docutils literal"><span class="pre">float</span></tt> e <tt class="docutils literal"><span class="pre">int</span></tt>.</p>
+<p>Nessa aula introduziremos o conceito de <em>listas</em> (= tipo <tt class="docutils literal"><span class="pre">list</span></tt>), uma estrutura
+sequencial indexada muito utilizada e uma das principais estruturas
+básicas do Python.</p>
+<div class="section" id="topicos">
+<h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>Lista: estrutura sequencial indexada</li>
+<li>Como criar e acessar seu conteúdo</li>
+<li>função <tt class="docutils literal"><span class="pre">append()</span></tt></li>
+<li>função <tt class="docutils literal"><span class="pre">len()</span></tt></li>
+<li>comando <tt class="docutils literal"><span class="pre">for</span> <span class="pre">elem</span> <span class="pre">in</span> <span class="pre">lista:</span></tt></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id1">
+<h2>Listas<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p id="index-1">Uma lista (= <tt class="docutils literal"><span class="pre">list</span></tt>) em Python é uma sequência ou coleção ordenada
+de valores de qualquer tipo ou classe tais como <tt class="docutils literal"><span class="pre">int</span></tt>, <tt class="docutils literal"><span class="pre">float</span></tt>, <tt class="docutils literal"><span class="pre">bool</span></tt>, <tt class="docutils literal"><span class="pre">str</span></tt>
+e mesmo <tt class="docutils literal"><span class="pre">list</span></tt>, entre outros.</p>
+<p>Diariamente utilizamos listas para organizar informação, como a lista
+de coisas a fazer, lista de compras, lista de filmes em cartaz etc.</p>
+<p>Existem várias maneiras de criarmos uma lista.
+A maneira mais simples é envolver os elementos da
+lista por colchetes ( <tt class="docutils literal"><span class="pre">[</span></tt> e <tt class="docutils literal"><span class="pre">]</span></tt>).
+Podemos criar a lista contendo os 5 primeiros
+primos da seguinte maneira:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">primos</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Podemos criar uma lista de vários objetos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">uma_lista</span> <span class="o">=</span> <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="s">&quot;oi&quot;</span><span class="p">,</span> <span class="mf">5.4</span><span class="p">,</span> <span class="bp">True</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">outra_lista</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;joão&quot;</span><span class="p">,</span> <span class="s">&quot;masculino&quot;</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mf">1.78</span><span class="p">,</span> <span class="s">&quot;brasileira&quot;</span><span class="p">,</span> <span class="s">&quot;solteiro&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fernanda</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Fernanda&quot;</span><span class="p">,</span> <span class="s">&quot;Montenegro&quot;</span><span class="p">,</span> <span class="mi">1929</span><span class="p">,</span> <span class="s">&quot;Central do Brasil&quot;</span><span class="p">,</span> <span class="mi">1998</span><span class="p">,</span> <span class="s">&quot;Atriz&quot;</span><span class="p">,</span> <span class="s">&quot;Rio de Janeiro, RJ&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Observe o uso de colchetes (<tt class="docutils literal"><span class="pre">[</span></tt>, <tt class="docutils literal"><span class="pre">]</span></tt>) para marcar o início e o final
+da lista, e os elementos separados por vígula.</p>
+<div class="section" id="comprimento-de-uma-lista">
+<h3>Comprimento de uma lista<a class="headerlink" href="#comprimento-de-uma-lista" title="Permalink to this headline">¶</a></h3>
+<p id="index-2">A função <tt class="docutils literal"><span class="pre">len()</span></tt> retorna o <em>comprimento</em> (= o número de elementos ou objetos)
+de uma lista:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">primos</span><span class="p">)</span>
+<span class="go">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">uma_lista</span><span class="p">)</span>
+<span class="go">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">outra_lista</span><span class="p">)</span>
+<span class="go">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">fernanda</span><span class="p">)</span>
+<span class="go">7</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="indices">
+<h3>Índices<a class="headerlink" href="#indices" title="Permalink to this headline">¶</a></h3>
+<p id="index-3">Cada valor na lista é identificado por um índice.</p>
+<p>Dizemos que uma lista é uma estrutura sequencial indexada
+pois os seus elementos podem ser acessados sequencialmente
+utilizando índices.
+O primeiro elemento da lista tem índice 0,
+o segundo tem índice 1, e assim por diante.
+Observe que, por começar pelo índice zero,
+o último elemento da lista  <tt class="docutils literal"><span class="pre">primos</span></tt>, o número 11,
+tem índice 4, sendo que essa lista tem comprimento 5.</p>
+<p>Para acessar um elemento de uma lista usamos
+o operador de indexação <tt class="docutils literal"><span class="pre">[]</span></tt>.
+A expressão dentro dos colchetes especifica o índice.
+O índice do primeiro elemento é 0.
+O seguinte programa imprime os valores da lista <tt class="docutils literal"><span class="pre">primos</span></tt>:</p>
+
+<div id="exemplo_percorrer_lista_com_while" >
+<textarea cols="50" rows="12" id="exemplo_percorrer_lista_com_while_code" class="active_code">
+primos = [2, 3, 5, 7, 11]
+i = 0
+while i < len(primos):
+    print( "elemento de indice %d = %d"%(i, primos[i]) )
+    i = i + 1
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exemplo_percorrer_lista_com_while)</span> </p>
+<button onclick="runit('exemplo_percorrer_lista_com_while',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exemplo_percorrer_lista_com_while');">Save</button>
+<button class="ac_opt" onclick="requestCode('exemplo_percorrer_lista_com_while');">Load</button>
+<br />
+
+<canvas id="exemplo_percorrer_lista_com_while_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exemplo_percorrer_lista_com_while_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Simule a execução desse programa e observe que a variável <tt class="docutils literal"><span class="pre">i</span></tt> recebe o
+valor zero que corresponde ao primeiro índice e, enquanto o índice for
+menor que o comprimento da lista (= <tt class="docutils literal"><span class="pre">len(primos)</span></tt>),
+o elemento de índice <tt class="docutils literal"><span class="pre">i</span></tt> é impresso.</p>
+<p>Índices  negativos indicarão elementos da direita
+para a esquerda ao invés de  da esquerda para
+a direita.</p>
+
+<div id="indices_negativos" >
+<textarea cols="50" rows="12" id="indices_negativos_code" class="active_code">
+numeros = [17, 123, 87, 34, 66, 8398, 44]
+print("%3d: %d" %(2,numeros[2]))
+print("%3d: %d" %(5,numeros[-5]))
+print("%3d: %d" %(9-8,numeros[9-8]))
+print("%3d: %d" %(-2,numeros[-2]))
+print("%3d: %d" %(len(numeros)-1,numeros[len(numeros)-1]))
+print("%3d: %d" %(-7,numeros[-7]))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (indices_negativos)</span> </p>
+<button onclick="runit('indices_negativos',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('indices_negativos');">Save</button>
+<button class="ac_opt" onclick="requestCode('indices_negativos');">Load</button>
+<br />
+
+<canvas id="indices_negativos_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="indices_negativos_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Um erro comum em programas é a utilização de índices inválidos (= <em>list index out of range</em>):</p>
+
+<div id="indice_invalido_0" >
+<textarea cols="50" rows="12" id="indice_invalido_0_code" class="active_code">
+numeros = [17, 123, 87, 34, 66, 8398, 44]
+print("%3d: %d" %(len(numeros),numeros[len(numeros)])) # indice invalido
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (indice_invalido_0)</span> </p>
+<button onclick="runit('indice_invalido_0',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('indice_invalido_0');">Save</button>
+<button class="ac_opt" onclick="requestCode('indice_invalido_0');">Load</button>
+<br />
+
+<canvas id="indice_invalido_0_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="indice_invalido_0_pre" class="active_out">
+
+</pre>
+
+</div>
+
+
+<div id="indice_invalido_1" >
+<textarea cols="50" rows="12" id="indice_invalido_1_code" class="active_code">
+numeros = [17, 123, 87, 34, 66, 8398, 44]
+print("3d: %d" %(-8,numeros[-8])) # indice invalido
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (indice_invalido_1)</span> </p>
+<button onclick="runit('indice_invalido_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('indice_invalido_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('indice_invalido_1');">Load</button>
+<br />
+
+<canvas id="indice_invalido_1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="indice_invalido_1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="append-e-a-lista-vazia">
+<h3>append() e a lista vazia<a class="headerlink" href="#append-e-a-lista-vazia" title="Permalink to this headline">¶</a></h3>
+<p>A partir de qualquer lista, podemos inserir um novo elemento
+utilizando o método <tt class="docutils literal"><span class="pre">append</span></tt>. Por exemplo, para inserir o 13
+em nossa lista de primos podemos escrever:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">primos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">primos</span>
+<span class="go">[2, 3, 5, 7, 11, 13]</span>
+</pre></div>
+</div>
+<p>Nesse exemplo, o 13 foi inserido no final da lista <tt class="docutils literal"><span class="pre">primos</span></tt>.
+Do Python Shell, ao digitarmos o nome de uma variável, como
+por exemplo, <tt class="docutils literal"><span class="pre">primos</span></tt>, o Python imprimirá seu conteúdo.</p>
+<p>Uma lista particularmente importante é a lista vazia (<tt class="docutils literal"><span class="pre">[]</span></tt>).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">lista</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">lista</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+<p>Para a criar uma lista, adotaremos o seguinte padrão:</p>
+<blockquote>
+<div><ul class="simple">
+<li>crie uma lista vazia</li>
+<li>use <tt class="docutils literal"><span class="pre">append()</span></tt> para inserir um novo elemento</li>
+</ul>
+</div></blockquote>
+<p>Assim, para armazenar a sequência dos inteiros 0,1,2,3,4,5 em uma
+lista podemos fazer o seguinte:</p>
+
+<div id="insere_primos"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (insere_primos)</span> </p>
+<script type="text/javascript">
+var insere_primos_trace = {"code": "seq = []   # inicia com uma lista vazia\ni = 0\nwhile i < 6:\n    novo_elemento = i\n    seq.append( novo_elemento )\n    i = i + 1", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["seq"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"seq": ["REF", 1]}, "heap": {"1": ["LIST"]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["seq", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0, "seq": ["REF", 1]}, "heap": {"1": ["LIST"]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["seq", "i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0, "seq": ["REF", 1]}, "heap": {"1": ["LIST"]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0, "novo_elemento": 0, "seq": ["REF", 1]}, "heap": {"1": ["LIST"]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0, "novo_elemento": 0, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 1, "novo_elemento": 0, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 1, "novo_elemento": 0, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 1, "novo_elemento": 1, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 1, "novo_elemento": 1, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0, 1]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 2, "novo_elemento": 1, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0, 1]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 2, "novo_elemento": 1, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0, 1]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 2, "novo_elemento": 2, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0, 1]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 2, "novo_elemento": 2, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0, 1, 2]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 3, "novo_elemento": 2, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0, 1, 2]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 3, "novo_elemento": 2, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0, 1, 2]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 3, "novo_elemento": 3, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0, 1, 2]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 3, "novo_elemento": 3, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0, 1, 2, 3]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 4, "novo_elemento": 3, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0, 1, 2, 3]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 4, "novo_elemento": 3, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0, 1, 2, 3]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 4, "novo_elemento": 4, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0, 1, 2, 3]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 4, "novo_elemento": 4, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0, 1, 2, 3, 4]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 5, "novo_elemento": 4, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0, 1, 2, 3, 4]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 5, "novo_elemento": 4, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0, 1, 2, 3, 4]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 5, "novo_elemento": 5, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0, 1, 2, 3, 4]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 5, "novo_elemento": 5, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0, 1, 2, 3, 4, 5]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 6, "novo_elemento": 5, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0, 1, 2, 3, 4, 5]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["seq", "i", "novo_elemento"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 6, "novo_elemento": 5, "seq": ["REF", 1]}, "heap": {"1": ["LIST", 0, 1, 2, 3, 4, 5]}, "line": 3, "event": "return"}]};
+var insere_primos_vis;
+
+$(document).ready(function() {
+    insere_primos_vis = new ExecutionVisualizer('insere_primos',insere_primos_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(insere_primos_vis,'insere_primos');
+    allVisualizers.push(insere_primos_vis);
+});
+
+$(document).ready(function() {
+    $("#insere_primos_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'insere_primos'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    insere_primos_vis.redrawConnectors();
+});
+</script>
+</div>
+<div class="section" id="comando-for">
+<h3>Comando <tt class="docutils literal"><span class="pre">for</span></tt><a class="headerlink" href="#comando-for" title="Permalink to this headline">¶</a></h3>
+<p id="index-4">Como é muito comum percorrer listas, do início ao fim, para processar
+cada elemento, podemos utilizar o comando <tt class="docutils literal"><span class="pre">for</span></tt> das seguintes maneiras:</p>
+
+<div id="exemplo_percorrer_lista_com_for_elem" >
+<textarea cols="50" rows="12" id="exemplo_percorrer_lista_com_for_elem_code" class="active_code">
+primos = [2, 3, 5, 7, 11, 13]
+for elem in primos:
+    print( elem )
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exemplo_percorrer_lista_com_for_elem)</span> </p>
+<button onclick="runit('exemplo_percorrer_lista_com_for_elem',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exemplo_percorrer_lista_com_for_elem');">Save</button>
+<button class="ac_opt" onclick="requestCode('exemplo_percorrer_lista_com_for_elem');">Load</button>
+<br />
+
+<canvas id="exemplo_percorrer_lista_com_for_elem_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exemplo_percorrer_lista_com_for_elem_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Nessa versão do comando <tt class="docutils literal"><span class="pre">for</span></tt>, a lista <tt class="docutils literal"><span class="pre">primos</span></tt> é percorrido do início
+ao fim, e a cada iteração do <tt class="docutils literal"><span class="pre">for</span></tt> a variável <tt class="docutils literal"><span class="pre">elem</span></tt> recebe um dos elementos
+da lista.</p>
+<p>Outra forma comum do comando <tt class="docutils literal"><span class="pre">for</span></tt> é utilizando a função <tt class="docutils literal"><span class="pre">range()</span></tt>
+para criar a lista de índices da seguinte forma:</p>
+
+<div id="exemplo_percorrer_lista_com_for_range" >
+<textarea cols="50" rows="12" id="exemplo_percorrer_lista_com_for_range_code" class="active_code">
+primos = [2, 3, 5, 7, 11, 13]
+for i in range(len(primos)):
+    print( "%d: %d"%(i,primos[i]) )
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exemplo_percorrer_lista_com_for_range)</span> </p>
+<button onclick="runit('exemplo_percorrer_lista_com_for_range',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exemplo_percorrer_lista_com_for_range');">Save</button>
+<button class="ac_opt" onclick="requestCode('exemplo_percorrer_lista_com_for_range');">Load</button>
+<br />
+
+<canvas id="exemplo_percorrer_lista_com_for_range_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exemplo_percorrer_lista_com_for_range_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Você pode supor que a função <tt class="docutils literal"><span class="pre">range()</span></tt> retorna uma lista com os inteiros de 0 até 5, que é <em>um a menos</em> que o valor retornado pela função <tt class="docutils literal"><span class="pre">len(primos)</span></tt>.</p>
+<p>A função <tt class="docutils literal"><span class="pre">range()</span></tt> na verdade é bem poderosa e há outras formas de
+utilizá-la. Para saber mais sobre essa função, consulte a
+<a class="reference external" href="https://docs.python.org/3/library/functions.html#func-range">documentação da função range()</a>.</p>
+</div>
+<div class="section" id="para-saber-mais">
+<h3>Para saber mais<a class="headerlink" href="#para-saber-mais" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>Sobre <a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html">listas</a>;</li>
+<li>Sobre o comando <cite>for</cite>, leia <a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/03-PythonTurtle/olatartaruga.html#o-laco-for">O laço for</a> e
+<a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/07-Iteracao/maisiteracao.html#mais-sobre-o-comando-for">Mais sobre o comando for</a>;</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="exercicio-9-1">
+<h3>Exercício 9.1<a class="headerlink" href="#exercicio-9-1" title="Permalink to this headline">¶</a></h3>
+<p>(exercício 1 da lista de exercícios sobre vetores).</p>
+<p>Dados n &gt; 0 e uma sequência com n números reais, imprimí-los na ordem inversa a da leitura.</p>
+
+<div id="aula09_ex91_tentativa" >
+<textarea cols="50" rows="12" id="aula09_ex91_tentativa_code" class="active_code">
+def main():
+    # escreva o seu programa abaixo e remova o print()
+    print("Vixe! Ainda nao fiz o exercicio!")
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula09_ex91_tentativa)</span> </p>
+<button onclick="runit('aula09_ex91_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula09_ex91_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula09_ex91_tentativa');">Load</button>
+<br />
+
+<canvas id="aula09_ex91_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula09_ex91_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Clique <a class="reference external" href="exercicios/ex91.html">aqui</a> para ver uma solução.</p>
+</div>
+<div class="section" id="exercicio-9-2">
+<h3>Exercício 9.2<a class="headerlink" href="#exercicio-9-2" title="Permalink to this headline">¶</a></h3>
+<p>Dada uma sequência de <tt class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">0</span></tt> números reais, imprimi-los eliminando as repetições.</p>
+
+<div id="aula09_ex92_tentativa" >
+<textarea cols="50" rows="12" id="aula09_ex92_tentativa_code" class="active_code">
+def main():
+    # escreva o seu programa abaixo e remova o print()
+    print("Vixe! Ainda nao fiz o exercicio!")
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula09_ex92_tentativa)</span> </p>
+<button onclick="runit('aula09_ex92_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula09_ex92_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula09_ex92_tentativa');">Load</button>
+<br />
+
+<canvas id="aula09_ex92_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula09_ex92_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-9-3">
+<h3>Exercício 9.3<a class="headerlink" href="#exercicio-9-3" title="Permalink to this headline">¶</a></h3>
+<p>Dados dois números naturais <tt class="docutils literal"><span class="pre">m</span></tt> e <tt class="docutils literal"><span class="pre">n</span></tt> e duas sequências ordenadas com <tt class="docutils literal"><span class="pre">m</span></tt> e
+n números inteiros, obter uma única sequência ordenada contendo todos
+os elementos das sequências originais sem repetição.</p>
+<p>Sugestão: Imagine uma situação real, por exemplo, dois fichários de uma biblioteca.</p>
+
+<div id="aula09_ex93_tentativa" >
+<textarea cols="50" rows="12" id="aula09_ex93_tentativa_code" class="active_code">
+def main():
+    # escreva o seu programa abaixo e remova o print()
+    print("Vixe! Ainda nao fiz o exercicio!")
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula09_ex93_tentativa)</span> </p>
+<button onclick="runit('aula09_ex93_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula09_ex93_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula09_ex93_tentativa');">Load</button>
+<br />
+
+<canvas id="aula09_ex93_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula09_ex93_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-9-4">
+<h3>Exercício 9.4<a class="headerlink" href="#exercicio-9-4" title="Permalink to this headline">¶</a></h3>
+<p>Dados um número inteiro <tt class="docutils literal"><span class="pre">n</span></tt> e uma sequência com <tt class="docutils literal"><span class="pre">n</span></tt> números reais,
+determinar a maior soma de um segmento da sequência (com pelo menos um elemento).
+Um <em>segmento</em> é uma subsequência de números consecutivos.</p>
+<p>Para  <tt class="docutils literal"><span class="pre">n</span> <span class="pre">==</span> <span class="pre">12</span></tt> e a sequência</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">5</span>   <span class="o">-</span><span class="mi">2</span>   <span class="o">-</span><span class="mi">2</span>   <span class="o">-</span><span class="mi">7</span>   <span class="mi">3</span>   <span class="mi">14</span>  <span class="mi">10</span>  <span class="o">-</span><span class="mi">3</span>   <span class="mi">9</span>   <span class="o">-</span><span class="mi">6</span>   <span class="mi">4</span>   <span class="mi">1</span>
+</pre></div>
+</div>
+<p>a soma do segmento de soma máxima é <tt class="docutils literal"><span class="pre">3+14+10-3+9</span> <span class="pre">=</span> <span class="pre">33</span></tt>.</p>
+
+<div id="aula09_ex94_tentativa" >
+<textarea cols="50" rows="12" id="aula09_ex94_tentativa_code" class="active_code">
+def main():
+    # escreva o seu programa abaixo e remova o print()
+    print("Vixe! Ainda nao fiz o exercicio!")
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula09_ex94_tentativa)</span> </p>
+<button onclick="runit('aula09_ex94_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula09_ex94_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula09_ex94_tentativa');">Load</button>
+<br />
+
+<canvas id="aula09_ex94_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula09_ex94_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="leitura-e-videos-complementares">
+<h3>Leitura e vídeos complementares<a class="headerlink" href="#leitura-e-videos-complementares" title="Permalink to this headline">¶</a></h3>
+<p>A leitura e vídeos sugeridos aqui, em geral, contém (muito?) mais tópicos do
+que os que vistos durante a aula.
+Os tópicos não vistos na aula serão cobertos em algum momento mais oportuno.</p>
+<p>Leitura das seções:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html#valores-em-uma-lista">Valores em uma lista</a>;</li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html#comprimento-de-uma-lista">Comprimento de uma lista</a>;</li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html#acessando-os-elementos">Acessando os elementos</a>;</li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html#listas-sao-mutaveis">Listas são mutáveis</a>;</li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html#concatenacao-e-repeticao">Concatenação e repetição</a>;</li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html#append-versus-concatenacao">Append versus concatenação</a>; e</li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html#listas-e-o-laco-for">Lista e o laço for</a>;</li>
+</ul>
+</div></blockquote>
+<p>do capítulo
+<a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/">Listas</a>
+do livro interativo
+<a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/index.html">Como pensar como um Cientísta da Computação</a>.</p>
+<p>Vídeos do curso <a class="reference external" href="http://pingmind.com/python-para-zumbis/">Python para zumbis</a> de Fernando Masanori:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://www.youtube.com/watch?v=IKbN7PnFqTQ">Listas</a>;</li>
+<li><a class="reference external" href="https://www.youtube.com/watch?v=_ezpAhoU5B4">Inverter uma lista</a>; e</li>
+<li><a class="reference external" href="https://www.youtube.com/watch?v=SWz-TDaVOjU">Comando de repetição (for)</a>.</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introdução</a></li>
+<li><a class="reference internal" href="#listas">Listas</a><ul>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#id1">Listas</a><ul>
+<li><a class="reference internal" href="#comprimento-de-uma-lista">Comprimento de uma lista</a></li>
+<li><a class="reference internal" href="#indices">Índices</a></li>
+<li><a class="reference internal" href="#append-e-a-lista-vazia">append() e a lista vazia</a></li>
+<li><a class="reference internal" href="#comando-for">Comando <tt class="docutils literal"><span class="pre">for</span></tt></a></li>
+<li><a class="reference internal" href="#para-saber-mais">Para saber mais</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a><ul>
+<li><a class="reference internal" href="#exercicio-9-1">Exercício 9.1</a></li>
+<li><a class="reference internal" href="#exercicio-9-2">Exercício 9.2</a></li>
+<li><a class="reference internal" href="#exercicio-9-3">Exercício 9.3</a></li>
+<li><a class="reference internal" href="#exercicio-9-4">Exercício 9.4</a></li>
+<li><a class="reference internal" href="#leitura-e-videos-complementares">Leitura e vídeos complementares</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="aula08.html"
+                        title="previous chapter">Exercícios</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="aula10.html"
+                        title="next chapter">Funções com listas</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="aula10.html" title="Funções com listas"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="aula08.html" title="Exercícios"
+             >previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Mar 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

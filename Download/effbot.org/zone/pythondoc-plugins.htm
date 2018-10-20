@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Writing PythonDoc&nbsp;Plugins</title></head><body data-page-id="239"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Writing PythonDoc&nbsp;Plugins</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">October 26, 2003 | Fredrik Lundh</p><p><a href="pythondoc.htm">PythonDoc 2.0</a> supports pluggable output
+generators.  You can use custom plugins to generate HTML that matches
+your corporate documentation standard, to generate PDF versions of the
+documentation (using <a href="http://www.reportlab.com">ReportLab</a>),
+to check that all methods and classes are properly documented, etc.</p><h3>Writing Generator Plugins</h3><p>An output generator is a Python module that&#8217;s imported by the PythonDoc
+tool when it starts.  For each source file that contains PythonDoc markup,
+the tool builds an XML structure and passes it to the generator.</p><p>Here&#8217;s how it works:</p><ol><li><p>If the -O option is used, PythonDoc imports the specified module.
+For example, <b>-Ooutput</b> imports the <b>output</b> module.
+<b>-Otools.myformatter</b> imports the <b>myformatter</b> module from
+the <b>tools</b> package.</p><pre class="python">
+<span class="pykeyword">import</span> tools.myformatter <span class="pykeyword">as</span> formatter</pre></li><li><p>Before PythonDoc starts parsing, it calls the <b>PythonDocGenerator</b>
+object in the imported module, with a dictionary containing any configuration
+options (as specified with the -D option; <b>-Dkey</b> sets dictionary member
+<b>key</b> to None; <b>-Dkey=value</b> sets dictionary member <b>key</b> to
+<b>value</b>).  The return value from this call is used as the generator
+instance.  The <b>PythonDocGenerator</b> object is usually a class, but
+can also be a factory function.</p><pre>
+generator = formatter.PythonDocGenerator(options)
+</pre></li><li><p>For each file, PythonDoc calls the <b>save</b> method on the generator
+instance, passing in an element structure and a filename prefix.  The 
+structure contains the <a href="pythondoc-infoset.htm">infoset</a> for this
+module.  The prefix is usually <b>pythondoc-</b> followed by the full
+name of the module; you can usually just add a suitable extension.  If
+the <b>save</b> method writes anything to disk, it should return a string
+(usually the complete filename).  PythonDoc prints this string, followed
+by the string &#8220;<b>&#160;ok</b>&#8220;.</p><pre class="python">
+status = generator.save(module_element, prefix)
+<span class="pykeyword">if</span> status:
+    <span class="pykeyword">print</span> status, <span class="pystring">"ok"</span></pre></li><li><p>When PythonDoc has finished parsing the source files, it calls the
+optional <b>done</b> method on the generator instance.  If this method
+exists and returns a string, that string is printed, followed by the
+string &#8220;<b> ok</b>&#8220;.  You don&#8217;t have to provide this method; if looking
+up <b>done</b> results in an AttributeError, the PythonDoc tool proceeds
+without any complaints.</p><pre class="python">
+<span class="pykeyword">try</span>:
+    done = generator.done
+<span class="pykeyword">except</span> AttributeError:
+    <span class="pykeyword">pass</span>
+<span class="pykeyword">else</span>:
+    status = done()
+    <span class="pykeyword">if</span> status:
+        <span class="pykeyword">print</span> status, <span class="pystring">"ok"</span></pre></li></ol><p>Here&#8217;s an example:</p><pre class="python">
+<span class="pycomment"># File: xml.py</span>
+
+<span class="pykeyword">import</span> elementtree.ElementTree <span class="pykeyword">as</span> ET
+
+<span class="pykeyword">class</span> <span class="pyclass">PythonDocGenerator</span>:
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, options):
+        self.encoding = options.get(<span class="pystring">"encoding"</span>)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">save</span>(self, module, file):
+        file = file + <span class="pystring">".xml"</span>
+        tree = ET.ElementTree(module)
+        tree.write(file, self.encoding)
+        <span class="pykeyword">return</span> file
+
+    <span class="pykeyword">def</span> <span class="pyfunction">done</span>(self):
+        <span class="pykeyword">pass</span></pre><p>This example works like the standard XML writer, except that you can
+use <b>-Dencoding=</b><i>charset</i> to specify the encoding.</p><p>Note that the <i>module</i> argument is a plain <b>Element</b> instance;
+the example wraps it in an <b>ElementTree</b> wrapper to be able to write it
+out as XML.</p><p>Also note that if you use this generator with the -x option, the output
+from your generator will be overwritten by XML files produced by the standard
+XML writer; the custom generator is always called first.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

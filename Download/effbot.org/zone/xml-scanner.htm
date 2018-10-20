@@ -1,0 +1,373 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Using Regular Expressions for Lexical&nbsp;Analysis</title></head><body data-page-id="373"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Using Regular Expressions for Lexical&nbsp;Analysis</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">February 04, 2002 | Fredrik Lundh</p><p>This note discusses how to use the <b>re</b> module in Python
+2.0 and later for lexical analysis.</p><h3>A Simple RE Scanner</h3><p>A scanner reads an input string (e.g. program code) and groups the
+characters into lexical units, such as keywords and integer literals.
+Scanners are also known as lexical analysers, or tokenizers.</p><p>For example, here&#8217;s a simple expression:</p><pre>
+b = 2 + a*10
+</pre><p>In the above expression, we can identify three token types:</p><ul><li>Symbols (or identifiers).  In the example, all symbols consist of
+a single character, but we can easily accept any string starting with
+a letter or an underscore, and followed by more letters, digits, or
+underscores.</li><li>Integer literals, consisting of one or more digits.</li><li>Operators (=, +, and *).  To simplify, let&#8217;s treat any other
+non-whitespace character as an operator as well.</li></ul><p>Regular expressions provide an easy and quite powerful tool for
+writing simple scanners.  For example, you could use the
+<b>findall</b> method to split the expression into a list of
+tokens:</p><div class="example"><pre class="python">
+<span class="pycomment"># File: xml-scanner-example-1.py</span>
+
+<span class="pykeyword">import</span> re
+
+expr = <span class="pystring">"b = 2 + a*10"</span>
+
+<span class="pykeyword">print</span> re.findall(<span class="pystring">"\s*(\d+|\w+|.)"</span>, expr)</pre></div><p>Note that the pattern skips any leading whitespace.  The token
+patterns are all placed in the same group, so <b>findall</b> will
+return a straightforward list of token strings:</p><pre>
+$ <b>python xml-scanner-example-1.py</b>
+['b', '=', '2', '+', 'a', '*', '10']
+</pre><p>The next step would be to pass the token list on to a function that
+can interpret the expression (or perhaps compile it into some kind of
+executable code).</p><p>A problem here is that while <b>findall</b> returns a list of
+tokens, the program will have to inspect each token to see what it
+really is.  It could for example look at the first character; if it&#8217;s
+a digit, the token represents an integer literal.  If it&#8217;s a letter or
+an underscore, the token represents a symbol.  All other tokens are
+potential operators.</p><p>This extra check feels a bit unnecessary; after all, the regular
+expression engine knows what subpattern it picked.  One way to get
+this information is to modify the pattern so that every token
+subpattern is in its own group.</p><div class="example"><pre class="python">
+<span class="pycomment"># File: xml-scanner-example-2.py</span>
+
+<span class="pykeyword">import</span> re
+
+expr = <span class="pystring">"b = 2 + a*10"</span>
+
+<span class="pykeyword">for</span> item <span class="pykeyword">in</span> re.findall(<span class="pystring">"\s*(?:(\d+)|(\w+)|(.))"</span>, expr):
+    <span class="pykeyword">print</span> item</pre></div><p>In this case, when there are more than one group in a pattern,
+<b>findall</b> returns a tuple with empty strings for groups that
+didn&#8217;t match:</p><pre>
+$ <b>python xml-scanner-example-2.py</b>
+('', 'b', '')
+('', '', '=')
+('2', '', '')
+('', '', '+')
+('', 'a', '')
+('', '', '*')
+('10', '', '')
+</pre><p>To find the token type, all we have to do is to find the first
+non-empty item in each tuple, e.g:</p><pre class="python">
+<span class="pykeyword">if</span> item[0]:
+    <span class="pykeyword">print</span> <span class="pystring">"integer"</span>, item[0]
+<span class="pykeyword">elif</span> item[1]:
+    <span class="pykeyword">print</span> <span class="pystring">"symbol"</span>, item[1]
+<span class="pykeyword">else</span>:
+    <span class="pykeyword">print</span> <span class="pystring">"operator"</span>, item[2]</pre><p>This solution works pretty well as long as we don&#8217;t have too many
+different token types, but it quickly breaks down when the number
+increases.</p><p>There&#8217;s actually a way to get at the group index in Python 2.0 and
+later.  Whenever the regular expression engine completes a group, it
+assigns the group number to an internal register called
+<b>lastindex</b>.  After a successful match, this register is
+available as an attribute on the <b>match object</b> (the kind of
+object returned by a successful call to <b>match</b> or
+<b>search</b>).</p><p>The only problem here is that <b>findall</b> returns strings (or
+tuples), not match objects.  Oh well.  We&#8217;ll have to write our own
+scanning loop:</p><div class="example"><pre class="python">
+<span class="pycomment"># File: xml-scanner-example-3.py</span>
+
+<span class="pykeyword">import</span> re
+
+expr = <span class="pystring">"b = 2 + a*10"</span>
+
+pos = 0
+
+pattern = re.compile(<span class="pystring">"\s*(?:(\d+)|(\w+)|(.))"</span>)
+
+<span class="pykeyword">while</span> 1:
+    m = pattern.match(expr, pos)
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> m:
+        <span class="pykeyword">break</span>
+    <span class="pykeyword">print</span> m.lastindex, repr(m.group(m.lastindex))
+    pos = m.end()</pre></div><pre>
+$ <b>python xml-scanner-example-3.py</b>
+2 'b'
+3 '='
+1 '2'
+3 '+'
+2 'a'
+3 '*'
+1 '10'
+</pre><p>Here, the <b>lastindex</b> attribute is 1 for integers, 2 for
+symbols, and code 3 for operators.</p><p class="note"><b>Note:</b>
+In recent versions, you can use <b>finditer</b> instead of <b>findall</b>.
+<b>finditer</b> returns a lazily constructed sequence of match objects,
+using an internal scanner object (see below).</p><p>The 2.0 engine provides another (undocumented) feature that can be
+used to optimize this even further.  The <b>scanner</b> method is used
+to create a <b>scanner object</b> and attach it to a string.  This
+object keeps track of the current position, and moves forward after
+each successful <b>match</b>.  Instead of keeping track of the
+position yourself, just call the scanner over and over again.</p><p>After replacing the <b>pos</b> variable with a scanner object, our
+example now looks like this:</p><div class="example"><pre class="python">
+<span class="pycomment"># File: xml-scanner-example-4.py</span>
+
+<span class="pykeyword">import</span> re
+
+expr = <span class="pystring">"b = 2 + a*10"</span>
+
+pattern = re.compile(<span class="pystring">"\s*(?:(\d+)|(\w+)|(.))"</span>)
+
+scan = pattern.scanner(expr)
+
+<span class="pykeyword">while</span> 1:
+    m = scan.match()
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> m:
+        <span class="pykeyword">break</span>
+    <span class="pykeyword">print</span> m.lastindex, repr(m.group(m.lastindex))</pre></div><h3>A Slightly More Complex RE Scanner</h3><p>Let&#8217;s look at a somewhat larger example: a fast but somewhat sloppy
+XML parser.</p><p>An XML document consists of tags, entities, and character data
+sections.  Tags are relatively complex objects; a start tag consists
+of an angle bracket, an identifier (the element name), optional
+attributes, and an ending angle bracket.  Each attribute consists of
+an identifier followed by an equal sign, a quotation mark (single or
+double), text and entities, and a closing quotation mark.  An entity
+reference consists of an ampersand, an identifier (or a number sign
+followed by an integer), and a semi-colon.  An end tag looks like a
+start tag, but the identifier is preceded by a slash, and attributes
+are not allowed.  And so on&#8230;</p><p>However, with a little creativity, we can boil it down to the
+following five token types:</p><ol><li>Tags, consisting of an angle bracket (&lt;) followed by an
+optional slash (/), and an identifier.</li><li>Entity and character references, consisting of an ampersand
+(&amp;), followed by an optional number sign (#), and a string of
+letters and digits.</li><li>Text strings, consisting of letters and digits and other
+non-special characters (but not whitespace).</li><li>Whitespace.</li><li>Special characters (&lt;, &gt;, &amp;, &#8216;, &#8220;, and
+=).</li></ol><p>How the tokens are interpreted depend on whether the scanner is
+inside a tag, or inside character data.  In the latter case,
+identifiers, whitespace segments, and special characters are all
+interpreted as character data.  Inside tags, they&#8217;re used for
+attributes (both attribute names and their values).</p><p>Here&#8217;s a first implementation of the XML tokenizer:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide"><pre class="python wide">
+<span class="pycomment"># File: xml-scanner-example-5.py</span>
+
+<span class="pykeyword">import</span> re
+
+xml = re.compile(<span class="pystring">r"""</span>
+    &lt;([/?!]?\w+)     # 1. tags
+    |&amp;(\#?\w+);      # 2. entities
+    |([^&lt;&gt;&amp;'\"=\s]+) # 3. text strings (no special characters)
+    |(\s+)           # 4. whitespace
+    |(.)             # 5. special characters
+    """, re.VERBOSE)
+
+document = <span class="pystring">"""\</span>
+&lt;body class='default'&gt;
+here&amp;apos;s some text&amp;#33;
+&lt;/body&gt;
+"""
+
+<span class="pycomment"># bind a scanner to the target string</span>
+scan = xml.scanner(document)
+
+<span class="pycomment"># print all tokens</span>
+<span class="pykeyword">while</span> 1:
+    m = scan.match()
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> m:
+        <span class="pykeyword">break</span>
+    <span class="pykeyword">print</span> m.lastindex, repr(m.group(m.lastindex))</pre></div></div><div class="yui-ge"><div class="yui-u first"><pre>
+$ <b>python xml-scanner-example-5.py</b>
+1 'body'
+4 ' '
+3 'class'
+5 '='
+5 "'"
+3 'default'
+5 "'"
+5 '&gt;'
+4 '\n'
+3 'here'
+2 'apos'
+3 's'
+4 ' '
+3 'some'
+4 ' '
+3 'text'
+2 '#33'
+4 '\n'
+1 '/body'
+5 '&gt;'
+4 '\n'
+</pre><p>Here, the <b>lastindex</b> attribute is 1 for tags, 2 for entity
+and character references, 3 for identifiers, 4 for whitespace
+segments, and 5 for special characters.</p><p>Turning the token stream into start tags, end tags, and character
+data sections is relatively straightforward.  The following
+implementation uses a few tricks to speed things up (most notably, it
+creates a temporary function object called <b>gettoken</b> which
+returns the next token, possibly skipping over whitespace on the
+way).</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide"><pre class="python wide">
+<span class="pycomment"># File: xmlscanner.py</span>
+<span class="pycomment"># a simple xml scanner</span>
+
+<span class="pykeyword">import</span> re, string
+
+<span class="pycomment"># xml tokenizer pattern</span>
+xml = re.compile(<span class="pystring">"&lt;([/?!]?\w+)|&amp;(#?\w+);|([^&lt;&gt;&amp;'\"=\s]+)|(\s+)|(.)"</span>)
+
+<span class="pykeyword">def</span> <span class="pyfunction">scan</span>(str, target):
+    <span class="pycomment"># split string into xml elements</span>
+
+    <span class="pycomment"># create a scanner function for this string</span>
+    <span class="pykeyword">def</span> <span class="pyfunction">gettoken</span>(space=0, scan=xml.scanner(str).match):
+        <span class="pycomment"># scanner function (bound to the string)</span>
+        <span class="pykeyword">try</span>:
+            <span class="pykeyword">while</span> 1:
+                m = scan()
+                code = m.lastindex
+                text = m.group(m.lastindex)
+                <span class="pykeyword">if</span> <span class="pykeyword">not</span> space <span class="pykeyword">or</span> code != 4:
+                    <span class="pykeyword">return</span> code, text
+        <span class="pykeyword">except</span> AttributeError:
+            <span class="pykeyword">raise</span> EOFError
+
+    <span class="pycomment"># token categories</span>
+    TAG = 1; ENTITY = 2; STRING = 3; WHITESPACE = 4; SEPARATOR = 5
+
+    start = target.start; end = target.end; data = target.data
+
+    <span class="pykeyword">try</span>:
+        <span class="pykeyword">while</span> 1:
+            code, text = gettoken()
+            <span class="pykeyword">if</span> code == TAG:
+                <span class="pycomment"># deal with tags</span>
+                type = text[:1]
+                <span class="pykeyword">if</span> type == <span class="pystring">"/"</span>:
+                    <span class="pycomment"># end tag</span>
+                    end(text[1:])
+                    code, text = gettoken(1)
+                    <span class="pykeyword">if</span> text != <span class="pystring">"&gt;"</span>:
+                        <span class="pykeyword">raise</span> SyntaxError, <span class="pystring">"malformed end tag"</span>
+                <span class="pykeyword">elif</span> type == <span class="pystring">"!"</span>:
+                    <span class="pycomment"># document type declaration (incomplete)</span>
+                    value = []
+                    <span class="pykeyword">while</span> 1:
+                        <span class="pycomment"># parse start tag contents</span>
+                        code, text = gettoken(1)
+                        <span class="pykeyword">if</span> text == <span class="pystring">"&gt;"</span>:
+                            <span class="pykeyword">break</span>
+                        value.append(text)
+                    value = string.join(value, <span class="pystring">""</span>)
+                <span class="pykeyword">else</span>:
+                    <span class="pycomment"># start tag or procesing instruction</span>
+                    tag = text
+                    attrib = {}
+                    <span class="pykeyword">while</span> 1:
+                        <span class="pycomment"># parse start tag contents</span>
+                        code, text = gettoken(1)
+                        <span class="pykeyword">if</span> text == <span class="pystring">"&gt;"</span>:
+                            start(tag, attrib)
+                            <span class="pykeyword">break</span>
+                        <span class="pykeyword">if</span> text == <span class="pystring">"/"</span>:
+                            start(tag, attrib)
+                            end(tag)
+                            <span class="pykeyword">break</span>
+                        <span class="pykeyword">if</span> text == <span class="pystring">"?"</span>:
+                            <span class="pykeyword">if</span> type != text:
+                                <span class="pykeyword">raise</span> SyntaxError, <span class="pystring">"unexpected quotation mark"</span>
+                            code, text = gettoken(1)
+                            <span class="pykeyword">if</span> text != <span class="pystring">"&gt;"</span>:
+                                <span class="pykeyword">raise</span> SyntaxError, <span class="pystring">"expected end tag"</span>
+                            <span class="pykeyword">try</span>:
+                                target.xml(attrib)
+                            <span class="pykeyword">except</span> AttributeError:
+                                <span class="pykeyword">pass</span>
+                            <span class="pykeyword">break</span>
+                        <span class="pykeyword">if</span> code == STRING:
+                            <span class="pycomment"># attribute</span>
+                            key = text
+                            code, text = gettoken(1)
+                            <span class="pykeyword">if</span> text != <span class="pystring">"="</span>:
+                                <span class="pykeyword">raise</span> SyntaxError, <span class="pystring">"expected equal sign"</span>
+                            code, quote = gettoken(1)
+                            <span class="pykeyword">if</span> quote != <span class="pystring">"'"</span> <span class="pykeyword">and</span> quote != <span class="pystring">'"'</span>:
+                                <span class="pykeyword">raise</span> SyntaxError, <span class="pystring">"expected quote"</span>
+                            value = []
+                            <span class="pykeyword">while</span> 1:
+                                code, text = gettoken()
+                                <span class="pykeyword">if</span> text == quote:
+                                    <span class="pykeyword">break</span>
+                                <span class="pykeyword">if</span> code == ENTITY:
+                                    <span class="pykeyword">try</span>:
+                                        text = fixentity(text)
+                                    <span class="pykeyword">except</span> ValueError:
+                                        text = target.resolve_entity(text)
+                                value.append(text)
+                            attrib[key] = string.join(value, <span class="pystring">""</span>)
+            <span class="pykeyword">elif</span> code == ENTITY:
+                <span class="pycomment"># text entities</span>
+                <span class="pykeyword">try</span>:
+                    text = fixentity(text)
+                <span class="pykeyword">except</span> ValueError:
+                    text = target.resolve_entity(text)
+                data(text)
+            <span class="pykeyword">else</span>:
+                <span class="pycomment"># other text (whitespace, string, or separator)</span>
+                data(text)
+    <span class="pykeyword">except</span> EOFError:
+        <span class="pykeyword">pass</span>
+    <span class="pykeyword">except</span> SyntaxError, v:
+        <span class="pycomment"># generate nicer error message</span>
+        <span class="pykeyword">raise</span>
+
+xml_entities = {<span class="pystring">"amp"</span>: <span class="pystring">"&amp;"</span>, <span class="pystring">"apos"</span>: <span class="pystring">"'"</span>, <span class="pystring">"gt"</span>: <span class="pystring">"&gt;"</span>, <span class="pystring">"lt"</span>: <span class="pystring">"&lt;"</span>, <span class="pystring">"quot"</span>: <span class="pystring">'"'</span>}
+
+<span class="pykeyword">def</span> <span class="pyfunction">fixentity</span>(entity):
+    <span class="pycomment"># map entity name to built-in entity</span>
+    <span class="pykeyword">try</span>:
+        <span class="pykeyword">return</span> xml_entities[entity]
+    <span class="pykeyword">except</span> KeyError:
+        <span class="pykeyword">pass</span>
+    <span class="pycomment"># assume numeric entity (raises ValueError if malformed)</span>
+    <span class="pykeyword">if</span> entity[:2] == <span class="pystring">"#x"</span>:
+        value = int(entity[2:], 16)
+    <span class="pykeyword">else</span>:
+        value = int(entity[1:])
+    <span class="pykeyword">if</span> value &gt; 127:
+        <span class="pykeyword">return</span> unichr(value)
+    <span class="pykeyword">return</span> chr(value)</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>The scanner calls methods on a <b>target</b> object, as shown in
+the following example:</p><div class="example"><pre class="python">
+<span class="pycomment"># File: xml-scanner-example-6.py</span>
+
+<span class="pykeyword">import</span> xmlscanner
+
+<span class="pykeyword">class</span> <span class="pyclass">echo</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">xml</span>(self, attrib):
+        <span class="pykeyword">print</span> <span class="pystring">"XML"</span>, attrib
+    <span class="pykeyword">def</span> <span class="pyfunction">start</span>(self, tag, attrib):
+        <span class="pykeyword">print</span> <span class="pystring">"START"</span>, tag, attrib
+    <span class="pykeyword">def</span> <span class="pyfunction">end</span>(self, tag):
+        <span class="pykeyword">print</span> <span class="pystring">"END"</span>
+    <span class="pykeyword">def</span> <span class="pyfunction">data</span>(self, text):
+        <span class="pykeyword">print</span> <span class="pystring">"DATA"</span>, repr(text)
+
+text = <span class="pystring">"""\</span>
+&lt;?xml version='1.0'?&gt;
+&lt;body class='default'&gt;
+here&amp;apos;s some text&amp;#33;
+&lt;/body&gt;
+"""
+
+xmlscanner.scan(text, echo())</pre></div><pre>
+$ <b>python xml-scanner-example-6.py</b>
+XML {'version': '1.0'}
+DATA '\n'
+START body {'class': 'default'}
+DATA '\n'
+DATA 'here'
+DATA "'"
+DATA 's'
+DATA ' '
+DATA 'some'
+DATA ' '
+DATA 'text'
+DATA '!'
+DATA '\n'
+END
+DATA '\n'
+</pre><p>Under Python 2.1, this parser is about 20% faster than
+<b>xmllib.py</b>.</p><h3>Summary</h3><p>This note described how to write simple scanners (or tokenizers)
+with Python&#8217;s new regular expression engine.  Such scanners work well
+for simple languages, but can be made to work also with more complex
+syntaxes, such as XML.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

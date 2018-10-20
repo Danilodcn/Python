@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>A Validating Entry&nbsp;Widget</title></head><body data-page-id="304"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">A Validating Entry&nbsp;Widget</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">June 30, 1998 | Fredrik Lundh</p><p>This module implements a validating version of
+<a href="/tkinterbook/entry.htm">the Tkinter <b>Entry</b> widget</a>.
+It uses the <b>textvariable</b> option to attach
+<a href="/tkinterbook/variable.htm">a <b>StringVar</b> variable</a>
+to the widget, and uses the variable trace function to keep track of what&#8217;s
+going on.  To specify how validation is to be done, override the
+<b>validate</b> method.</p><p>Note that the constructor takes a parent widget, and also allows
+you to use the <b>value</b> option to specify the initial contents.
+All other options are passed on to the Entry widget itself.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>File: tkValidatingEntry.py</b>
+<pre class="python wide">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+<span class="pykeyword">class</span> <span class="pyclass">ValidatingEntry</span>(Entry):
+    <span class="pycomment"># base class for validating entry widgets</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, master, value=<span class="pystring">""</span>, **kw):
+        apply(Entry.__init__, (self, master), kw)
+        self.__value = value
+        self.__variable = StringVar()
+        self.__variable.set(value)
+        self.__variable.trace(<span class="pystring">"w"</span>, self.__callback)
+        self.config(textvariable=self.__variable)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__callback</span>(self, *dummy):
+        value = self.__variable.get()
+        newvalue = self.validate(value)
+        <span class="pykeyword">if</span> newvalue <span class="pykeyword">is</span> None:
+            self.__variable.set(self.__value)
+        <span class="pykeyword">elif</span> newvalue != value:
+            self.__value = newvalue
+            self.__variable.set(self.newvalue)
+        <span class="pykeyword">else</span>:
+            self.__value = value
+
+    <span class="pykeyword">def</span> <span class="pyfunction">validate</span>(self, value):
+        <span class="pycomment"># override: return value, new value, or None if invalid</span>
+        <span class="pykeyword">return</span> value</pre></div></div><div class="yui-ge"><div class="yui-u first"><p class="note"><b>Note:</b>
+Newer versions of Tkinter support <b>validate</b> and <b>validatecommand</b>
+options that can be used instead of the extra variable.  The above code still
+works, though.
+</p><h3 id="examples">Examples&#160;<a class="nav" href="#examples" title="bookmark!">#</a></h3><p>The first two examples are subclasses that check that the input is
+a valid Python integer or float, respectively.  The <b>validate</b>
+method simply tries to convert the value to an object of the right
+kind, and returns <b>None</b> (reject) if that fails.</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">IntegerEntry</span>(ValidatingEntry):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">validate</span>(self, value):
+        <span class="pykeyword">try</span>:
+            <span class="pykeyword">if</span> value:
+                v = int(value)
+            <span class="pykeyword">return</span> value
+        <span class="pykeyword">except</span> ValueError:
+            <span class="pykeyword">return</span> None</pre><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">FloatEntry</span>(ValidatingEntry):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">validate</span>(self, value):
+        <span class="pykeyword">try</span>:
+            <span class="pykeyword">if</span> value:
+                v = float(value)
+            <span class="pykeyword">return</span> value
+        <span class="pykeyword">except</span> ValueError:
+            <span class="pykeyword">return</span> None</pre><p>The third example is a subclass that restricts the length of the
+input to a given max length.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">class</span> <span class="pyclass">MaxLengthEntry</span>(ValidatingEntry):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, master, value=<span class="pystring">""</span>, maxlength=None, **kw):
+        self.maxlength = maxlength
+        apply(ValidatingEntry.__init__, (self, master), kw)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">validate</span>(self, value):
+        <span class="pykeyword">if</span> self.maxlength <span class="pykeyword">is</span> None <span class="pykeyword">or</span> len(value) &lt;= self.maxlength:
+            <span class="pykeyword">return</span> value
+        <span class="pykeyword">return</span> None <span class="pycomment"># new value too long</span></pre></div><div class="yui-ge"><div class="yui-u first"><p>Here&#8217;s how to use this class:</p><pre class="python">
+root = Tk()
+
+entry = MaxLengthEntry(root, maxlength=20)
+entry.pack()
+
+mainloop()</pre><p>Note that if the user pastes a long string into the entry box, it
+will be rejected by this implementation.  A better solution might be
+to change the validate method to:</p><pre class="python">
+    <span class="pykeyword">def</span> <span class="pyfunction">validate</span>(self, value):
+        <span class="pykeyword">if</span> self.maxlength:
+            value = value[:self.maxlength]
+        <span class="pykeyword">return</span> value</pre><p class="fixme">TODO: describe validate arguments and possible return
+values, and add more examples.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><ul><li><a href="#examples">Examples</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

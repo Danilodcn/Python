@@ -1,0 +1,464 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Funções &#8212; Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Lista: estrutura sequencial indexada" href="09-listas.html" />
+    <link rel="prev" title="Números reais" href="07-reais.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulas',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'cc110',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulas/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="09-listas.html" title="Lista: estrutura sequencial indexada"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="07-reais.html" title="Números reais"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="funcoes">
+<h1>Funções<a class="headerlink" href="#funcoes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="topicos">
+<span id="index-0"></span><h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://panda.ime.usp.br/pensepy/static/pensepy/05-Funcoes/funcoes.html">Funções</a>;</li>
+<li><a class="reference external" href="https://panda.ime.usp.br/pensepy/static/pensepy/05-Funcoes/funcoes.html#variaveis-e-parametros-sao-locais">Variáveis locais</a>;</li>
+<li>documentação: <em>docstring</em></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="videos">
+<h2>Vídeos<a class="headerlink" href="#videos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://www.youtube.com/watch?v=AMUxtcJ8yfc&amp;index=17&amp;list=PLcoJJSvnDgcKpOi_UeneTNTIVOigRQwcn">Funções</a>;</li>
+<li><a class="reference external" href="https://www.youtube.com/watch?v=se9JcK05PGw&amp;list=PLcoJJSvnDgcKpOi_UeneTNTIVOigRQwcn&amp;index=18">Exercício resolvido &#8211; coeficiente binomial</a>;</li>
+<li><a class="reference external" href="https://www.youtube.com/watch?v=Wcug8mjU8Sg&amp;index=26&amp;list=PLcoJJSvnDgcKpOi_UeneTNTIVOigRQwcn">Exercício resolvido &#8211; função éPrimo</a>.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="problema-1-de-motivacao">
+<h2>Problema 1 de motivação<a class="headerlink" href="#problema-1-de-motivacao" title="Permalink to this headline">¶</a></h2>
+<p>O número de combinações possíveis de <code class="docutils literal"><span class="pre">m</span></code> elementos em grupos de <code class="docutils literal"><span class="pre">n</span></code>
+elementos (<code class="docutils literal"><span class="pre">n</span> <span class="pre">&lt;=</span> <span class="pre">m</span></code>) é dada pelo número binomial
+<code class="docutils literal"><span class="pre">m!/((m-n)!n!)</span></code>.</p>
+<p>Escreva um programa que lê dois inteiros <code class="docutils literal"><span class="pre">m</span></code> e <code class="docutils literal"><span class="pre">n</span></code> e calcula a
+combinação de <code class="docutils literal"><span class="pre">m</span></code>, <code class="docutils literal"><span class="pre">n</span></code> a <code class="docutils literal"><span class="pre">n</span></code>.</p>
+
+<div id="aula_funcao_ex01_tentativa" >
+<textarea cols="50" rows="12" id="aula_funcao_ex01_tentativa_code" class="active_code">
+# Escreva o seu programa
+def main():
+    print("Vixe! Ainda nao fiz este problema!")
+
+#-----------------------------------------------------
+if __name__ == '__main__': # chamada da funcao principal
+    main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula_funcao_ex01_tentativa)</span> </p>
+<button onclick="runit('aula_funcao_ex01_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula_funcao_ex01_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula_funcao_ex01_tentativa');">Load</button>
+<br />
+
+<canvas id="aula_funcao_ex01_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula_funcao_ex01_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Clique <a class="reference external" href="exercicios/funcao01.html">aqui</a> para ver uma solução.</p>
+<p>Observe que o pedaço de código que calcula o fatorial é repetido
+várias vezes. Uma importante ferramenta computacional é a capacidade
+de abstrair partes relevantes e/ou que se repetem mais de uma vez
+na forma de <strong>funções</strong>.</p>
+</div>
+<div class="section" id="funcoes-em-python">
+<h2>Funções em Python<a class="headerlink" href="#funcoes-em-python" title="Permalink to this headline">¶</a></h2>
+<p>Para definir uma função em Python faça o seguinte:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>def nome_da_função ( parâmetros ):
+    &#39;&#39;&#39;
+    docstring contendo comentários sobre a função.
+    Embora opcionais são fortemente recomendados. Os comentários
+    devem descrever o papel dos parâmetros e o que a função faz.
+    &#39;&#39;&#39;
+    # corpo da função
+    |
+    | bloco de comandos
+    |
+</pre></div>
+</div>
+</div>
+<div class="section" id="esqueleto-de-um-programa-em-python">
+<h2>Esqueleto de um programa em Python<a class="headerlink" href="#esqueleto-de-um-programa-em-python" title="Permalink to this headline">¶</a></h2>
+<p>Para nos prevenir de alguns problemas, que serão explicados mais
+tarde, vamos adotar nesse curso o seguinte esqueleto para escrever
+programas em Python com funções. Nesse esqueleto, a primeira função
+sempre será chamada de <code class="docutils literal"><span class="pre">main()</span></code> e corresponderá a função principal do
+programa. Essa será a primeira função a começar a ser executada para resolver o problema.
+As demais funções auxiliares devem ser definidas, em qualquer ordem, após a definição da
+<code class="docutils literal"><span class="pre">main()</span></code> e, por fim, para executar o programa, a função <code class="docutils literal"><span class="pre">main</span></code>
+precisa ser chamada.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span># função  principal
+def main():
+    &#39;&#39;&#39;
+    Função principal, será a primeira a ser executado e
+    será a responsável pela chamada de outras funções que
+    por sua vez podem ou não chamar outras funções que
+    por sua vez ...
+    &#39;&#39;&#39;
+    # corpo da função main
+    |
+    | bloco de comandos
+    |
+
+# Declaração das funções
+def f( parâmetros_de_f ):
+    &#39;&#39;&#39;
+    docstring da função f
+    &#39;&#39;&#39;
+    # corpo da função f
+    |
+    | bloco de comandos
+    |
+
+def g( parâmetros_de_g ):
+    &#39;&#39;&#39;
+    docstring da função g
+    &#39;&#39;&#39;
+    # corpo da função g
+    |
+    | bloco de comandos
+    |
+
+[...]
+
+# início da execução do programa
+#-----------------------------------------------------
+if __name__ == &#39;__main__&#39;: # chamada da funcao principal
+    main() # chamada da função main
+</pre></div>
+</div>
+<p>O uso do <code class="docutils literal"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span> <span class="pre">'__main__'</span></code> para a chamada da função main
+permite que esse arquivo contendo uma ou várias funções seja incluído em
+outros programas, usando <code class="docutils literal"><span class="pre">import</span></code> e suas variações, sem a necessidade
+de reescrever ou copiar o código.</p>
+<div class="section" id="problema-2">
+<h3>Problema 2<a class="headerlink" href="#problema-2" title="Permalink to this headline">¶</a></h3>
+<p>Complete a função <code class="docutils literal"><span class="pre">fatorial()</span></code> abaixo,
+que recebe como parâmetro um número
+inteiro <code class="docutils literal"><span class="pre">k</span></code>, <code class="docutils literal"><span class="pre">k</span> <span class="pre">&gt;=</span> <span class="pre">0</span></code>, e retorna <code class="docutils literal"><span class="pre">k!</span></code>.</p>
+<p>Escreva apenas o corpo da função.
+Observe que o código já inclui
+chamadas para a função <code class="docutils literal"><span class="pre">fatorial()</span></code>, para que
+você possa testar a função.</p>
+
+<div id="aula_funcao_ex02_tentativa" >
+<textarea cols="50" rows="12" id="aula_funcao_ex02_tentativa_code" class="active_code">
+def main():
+    ''' testes da função fatorial '''
+    print("0! =", fatorial(0))
+    print("1! =", fatorial(1))
+    print("5! =", fatorial(5))
+    print("17! =", fatorial(17))
+
+#-----------------------------------------------------
+
+def fatorial(k):
+    '''(int) -> int
+
+    Recebe um inteiro k e retorna o valor de k!
+
+    Pre-condição: supõe que k é um número inteiro não negativo.
+    '''
+
+    k_fat = 1
+
+    # COMPLETE ESSA FUNÇÃO
+
+    return k_fat
+
+#-----------------------------------------------------
+
+if __name__ == '__main__': # chamada da funcao principal
+    main() # chamada da função main
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula_funcao_ex02_tentativa)</span> </p>
+<button onclick="runit('aula_funcao_ex02_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula_funcao_ex02_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula_funcao_ex02_tentativa');">Load</button>
+<br />
+
+<canvas id="aula_funcao_ex02_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula_funcao_ex02_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Clique <a class="reference external" href="exercicios/funcao02.html">aqui</a> para ver uma solução.</p>
+</div>
+<div class="section" id="problema-3">
+<h3>Problema 3<a class="headerlink" href="#problema-3" title="Permalink to this headline">¶</a></h3>
+<p>Usando a função do exercício 6.2, escreva uma função que recebe
+dois inteiros, <code class="docutils literal"><span class="pre">m</span></code> e <code class="docutils literal"><span class="pre">n</span></code>, como parâmetros e retorna o valor de número binomial
+<code class="docutils literal"><span class="pre">m!/((m-n)!n!)</span></code>.</p>
+
+<div id="aula_funcao_ex03_tentativa" >
+<textarea cols="50" rows="12" id="aula_funcao_ex03_tentativa_code" class="active_code">
+def main():
+    ''' Testes da função combincao '''
+    print("binomial(4,2) =", binomial(4,2))
+    print("binomial(5,2) =", binomial(5,2))
+    print("binomial(10,4) =", binomial(10,4))
+
+#-----------------------------------------------------
+def binomial(m, n):
+    '''(int, int) -> int
+    Recebe dois inteiros m e n, e retorna o valor de m!/((m-n)! n!).
+    '''
+
+    # COMPLETE ESSA FUNÇÃO E MUDE O RETURN ABAIXO
+
+    return "o resultado"
+
+#-----------------------------------------------------
+if __name__ == '__main__': # chamada da funcao principal
+    main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula_funcao_ex03_tentativa)</span> </p>
+<button onclick="runit('aula_funcao_ex03_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula_funcao_ex03_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula_funcao_ex03_tentativa');">Load</button>
+<br />
+
+<canvas id="aula_funcao_ex03_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula_funcao_ex03_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Clique <a class="reference external" href="exercicios/funcao03.html">aqui</a> para ver uma solução.</p>
+</div>
+<div class="section" id="problema-4">
+<h3>Problema 4<a class="headerlink" href="#problema-4" title="Permalink to this headline">¶</a></h3>
+<p>Usando as funções <code class="docutils literal"><span class="pre">fatorial()</span></code> e <code class="docutils literal"><span class="pre">binomial()</span></code> dos exercícios anteriores,
+escreva um programa que lê um inteiro <code class="docutils literal"><span class="pre">n</span></code>, <code class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;=</span> <span class="pre">0</span></code> e imprime
+os coeficientes da expansão de <code class="docutils literal"><span class="pre">(x+y)</span></code> elevado a <code class="docutils literal"><span class="pre">n</span></code>.</p>
+<p>Lembre-se de utilizar o esqueleto de programa com funções em Python.</p>
+
+<div id="aula_funcao_ex04_tentativa" >
+<textarea cols="50" rows="12" id="aula_funcao_ex04_tentativa_code" class="active_code">
+# Escreva o seu programa usando o esqueleto sugerido
+def main():
+    ''' Escreva aqui alguns testes '''
+    print("Vixe! Ainda nao fiz esse exercicio.")
+
+#-----------------------------------------------------
+if __name__ == '__main__': # chamada da funcao principal
+    main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula_funcao_ex04_tentativa)</span> </p>
+<button onclick="runit('aula_funcao_ex04_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula_funcao_ex04_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula_funcao_ex04_tentativa');">Load</button>
+<br />
+
+<canvas id="aula_funcao_ex04_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula_funcao_ex04_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Clique <a class="reference external" href="exercicios/funcao04.html">aqui</a> para ver uma solução.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Funções</a><ul>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#videos">Vídeos</a></li>
+<li><a class="reference internal" href="#problema-1-de-motivacao">Problema 1 de motivação</a></li>
+<li><a class="reference internal" href="#funcoes-em-python">Funções em Python</a></li>
+<li><a class="reference internal" href="#esqueleto-de-um-programa-em-python">Esqueleto de um programa em Python</a><ul>
+<li><a class="reference internal" href="#problema-2">Problema 2</a></li>
+<li><a class="reference internal" href="#problema-3">Problema 3</a></li>
+<li><a class="reference internal" href="#problema-4">Problema 4</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="07-reais.html"
+                        title="previous chapter">Números reais</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="09-listas.html"
+                        title="next chapter">Lista: estrutura sequencial indexada</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="09-listas.html" title="Lista: estrutura sequencial indexada"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="07-reais.html" title="Números reais"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Jun 12, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

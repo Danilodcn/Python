@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The WCK PixelCanvas&nbsp;Widget</title></head><body data-page-id="359"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The WCK PixelCanvas&nbsp;Widget</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">June 10, 2003 | Fredrik Lundh</p><p>The following widget implements a simple drawing area, on top of
+<a href="wck.htm">the WCK library</a>.
+
+Calls to the <b>draw</b> methods update an image memory (a pixmap object),
+which is used to update the screen when necessary.</p><p>See below for usage examples and a screenshot.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>The WCK PixelCanvas Widget</b>
+<pre class="python wide">
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget
+
+<span class="pykeyword">class</span> <span class="pyclass">PixelCanvas</span>(Widget):
+
+    ui_option_width = 640
+    ui_option_height = 480
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, master, **options):
+        self.pixmap = self.size = None
+        self.ui_init(master, options)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_config</span>(self):
+        <span class="pykeyword">return</span> int(self.ui_option_width), int(self.ui_option_height)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_resize</span>(self, width, height):
+        <span class="pykeyword">if</span> (width, height) != self.size:
+            background = self.ui_brush(self.ui_option_background)
+            pixmap = self.ui_pixmap(width, height)
+            pixmap.rectangle((0, 0, width, height), background)
+            <span class="pykeyword">if</span> self.pixmap:
+                pixmap.paste(self.pixmap)
+            self.pixmap = pixmap
+            self.size = width, height
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_clear</span>(self, draw, x0, y0, x1, y1):
+        <span class="pykeyword">pass</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        <span class="pykeyword">if</span> self.pixmap:
+            draw.paste(self.pixmap)
+        <span class="pykeyword">else</span>:
+            background = self.ui_brush(self.ui_option_background)
+            draw.rectangle((x0, y0, x1, y1), background)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">draw_line</span>(self, xy, stroke=<span class="pystring">"black"</span>, stroke_width=1):
+        <span class="pykeyword">if</span> self.pixmap:
+            <span class="pykeyword">if</span> stroke: stroke = self.ui_pen(stroke, stroke_width)
+            self.pixmap.line(xy, stroke)
+            self.ui_damage()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">draw_rect</span>(self, xy, fill=None, stroke=None, stroke_width=1):
+        <span class="pykeyword">if</span> self.pixmap:
+            <span class="pykeyword">if</span> fill: fill = self.ui_brush(fill)
+            <span class="pykeyword">if</span> stroke: stroke = self.ui_pen(stroke, stroke_width)
+            self.pixmap.rectangle(xy, fill, stroke)
+            self.ui_damage()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">draw_ellipse</span>(self, xy, fill=None, stroke=None, stroke_width=1):
+        <span class="pykeyword">if</span> self.pixmap:
+            <span class="pykeyword">if</span> fill: fill = self.ui_brush(fill)
+            <span class="pykeyword">if</span> stroke: stroke = self.ui_pen(stroke, stroke_width)
+            self.pixmap.ellipse(xy, fill, stroke)
+            self.ui_damage()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">draw_polygon</span>(self, xy, fill=None, stroke=None, stroke_width=1):
+        <span class="pykeyword">if</span> self.pixmap:
+            <span class="pykeyword">if</span> fill: fill = self.ui_brush(fill)
+            <span class="pykeyword">if</span> stroke: stroke = self.ui_pen(stroke, stroke_width)
+            self.pixmap.polygon(xy, fill, stroke)
+            self.ui_damage()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">draw_text</span>(self, xy, text, fill=<span class="pystring">"black"</span>, font=<span class="pystring">"helvetica"</span>):
+        <span class="pykeyword">if</span> self.pixmap:
+            self.pixmap.text(xy, text, self.ui_font(fill, font))
+            self.ui_damage()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">draw_image</span>(self, xy, image):
+        <span class="pykeyword">if</span> self.pixmap:
+            self.pixmap.paste(self.ui_image(image), xy)</pre></div></div><div class="yui-ge"><div class="yui-u first"><h2 id="example">Example&#160;<a class="nav" href="#example" title="bookmark!">#</a></h2></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+root = Tk()
+root.title(<span class="pystring">"WCK PixelCanvas"</span>)
+
+canvas = PixelCanvas(root, background=<span class="pystring">"white"</span>)
+canvas.pack()
+
+canvas.update()
+
+canvas.draw_line((10, 10, 410, 410), <span class="pystring">"red"</span>)
+canvas.draw_line((10, 410, 410, 10), <span class="pystring">"blue"</span>, 10)
+canvas.draw_rect((120, 120, 220, 220), <span class="pystring">"green"</span>)
+canvas.draw_ellipse((20, 20, 130, 130), <span class="pystring">"gold"</span>, <span class="pystring">"black"</span>)
+canvas.draw_polygon((200, 270, 250, 150, 300, 270), <span class="pystring">"orange"</span>, <span class="pystring">"blue"</span>, 2)
+canvas.draw_image((280, 280), PhotoImage(file=<span class="pystring">"lena.gif"</span>))
+canvas.draw_text((50, 200), <span class="pystring">"WCK PixelCanvas"</span>, font=<span class="pystring">"Helvetica 30"</span>)
+
+root.mainloop()</pre></div><div class="yui-ge"><div class="yui-u first"><p>Note the call to <b>update</b>; calls to the <b>draw</b> methods
+made before the widget has been displayed are lost.  You don&#8217;t need
+to call this method if you&#8217;re calling the drawing methods from within
+your Tkinter program (for example, in response to a button press or
+a menu choice).</p><p>The above example creates a window looking something like:</p><blockquote>
+<img alt="" height="447" src="/media/cache/e6495107b6a3087b196e999e6f6ff956.jpg" width="428" />
+</blockquote><h2 id="todo">Possible Improvements&#160;<a class="nav" href="#todo" title="bookmark!">#</a></h2><p>The widget currently ignores drawing operations that are made before
+the widget has been displayed.  Maybe the widget should collect such calls
+in a list, and use that list to update the pixmap when it is first
+created.  In the drawing methods, you could do something like:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+    <span class="pykeyword">def</span> <span class="pyfunction">draw_line</span>(self, xy, stroke=<span class="pystring">"black"</span>, stroke_width=1):
+        <span class="pykeyword">if</span> self.pixmap:
+            <span class="pykeyword">if</span> stroke: stroke = self.ui_pen(stroke, stroke_width)
+            self.pixmap.line(xy, stroke)
+            self.ui_damage()
+        <span class="pykeyword">else</span>:
+            self.displaylist.append(self.draw_line, (xy, stroke, stroke_width))</pre></div><div class="yui-ge"><div class="yui-u first"><p>To render the list, do:</p><pre class="python">
+    displaylist = self.displaylist
+    self.displaylist = []
+    <span class="pykeyword">for</span> method, args <span class="pykeyword">in</span> displaylist:
+        method(*args)</pre><p>Another problem is that the widget resizes the pixmap on each call
+to <b>ui_handle_resize</b>.  If the user makes the widget very small,
+and changes the size back again, the contents will be lost.  Maybe
+the widget should limit the minimum size to the current <b>width</b>
+and <b>height</b> settings?</p><pre class="python">
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_resize</span>(self, width, height):
+        width = max(width, int(self.ui_option_width))
+        height = max(height, int(self.ui_option_height))
+        <span class="pykeyword">if</span> (width, height) != self.size:
+            ...</pre><p>Or maybe the canvas should always be this size, and be drawn in
+the center of the actual window?</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#example">Example</a></li><li><a href="#todo">Possible Improvements</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

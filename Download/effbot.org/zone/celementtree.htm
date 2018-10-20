@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The cElementTree&nbsp;Module</title></head><body data-page-id="20"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The cElementTree&nbsp;Module</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">January 30, 2005 | Fredrik Lundh</p><p>
+[<a href="/">home</a>]
+[<a href="/zone/">zone</a>]
+</p><p>The cElementTree module is a C implementation of the
+<a href="element-index.htm">ElementTree API</a>, optimized for fast parsing
+and low memory use.
+On typical documents, cElementTree is 15-20 times faster than the Python
+version of ElementTree, and uses 2-5 times less memory.  On modern hardware,
+that means that documents in the 50-100 megabyte range can be manipulated
+in memory, and that documents in the 0-1 megabyte range load in zero time
+(0.0 seconds).  This allows you to drastically simplify many kinds of XML
+applications.</p><p>
+[<a href="#downloads">download&amp;install</a>]
+[<a href="#usage">usage</a>]
+[<a href="#benchmarks">benchmarks</a>]
+</p><h2 id="downloads">Download and install&#160;<a class="nav" href="#downloads" title="bookmark!">#</a></h2><p>cElementTree is included with Python 2.5 and later, as
+<b>xml.etree.cElementTree</b>.
+
+</p><p>For earlier versions, cElementTree 1.0.5 can be downloaded from
+<a href="/downloads#celementtree">the effbot.org downloads site</a>.
+You also need a recent version of <a href="/downloads#elementtree">the standard ElementTree library</a>.</p><p>If you&#8217;re using Linux or BSD systems, check your favourite package
+repository for <b>python-celementtree</b> or <b>py-celementtree</b>
+packages.  Note that some distributors have included cElementTree in
+their ElementTree package.  Mac OS X users may want to check the
+<a href="http://pdb.finkproject.org/pdb/search.php?summary=elementtree">Fink
+repository</a>.</p><p>To install binary distributions from effbot.org, download and run
+the installer, and follow the instructions on the screen.  If the
+installer cannot find your Python interpreter, see <a href="python-register.htm">this page</a>.</p><p>To install from sources, simply unpack the distribution archive,
+change to the distribution directory, and run the <b>setup.py</b> script
+as follows:</p><pre>
+$ python setup.py install
+</pre><p>See the README and CHANGES files for more on installation, licensing
+(BSD style), changes since the last version, etc.</p><p>cElementTree is designed to work with Python 2.1 and newer.
+
+The <b>iterparse</b> mechanism is currently only supported for Python
+2.2 and later.
+
+Earlier Python versions are not supported (let me know if you need
+support for 2.0 or 1.5.2).  For best performance, use Python 2.4.</p><p class="note"><b>Note:</b>
+Mandriva Linux ships with broken Python configuration files, and cannot
+be used to build Python extensions that rely on <b>distutils</b> feature
+tests.  For a workaround, see <a href="http://qa.mandriva.com/show_bug.cgi?id=19376">this thread</a>.
+</p><h2 id="usage">Usage&#160;<a class="nav" href="#usage" title="bookmark!">#</a></h2><p>The cElementTree module is designed to replace the ElementTree module
+from the standard elementtree package.  In theory, you should be able
+to simply change:</p><pre class="python">
+    <span class="pykeyword">from</span> elementtree <span class="pykeyword">import</span> ElementTree</pre><p>to
+
+<pre class="python">
+    <span class="pykeyword">import</span> cElementTree <span class="pykeyword">as</span> ElementTree</pre></p><p>in existing code, and run your programs without any problems (note that
+<b>cElementTree</b> is a module, not a package).  (Let me know if you find
+that something you rely on doesn&#8217;t work as expected.)</p><p><b>cElementTree</b> contains one new function, <b>iterparse</b>, which
+works like <b>parse</b>, but lets you track changes to the tree while it is
+being built.  You can also modify and remove elements during the parse, as
+in this example, which processes &#8220;record&#8221; elements as they arrive, and then
+removes their contents from the tree.</p><pre class="python">
+<span class="pykeyword">import</span> cElementTree
+
+<span class="pykeyword">for</span> event, elem <span class="pykeyword">in</span> cElementTree.iterparse(file):
+    <span class="pykeyword">if</span> elem.tag == <span class="pystring">"record"</span>:
+        ... process record element ...
+        elem.clear()</pre><p>For more information about the ElementTree module, see
+<a href="element.htm"><i>Elements and Element Trees</i></a>.
+
+</p><p>For more information about the <b>iterparse</b> interface, see
+<a href="element-iterparse.htm"><i>The ElementTree iterparse Function</i></a>.</p><p>Older versions only supports a small number of standard
+encodings.  For a workaround, see
+<a href="celementtree-encoding.htm"><i>Using Non-Standard Encodings in cElementTree</i></a>.</p><h2 id="benchmarks">Benchmarks&#160;<a class="nav" href="#benchmarks" title="bookmark!">#</a></h2><p>Here are some benchmark figures, using a number of popular XML toolkits
+to parse a 3405k document-style XML file, from disk to memory:</p><blockquote><table class="simpletable">
+<tr><th>library</th><th>time</th><th>space</th><th>notes</th></tr>
+<tr><td>xml.dom.minidom (Python 2.1)</td><td>6.3 s</td><td>80000k</td><td>(1)</td></tr>
+<tr><td>gnosis.objectify</td><td>2.0 s</td><td>22000k</td><td>(5)</td></tr>
+<tr><td>xml.dom.minidom (Python 2.4)</td><td>1.4 s</td><td>53000k</td><td>(1)</td></tr>
+<tr><td>ElementTree 1.2</td><td>1.6 s</td><td>14500k</td><td /></tr>
+<tr><td>ElementTree 1.2.4/1.3</td><td>1.1 s</td><td>14500k</td><td /></tr>
+<tr><td>cDomlette (C extension)</td><td>0.540 s</td><td>20500k</td><td>(1)</td></tr>
+<tr><td>PyRXPU 
+(C extension)</td><td>0.175 s</td><td>10850k</td><td>(2)</td></tr>
+<tr><td>lxml.etree (C extension)</td><td>(4)</td><td>(4)</td><td>(3)</td></tr>
+<tr><td>libxml2 (C extension)</td><td>0.098 s</td><td>16000k</td><td>(3)</td></tr>
+<tr><td>readlines (read as utf-8)</td><td>0.093 s</td><td>8850k</td><td /></tr>
+<tr style="background: gold; font-weight: bold;"><td>cElementTree (C extension)</td><td>0.047 s</td><td>4900k</td><td /></tr>
+<tr><td>readlines (read as ascii)</td><td>0.032 s</td><td>5050k</td><td /></tr>
+</table></blockquote><p>The figures may of course vary somewhat depending on Python version,
+compiler, and platform.  The above was measured with Python 2.4, using
+prebuilt Windows installers (as published by the maintainers) for all C
+extensions.  If you want further details about the tests,
+<a href="mailto:fredrik@effbot.org?subject=celementtree">drop me a line</a>.</p><p>Several other toolkits were tested, but failed to parse the test
+file (which uses both non-ASCII characters and namespaces).  Toolkits
+that parse namespaces but don&#8217;t handle them properly are included,
+though (see notes 2 and 5, below).</p><p>For comparision, here are some benchmarks for event-based parsers
+(using the same file as above, and enough dummy handlers to be able
+to handle complete elements and their character data contents):</p><blockquote><table class="simpletable">
+<tr><th>library</th><th>time</th><th>throughput</th></tr>
+<tr><td>xml.sax (Python 2.1)</td><td>0.330 s</td><td> 10300 k/s</td></tr>
+<tr><td>xml.sax (Python 2.4)</td><td>0.292 s</td><td>11700 k/s</td></tr>
+<tr><td>xml.parsers.expat</td><td>0.184 s</td><td>18500 k/s</td></tr>
+<tr><td>cElementTree XMLParser</td><td>0.124 s</td><td>27500 k/s</td></tr>
+<tr><td>sgmlop</td><td>0.092 s</td><td>37000 k/s</td></tr>
+<tr style="background: gold; font-weight: bold;"><td>cElementTree iterparse</td><td>0.071 s</td><td>48000 k/s</td></tr>
+</table></blockquote><hr /><p class="small">Note 1) For these toolkits, the looping variant of my
+benchmark behaves very badly, resulting in unexpected memory growth and
+wildly varying parsing times (typically 150-300% of the values in the
+table).  Strategic use of forced garbage collection (<b>gc.collect()</b>)
+will usually make things better.  Be careful.</p><p class="small">Note 2) Even with namespace handling enabled, PyRXPU
+returns namespace prefixes <i>instead of</i> namespace URI:s, which
+makes it pretty much useless for namespace-aware XML processing.  I&#8217;ve
+included it anyway, since it&#8217;s often put forth as <i>the</i> fastest XML
+parser you can get for Python.</p><p class="small">Note 3) Tests on other platforms indicate that libxml2
+is closer to cElementTree than this benchmark indicates.  This is most
+likely a compiler-related issue (I&#8217;m using &#8220;official&#8221; Windows binaries
+for this benchmark, but so will most other users).
+
+</p><p class="small">Note 4) There are no Windows binaries for <s><a href="http://codespeak.net/lxml/">lxml.etree</a></s> (dead link) yet, but
+it uses libxml2&#8217;s parser and object model, so the timings for this
+test should be very close to those for libxml2.</p><p class="small">Note 5) An undocumented function (<b>config_nspace_sep</b>)
+must be called to enable namespace parsing.  With that in place, the library
+parses the file without problems, but the resulting data structure depends
+on the namespace prefixes used in the file, rather than the namespace URI:s
+(also see note 2).</p></div><div class="yui-u"><p class="sidebar">
+&#8220;<i>The introduction of cElementTree drastically improves performance
+and memory usage and definitely counts as a &#8220;woohoo!&#8221; event.</i>&#8221;
+&#8212; Andy Sy
+</p></div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#downloads">Download and install</a></li><li><a href="#usage">Usage</a></li><li><a href="#benchmarks">Benchmarks</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

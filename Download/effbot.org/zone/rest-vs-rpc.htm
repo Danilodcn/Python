@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>REST vs XML-RPC vs&nbsp;SOAP</title></head><body data-page-id="253"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">REST vs XML-RPC vs&nbsp;SOAP</h1></div><div class="yui-ge"><div class="yui-u first"><p>[<a href="/">home</a>] [<a href="/zone/">zone</a>] [<a href="http://online.effbot.org/">weblog</a>]</p><blockquote><p><i>This is an excerpt from a mail conversation with someone who
+was a bit surprised to learn that I really don&#8217;t like XML-based
+RPC protocols.  Slightly edited for readability, and to protect
+the innocent.</i></p></blockquote><hr /><blockquote><p><i>
+I was just surprised after all of
+your work with xmlrpclib and soaplib. I mean you did do that work long
+before I came to the conclusion that RPC isn&#8217;t scalable so I would
+hardly blame you for changing your mind.
+</i></p></blockquote><p>Well, I spent about 30 minutes on the first <s><a href="http://www.python.org/doc/current/lib/module-xmlrpclib.html">xmlrpclib</a></s> (dead link) version,
+mostly because Dave Winer flamed me over some irrelevant
+topic, and told me I couldn&#8217;t program my way out of a brown
+paper bag (or something similar)&#8230;</p><p>The first version was client only, just enough to talk to a
+Frontier echo server.  It took a few more hours to prepare
+the second release, and I&#8217;ve probably spent 2-3 days since
+then on bug fixes, documentation, and support.  Plus a couple
+of days on _xmlrpclib, our commercial XML-RPC accelerator.</p><p>About a week in total.  Mostly by accident.</p><p align="center" class="mark">:::</p><p>In contrast, SOAP was development hell, with moving specs, no
+working server to test against (we spent over a week trying to
+get IBM&#8217;s first Java implementation to run on a server at the labs,
+only to find that they had implemented an earlier version of the
+specification).  The first version was based on the xmlrpclib design,
+but that architecture broke down, and I did at least two complete
+overhauls on the way to 0.9 (which we still haven&#8217;t released;
+nobody can motivate themselves to fix the last few bugs&#8230;).</p><p align="center" class="mark">:::</p><p>The first piece of the REST-puzzle came from the second
+overhaul &#8212; to hold the SOAP body during decoding, we designed
+a light-weight DOM-like data structure.  Only took a day before
+I realized that it was an excellent way to work with almost any
+kind of XML data:</p><blockquote>
+<a href="/zone/element.htm">http://effbot.org/zone/element.htm</a>
+</blockquote><p>The second piece came from an XML-RPC based project where
+we needed to work with large chunks of binary data.  Base64
+just won&#8217;t cut it when you have to transport 1-100 megabyte
+entities mixed with metadata records (and other structured
+data).  We solved this by letting an XML-RPC service return
+dynamically generated URLs, which the client used to fetch
+the resulting data via HTTP:</p><pre class="python">
+    rpc = ServerProxy(...)
+    ticket = rpc.login(...)
+    result = rpc.search(ticket, <span class="pystring">"meteosat"</span>)
+    <span class="pykeyword">for</span> scene <span class="pykeyword">in</span> result:
+        url = rpc.geturl(ticket, scene)
+        async_http(url, file_consumer(scene + <span class="pystring">".im"</span>))</pre><p>Moving to pure HTTP allowed us to throw away the code for
+the XML-RPC service.  (I love throwing away old code ;-)</p><p>The third piece was a deeper understanding of XML, with
+emphasis on how to think in <a href="element-infoset.htm">Infoset</a>
+terms.</p><p align="center" class="mark">:::</p><p>So when we started working on the design for a large image
+distribution and processing system, we already had a simple
+and scalable design, and the tools to support it.  Just send
+XML documents representing objects back and forth over
+HTTP, and use the lightweight DOM structure to hold parsed
+versions of them inside the application.  Add some glue code
+to let application code access the DOM structures as ordinary
+Python objects, and you have a complete and scalable system.</p><p>The result was a much nicer specification (very few buzzwords)
+that anyone can understand, far less code, and most importantly,
+a much more robust design.</p><p>And we got the contract.</p><p>(now that I&#8217;m writing this, I realize that the result is not
+that different from an HTTP-based image archive I built back when
+Mosaic was state of the art in browing.  IIRC, we shipped INI-
+files back and forth&#8230; oh well, one never learns ;-)</p><blockquote><p><i>
+Plus, I still think [RPC] is incredibly easy for small apps&#8230;
+</i></p></blockquote><p>Oh, sure &#8212; XML-RPC gives you a lot of power, and anyone can
+understand how it works, and understand what the limitations
+are (Dave W. might not know the limitations, but that&#8217;s another
+story ;-)</p><p>SOAP is something completely different; lots of additional
+<a href="http://dotat.at/writing/complexity">complexity</a>,
+but very few additional benefits.  Some people love complexity
+(especially if they see a chance to make a living out of it,
+like Don Box ;-).  But I don&#8217;t.  Wouldn&#8217;t use Python if I did.</p><p>Cheers /F</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

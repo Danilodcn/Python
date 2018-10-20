@@ -1,0 +1,446 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Comando de repetição: while &mdash; Aulas de Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Aulas de Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Execução condicional e alternativas: if, if-else e if-elif-else" href="if.html" />
+    <link rel="prev" title="Variáveis, expressões e funções de entrada e saída" href="aula02.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulas',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'cc110',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulas/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="if.html" title="Execução condicional e alternativas: if, if-else e if-elif-else"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="aula02.html" title="Variáveis, expressões e funções de entrada e saída"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="comando-de-repeticao-while">
+<h1>Comando de repetição: <code class="docutils literal"><span class="pre">while</span></code><a class="headerlink" href="#comando-de-repeticao-while" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="topicos-e-objetivos">
+<span id="index-0"></span><h2>Tópicos e Objetivos<a class="headerlink" href="#topicos-e-objetivos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://panda.ime.usp.br/pensepy/static/pensepy/07-Iteracao/maisiteracao.html#o-comando-while">O comando de repetição: while</a>;</li>
+<li>condição e expressões relacionais.</li>
+</ul>
+</div></blockquote>
+<p>Ao final dessa aula você deverá saber:</p>
+<div class="highlight-python"><div class="highlight"><pre>- Utilizar comandos de repetição na resolução de problemas computacionais.
+- Definir condições, com valores iniciais e de parada, para o comando while.
+- Simular o processamento do comando while.
+</pre></div>
+</div>
+</div>
+<div class="section" id="introducao">
+<h2>Introdução<a class="headerlink" href="#introducao" title="Permalink to this headline">¶</a></h2>
+<p>O comando de repetição <code class="docutils literal"><span class="pre">while</span></code> (que significa <strong>enquanto</strong> em português) permite repetir instruções enquanto uma condição for verdadeira.
+Para utilizar o comando corretamente você precisa:</p>
+<blockquote>
+<div><ul class="simple">
+<li>inicializar as variáveis de controle antes do comando;</li>
+<li>criar uma condição que usa a variável de controle e se mantenha verdadeira pelo número correto de iterações;</li>
+<li>modificar a variável de controle para garantir a terminação; e</li>
+<li>realizar as computações sucessivas para se chegar a resposta correta.</li>
+</ul>
+</div></blockquote>
+<div class="section" id="sintaxe-do-comando-while">
+<h3>Sintaxe do comando while<a class="headerlink" href="#sintaxe-do-comando-while" title="Permalink to this headline">¶</a></h3>
+<p>A sintaxe do comando <code class="docutils literal"><span class="pre">while</span></code> é a seguinte:</p>
+<div class="highlight-python"><div class="highlight"><pre>while &lt;condição&gt;:
+    # sequência de comandos executados no corpo do while
+    &lt;comando_1&gt;
+    &lt;comando_2&gt;
+    ...
+    &lt;comando_n&gt;
+</pre></div>
+</div>
+<p>A <strong>&lt;condição&gt;</strong> é em geral definida na forma de uma expressão relacional, que compara dois valores. Os operadores relacionais que você pode utilizar são listados abaixo:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operador</th>
+<th class="head">Descrição</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>==</td>
+<td>igual</td>
+</tr>
+<tr class="row-odd"><td>!=</td>
+<td>diferente</td>
+</tr>
+<tr class="row-even"><td>&gt;</td>
+<td>maior</td>
+</tr>
+<tr class="row-odd"><td>&lt;</td>
+<td>menor</td>
+</tr>
+<tr class="row-even"><td>&gt;=</td>
+<td>maior ou igual</td>
+</tr>
+<tr class="row-odd"><td>&lt;=</td>
+<td>menor ou igual</td>
+</tr>
+</tbody>
+</table>
+<p>O resultado de uma comparação é um valor <a class="reference external" href="http://panda.ime.usp.br/pensepy/static/pensepy/06-Selecao/selecao.html">booleano</a>, ou seja, verdadeiro (<strong>True</strong>) ou falso (<strong>False</strong>). Use a janela abaixo para experimentar esses operadores.</p>
+
+<div id="operador_relacional" >
+<textarea cols="50" rows="12" id="operador_relacional_code" class="active_code">
+a = 2   # modifique os valores das variáveis a e b
+b = 3
+
+print(a, b, b == a + 1)  # modifique a expressão, experimente outros operadores relacionais
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (operador_relacional)</span> </p>
+<button onclick="runit('operador_relacional',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('operador_relacional');">Save</button>
+<button class="ac_opt" onclick="requestCode('operador_relacional');">Load</button>
+<br />
+
+<pre id="operador_relacional_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>A sequência de comandos &lt;comando_1&gt;, &lt;comando_2&gt;, ..., &lt;comando_n&gt; pode conter qualquer comando do Python como atribuição, entrada ou saída, e outros, até mesmo outro <code class="docutils literal"><span class="pre">while</span></code>.</p>
+<div class="admonition-nota-sobre-programacao-estruturada admonition">
+<p class="first admonition-title">Nota sobre <strong>Programação Estruturada</strong></p>
+<p class="last">Uma característica importante do Python é que ele força a estruturação do programa em blocos que podem ser facilmente visualizados pela <strong>tabulação</strong>. Observe que os comandos <em>dentro</em> do <code class="docutils literal"><span class="pre">while</span></code>, ou seja, os comandos &lt;comando_1&gt; a &lt;comando_n&gt;, precisam ser deslocados, ou seja, devem começar em uma coluna deslocada para a direita do while. Caso existam comandos a serem executados após o while terminar, esses comandos devem ser escritos usando a mesma tabulação (na mesma coluna) que o while.</p>
+</div>
+</div>
+<div class="section" id="descricao-do-fluxo-do-programa">
+<h3>Descrição do fluxo do programa<a class="headerlink" href="#descricao-do-fluxo-do-programa" title="Permalink to this headline">¶</a></h3>
+<p>O comando <code class="docutils literal"><span class="pre">while</span></code> repete a sequência de comandos definida em seu corpo enquanto a &lt;condição&gt; permanece verdadeira.</p>
+<p>Quando o comando while é executado, a &lt;condição&gt; é testada e, caso verdadeira, o seu corpo é executado um comando de cada vez, ou seja &lt;comando_1&gt; primeiro, depois o &lt;comando_2&gt;, até o &lt;comando_n&gt;. Quando o último comando (&lt;comando_n&gt;) termina, a &lt;condição&gt; volta a ser testada e, caso verdadeira, o processo se repete. O while termina quando, ao testar a &lt;condição&gt;, o resultado do teste for falso.</p>
+</div>
+<div class="section" id="exemplo">
+<h3>Exemplo<a class="headerlink" href="#exemplo" title="Permalink to this headline">¶</a></h3>
+<p>Observe o fluxo do programa abaixo, executando-o passo-a-passo:</p>
+
+<div id="Exemplo_de_while"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (Exemplo_de_while)</span> </p>
+<script type="text/javascript">
+var Exemplo_de_while_trace = {"code": "                # inicializa\u00e7\u00e3o\nfim  = 5        # n\u00famero de itera\u00e7\u00f5es\ncont = 0        # vari\u00e1vel de controle\n\nwhile cont < fim:\n    # fa\u00e7a alguma coisa, nesse caso, apenas imprima cont\n    print(\"Iteracao numero: \", cont)\n\n    cont = cont + 1     # vari\u00e1vel de controle precisa ser\n                        # atualizada para garantir o fim do while", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["fim"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"fim": 5}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["fim", "cont"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"cont": 0, "fim": 5}, "heap": {}, "line": 5, "event": "step_line"}, {"ordered_globals": ["fim", "cont"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"cont": 0, "fim": 5}, "heap": {}, "line": 7, "event": "step_line"}, {"ordered_globals": ["fim", "cont"], "stdout": "('Iteracao numero: ', 0)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"cont": 0, "fim": 5}, "heap": {}, "line": 9, "event": "step_line"}, {"ordered_globals": ["fim", "cont"], "stdout": "('Iteracao numero: ', 0)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"cont": 1, "fim": 5}, "heap": {}, "line": 5, "event": "step_line"}, {"ordered_globals": ["fim", "cont"], "stdout": "('Iteracao numero: ', 0)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"cont": 1, "fim": 5}, "heap": {}, "line": 7, "event": "step_line"}, {"ordered_globals": ["fim", "cont"], "stdout": "('Iteracao numero: ', 0)\n('Iteracao numero: ', 1)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"cont": 1, "fim": 5}, "heap": {}, "line": 9, "event": "step_line"}, {"ordered_globals": ["fim", "cont"], "stdout": "('Iteracao numero: ', 0)\n('Iteracao numero: ', 1)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"cont": 2, "fim": 5}, "heap": {}, "line": 5, "event": "step_line"}, {"ordered_globals": ["fim", "cont"], "stdout": "('Iteracao numero: ', 0)\n('Iteracao numero: ', 1)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"cont": 2, "fim": 5}, "heap": {}, "line": 7, "event": "step_line"}, {"ordered_globals": ["fim", "cont"], "stdout": "('Iteracao numero: ', 0)\n('Iteracao numero: ', 1)\n('Iteracao numero: ', 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"cont": 2, "fim": 5}, "heap": {}, "line": 9, "event": "step_line"}, {"ordered_globals": ["fim", "cont"], "stdout": "('Iteracao numero: ', 0)\n('Iteracao numero: ', 1)\n('Iteracao numero: ', 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"cont": 3, "fim": 5}, "heap": {}, "line": 5, "event": "step_line"}, {"ordered_globals": ["fim", "cont"], "stdout": "('Iteracao numero: ', 0)\n('Iteracao numero: ', 1)\n('Iteracao numero: ', 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"cont": 3, "fim": 5}, "heap": {}, "line": 7, "event": "step_line"}, {"ordered_globals": ["fim", "cont"], "stdout": "('Iteracao numero: ', 0)\n('Iteracao numero: ', 1)\n('Iteracao numero: ', 2)\n('Iteracao numero: ', 3)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"cont": 3, "fim": 5}, "heap": {}, "line": 9, "event": "step_line"}, {"ordered_globals": ["fim", "cont"], "stdout": "('Iteracao numero: ', 0)\n('Iteracao numero: ', 1)\n('Iteracao numero: ', 2)\n('Iteracao numero: ', 3)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"cont": 4, "fim": 5}, "heap": {}, "line": 5, "event": "step_line"}, {"ordered_globals": ["fim", "cont"], "stdout": "('Iteracao numero: ', 0)\n('Iteracao numero: ', 1)\n('Iteracao numero: ', 2)\n('Iteracao numero: ', 3)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"cont": 4, "fim": 5}, "heap": {}, "line": 7, "event": "step_line"}, {"ordered_globals": ["fim", "cont"], "stdout": "('Iteracao numero: ', 0)\n('Iteracao numero: ', 1)\n('Iteracao numero: ', 2)\n('Iteracao numero: ', 3)\n('Iteracao numero: ', 4)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"cont": 4, "fim": 5}, "heap": {}, "line": 9, "event": "step_line"}, {"ordered_globals": ["fim", "cont"], "stdout": "('Iteracao numero: ', 0)\n('Iteracao numero: ', 1)\n('Iteracao numero: ', 2)\n('Iteracao numero: ', 3)\n('Iteracao numero: ', 4)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"cont": 5, "fim": 5}, "heap": {}, "line": 5, "event": "step_line"}, {"ordered_globals": ["fim", "cont"], "stdout": "('Iteracao numero: ', 0)\n('Iteracao numero: ', 1)\n('Iteracao numero: ', 2)\n('Iteracao numero: ', 3)\n('Iteracao numero: ', 4)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"cont": 5, "fim": 5}, "heap": {}, "line": 5, "event": "return"}]};
+var Exemplo_de_while_vis;
+
+$(document).ready(function() {
+    Exemplo_de_while_vis = new ExecutionVisualizer('Exemplo_de_while',Exemplo_de_while_trace,
+                                {embeddedMode: false,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(Exemplo_de_while_vis,'Exemplo_de_while');
+    allVisualizers.push(Exemplo_de_while_vis);
+});
+
+$(document).ready(function() {
+    $("#Exemplo_de_while_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'Exemplo_de_while'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    Exemplo_de_while_vis.redrawConnectors();
+});
+</script>
+<p>Esse programa imprime os números de 1 até &#8220;fim&#8221;. Procure entender bem as partes desse programa:</p>
+<blockquote>
+<div><ul class="simple">
+<li>inicialização das variáveis antes do while</li>
+<li>condição do while, que define o número de iterações</li>
+<li>atualização da variável de controle, que garante o fim do while.</li>
+</ul>
+</div></blockquote>
+<div class="admonition-nota-sobre-simulacao-de-um-programa admonition">
+<p class="first admonition-title">Nota sobre <strong>Simulação de um Programa</strong></p>
+<p>Os programas em Python são constituídos por comandos executados um de cada vez, passo-a-passo. Saber simular um programa é uma habilidade muito importante para entender o que um programa faz, encontrar problemas (<a class="reference external" href="https://en.wikipedia.org/wiki/Software_bug">**bugs**</a>) e testar soluções.</p>
+<p>Para simular um programa você deve primeiro definir um teste, ou seja, você precisa definir uma entrada e a correspondente saída esperada pelo programa. A &#8220;saída&#8221; não precisa ser algo impresso mas pode ser uma certa configuração de valores de variáveis. Durante uma simulação devemos executar cada comando e verificar se a evolução dos valores das variáveis está correta.</p>
+<p class="last">Ferramentas como o codelens ajudam, mas você deve aprender a simular um programa manualmente, <strong>sem</strong> o auxílio de um computador.</p>
+</div>
+</div>
+</div>
+<div class="section" id="exercicios-recomendados">
+<h2>Exercícios recomendados<a class="headerlink" href="#exercicios-recomendados" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="exercicio-1">
+<h3>Exercício 1<a class="headerlink" href="#exercicio-1" title="Permalink to this headline">¶</a></h3>
+<p>Dada uma sequência de números inteiros diferentes de zero,
+terminada por um zero, calcular a sua soma. Por exemplo,
+para a sequência:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">12</span>   <span class="mi">17</span>   <span class="mi">4</span>   <span class="o">-</span><span class="mi">6</span>   <span class="mi">8</span>   <span class="mi">0</span>
+</pre></div>
+</div>
+<p>o seu programa deve escrever o número <code class="docutils literal"><span class="pre">35</span></code>.</p>
+<p>Tente escrever a sua solução primeiro e, depois,
+clique <a class="reference external" href="exercicios/while/while_ex1.html">aqui</a> para ver uma.</p>
+
+<div id="aula_while_ex1_tentativa" >
+<textarea cols="50" rows="12" id="aula_while_ex1_tentativa_code" class="active_code">
+# escreva o seu programa
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula_while_ex1_tentativa)</span> </p>
+<button onclick="runit('aula_while_ex1_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula_while_ex1_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula_while_ex1_tentativa');">Load</button>
+<br />
+
+<canvas id="aula_while_ex1_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula_while_ex1_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-2">
+<h3>Exercício 2<a class="headerlink" href="#exercicio-2" title="Permalink to this headline">¶</a></h3>
+<p>Dados números inteiros <code class="docutils literal"><span class="pre">n</span></code> e <code class="docutils literal"><span class="pre">k</span></code>, com <code class="docutils literal"><span class="pre">k</span> <span class="pre">&gt;=</span> <span class="pre">0</span></code>,
+calcular <code class="docutils literal"><span class="pre">n</span></code> elevado a <code class="docutils literal"><span class="pre">k</span></code>.
+Por exemplo, dados os números <code class="docutils literal"><span class="pre">3</span></code> e <code class="docutils literal"><span class="pre">4</span></code> o seu
+programa deve escrever o número <code class="docutils literal"><span class="pre">81</span></code>.</p>
+<p>Tente escrever a sua solução abaixo primeiro e, depois,
+clique <a class="reference external" href="exercicios/while/while_ex2.html">aqui</a> para ver uma.</p>
+
+<div id="aula_while_ex2_tentativa" >
+<textarea cols="50" rows="12" id="aula_while_ex2_tentativa_code" class="active_code">
+# escreva o seu programa
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula_while_ex2_tentativa)</span> </p>
+<button onclick="runit('aula_while_ex2_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula_while_ex2_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula_while_ex2_tentativa');">Load</button>
+<br />
+
+<canvas id="aula_while_ex2_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula_while_ex2_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-3">
+<h3>Exercício 3<a class="headerlink" href="#exercicio-3" title="Permalink to this headline">¶</a></h3>
+<p>Dado um número inteiro <code class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;=</span> <span class="pre">0</span></code>, calcular <code class="docutils literal"><span class="pre">n!</span></code>.</p>
+<p>Tente escrever a sua solução abaixo primeiro e, depois,
+clique <a class="reference external" href="exercicios/while/while_ex3.html">aqui</a> para ver uma.</p>
+
+<div id="aula_while_ex3_tentativa" >
+<textarea cols="50" rows="12" id="aula_while_ex3_tentativa_code" class="active_code">
+# escreva o seu programa
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula_while_ex3_tentativa)</span> </p>
+<button onclick="runit('aula_while_ex3_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula_while_ex3_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula_while_ex3_tentativa');">Load</button>
+<br />
+
+<canvas id="aula_while_ex3_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula_while_ex3_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Comando de repetição: <code class="docutils literal"><span class="pre">while</span></code></a><ul>
+<li><a class="reference internal" href="#topicos-e-objetivos">Tópicos e Objetivos</a></li>
+<li><a class="reference internal" href="#introducao">Introdução</a><ul>
+<li><a class="reference internal" href="#sintaxe-do-comando-while">Sintaxe do comando while</a></li>
+<li><a class="reference internal" href="#descricao-do-fluxo-do-programa">Descrição do fluxo do programa</a></li>
+<li><a class="reference internal" href="#exemplo">Exemplo</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercicios-recomendados">Exercícios recomendados</a><ul>
+<li><a class="reference internal" href="#exercicio-1">Exercício 1</a></li>
+<li><a class="reference internal" href="#exercicio-2">Exercício 2</a></li>
+<li><a class="reference internal" href="#exercicio-3">Exercício 3</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="aula02.html"
+                        title="previous chapter">Variáveis, expressões e funções de entrada e saída</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="if.html"
+                        title="next chapter">Execução condicional e alternativas: <code class="docutils literal"><span class="pre">if</span></code>, <code class="docutils literal"><span class="pre">if-else</span></code> e <code class="docutils literal"><span class="pre">if-elif-else</span></code></a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="if.html" title="Execução condicional e alternativas: if, if-else e if-elif-else"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="aula02.html" title="Variáveis, expressões e funções de entrada e saída"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Feb 23, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Design Notes for the new Tkinter C&nbsp;Interface</title></head><body data-page-id="333"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Design Notes for the new Tkinter C&nbsp;Interface</h1></div><div class="yui-ge"><div class="yui-u first"><p><i>This note currently contains original design notes (scribbled on
+a palm pilot one warm day in San Jose), and has not been checked against
+the actual implementation.</i></p>
+
+March 2000 | Fredrik Lundh
+
+<h2>Types</h2><p>The new C interface defines a number of object types:</p><h3>Interpreter</h3><p>This type holds a pointer to a Tcl interpreter instance.  It should
+have the same layout as the corresponding object in the current
+version of Tkinter.</p><h3>PyTclObject</h3><p>This is a Python type implementation that wraps a Tcl object.</p><pre>
+ struct {
+     TclObj* object;
+ } PyTclObject;
+</pre><p>To create new PyTclObject instances, call the factory function with
+an ordinary Python object:</p><pre>
+ PyString -&gt; TclStringObj
+ PyInt -&gt; TclIntegerObj or TclStringObj (if too large)
+ PyFloat -&gt; TclFloatObj
+ PyTuple -&gt; TclArrayObj (?)
+</pre><p>All other objects are converted to string objects (using
+PyObject_Str).</p><h3>PyTclCommand</h3><p>This type wraps a pointer to a Tcl command, and the associated client
+data.</p><pre>
+ struct {
+     /* true if command uses object interface */
+     int use_obj_interface;
+     /* command/client pointer */
+     TclCmd* command;
+     void* client_data;
+ } PyTclCommandObject;
+</pre><p>The factory function takes a command name, and looks it up using
+Tcl&#8217;s CommandInfo function.  Note that this type doesn&#8217;t provide any
+additional methods; at this time, it&#8217;s main purpose is to provide
+information for the bound method type.</p><h3>PyTclBoundMethodObject</h3><p>This is a callable type which combines a PyTclCommandObject with
+a method name (as a PyTclObject string) and information on how to
+convert arguments and results.</p><pre>
+ struct {
+     PyTclCommandObject* command;
+     PyTclObject* method;
+     void* convert; /* to be defined */
+ } PyTclBoundMethodObject;
+</pre><p>The call hook accepts an argument tuple and a keyword dictionary.  The
+values in the tuple are converted to PyTclObject&#8217;s.  Simplified:</p><pre>
+def makeargs(av, kw):
+    size = 1 + len(av) + 2*len(kw)
+    argv = tuple(size)
+    argv[0] = method
+    i = 1
+    for v in av:
+        if v is PyTclObject:
+            argv[i] = v
+        else:
+            argv[i] = pytclobject(v)
+        i = i + 1
+    for k, v in kw:
+        argv[i] = "-" + k
+        if item is PyTclObject:
+            argv[i+1] = v
+        else:
+            argv[i+1] = pytclobject(v)
+        i = i + 2
+     result = command-&gt;command(command-&gt;client_data, argv)
+     return pytclobject(result)
+</pre><p>To speed things up even further, we could use a dictionary mapping
+well-known option names to PyTclObject strings which *include* the
+leading hyphen.</p><h2>New Tkinter Interface</h2><p>The new Tkinter interface is data driven.</p><p>For each widget class, the interface uses a method table which is used
+by the getattr hook to create PyTclBoundMethod objects on the fly.</p><pre>
+ class Scale(Widget):
+     _tk_map = {
+         "get": (PyTclObject("get"), None),
+         "set": (PyTclObject("set"), None),
+     }
+     __getattr__ = Widget._tk_getattr
+</pre><h2>Global String Cache</h2><p>The global string cache maps known Tkinter names (method names, and
+common option values as defined in the Tkconstants module) to Tcl
+string objects (PyTclObject).</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

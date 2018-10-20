@@ -1,0 +1,454 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capítulo 11: Arquivos e exceções &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Capítulo 12: Classes e objetos" href="capitulo_12.html" />
+    <link rel="prev" title="Capítulo 10: Dicionários" href="capitulo_10.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="capitulo_12.html" title="Capítulo 12: Classes e objetos"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_10.html" title="Capítulo 10: Dicionários"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="capitulo-11-arquivos-e-excecoes">
+<h1><a class="toc-backref" href="#id1">Capítulo 11: Arquivos e exceções</a><a class="headerlink" href="#capitulo-11-arquivos-e-excecoes" title="Link permanente para este título">¶</a></h1>
+<div class="contents topic" id="topicos">
+<p class="topic-title first">Tópicos</p>
+<ul class="simple">
+<li><a class="reference external" href="#capitulo-11-arquivos-e-excecoes" id="id1">Capítulo 11: Arquivos e exceções</a><ul>
+<li><a class="reference external" href="#arquivos-e-excecoes" id="id2">Arquivos e exceções</a></li>
+<li><a class="reference external" href="#arquivos-texto" id="id3">11.1 Arquivos texto</a></li>
+<li><a class="reference external" href="#gravando-variaveis" id="id4">11.2 Gravando variáveis</a></li>
+<li><a class="reference external" href="#diretorios" id="id5">11.3 Diretórios</a></li>
+<li><a class="reference external" href="#pickling" id="id6">11.4 Pickling</a></li>
+<li><a class="reference external" href="#excecoes" id="id7">11.5 Exceções</a></li>
+<li><a class="reference external" href="#glossario" id="id8">11.6 Glossário</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="arquivos-e-excecoes">
+<h2><a class="toc-backref" href="#id2">Arquivos e exceções</a><a class="headerlink" href="#arquivos-e-excecoes" title="Link permanente para este título">¶</a></h2>
+<p>Durante a execução de um programa, seus dados ficam na memória. Quando o programa termina, ou o computador é desligado, os dados na memória desaparecem. Para armazenar os dados permanentemente, você tem que colocá-los em um <strong>arquivo</strong>. Arquivos usualmente são guardados em um disco rígido (HD), num disquete ou em um CD-ROM.</p>
+<p>Quando existe um número muito grande de arquivos, eles muitas vezes são organizados dentro de <strong>diretórios</strong> (também chamados de ?pastas? ou ainda ?*folders*?). Cada arquivo é identificado por um nome único, ou uma combinação de um nome de arquivo com um nome de diretório.</p>
+<p>Lendo e escrevendo em arquivos, os programas podem trocar informações uns com os outros e gerar formatos imprimíveis como PDF.</p>
+<p>Trabalhar com arquivos é muito parecido com trabalhar com livros. Para utilizar um livro, você tem que abrí-lo. Quando você termina, você tem que fechá-lo. Enquanto o livro estiver aberto, você pode tanto lê-lo quanto escrever nele. Em qualquer caso, você sabe onde você está situado no livro. Na maioria das vezes, você lê o livro inteiro em sua ordem natural, mas você também pode saltar através de alguns trechos (skip around).</p>
+<p>Tudo isso se aplica do mesmo modo a arquivos. Para abrir um arquivo, você especifica o nome dele e indica o que você quer, seja ler ou escrever (gravar).</p>
+<p>Abrir um arquivo cria um objeto arquivo. Neste exemplo, a variável <tt class="docutils literal"><span class="pre">f</span></tt> se referencia ao novo objeto arquivo.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;teste.dat&quot;</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">f</span>
+<span class="go">&lt;open file &quot;teste.dat&quot;, mode &quot;w&quot; at fe820&gt;</span>
+</pre></div>
+</div>
+<p>A função <tt class="docutils literal"><span class="pre">open</span></tt> recebe dois argumentos. O primeiro é o nome do arquivo, e o segundo é o modo. Modo ?w? significa que estamos abrindo o arquivo para gravação (?*write*?, escrever).</p>
+<p>Se não existir nenhum arquivo de nome <tt class="docutils literal"><span class="pre">teste.dat</span></tt>, ele será criado. Se já existir um, ele será substituído pelo arquivo que estamos gravando (ou escrevendo).</p>
+<p>Quando executamos um comando <tt class="docutils literal"><span class="pre">print</span></tt> sobre o objeto arquivo, visualizamos o nome do arquivo, o modo e a localização do objeto na memória.</p>
+<p>Para colocar dados dentro do arquivo, invocamos o método <tt class="docutils literal"><span class="pre">write</span></tt> do objeto arquivo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;Agora é hora&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;de fechar o arquivo&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Fechar o arquivo diz ao sistema que terminamos de escrever (gravar) e que o arquivo está livre para ser lido:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Agora podemos abrir o arquivo de novo, desta vez para leitura, e ler o seu conteúdo para uma string. Desta vez, o argumento modo é ?r? para leitura (?reading?):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;teste.dat&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Se tentarmos abrir um arquivo que não existe, temos um erro:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;teste.cat&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span>
+<span class="go">IOError: [Errno 2] No such file or directory: &#39;teste.cat&#39;</span>
+</pre></div>
+</div>
+<p>Sem nenhuma surpresa, o método <tt class="docutils literal"><span class="pre">read</span></tt> lê dados do arquivo. Sem argumentos, ele lê todo o conteúdo do arquivo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">texto</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">texto</span>
+<span class="go">Agora é horade fechar o arquivo</span>
+</pre></div>
+</div>
+<p>Não existe espaço entre ?hora? e ?de? porque nós não gravamos um espaço entre as strings.</p>
+<p><tt class="docutils literal"><span class="pre">read</span></tt> também pode receber um argumento que indica quantos caracteres ler:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;teste.dat&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+<span class="go">Agora é h</span>
+</pre></div>
+</div>
+<p>Se não houver caracteres suficientes no arquivo, <tt class="docutils literal"><span class="pre">read</span></tt> retorna os caracteres restantes. Quando chegamos ao final do arquivo, <tt class="docutils literal"><span class="pre">read</span></tt> retorna a string vazia:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1000006</span><span class="p">)</span>
+<span class="go">orade fechar o arquivo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>A função seguinte, copia um arquivo, lendo e gravando até cinqüenta caracteres de uma vez. O primeiro argumento é o nome do arquivo original; o segundo é o nome do novo arquivo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">copiaArquivo</span><span class="p">(</span><span class="n">velhoArquivo</span><span class="p">,</span> <span class="n">novoArquivo</span><span class="p">):</span>
+  <span class="n">f1</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">velhoArquivo</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span>
+  <span class="n">f2</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">novoArquivo</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span>
+  <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+      <span class="n">texto</span> <span class="o">=</span> <span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">texto</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+          <span class="k">break</span>
+      <span class="n">f2</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">texto</span><span class="p">)</span>
+  <span class="n">f1</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+  <span class="n">f2</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+  <span class="k">return</span>
+</pre></div>
+</div>
+<p>A comando <tt class="docutils literal"><span class="pre">break</span></tt> é novo. O que ele faz é saltar a execução para fora do loop; o fluxo de execução passa para o primeiro comando depois do loop.</p>
+<p>Neste exemplo, o loop <tt class="docutils literal"><span class="pre">while</span></tt> é infinito porque o valor 1 é sempre verdadeiro. O único modo de sair do loop é executando o <tt class="docutils literal"><span class="pre">break</span></tt>, o que ocorre quando <tt class="docutils literal"><span class="pre">texto</span></tt> é a string vazia, o que ocorre quando alcançamos o fim do arquivo.</p>
+</div>
+<div class="section" id="arquivos-texto">
+<h2><a class="toc-backref" href="#id3">11.1 Arquivos texto</a><a class="headerlink" href="#arquivos-texto" title="Link permanente para este título">¶</a></h2>
+<p>Um arquivo texto é um arquivo que contém caracteres imprimíveis e espaços, organizados dentro de linhas separadas por caracteres de nova linha. Já que Pyhton é especialmente projetado para processar arquivos texto, ele oferece métodos que tornam esta tarefa mais fácil.</p>
+<p>Para demonstrar, vamos criar um arquivo texto com três linhas de texto separadas por caracteres de nova linha:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;teste.dat&quot;</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;linha um</span><span class="se">\n</span><span class="s">linha dois</span><span class="se">\n</span><span class="s">linha três</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>O método <tt class="docutils literal"><span class="pre">readline</span></tt> lê todos os caracteres até, e incluindo, o próximo caractere de nova linha:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;teste.dat&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+<span class="go">linha um</span>
+
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>readlines retorna todas as linhas restantes como uma lista de strings:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+<span class="go">[&#39;linha dois\012&#39;, &#39;linha três\012&#39;]</span>
+</pre></div>
+</div>
+<p>Neste caso, a saída está em formado de lista, o que significa que as strings aparecem entre aspas e o caractere de nova linha aparece como a seqüência de escape <tt class="docutils literal"><span class="pre">012</span></tt>.</p>
+<p>No fim do arquivo, <tt class="docutils literal"><span class="pre">readline</span></tt> retorna a string vazia e <tt class="docutils literal"><span class="pre">readlines</span></tt> retorna a lista vazia:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+<span class="go">[]</span>
+</pre></div>
+</div>
+<p>A seguir temos um exemplo de um programa de processamento de linhas. <tt class="docutils literal"><span class="pre">filtraArquivo</span></tt> faz uma cópia de <tt class="docutils literal"><span class="pre">velhoArquivo</span></tt>, omitindo quaisquer linhas que comecem por <tt class="docutils literal"><span class="pre">#</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">filtraArquivo</span><span class="p">(</span><span class="n">velhoArquivo</span><span class="p">,</span> <span class="n">novoArquivo</span><span class="p">):</span>
+  <span class="n">f1</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">velhoArquivo</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span>
+  <span class="n">f2</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">novoArquivo</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span>
+  <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+      <span class="n">texto</span> <span class="o">=</span> <span class="n">f1</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+      <span class="k">if</span> <span class="n">texto</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+          <span class="k">break</span>
+      <span class="k">if</span> <span class="n">texto</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;#&#39;</span><span class="p">:</span>
+          <span class="k">continue</span>
+      <span class="n">f2</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">texto</span><span class="p">)</span>
+  <span class="n">f1</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+  <span class="n">f2</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+  <span class="k">return</span>
+</pre></div>
+</div>
+<p>O comando <tt class="docutils literal"><span class="pre">continue</span></tt> termina a iteração corrente do loop, mas continua iterando o loop. O fluxo de execução passa para o topo do loop, checa a condição e prossegue conforme o caso.</p>
+<p>Assim, se <tt class="docutils literal"><span class="pre">texto</span></tt> for a string vazia, o loop termina. Se o primeiro caractere de texto for o jogo da velha (? <tt class="docutils literal"><span class="pre">#</span></tt> ?), o fluxo de execução passa para o topo do loop. Somente se ambas as condições falharem é que <tt class="docutils literal"><span class="pre">texto</span></tt> será copiado para dentro do novo arquivo.</p>
+</div>
+<div class="section" id="gravando-variaveis">
+<h2><a class="toc-backref" href="#id4">11.2 Gravando variáveis</a><a class="headerlink" href="#gravando-variaveis" title="Link permanente para este título">¶</a></h2>
+<p>O argumento de <tt class="docutils literal"><span class="pre">write</span></tt> tem que ser uma string, assim se quisermos colocar outros valores em um arquivo, temos de convertê-los para strings primeiro. A maneira mais fácil de fazer isso é com a função <tt class="docutils literal"><span class="pre">str</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="mi">52</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Uma alternativa é usar o <strong>operador de formatação</strong> <tt class="docutils literal"><span class="pre">%</span></tt>. Quando aplicado a inteiros, <tt class="docutils literal"><span class="pre">%</span></tt> é o operador módulo. Mas quando o primeiro operador é uma string, <tt class="docutils literal"><span class="pre">%</span></tt> é o operador de formatação.</p>
+<p>O primeiro operando é a <strong>string de formatação</strong>, e o segundo operando é uma tupla de expressões. O resultado é uma string que contém os valores das expressões, formatadas de acordo com a string de formatação.</p>
+<p>Num exemplo simples, a <strong>seqüência de formatação</strong> &#8220;??%d??&#8221; significa que a primeira expressão na tupla deve ser formatada como um inteiro. Aqui a letra <em>d</em> representa ?decimal?.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">carros</span> <span class="o">=</span> <span class="mi">52</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s">&quot;</span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">carros</span>
+<span class="go">&#39;52&#39;</span>
+</pre></div>
+</div>
+<p>O resultado é a string ?52?, que não deve ser confundida com o valor inteiro 52.</p>
+<p>Uma seqüência de formatação pode aparecer em qualquer lugar na string de formatação, assim, podemos embutir um valor em uma seqüência:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">carros</span> <span class="o">=</span> <span class="mi">52</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s">&quot;Em julho vendemos </span><span class="si">%d</span><span class="s"> carros.&quot;</span> <span class="o">%</span> <span class="n">carros</span>
+<span class="go">&#39;Em julho vendemos 52 carros.&#39;</span>
+</pre></div>
+</div>
+<p>A seqüência de formatação &#8220;<tt class="docutils literal"><span class="pre">%f</span></tt>&#8221; formata o próximo item da tupla como um número em ponto flutuante, e &#8220;%s&#8221; formata o próximo como uma string:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="s">&quot;Em </span><span class="si">%d</span><span class="s"> dias fizemos </span><span class="si">%f</span><span class="s"> milhões </span><span class="si">%s</span><span class="s">.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="mi">34</span><span class="p">,</span><span class="mf">6.1</span><span class="p">,</span><span class="s">&#39;reais&#39;</span><span class="p">)</span>
+<span class="go">&#39;Em 34 dias fizemos 6.100000 milhões de reais.&#39;</span>
+</pre></div>
+</div>
+<p>Por padrão, o formato de ponto flutuante exibe seis casas decimais.</p>
+<p>O número de expressões na tupla tem que ser igual ao número de seqüências de formatação na string. Além disso, os tipos das expressões têm que iguais aos da seqüência de formatação:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="s">&quot;</span><span class="si">%d</span><span class="s"> </span><span class="si">%d</span><span class="s"> </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">TypeError: not enough arguments for format string</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s">&quot;</span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="s">&#39;reais&#39;</span>
+<span class="go">TypeError: illegal argument type for built-in operation</span>
+</pre></div>
+</div>
+<p>No primeiro exemplo, não existem expressões suficientes; no segundo, a expressão é do tipo errado.</p>
+<p>Para um controle maior na formatação de números, podemos especificar o número de dígitos como parte da seqüência de formatação:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="s">&quot;</span><span class="si">%6d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="mi">62</span>
+<span class="go">&#39;    62&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s">&quot;</span><span class="si">%12f</span><span class="s">&quot;</span> <span class="o">%</span> <span class="mf">6.1</span>
+<span class="go">&#39;    6,100000&#39;</span>
+</pre></div>
+</div>
+<p>O número depois do sinal de porcentagem é o número mínimo de espaços que o valor ocupará. Se o valor fornecido tiver um número menor de dígitos, espaços em branco serão adicionados antes para preencher o restante. Se o número de espaços for negativo, os espaços serão adicionados depois:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="s">&quot;</span><span class="si">%-6d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="mi">62</span>
+<span class="go">&#39;62    &#39;</span>
+</pre></div>
+</div>
+<p>Para números em ponto-flutuante, também podemos especificar o número de dígitos depois da vírgula:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="s">&quot;</span><span class="si">%12.2f</span><span class="s">&quot;</span> <span class="o">%</span> <span class="mf">6.1</span>
+<span class="go">&#39;        6.10&#39;</span>
+</pre></div>
+</div>
+<p>Neste exemplo, o resultado reserva 12 espaços e inclui dois dígitos depois da vírgula. Esta formatação é útil para exibir valores monetários com os centavos alinhados.</p>
+<p>Por exemplo, imagine um dicionário que contém nomes de estudantes como chaves e salários-hora como valores. Aqui está uma função que imprime o conteúdo do dicionário como um relatório formatado:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">relatorio</span><span class="p">(</span><span class="n">salarios</span><span class="p">):</span>
+  <span class="n">estudantes</span> <span class="o">=</span> <span class="n">salarios</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+  <span class="n">estudantes</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+  <span class="k">for</span> <span class="n">estudante</span> <span class="ow">in</span> <span class="n">estudantes</span><span class="p">:</span>
+      <span class="k">print</span> <span class="s">&quot;</span><span class="si">%-20s</span><span class="s"> </span><span class="si">%12.02f</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">estudante</span><span class="p">,</span> <span class="n">salarios</span><span class="p">[</span><span class="n">estudante</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Para testar esta função, criaremos um pequeno dicionário e imprimiremos o conteúdo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">salarios</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;maria&#39;</span><span class="p">:</span> <span class="mf">6.23</span><span class="p">,</span> <span class="s">&#39;joão&#39;</span><span class="p">:</span> <span class="mf">5.45</span><span class="p">,</span> <span class="s">&#39;josué&#39;</span><span class="p">:</span> <span class="mf">4.25</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">relatorio</span><span class="p">(</span><span class="n">salarios</span><span class="p">)</span>
+<span class="go">joão                          5.45</span>
+<span class="go">josué                         4.25</span>
+<span class="go">maria                         6.23</span>
+</pre></div>
+</div>
+<p>Controlando a largura de cada valor, podemos garantir que as colunas ficarão alinhadas, desde que os nomes contenham menos que vinte e um caracteres e os salários sejam menores do que um bilhão de reais por hora.</p>
+</div>
+<div class="section" id="diretorios">
+<h2><a class="toc-backref" href="#id5">11.3 Diretórios</a><a class="headerlink" href="#diretorios" title="Link permanente para este título">¶</a></h2>
+<p>Quando você cria um novo arquivo abrindo-o e escrevendo nele, o novo arquivo fica no diretório corrente (seja lá onde for que você esteja quando rodar o programa). Do mesmo modo, quando você abre um arquivo para leitura, Python procura por ele no diretório corrente.</p>
+<p>Se você quiser abrir um arquivo que esteja em algum outro lugar, você tem que especificar o <strong>caminho</strong> (<em>path</em>) para o arquivo, o qual é o nome do diretório (ou folder) onde o arquivo está localizado:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;/usr/share/dict/words&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+<span class="go">Aarhus</span>
+</pre></div>
+</div>
+<p>Este exemplo abre um arquivo chamado <tt class="docutils literal"><span class="pre">words</span></tt> que reside em um diretório de nome <tt class="docutils literal"><span class="pre">dict</span></tt>, o qual reside em <tt class="docutils literal"><span class="pre">share</span></tt>, o qual reside em <tt class="docutils literal"><span class="pre">usr</span></tt>, o qual reside no diretório de mais alto nível do sistema, chamado <tt class="docutils literal"><span class="pre">/</span></tt>.</p>
+<p>Você não pode usar <tt class="docutils literal"><span class="pre">/</span></tt> como parte do nome de um arquivo; ela é um caractere reservado como um delimitador entre nomes de diretórios e nomes de arquivos.</p>
+<p>O arquivo <tt class="docutils literal"><span class="pre">/usr/share/dict/words</span></tt> contém uma lista de palavras em ordem alfabética, na qual a primeira palavra é o nome de uma universidade Dinamarquesa.</p>
+</div>
+<div class="section" id="pickling">
+<h2><a class="toc-backref" href="#id6">11.4 Pickling</a><a class="headerlink" href="#pickling" title="Link permanente para este título">¶</a></h2>
+<p>Para colocar valores em um arquivo, você tem que convertê-los para strings. Você já viu como fazer isto com <tt class="docutils literal"><span class="pre">str</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">write</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="mf">12.3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">write</span> <span class="p">(</span><span class="nb">str</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>O problema é que quando você lê de volta o valor, você tem uma string. O Tipo original da informação foi perdido. De fato, você não pode sequer dizer onde começa um valor e termina outro:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+<span class="go">?12.3[1, 2, 3]?</span>
+</pre></div>
+</div>
+<p>A solução é o pickling, assim chamado porque ?preserva? estruturas de dados. O módulo <tt class="docutils literal"><span class="pre">pickel</span></tt> contém os comandos necessários. Para usá-lo, importe <tt class="docutils literal"><span class="pre">pickle</span></tt> e então abra o arquivo da maneira usual:</p>
+<div class="highlight-python"><pre>&gt;&gt;&gt; import pickle
+&gt;&gt;&gt; f = open(?test.pck?, ?w?)</pre>
+</div>
+<p>Para armazenar uma estrutura de dados, use o método <tt class="docutils literal"><span class="pre">dump</span></tt> e então feche o arquivo do modo usual:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="mf">12.3</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">f</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Então, podemos abrir o arquivo para leitura e carregar as estruturas de dados que foram descarregadas (dumped):</p>
+<div class="highlight-python"><pre>&gt;&gt;&gt; f = open(?test.pck?, ?r?)
+&gt;&gt;&gt; x = pickle.load(f)
+&gt;&gt;&gt; x
+12,3
+&gt;&gt;&gt; type(x)
+&lt;type ?float?&gt;
+&gt;&gt;&gt; y = pickle.load(f)
+&gt;&gt;&gt; y
+[1, 2, 3]
+&gt;&gt;&gt; type(y)
+&lt;type ?list?&gt;</pre>
+</div>
+<p>Cada vez que invocamos <tt class="docutils literal"><span class="pre">load</span></tt>, obtemos um único valor do arquivo, completo com seu tipo original.</p>
+</div>
+<div class="section" id="excecoes">
+<h2><a class="toc-backref" href="#id7">11.5 Exceções</a><a class="headerlink" href="#excecoes" title="Link permanente para este título">¶</a></h2>
+<p>Whenever que um erro em tempo de execução acontece, ele gera uma exceção. Usualmente, o programa pára e Python exibe uma mensagem de erro.</p>
+<p>Por exemplo, dividir por zero gera uma exceção:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="mi">55</span><span class="o">/</span><span class="mi">0</span>
+<span class="go">ZeroDivisionError: integer division or modulo</span>
+</pre></div>
+</div>
+<p>Do mesmo modo, acessar um item de lista inexistente:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">a</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+<span class="go">IndexError: list index out of range</span>
+</pre></div>
+</div>
+<p>Ou acessar uma chave que não está em um dicionário:</p>
+<div class="highlight-python"><pre>&gt;&gt;&gt; b = {}
+&gt;&gt;&gt; print b[?what?]
+KeyError: what</pre>
+</div>
+<p>Em cada caso, a mensagem de erro tem duas partes: o tipo do erro antes dos dois pontos, e especificidades do erro depois dos dois pontos. Normalmente Python também exibe um ?*traceback*? de onde estava a execução do programa, mas nós temos omitido esta parte nos exemplos.</p>
+<p>Às vezes queremos executar uma operação que pode causar uma exceção, mas não queremos que o programa pare. Nós podemos tratar a exceção usando as instruções <tt class="docutils literal"><span class="pre">try</span></tt> e <tt class="docutils literal"><span class="pre">except</span></tt>.</p>
+<p>Por exemplo, podemos pedir ao usuário um nome de arquivo e então tentar abrí-lo. Se o arquivo não existe, não queremos que o programa trave; queremos tratar a exceção:</p>
+<div class="highlight-python"><pre>nomedoarquivo = raw_input(?Entre com o nome do arquivo: ?)
+try:
+  f = open (nomedoarquivo, ?r?)
+except:
+  print ?Não existe arquivo chamado?, nomedoarquivo</pre>
+</div>
+<p>A instrução <tt class="docutils literal"><span class="pre">try</span></tt> executa os comandos do primeiro bloco. Se não ocorrerem exceções, ele ignora a instrução <tt class="docutils literal"><span class="pre">except</span></tt>. Se qualquer exceção acontece, ele executa os comandos do ramo <tt class="docutils literal"><span class="pre">except</span></tt> e continua.</p>
+<p>Podemos encapsular esta habilidade numa função: existe toma um nome de arquivo e retorna verdadeiro se o arquivo existe e falso se não existe:</p>
+<div class="highlight-python"><pre>def existe(nomedoarquivo)
+  try:
+    f = open(nomedoarquivo)
+    f.close()
+    return 1
+  except:
+    return 0</pre>
+</div>
+<p>Você pode usar múltiplos blocos <tt class="docutils literal"><span class="pre">except</span></tt> para tratar diferentes tipos de exceções. O Manual de Referência de Python (<em>Python Reference Manual</em>) tem os detalhes.</p>
+<p>Se o seu programa detecta uma condição de erro, você pode fazê-lo lançar uma exceção. Aqui está um exemplo que toma uma entrada do usuário e testa se o valor é 17. Supondo que 17 não seja uma entrada válida por uma razão qualquer, nós lançamos uma exceção.</p>
+<div class="highlight-python"><pre>def entraNumero():
+  x = input (?Escolha um número: ?)
+  if x == 17:
+    raise ?ErroNumeroRuim?, ?17 é um número ruim?
+  return x</pre>
+</div>
+<p>O comando <tt class="docutils literal"><span class="pre">raise</span></tt> toma dois argumentos: o tipo da exceção e informações específicas sobre o erro. <tt class="docutils literal"><span class="pre">ErroNumeroRuim</span></tt> é um novo tipo de exceção que nós inventamos para esta aplicação.</p>
+<p>Se a função que chamou <tt class="docutils literal"><span class="pre">entraNumero</span></tt> trata o erro, então o programa pode continuar; de outro modo, Pyhton exibe uma mensagem de erro e sai:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">entraNumero</span><span class="p">()</span>
+<span class="go">Escolha um número: 17</span>
+<span class="go">ErroNumeroRuim: 17 é um número ruim</span>
+</pre></div>
+</div>
+<p>A mensagem de erro inclui o tipo da exceção e a informação adicional que você forneceu.</p>
+<blockquote>
+Como um exercício, escreva uma função que use <tt class="docutils literal"><span class="pre">entraNumero</span></tt> para pegar um número do teclado e que trate a exceção <tt class="docutils literal"><span class="pre">ErroNumeroRuim</span></tt>.</blockquote>
+</div>
+<div class="section" id="glossario">
+<h2><a class="toc-backref" href="#id8">11.6 Glossário</a><a class="headerlink" href="#glossario" title="Link permanente para este título">¶</a></h2>
+<dl class="docutils">
+<dt>arquivo (<em>file</em>)</dt>
+<dd>Uma entidade nomeada, usualmente armazenada em um disco rígido (HD), disquete ou CD-ROM, que contém uma seqüência de caracteres.</dd>
+<dt>diretório (<em>directory</em>)</dt>
+<dd>Uma coleção nomeada de arquivos, também chamado de pasta ou folder.</dd>
+<dt>caminho (<em>path</em>)</dt>
+<dd>Uma seqüência de nomes de diretórios que especifica a exata localização de um arquivo.</dd>
+<dt>arquivo texto (<em>text file</em>)</dt>
+<dd>Um arquivo que contém caracteres organizados em linhas separadas por caracteres de nova linha.</dd>
+<dt>comando break (<em>break statement</em>)</dt>
+<dd>Um comando que força a atual iteração de um loop a terminar. O fluxo de execução vai para o topo do loop, testa a condição e prossegue conforme o caso.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Capítulo 11: Arquivos e exceções</a><ul>
+<li><a class="reference internal" href="#arquivos-e-excecoes">Arquivos e exceções</a></li>
+<li><a class="reference internal" href="#arquivos-texto">11.1 Arquivos texto</a></li>
+<li><a class="reference internal" href="#gravando-variaveis">11.2 Gravando variáveis</a></li>
+<li><a class="reference internal" href="#diretorios">11.3 Diretórios</a></li>
+<li><a class="reference internal" href="#pickling">11.4 Pickling</a></li>
+<li><a class="reference internal" href="#excecoes">11.5 Exceções</a></li>
+<li><a class="reference internal" href="#glossario">11.6 Glossário</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="capitulo_10.html"
+                        title="capítulo anterior">Capítulo 10: Dicionários</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="capitulo_12.html"
+                        title="próximo capítulo">Capítulo 12: Classes e objetos</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/capitulo_11.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="capitulo_12.html" title="Capítulo 12: Classes e objetos"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_10.html" title="Capítulo 10: Dicionários"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The tkController&nbsp;Module</title></head><body data-page-id="290"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The tkController&nbsp;Module</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Updated October 24, 2006 | March 1998 | Fredrik Lundh</p><p>The following module provides a WCK-compatible
+<a href="model-view-controller.htm">controller</a>
+base class.
+A controller represents a number of event bindings, and the code needed to
+handle those events.  Controllers can be attached to any Tkinter widget.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>A WCK-compatible Controller Base Class for Tkinter</b>
+<pre class="python wide">
+<span class="pycomment"># File: tkController.py</span>
+
+<span class="pykeyword">import</span> Tkinter
+
+PREFIX = <span class="pystring">"tkController"</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">Controller</span>:
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, master=None):
+        <span class="pykeyword">if</span> master <span class="pykeyword">is</span> None:
+            master = Tkinter._default_root
+        <span class="pykeyword">assert</span> master <span class="pykeyword">is</span> <span class="pykeyword">not</span> None
+        self.tag = PREFIX + str(id(self))
+        <span class="pykeyword">def</span> <span class="pyfunction">bind</span>(event, handler):
+            master.bind_class(self.tag, event, handler)
+        self.create(bind)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">install</span>(self, widget):
+        widgetclass = widget.winfo_class()
+        <span class="pycomment"># remove widget class bindings and other controllers</span>
+        tags = [self.tag]
+        <span class="pykeyword">for</span> tag <span class="pykeyword">in</span> widget.bindtags():
+            <span class="pykeyword">if</span> tag != widgetclass <span class="pykeyword">and</span> tag[:len(PREFIX)] != PREFIX:
+                tags.append(tag)
+        widget.bindtags(tuple(tags))
+
+    <span class="pykeyword">def</span> <span class="pyfunction">create</span>(self, handle):
+        <span class="pycomment"># override if necessary</span>
+        <span class="pycomment"># the default implementation looks for decorated methods</span>
+        <span class="pykeyword">for</span> key <span class="pykeyword">in</span> dir(self):
+            method = getattr(self, key)
+            <span class="pykeyword">if</span> hasattr(method, <span class="pystring">"tkevent"</span>) <span class="pykeyword">and</span> callable(method):
+                handle(method.tkevent, method)
+
+<span class="pycomment">##</span>
+<span class="pycomment"># Simple event decorator for Python 2.4 and later.</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">bind</span>(event):
+    <span class="pykeyword">def</span> <span class="pyfunction">decorator</span>(func):
+        func.tkevent = event
+        <span class="pykeyword">return</span> func
+    <span class="pykeyword">return</span> decorator</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>To create a specific controller, subclass the <b>Controller</b>
+base class, implement one or more event handler methods, and use the
+<b>bind</b> decorator to flag them as such:
+
+<pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">myController</span>(Controller):
+
+    @<span class="pydecorator">bind</span>(<span class="pystring">"&lt;Button-1&gt;"</span>) <span class="pycomment"># binds method to event</span>
+    <span class="pykeyword">def</span> <span class="pyfunction">click</span>(self, event):
+        <span class="pykeyword">print</span> <span class="pystring">"click at"</span>, event.x, event.y
+
+frame = Frame()
+
+frame_controller = myController(frame)
+frame_controller.install(frame)</pre></p><p>If you&#8217;re using an older Python version, or have special requirements,
+you can override the <b>create</b> method instead:
+
+<pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">myController</span>(Controller):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">create</span>(self, bind):
+        bind(<span class="pystring">"&lt;Button-1&gt;"</span>, self.click)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">click</span>(self, event):
+        <span class="pykeyword">print</span> <span class="pystring">"click at"</span>, event.x, event.y
+
+frame = Frame()
+
+frame_controller = myController(frame)
+frame_controller.install(frame)</pre></p><p>The Controller constructor calls the <b>create</b> method, passing
+in a callable <b>bind</b> handler that should be used to set up event
+bindings.</p><p>To install a controller on a widget, create an instance of the
+controller, and call the <b>install</b> method.  This removes the
+existing controller from the widget, if any, and also removes all
+standard widget bindings.  When <b>install</b> returns, all events
+will be routed to the new controller.</p><p>You can switch controllers at any time (for example to switch
+between different tools).</p><h2>Examples</h2><h3>Drawing Canvas Items</h3><p>This example uses a simple controller to draw red rectangles on
+a Tkinter canvas.  The example creates two canvas widgets, and attaches
+the same controller instance to both.  This works because the user can
+only draw on one canvas at a time, and the controller can use the
+<b>widget</b> event attribute to distinguish between the widgets.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Drawing Rectangles on a Canvas</b>
+<pre class="python wide">
+<span class="pykeyword">import</span> Tkinter
+<span class="pykeyword">from</span> tkController <span class="pykeyword">import</span> Controller, bind
+
+<span class="pykeyword">class</span> <span class="pyclass">myController</span>(Controller):
+
+    @<span class="pydecorator">bind</span>(<span class="pystring">"&lt;Button-1&gt;"</span>)
+    <span class="pykeyword">def</span> <span class="pyfunction">click</span>(self, event):
+        self.anchor = event.x, event.y
+        self.item = None
+
+    @<span class="pydecorator">bind</span>(<span class="pystring">"&lt;B1-Motion&gt;"</span>)
+    <span class="pykeyword">def</span> <span class="pyfunction">drag</span>(self, event):
+        bbox = self.anchor + (event.x, event.y)
+        <span class="pykeyword">if</span> self.item <span class="pykeyword">is</span> None:
+            self.item = event.widget.create_rectangle(bbox, fill=<span class="pystring">"red"</span>)
+        <span class="pykeyword">else</span>:
+            event.widget.coords(self.item, *bbox)
+
+<span class="pycomment"># create widgets</span>
+
+canvas1 = Tkinter.Canvas(bg=<span class="pystring">"white"</span>)
+canvas1.pack(side=<span class="pystring">"left"</span>)
+
+canvas2 = Tkinter.Canvas(bg=<span class="pystring">"black"</span>)
+canvas2.pack(side=<span class="pystring">"left"</span>)
+
+canvas_controller = myController()
+
+canvas_controller.install(canvas1)
+canvas_controller.install(canvas2)
+
+Tkinter.mainloop()</pre></div></div><div class="yui-ge"><div class="yui-u first"><p><i>More examples to be added&#8230;</i></p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

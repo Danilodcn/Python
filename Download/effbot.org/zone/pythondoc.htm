@@ -1,0 +1,194 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>PythonDoc</title></head><body data-page-id="227"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">PythonDoc</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Updated March 25, 2005 | April 10, 2002 | Fredrik Lundh</p></div><div class="yui-u">&#160;</div></div><div class="yui-ge"><div class="yui-u first"><p class="note"><b>Update 2006-04-06:</b>
+<a href="/downloads#pythondoc">PythonDoc 2.1 beta 6</a> adds experimental
+support for putting documentation markup in docstrings.  Use the <b>-s</b>
+option to tell pythondoc to check the docstrings too.</p><p class="note"><b>Update 2005-11-01:</b>
+Current PythonDoc releases don&#8217;t work well under Python 2.4.1, due to a
+bug in Python&#8217;s parser.  To work around this, upgrade to 2.4.2, or remove
+the <b>coding</b> directive from the top of the <b>pythondoc.py</b> source
+file.</p><h2 id="introduction">Introduction&#160;<a class="nav" href="#introduction" title="bookmark!">#</a></h2><p>The PythonDoc tool generates API documentation in HTML and other
+formats, based on descriptions in Python source files.  PythonDoc is a
+Python implementation of the JavaDoc (tm) tool.</p><p>PythonDoc 2.0 parses Python source code, looking for special
+<a href="#syntax"><i>documentation comments</i></a> and the
+variables, functions, classes, and methods they&#8217;re describing.</p><p>By default, PythonDoc generates a set of HTML pages describing all
+documented components in the source files.  PythonDoc can also generate
+XML files, which you can process in various ways using your favourite
+XML toolbox.</p><h4>What&#8217;s new in 2.0?</h4><p>PythonDoc 2.0 is rewritten from scratch (mostly without even looking
+at the original code), so the obvious answer is &#8220;Everything!&#8221;.  Here&#8217;s a
+more useful list:</p><ul class="small"><li>uses source code scanning instead of import/introspection; the
+new approach is safer and a lot more reliable.
+</li><li>supports variables and class and instance attributes
+</li><li>improved <a href="pythondoc-infoset.htm">XML format</a>, including
+proper nesting of classes and methods.
+</li><li>XML format also includes undocumented functions, classes, and methods;
+this can be used by custom output formatters to list undocumented items,
+and to generate default documentation also for undocumented items.
+</li><li>supports <a href="http://www.python.org/peps/pep-0263.html">internationalized source code</a> (the <i>coding</i> directive)
+</li><li>includes experimental support for <a href="#module-doc">module-level documentation</a>
+</li><li>supports inline @link and @linkplain tags (in 2.1)
+</li><li>supports pluggable and configurable <a href="pythondoc-plugins.htm">output generators</a> (-O, -D)
+</li><li>nicer <a href="pythondoc-compact.htm">standard HTML output format</a>
+(but you can write your own <a href="pythondoc-plugins.htm">plugin</a> if
+the default format doesn&#8217;t suit your needs)
+</li><li>internal regression test suite includes a lot more tests, and many
+megabytes of marked-up real-life Python code (not all of it written by me).
+</li><li>designed to run on Python 1.5.2 and newer, and parse code written for
+Python 1.0 and newer
+</li><li>the old version was one big hack.  this one isn&#8217;t.
+</li></ul><h2 id="cli">The pythondoc Command-Line Utility&#160;<a class="nav" href="#cli" title="bookmark!">#</a></h2><p>The <b>pythondoc</b> utility is a simple command-line tool that you
+can use to generate HTML documentation for individual modules or an
+entire package.</p></div><div class="yui-u"><div class="sidebar" id="effbot_download"><div class="source"><p><b><a href="/downloads#pythondoc">Download Source Code</a></b></p></div><div class="windows"><p><b><a href="/downloads#pythondoc">Download For Windows</a></b></p></div></div></div></div><div class="yui-g"><pre class="wide wide">
+$ pythondoc.py package
+$ pythondoc.py module1.py module2.py module3.py package/module4.py
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>The current version writes the output to the current directory, to
+files named <b>pythondoc-<i>module</i>.html</b>.</p><p>You can find sample output <a href="pythondoc-compact.htm">here</a>
+(generated with PythonDoc 2.0 beta 1).</p><p>The <b>-x</b> option tells PythonDoc to generate <a href="#infoset">XML descriptions</a> as well as HTML:</p><pre>
+$ pythondoc.py -x module.py
+</pre><p>The <b>-O</b> option tells PythonDoc to use
+<a href="pythondoc-plugins.htm">a custom output formatter</a>.
+You can use the <b>-D</b> option to pass configuration variables to the
+formatter:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+$ pythondoc.py -Omyformat -Dindex -Dencoding=utf-8 mypackage
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>The default renderer accepts <b>-Dstyle=</b><i>url</i> to add a style
+sheet link to the HTML header, or <b>-Dzone</b> to write the document body
+to a text file (this format still uses HTML markup for the body contents,
+but other HTML document elements are not included).</p><p>The <b>-s</b> option tells PythonDoc to
+look for documentation markup in docstrings too.</p><pre>
+$ pythondoc.py -s module.py
+</pre><p>This option was introduced in 2.1b6, and should be considered as experimental.
+
+<h2 id="syntax">Documentation Comments&#160;<a class="nav" href="#syntax" title="bookmark!">#</a></h2></p><p>To generate documentation for a function, class, or method, you
+must add a special documentation comment before the function or class
+declaration.  The comment and the declaration must have the same
+indentation.</p><p>PythonDoc 2 also supports documentation for module variables and
+class attributes.  Just put the documentation comment before you first
+assign to the variable.</p><pre>
+##
+# This comment provides documentation for the following
+# function.
+
+def function(argument):
+    pass
+
+##
+# This comment provides documentation for the following
+# variable.
+
+variable = value
+</pre><p>The first line must use double comment markers (##), and all
+following lines must begin with a single comment marker (#).  The tool
+strips off the comment markers, and the space following directly after
+the comment marker (if any), but all remaining whitespace is
+preserved.</p><p>The documentation comment consists of two parts; the first part is
+a <b>description</b> of the following class, function, or method.  The
+second part consists of one or more <b>tags</b>.  Both parts can be
+empty.</p><p>The function or class declaration must follow immediately after the
+documentation comment.  Empty lines, or lines containing only
+whitespace, are ignored, but any other line is treated as a syntax
+error, and forces the tool to ignore the comment.</p><p id="module-doc">In PythonDoc 2.0, you can also use documentation comments
+to describe the the module itself.  A module comment looks like an ordinary
+documentation comment, but it ends with an extra comment marker (##):</p><pre>
+##
+# This is a module comment.
+##
+</pre><p>You can have only one module comment in each file, and it must be placed
+before any other PythonDoc comment.</p><h3>Descriptions</h3><p>Descriptions are HTML fragments, and you can use most standard HTML
+freely.  The PythonDoc parser is currently a bit stricter than most
+browsers:</p><ul><li>P, LI, TR, and TD tags are automatically closed, if necessary.
+These elements cannot be nested; if you put two P start tags after
+each other, the parser will automatically insert a P end tag between
+them.</li><li>Text at the beginning of the comment is automatically wrapped in
+a P element.</li><li>End tags for IMG and HR are ignored.</li><li>All other tags must be properly nested.  Each start tag must be
+followed by a corresponding end tag.</li><li>Attributes can be quoted or unquoted.  The parser automatically
+adds quotes where necessary.</li><li>Reserved characters must be properly escaped.  This includes
+less-than (&lt;), greater-than (&gt;), and ampersand (&amp;), and also
+the at-sign (@) at the beginning of a line, if that line does not
+contain a tag (see below).</li></ul><h3>Tags</h3><p>The documentation comment can contain one or more <i>tags</i>.  An
+at-sign (@) at the beginning of the line is used to indicate that a
+line contains a tag.  The text before the first tag is called the
+<i>description</i>.</p><pre>
+##
+# This is a simple function.  This is the description.
+# @param arg An argument to the function.
+</pre><p>The PythonDoc tool currently supports a small subset of the JavaDoc
+tags, plus a few PythonDoc-specific extensions.</p><p>Tags can contain HTML markup, just like descriptions.</p><h4>The @param tag</h4><p>The <b>@param</b> tag is used to describe a function argument.
+It&#8217;s always followed by the argument name, and one or more lines of
+descriptive text.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+# @param size The requested size, as an integer.
+# @param filename The source file.  Instead of a file name, you can
+#     provide a file object, or any other object that supports 'read'
+#     and 'seek'.
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>The argument description can contain HTML markup.</p><h4>The @keyparam tag</h4><p>The <b>@keyparam</b> tag (a PythonDoc extension) is similar to @param,
+but should be used for parameters that should always be given as keyword
+parameters (e.g. options).  Like @param, this tag always followed by the
+argument name, and one or more lines of descriptive text.</p><p>The output generator may place the keyword parameters under a separate
+heading, or add other kinds of annotations indicating that this is not an
+ordinary positional argument.</p><pre>
+# @keyparam color An optional color value.
+</pre><h4>The @return tag</h4><p>The <b>@return</b> tag is used to describe what a function returns.
+It can include one or more lines of descriptive text.</p><pre>
+# @return An integer value.
+</pre><h4>The @exception tag</h4><p>The <b>@exception</b> tag is used to describe why the
+function may raise a given exception.  It&#8217;s always followed by the
+exception name, and one or more lines of descriptive text.</p><p>For compatibility with JavaDoc, this tag can also be spelled
+<b>@throws</b>.</p><pre>
+# @exception IOError Failed to open or read the file.
+</pre><h4>The @def tag</h4><p>The <b>@def</b> tag (a PythonDoc extension) can be used to control
+how PythonDoc describes function and methods.  By default, PythonDoc
+reads the method name and the argument list from the source code.  If
+you don&#8217;t want the documentation to contain what&#8217;s in the source
+code, you can use this tag to override the default behaviour:</p><pre>
+# @def decode(text)
+# @param text The string to decode.
+
+def decode(s, translate=string.translate, repr=repr):
+    ...
+</pre><p>Note that the @def tag contains both the function name and the
+argument list.</p><h4>The @defreturn tag (experimental)</h4><p>The <b>@defreturn</b> tag (an experimental PythonDoc extension) can
+be used to specify a very brief description of a return value (e.g.
+&#8220;string&#8221;, &#8220;4-tuple&#8221;, etc).  Some output formatters display this on
+the same line as the function definition:</p><pre>
+# @def decode(text)
+# @defreturn string
+</pre><p>This may be rendered as &#8220;def decode(text) &#8658; string&#8221; by an
+output formatter.</p><h4>The @see tag</h4><p>The <b>@see</b> tag is used to add references to an item.  This
+tag is currently not supported by any standard output generator, and
+the semantics remain a bit unclear.</p><h4>The @link and @linkplain inline tags</h4><p>(New in 2.1)  The <b>@link</b> and <b>@linkplain</b> tags are
+used to add inline links to a description.</p><p>In the current release, the links must have the following syntax:</p><pre>
+    {@link #<i>tag</i> <i>text</i>}
+    {@linkplain #<i>tag</i> <i>text</i>}
+</pre><p>Here, the tag must be the name of a subject in the current module
+(use <i>class.method</i> to refer to a method).  For @link tags, the
+text part should contain the name of the subject (if the text is omitted,
+it defaults to the last part of the tag).  For @linkplain, the text part
+can contain arbitrary HTML text.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+# @param entry The target entry.  This should be an instance of
+#    the {@link #Entry Entry} class.
+</pre></div><div class="yui-g"><pre class="wide wide">
+# @param entry The target entry.  This should be an instance of
+#    {@linkplain #Entry the <b>Entry</b> class}.
+</pre></div><div class="yui-ge"><div class="yui-u first"><h2 id="infoset">The PythonDoc Infoset&#160;<a class="nav" href="#infoset" title="bookmark!">#</a></h2><p>The PythonDoc parser generates an XML infoset based on the contents
+of each source file.  For each function, class, or method, it create a
+corresponding descriptor element.  The element contains ordinary HTML
+block elements (with can contain any number of valid HTML
+subelements), plus a number of special elements.  Here&#8217;s an example:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+&lt;function lineno="67" name="mymodule.log"&gt;
+  &lt;info&gt;
+    &lt;def&gt;log(entry)&lt;/def&gt;
+    &lt;name&gt;log&lt;/name&gt; 
+    &lt;return&gt;Log identifier or None&lt;/return&gt; 
+    &lt;description&gt;
+      &lt;p&gt;Send log message to all registered log targets.&lt;/p&gt; 
+    &lt;/description&gt;
+    &lt;param name="entry"&gt;A log entry (given as a
+    LogEntry instance)&lt;/param&gt; 
+    &lt;see&gt;LogEntry&lt;/see&gt; 
+  &lt;/info&gt;
+&lt;/function&gt;
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>Internally, this is represented as an <a href="element.htm">Element</a>
+structure.  Output formatters can either operate directly on the structure,
+convert it to a standard Python DOM object, or write it out as XML and run an
+external filter (e.g. an XSLT processor) on it.</p><p>For more information on the infoset, see <a href="pythondoc-infoset.htm"><i>The PythonDoc Infoset</i></a>.</p><h2 id="module">The PythonDoc Module&#160;<a class="nav" href="#module" title="bookmark!">#</a></h2><p>PythonDoc 2 can be used both as a command-line utility, and as a Python module.  The latter can come in handy in situations where there&#8217;s not a direct match between the Python source files, and the programming interface exposed to the user. In such cases, you can use PythonDoc&#8217;s parse function to read in the documentation for the actual source files, and manipulate the resulting module descriptions in Python before generating the output files.</p><p>For more on this (including examples), see <a href="http://effbot.org/zone/pythondoc-merge.htm"><cite>Generating PythonDoc Pages for Virtual Modules</cite></a>.
+
+</p><p class="footer"><a href="copyright.htm">Copyright</a> &#169; 2002-2006 by Fredrik Lundh</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#introduction">Introduction</a></li><li><a href="#cli">The pythondoc Command-Line Utility</a></li><li><a href="#syntax">Documentation Comments</a></li><li><a href="#infoset">The PythonDoc Infoset</a></li><li><a href="#module">The PythonDoc Module</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

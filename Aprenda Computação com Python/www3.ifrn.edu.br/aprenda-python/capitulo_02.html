@@ -1,0 +1,411 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capítulo 2: Variáveis, expressões e comandos &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Capítulo 3: Funções" href="capitulo_03.html" />
+    <link rel="prev" title="Capítulo 1: O caminho do programa" href="capitulo_01.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="capitulo_03.html" title="Capítulo 3: Funções"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_01.html" title="Capítulo 1: O caminho do programa"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="capitulo-2-variaveis-expressoes-e-comandos">
+<h1><a class="toc-backref" href="#id7">Capítulo 2: Variáveis, expressões e comandos</a><a class="headerlink" href="#capitulo-2-variaveis-expressoes-e-comandos" title="Link permanente para este título">¶</a></h1>
+<div class="contents topic" id="topicos">
+<p class="topic-title first">Tópicos</p>
+<ul class="simple">
+<li><a class="reference external" href="#capitulo-2-variaveis-expressoes-e-comandos" id="id7">Capítulo 2: Variáveis, expressões e comandos</a><ul>
+<li><a class="reference external" href="#valores-e-tipos" id="id8">2.1 Valores e tipos</a></li>
+<li><a class="reference external" href="#variaveis" id="id9">2.2 Variáveis</a></li>
+<li><a class="reference external" href="#nomes-de-variaveis-e-palavras-reservadas" id="id10">2.3 Nomes de variáveis e palavras reservadas</a></li>
+<li><a class="reference external" href="#comandos" id="id11">2.4 Comandos</a></li>
+<li><a class="reference external" href="#avaliando-expressoes" id="id12">2.5 Avaliando expressões</a></li>
+<li><a class="reference external" href="#operadores-e-operandos" id="id13">2.6 Operadores e operandos</a></li>
+<li><a class="reference external" href="#ordem-dos-operadores" id="id14">2.7 Ordem dos operadores</a></li>
+<li><a class="reference external" href="#operacoes-com-strings" id="id15">2.8 Operações com strings</a></li>
+<li><a class="reference external" href="#composicao" id="id16">2.9 Composição</a></li>
+<li><a class="reference external" href="#glossario" id="id17">2.11 Glossário</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="valores-e-tipos">
+<h2><a class="toc-backref" href="#id8">2.1 Valores e tipos</a><a class="headerlink" href="#valores-e-tipos" title="Link permanente para este título">¶</a></h2>
+<p>O <strong>valor</strong> (por exemplo, letras e números) é uma das coisas fundamentais que um programa manipula. Os valores que já vimos até agora foram o <tt class="docutils literal"><span class="pre">2</span></tt> (como resultado, quando adicionamos <tt class="docutils literal"><span class="pre">1</span> <span class="pre">+</span> <span class="pre">1</span></tt>) e <tt class="docutils literal"><span class="pre">&quot;Alô,</span> <span class="pre">Mundo!&quot;</span></tt>.</p>
+<p>Esses valores pertencem a <strong>tipos</strong> diferentes: <tt class="docutils literal"><span class="pre">2</span></tt> é um inteiro, e <tt class="docutils literal"><span class="pre">&quot;Alô,</span> <span class="pre">Mundo!&quot;</span></tt> é uma <strong>string</strong>, assim chamada porque &#8220;string&#8221;, em inglês, quer dizer sequência, série, cadeia (de caracteres), ou neste caso, &#8220;série de letras&#8221;. Você (e o interpretador) consegue identificar strings porque elas aparecem entre aspas.</p>
+<p>O comando print também funciona com inteiros:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="mi">4</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+<p>Se você estiver em dúvida sobre qual é o tipo de um determinado valor, o interpretador pode revelar:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="s">&quot;Alô, Mundo!&quot;</span><span class="p">)</span>
+<span class="go">&lt;type &#39;string&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="mi">17</span><span class="p">)</span>
+<span class="go">&lt;type &#39;int&#39;&gt;</span>
+</pre></div>
+</div>
+<p>Nenhuma surpresa: strings pertencem ao tipo <tt class="docutils literal"><span class="pre">string</span></tt> e inteiros pertencem ao tipo <tt class="docutils literal"><span class="pre">int</span></tt>. Menos obviamente, números com um ponto decimal pertencem a um tipo chamado <tt class="docutils literal"><span class="pre">float</span></tt>, porque estes números são representados em um formato chamado <strong>ponto flutuante</strong> <a class="footnote-reference" href="#id2" id="id1">[1]</a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="mf">3.2</span><span class="p">)</span>
+<span class="go">&lt;type &#39;float&#39;&gt;</span>
+</pre></div>
+</div>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>N.T.: Observe o uso de ponto no lugar da vírgula para separar a parte inteira da parte fracionária.</td></tr>
+</tbody>
+</table>
+<p>O que dizer de valores como <tt class="docutils literal"><span class="pre">&quot;17&quot;</span></tt> e <tt class="docutils literal"><span class="pre">&quot;3.2&quot;</span></tt>? Eles parecem números, mas estão entre aspas, como strings:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="s">&quot;17&quot;</span><span class="p">)</span>
+<span class="go">&lt;type &#39;string&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="s">&quot;3.2&quot;</span><span class="p">)</span>
+<span class="go">&lt;type &#39;string&#39;&gt;</span>
+</pre></div>
+</div>
+<p>Eles são strings.</p>
+<p>Ao digitar um número grande, é tentador usar pontos entre grupos de três dígitos, assim: 1.000.000. Isso não funciona por que Python usa o ponto como separador decimal. Usar a vírgula, como se faz em inglês, resulta numa expressão válida, mas não no número que queríamos representar:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="mi">1</span><span class="p">,</span><span class="mo">000</span><span class="p">,</span><span class="mo">000</span>
+<span class="go">1 0 0</span>
+</pre></div>
+</div>
+<p>Não é nada do que se esperava! Python interpreta <tt class="docutils literal"><span class="pre">1,000,000</span></tt> como uma tupla, algo que veremos no Capítulo 9. Por hora, lembre-se apenas de não colocar vírgulas nos números.</p>
+</div>
+<div class="section" id="variaveis">
+<h2><a class="toc-backref" href="#id9">2.2 Variáveis</a><a class="headerlink" href="#variaveis" title="Link permanente para este título">¶</a></h2>
+<p>Uma das características mais poderosas de uma linguagem de programação é a habilidade de manipular <strong>variáveis</strong>. Uma variável é um nome que se refere a um valor.</p>
+<p>O <strong>comando de atribuição</strong> cria novas variáveis e dá a elas valores:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">mensagem</span> <span class="o">=</span> <span class="s">&quot;E aí, Doutor?&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="mi">17</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pi</span> <span class="o">=</span> <span class="mf">3.14159</span>
+</pre></div>
+</div>
+<p>Este exemplo faz três atribuições. A primeira atribui a string <tt class="docutils literal"><span class="pre">&quot;E</span> <span class="pre">aí,</span> <span class="pre">Doutor?&quot;</span></tt> a uma nova variável chamada <tt class="docutils literal"><span class="pre">mensagem</span></tt>. A segunda dá o valor inteiro <tt class="docutils literal"><span class="pre">17</span></tt> a <tt class="docutils literal"><span class="pre">n</span></tt>, e a terceira atribui o número de ponto flutuante <tt class="docutils literal"><span class="pre">3.14159</span></tt> à variável chamada <tt class="docutils literal"><span class="pre">pi</span></tt>.</p>
+<p>Uma maneira comum de representar variáveis no papel é escrever o nome delas com uma seta apontando para o valor da variável. Esse tipo de figura é chamado de <strong>diagrama de estado</strong> porque mostra em que estado cada variável está (pense nisso como o estado de espírito da variável). O diagrama a seguir mostra o resultado das instruções de atribuição:</p>
+<img alt="_images/02_01_estado.png" src="_images/02_01_estado.png" />
+<p>O comando print também funciona com variáveis:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">mensagem</span>
+<span class="go">E aí, Doutor?</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">n</span>
+<span class="go">17</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">pi</span>
+<span class="go">3.14159</span>
+</pre></div>
+</div>
+<p>Em cada um dos casos, o resultado é o valor da variável. Variáveis também têm tipo. Novamente, podemos perguntar ao interpretador quais são eles:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">mensagem</span><span class="p">)</span>
+<span class="go">&lt;type &#39;string&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="go">&lt;type &#39;int&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">pi</span><span class="p">)</span>
+<span class="go">&lt;type &#39;float&#39;&gt;</span>
+</pre></div>
+</div>
+<p>O tipo de uma variável é o tipo do valor ao qual ela se refere.</p>
+</div>
+<div class="section" id="nomes-de-variaveis-e-palavras-reservadas">
+<h2><a class="toc-backref" href="#id10">2.3 Nomes de variáveis e palavras reservadas</a><a class="headerlink" href="#nomes-de-variaveis-e-palavras-reservadas" title="Link permanente para este título">¶</a></h2>
+<p>Os programadores geralmente escolhem nomes significativos para suas variáveis, pois os nomes documentam para o que a variável é usada.</p>
+<p>Nomes de variáveis podem ser arbitrariamente longos. Eles podem conter tanto letras quanto números, mas têm de começar com uma letra. Embora seja válida a utilização de letras maiúsculas, por convenção, não usamos. Se você o fizer, lembre-se de que maiúsculas e minúsculas são diferentes. <tt class="docutils literal"><span class="pre">Bruno</span></tt> e <tt class="docutils literal"><span class="pre">bruno</span></tt> são variáveis diferentes.</p>
+<p>O caractere para sublinhado ( <tt class="docutils literal"><span class="pre">_</span></tt> ) pode aparecer em um nome. Ele é muito utilizado em nomes com múltiplas palavras, tal como em <tt class="docutils literal"><span class="pre">meu_nome</span></tt> ou <tt class="docutils literal"><span class="pre">preco_do_cha_na_china</span></tt>.</p>
+<p>Se você der a uma variável um nome inválido, causará um erro de sintaxe:</p>
+<div class="highlight-python"><pre>&gt;&gt;&gt; 76trombones = "grande parada"
+SyntaxError: invalid syntax
+&gt;&gt;&gt; muito$ = 1000000
+SyntaxError: invalid syntax
+&gt;&gt;&gt; class = "Ciencias da Computacao 101"
+SyntaxError: invalid syntax</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">76trombones</span></tt> é inválida por não começar com uma letra. <tt class="docutils literal"><span class="pre">muito$</span></tt> é inválida por conter um caractere ilegal, o cifrão. Mas o que está errado com <tt class="docutils literal"><span class="pre">class</span></tt>?</p>
+<p>Ocorre que <tt class="docutils literal"><span class="pre">class</span></tt> é uma das <strong>palavras reservadas</strong> em Python. Palavras reservadas definem as regras e a estrutura da linguagem e não podem ser usadas como nomes de variáveis.</p>
+<p>Python tem 29 palavras reservadas:</p>
+<div class="highlight-python"><pre>and       def       exec      if        not       return
+assert    del       finally   import    or        try
+break     elif      for       in        pass      while
+class     else      from      is        print     yield
+continue  except    global    lambda    raise</pre>
+</div>
+<p>Pode ser útil ter essa lista à mão <a class="footnote-reference" href="#id4" id="id3">[2]</a>. Se o interpretador acusar erro sobre um de seus nomes de variável e você não souber o porquê, veja se o nome está na lista.</p>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td><p class="first">N.T.: esta lista pode ser obtida através do próprio interpretador Python, com apenas dois comandos:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">keyword</span>
+<span class="k">print</span> <span class="n">keyword</span><span class="o">.</span><span class="n">kwlist</span>
+</pre></div>
+</div>
+</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="comandos">
+<h2><a class="toc-backref" href="#id11">2.4 Comandos</a><a class="headerlink" href="#comandos" title="Link permanente para este título">¶</a></h2>
+<p>Um comando é uma instrução que o interpretador Python pode executar. Vimos até agora dois tipos de comandos: de exibição (<tt class="docutils literal"><span class="pre">print</span></tt>) e de atribuição.</p>
+<p>Quando você digita um comando na linha de comando, o Python o executa e mostra o resultado, se houver um. O resultado de um comando <tt class="docutils literal"><span class="pre">print</span></tt> é a exibição de um valor. Comandos de atribuição não produzem um resultado visível.</p>
+<p>Um <em>script</em> normalmente contém uma sequência de comandos. Se houver mais de um comando, os resultados aparecerão um de cada vez, conforme cada comando seja executado.</p>
+<p>Por exemplo, o &#8220;script&#8221;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="mi">1</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="k">print</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>produz a saída:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">1</span>
+<span class="mi">2</span>
+</pre></div>
+</div>
+<p>Lembrando que o comando de atribuição não produz saída.</p>
+</div>
+<div class="section" id="avaliando-expressoes">
+<h2><a class="toc-backref" href="#id12">2.5 Avaliando expressões</a><a class="headerlink" href="#avaliando-expressoes" title="Link permanente para este título">¶</a></h2>
+<p>Uma expressão é uma combinação de valores, variáveis e operadores. Se você digitar uma expressão na linha de comando, o interpretador <strong>avalia</strong> e exibe o resultado:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<p>Embora expressões contenham valores, variáveis e operadores, nem toda expressão contém todos estes elementos. Um valor por si só é considerado uma expressão, do mesmo modo que uma variável:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="mi">17</span>
+<span class="go">17</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<p>Avaliar uma expressão não é exatamente a mesma coisa que imprimir um valor:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">mensagem</span> <span class="o">=</span> <span class="s">&quot;E aí, Doutor?&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mensagem</span>
+<span class="go">&#39;E aí, Doutor?&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">mensagem</span>
+<span class="go">E aí, Doutor?</span>
+</pre></div>
+</div>
+<p>Quando Python exibe o valor de uma expressão, usa o mesmo formato que você usaria para entrar com o valor. No caso de strings, isso significa que as aspas são incluídas <a class="footnote-reference" href="#id6" id="id5">[3]</a>. Mas o comando <tt class="docutils literal"><span class="pre">print</span></tt> imprime o valor da expressão, que, neste caso, é o conteúdo da string.</p>
+<table class="docutils footnote" frame="void" id="id6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[3]</a></td><td>N.T.: Python aceita aspas simples ou duplas para delimitar strings.</td></tr>
+</tbody>
+</table>
+<p>Num <em>script</em>, uma expressão sozinha é um comando válido, porém sem efeito. O <em>script</em>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">17</span>
+<span class="mf">3.2</span>
+<span class="s">&quot;Alô, Mundo!&quot;</span>
+<span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>não produz qualquer saída. Como você mudaria o &#8220;script&#8221; para exibir os valores destas quatro expressões?</p>
+</div>
+<div class="section" id="operadores-e-operandos">
+<h2><a class="toc-backref" href="#id13">2.6 Operadores e operandos</a><a class="headerlink" href="#operadores-e-operandos" title="Link permanente para este título">¶</a></h2>
+<p><strong>Operadores</strong> são símbolos especiais que representam computações como adição e multiplicação. Os valores que o operador usa são chamados <strong>operandos</strong>.</p>
+<p>Todas as expressões seguintes são válidas em Python e seus significados são mais ou menos claros:</p>
+<div class="highlight-python"><pre>20+32   hora-1   hora*60+minuto   minuto/60   5**2  (5+9)*(15-7)</pre>
+</div>
+<p>Em Python, os símbolos +, -, / e o uso de parênteses para agrupamento têm o mesmo significado que em matemática. O asterisco (<tt class="docutils literal"><span class="pre">*</span></tt>) é o símbolo para multiplicação e <tt class="docutils literal"><span class="pre">**</span></tt> é o símbolo para potenciação.</p>
+<p>Quando um nome de variável aparece no lugar de um operando, ele é substituído pelo valor da variável, antes da operação ser executada.</p>
+<p>Adição, subtração, multiplicação e potenciação fazem o que se espera, mas você pode ficar surpreso com a divisão. A operação seguinte tem um resultado inesperado:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">minuto</span> <span class="o">=</span> <span class="mi">59</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">minuto</span><span class="o">/</span><span class="mi">60</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+<p>O valor de minuto é 59 e, em aritmética convencional, 59 dividido por 60 é 0,98333, não 0. A razão para a discrepância é que Python está realizando uma <strong>divisão inteira</strong>.</p>
+<p>Quando ambos os operandos são inteiros, o resultado tem de ser também um inteiro e, por convenção, a divisão inteira sempre arredonda para baixo, mesmo em casos como este, em que o inteiro seguinte está muito próximo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">minuto</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="mi">60</span>
+<span class="go">98</span>
+</pre></div>
+</div>
+<p>De novo, o resultado é arredondado para baixo, mas agora pelo menos a resposta é aproximadamente correta. A alternativa é usar a divisão em ponto flutuante, o que veremos no capítulo 3.</p>
+</div>
+<div class="section" id="ordem-dos-operadores">
+<h2><a class="toc-backref" href="#id14">2.7 Ordem dos operadores</a><a class="headerlink" href="#ordem-dos-operadores" title="Link permanente para este título">¶</a></h2>
+<p>Quando mais de um operador aparece em uma expressão, a ordem de avaliação depende das <strong>regras de precedência</strong>. Python segue as mesmas regras de precedência para seus operadores matemáticos que a matemática. O acrônimo <strong>PEMDAS</strong> é uma maneira prática de lembrar a ordem das operações:</p>
+<ul class="simple">
+<li><strong>P</strong>: Parênteses têm a mais alta precedência e podem ser usados para forçar uma expressão a ser avaliada na ordem que você quiser. Já que expressões entre parênteses são avaliadas primeiro, <tt class="docutils literal"><span class="pre">2</span> <span class="pre">*</span> <span class="pre">(3-1)</span></tt> é 4, e <tt class="docutils literal"><span class="pre">(1+1)**(5-2)</span></tt> é 8. Você também pode usar parênteses para tornar uma expressão mais fácil de ler, como em <tt class="docutils literal"><span class="pre">(minuto</span> <span class="pre">*</span> <span class="pre">100)</span> <span class="pre">/</span> <span class="pre">60</span></tt>, ainda que isso não altere o resultado.</li>
+<li><strong>E</strong>: Exponenciação ou potenciação tem a próxima precedência mais alta, assim <tt class="docutils literal"><span class="pre">2**1+1</span></tt> é 3 e não 4, e <tt class="docutils literal"><span class="pre">3*1**3</span></tt> é 3 e não 27.</li>
+<li><strong>MDAS</strong>: Multiplicação e Divisão têm a mesma precedência, que é mais alta do que a da Adição e da Subtração, que também têm a mesma precedência. Assim <tt class="docutils literal"><span class="pre">2*3-1</span></tt> dá 5 em vez de 4, e <tt class="docutils literal"><span class="pre">2/3-1</span></tt> é <tt class="docutils literal"><span class="pre">-1</span></tt>, não 1 (lembre-se de que na divisão inteira, <tt class="docutils literal"><span class="pre">2/3=0</span></tt>).</li>
+<li>Operadores com a mesma precedência são avaliados da esquerda para a direita. Assim, na expressão <tt class="docutils literal"><span class="pre">minuto*100/60</span></tt>, a multiplicação acontece primeiro, resultando em <tt class="docutils literal"><span class="pre">5900/60</span></tt>, o que se transforma produzindo <tt class="docutils literal"><span class="pre">98</span></tt>. Se as operações tivessem sido avaliadas da direita para a esquerda, o resultado poderia ter sido <tt class="docutils literal"><span class="pre">59*1</span></tt>, que é <tt class="docutils literal"><span class="pre">59</span></tt>, que está errado.</li>
+</ul>
+</div>
+<div class="section" id="operacoes-com-strings">
+<h2><a class="toc-backref" href="#id15">2.8 Operações com strings</a><a class="headerlink" href="#operacoes-com-strings" title="Link permanente para este título">¶</a></h2>
+<p>De maneira geral, você não pode executar operações matemáticas em strings, ainda que as strings se pareçam com números. O que segue é inválido (assumindo que <tt class="docutils literal"><span class="pre">mensagem</span></tt> é do tipo <tt class="docutils literal"><span class="pre">string</span></tt>):</p>
+<div class="highlight-python"><pre>mensagem-1   "Alô"/123   mensagem*"Alô"   "15"+2</pre>
+</div>
+<p>Interessante é o operador <tt class="docutils literal"><span class="pre">+</span></tt>, que funciona com strings, embora ele não faça exatamente o que você poderia esperar. Para strings, o operador <tt class="docutils literal"><span class="pre">+</span></tt> representa <strong>concatenação</strong>, que significa juntar os dois operandos ligando-os pelos extremos. Por exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fruta</span> <span class="o">=</span> <span class="s">&quot;banana&quot;</span>
+<span class="n">assada</span> <span class="o">=</span> <span class="s">&quot; com canela&quot;</span>
+<span class="k">print</span> <span class="n">fruta</span> <span class="o">+</span> <span class="n">assada</span>
+</pre></div>
+</div>
+<p>A saída deste programa é <tt class="docutils literal"><span class="pre">banana</span> <span class="pre">com</span> <span class="pre">canela</span></tt>. O espaço antes da palavra <tt class="docutils literal"><span class="pre">com</span></tt> é parte da string e é necessário para produzir o espaço entre as strings concatenadas.</p>
+<p>O operador <tt class="docutils literal"><span class="pre">*</span></tt> também funciona com strings; ele realiza repetição. Por exemplo, <tt class="docutils literal"><span class="pre">&quot;Legal&quot;*3</span></tt> é <tt class="docutils literal"><span class="pre">&quot;LegalLegaLegal&quot;</span></tt>. Um dos operadores tem que ser uma string; o outro tem que ser um inteiro.</p>
+<p>Por um lado, esta interpretação de <tt class="docutils literal"><span class="pre">+</span></tt> e <tt class="docutils literal"><span class="pre">*</span></tt> faz sentido pela analogia entre adição e multiplicação. Assim como <tt class="docutils literal"><span class="pre">4*3</span></tt> equivale a <tt class="docutils literal"><span class="pre">4+4+4</span></tt>, não é de estranhar que <tt class="docutils literal"><span class="pre">&quot;Legal&quot;*3</span></tt> seja o mesmo que <tt class="docutils literal"><span class="pre">&quot;Legal&quot;+&quot;Legal&quot;+&quot;Legal&quot;</span></tt>. Por outro lado, uma diferença significativa separa concatenação e repetição de adição e multiplicação. Você saberia mencionar uma propriedade da adição e da multiplicação que não ocorre na concatenação e na repetição?</p>
+</div>
+<div class="section" id="composicao">
+<h2><a class="toc-backref" href="#id16">2.9 Composição</a><a class="headerlink" href="#composicao" title="Link permanente para este título">¶</a></h2>
+<p>Até agora, vimos os elementos de um programa (variáveis, expressões, e instruções ou comandos) isoladamente, sem mencionar como combiná-los.</p>
+<p>Uma das características mais práticas das linguagens de programação é a possibilidade de pegar pequenos blocos e combiná-los numa <strong>composição</strong>. Por exemplo, nós sabemos como somar números e sabemos como exibi-los; acontece que podemos fazer as duas coisas ao mesmo tempo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="mi">17</span> <span class="o">+</span> <span class="mi">3</span>
+<span class="go">20</span>
+</pre></div>
+</div>
+<p>Na realidade, a soma tem que acontecer antes da impressão, assim, as ações não estão na realidade acontecendo ao mesmo tempo. O ponto é que qualquer expressão envolvendo números, strings, e variáveis pode ser usada dentro de um comando <tt class="docutils literal"><span class="pre">print</span></tt>. Você já tinha visto um exemplo disto:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">&quot;Número de minutos desde a meia-noite: &quot;</span><span class="p">,</span> <span class="n">hora</span><span class="o">*</span><span class="mi">60</span><span class="o">+</span><span class="n">minuto</span>
+</pre></div>
+</div>
+<p>Esta possibilidade pode não parecer muito impressionante agora, mas você verá outros exemplos em que a composição torna possível expressar cálculos e tarefas complexas de modo limpo e conciso.</p>
+<p>Atenção: Existem limites quanto ao lugar onde você pode usar certos tipos de expressão. Por exemplo, o lado esquerdo de um comando de atribuição tem que ser um <em>nome de variável</em>, e não uma expressão. Assim, o seguinte não é válido: <tt class="docutils literal"><span class="pre">minuto+1</span> <span class="pre">=</span> <span class="pre">hora</span></tt>.</p>
+</div>
+<div class="section" id="glossario">
+<h2><a class="toc-backref" href="#id17">2.11 Glossário</a><a class="headerlink" href="#glossario" title="Link permanente para este título">¶</a></h2>
+<dl class="docutils">
+<dt>atribuição (<em>assignment</em>)</dt>
+<dd>Comando que atribui um valor a uma variável.</dd>
+<dt>avaliar (<em>evaluate</em>)</dt>
+<dd>Simplificar uma expressão através da realização de operações, para produzir um valor único.</dd>
+<dt>comando (<em>statement</em>)</dt>
+<dd>Trecho de código que representa uma instrução ou ação.  Até agora, os comandos vistos foram de atribuição e exibição.</dd>
+<dt>comentário (<em>comment</em>)</dt>
+<dd>Informação em um programa dirigida a outros programadores (ou qualquer pessoa que esteja lendo o código fonte) e que não tem efeito na execução do programa.</dd>
+<dt>composição (<em>composition</em>)</dt>
+<dd>Habilidade de combinar expressões e comandos simples em expressões e comandos compostos, de forma a representar operações complexas de forma concisa.</dd>
+<dt>concatenar (<em>concatenate</em>)</dt>
+<dd>Juntar dois operandos lado a lado.</dd>
+<dt>diagrama de estado (<em>state diagram</em>)</dt>
+<dd>Representação gráfica de um conjunto de variáveis e os valores aos quais elas se referem.</dd>
+<dt>divisão inteira (<em>integer division</em>)</dt>
+<dd>Operação que divide um inteiro por outro e resulta em um inteiro.  A divisão inteira resulta no número de vezes que o numerador é divisível pelo denominador e descarta qualquer resto.</dd>
+<dt>expressão (<em>expression</em>)</dt>
+<dd>Combinação de variáveis, operadores e valores, que representa um resultado único.</dd>
+<dt>operando (<em>operand</em>)</dt>
+<dd>Um dos valores sobre o qual o operador opera.</dd>
+<dt>operador (<em>operator</em>)</dt>
+<dd>Símbolo especial que representa uma computação simples, como adição, multiplicação ou concatenação de strings.</dd>
+<dt>palavra-chave (<em>keyword</em>)</dt>
+<dd>Palavra reservada usada pelo compilador/interpretador para analisar o programa; você não pode usar palavras-chave como <tt class="docutils literal"><span class="pre">if</span></tt>, <tt class="docutils literal"><span class="pre">def</span></tt>, e <tt class="docutils literal"><span class="pre">while</span></tt> como nomes de variáveis.</dd>
+<dt>ponto-flutuante (<em>floating-point</em>)</dt>
+<dd>Formato para representar números que possuem partes fracionárias.</dd>
+<dt>regras de precedência (<em>rules of precedence</em>)</dt>
+<dd>O conjunto de regras que governa a ordem em que expressões envolvendo múltiplos operadores e operandos são avaliadas.</dd>
+<dt>tipo (<em>type</em>)</dt>
+<dd>Um conjunto de valores. O tipo de um valor determina como ele pode ser usado em expressões. Até agora, os tipos vistos são: inteiros (tipo <tt class="docutils literal"><span class="pre">int</span></tt>), números em ponto-flutuante (tipo <tt class="docutils literal"><span class="pre">float</span></tt>) e strings (tipo <tt class="docutils literal"><span class="pre">string</span></tt>).</dd>
+<dt>valor (<em>value</em>)</dt>
+<dd>Um número ou string (ou outra coisa que ainda vamos conhecer) que pode ser atribuída a uma variável ou computada em uma expressão.</dd>
+<dt>variável (<em>variable</em>)</dt>
+<dd>Nome que se refere a um valor.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Capítulo 2: Variáveis, expressões e comandos</a><ul>
+<li><a class="reference internal" href="#valores-e-tipos">2.1 Valores e tipos</a></li>
+<li><a class="reference internal" href="#variaveis">2.2 Variáveis</a></li>
+<li><a class="reference internal" href="#nomes-de-variaveis-e-palavras-reservadas">2.3 Nomes de variáveis e palavras reservadas</a></li>
+<li><a class="reference internal" href="#comandos">2.4 Comandos</a></li>
+<li><a class="reference internal" href="#avaliando-expressoes">2.5 Avaliando expressões</a></li>
+<li><a class="reference internal" href="#operadores-e-operandos">2.6 Operadores e operandos</a></li>
+<li><a class="reference internal" href="#ordem-dos-operadores">2.7 Ordem dos operadores</a></li>
+<li><a class="reference internal" href="#operacoes-com-strings">2.8 Operações com strings</a></li>
+<li><a class="reference internal" href="#composicao">2.9 Composição</a></li>
+<li><a class="reference internal" href="#glossario">2.11 Glossário</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="capitulo_01.html"
+                        title="capítulo anterior">Capítulo 1: O caminho do programa</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="capitulo_03.html"
+                        title="próximo capítulo">Capítulo 3: Funções</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/capitulo_02.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="capitulo_03.html" title="Capítulo 3: Funções"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_01.html" title="Capítulo 1: O caminho do programa"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

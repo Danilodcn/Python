@@ -1,0 +1,368 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The Drawing Interface (Writing Widgets in Python, Part&nbsp;3)</title></head><body data-page-id="347"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><p><a href="wck-2.htm">back</a>&#160;<a href="wck-4.htm">next</a></p><h1 class="maintitle">The Drawing Interface (Writing Widgets in Python, Part&nbsp;3)</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Updated December 11, 2005 | May 31, 2003 | Fredrik Lundh</p><p>The <b>Widget Construction Kit</b> (WCK) is a programming interface
+that you can use to create new widgets for Tkinter and other toolkits,
+in pure Python.</p><p>This is the third article in <a href="wck.htm">a series</a>.</p><p>In this article:</p><dl><dt><a href="#introducing">Introducing the 2D Drawing Interface</a></dt><dt><a href="#data-types">Data Types</a></dt><dt><a href="#drawing-graphics">Drawing Graphics</a></dt><dt><a href="#drawing-text">Drawing Text</a></dt><dt><a href="#drawing-images">Drawing Images</a></dt><dt><a href="#drawing-widget-backgrounds">Drawing Widget Backgrounds</a></dt><dt><a href="#animation-techniques">Animation Techniques</a></dt></dl><p align="center" class="mark">:::</p><h2 id="introducing">Introducing the 2D Drawing Interface&#160;<a class="nav" href="#introducing" title="bookmark!">#</a></h2><p>The WCK passes a <b>draw</b> object to the <b>ui_handle_repair</b>
+and <b>ui_handle_clear</b> methods.  This object provides an interface
+to the underlying drawing library.  By default, the WCK uses a
+relatively simple drawing library, which lets you draw text, lines,
+rectangles, and other 2D graphic elements to the screen.</p><p>Here&#8217;s a simple example, which draws a black cross on the
+widget:</p><pre class="python">
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget
+
+<span class="pykeyword">class</span> <span class="pyclass">CrossWidget</span>(Widget):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        black = self.ui_pen(<span class="pystring">"black"</span>, 5)
+
+        <span class="pycomment"># draw a black cross</span>
+        draw.line((x0, y0, x1, y1), black)
+        draw.line((x0, y1, x1, y0), black)</pre><p>The (x0, y0) coordinate is the upper left corner of the widget;
+(x1, y1) is the lower left.</p><p>Here&#8217;s the resulting widget.  If you resize the widget, it will
+draw a bigger cross:</p><blockquote>
+<img alt="" height="127" src="data:image/png;base64, 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 YII= " width="112" />
+</blockquote><p>To draw a polygon, you have to provide at least three coordinate
+pairs:</p><pre class="python">
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget
+
+<span class="pykeyword">class</span> <span class="pyclass">TriangleWidget</span>(Widget):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        <span class="pycomment"># draw a triangle</span>
+        draw.polygon(
+            (x0, y0, x1, (y0+y1)/2, x0, y1),
+            self.ui_brush(<span class="pystring">"gold"</span>)
+        )</pre><p>Here&#8217;s the resulting widget:</p><blockquote>
+<img alt="" height="127" src="data:image/png;base64, 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 " width="112" />
+</blockquote><p>Note that if the polygon intersects itself, the standard drawing
+interface will fill all interior regions (in technical terms, the WCK
+uses the <i>zero-winding fill rule</i>):</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget
+
+<span class="pykeyword">class</span> <span class="pyclass">StarWidget</span>(Widget):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        pen = self.ui_pen(<span class="pystring">"black"</span>, 1)
+        brush = self.ui_brush(<span class="pystring">"red"</span>)
+
+        <span class="pycomment"># draw a filled star</span>
+        xy = []
+        <span class="pykeyword">for</span> x, y <span class="pykeyword">in</span> [(2,35),(98,35),(21,90),(50,0),(79,90)]:
+            xy.append(x0 + x*(x1-x0)/100)
+            xy.append(y0 + y*(y1-y0)/100)
+        draw.polygon(xy, pen, brush)</pre></div><div class="yui-ge"><div class="yui-u first"><blockquote>
+<img alt="" height="127" src="data:image/png;base64, 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 vEKfdXKwAAAAAElFTkSuQmCC " width="112" />
+</blockquote><p>To draw text, use the <b>text</b> method.  To determine the width
+and height of the text, you can use the <b>textsize</b> method.  The
+following example uses both methods to draw some right-aligned text in
+the widget area:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">class</span> <span class="pyclass">MessageWidget</span>(Widget):
+
+    message = [<span class="pystring">"this is a"</span>, <span class="pystring">"very simple"</span>, <span class="pystring">"message"</span>, <span class="pystring">"widget"</span>]
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        font = self.ui_font(<span class="pystring">"blue"</span>, <span class="pystring">"helvetica"</span>)
+
+        <span class="pycomment"># draw some right-aligned text</span>
+        y = y0
+        <span class="pykeyword">for</span> text <span class="pykeyword">in</span> self.message:
+            w, h = draw.textsize(text, font)
+            draw.text((x1 - w, y), text, font)
+            y = y + h</pre></div><div class="yui-ge"><div class="yui-u first"><p>The <b>text</b> method takes a single coordinate (where to draw the
+upper left corner of the text string), a text string, and a font
+object.</p><p>Here&#8217;s the resulting widget:</p><blockquote>
+<img alt="" height="127" src="data:image/png;base64, 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 /wMAdg3MTusfmnIAAAAASUVORK5CYII= " width="112" />
+</blockquote><h2 id="data-types">Data Types&#160;<a class="nav" href="#data-types" title="bookmark!">#</a></h2><h3>Coordinates</h3><p>The WCK coordinate system uses pixel coordinates, with (0, 0) in
+the widget&#8217;s upper left corner.  To specify a rectangle, four
+coordinates are needed (left, top, right, bottom).  To specify a
+polygon, you need to specify at least three coordinate pairs (x0, y0,
+x1, y1, x2, y2).</p><p>Note that coordinates must be given as &#8216;flattened&#8217; Python
+sequences; PIL&#8217;s [(x, y), (x, y), &#8230;] format is not supported.</p><h3>Colors</h3><p>Colors are given as X-style color names, hexadecimal color
+specifiers (&#8220;#rrggbb&#8221;), or packed RGB integers (0xrrggbb).  Examples
+(all specifying the same color):
+<blockquote><pre class="python">
+    <span class="pystring">"red"</span>
+    <span class="pystring">"#ff0000"</span>
+    0xff0000</pre></blockquote></p><p>The exact set of available color names is somewhat platform
+dependent, but most english names are available.  If you need more
+control, use hexadecimal specifiers.</p><h3>Pens</h3><p>Pen objects are used to draw lines, as well as the outline of
+shapes like rectangles and polygons.</p><p>To create a pen, pass in the pen color and an optional width to the
+<b>ui_pen</b> factory method (note that this is a widget method, not a
+method of the drawing object):</p><blockquote>
+<b>pen = self.ui_pen(color, width)</b>
+</blockquote><p>You can store the pen in the widget instance for later use, but you
+cannot use a pen in other widgets than the one it was created for.</p><p class="fixme">FIXME: implementation note: it may be time to drop
+this restriction, and force the implementation to work around this
+problem in platforms where this might be a real problem&#8230;</p><h3>Brushes</h3><p>Brush objects are used to fill the interior of shapes, such as
+rectangles and polygons.</p><p>To create a brush, pass in the brush color to the <b>ui_brush</b>
+factory method:</p><blockquote>
+<b>brush = self.ui_brush(color)</b>
+</blockquote><p>As with pens, you can store a brush for later use in the same
+widget.</p><h3>Fonts</h3><p>Font objects are used to draw text in a widget.  In the WCK drawing
+interface, a font object represents both the actual font, and what
+color to use to draw the text.</p><p>To create a font, pass in a font color and a font specifier to the
+<b>ui_font</b> constructor:</p><blockquote>
+<b>font = self.ui_font(color, specifier)</b>
+</blockquote><p>As with pens and brushes, you can store a font object for later use
+in the same widget, but you cannot use it in another widget.</p><p>The <i>color</i> argument is a color string, as described
+above.</p><p>The <i>font specifier</i> argument is a Tkinter-style font
+specifier, using the following syntax: &#8220;{family} size style&#8230;&#8221;, or
+slight variations thereof.  Some examples:</p><blockquote><pre class="python">
+    <span class="pystring">"Times"</span>
+    <span class="pystring">"Arial 20 bold"</span>
+    <span class="pystring">"{Trebuchet MS} 12"</span>
+    <span class="pystring">"Textile 12"</span></pre></blockquote><p>The <i>family</i> part specifies what font to use.  Common families
+like <b>Helvetica</b>, <b>Times</b>, and <b>Courier</b> are supported
+on all platforms (they&#8217;re mapped to native fonts where necessary).
+What other families you can use depend on the WCK implementation, and
+the fonts installed on the host computer.</p><p>You can leave out the braces if the family name doesn&#8217;t contain
+whitespace, and doesn&#8217;t start with a digit.  If omitted, the family
+name defaults to <b>Courier</b>.</p><p>The <i>size</i> is given in points (defined as 1/72 inch).  If
+omitted, it defaults to 12 points.  Note that the toolkit takes the
+<i>logical screen size</i> into account when calculating the actual
+font size.  On low resolution screens, this means that a 12-point font
+is usually larger than 12/72 inches.</p><p>The <i>style</i> attributes can be any combination of
+<b>normal</b>, <b>bold</b>, <b>roman</b> (upright), <b>italic</b>,
+<b>underline</b>, and <b>overstrike</b>, separated by whitespace.  If
+omitted, it defaults to the default style setting for that family;
+usually <b>normal roman</b>.</p><p>For Tkinter compatibility, you can also pass in a font tuple:
+(&#8220;family&#8221;, size, style&#8230;).  In this case, there should be no braces
+around the family name.  You can also leave out the size and/or the
+style arguments.  The defaults are the same as for the string
+syntax.</p><h3>Object Caching</h3><p>Some WCK implementations may cache pens, brushes, and font objects
+to speed up object construction.  This means that if you pass in the
+same arguments to an object factory, you will most likely get back
+exactly the same object.</p><p>While caching can simplify code (you can rely on the cache, instead
+of storing lots of objects in instance variables), it can cause
+problems for widgets that use lots of objects during their lifetime.
+If you need to clear the cache, call the <b>ui_purge</b> method.</p><p class="note"><b>Note:</b> The object cache was introduced in release
+1.1.  Earlier versions do not use an object cache.</p><h2 id="drawing-graphics">Drawing Graphics&#160;<a class="nav" href="#drawing-graphics" title="bookmark!">#</a></h2><p>The standard <b>draw</b> object provides basic 2D drawing
+operations for lines and basic shapes:</p><blockquote>
+<b>draw.line(xy, pen)</b><br />
+<b>draw.rectangle(xy, brush)</b><br />
+<b>draw.polygon(xy, brush)</b><br />
+<b>draw.ellipse(xy, brush)</b><br />
+</blockquote><p>The <b>line</b> method takes a single <i>pen object</i>, created by
+the <b>ui_pen</b> method.</p><p>The <b>rectangle</b>, <b>polygon</b> and <b>ellipse</b> methods
+take <i>brush objects</i>, created by <b>ui_brush</b>, and use it to
+fill the given region.  These methods can also take an optional pen
+object, which is used to draw an outline.</p><h2 id="drawing-text">Drawing Text&#160;<a class="nav" href="#drawing-text" title="bookmark!">#</a></h2><p>The WCK also provides basic text operations:</p><blockquote>
+<b>draw.text(xy, text, font)</b><br />
+<b>width, height = draw.textsize(xy, text, font)</b><br />
+</blockquote><p>The coordinate argument gives the upper left corner of the text
+box.</p><p>The text string can be a standard 8-bit Python string containing
+either ASCII or UTF-8 encoded text.  In modern implementations, you
+can also use Unicode strings.</p><p>The font is a logical or physical font created with the
+<b>ui_font</b> method.</p><p>Some implementations also accept 8-bit Python strings using the
+ISO-8859-1 (Latin-1) encoding, but you should not rely on that.</p><h2 id="drawing-images">Drawing Images&#160;<a class="nav" href="#drawing-images" title="bookmark!">#</a></h2><p>In addition to the basic 2D drawing primities, the WCK allows you
+to display images in a widget.  The WCK image support consists of two
+similar mechanisms: pixmaps and images.</p><p>A pixmap is an ordinary raster image, with the same resolution and
+format as the display.  You can use the drawing interface to draw in a
+pixmap, just like you can draw on the screen.</p><p>The <b>ui_pixmap</b> method creates a pixmap object:</p><blockquote>
+<b>pixmap = self.ui_pixmap(width, height)</b>
+</blockquote><p>In an X window system running across the network, the pixmap is
+stored in the terminal (the X server).  On other platforms, the pixmap
+may be stored in an off-screen portion of the display memory.  In
+either case, copying pixels from a pixmap to the screen is a very fast
+operation.</p><p>An image is similar to a pixmap, but does not necessarily have the
+same format as the display.  Images may be stored in client memory
+instead of display memory, and copying may be less efficient than for
+pixmaps.  Image objects are used to import raster images from external
+sources; you cannot use them for drawing.</p><p>The <b>ui_image</b> method creates an image object:</p><blockquote>
+<b>image = self.ui_image(source)</b>
+</blockquote><p>In the Tkinter version, the source object can be either a Tkinter
+<b>BitmapImage</b> or <b>PhotoImage</b> (or a compatible object, such
+as a PIL <b>ImageTk.PhotoImage</b> object), or a PIL image memory.
+WCK 1.1 also allows you to create an image by specifing a PIL-compatible
+mode, a size tuple, and the pixel data as a string.</p><p>You can use the <b>paste</b> operation to copy an image or a pixmap
+into a window.  The <b>paste</b> method is similar to the same method
+in PIL, and takes a source image object, and an optional target offset
+or target rectangle:</p><blockquote>
+<b>draw.paste(image, xy)</b>
+</blockquote><p>The image object can be either an image (created with
+<b>ui_image</b>) or a pixmap (created with <b>ui_pixmap</b>).  Note
+that the image is pasted into the drawing area, not the other way
+around.</p><p>The target can be a 2-tuple offset (upper left corner) or a 4-tuple
+rectangle.  If omitted, the target defaults to (0, 0).</p><h2 id="drawing-widget-backgrounds">Drawing Widget Backgrounds&#160;<a class="nav" href="#drawing-widget-backgrounds" title="bookmark!">#</a></h2><p>By default, the WCK framework clears the widget background before
+it calls the <b>ui_handle_repair</b> method.  To clear the background,
+it simply fills it with the background color (as given by the
+<b>background</b> option).</p><p>You can modify this behavior by overriding the
+<b>ui_handle_clear</b> method.  For example, if the repair method
+always redraws the entire widget, you can save a little time (and
+reduce flicker) by adding an empty <b>ui_handle_clear</b> method:</p><pre class="python">
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget
+
+<span class="pykeyword">class</span> <span class="pyclass">CheckerboardWidget</span>(Widget):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_clear</span>(self, draw, x0, y0, x1, y1):
+        <span class="pykeyword">pass</span> <span class="pycomment"># ui_handle_repair updates the entire widget</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        <span class="pycomment"># draw a 2x2 checkerboard pattern</span>
+
+        <span class="pycomment"># calculate widget center</span>
+        cx = (x0 + x1) / 2; cy = (y0 + y1) / 2
+
+        <span class="pycomment"># allocate brushes</span>
+        white = self.ui_brush(<span class="pystring">"white"</span>)
+        black = self.ui_brush(<span class="pystring">"black"</span>)
+
+        <span class="pycomment"># draw tiles</span>
+        draw.rectangle((x0, y0, cx, cy), white)
+        draw.rectangle((cx, y0, x1, cy), black)
+        draw.rectangle((x0, cy, cx, y1), black)
+        draw.rectangle((cx, cy, x1, y1), white)
+
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+root = Tk()
+
+w = CheckerboardWidget(root)
+w.pack(fill=BOTH, expand=1)
+
+root.mainloop()</pre><p>To see the difference, you can run this example with and without
+the <b>ui_handle_clear</b> method.  Without it, there&#8217;s usually a
+slight flicker in the black regions when you resize the widget.</p><blockquote>
+<img alt="" height="127" src="data:image/png;base64, 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 gg== " width="112" />
+</blockquote><h2 id="animation-techniques">Animation Techniques&#160;<a class="nav" href="#animation-techniques" title="bookmark!">#</a></h2><p>The checkerboard example showed how you can eliminate flicker for
+widgets that cover their entire surface with non-overlapping elements
+(such as the checkerboard tiles).</p><p>But figuring out how to avoid overlaps isn&#8217;t always that easy.  For
+example, consider something as simple as adding a red piece to the
+checkerboard.  Drawing the piece is trivial; just call the
+<b>ellipse</b> method with a suitable brush:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">class</span> <span class="pyclass">CheckerboardWidget</span>(Widget):
+
+    ...
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        ... draw checkerboard background ...
+        <span class="pycomment"># add a piece to the board</span>
+        draw.ellipse((x0+10, cy+10, cx-10, y1-10), self.ui_brush(<span class="pystring">"red"</span>))
+
+    ...</pre></div><div class="yui-ge"><div class="yui-u first"><p>But since you draw the background first, it may appear on the
+screen very briefly, before the piece is drawn.  Create a larger
+board, and add more pieces, and the flicker may become really
+annoying.  And unfortunately, it&#8217;s not obvious how to calculate the
+area not covered by the ellipse.  You could probably approximate the
+piece with a polygon, and use the same coordinates to draw a polygon
+covering only background, but that&#8217;s a lot of work.</p><p>The WCK provides a much simpler solution: create an off-screen
+pixmap, draw into the pixmap instead of the widget, and copy the
+pixmap to the screen when everything is drawn.</p><blockquote>
+<b>pixmap = self.ui_pixmap(width, height)</b><br />
+&#8230; <i>do the drawing</i> &#8230;<br />
+<b>draw.paste(pixmap)</b>
+</blockquote><p>To illustrate this approach, here&#8217;s a much simplified version of
+Tkinter&#8217;s Canvas widget.  The <b>SimpleCanvas</b> widget maintains an
+ordered list of graphic elements (the stack), and draws it to the
+display.  To minimize flicker, the repair method draws into a pixmap,
+which is then copied to the screen.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>A Simple Canvas Widget</b>
+<pre class="python wide">
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget
+
+<span class="pykeyword">class</span> <span class="pyclass">SimpleCanvas</span>(Widget):
+
+    ui_option_width = 100
+    ui_option_height = 100
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, master, **options):
+        self.stack = []
+        self.ui_init(master, options)
+
+    <span class="pycomment">#</span>
+    <span class="pycomment"># implementation</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_config</span>(self):
+        <span class="pykeyword">return</span> int(self.ui_option_width), int(self.ui_option_height)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_clear</span>(self, draw, x0, y0, x1, y1):
+        <span class="pykeyword">pass</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        <span class="pycomment"># redraw entire stack into a pixmap</span>
+        pixmap = self.ui_pixmap(x1, y1)
+        pixmap.rectangle(
+            (x0, y0, x1, y1), self.ui_brush(self.ui_option_background)
+            )
+        <span class="pykeyword">for</span> action, xy, args <span class="pykeyword">in</span> self.stack:
+            getattr(pixmap, action)(xy, *args)
+        draw.paste(pixmap)
+
+    <span class="pycomment">#</span>
+    <span class="pycomment"># canvas interface</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">append</span>(self, action, xy, *args):
+        <span class="pycomment"># add item to top of stack</span>
+        index = len(self.stack)
+        self.stack.append((action, xy, args))
+        self.ui_damage()
+        <span class="pykeyword">return</span> index
+
+    <span class="pykeyword">def</span> <span class="pyfunction">insert</span>(self, index, action, xy, *args):
+        <span class="pycomment"># insert item into stack</span>
+        self.stack.insert(index, (action, xy, args))
+        self.ui_damage()
+        <span class="pykeyword">return</span> index
+
+    <span class="pykeyword">def</span> <span class="pyfunction">delete</span>(self, index):
+        <span class="pycomment"># remove item from stack</span>
+        action, xy, args = self.stack.pop(index)
+        self.ui_damage()
+        <span class="pykeyword">return</span> (action, xy) + args</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>The widget provides a simple list-like interface; you can add new
+items using <b>append</b> and <b>insert</b>, and remove existing items
+using <b>delete</b>.</p><p>The following sample creates a canvas widget, and adds three
+rectangles to it.  It also installs a Tkinter event handler that lets
+you move the second item (the blue rectangle), by pressing the mouse
+button over the widget and moving the mouse around.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+root = Tk()
+
+w = SimpleCanvas(root)
+w.pack(fill=BOTH, expand=1)
+
+pen = w.ui_pen(<span class="pystring">"black"</span>)
+
+w.append(<span class="pystring">"rectangle"</span>, [10, 10, 50, 50], w.ui_brush(<span class="pystring">"red"</span>))
+w.append(<span class="pystring">"rectangle"</span>, [30, 30, 70, 70], w.ui_brush(<span class="pystring">"blue"</span>))
+w.append(<span class="pystring">"rectangle"</span>, [50, 50, 90, 90], w.ui_brush(<span class="pystring">"yellow"</span>), pen)
+
+<span class="pykeyword">def</span> <span class="pyfunction">drag</span>(event):
+    <span class="pycomment"># move second item to mouse coordinate</span>
+    item = list(w.delete(1))
+    item[1] = event.x-20, event.y-20, event.x+20, event.y+20
+    w.insert(1, *item)
+
+w.bind(<span class="pystring">"&lt;B1-Motion&gt;"</span>, drag)
+
+root.mainloop()</pre></div><div class="yui-ge"><div class="yui-u first"><blockquote>
+<img alt="" height="127" src="data:image/png;base64, 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 " width="112" />
+</blockquote><h3>Using the ui_doublebuffer flag</h3><p>Full widget animation of this kind is pretty common, so the WCK
+provides an easier way to draw via an extra pixmap; just set the
+<b>ui_doublebuffer</b> class attribute to a true value, and leave
+the rest to the framework:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget
+
+<span class="pykeyword">class</span> <span class="pyclass">SimpleCanvas</span>(Widget):
+
+    ui_option_width = 100
+    ui_option_height = 100
+
+    ui_doublebuffer = 1
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, master, **options):
+        self.stack = []
+        self.ui_init(master, options)
+
+    <span class="pycomment">#</span>
+    <span class="pycomment"># implementation</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_config</span>(self):
+        <span class="pykeyword">return</span> int(self.ui_option_width), int(self.ui_option_height)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        <span class="pycomment"># redraw entire stack into a background buffer</span>
+        <span class="pykeyword">for</span> action, xy, args <span class="pykeyword">in</span> self.stack:
+            getattr(draw, action)(xy, *args)
+
+    <span class="pycomment"># ...append, insert, delete as above...</span></pre></div><div class="yui-g"><p><a href="wck-2.htm">back</a>&#160;<a href="wck-4.htm">next</a></p></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#introducing">Introducing the 2D Drawing Interface</a></li><li><a href="#data-types">Data Types</a></li><li><a href="#drawing-graphics">Drawing Graphics</a></li><li><a href="#drawing-text">Drawing Text</a></li><li><a href="#drawing-images">Drawing Images</a></li><li><a href="#drawing-widget-backgrounds">Drawing Widget Backgrounds</a></li><li><a href="#animation-techniques">Animation Techniques</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

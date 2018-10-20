@@ -1,0 +1,656 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Módulos e Obtendo Ajuda &mdash; Como pensar como um Cientista da Computação: Edição Interativa em Python</title>
+    
+    <link rel="stylesheet" href="../_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="../_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="../_static/codemirror.js"></script>
+    <script type="text/javascript" src="../_static/python.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="../_static/assess.js"></script>
+    <script type="text/javascript" src="../_static/animationbase.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="../_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Como pensar como um Cientista da Computação: Edição Interativa em Python" href="../index.html" />
+    <link rel="next" title="Plotting a sine Wave" href="../Labs/sinlab.html" />
+    <link rel="prev" title="Olá, tartaruguinhas!" href="../03-PythonTurtle/olatartaruga.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/pensePython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'pensePython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/pensePython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../Labs/sinlab.html" title="Plotting a sine Wave"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../03-PythonTurtle/olatartaruga.html" title="Olá, tartaruguinhas!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="modulos-e-obtendo-ajuda">
+<h1>Módulos e Obtendo Ajuda<a class="headerlink" href="#modulos-e-obtendo-ajuda" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="modulos">
+<h2>Módulos<a class="headerlink" href="#modulos" title="Permalink to this headline">¶</a></h2>
+<a id="inputvid_thumb" > <img src="../_static/modules.png" /></a>
+<div id="inputvid" class="video_popup" >
+<video controls  >
+    <source src="http://media.interactivepython.org/thinkcsVideos/modules.mov" type="video/mp4"></source>
+    <source src="http://media.interactivepython.org/thinkcsVideos/modules.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#inputvid_thumb').click(function(e) {
+         $('#inputvid').show();
+         $('#inputvid_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'inputvid'});
+         // Log the run event
+      });
+   });
+</script>
+<p>Um <strong>módulo</strong> é um arquivo contendo definições e comandos em Python
+para serem usados em outros programas em Python. Há diversos módulos
+do Python que fazem parte da <strong>biblioteca padrão</strong>. Nós já
+utilizamos um deles intensamente, o módulo <code class="docutils literal"><span class="pre">turtle</span></code>. Lembre-se que
+uma vez que o módulo é importado, podemos utilizar as coisas que estão
+definidas dentro dele.</p>
+
+<div id="chmod_01" >
+<textarea cols="50" rows="12" id="chmod_01_code" class="active_code">
+import turtle            # nos permite usar a biblioteca turtle
+
+wn = turtle.Screen()     # cria uma janela gráfica
+alex = turtle.Turtle()   # cria uma tartaruga chamada alex
+
+alex.forward(150)        # diga a alex para se mover 150 unidades para frente
+alex.left(90)            # gire 90 graus
+alex.forward(75)         # complete o segundo lado do retângulo
+wn.exitonclick()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chmod_01)</span> </p>
+<button onclick="runit('chmod_01',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chmod_01');">Save</button>
+<button class="ac_opt" onclick="requestCode('chmod_01');">Load</button>
+<br />
+
+<canvas id="chmod_01_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+</div>
+
+<p>Estamos usando aqui <code class="docutils literal"><span class="pre">Screen</span></code> e <code class="docutils literal"><span class="pre">Turtle</span></code>, ambos definidos dentro do módulo turtle.</p>
+<p>Mas e se ninguém tivesse nos avisado sobre o módulo turtle? Como ficaríamos sabendo da sua existência? Como saberíamos o que ele pode fazer para a gente?
+A resposta é pedir ajuda e o melhor jeito para isso é consultando a documentação do Python.</p>
+<p>A documentação para a versão 3 do Python está disponível (em inglês) no sítio
+<a class="reference external" href="http://docs.python.org/py3k/">http://docs.python.org/py3k/</a> (a página é mostrada abaixo). Essa é uma referência muito útil sobre todos os aspectos do Python. Esse sítio contém uma listagem de todos os módulos padrões disponíveis no Python (veja <a class="reference external" href="http://docs.python.org/py3k/py-modindex.html">Global Module Index</a>).
+Observe também que existe um manual de referência à linguagem
+(<a class="reference external" href="http://docs.python.org/py3k/reference/index.html">Language Reference</a>)
+e um tutorial (<a class="reference external" href="http://docs.python.org/py3k/tutorial/index.html">Tutorial</a>), bem como instruções para instalação, dicas de como fazer, e respostas a perguntas frequentes. Recomendamos que você tente se familiarizar com essas informações e se acostume a utilizá-las com frequência.</p>
+<img alt="../_images/pythondocmedium.png" src="../_images/pythondocmedium.png" />
+<p>Se você ainda não o fez, dê uma olhada na lista de módulos (<a class="reference external" href="http://docs.python.org/py3k/py-modindex.html">Global Module Index</a>). Nessa lista você vai encontrar, em ordem alfabética, todos os módulos disponíveis na biblioteca padrão. Procure pelo módulo turtle.</p>
+<img alt="../_images/moduleindexmedium.png" src="../_images/moduleindexmedium.png" />
+<img alt="../_images/turtlemodmedium.png" src="../_images/turtlemodmedium.png" />
+<p>Observe que todas as funcionalidades de uma tartaruga (turtle) que já falamos anteriormente estão descritas. No entanto, há muitas outras. Aproveite para ler e conhecer melhor essas outras funcionalidades que as tartarugas podem fazer.</p>
+<div class="admonition-nota-modulos-do-python-e-limitacoes-do-activecode admonition">
+<p class="first admonition-title">Nota: Módulos do Python e limitações do activecode</p>
+<p class="last">Em todos os capítulos desse livro, as janelas do activecode permitem que você pratique as partes do Python que você está aprendendo.
+Nós mencionamos no primeiro capítulo que a atividade de programação é normalmente realizada dentro de um ambiente de desenvolvimento e que o activecode utilizado aqui serve apenas para nos ajudar a aprender. Essa não é a maneira de desenvolver programas reais.
+Por isso é necessário mencionar que muitos dos módulos da biblioteca padrão do Python <strong>não</strong> funcionarão no ambiente do activecode. De fato, apenas os módulos turtle, math e random estão funcionando no momento. Se você deseja explorar algum outro módulo, você precisa utilizar um ambiente de desenvolvimento mais poderoso.</p>
+</div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="question4_1_1">
+    <p>4.1.1: Em Python um módulo é:</p>
+    <form name="question4_1_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question4_1_1_opt_a" />
+    <label for= "question4_1_1_opt_a">  a) Um arquivo contendo definições e comandos em Python para serem usados em outros programas em Python</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question4_1_1_opt_b" />
+    <label for= "question4_1_1_opt_b">  b) Um bloco separado de código dentro de um programa.program.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question4_1_1_opt_c" />
+    <label for= "question4_1_1_opt_c">  c) Uma linha de código em um programa.</label><br />
+    
+    <input type="radio" name="group1" value="d" id="question4_1_1_opt_d" />
+    <label for= "question4_1_1_opt_d">  d) Um arquivo que contem documentação sobre funções do Python.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question4_1_1','a',['Um módulo pode ser reutilizado em programas diferentes.', 'Um módulo é um bloco separado de código mas ele é separado do programa.', 'A chamada de uma função de um módulo pode ser uma linha de código mas módulos são em geral constituidas de múltiplas linhas de código separadas do programa.', 'Cada módulo possui a sua própria documentação, mas o módulo em si é mais que apenas a documentação.'])"/> 
+    </form>
+    <div id="question4_1_1_feedback">
+    </div>
+    </div>
+    
+    <div id="question4_1_2">
+    <p>4.1.2: Para saber mais sobre módulos da biblioteca padrão do Python você deve:</p>
+    <form name="question4_1_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question4_1_2_opt_a" />
+    <label for= "question4_1_2_opt_a">  a) Visitar a Documentação do Python disponível online.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question4_1_2_opt_b" />
+    <label for= "question4_1_2_opt_b">  b) Ver os comandos import do programa que você está fazendo.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question4_1_2_opt_c" />
+    <label for= "question4_1_2_opt_c">  c) Perguntar ao professor.</label><br />
+    
+    <input type="radio" name="group1" value="d" id="question4_1_2_opt_d" />
+    <label for= "question4_1_2_opt_d">  d) Procurar nesse livro.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question4_1_2','a',['O sítio online contém a lista com todos os módulos da biblioteca padrão do Python.', 'Os comandos import informam apenas quais módulos são utilizados pelo programa, não informam como usá-los ou o que eles contém.', 'Mesmo que o professor conheça uma boa parte dos módulos do Python, o mais provável é que ele vai ter de olhar a documentação dos módulos, assim como você.', 'Esse livro explica apenas uma parte dos módulos disponíveis. Para a lista completa você deve procurar em outro lugar.'])"/> 
+    </form>
+    <div id="question4_1_2_feedback">
+    </div>
+    </div>
+    
+    <div id="question4_1_3">
+    <p>4.1.3: Verdadeiro / Falso: Todos os módulos da biblioteca padrão do Python funcionam no activecode.</p>
+    <form name="question4_1_3_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question4_1_3_opt_a" />
+    <label for= "question4_1_3_opt_a">  a) Verdadeiro</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question4_1_3_opt_b" />
+    <label for= "question4_1_3_opt_b">  b) Falso</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question4_1_3','b',['Apenas os módulo turtle, math, e random foram implementados até agora no activecode.', 'Apenas os módulo turtle, math, e random foram implementados até agora no activecode.'])"/> 
+    </form>
+    <div id="question4_1_3_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="mais-sobre-o-uso-de-modulos">
+<h2>Mais sobre o uso de módulos<a class="headerlink" href="#mais-sobre-o-uso-de-modulos" title="Permalink to this headline">¶</a></h2>
+<p>Antes de prosseguir com a exploração dos outros módulos, nós vamos falar um pouco mais sobre o que são módulos e como são tipicamente usados. Uma das coisas mais importantes a saber sobre módulos é o fato de que eles são objetos de dados, assim como qualquer outro tipo de dado em Python. Objetos do tipo <cite>module</cite> simplesmente contém outros elementos do Python.</p>
+<p>A primeira coisa que precisamos fazer quando queremos usar um módulo é fazer um <code class="docutils literal"><span class="pre">import</span></code>. No exemplo acima, a instrução <code class="docutils literal"><span class="pre">import</span> <span class="pre">turtle</span></code> cria um novo nome, <code class="docutils literal"><span class="pre">turtle</span></code>, que faz referência a um <cite>objeto module</cite>. Isso se parece muito com os diagramas de referência que vimos anteriormente para as variáveis simples.</p>
+<img alt="../_images/modreference.png" src="../_images/modreference.png" />
+<p>A fim de utilizar algo contido em um módulo, usamos a notação de <cite>ponto</cite>, fornecendo o nome de módulo e o item específico unidos por um &#8220;ponto&#8221;. Por exemplo, para usar a classe <code class="docutils literal"><span class="pre">Turtle</span></code>, escrevemos <code class="docutils literal"><span class="pre">turtle.Turtle</span></code>. Você deve ler
+isso como: &#8220;No módulo turtle, acesse o elemento Python chamado Turtle&#8221;.</p>
+<p>Agora vamos mostrar alguns outros módulos que você pode achar útil.</p>
+<a id="randmodvid_thumb" > <img src="../_static/mathrandommodule.png" /></a>
+<div id="randmodvid" class="video_popup" >
+<video controls  >
+    <source src="http://media.interactivepython.org/thinkcsVideos/mathrandommodule.mov" type="video/mp4"></source>
+    <source src="http://media.interactivepython.org/thinkcsVideos/mathrandommodule.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#randmodvid_thumb').click(function(e) {
+         $('#randmodvid').show();
+         $('#randmodvid_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'randmodvid'});
+         // Log the run event
+      });
+   });
+</script>
+</div>
+<div class="section" id="o-modulo-math">
+<h2>O módulo <cite>math</cite><a class="headerlink" href="#o-modulo-math" title="Permalink to this headline">¶</a></h2>
+<p>O módulo <code class="docutils literal"><span class="pre">math</span></code> contém funções matemáticas que você costuma encontrar em calculadoras e algumas constantes matemáticas como <cite>pi</cite> e <cite>e</cite>. Como vimos acima, ao importar o módulo <code class="docutils literal"><span class="pre">math</span></code>, obtemos uma referência para um objeto <cite>module</cite> que contém esses elementos.</p>
+<img alt="../_images/mathmod.png" src="../_images/mathmod.png" />
+<p>Mostramos a seguir como usar alguns itens do módulo math. Se você quiser saber mais detalhes, dê uma olhada na documentação do módulo em
+<a class="reference external" href="http://docs.python.org/py3k/library/math.html#module-math">Math Module</a>.</p>
+
+<div id="chmodule_02" >
+<textarea cols="50" rows="12" id="chmodule_02_code" class="active_code">
+import math
+
+print(math.pi)
+print(math.e)
+
+print(math.sqrt(2.0))
+
+print(math.sin(math.radians(90)))   # seno de 90 graus
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chmodule_02)</span> </p>
+<button onclick="runit('chmodule_02',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chmodule_02');">Save</button>
+<button class="ac_opt" onclick="requestCode('chmodule_02');">Load</button>
+<br />
+
+<canvas id="chmodule_02_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chmodule_02_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Observe outra diferença entre este módulo e nosso uso de <code class="docutils literal"><span class="pre">turtle</span></code>.
+Em <code class="docutils literal"><span class="pre">turtle</span></code> criamos objetos (tanto <code class="docutils literal"><span class="pre">Turtle</span></code> quanto <code class="docutils literal"><span class="pre">Screen</span></code>) e chamamos métodos desses objetos. Lembre-se que um turtle é um objeto de dados (lembre-se do <code class="docutils literal"><span class="pre">alex</span></code> e da <code class="docutils literal"><span class="pre">tess</span></code>). Precisamos criar um objeto antes de usá-lo. Quando dizemos
+<code class="docutils literal"><span class="pre">alex</span> <span class="pre">=</span> <span class="pre">turtle.Turtle()</span></code>, estamos chamando o construtor da classe Turtle que retorna um objeto turtle.</p>
+<p>Funções matemáticas não precisam ser construídas. Elas simplesmente executam uma tarefa. Elas ficam todas alojadas no módulo chamado <cite>math</cite>. Uma vez que o
+módulo math tenha sido importado, qualquer coisa definida lá
+pode ser usada no nosso programa. Observe que usamos sempre o nome do módulo seguido de um <cite>ponto</cite> seguido pelo item específico do módulo (<code class="docutils literal"><span class="pre">math.sqrt</span></code>). Você pode pensar nisso como sobrenome.nome onde o sobrenome é o módulo
+(família) e o nome indica o item individual no módulo.</p>
+<p>Se você não tiver feito isso ainda, dê uma olhada na documentação do módulo <cite>math</cite>.</p>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="question4_2_1">
+    <p>4.2.1: Que comando permite que você utilize o módulo math em seu programa?</p>
+    <form name="question4_2_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question4_2_1_opt_a" />
+    <label for= "question4_2_1_opt_a">  a) import math</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question4_2_1_opt_b" />
+    <label for= "question4_2_1_opt_b">  b) include math</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question4_2_1_opt_c" />
+    <label for= "question4_2_1_opt_c">  c) use math</label><br />
+    
+    <input type="radio" name="group1" value="d" id="question4_2_1_opt_d" />
+    <label for= "question4_2_1_opt_d">  d) Nenhum comando é necessário, você pode usar as funções sempre.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question4_2_1','a',['O módulo deve ser importado antes que você possa usar qualquer coisa declarada dentro do módulo.', 'O termo correto não é include, mas é parecido.', 'Você quer usar partes do módulo, mas esse não é o termo correto.', 'Você não pode usar um módulo do Python sem um comando no início do seu programa que diga ao Python explicitamente que você quer usar o módulo.'])"/> 
+    </form>
+    <div id="question4_2_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="o-modulo-random">
+<h2>O módulo <cite>random</cite><a class="headerlink" href="#o-modulo-random" title="Permalink to this headline">¶</a></h2>
+<p>Muitas vezes queremos usar <strong>números aleatórios</strong> em programas. Aqui estão alguns usos típicos:</p>
+<ul class="simple">
+<li>Para jogar um jogo de azar em que o computador precisa jogar
+alguns dados, escolher um número, ou jogar uma moeda,</li>
+<li>Para embaralhar um baralho de cartas aleatoriamente,</li>
+<li>Para permitir que uma nova nave inimiga apareça aleatoriamente e atire em você,</li>
+<li>Para simular a precipitação de chuva em um modelo computacional para
+estimar o impacto ambiental da construção de uma barragem,</li>
+<li>Para criptografar sua sessão bancária na Internet.</li>
+</ul>
+<p>O Python fornece um módulo <code class="docutils literal"><span class="pre">random</span></code> que ajuda com tarefas como esta. Você pode
+dar uma olhada na documentação. Aqui estão as principais coisas que podemos fazer com esse módulo.</p>
+
+<div id="chmodule_rand" >
+<textarea cols="50" rows="12" id="chmodule_rand_code" class="active_code">
+import random
+
+prob = random.random()
+print(prob)
+
+lanceDado = random.randrange(1,7)  # retorna um int, dentre 1,2,3,4,5,6
+print(lanceDado)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chmodule_rand)</span> </p>
+<button onclick="runit('chmodule_rand',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chmodule_rand');">Save</button>
+<button class="ac_opt" onclick="requestCode('chmodule_rand');">Load</button>
+<br />
+
+<canvas id="chmodule_rand_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chmodule_rand_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Pressione o botão <em>Run</em> algumas vezes. Note que os valores se modificam
+a cada vez. Esses números são aleatórios.</p>
+<p>A função <code class="docutils literal"><span class="pre">randrange</span></code> gera um inteiro no intervalo definido pelo
+menor e maior argumento, usando a mesma semântica do <code class="docutils literal"><span class="pre">range</span></code> &#8212; ou
+seja, o valor inicial é incluído mas o final é excluído. Todos os
+valores tem a mesma probabilidade de ocorrência (ou seja, os resultados
+são <em>uniformemente</em> distribuídos).</p>
+<p>A função <code class="docutils literal"><span class="pre">random()</span></code> retorna um número em ponto flutuante no
+intervalo [0.0, 1.0) &#8211; o colchete significa &#8220;intervalo fechado à
+esquerda&#8221; e o parênteses significa &#8220;intervalo aberto à direita&#8221;. Em
+outras palavras, 0.0 é possível, mas todos os números retornados serão
+estritamente menores que 1.0. É comum <em>escalar</em> os resultados após
+chamar esse método para transformá-los para dentro de um intervalo
+apropriado para a sua aplicação.</p>
+<p>Nesse caso, nós convertemos o resultado da chamada do método em um número no intervalo [0.0, 5.0). Novamente, esses números são uniformemente distribuídos &#8212; números perto do 0 são tão prováveis de aparecer quanto o 0.5, ou números perto de 1.0. Se você continuar a pressionar o botão <em>Run</em>, você verá valores aleatórios de 0.0 até o limite de, mas sem incluir o valor, 5.0.</p>
+
+<div id="chmodule_rand2" >
+<textarea cols="50" rows="12" id="chmodule_rand2_code" class="active_code">
+import random
+
+prob = random.random()
+resultado = prob * 5
+print(resultado)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chmodule_rand2)</span> </p>
+<button onclick="runit('chmodule_rand2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chmodule_rand2');">Save</button>
+<button class="ac_opt" onclick="requestCode('chmodule_rand2');">Load</button>
+<br />
+
+<canvas id="chmodule_rand2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chmodule_rand2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p id="index-0">É importante notar que geradores de números aleatórios são baseados em um algoritmo <strong>determinístico</strong> &#8212; reproduzível e previsível.
+Por isso eles são chamados de geradores <strong>pseudo-aleatórios</strong> &#8212; pois eles não são verdadeiramente aleatórios.
+Eles começam com um valor de <em>semente</em>. Cada vez que você pedir um outro número aleatório, você vai receber um com base no valor atual da semente, e o estado da semente (que é um dos atributos do gerador) é atualizado. A boa notícia é que cada vez que você executar o seu programa, o valor da semente é provavelmente diferente, significando que apesar dos números aleatórios estarem sendo criados usando  algoritmos determinísticos, você vai obter um comportamento aleatório cada vez que você executar.</p>
+<div class="admonition-lab admonition">
+<p class="first admonition-title">Lab</p>
+<ul class="last simple">
+<li><a class="reference external" href="../Labs/sinlab.html">Sine Wave</a> Nesse exercício dirigido de
+laboratório você vai fazer a tartaruga desenhar uma onda senoidal.</li>
+</ul>
+</div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="question4_4_1">
+    <p>4.4.1: Qual das seguintes alternativas corresponde à forma correta de
+referenciar o valor de pi dentro do módulo math. Assuma que você já
+importou o módulo.</p>
+    <form name="question4_4_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question4_4_1_opt_a" />
+    <label for= "question4_4_1_opt_a">  a) math.pi</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question4_4_1_opt_b" />
+    <label for= "question4_4_1_opt_b">  b) math(pi)</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question4_4_1_opt_c" />
+    <label for= "question4_4_1_opt_c">  c) pi.math</label><br />
+    
+    <input type="radio" name="group1" value="d" id="question4_4_1_opt_d" />
+    <label for= "question4_4_1_opt_d">  d) math->pi</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question4_4_1','a',['Para chamar ou referenciar algo contido em um módulo
+use a notação com ponto (.).', 'Essa sintaxe é usada para chamar um função e não para
+referenciar um item em um módulo.', 'O nome do módulo deve vir na frente para acessar
+valores ou funções do módulo.', 'A notação -> não é usada em Python.'])"/> 
+    </form>
+    <div id="question4_4_1_feedback">
+    </div>
+    </div>
+    
+    <div id="question4_4_2">
+    <p>4.4.2: Qual módulo você provavelmente deve utilizar para escrever uma
+função para simular o lançamento de um dado?</p>
+    <form name="question4_4_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question4_4_2_opt_a" />
+    <label for= "question4_4_2_opt_a">  a) o módulo math</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question4_4_2_opt_b" />
+    <label for= "question4_4_2_opt_b">  b) o módulo random</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question4_4_2_opt_c" />
+    <label for= "question4_4_2_opt_c">  c) o módulo turtle</label><br />
+    
+    <input type="radio" name="group1" value="d" id="question4_4_2_opt_d" />
+    <label for= "question4_4_2_opt_d">  d) o módulo game</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question4_4_2','b',['Embora você possa desejar usar o módulo math para realizar outras computações numéricas em seu programa, ele não contém funções que possam ajudar você a simular o lançamento de um dado.', 'Você provavelmente chamaria a função random.randrange.', 'O módulo turtle produz gráficos interessantes mas provavelmente não te ajudaria nessa questão.', 'O Python não possui um módulo game.'])"/> 
+    </form>
+    <div id="question4_4_2_feedback">
+    </div>
+    </div>
+    
+    <div id="question4_4_3">
+    <p>4.4.3: O código correto para gerar um número aleatório entre 1 e 100
+(incluindo o 1 e o 100) é:</p>
+    <form name="question4_4_3_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question4_4_3_opt_a" />
+    <label for= "question4_4_3_opt_a">  a) prob = random.randrange(1, 101)</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question4_4_3_opt_b" />
+    <label for= "question4_4_3_opt_b">  b) prob = random.randrange(1, 100)</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question4_4_3_opt_c" />
+    <label for= "question4_4_3_opt_c">  c) prob = random.randrange(0, 101)</label><br />
+    
+    <input type="radio" name="group1" value="d" id="question4_4_3_opt_d" />
+    <label for= "question4_4_3_opt_d">  d) prob = random.randrange(0, 100)</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question4_4_3','a',['Este código gera um número entre 1 e 101, mas sem
+incluir o 101.', 'Este código gera um número entre 1 e 100, mas sem
+incluir o 100. O maior número gerado seria 99.', 'Este código gera um número entre 0 e 100. O menor
+número gerado seria 0 e o maior 100.', 'Este código gera um número entre 0 e 100, mas sem
+incluir o 100. O menor
+número gerado seria 0 e o maior 99.'])"/> 
+    </form>
+    <div id="question4_4_3_feedback">
+    </div>
+    </div>
+    
+    <div id="question4_4_4">
+    <p>4.4.4: Uma razão que loterias não utilizam computadores para sortear os
+números aleatórios é:</p>
+    <form name="question4_4_4_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question4_4_4_opt_a" />
+    <label for= "question4_4_4_opt_a">  a) Não há computadores no palco na hora do sorteio.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question4_4_4_opt_b" />
+    <label for= "question4_4_4_opt_b">  b) Pois computadores não geram números realmente
+aleatórios, eles geram números pseudo-aleatórios.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question4_4_4_opt_c" />
+    <label for= "question4_4_4_opt_c">  c) Eles gerariam o mesmo número repetidamente.</label><br />
+    
+    <input type="radio" name="group1" value="d" id="question4_4_4_opt_d" />
+    <label for= "question4_4_4_opt_d">  d) O computador não é capaz de dizer quais os números já
+foram sorteados, de forma que ele pode gerar 5 números
+idênticos ao invés de 5 números distintos.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question4_4_4','b',['Eles poderiam facilmente colocar um computador no palco.', 'Computadores geram números aleatórios usando um
+algoritmo determinístico. Isso significa que se alguém
+descobrisse o algoritmo utilizado essa pessoa poderia
+prever os próximos valores a serem gerados e ganharia
+a loteria sempre.', 'Isso poderia acontecer se o mesmo valor de semente for
+utilizado repetidamente, mas eles poderiam se
+certificar que isso nunca ocorresse.', 'O programador deve criar um programa capaz de
+garantir que cada novo número sorteado seja
+distinto de todos os anteriores, o que é fácil de
+fazer em Python.'])"/> 
+    </form>
+    <div id="question4_4_4_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="glossario">
+<h2>Glossário<a class="headerlink" href="#glossario" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-biblioteca-padrao">biblioteca padrão</dt>
+<dd>Uma coleção de módulos que faz parte de uma instalação padrão do Python.</dd>
+<dt id="term-deterministico">determinístico</dt>
+<dd>Um processo que é reproduzível e previsível.</dd>
+<dt id="term-documentacao">documentação</dt>
+<dd>Um lugar onde você pode pegar informação detalhada sobre aspectos da linguagem de programação.</dd>
+<dt id="term-gerador-de-numeros-aleatorios">gerador de números aleatórios</dt>
+<dd>Uma função que te fornece números aleatórios, geralmente entre 0.0 e 1.0.</dd>
+<dt id="term-modulo">módulo</dt>
+<dd>Um arquivo contendo definições e comandos em Python para serem
+usados em outros programas em Python. Os conteúdos de um
+módulo são disponibilizados para outro programa pelo uso do
+comando <em>import</em>.</dd>
+<dt id="term-numero-aleatorio">número aleatório</dt>
+<dd>Um número que é gerado de forma a exibir aleatoriedade estatística.</dd>
+<dt id="term-numero-pseudo-aleatorio">número pseudo-aleatório</dt>
+<dd>Um número que não é genuinamente aleatório mas criado a partir de um algoritmo.</dd>
+</dl>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Módulos e Obtendo Ajuda</a><ul>
+<li><a class="reference internal" href="#modulos">Módulos</a></li>
+<li><a class="reference internal" href="#mais-sobre-o-uso-de-modulos">Mais sobre o uso de módulos</a></li>
+<li><a class="reference internal" href="#o-modulo-math">O módulo <cite>math</cite></a></li>
+<li><a class="reference internal" href="#o-modulo-random">O módulo <cite>random</cite></a></li>
+<li><a class="reference internal" href="#glossario">Glossário</a></li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../03-PythonTurtle/olatartaruga.html"
+                        title="previous chapter">Olá, tartaruguinhas!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../Labs/sinlab.html"
+                        title="next chapter">Plotting a sine Wave</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../Labs/sinlab.html" title="Plotting a sine Wave"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../03-PythonTurtle/olatartaruga.html" title="Olá, tartaruguinhas!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2012, Brad Miller, David Ranum.
+      Last updated on May 24, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,548 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Funções com listas &#8212; Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Strings e Arquivos" href="11-strings.html" />
+    <link rel="prev" title="Lista: estrutura sequencial indexada" href="09-listas.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulas',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'cc110',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulas/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="11-strings.html" title="Strings e Arquivos"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="09-listas.html" title="Lista: estrutura sequencial indexada"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="funcoes-com-listas">
+<h1>Funções com listas<a class="headerlink" href="#funcoes-com-listas" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="topicos">
+<span id="index-0"></span><h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html#pertinencia-em-uma-lista">Pertinência em uma lista</a>;</li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/09-Listas/listas.html#listas-como-parametros">Listas como parâmetros</a>;</li>
+<li>Reforço: muito cuidado com atribuição de listas (apelidos x clones).</li>
+</ul>
+</div></blockquote>
+<div class="section" id="videos">
+<h3>Vídeos<a class="headerlink" href="#videos" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="exercicio-1">
+<h3>Exercício 1<a class="headerlink" href="#exercicio-1" title="Permalink to this headline">¶</a></h3>
+<p>Escreva a função abaixo:</p>
+
+<div id="aula_funlist_ex01_tentativa" >
+<textarea cols="50" rows="12" id="aula_funlist_ex01_tentativa_code" class="active_code">
+#-------------------------------------------------
+def pertence(item,lista):
+    '''(objeto, list) -> bool
+
+    Recebe uma lista de itens e um item e
+    retorna True se o item eh um elemento da lista e
+    False em caso contrario.
+    '''
+    print("Vixe! Ainda nao fiz a funcao!")
+
+
+#---------------------------------------------------
+# testes
+lista  = [1, "oi", 3.14, 7, True]
+
+# teste 1
+if pertence("oi",lista):
+    print("Passou no primeiro teste! :-)")
+else:
+    print("Nao passou no primeiro teste! :-(")
+
+# teste 2
+if pertence(True,lista):
+    print("Passou no segundo teste! :-)")
+else:
+    print("Nao passou no segundo teste! :-(")
+
+# teste 3
+if not pertence(False,lista):
+    print("Passou no terceiro teste! :-)")
+else:
+    print("Nao passou no terceiro teste! :-(")
+
+# outros testes
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula_funlist_ex01_tentativa)</span> </p>
+<button onclick="runit('aula_funlist_ex01_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula_funlist_ex01_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula_funlist_ex01_tentativa');">Load</button>
+<br />
+
+<canvas id="aula_funlist_ex01_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula_funlist_ex01_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-2">
+<h3>Exercício 2<a class="headerlink" href="#exercicio-2" title="Permalink to this headline">¶</a></h3>
+<p>Escreva um programa que dados
+um número inteiro <code class="docutils literal"><span class="pre">n</span></code> e uma sequência com <code class="docutils literal"><span class="pre">n</span></code> números inteiros,
+imprimi-los eliminando as repetições.</p>
+<p>Escreva uma solução que usa a função <code class="docutils literal"><span class="pre">pertence()</span></code>
+do exercício anterior.</p>
+<p>Escreva uma solução que usa as construções</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">lista</span><span class="p">:</span>
+    <span class="o">|</span>
+    <span class="o">|</span> <span class="n">bloco</span> <span class="n">de</span> <span class="n">comandos</span> <span class="n">a</span> <span class="n">serem</span> <span class="n">executados</span>
+    <span class="o">|</span> <span class="n">se</span> <span class="n">item</span> <span class="n">pertence</span> <span class="n">a</span> <span class="n">lista</span>
+    <span class="o">|</span>
+
+<span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">lista</span><span class="p">:</span>
+    <span class="o">|</span>
+    <span class="o">|</span> <span class="n">bloco</span> <span class="n">de</span> <span class="n">comandos</span> <span class="n">a</span> <span class="n">serem</span> <span class="n">executados</span>
+    <span class="o">|</span> <span class="n">se</span> <span class="n">item</span> <span class="n">nao</span> <span class="n">pertence</span> <span class="n">a</span> <span class="n">lista</span>
+    <span class="o">|</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">lista</span><span class="p">:</span>
+    <span class="o">|</span>
+    <span class="o">|</span> <span class="n">bloco</span> <span class="n">de</span> <span class="n">comandos</span> <span class="n">a</span> <span class="n">serem</span> <span class="n">executados</span>
+    <span class="o">|</span> <span class="n">se</span> <span class="n">item</span> <span class="n">nao</span> <span class="n">pertence</span> <span class="n">a</span> <span class="n">lista</span>
+    <span class="o">|</span>
+</pre></div>
+</div>
+
+<div id="aula_funlist_ex02_tentativa" >
+<textarea cols="50" rows="12" id="aula_funlist_ex02_tentativa_code" class="active_code">
+#-----------------------------------------------
+def main():
+    '''
+    Dada uma sequencia de n > 0 numeros inteiros,
+    imprimi-la eliminando as repeticoes.
+    '''
+    # escreva o seu programa abaixo e remova o print()
+    print("Vixe! Ainda nao fiz o exercicio!")
+
+#-----------------------------------------------
+def pertence(item,lista):
+    '''(objeto, list) -> bool
+
+    Recebe uma lista de itens e um item e
+    retorna True se o item eh um elemento da lista e
+    False em caso contrario.
+    '''
+    print("Vixe! Ainda nao fiz a funcao!")
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula_funlist_ex02_tentativa)</span> </p>
+<button onclick="runit('aula_funlist_ex02_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula_funlist_ex02_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula_funlist_ex02_tentativa');">Load</button>
+<br />
+
+<canvas id="aula_funlist_ex02_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula_funlist_ex02_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-3">
+<h3>Exercício 3<a class="headerlink" href="#exercicio-3" title="Permalink to this headline">¶</a></h3>
+<p>Escreva a função abaixo:</p>
+
+<div id="aula_funlist_ex03_tentativa" >
+<textarea cols="50" rows="12" id="aula_funlist_ex03_tentativa_code" class="active_code">
+#-----------------------------------------------
+def indice(item, lista):
+    '''(objeto,list) -> int ou None
+
+    Recebe um objeto 'item' e uma lista 'lista' e retorna o
+    indice da posicao em que item ocorre na lista.
+    Caso item nao ocorra na lista a funcao retorna None
+    '''
+    print("Vixe! Ainda nao fiz a funcao!")
+
+
+#-----------------------------------------------
+# testes
+lista  = [1, "oi", 3.14, 7, True]
+
+# teste 1
+if indice("oi",lista) == 1:
+    print("Passou no primeiro teste! :-)")
+else:
+    print("Nao passou no primeiro teste! :-(")
+
+# teste 2
+if indice(True,lista) == 4:
+    print("Passou no segundo teste! :-)")
+else:
+    print("Nao passou no segundo teste! :-(")
+
+# teste 3
+if indice(False,lista) == None:
+    print("Passou no terceiro teste! :-)")
+else:
+    print("Nao passou no terceiro teste! :-(")
+
+# outros testes
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula_funlist_ex03_tentativa)</span> </p>
+<button onclick="runit('aula_funlist_ex03_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula_funlist_ex03_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula_funlist_ex03_tentativa');">Load</button>
+<br />
+
+<canvas id="aula_funlist_ex03_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula_funlist_ex03_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-4">
+<h3>Exercício 4<a class="headerlink" href="#exercicio-4" title="Permalink to this headline">¶</a></h3>
+<p>Escreva um programa que dados um número inteiro <code class="docutils literal"><span class="pre">n</span></code> e uma sequência
+com <code class="docutils literal"><span class="pre">n</span></code> números inteiros, conta e imprime o número de vezes que cada
+número ocorre na sequência.</p>
+<p>Escreva uma solução que usa a função <code class="docutils literal"><span class="pre">indice()</span></code>
+do exercício anterior.</p>
+
+<div id="aula_funlist_ex04_tentativa" >
+<textarea cols="50" rows="12" id="aula_funlist_ex04_tentativa_code" class="active_code">
+#-----------------------------------------------
+def main():
+    '''
+    Dados n e uma sequencia com n numeros inteiros,
+    conta e imprime o numero de vezes que cada
+    numero ocorre na sequencia.
+    '''
+    # escreva o seu programa abaixo e remova o print()
+    print("Vixe! Ainda nao fiz o exercicio!")
+
+#-----------------------------------------------
+def indice(item, lista):
+    '''(objeto,list) -> int ou None
+
+    Recebe um objeto 'item' e uma lista 'lista' e retorna o
+    indice da posicao em que item ocorre na lista.
+    Caso item nao ocorra na lista a funcao retorna None
+    '''
+    print("Vixe! Ainda nao fiz a funcao!")
+
+
+#-----------------------------------------------
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula_funlist_ex04_tentativa)</span> </p>
+<button onclick="runit('aula_funlist_ex04_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula_funlist_ex04_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula_funlist_ex04_tentativa');">Load</button>
+<br />
+
+<canvas id="aula_funlist_ex04_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula_funlist_ex04_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-5">
+<h3>Exercício 5<a class="headerlink" href="#exercicio-5" title="Permalink to this headline">¶</a></h3>
+<p>Escreva a função abaixo:</p>
+
+<div id="aula_funlist_ex05_tentativa" >
+<textarea cols="50" rows="12" id="aula_funlist_ex05_tentativa_code" class="active_code">
+def soma_elementos(ini, fim, lista):
+    """ (int, int, lista) --> int
+
+    Recebe uma lista `lista` de numero e dois indices ini e fim,
+    retorna a soma da sublista (= fatia) formada pelos elementos de
+    indices ini, ini+1,...,fim-1.
+
+    Pre-condicao: a funcao supoe que:
+
+           0 <= ini <= fim <= len(lista)
+    """
+    # escreva abaixo o corpo da função
+    print("Vixe! Ainda nao fiz a funcao!")
+
+
+#-----------------------------------------------
+# testes
+lista  = [1, 2, 3, 4, 5]
+
+# teste 1
+if soma_elementos(0,len(lista),lista) == 15:
+    print("Passou no primeiro teste! :-)")
+else:
+    print("Nao passou no primeiro teste! :-(")
+
+# teste 2
+if soma_elementos(1,4,lista) == 9:
+    print("Passou no segundo teste! :-)")
+else:
+    print("Nao passou no segundo teste! :-(")
+
+# teste 3
+if soma_elementos(2,2,lista) == 0:
+    print("Passou no terceiro teste! :-)")
+else:
+    print("Nao passou no terceiro teste! :-(")
+
+# outros testes
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula_funlist_ex05_tentativa)</span> </p>
+<button onclick="runit('aula_funlist_ex05_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula_funlist_ex05_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula_funlist_ex05_tentativa');">Load</button>
+<br />
+
+<canvas id="aula_funlist_ex05_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula_funlist_ex05_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-6">
+<h3>Exercício 6<a class="headerlink" href="#exercicio-6" title="Permalink to this headline">¶</a></h3>
+<p>Usando a função do exercício anterior, escreva um programa que leia
+n&gt;0 e uma sequência com n números reais, e determina um segmento de
+soma máxima.</p>
+<p>Na sequência</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="mi">5</span>   <span class="o">-</span><span class="mi">2</span>   <span class="o">-</span><span class="mi">2</span>   <span class="o">-</span><span class="mi">7</span>   <span class="mi">3</span>   <span class="mi">14</span>  <span class="mi">10</span>  <span class="o">-</span><span class="mi">3</span>   <span class="mi">9</span>   <span class="o">-</span><span class="mi">6</span>   <span class="mi">4</span>   <span class="mi">1</span>
+</pre></div>
+</div>
+<p>a soma máxima de um segmento é <code class="docutils literal"><span class="pre">3+14+10-3+9</span> <span class="pre">=</span> <span class="pre">33</span></code>.</p>
+
+<div id="aula_funlist_ex06_tentativa" >
+<textarea cols="50" rows="12" id="aula_funlist_ex06_tentativa_code" class="active_code">
+#-----------------------------------------------
+def main():
+    """
+    programa que calcula segmento de soma maxima
+    """
+    # escreva abaixo o corpo da funcao
+    print("Vixe! Ainda nao fiz o exercicio!")
+
+#-----------------------------------------------
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula_funlist_ex06_tentativa)</span> </p>
+<button onclick="runit('aula_funlist_ex06_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula_funlist_ex06_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula_funlist_ex06_tentativa');">Load</button>
+<br />
+
+<canvas id="aula_funlist_ex06_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula_funlist_ex06_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Funções com listas</a><ul>
+<li><a class="reference internal" href="#topicos">Tópicos</a><ul>
+<li><a class="reference internal" href="#videos">Vídeos</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a><ul>
+<li><a class="reference internal" href="#exercicio-1">Exercício 1</a></li>
+<li><a class="reference internal" href="#exercicio-2">Exercício 2</a></li>
+<li><a class="reference internal" href="#exercicio-3">Exercício 3</a></li>
+<li><a class="reference internal" href="#exercicio-4">Exercício 4</a></li>
+<li><a class="reference internal" href="#exercicio-5">Exercício 5</a></li>
+<li><a class="reference internal" href="#exercicio-6">Exercício 6</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="09-listas.html"
+                        title="previous chapter">Lista: estrutura sequencial indexada</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="11-strings.html"
+                        title="next chapter">Strings e Arquivos</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="11-strings.html" title="Strings e Arquivos"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="09-listas.html" title="Lista: estrutura sequencial indexada"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Jun 12, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

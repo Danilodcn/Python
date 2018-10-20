@@ -1,0 +1,367 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>O tutorial de Python &mdash; Python v2.7.2 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.7.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Python v2.7.2 documentation"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="top" title="Python v2.7.2 documentation" href="../index.html" />
+    <link rel="next" title="1. Abrindo o apetite" href="appetite.html" />
+    <link rel="prev" title="What’s New in Python 2.0" href="../whatsnew/2.0.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+ 
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="appetite.html" title="1. Abrindo o apetite"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../whatsnew/2.0.html" title="What’s New in Python 2.0"
+             accesskey="P">previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">Python v2.7.2 documentation</a> &raquo;</li>
+ 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="o-tutorial-de-python">
+<span id="tutorial-index"></span><h1>O tutorial de Python<a class="headerlink" href="#o-tutorial-de-python" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Release:</th><td class="field-body">2.7</td>
+</tr>
+<tr class="field"><th class="field-name">Date:</th><td class="field-body">October 15, 2012</td>
+</tr>
+</tbody>
+</table>
+<p>Python é uma linguagem de programação poderosa e de fácil aprendizado.
+Possui estruturas de dados de alto nível eficientes, bem como adota uma
+abordagem simples e efetiva para a programação orientada a objetos. Sua
+sintaxe elegante e tipagem dinâmica, além de sua natureza interpretada,
+tornam Python ideal para scripting e para o desenvolvimento rápido de
+aplicações em diversas áreas e na maioria das plataformas.</p>
+<p>O interpretador Python e sua extensa biblioteca padrão estão disponíveis na
+forma de código fonte ou binário para a maioria das plataformas a partir do
+site, <a class="reference external" href="http://www.python.org/">http://www.python.org/</a>, e podem ser distribuídos livremente. No mesmo
+sítio estão disponíveis distribuições e referências para diversos módulos,
+programas, ferramentas e documentação adicional, contribuídos por terceiros.</p>
+<p>O interpretador Python é facilmente extensível incorporando novas funções e
+tipos de dados implementados em C ou C++ (ou qualquer outra linguagem
+acessível a partir de C). Python também se adequa como linguagem de extensão
+para customizar aplicações. Este tutorial introduz o leitor informalmente aos
+conceitos básicos e aspectos do sistema e linguagem Python. É aconselhável ter
+um interpretador Python disponível para se poder “por a mão na massa”, porém
+todos os exemplos são auto-contidos, assim o tutorial também pode ser lido sem
+que haja a necessidade de se estar on-line.</p>
+<p>Para uma descrição dos módulos e objetos padrão, veja o documento
+<a class="reference internal" href="../library/index.html#library-index"><em>The Python Standard Library</em></a>. O  <a class="reference internal" href="../reference/index.html#reference-index"><em>The Python Language Reference</em></a> oferece uma definição formal
+da linguagem. Para se escrever extensões em C ou C++, leia
+<a class="reference internal" href="../extending/index.html#extending-index"><em>Extending and Embedding the Python Interpreter</em></a> e <a class="reference internal" href="../c-api/index.html#c-api-index"><em>Python/C API Reference Manual</em></a>. Existem também diversos livros
+abordando Python em maior profundidade.</p>
+<p>Este tutorial não almeja ser abrangente ou abordar todos os aspectos, nem
+mesmo todos os mais frequentes. Ao invés disso, ele introduz muitas das
+características dignas de nota em Python, e fornecerá a você uma boa idéia
+sobre o estilo e o sabor da linguagem. Após a leitura, você deve ser capaz de
+ler e escrever programas e módulos em Python, e estará pronto para aprender
+mais sobre os diversos módulos de biblioteca descritos em
+<a class="reference internal" href="../library/index.html#library-index"><em>The Python Standard Library</em></a>.</p>
+<p>Também vale a pena folhear o <a class="reference internal" href="../glossary.html#glossary"><em>Glossário</em></a>.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="appetite.html">1. Abrindo o apetite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interpreter.html">2. Usando o interpretador Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="interpreter.html#disparando-o-interpretador">2.1. Disparando o interpretador</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="interpreter.html#passagem-de-argumentos">2.1.1. Passagem de argumentos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="interpreter.html#modo-interativo">2.1.2. Modo interativo</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="interpreter.html#o-interpretador-e-seu-ambiente">2.2. O interpretador e seu ambiente</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="interpreter.html#tratamento-de-erros">2.2.1. Tratamento de erros</a></li>
+<li class="toctree-l3"><a class="reference internal" href="interpreter.html#scripts-executaveis-em-python">2.2.2. Scripts executáveis em Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="interpreter.html#codificacao-em-arquivos-de-codigo-fonte">2.2.3. Codificação em arquivos de código-fonte</a></li>
+<li class="toctree-l3"><a class="reference internal" href="interpreter.html#o-arquivo-de-inicializacao-para-o-modo-interativo">2.2.4. O arquivo de inicialização para o modo interativo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="interpreter.html#os-modulos-de-customizacao">2.2.5. Os módulos de customização</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">3. Uma introdução informal a Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#usando-python-como-uma-calculadora">3.1. Usando Python como uma calculadora</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="introduction.html#numeros">3.1.1. Números</a></li>
+<li class="toctree-l3"><a class="reference internal" href="introduction.html#strings">3.1.2. Strings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="introduction.html#strings-unicode">3.1.3. Strings Unicode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="introduction.html#listas">3.1.4. Listas</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#primeiros-passos-rumo-a-programacao">3.2. Primeiros passos rumo à programação</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="controlflow.html">4. Mais ferramentas de controle de fluxo</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="controlflow.html#comando-if">4.1. Comando <tt class="docutils literal"><span class="pre">if</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="controlflow.html#comando-for">4.2. Comando <tt class="docutils literal"><span class="pre">for</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="controlflow.html#a-funcao-range">4.3. A função <tt class="docutils literal"><span class="pre">range()</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="controlflow.html#comandos-break-e-continue-e-clausulas-else-em-lacos">4.4. Comandos <tt class="docutils literal"><span class="pre">break</span></tt> e <tt class="docutils literal"><span class="pre">continue</span></tt>, e cláusulas <tt class="docutils literal"><span class="pre">else</span></tt> em laços</a></li>
+<li class="toctree-l2"><a class="reference internal" href="controlflow.html#comando-pass">4.5. Comando <tt class="docutils literal"><span class="pre">pass</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="controlflow.html#definindo-funcoes">4.6. Definindo Funções</a></li>
+<li class="toctree-l2"><a class="reference internal" href="controlflow.html#mais-sobre-definicao-de-funcoes">4.7. Mais sobre definição de funções</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="controlflow.html#parametros-com-valores-default">4.7.1. Parâmetros com valores default</a></li>
+<li class="toctree-l3"><a class="reference internal" href="controlflow.html#argumentos-nomeados">4.7.2. Argumentos nomeados</a></li>
+<li class="toctree-l3"><a class="reference internal" href="controlflow.html#listas-arbitrarias-de-argumentos">4.7.3. Listas arbitrárias de argumentos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="controlflow.html#desempacotando-listas-de-argumentos">4.7.4. Desempacotando listas de argumentos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="controlflow.html#construcoes-lambda">4.7.5. Construções lambda</a></li>
+<li class="toctree-l3"><a class="reference internal" href="controlflow.html#strings-de-documentacao">4.7.6. Strings de documentação</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="controlflow.html#intermezzo-estilo-de-codificacao">4.8. Intermezzo: estilo de codificação</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures.html">5. Estruturas de dados</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datastructures.html#mais-sobre-listas">5.1. Mais sobre listas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datastructures.html#usando-listas-como-pilhas">5.1.1. Usando listas como pilhas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datastructures.html#usando-listas-como-filas">5.1.2. Usando listas como filas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datastructures.html#ferramentas-de-programacao-funcional">5.1.3. Ferramentas de programação funcional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datastructures.html#list-comprehensions-ou-abrangencias-de-listas">5.1.4. List comprehensions ou abrangências de listas</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datastructures.html#listcomps-aninhadas">5.1.4.1. Listcomps aninhadas</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datastructures.html#o-comando-del">5.2. O comando <tt class="docutils literal"><span class="pre">del</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="datastructures.html#tuplas-e-sequencias">5.3. Tuplas e sequências</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datastructures.html#sets-conjuntos">5.4. Sets (conjuntos)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datastructures.html#dicionarios">5.5. Dicionários</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datastructures.html#tecnicas-de-iteracao">5.6. Técnicas de iteração</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datastructures.html#mais-sobre-condicoes">5.7. Mais sobre condições</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datastructures.html#comparando-sequencias-e-outros-tipos">5.8. Comparando sequências e outros tipos</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">6. Módulos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#mais-sobre-modulos">6.1. Mais sobre módulos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#executando-modulos-como-scripts">6.1.1. Executando módulos como scripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#o-caminho-de-busca-dos-modulos">6.1.2. O caminho de busca dos módulos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#arquivos-python-compilados">6.1.3. Arquivos Python &#8220;compilados&#8221;</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#modulos-padrao">6.2. Módulos padrão</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#a-funcao-dir">6.3. A função <tt class="docutils literal"><span class="pre">dir()</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#pacotes">6.4. Pacotes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#importando-de-um-pacote">6.4.1. Importando * de um pacote</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#referencias-em-um-mesmo-pacote">6.4.2. Referências em um mesmo pacote</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#pacotes-em-multiplos-diretorios">6.4.3. Pacotes em múltiplos diretórios</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="inputoutput.html">7. Entrada e saída</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="inputoutput.html#refinando-a-formatacao-de-saida">7.1. Refinando a formatação de saída</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="inputoutput.html#formatacao-de-strings-a-moda-antiga-operador">7.1.1. Formatação de strings à moda antiga: operador <tt class="docutils literal"><span class="pre">%</span></tt></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="inputoutput.html#leitura-e-escrita-de-arquivos">7.2. Leitura e escrita de arquivos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="inputoutput.html#metodos-de-objetos-arquivo">7.2.1. Métodos de objetos arquivo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="inputoutput.html#o-modulo-pickle">7.2.2. O módulo <tt class="docutils literal"><span class="pre">pickle</span></tt></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="errors.html">8. Erros e exceções</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="errors.html#erros-de-sintaxe">8.1. Erros de sintaxe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errors.html#excecoes">8.2. Exceções</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errors.html#tratamento-de-excecoes">8.3. Tratamento de exceções</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errors.html#levantando-excecoes">8.4. Levantando exceções</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errors.html#excecoes-definidas-pelo-usuario">8.5. Exceções definidas pelo usuário</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errors.html#definindo-acoes-de-limpeza">8.6. Definindo ações de limpeza</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errors.html#acoes-de-limpeza-predefinidas">8.7. Ações de limpeza predefinidas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="classes.html">9. Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="classes.html#uma-palavra-sobre-nomes-e-objetos">9.1. Uma palavra sobre nomes e objetos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classes.html#escopos-e-namespaces">9.2. Escopos e <em>namespaces</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="classes.html#primeiro-contato-com-classes">9.3. Primeiro contato com classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="classes.html#sintaxe-de-definicao-de-classe">9.3.1. Sintaxe de definição de classe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="classes.html#objetos-classe">9.3.2. Objetos classe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="classes.html#instancias">9.3.3. Instâncias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="classes.html#objetos-metodo">9.3.4. Objetos método</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="classes.html#observacoes-aleatorias">9.4. Observações aleatórias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classes.html#heranca">9.5. Herança</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="classes.html#heranca-multipla">9.5.1. Herança múltipla</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="classes.html#variaveis-privadas">9.6. Variáveis privadas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classes.html#miscelanea">9.7. Miscelânea</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classes.html#excecoes-tambem-sao-classes">9.8. Exceções também são classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classes.html#iteradores">9.9. Iteradores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classes.html#geradores">9.10. Geradores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classes.html#expressoes-geradoras">9.11. Expressões geradoras</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stdlib.html">10. Um breve passeio pela biblioteca padrão</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stdlib.html#interface-com-o-sistema-operacional">10.1. Interface com o sistema operacional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib.html#caracteres-curinga">10.2. Caracteres curinga</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib.html#argumentos-de-linha-de-comando">10.3. Argumentos de linha de comando</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib.html#redirecionamento-de-erros-e-encerramento-do-programa">10.4. Redirecionamento de erros e encerramento do programa</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib.html#reconhecimento-de-padroes-em-strings">10.5. Reconhecimento de padrões em strings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib.html#matematica">10.6. Matemática</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib.html#acesso-a-internet">10.7. Acesso à internet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib.html#data-e-hora">10.8. Data e Hora</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib.html#compressao-de-dados">10.9. Compressão de dados</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib.html#medicao-de-desempenho">10.10. Medição de desempenho</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib.html#controle-de-qualidade">10.11. Controle de qualidade</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib.html#baterias-incluidas">10.12. Baterias incluídas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stdlib2.html">11. Um breve passeio pela biblioteca padrão &#8212; parte II</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stdlib2.html#formatando-a-saida">11.1. Formatando a saída</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib2.html#usando-templates">11.2. Usando templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib2.html#trabalhando-com-formatos-binarios-de-dados">11.3. Trabalhando com formatos binários de dados</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib2.html#multi-threading">11.4. Multi-threading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib2.html#gerando-logs">11.5. Gerando logs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib2.html#referencias-fracas">11.6. Referências fracas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib2.html#ferramentas-para-trabalhar-com-listas">11.7. Ferramentas para trabalhar com listas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib2.html#aritmetica-decimal-com-ponto-flutuante">11.8. Aritmética decimal com ponto flutuante</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="whatnow.html">12. E agora?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interactive.html">13. Edição interativa de entrada e substituição por histórico</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="interactive.html#edicao-de-linha">13.1. Edição de linha</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interactive.html#substituicao-por-historico">13.2. Substituição por histórico</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interactive.html#definicao-de-atalhos">13.3. Definição de atalhos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interactive.html#alternativas-para-o-interpretador-interativo">13.4. Alternativas para o interpretador interativo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">14. Aritmética de ponto flutuante: problemas e limitações</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="floatingpoint.html#erro-de-representacao">14.1. Erro de representação</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Sobre esta tradução</p>
+<p>A tradução original do tutorial da versão 2.1 do inglês para o português
+foi feita por Rodrigo Senra, e patrocinada pela <a class="reference external" href="http://www.gpr.com.br">GPr</a> Sistemas Ltda.</p>
+<p>A atualização do tutorial para a versão 2.4 foi realizada por voluntários
+do projeto <a class="reference external" href="http://www.pythonbrasil.com.br/moin.cgi/PythonDoc">PythonDoc-Brasil</a>: Pedro Werneck, Osvaldo Santana Neto, José
+Alexandre Nalon, Felipe Lessa, Pedro de Medeiros, Rafael Almeida, Renata
+Palazzo, Rodrigo Senra e outros. Veja a lista completa: <a class="reference external" href="http://code.google.com/p/pydoc-br/source/browse/CREDITOS.txt">CREDITOS.TXT</a>.</p>
+<p>A atualização para a versão 2.7 foi iniciada por Luciano Ramalho.</p>
+<p class="last">Veja <a class="reference internal" href="NOTAS.html#notas-tradutores"><em>Notas para os tradutores da versão pt-br</em></a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../whatsnew/2.0.html"
+                        title="previous chapter">What&#8217;s New in Python 2.0</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="appetite.html"
+                        title="next chapter">1. Abrindo o apetite</a></p>
+<h3>This Page</h3>
+<ul class="this-page-menu">
+  <li><a href="../bugs.html">Report a Bug</a></li>
+  <li><a href="../_sources/tutorial/index.txt"
+         rel="nofollow">Show Source</a></li>
+</ul>
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="appetite.html" title="1. Abrindo o apetite"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../whatsnew/2.0.html" title="What’s New in Python 2.0"
+             >previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">Python v2.7.2 documentation</a> &raquo;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer">
+    &copy; <a href="../copyright.html">Copyright</a> 1990-2012, Python Software Foundation.
+    <br />
+    The Python Software Foundation is a non-profit corporation.  
+    <a href="http://www.python.org/psf/donations/">Please donate.</a>
+    <br />
+    Last updated on Oct 15, 2012.
+    <a href="../bugs.html">Found a bug</a>?
+    <br />
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+
+  </body>
+</html>

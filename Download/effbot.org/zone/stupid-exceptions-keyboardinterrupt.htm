@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Stupid Python Tricks: The KeyboardInterrupt&nbsp;Exception</title></head><body data-page-id="281"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Stupid Python Tricks: The KeyboardInterrupt&nbsp;Exception</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">February 17, 2003 | Fredrik Lundh</p><p>If you try to stop a CPython program using Control-C, the
+interpreter throws a <b>KeyboardInterrupt</b> exception.</p><p>Unfortunately, this is an ordinary exception, and is, like all
+other exceptions, caught by a &#8220;catch-all&#8221; <b>try-except</b>
+statement.</p><pre class="python">
+<span class="pykeyword">try</span>:
+    <span class="pycomment"># do something</span>
+<span class="pykeyword">except</span>:
+    <span class="pycomment"># you'll end up here if something goes wrong,</span>
+    <span class="pycomment"># or if the user presses control-c</span></pre><p>For example, if your program contains code like the following, your
+users may find that pressing Control-C is a great way to mess up their
+database, but a really lousy way to stop the program:</p><pre class="python">
+<span class="pykeyword">for</span> record <span class="pykeyword">in</span> database:
+    <span class="pykeyword">try</span>:
+        process(record)
+        <span class="pykeyword">if</span> changed:
+            update(record)
+    <span class="pykeyword">except</span>:
+        <span class="pycomment"># report error and proceed</span></pre><p>To solve the exception problem, add a separate <b>except</b>-clause
+that catches the <b>KeyboardInterrupt</b> exception, and raises it
+again:</p><pre class="python">
+<span class="pykeyword">for</span> record <span class="pykeyword">in</span> database:
+    <span class="pykeyword">try</span>:
+        process(record)
+        <span class="pykeyword">if</span> changed:
+            update(record)
+    <span class="pykeyword">except</span> KeyboardInterrupt:
+        <span class="pykeyword">raise</span>
+    <span class="pykeyword">except</span>:
+        <span class="pycomment"># report error and proceed</span></pre><p>or, even better:</p><pre class="python">
+<span class="pykeyword">for</span> record <span class="pykeyword">in</span> database:
+    <span class="pykeyword">try</span>:
+        process(record)
+        <span class="pykeyword">if</span> changed:
+            update(record)
+    <span class="pykeyword">except</span> (KeyboardInterrupt, SystemExit):
+        <span class="pykeyword">raise</span>
+    <span class="pykeyword">except</span>:
+        <span class="pycomment"># report error and proceed</span></pre><p>By looking for SystemExit as well, calling <b>sys.exit()</b> in the
+processing or update code will actually stop the program.</p><p>Note that if the update process isn&#8217;t an atomic operation in itself, it&#8217;s
+also a good idea to use database transactions, and roll back when something
+goes wrong:</p><pre class="python">
+<span class="pykeyword">for</span> record <span class="pykeyword">in</span> database:
+    begin()
+    <span class="pykeyword">try</span>:
+        process(record)
+        <span class="pykeyword">if</span> changed:
+            update(record)
+    <span class="pykeyword">except</span> (KeyboardInterrupt, SystemExit):
+        rollback()
+        <span class="pykeyword">raise</span>
+    <span class="pykeyword">except</span>:
+        rollback()
+        <span class="pycomment"># report error and proceed</span>
+    <span class="pykeyword">else</span>:
+        commit()</pre></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

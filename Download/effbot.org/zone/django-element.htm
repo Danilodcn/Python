@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Including Element Trees in Django&nbsp;Templates</title></head><body data-page-id="41"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Including Element Trees in Django&nbsp;Templates</h1></div><div class="yui-ge"><div class="yui-u first"><p> Jason Huggins: <s><a href="http://www.jrandolph.com/blog/?p=23">&#8220;<i>To me, Django feels like just another Python library&#8230; and I can plug in additional libraries (like ElementTree for XML or the python ldap library) with no pain or bondage required. The things I&#8217;ve seen of Zope 3 do say &#8216;its more pythonic&#8217;, but I don&#8217;t buy it when the next step says &#8216;now go edit this XML file&#8217;&#8230; and &#8220;now let&#8217;s write a Python interface class&#8221;.  Yuck. Just let me import my little Python library and be done with it.</i>&#8221;</a></s> (dead link)
+</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide"> Here&#8217;s an ultrasimple <a href="element-index.htm">elementtree</a> serialization filter for Django::
+
+<pre class="python wide">
+<span class="pycomment"># File: templatetags/elementtree_extras.py</span>
+
+<span class="pykeyword">try</span>:
+    <span class="pykeyword">import</span> cElementTree <span class="pykeyword">as</span> ET
+<span class="pykeyword">except</span> ImportError:
+    <span class="pykeyword">from</span> elementtree.ElementTree <span class="pykeyword">as</span> ET
+
+<span class="pykeyword">from</span> django.core <span class="pykeyword">import</span> template
+
+register = template.Library()
+
+<span class="pycomment">##</span>
+<span class="pycomment"># Serializes an element structure to XHTML (or just plain XML).</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">tostring</span>(elem):
+    <span class="pystring">"Serialize element structure to XHTML."</span>
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> ET.iselement(elem):
+        <span class="pykeyword">return</span> elem
+    <span class="pykeyword">return</span> ET.tostring(elem)
+
+register.filter(tostring)</pre></p></div><div class="yui-ge"><div class="yui-u first"><p>(See <s><a href="http://www.djangoproject.com/documentation/templates_python/"><i>Writing custom template filters</i></a></s> (dead link) for instructions on how to install this.)
+
+</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">With this in place, you can return element structures from your model
+view, and explicitly render required trees from the template:
+
+<pre class="xml wide">
+&lt;<span class="pyfunction">!DOCTYPE</span> HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd"&gt;
+{% load elementtree_extras %}
+&lt;<span class="pyfunction">html</span>&gt;&lt;<span class="pyfunction">head</span>&gt;
+&lt;<span class="pyfunction">meta</span> http-equiv='Content-Type' content='text/html;charset=utf-8'&gt;
+&lt;<span class="pyfunction">title</span>&gt;{{ title|escape }}&lt;/<span class="pyfunction">title</span>&gt;
+&lt;/<span class="pyfunction">head</span>&gt;
+{{ body_elem|tostring }}
+&lt;/<span class="pyfunction">html</span>&gt;</pre></p></div><div class="yui-ge"><div class="yui-u first"><p>If you accidentally leave out the <b>tostring</b> filter, the element
+tree will be rendered as &#8220;&lt;Element &#8216;body&#8217; at 00A83C90&gt;&#8221; or something
+similar (which means that you may have to look at the page source to see
+it).</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

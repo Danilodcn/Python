@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Compiling Python&nbsp;Code</title></head><body data-page-id="212"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Compiling Python&nbsp;Code</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">July 12, 2003 | Fredrik Lundh</p><p>Python source code is automatically compiled into Python byte code
+by the CPython interpreter.  Compiled code is usually stored in PYC (or
+PYO) files, and is regenerated when the source is updated, or when
+otherwise necessary.</p><p>To distribute a program to people who already have Python installed,
+you can ship either the PY files or the PYC files.  In recent versions,
+you can also create a ZIP archive containing PY or PYC files, and use
+a small &#8220;bootstrap script&#8221; to add that ZIP archive to the path.</p><p>To &#8220;compile&#8221; a Python program into an executable, use a bundling
+tool, such as:</p><ul><li><a href="http://www.pyinstaller.org/">Gordon McMillan&#8217;s installer</a> (cross-platform)
+</li><li><a href="http://www.py2exe.org">Thomas Heller&#8217;s py2exe</a> (Windows)
+</li><li><a href="http://starship.python.net/crew/atuining/cx_Freeze/">Anthony Tuininga&#8217;s cx_Freeze</a> (cross-platform)
+</li><li><a href="http://undefined.org/python/">Bob Ippolito&#8217;s py2app</a> (Mac)
+</li></ul><p>These tools
+puts your modules and data files in an archive file, and creates
+an executable that automatically sets things up so that modules are
+imported from that archive.  Some tools can embed the archive in the
+executable itself.</p><p>If all you need is to wrap up a couple of Python scripts and
+modules into a single file, <a href="squeeze.htm">Squeeze</a> might be what
+you need.  For Windows, my <a href="exemaker.htm">ExeMaker</a> tool can also
+be quite useful (on its own, or in combination with squeeze).</p><h3 id="compiling-python-modules">Compiling Python modules to byte code&#160;<a class="nav" href="#compiling-python-modules" title="bookmark!">#</a></h3><p>Python automatically compiles Python source code when you import
+a module, so the easiest way to create a PYC file is to import it.
+If you have a module <b>mymodule.py</b>, just do:</p><pre class="python">
+&gt;&gt;&gt; <span class="pykeyword">import</span> mymodule</pre><p>to create a <b>mymodule.pyc</b> file in the same directory.
+A drawback is that it doesn&#8217;t only compile the module, it also
+executes it, which may not be what you want.  (however, it does
+compile the entire script even if it fails to execute the script).</p><p>To do this programmatically, and without executing the code,
+you can use <a href="/tag/python.py-compile">the <b>py_compile</b>
+module</a>:</p><pre class="python">
+<span class="pykeyword">import</span> py_compile
+
+py_compile.compile(<span class="pystring">"mymodule.py"</span>)</pre><p>There&#8217;s also <a href="/tag/python.compileall">a <b>compileall</b>
+module</a> which can be used to compile all modules in an entire directory
+tree.</p><pre class="python">
+<span class="pykeyword">import</span> compileall
+
+compileall.compile_dir(<span class="pystring">"mylib"</span>, force=1)</pre><h3 id="more-on-byte-code">More on byte code&#160;<a class="nav" href="#more-on-byte-code" title="bookmark!">#</a></h3><p>Python&#8217;s byte code is portable between platforms, but not necessarily
+between Python releases.  The <b>imp.get_magic()</b> function returns a
+4-byte string identifying the byte code format used by the current interpreter.</p><p>You can use the <b>compile</b> function and <a href="/tag/python.marshal">the <b>marshal</b> module</a>
+to compile Python code into code objects, and convert such code objects
+to binary strings.  To reverse this process, use <b>marshal</b> to convert
+from strings to code, and use <b>exec</b> to execute code.</p><p><i>Examples to be added.</i></p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><ul><li><a href="#compiling-python-modules">Compiling Python modules to byte code</a></li><li><a href="#more-on-byte-code">More on byte code</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

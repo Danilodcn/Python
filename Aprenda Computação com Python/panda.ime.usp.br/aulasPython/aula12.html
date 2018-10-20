@@ -1,0 +1,483 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Funções com matrizes &mdash; Aulas de Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Aulas de Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Strings e arquivos" href="aula13.html" />
+    <link rel="prev" title="Matrizes" href="aula11.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'aulasPython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="aula13.html" title="Strings e arquivos"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="aula11.html" title="Matrizes"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="funcoes-com-matrizes">
+<h1>Funções com matrizes<a class="headerlink" href="#funcoes-com-matrizes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="topicos">
+<span id="index-0"></span><h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>Mais funções com Matrizes</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="exercicio-12-1">
+<h3>Exercício 12.1<a class="headerlink" href="#exercicio-12-1" title="Permalink to this headline">¶</a></h3>
+<p><strong>Parte A</strong></p>
+<p>Escreva uma função que recebe um inteiro <tt class="docutils literal"><span class="pre">lin</span></tt> e uma matriz real <tt class="docutils literal"><span class="pre">A</span></tt> e
+outro inteiro <tt class="docutils literal"><span class="pre">col</span></tt> e uma matriz real <tt class="docutils literal"><span class="pre">B</span></tt>,
+e calcula a soma do produto entre os elementos da linha
+<tt class="docutils literal"><span class="pre">lin</span></tt> de <tt class="docutils literal"><span class="pre">A</span></tt> e com os respectivos elementos da coluna <tt class="docutils literal"><span class="pre">col</span></tt>
+de <tt class="docutils literal"><span class="pre">B</span></tt>.
+Você deve considerar que o número de colunas de <tt class="docutils literal"><span class="pre">A</span></tt> é o mesmo número
+de linhas de <tt class="docutils literal"><span class="pre">B</span></tt>.</p>
+
+<div id="aula12_ex121a_tentativa" >
+<textarea cols="50" rows="12" id="aula12_ex121a_tentativa_code" class="active_code">
+def produto_lincol(lin, a_mat, col, b_mat):
+    '''(int, matriz, int, matriz) -> float
+
+    Recebe duas matriz a_mat e b_mat e dois inteiros lin e col
+    e calcula a soma o produto entre a linha lin de a_mat com
+    a coluna col de b_mat
+
+    Pre-condicao: a funcao supoe que o numero
+       de colunas de a_mat e igual ao numero de linhas
+       de b_mat
+    '''
+
+    print("Vixe! Ainda nao fiz a funcao!")
+
+# teste
+A = [ [1, 2, 1],
+      [2, 2, 2],
+      [1, 3, 2]]
+B = [ [1, 1],
+      [2, 0],
+      [0, 1] ]
+produto_lincol(1, A, 0, B)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula12_ex121a_tentativa)</span> </p>
+<button onclick="runit('aula12_ex121a_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula12_ex121a_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula12_ex121a_tentativa');">Load</button>
+<br />
+
+<canvas id="aula12_ex121a_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula12_ex121a_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>Parte B</strong></p>
+<p>Utilizando a função do item anterior, escreva um programa que
+leia duas matrizes, a matriz <tt class="docutils literal"><span class="pre">A</span></tt> de dimensão <tt class="docutils literal"><span class="pre">m</span> <span class="pre">x</span> <span class="pre">n</span></tt> e <tt class="docutils literal"><span class="pre">B</span></tt>
+de dimensão <tt class="docutils literal"><span class="pre">n</span> <span class="pre">x</span> <span class="pre">p</span></tt> e imprime a matriz <tt class="docutils literal"><span class="pre">C</span></tt> de dimensão <tt class="docutils literal"><span class="pre">m</span> <span class="pre">x</span>
+<span class="pre">p</span></tt> que é o produto de <tt class="docutils literal"><span class="pre">A</span></tt> por <tt class="docutils literal"><span class="pre">B</span></tt>.</p>
+
+<div id="aula12_ex121b_tentativa" >
+<textarea cols="50" rows="12" id="aula12_ex121b_tentativa_code" class="active_code">
+#-----------------------------------------------
+def main():
+    '''
+    Le duas matrizes A e B e calcula o produto
+    '''
+    # escreva o seu programa abaixo e remova o print()
+    print("Vixe! Ainda nao fiz o exercicio!")
+
+#-----------------------------------------------
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula12_ex121b_tentativa)</span> </p>
+<button onclick="runit('aula12_ex121b_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula12_ex121b_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula12_ex121b_tentativa');">Load</button>
+<br />
+
+<canvas id="aula12_ex121b_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula12_ex121b_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-12-2">
+<h3>Exercício 12.2<a class="headerlink" href="#exercicio-12-2" title="Permalink to this headline">¶</a></h3>
+<p><strong>Parte A</strong></p>
+<p>Escreva uma função <tt class="docutils literal"><span class="pre">MAX</span></tt> que recebe como entrada
+uma matriz inteira <tt class="docutils literal"><span class="pre">A</span></tt> e devolve três inteiros:
+<tt class="docutils literal"><span class="pre">k</span></tt>, <tt class="docutils literal"><span class="pre">lin</span></tt> e <tt class="docutils literal"><span class="pre">col</span></tt>. O inteiro <tt class="docutils literal"><span class="pre">k</span></tt> é um maior elemento de
+<tt class="docutils literal"><span class="pre">A</span></tt> e é igual a <tt class="docutils literal"><span class="pre">A[lin,col]</span></tt>.</p>
+
+<div id="aula12_ex122a_tentativa" >
+<textarea cols="50" rows="12" id="aula12_ex122a_tentativa_code" class="active_code">
+def acha_max(A):
+    '''(matriz) -> int, int, int
+
+    Recebe uma matriz A e devolve 3 inteiros:
+    k (um maior valor), e sua posicao lin, col.
+    '''
+    print("Vixe! Ainda nao fiz a funcao!")
+
+# teste
+A = [ [3, 7, 1], [1, 2, 8], [5, 3, 4]]
+acha_max(A)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula12_ex122a_tentativa)</span> </p>
+<button onclick="runit('aula12_ex122a_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula12_ex122a_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula12_ex122a_tentativa');">Load</button>
+<br />
+
+<canvas id="aula12_ex122a_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula12_ex122a_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">A</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>a função deve devolver</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>Obs.: Se o elemento máximo ocorrer mais de uma vez, indique em <tt class="docutils literal"><span class="pre">lin</span></tt> e
+<tt class="docutils literal"><span class="pre">col</span></tt> qualquer uma das possíveis posições.</p>
+<p><strong>Parte B</strong></p>
+<p>Escreva um programa que, dado dois inteiros <tt class="docutils literal"><span class="pre">nl</span></tt> e <tt class="docutils literal"><span class="pre">nc</span></tt> e uma
+matriz quadrada de dimensão <tt class="docutils literal"><span class="pre">nl</span> <span class="pre">x</span> <span class="pre">nc</span></tt>, cujos elementos são todos
+inteiros, imprime uma tabela onde os elementos são listados
+em ordem decrescente, acompanhados da indicação de linha e coluna a
+que pertencem. Havendo repetições de elementos na matriz, a ordem é
+irrelevante. Utilize obrigatoriamente o procedimento da parte A,
+mesmo que você não o tenha feito.</p>
+<p>Ex.: No caso da matriz acima, a saída poderia ser:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Elem</span>   <span class="n">Linha</span>  <span class="n">Coluna</span>
+  <span class="mi">8</span>      <span class="mi">1</span>      <span class="mi">2</span>
+  <span class="mi">7</span>      <span class="mi">0</span>      <span class="mi">1</span>
+  <span class="mi">5</span>      <span class="mi">2</span>      <span class="mi">0</span>
+  <span class="mi">4</span>      <span class="mi">2</span>      <span class="mi">2</span>
+  <span class="mi">3</span>      <span class="mi">0</span>      <span class="mi">0</span>
+  <span class="mi">3</span>      <span class="mi">2</span>      <span class="mi">1</span>
+  <span class="mi">2</span>      <span class="mi">1</span>      <span class="mi">1</span>
+  <span class="mi">1</span>      <span class="mi">0</span>      <span class="mi">2</span>
+  <span class="mi">1</span>      <span class="mi">1</span>      <span class="mi">0</span>
+</pre></div>
+</div>
+
+<div id="aula12_ex122b_tentativa" >
+<textarea cols="50" rows="12" id="aula12_ex122b_tentativa_code" class="active_code">
+#-----------------------------------------------
+def main():
+    '''
+    Le uma matriz de inteiros de dimensao nl x nc,
+    e imprime os seus valores em ordem decrescente.
+    '''
+    # escreva o seu programa abaixo e remova o print()
+    print("Vixe! Ainda nao fiz o exercicio!")
+
+#-----------------------------------------------
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula12_ex122b_tentativa)</span> </p>
+<button onclick="runit('aula12_ex122b_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula12_ex122b_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula12_ex122b_tentativa');">Load</button>
+<br />
+
+<canvas id="aula12_ex122b_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula12_ex122b_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-12-3">
+<h3>Exercício 12.3<a class="headerlink" href="#exercicio-12-3" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="http://pt.wikipedia.org/wiki/Campo_minado">Campo Minado</a> é um
+jogo que se tornou muito popular por acompanhar o sistema operacional
+Microsoft Windows.</p>
+<p>Nesse jogo, o campo minado pode ser representado por uma matriz
+retangular. O jogador deve revelar todas as posições livres (sem
+bomba) da matriz, clicando em uma posição com conteúdo desconhecido.
+O jogo acaba quando o jogador clicar em uma posição com bomba, ou
+quando todas as posições livres forem abertas.</p>
+<p>Nesse exercício, você deve implementar algumas funções que podem ser
+utilizadas na implementação desse jogo.</p>
+<p><strong>Parte A</strong></p>
+<p>Escreva uma função que recebe como parâmetros uma matriz inteira <tt class="docutils literal"><span class="pre">A</span></tt>
+e uma posição (lin, col) da matriz, e conta quantas posições ao redor
+da posição (lin, col) contém o valor -1 (valor adotado para
+representar uma bomba)</p>
+<div class="admonition-uso-de-constantes admonition">
+<p class="first admonition-title">Uso de constantes</p>
+<p class="last">O uso de constantes é uma boa prática de programação. No caso do
+campo minado, ao invés de utilizar o valor -1, podemos criar uma
+constante (variável que nunca muda de valor após criada) chamada
+BOMBA com o valor -1.</p>
+</div>
+
+<div id="campo_minado_1" >
+<textarea cols="50" rows="12" id="campo_minado_1_code" class="active_code">
+BOMBA = -1
+
+def conta_bomba(A, lin, col):
+    '''
+    Recebe uma matriz inteira A e uma posicao (lin, col), e
+    retorna o numero de bombas ao redor de (lin, col)
+    '''
+    # escreva o seu programa abaixo e remova o print()
+    print("Vixe! Ainda nao fiz o exercicio!")
+
+    # exemplo para usar a constante BOMBA
+    # if A[lin][col] != BOMBA:
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (campo_minado_1)</span> </p>
+<button onclick="runit('campo_minado_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('campo_minado_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('campo_minado_1');">Load</button>
+<br />
+
+<canvas id="campo_minado_1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="campo_minado_1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>Parte B</strong></p>
+<p>Escreva um programa que lê uma matriz A de 0&#8217;s (posições livres) e -1&#8217;s (bomba).
+Utilizando a função do item anterior, o programa deve computar
+e imprimir a quantidade de bombas ao redor de cada posição livre da matriz.</p>
+
+<div id="campo_minado_2" >
+<textarea cols="50" rows="12" id="campo_minado_2_code" class="active_code">
+BOMBA = -1
+LIVRE =  0
+
+def main():
+    '''
+    Le uma matriz A com 0's e 1's e calcula a quantidade de
+    bombas ao redor de cada posição livre.
+    '''
+    # escreva o seu programa abaixo e remova o print()
+    print("Vixe! Ainda nao fiz o exercicio!")
+
+#-----------------------------------------------
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (campo_minado_2)</span> </p>
+<button onclick="runit('campo_minado_2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('campo_minado_2');">Save</button>
+<button class="ac_opt" onclick="requestCode('campo_minado_2');">Load</button>
+<br />
+
+<canvas id="campo_minado_2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="campo_minado_2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Funções com matrizes</a><ul>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a><ul>
+<li><a class="reference internal" href="#exercicio-12-1">Exercício 12.1</a></li>
+<li><a class="reference internal" href="#exercicio-12-2">Exercício 12.2</a></li>
+<li><a class="reference internal" href="#exercicio-12-3">Exercício 12.3</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="aula11.html"
+                        title="previous chapter">Matrizes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="aula13.html"
+                        title="next chapter">Strings e arquivos</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="aula13.html" title="Strings e arquivos"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="aula11.html" title="Matrizes"
+             >previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Mar 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>XML&nbsp;Infosets</title></head><body data-page-id="80"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">XML&nbsp;Infosets</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Updated July 18, 2002 | May 1, 2002 | Fredrik Lundh</p><h2>The XML Infoset Model</h2><p>The <a href="http://www.w3.org/TR/xml-infoset/">XML Information Set
+(Infoset)</a> is an attempt to define a data model complete enough to
+represent anything that can be stored in an XML document.  The infoset
+defines a number of &#8220;abstract&#8221; building blocks, such as
+elements, attributes and characters.</p><p>(It&#8217;s probably a good idea to see the infoset data model as the
+basis for the entire XML universe.  The <a href="http://www.w3.org/TR/REC-xml">XML 1.0</a> specification simply
+describes a way to store infosets as byte streams, and standards like
+<a href="http://www.w3.org/TR/DOM-Level-2-Core/">DOM</a> and SAX
+provide programming interfaces.  Or in other words, everything beyond
+the infoset proper are just implementation details.)</p><p>The XML infoset is a tree structure, with a <b>Document Information
+Item</b> as the &#8220;root&#8221; node.  This node must contain exactly
+one <b>Element Information Item</b>, which in turn can contain a mix
+of child elements, character items, comments, and a couple of other
+element types.</p><p>What follows is a somewhat simplified overview of the infoset,
+given as a number of Python classes, with brief annotations.</p><h3>The Document Root Node</h3><p>The root node contains information about the document itself, as
+well as a list of toplevel nodes.  The most important node is the
+document element, which is available both in the child list, and via
+the <b>document_element</b> attribute.  The child list can also
+contain comments and processing instructions, but not multiple
+elements:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">DocumentInformationItem</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self):
+        self.children = [] <span class="pycomment"># child items, in document order</span>
+        self.document_element = None <span class="pycomment"># root element item</span>
+        self.base_uri = <span class="pystring">""</span></pre><h3>Element Nodes</h3><p>Each element is represented by a separate information item.  The
+element contains a reference to its parent (either the document root,
+or another element) and an ordered list of child elements.</p><p>It also contains an unordered collection of attribute item
+(represented by a dictionary in the code sample below).  Each
+attribute item maps a name to a value.</p><p>Element and attribute names consist of three parts; the <b>local
+name</b>, and optional <b>namespace</b> and <b>prefix</b> strings.  A
+complete name is formed by the (namespace, local name) tuple.  The
+prefix is used in the XML file, and shouldn&#8217;t be used to identify
+elements and attributes in the infoset.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">class</span> <span class="pyclass">ElementInformationItem</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self):
+        self.parent = None
+        self.children = [] <span class="pycomment"># child items, in document order</span>
+        self.attributes = {} <span class="pycomment"># contains attribute information items</span>
+        self.name = <span class="pystring">""</span>
+        self.namespace = None <span class="pycomment"># namespace uri</span>
+        self.prefix = None <span class="pycomment"># namespace prefix</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">AttributeInformationItem</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self):
+        self.value = <span class="pystring">""</span>
+        self.name = <span class="pystring">""</span>
+        self.namespace = None
+        self.prefix = None</pre></div><div class="yui-ge"><div class="yui-u first"><h3>Character Data</h3><p>Conceptually, character data is stored as a number of character
+items.  Each item stores a single character, whether it comes from
+literal text given between start and end tags, a character reference,
+or the content of a CDATA element.</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">CharacterInformationItem</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self):
+        self.parent = None <span class="pycomment"># parent element</span>
+        self.code = 0 <span class="pycomment"># iso 10646 character code</span></pre><p>In practice, any reasonable implementation would probably store
+runs of characters as strings, in a single node object:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">CharacterInformationItem</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self):
+        self.parent = None <span class="pycomment"># parent element</span>
+        self.characters = <span class="pystring">u""</span></pre><p>Still, the infoset does not care about how the text was stored in
+the XML file.  Even if there are more than one consecutive character
+information node in an element list, you cannot assume that they come
+from separate syntactical elements in the XML file.</p><h3>Additional Nodes</h3><p>Finally, the infoset can contain additional nodes representing
+various constructs that can be used in an XML file, such as comments
+and processing instructions.</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">CommentInformationItem</span>:
+    <span class="pycomment"># &lt;!-- content --&gt;</span>
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self):
+        self.parent = None <span class="pycomment"># parent element</span>
+        self.content = <span class="pystring">""</span> <span class="pycomment"># comment contents</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">ProcessingInstructionInformationItem</span>:
+    <span class="pycomment"># &lt;?target content?&gt;</span>
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self):
+        self.parent = None <span class="pycomment"># parent element</span>
+        self.target = <span class="pystring">""</span>
+        self.content = <span class="pystring">""</span></pre><p>See the Infoset specification for a full list of additional
+node types.</p><h2>The Python Document Object Model</h2><p><i>Coming soon.</i></p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

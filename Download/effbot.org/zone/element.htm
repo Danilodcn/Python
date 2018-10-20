@@ -1,0 +1,258 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Elements and Element&nbsp;Trees</title></head><body data-page-id="71"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Elements and Element&nbsp;Trees</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | Last updated July 2007</p><p>This note introduces the Element, SubElement and ElementTree types
+available in <a href="/downloads/#elementtree">the effbot.org
+elementtree library</a>.</p><p>For an overview, with links to articles and more documentation, see the
+<a href="element-index.htm"><cite>ElementTree Overview</cite></a> page.</p><p>For an API reference, see <a href="pythondoc-elementtree-ElementTree.htm"><cite>The elementtree.ElementTree Module</cite></a>.</p><p>You can download the library from <a href="/downloads/#elementtree">the effbot.org downloads
+page</a>.</p><p>In this article:</p><dl><dt><a href="#the-element-type">The Element Type</a></dt><dt><a href="#attributes">Attributes</a></dt><dt><a href="#text-content">Text Content</a></dt><dt><a href="#searching-for-subelements">Searching for Subelements</a></dt><dt><a href="#reading-and-writing-xml-files">Reading and Writing XML Files</a></dt><dt><a href="#xml-namespaces">XML Namespaces</a></dt></dl><h2 id="the-element-type">The Element Type&#160;<a class="nav" href="#the-element-type" title="bookmark!">#</a></h2><p>The <a href="pythondoc-elementtree-ElementTree.htm#elementtree.ElementTree.Element-function"><b>Element</b></a> type is a flexible container object, designed
+to store hierarchical data structures in memory.  The type can be
+described as a cross between a list and a dictionary.</p><p>Each element has a number of properties associated with it:</p><ul><li>a <i>tag</i>.  This is a string identifying what kind of data this
+element represents (the <i>element type</i>, in other words).</li><li>a number of <i>attributes</i>, stored in a Python dictionary.</li><li>a <i>text</i> string to hold text content, and a <i>tail</i>
+string to hold trailing text</li><li>a number of <i>child elements</i>, stored in a Python sequence</li></ul><p>All elements must have a tag, but all other properties are
+optional.  All strings can either be Unicode strings, or 8-bit
+strings containing US-ASCII only.</p><p>To create an element, call the <b>Element</b> constructor, and pass
+the tag string as the first argument:</p><pre class="python">
+<span class="pykeyword">from</span> elementtree.ElementTree <span class="pykeyword">import</span> Element
+
+root = Element(<span class="pystring">"root"</span>)</pre><p>You can access the tag string via the <b>tag</b> attribute:</p><pre class="python">
+<span class="pykeyword">print</span> root.tag</pre><p>To build a tree, create more elements, and append them to the
+parent element:</p><pre class="python">
+root = Element(<span class="pystring">"root"</span>)
+
+root.append(Element(<span class="pystring">"one"</span>))
+root.append(Element(<span class="pystring">"two"</span>))
+root.append(Element(<span class="pystring">"three"</span>))</pre><p>Since this is a very common operation, the library provides a
+helper function called <b>SubElement</b> that creates a
+new element and adds it to its parent, in one step:</p><pre class="python">
+<span class="pykeyword">from</span> elementtree.ElementTree <span class="pykeyword">import</span> Element, SubElement
+
+root = Element(<span class="pystring">"root"</span>)
+
+SubElement(root, <span class="pystring">"one"</span>)
+SubElement(root, <span class="pystring">"two"</span>)
+SubElement(root, <span class="pystring">"three"</span>)</pre><p>To access the subelements, you can use ordinary list (sequence)
+operations.  This includes <b>len(element)</b> to get the number of
+subelements, <b>element[i]</b> to fetch the i&#8217;th subelement, and using
+the <b>for-in</b> statement to loop over the subelements:</p><pre class="python">
+<span class="pykeyword">for</span> node <span class="pykeyword">in</span> root:
+    <span class="pykeyword">print</span> node</pre><p>The element type also supports slicing (including slice
+assignment), and the standard <b>append</b>, <b>insert</b> and
+<b>remove</b> methods:</p><pre class="python">
+nodes = node[1:5]
+node.append(subnode)
+node.insert(0, subnode)
+node.remove(subnode)</pre><p>Note that <b>remove</b> takes an element, not a tag.  To find the
+element to remove, you can either loop over the parent, or use one of
+the <b>find</b> methods described below.</p><h3 id="truth-testing">Truth Testing&#160;<a class="nav" href="#truth-testing" title="bookmark!">#</a></h3><p>In ElementTree 1.2 and earlier, the sequence behaviour
+means that an element without any subelements tests as false (since it&#8217;s
+an empty sequence), even if it contains text or attributes.
+To check the return value from a function or method that may
+return None instead of a node, you must use an explicit test.</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">fetchnode</span>():
+    ...
+
+node = fetchnode()
+
+<span class="pykeyword">if</span> <span class="pykeyword">not</span> node: <span class="pycomment"># careful!</span>
+    <span class="pykeyword">print</span> <span class="pystring">"node not found, or node has no subnodes"</span>
+
+<span class="pykeyword">if</span> node <span class="pykeyword">is</span> None:
+    <span class="pykeyword">print</span> <span class="pystring">"node not found"</span></pre><p class="note"><b>Note:</b>
+This behaviour is likely to change somewhat in ElementTree 1.3.  To write
+code that is compatible in both directions, use &#8220;element is None&#8221; to test
+for a missing element, and &#8220;len(element)&#8221; to test for non-empty elements.
+</p><h3 id="accessing-parents">Accessing Parents&#160;<a class="nav" href="#accessing-parents" title="bookmark!">#</a></h3><p>The element structure has no parent pointers.  If you need to keep
+track of child/parent relations, you can structure your program
+to work on the parents rather than the children:</p><pre class="python">
+<span class="pykeyword">for</span> parent <span class="pykeyword">in</span> tree.getiterator():
+    <span class="pykeyword">for</span> child <span class="pykeyword">in</span> parent:
+        ... work on parent/child tuple</pre><p>The <b>getiterator</b> function is explained in further detail below.</p><p>If you do this a lot, you can wrap the iterator code in a generator
+function:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">iterparent</span>(tree):
+    <span class="pykeyword">for</span> parent <span class="pykeyword">in</span> tree.getiterator():
+        <span class="pykeyword">for</span> child <span class="pykeyword">in</span> parent:
+            <span class="pykeyword">yield</span> parent, child
+
+<span class="pykeyword">for</span> parent, child <span class="pykeyword">in</span> iterparent(tree):
+    ... work on parent/child tuple</pre><p> Another approach is to use a separate data structure to map from
+child elements to their parents.  In Python 2.4 and later, the following one-liner creates a child/parent map for an entire tree:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+parent_map = dict((c, p) <span class="pykeyword">for</span> p <span class="pykeyword">in</span> tree.getiterator() <span class="pykeyword">for</span> c <span class="pykeyword">in</span> p)</pre></div><div class="yui-ge"><div class="yui-u first"><h2 id="attributes">Attributes&#160;<a class="nav" href="#attributes" title="bookmark!">#</a></h2><p>In addition to the tag and the list of subelements, each element
+can have one or more attributes.  Each element attribute consists of
+a string key, and a corresponding value.  As for ordinary Python
+dictionaries, all keys must be unique.</p><p>Element attributes are in fact stored in a standard Python
+dictionary, which can be accessed via the <b>attrib</b> attribute.  To
+set attributes, you can simply assign to <b>attrib</b> members:</p><pre class="python">
+<span class="pykeyword">from</span> elementtree.ElementTree <span class="pykeyword">import</span> Element
+
+elem = Element(<span class="pystring">"tag"</span>)
+elem.attrib[<span class="pystring">"first"</span>] = <span class="pystring">"1"</span>
+elem.attrib[<span class="pystring">"second"</span>] = <span class="pystring">"2"</span></pre><p>When creating a new element, you can pass in element attributes
+using keyword arguments.  The previous example is better written
+as:</p><pre class="python">
+<span class="pykeyword">from</span> elementtree.ElementTree <span class="pykeyword">import</span> Element
+
+elem = Element(<span class="pystring">"tag"</span>, first=<span class="pystring">"1"</span>, second=<span class="pystring">"2"</span>)</pre><p>The Element type provides shortcuts for <b>attrib.get</b>,
+<b>attrib.keys</b>, and <b>attrib.items</b>.  There&#8217;s also a
+<b>set</b> method, to set the value of an element attribute:</p><pre class="python">
+<span class="pykeyword">from</span> elementtree.ElementTree <span class="pykeyword">import</span> Element
+
+elem = Element(<span class="pystring">"tag"</span>, first=<span class="pystring">"1"</span>, second=<span class="pystring">"2"</span>)
+
+<span class="pycomment"># print 'first' attribute</span>
+<span class="pykeyword">print</span> elem.attrib.get(<span class="pystring">"first"</span>)
+
+<span class="pycomment"># same, using shortcut</span>
+<span class="pykeyword">print</span> elem.get(<span class="pystring">"first"</span>)
+
+<span class="pycomment"># print list of keys (using shortcuts)</span>
+<span class="pykeyword">print</span> elem.keys()
+<span class="pykeyword">print</span> elem.items()
+
+<span class="pycomment"># the 'third' attribute doesn't exist</span>
+<span class="pykeyword">print</span> elem.get(<span class="pystring">"third"</span>)
+<span class="pykeyword">print</span> elem.get(<span class="pystring">"third"</span>, <span class="pystring">"default"</span>)
+
+<span class="pycomment"># add the attribute and try again</span>
+elem.set(<span class="pystring">"third"</span>, <span class="pystring">"3"</span>)
+<span class="pykeyword">print</span> elem.get(<span class="pystring">"third"</span>, <span class="pystring">"default"</span>)
+
+
+1
+1
+[<span class="pystring">'first'</span>, <span class="pystring">'second'</span>]
+[(<span class="pystring">'first'</span>, <span class="pystring">'1'</span>), (<span class="pystring">'second'</span>, <span class="pystring">'2'</span>)]
+None
+default
+3</pre><p>Note that while the <b>attrib</b> value is required to be a real
+mutable Python dictionary, an ElementTree implementation may choose to
+use another internal representation, and create the dictionary only if
+someone asks for it.  To take advantage of such implementations, stick
+to the shortcut methods whenever possible.</p><h2 id="text-content">Text Content&#160;<a class="nav" href="#text-content" title="bookmark!">#</a></h2><p>The element type also provides a <b>text</b> attribute, which can
+be used to hold additional data associated with the element.  As the
+name implies, this attribute is usually used to hold a text string,
+but it can be used for other, application-specific purposes.</p><pre class="python">
+<span class="pykeyword">from</span> elementtree.ElementTree <span class="pykeyword">import</span> Element
+
+elem = Element(<span class="pystring">"tag"</span>)
+elem.text = <span class="pystring">"this element also contains text"</span></pre><p>If there is no additional data, this attribute is set to an empty
+string, or None.</p><p>The element type actually provides two attributes that can be used
+in this way; in addition to <b>text</b>, there&#8217;s a similar attribute
+called <b>tail</b>.  It too can contain a text string, an
+application-specific object, or None.  The tail attribute is used to
+store trailing text nodes when reading mixed-content XML files; text
+that follows directly after an element are stored in the <b>tail</b>
+attribute for that element:</p><pre class="xml">
+    &lt;<span class="pyfunction">tag</span>&gt;&lt;<span class="pyfunction">elem</span>&gt;this goes into elem's
+    text attribute&lt;/<span class="pyfunction">elem</span>&gt;this goes into
+    elem's tail attribute&lt;/<span class="pyfunction">tag</span>&gt;</pre><p>See the <a href="element-infoset.htm#mixed-content"><i>Mixed
+Content</i></a> section for more information.</p><p>Note that some implementations may only support string objects as
+<b>text</b> or <b>tail</b> values.</p><h3>Example</h3></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>File: elementtree-example-1.py</b>
+<pre class="python wide">
+<span class="pycomment"># elementtree-example-1.py</span>
+
+<span class="pykeyword">from</span> elementtree.ElementTree <span class="pykeyword">import</span> Element, SubElement, dump
+
+window = Element(<span class="pystring">"window"</span>)
+
+title = SubElement(window, <span class="pystring">"title"</span>, font=<span class="pystring">"large"</span>)
+title.text = <span class="pystring">"A sample text window"</span>
+
+text = SubElement(window, <span class="pystring">"text"</span>, wrap=<span class="pystring">"word"</span>)
+
+box = SubElement(window, <span class="pystring">"buttonbox"</span>)
+SubElement(box, <span class="pystring">"button"</span>).text = <span class="pystring">"OK"</span>
+SubElement(box, <span class="pystring">"button"</span>).text = <span class="pystring">"Cancel"</span>
+
+dump(window)</pre></div></div><div class="yui-g"><pre class="wide wide"><b>
+$ python elementtree-example-1.py
+&lt;window&gt;&lt;title font="large"&gt;A sample text window&lt;/title&gt;&lt;text wrap=
+"word" /&gt;&lt;buttonbox&gt;&lt;button&gt;OK&lt;/button&gt;&lt;button&gt;Cancel&lt;/button&gt;&lt;/but
+tonbox&gt;&lt;/window&gt;
+</b></pre></div><div class="yui-ge"><div class="yui-u first"><h2 id="searching-for-subelements">Searching for Subelements&#160;<a class="nav" href="#searching-for-subelements" title="bookmark!">#</a></h2><p>The Element type provides a number of methods that can be used to
+search for subelements:</p><p><b>find(pattern)</b> returns the first subelement that matches the
+given pattern, or None if there is no matching element.</p><p><b>findtext(pattern)</b> returns the value of the <b>text</b>
+attribute for the first subelement that matches the given pattern.  If
+there is no matching element, this method returns None.</p><p><b>findall(pattern)</b> returns a list (or another iterable object)
+of all subelements that match the given pattern.</p><p>In ElementTree 1.2 and later, the pattern argument can either be a
+tag name, or <a href="element-xpath.htm">a path expression</a>.  If a
+tag name is given, only direct subelements are checked.  Path
+expressions can be used to search the entire subtree.</p><p>ElementTree 1.1 and earlier only supports plain tag names.</p><p>In addition, the <b>getiterator</b> method can be used to loop over
+the tree in depth-first order:</p><p><b>getiterator(tag)</b> returns a list (or another iterable object)
+which contains all subelements that has the given tag, on all levels in
+the subtree.  The elements are returned in document order (that is,
+in the same order as they would appear if you saved the tree as an
+XML file).</p><p><b>getiterator()</b> (without argument) returns a list (or another
+iterable object) of all subelement in the subtree.</p><p><b>getchildren()</b> returns a list (or another iterable object) of
+all direct child elements.  This method is deprecated; new code should
+use indexing or slicing to access the children, or <b>list(elem)</b> to
+get a list.</p><h2 id="reading-and-writing-xml-files">Reading and Writing XML Files&#160;<a class="nav" href="#reading-and-writing-xml-files" title="bookmark!">#</a></h2><p>The Element type can be used to represent XML files in memory.  The
+<a href="pythondoc-elementtree-ElementTree.htm#elementtree.ElementTree.ElementTree-class"><b>ElementTree</b></a> wrapper class is used to read and write XML
+files.</p><p>To load an XML file into an Element structure, use the <b>parse</b>
+function:</p><pre class="python">
+<span class="pykeyword">from</span> elementtree.ElementTree <span class="pykeyword">import</span> parse
+
+tree = parse(filename)
+elem = tree.getroot()</pre><p>You can also pass in a file handle (or any object with a
+<b>read</b> method):</p><pre class="python">
+<span class="pykeyword">from</span> elementtree.ElementTree <span class="pykeyword">import</span> parse
+
+file = open(filename, <span class="pystring">"r"</span>)
+tree = parse(file)
+elem = tree.getroot()</pre><p>The <b>parse</b> method returns an <a href="pythondoc-elementtree-ElementTree.htm#elementtree.ElementTree.ElementTree-class">ElementTree</a> object.  To get the
+topmost element object, use the <b>getroot</b> method.</p><p>In recent versions of the ElementTree module, you can also use the
+<b>file</b> keyword argument to create a tree, and fill it with
+contents from a file in one operation:</p><pre class="python">
+<span class="pykeyword">from</span> elementtree.ElementTree <span class="pykeyword">import</span> ElementTree
+
+tree = ElementTree(file=filename)
+elem = tree.getroot()</pre><p>To save an element tree back to disk, use the <b>write</b> method
+on the ElementTree class.  Like the <b>parse</b> function, it takes
+either a filename or a file object (or any object with a <b>write</b>
+method):</p><pre class="python">
+<span class="pykeyword">from</span> elementtree.ElementTree <span class="pykeyword">import</span> ElementTree
+
+tree = ElementTree(file=infile)
+tree.write(outfile)</pre><p>If you want to write an Element object hierarchy to disk, wrap it
+in an ElementTree instance:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">from</span> elementtree.ElementTree <span class="pykeyword">import</span> Element, SubElement, ElementTree
+
+html = Element(<span class="pystring">"html"</span>)
+body = SubElement(html, <span class="pystring">"body"</span>)
+ElementTree(html).write(outfile)</pre></div><div class="yui-ge"><div class="yui-u first"><p>Note that the standard element writer creates a compact output.
+There is no built-in support for pretty printing or user-defined
+namespace prefixes in the current version, so the output may not
+always be suitable for human consumption (to the extent XML is
+suitable for human consumption, that is).</p><p>One way to produce nicer output is to add whitespace to the tree
+before saving it; see the <b>indent</b> function on the
+<a href="http://effbot.org/zone/element-lib.htm#prettyprint">
+<cite>Element Library Functions</cite></a> page for an example.
+
+</p><p>To convert between XML and strings, you can use the <b>XML</b>,
+<b>fromstring</b>, and <b>tostring</b> helpers:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">from</span> elementtree.ElementTree <span class="pykeyword">import</span> XML, fromstring, tostring
+
+elem = XML(text)
+
+elem = fromstring(text) <span class="pycomment"># same as XML(text)</span>
+
+text = tostring(elem)</pre></div><div class="yui-ge"><div class="yui-u first"><h2 id="xml-namespaces">XML Namespaces&#160;<a class="nav" href="#xml-namespaces" title="bookmark!">#</a></h2><p>The <b>elementtree</b> module supports <b>qualified names</b>
+(QNames) for element tags and attribute names.  A qualified name
+consists of a (uri, local name) pair.</p><p>Qualified names were introduced with the <a href="http://www.w3.org/TR/REC-xml-names/">XML Namespace
+specification</a>.</p><p>The element type represents a qualified name pair, also called
+<a href="http://www.jclark.com/xml/xmlns.htm"><i>universal name</i></a>,
+as a string of the form &#8220;<b>{uri}local</b>&#8220;.  This syntax can be used
+both for tag names and for attribute keys.</p><p>The following example creates an element where the tag
+is the qualified name pair <b>(http://spam.effbot.org, egg)</b>.</p><pre class="python">
+<span class="pykeyword">from</span> elementtree.ElementTree <span class="pykeyword">import</span> Element
+
+elem = Element(<span class="pystring">"{http://spam.effbot.org}egg"</span>}</pre><p>If you save this to an XML file, the writer will automatically
+generate proper XML namespace declarations, and pick a suitable
+prefix.  When you load an XML file, the parser converts qualified
+tag and attribute names to the element syntax.</p><p>Note that the standard parser discards namespace prefixes and
+declarations, so if you need to access the prefixes later on (e.g.
+to handle qualified names in attribute values or character data),
+you must use an alternate parser.  For more information on this
+topic, see the articles
+<a href="element-iterparse.htm"><cite>The ElementTree iterparse Function</cite></a> and
+<a href="elementsoap-3.htm"><cite>Using the ElementTree Module to Generate SOAP Messages, Part 3: Dealing with Qualified Names</cite></a>.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#the-element-type">The Element Type</a></li><li><ul><li><a href="#truth-testing">Truth Testing</a></li><li><a href="#accessing-parents">Accessing Parents</a></li></ul></li><li><a href="#attributes">Attributes</a></li><li><a href="#text-content">Text Content</a></li><li><a href="#searching-for-subelements">Searching for Subelements</a></li><li><a href="#reading-and-writing-xml-files">Reading and Writing XML Files</a></li><li><a href="#xml-namespaces">XML Namespaces</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

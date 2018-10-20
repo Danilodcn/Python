@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>An ElementTree&nbsp;Builder</title></head><body data-page-id="74"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">An ElementTree&nbsp;Builder</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | November 2006 | Originally posted to <a href="http://online.effbot.org">online.effbot.org</a></p><p> Here&#8217;s a simple helper class for <a href="element-index.htm">ElementTree</a>, which
+lets you use a more convenient syntax to construct XML fragment trees:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">import</span> xml.etree.cElementTree <span class="pykeyword">as</span> ET
+<span class="pykeyword">import</span> functools
+
+<span class="pykeyword">class</span> <span class="pyclass">_E</span>(object):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__call__</span>(self, tag, *children, **attrib):
+        elem = ET.Element(tag, attrib)
+        <span class="pykeyword">for</span> item <span class="pykeyword">in</span> children:
+            <span class="pykeyword">if</span> isinstance(item, dict):
+                elem.attrib.update(item)
+            <span class="pykeyword">elif</span> isinstance(item, basestring):
+                <span class="pykeyword">if</span> len(elem):
+                    elem[-1].tail = (elem[-1].tail <span class="pykeyword">or</span> <span class="pystring">""</span>) + item
+                <span class="pykeyword">else</span>:
+                    elem.text = (elem.text <span class="pykeyword">or</span> <span class="pystring">""</span>) + item
+            <span class="pykeyword">elif</span> ET.iselement(item):
+                elem.append(item)
+            <span class="pykeyword">else</span>:
+                <span class="pykeyword">raise</span> TypeError(<span class="pystring">"bad argument: %r"</span> % item)
+        <span class="pykeyword">return</span> elem
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__getattr__</span>(self, tag):
+        <span class="pykeyword">return</span> functools.partial(self, tag)
+
+<span class="pycomment"># create factory object</span>
+E = _E()</pre></div><div class="yui-ge"><div class="yui-u first"><p> This started out as a small tweak to the
+<a href="http://effbot.org/zone/element-lib.htm#append">append</a>
+helper function, but quickly turned into something more like
+Oren Tirosh&#8217;
+<s><a href="http://www.tothink.com/python/ElementBuilder/">ElementBuilder</a></s> (dead link)
+(which is one of all those tools that I&#8217;ve stumbled upon, found interesting,
+but never gotten around to use).
+
+</p><p>Anyway, unlike the ordinary <b>Element</b> factory, the <b>E</b> factory
+allows you to pass in more than just a tag and some optional attributes; you
+can also pass in text and other elements.  The text is added as either
+<b>text</b> or <b>tail</b> attributes, and elements are inserted at the
+right spot.  Some small examples:
+
+<pre>
+&gt;&gt;&gt; ET.tostring(E("tag"))
+'&lt;tag /&gt;'
+&gt;&gt;&gt; ET.tostring(E("tag", "text"))
+'&lt;tag&gt;text&lt;/tag&gt;'
+&gt;&gt;&gt; ET.tostring(E("tag", "text", key="value"))
+'&lt;tag key="value"&gt;text&lt;/tag&gt;'
+&gt;&gt;&gt; ET.tostring(E("tag", E("subtag", "text"), "tail"))
+'&lt;tag&gt;&lt;subtag&gt;text&lt;/subtag&gt;tail&lt;/tag&gt;'
+</pre></p><p>For simple tags, the factory also allows you to write &#8220;E.tag(&#8230;)&#8221;
+instead of &#8220;E(&#8216;tag&#8217;, &#8230;)&#8221;:
+
+<pre>
+&gt;&gt;&gt; ET.tostring(E.tag())
+'&lt;tag /&gt;'
+&gt;&gt;&gt; ET.tostring(E.tag("text"))
+'&lt;tag&gt;text&lt;/tag&gt;'
+&gt;&gt;&gt; ET.tostring(E.tag(E.subtag("text"), "tail"))
+'&lt;tag&gt;&lt;subtag&gt;text&lt;/subtag&gt;tail&lt;/tag&gt;'
+</pre></p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">Here&#8217;s a somewhat larger example; this shows how to generate HTML
+documents, using a mix of prepared factory functions for inline elements,
+nested E.tag calls, and embedded XHTML fragments:
+
+<pre class="python wide">
+<span class="pycomment"># some common inline elements</span>
+A = E.a
+I = E.i
+B = E.b
+
+<span class="pykeyword">def</span> <span class="pyfunction">CLASS</span>(*args):
+    <span class="pycomment"># class is a reserved word, so we use a helper function</span>
+    <span class="pykeyword">return</span> {<span class="pystring">"class"</span>: <span class="pystring">" "</span>.join(args)}
+
+page = (
+  E.html(
+    E.head(
+      E.title(<span class="pystring">"This is a sample document"</span>)
+    ),
+    E.body(
+      E.h1(<span class="pystring">"Hello!"</span>, CLASS(<span class="pystring">"title"</span>)),
+      E.p(<span class="pystring">"This is a paragraph with "</span>, B(<span class="pystring">"bold"</span>), <span class="pystring">" text in it!"</span>),
+      E.p(<span class="pystring">"This is another paragraph, with a "</span>,
+          A(<span class="pystring">"link"</span>, href=<span class="pystring">"http://www.python.org"</span>), <span class="pystring">"."</span>),
+      E.p(<span class="pystring">"Here are some reservered characters: &lt;spam&amp;egg&gt;."</span>),
+      ET.XML(<span class="pystring">"&lt;p&gt;And finally, here's an embedded XHTML fragment.&lt;/p&gt;"</span>),
+    )
+  )
+)
+
+<span class="pykeyword">print</span> ET.tostring(page)</pre></p></div><div class="yui-g"><p class="wide"> Here&#8217;s a prettyprinted version of the output from the above script:
+
+<pre class="xml wide">
+&lt;<span class="pyfunction">html</span>&gt;
+  &lt;<span class="pyfunction">head</span>&gt;
+    &lt;<span class="pyfunction">title</span>&gt;This is a sample document&lt;/<span class="pyfunction">title</span>&gt;
+  &lt;/<span class="pyfunction">head</span>&gt;
+  &lt;<span class="pyfunction">body</span>&gt;
+    &lt;<span class="pyfunction">h1</span> class="title"&gt;Hello!&lt;/<span class="pyfunction">h1</span>&gt;
+    &lt;<span class="pyfunction">p</span>&gt;This is a paragraph with &lt;<span class="pyfunction">b</span>&gt;bold&lt;/<span class="pyfunction">b</span>&gt; text in it!&lt;/<span class="pyfunction">p</span>&gt;
+    &lt;<span class="pyfunction">p</span>&gt;This is another paragraph, with a &lt;<span class="pyfunction">a</span> href="http://www.python.org"&gt;link&lt;/<span class="pyfunction">a</span>&gt;.&lt;/<span class="pyfunction">p</span>&gt;
+    &lt;<span class="pyfunction">p</span>&gt;Here are some reservered characters: &amp;lt;spam&amp;amp;egg&amp;gt;.&lt;/<span class="pyfunction">p</span>&gt;
+    &lt;<span class="pyfunction">p</span>&gt;And finally, here's an embedded XHTML fragment.&lt;/<span class="pyfunction">p</span>&gt;
+  &lt;/<span class="pyfunction">body</span>&gt;
+&lt;/<span class="pyfunction">html</span>&gt;</pre></p></div><div class="yui-ge"><div class="yui-u first"><p> I&#8217;m still experimenting with more mechanisms, including support for
+callables and nested sequences, but the above makes many ElementTree-based
+generation tasks a lot simpler.
+
+<h3>Addendum</h3></p><p>Tweaking, tweaking.  This one&#8217;s pretty neat, I think:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+from datetime import datetime
+
+RSS = ElementBuilder(typemap={
+    datetime: lambda e, v: v.strftime("%a, %d %b %Y %H:%M:%S %z")
+    })
+
+item = RSS.item(
+    RSS.title("E=RSS squared"),
+    RSS.link("http://effbot.org"),
+    RSS.description("Yet another E-related example"),
+    RSS.pubDate(datetime.now(UTC()))
+    )
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>Code will be posted later.  Stay tuned.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

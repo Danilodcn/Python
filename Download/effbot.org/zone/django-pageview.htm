@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The Django PageView&nbsp;Application</title></head><body data-page-id="43"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The Django PageView&nbsp;Application</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">March 2006 | Fredrik Lundh</p><p class="note">This is a work in progress.</p><div style="float: right; padding-left: 5px; ">
+<a href="http://www.djangoproject.com/"><img alt="Powered by Django." border="0" src="http://media.djangoproject.com/img/badges/djangopowered126x54.gif" title="Powered by Django." /></a></div><p>The <b>pageview</b> mini application is a fast and efficient
+dynamic front-end renderer, which can reformat HTML and XHTML pages
+from external sources on the fly.  This can be useful when you want
+to:
+
+<ul><li>publish information from an existing content management system
+</li><li>republish pages from an external source
+</li><li>use a standard wiki to maintain the site, behind the scenes
+</li><li>allow users to choose between different templates, depending on
+preferences or user agent.
+</li><li>experiment with different styles, without having to generate multiple
+copies of an entire site.
+</li></ul></p><p>The application uses <b>tidy</b> to clean up the source material as
+needed, and
+<a href="celementtree.htm"><b>cElementTree</b></a>
+to pull out relevant XHTML fragments from it.  Django&#8217;s
+<s><a href="http://www.djangoproject.com/documentation/templates/">template
+engine</a></s> (dead link) is then used to render output pages,
+and Django&#8217;s
+<s><a href="http://www.djangoproject.com/documentation/cache/">caching
+system</a></s> (dead link) is used to cache rendered pages in memory (e.g. via
+<a href="http://www.danga.com/memcached/"><b>memcached</b></a>).
+
+</p><p>The application maintains a page mapping database which controls
+how URL are mapped to individual pages.  You can use Django&#8217;s
+<s><a href="http://www.djangoproject.com/documentation/tutorial2/">administration interface</a></s> (dead link) to remap or redirect pages.  Since each page has an entry
+in this database, you can add Django
+<a href="http://www.rossp.org/blog/2006/feb/17/building-blog-django-3/">comments</a>
+and other features to any or all pages on the site.
+
+</p><p>The application is based on the work done for
+<a href="pydotorg.htm">the AltPyDotOrgCMS project</a>
+(also see
+<a href="http://www.flickr.com/photos/effbot/90750530/">this sketch</a>),
+where it was used to render pages from wiki source content.</p><h3>Download</h3><p>The code is currently only available via subversion:
+
+<pre>
+   $ svn co http://svn.effbot.org/public/pydotorg/page
+</pre></p><p>For installation tips, see <s><a href="http://online.effbot.org/2006_03_01_archive.htm#page-quick-install">this article</a></s> (dead link).
+
+</p><p>The current version is written for Django 0.91, and includes sample
+parsers for old-style www.python.org contents,
+latex-generated docs.python.org pages,
+effbot.org zone articles, <a href="pyref.htm">pyref</a> and
+<a href="pyfaq.htm">pyfaq</a> pages,
+and pages rendered in <a href="http://moinmoin.wikiwikiweb.de/">moinmoin</a>&#8216;s default style.
+
+<h3 id="examples">Examples&#160;<a class="nav" href="#examples" title="bookmark!">#</a></h3></p><p>You can find some
+<s><a href="http://effbot.python-hosting.com/file/pydotorg/page/templates/default.html">minimally styled</a></s> (dead link) sample output here:
+<s><a href="http://effbot.org/static/dev-index.html">python-1</a></s> (dead link)
+<s><a href="http://effbot.org/static/dev-why.html">python-2</a></s> (dead link),
+<s><a href="http://effbot.org/static/HelpForBeginners.html">moinmoin-1</a></s> (dead link),
+<s><a href="http://effbot.org/static/pythondoc.htm">effbot-1</a></s> (dead link),
+<s><a href="http://effbot.org/static/asyncore.html">pyref-1</a></s> (dead link).
+
+</p><p>Here are some samples rendered with a <b>python.org</b>-style template:
+&#8220;<s><a href="http://effbot.org/static/python-asyncore.html">asyncore &#8212; Asynchronous socket handler</a></s> (dead link)&#8221; (from <a href="http://effbot.org/zone/pyref.htm">the pyref project</a>),
+&#8220;<s><a href="http://effbot.org/static/python-help.html">Can&#8217;t find what you&#8217;re looking for?</a></s> (dead link)&#8220;,
+&#8220;<s><a href="http://effbot.org/static/python-dev-why.html">Why Work on Python?</a></s> (dead link)&#8220;, and
+&#8220;<s><a href="http://effbot.org/static/python-pythondoc.htm">PythonDoc</a></s> (dead link)&#8221; (from effbot.org).</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><ul><li><a href="#examples">Examples</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

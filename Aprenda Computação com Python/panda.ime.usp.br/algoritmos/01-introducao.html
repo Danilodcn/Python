@@ -1,0 +1,522 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introdução - Resumo de Python &mdash; Princípios de Desenvolvimeto de Algoritmos em Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Princípios de Desenvolvimeto de Algoritmos em Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Recursão" href="02-recursao.html" />
+    <link rel="prev" title="Introdução" href="introducao.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'algoritmos',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="02-recursao.html" title="Recursão"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="introducao.html" title="Introdução"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Princípios de Desenvolvimeto de Algoritmos em Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="introducao-resumo-de-python">
+<h1>Introdução - Resumo de Python<a class="headerlink" href="#introducao-resumo-de-python" title="Permalink to this headline">¶</a></h1>
+<p id="index-0">Como alguns alunos tenham, possivelmente, utilizado outra linguagem
+durante o curso introdutório e também para ajudar aqueles alunos que
+fizeram o curso introdutório em Python mas que se acham um tanto
+&#8220;enferrujados&#8221;, vamos nessa aula cobrir alguns conceitos básicos de
+Python para nivelar todo mundo e continuar o processo de
+desenvolvimento do <a class="reference external" href="http://en.wikipedia.org/wiki/Computational_thinking">raciocínio aplicado na formulação e resolução de
+problemas computacionais</a>.</p>
+<div class="section" id="leituras">
+<h2>Leituras<a class="headerlink" href="#leituras" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>Para saber mais sobre Python:</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/index.html">Como Pensar como um Cientista da Computação - Aprendendo com
+Python: Edição interativa</a>
+que é uma tradução do livro <a class="reference external" href="http://interactivepython.org/runestone/static/thinkcspy/index.html">How to Think Like a Computer
+Scientist - Learning with Python: Interactive Edition</a>.</li>
+<li><a class="reference external" href="http://panda.ime.usp.br/panda/python">Estudo dirigido</a>:
+aulas interativas do curso de introdução à computação em Python.</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="introducao">
+<h2>Introdução<a class="headerlink" href="#introducao" title="Permalink to this headline">¶</a></h2>
+<p>Os exercícios e programas que vamos desenvolver nessa disciplina serão
+baseados na versão 3.x da linguagem de programação Python.  Siga as
+<a class="reference external" href="https://panda.ime.usp.br/panda/python">instruções de instalação do Python</a> para instalar a versão mais
+recente do Python 3.x em seu computador.</p>
+<p>O material dessas aulas foi desenvolvido utilizando as ferramentas do
+<a class="reference external" href="http://interactivepython.org/">Projeto Runestone</a>. Essas
+ferramentas permitem que você desenvolva os seus programas e teste a
+execução dos mesmos dentro do seu próprio navegador. Para saber
+conhecer melhor essas ferramentas leia a seção
+<a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/01-Introducao/introducao.html#formas-especiais-para-rodar-python-nesse-livro">Formas especiais para rodar Python nesse livro</a>
+do livro
+<a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/index.html">Como Pensar como um Cientísta da Computação - Aprendendo com Python: Edição interativa</a>.</p>
+<a id="videoinfo_thumb" > <img src="_static/activecodethumb.png" /></a>
+<div id="videoinfo" class="video_popup" >
+<video controls  >
+    <source src="http://media.interactivepython.org/thinkcsVideos/activecodelens.mov" type="video/mp4"></source>
+    <source src="http://media.interactivepython.org/thinkcsVideos/activecodelens.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#videoinfo_thumb').click(function(e) {
+         $('#videoinfo').show();
+         $('#videoinfo_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'videoinfo'});
+         // Log the run event
+      });
+   });
+</script>
+<div class="section" id="exercicio-comentado-1-fatorial">
+<h3>Exercício comentado 1 - fatorial<a class="headerlink" href="#exercicio-comentado-1-fatorial" title="Permalink to this headline">¶</a></h3>
+<p>Os objetivos com este exercício são apresentar:</p>
+<blockquote>
+<div><ul class="simple">
+<li>o esqueleto dos programas nessa disciplina:
+<em>sempre</em> utilize esse esqueleto em seus programas;</li>
+<li>as funções de entrada e saída: <tt class="docutils literal"><span class="pre">print()</span></tt> e <tt class="docutils literal"><span class="pre">input()</span></tt>; e</li>
+<li>comandos básicos de seleção e repetição.</li>
+</ul>
+</div></blockquote>
+
+<div id="funcao_fatorial_iterativa" >
+<textarea cols="50" rows="12" id="funcao_fatorial_iterativa_code" class="active_code">
+def main():
+    ''' Exemplo de programa com funcoes em Python
+    '''
+
+    n = int(input("Digite um numero inteiro: "))
+    if n >= 0:
+       f = fatorial(n)
+       print("O fatorial de (%d) = %d\n"%(n, f))
+    else:
+       print("Entrada invalida")
+
+#------------------------------------------
+def fatorial(n):
+    ''' (int) -> int
+
+    Recebe um inteiro n e retorna o valor do fatorial
+    de n.
+    '''
+
+    fat = 1
+    while n > 0:
+        fat = fat * n
+        n = n - 1
+    return fat
+
+#------------------------------------------
+# inicio do programa: chamada da funcao main()
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (funcao_fatorial_iterativa)</span> </p>
+<button onclick="runit('funcao_fatorial_iterativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('funcao_fatorial_iterativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('funcao_fatorial_iterativa');">Load</button>
+<br />
+
+<canvas id="funcao_fatorial_iterativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="funcao_fatorial_iterativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>A tabulação dos comandos em Python é muito importante pois comandos
+com a mesma tabulação estão dentro do mesmo bloco.  Portanto, o
+<em>corpo</em> da função <cite>main()</cite> precisa ficar deslocado de um tab.  O
+texto entre apóstrofes triplos é chamado de
+<em>docstring</em>. Recomendamos o uso de docstrings para documentar o seu
+programa.</p>
+<p>A função <tt class="docutils literal"><span class="pre">input()</span></tt> imprime o texto que recebe como
+argumento como mensagem ao usuário do programa, e espera o usuário
+digitar a resposta no teclado.  Essa função sempre retorna um string,
+que é então convertido para um <tt class="docutils literal"><span class="pre">int</span></tt> (número inteiro) &#8211; mas poderia
+também ser convertido para um número real usando a função <tt class="docutils literal"><span class="pre">float()</span></tt>.</p>
+<p>O comando <tt class="docutils literal"><span class="pre">if</span></tt> testa se o número é maior ou igual zero, e nesse caso
+calcula o fatorial (usando a função <tt class="docutils literal"><span class="pre">fatorial()</span></tt> definida no próprio
+programa, mais abaixo) e imprime o resultado usando a função
+<tt class="docutils literal"><span class="pre">print()</span></tt>. Caso o número seja negativo, o <tt class="docutils literal"><span class="pre">else</span></tt> é executado. Essa
+sintaxe deve lhe ser familiar e muito parecida com a sintaxe da
+linguagem que você utilizou no curso introdutório.</p>
+<p>Observe que a função <tt class="docutils literal"><span class="pre">fatorial()</span></tt> é definida fora da função
+<tt class="docutils literal"><span class="pre">main()</span></tt>.  A última linha do esqueleto (observe que essa linha
+também não faz parte do corpo da função <tt class="docutils literal"><span class="pre">fatorial()</span></tt>) chama a função
+<tt class="docutils literal"><span class="pre">main()</span></tt> para que o programa principal seja executado.</p>
+<dl class="docutils">
+<dt>Em seus programas, procure utilizar essa mesma estrutura:</dt>
+<dd><ul class="first last simple">
+<li>defina a função <tt class="docutils literal"><span class="pre">main()</span></tt> primeiro</li>
+<li>defina as demais funções que você precisa utilizar, sem se preocupar com a ordem de definição dessas funções.</li>
+<li>chame a função <tt class="docutils literal"><span class="pre">main()</span></tt></li>
+</ul>
+</dd>
+</dl>
+<p>Clique em <em>Run</em> para executar o programa. Essa região em seu
+navegador que lhe permite ver e executar o programa chama-se
+<em>activecode</em>. O activecode também lhe permite editar o
+programa. Tente fazer o programa a seguir no próprio activecode.</p>
+</div>
+<div class="section" id="exercicio-2-funcao-potencia">
+<h3>Exercício 2: Função potência<a class="headerlink" href="#exercicio-2-funcao-potencia" title="Permalink to this headline">¶</a></h3>
+<p>Escreva uma função <tt class="docutils literal"><span class="pre">potencia()</span></tt> que recebe um número real <tt class="docutils literal"><span class="pre">base</span></tt> e
+um número inteiro <tt class="docutils literal"><span class="pre">expoente</span></tt>, e retorna o valor da <tt class="docutils literal"><span class="pre">base</span></tt> elevada
+ao <tt class="docutils literal"><span class="pre">expoente</span></tt>.</p>
+
+<div id="exercicio_função_potência" >
+<textarea cols="50" rows="12" id="exercicio_função_potência_code" class="active_code">
+def main():
+    ''' Programa para teste da sua funcao potencia '''
+    base = float(input("Digite a base real: "))
+    exp  = int(input("Digite o expoente inteiro: "))
+    pot  = potencia(base, exp)
+    print("potencia(%f, %d) = %f"%(base, exp, pot))
+
+def potencia(base, expoente):
+    ''' (float, int) -> float
+    retorna a base elevado ao expoente inteiro '''
+
+    # modifique o resto com o codigo da sua funcao
+    print("Vixe, ainda nao fiz essa funcao")
+
+    return 0
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exercicio_função_potência)</span> </p>
+<button onclick="runit('exercicio_função_potência',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exercicio_função_potência');">Save</button>
+<button class="ac_opt" onclick="requestCode('exercicio_função_potência');">Load</button>
+<br />
+
+<canvas id="exercicio_função_potência_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exercicio_função_potência_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-3-listas">
+<h3>Exercício 3: Listas<a class="headerlink" href="#exercicio-3-listas" title="Permalink to this headline">¶</a></h3>
+<p>O tipo <cite>list</cite> (lista) é uma das principais estruturas nativas do Python.
+Uma lista é uma estrutura sequencial indexada
+que permite armazenar e manipular objetos.</p>
+<p>O programa abaixo ilustra a criação, carregamento e varrimento de uma
+lista em Python. Execute esse programa (clique em <em>Run</em>) para testa-lo.</p>
+
+<div id="inverte_lista" >
+<textarea cols="50" rows="12" id="inverte_lista_code" class="active_code">
+seq = []
+n = int(input("Digite o tamanho da sequencia: "))
+for i in range(n):
+    num = int(input("Digite o %d inteiro da sequencia: "%(i+1)))
+    seq.append(num)
+
+# podemos imprimir a lista no print
+print("Lista de entrada: ", end=" ")
+print(seq)
+
+# vamos imprimir a lista em ordem reversa
+print("Lista reversa: ", end=" ")
+for i in range(n-1, -1, -1):
+    print(seq[i], end = " ")
+print()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (inverte_lista)</span> </p>
+<button onclick="runit('inverte_lista',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('inverte_lista');">Save</button>
+<button class="ac_opt" onclick="requestCode('inverte_lista');">Load</button>
+<br />
+
+<canvas id="inverte_lista_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="inverte_lista_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Nesse exemplo, utilizamos o comando
+<a class="reference external" href="https://panda.ime.usp.br/pensepy/static/pensepy/07-Iteracao/maisiteracao.html#mais-sobre-o-comando-for">for (clique aqui para saber mais sobre o comando for)</a> para varrer as listas.</p>
+<p>Observe modificamos o parâmetro <tt class="docutils literal"><span class="pre">end</span></tt> da função <tt class="docutils literal"><span class="pre">print()</span></tt>
+para que os elementos da sequência fossem impressos na mesma linha.</p>
+</div>
+<div class="section" id="exercicio-4-soma-de-uma-lista-de-numeros">
+<h3>Exercício 4: Soma de uma lista de números<a class="headerlink" href="#exercicio-4-soma-de-uma-lista-de-numeros" title="Permalink to this headline">¶</a></h3>
+<p>Escreva uma função que recebe uma lista com números
+e retorna a soma desses números.</p>
+
+<div id="exercicio_soma_lista_tentativa" >
+<textarea cols="50" rows="12" id="exercicio_soma_lista_tentativa_code" class="active_code">
+def main():
+''' teste da funcao soma '''
+
+    teste1 = [] # lista vazia
+    print("Soma de", teste1, "= ", soma_lista(teste1))
+
+    teste2 = [2] #
+    print("Soma de", teste2, "= ", soma_lista(teste2))
+
+    teste3 = [1,2,3]
+    print("Soma de", teste3, "= ", soma_lista(teste3))
+
+    teste4 = [0, -1, 7, 2, 5]
+    print("Soma de", teste4, "= ", soma_lista(teste4))
+
+def soma_lista(lista):
+''' (list) -> int
+    recebe uma lista de inteiros e retorna a soma '''
+
+    # ESCREVA A SUA FUNCAO
+
+    return 0
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exercicio_soma_lista_tentativa)</span> </p>
+<button onclick="runit('exercicio_soma_lista_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exercicio_soma_lista_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('exercicio_soma_lista_tentativa');">Load</button>
+<br />
+
+<canvas id="exercicio_soma_lista_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exercicio_soma_lista_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-5-maximo-de-uma-lista-de-numeros">
+<h3>Exercício 5: Máximo de uma lista de números<a class="headerlink" href="#exercicio-5-maximo-de-uma-lista-de-numeros" title="Permalink to this headline">¶</a></h3>
+<p>Escreva uma função que recebe uma lista com números
+e retorna o valor máximo desses números e o índice onde
+ele ocorre.</p>
+
+<div id="exercicio_maximo_lista_tentativa" >
+<textarea cols="50" rows="12" id="exercicio_maximo_lista_tentativa_code" class="active_code">
+def main():
+''' teste da funcao maximo '''
+# CRIE OS SEUS TESTES
+#
+
+
+def max_lista(lista):
+''' (list) -> int, int
+    recebe uma lista de inteiros e retorna o
+    valor maximo da lista e o indice onde ele ocorre '''
+
+    # ESCREVA A SUA FUNCAO
+
+    return 0, 0
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exercicio_maximo_lista_tentativa)</span> </p>
+<button onclick="runit('exercicio_maximo_lista_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exercicio_maximo_lista_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('exercicio_maximo_lista_tentativa');">Load</button>
+<br />
+
+<canvas id="exercicio_maximo_lista_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exercicio_maximo_lista_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introdução - Resumo de Python</a><ul>
+<li><a class="reference internal" href="#leituras">Leituras</a></li>
+<li><a class="reference internal" href="#introducao">Introdução</a><ul>
+<li><a class="reference internal" href="#exercicio-comentado-1-fatorial">Exercício comentado 1 - fatorial</a></li>
+<li><a class="reference internal" href="#exercicio-2-funcao-potencia">Exercício 2: Função potência</a></li>
+<li><a class="reference internal" href="#exercicio-3-listas">Exercício 3: Listas</a></li>
+<li><a class="reference internal" href="#exercicio-4-soma-de-uma-lista-de-numeros">Exercício 4: Soma de uma lista de números</a></li>
+<li><a class="reference internal" href="#exercicio-5-maximo-de-uma-lista-de-numeros">Exercício 5: Máximo de uma lista de números</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="introducao.html"
+                        title="previous chapter">Introdução</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="02-recursao.html"
+                        title="next chapter">Recursão</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="02-recursao.html" title="Recursão"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="introducao.html" title="Introdução"
+             >previous</a> |</li>
+        <li><a href="index.html">Princípios de Desenvolvimeto de Algoritmos em Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on May 16, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

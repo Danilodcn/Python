@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>ElementTree: Bits and&nbsp;Pieces</title></head><body data-page-id="73"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">ElementTree: Bits and&nbsp;Pieces</h1></div><div class="yui-ge"><div class="yui-u first"><p>Code samples that don&#8217;t fit anywhere else (yet).</p><h3 id="gettext">Getting all text from inside an element&#160;<a class="nav" href="#gettext" title="bookmark!">#</a></h3><p>The <b>text</b> attribute contains the text immediately inside an
+element, but it does not include text inside subelements.  To get all
+text, you can use something like:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">gettext</span>(elem):
+    text = elem.text <span class="pykeyword">or</span> <span class="pystring">""</span>
+    <span class="pykeyword">for</span> e <span class="pykeyword">in</span> elem:
+        text += gettext(e)
+        <span class="pykeyword">if</span> e.tail:
+            text += e.tail
+    <span class="pykeyword">return</span> text</pre><h3 id="cleanup">Removing elements&#160;<a class="nav" href="#cleanup" title="bookmark!">#</a></h3><p>To remove an element from a tree, you have to replace the element
+with its contents.  This includes not only the subelements, but also
+the <b>text</b> and <b>tail</b> attributes.</p><p>The following function takes a tree and a filter function, and
+removes all subelements for which the filter returns false.</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">cleanup</span>(elem, filter):
+    out = []
+    <span class="pykeyword">for</span> e <span class="pykeyword">in</span> elem:
+        cleanup(e, filter)
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> filter(e):
+            <span class="pykeyword">if</span> e.text:
+                <span class="pykeyword">if</span> out:
+                    out[-1].tail += e.text
+                <span class="pykeyword">else</span>:
+                    elem.text += e.text
+            out.extend(e)
+            <span class="pykeyword">if</span> e.tail:
+                <span class="pykeyword">if</span> out:
+                    out[-1].tail += e.tail
+                <span class="pykeyword">else</span>:
+                    elem.text += e.tail
+        <span class="pykeyword">else</span>:
+            out.append(e)
+    elem[:] = out</pre><p>Note that the top element itself isn&#8217;t checked; if you need to remove
+that, you have to do that at the application level.</p><p>Instead of writing a filter function, you can iterate over the tree
+and set the <b>tag</b> to None for the elements you want to remove.  When
+you&#8217;ve checked all elements, call the <b>cleanup</b> function as follows:</p><pre class="python">
+cleanup(elem, <span class="pykeyword">lambda</span> e: e.tag)</pre><p>In ElementTree 1.3, the serialization code will leave out the tags for
+elements that have their <b>tag</b> attribute set to None.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><ul><li><a href="#gettext">Getting all text from inside an element</a></li><li><a href="#cleanup">Removing elements</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

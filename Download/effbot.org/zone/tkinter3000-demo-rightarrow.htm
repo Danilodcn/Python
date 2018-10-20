@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The Tkinter 3000 RightArrow&nbsp;Widget</title></head><body data-page-id="328"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The Tkinter 3000 RightArrow&nbsp;Widget</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">May 9, 2001 | Fredrik Lundh</p><p>This widget is an enhanced version of the
+<a href="tkinter3000-demo-simplerightarrow.htm">SimpleRightArrow</a>
+demo widget.  This version provides three custom options, and it also
+precalculates graphics resources and coordinates.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>File: demoRightArrow.py</b>
+<pre class="python wide">
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget, FOREGROUND
+
+<span class="pykeyword">class</span> <span class="pyclass">RightArrow</span>(Widget):
+    <span class="pycomment"># widget implementation</span>
+
+    ui_option_foreground = FOREGROUND
+
+    ui_option_width = 200
+    ui_option_height = 200
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_config</span>(self):
+        <span class="pycomment"># precalculate brush resource</span>
+        self.brush = self.ui_brush(self.ui_option_foreground)
+        <span class="pykeyword">return</span> int(self.ui_option_width), int(self.ui_option_height)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_resize</span>(self, width, height):
+        <span class="pycomment"># precalculate polygon</span>
+        self.arrow = (0, 0, width, height/2, 0, height)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        draw.polygon(self.arrow, self.brush)</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>The <b>ui_option_foreground</b> class attribute provides two
+things: it tells the WCK that this widget supports an option called
+<b>foreground</b>, and it also provides a default value for that
+option (in this case, the default value is taken from the WCK.FOREGROUND
+variable, which contains a suitable default for the current platform).
+The <b>ui_option_width</b> and <b>ui_option_height</b> does the same
+for the <b>width</b> and <b>height</b> options.</p><p>The <b>ui_handle_config()</b> method is called when the widget is
+created, and whenever any of the options are changed.  It creates a
+new brush based on the foreground option, and returns the requested
+width and height, in pixels.  Note that users may use strings also
+for the size options, so this method uses <b>int()</b> to be on the
+safe side.</p><p>The <b>ui_handle_resize()</b> method is called when the widget is
+created, and whenever it&#8217;s resized (either by a geometry manager,
+or if <b>ui_handle_config</b> requests a new size).  It is used to
+calculate the arrow outline.</p><p>The <b>ui_handle_repair()</b> method, finally, is called when the
+widget needs to be updated.  It draws a polygon using the brush and
+coordinates set by the other two methods.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

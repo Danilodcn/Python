@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>WMF (identify&nbsp;only)</title></head><body data-page-id="427"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">WMF (identify&nbsp;only)</h1></div><div class="yui-ge"><div class="yui-u first"><p>PIL can identify placable WMF files.</p><p>In PIL 1.1.4 and earlier, the WMF driver provides some limited rendering
+support, but not enough to be useful for any real application.</p><p>In PIL 1.1.5 and later, the WMF driver is a stub driver.  To add WMF
+read or write support to your application, use the <b>register_handler</b> function in the <b>WmfImagePlugin</b> module to register a WMF handler.</p><pre class="python">
+<span class="pykeyword">import</span> Image
+<span class="pykeyword">import</span> WmfImagePlugin
+
+<span class="pykeyword">class</span> <span class="pyclass">WmfHandler</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">open</span>(self, im):
+        ...
+    <span class="pykeyword">def</span> <span class="pyfunction">load</span>(self, im):
+        ...
+        <span class="pykeyword">return</span> image
+    <span class="pykeyword">def</span> <span class="pyfunction">save</span>(self, im, fp, filename):
+        ...
+
+wmf_handler = WmfHandler()
+
+WmfImagePlugin.register_handler(wmf_handler)
+
+im = Image.open(<span class="pystring">"sample.wmf"</span>)</pre></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to imagingbook index page.">::: imagingbook :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

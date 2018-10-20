@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The ElementTree iterparse&nbsp;Function</title></head><body data-page-id="81"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The ElementTree iterparse&nbsp;Function</h1></div><div class="yui-ge"><div class="yui-u first"><p>The new <b>iterparse</b> interface allows you to track changes to
+the tree while it is being built.  This interface was first added in
+<a href="celementtree.htm">the cElementTree library</a>, and is also
+available in <a href="element-index.htm">ElementTree 1.2.5</a> and
+later.</p><p>Recent versions of <s><a href="http://codespeak.net/lxml/">lxml.etree</a></s> (dead link)
+also supports this API.</p><h3 id="usage">Usage&#160;<a class="nav" href="#usage" title="bookmark!">#</a></h3><p>To use <b>iterparse</b>, just call the method and iterate over
+the object it returns.  The result is an iterable that returns a
+stream of (event, element) tuples.</p><pre class="python">
+<span class="pykeyword">for</span> event, elem <span class="pykeyword">in</span> iterparse(source):
+    ... elem <span class="pykeyword">is</span> complete; process it ...</pre></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">for</span> event, elem <span class="pykeyword">in</span> iterparse(source, events=(<span class="pystring">"start"</span>, <span class="pystring">"end"</span>)):
+    <span class="pykeyword">if</span> event == <span class="pystring">"start"</span>:
+        ... elem was just added to the tree ...
+    <span class="pykeyword">else</span>:
+        ... elem <span class="pykeyword">is</span> complete; process it ...</pre></div><div class="yui-ge"><div class="yui-u first"><p>The <b>events</b> option specify what events you want to see
+(available events in this release are &#8220;start&#8221;, &#8220;end&#8221;, &#8220;start-ns&#8221;, and
+&#8220;end-ns&#8221;, where the &#8220;ns&#8221; events are used to get detailed namespace
+information).  If the option is omitted, only &#8220;end&#8221; events are
+returned.</p><p class="note"><b>Note:</b>
+The tree builder and the event generator are not necessarily synchronized;
+the latter usually lags behind a bit.  This means that when you get a &#8220;start&#8221;
+event for an element, the builder may already have filled that element with
+content.  You cannot rely on this, though &#8212; a &#8220;start&#8221; event can only be used
+to inspect the attributes, not the element content.  For more details, see
+<a href="http://mail.python.org/pipermail/xml-sig/2005-January/010838.html">this message</a>.</p><h3 id="incremental-parsing">Incremental Parsing&#160;<a class="nav" href="#incremental-parsing" title="bookmark!">#</a></h3><p>Note that <b>iterparse</b> still builds a tree, just like <b>parse</b>,
+but you can safely rearrange or remove parts of the tree while parsing.
+For example, to parse large files, you can get rid of elements as soon
+as you&#8217;ve processed them:</p><pre class="python">
+<span class="pykeyword">for</span> event, elem <span class="pykeyword">in</span> iterparse(source):
+    <span class="pykeyword">if</span> elem.tag == <span class="pystring">"record"</span>:
+        ... process record elements ...
+        elem.clear()</pre><p>The above pattern has one drawback; it does not clear the root
+element, so you will end up with a single element with lots of empty
+child elements.  If your files are huge, rather than just large, this
+might be a problem.  To work around this, you need to get your hands on
+the root element.  The easiest way to do this is to enable <b>start</b>
+events, and save a reference to the first element in a variable:</p><pre class="python">
+<span class="pycomment"># get an iterable</span>
+context = iterparse(source, events=(<span class="pystring">"start"</span>, <span class="pystring">"end"</span>))
+
+<span class="pycomment"># turn it into an iterator</span>
+context = iter(context)
+
+<span class="pycomment"># get the root element</span>
+event, root = context.next()
+
+<span class="pykeyword">for</span> event, elem <span class="pykeyword">in</span> context:
+    <span class="pykeyword">if</span> event == <span class="pystring">"end"</span> <span class="pykeyword">and</span> elem.tag == <span class="pystring">"record"</span>:
+        ... process record elements ...
+        root.clear()</pre><p>(future releases will make it easier to access the root element
+from within the loop)</p><h3 id="namespace-events">Namespace Events&#160;<a class="nav" href="#namespace-events" title="bookmark!">#</a></h3><p>The namespace events contain information about namespace scopes
+in the source document.  This can be used to keep track of active
+namespace prefixes, which are otherwise discarded by the parser.
+Here&#8217;s how you can emulate the <b>namespaces</b> attribute in the
+<a href="http://effbot.org/zone/elementsoap-3.htm">FancyTreeBuilder</a>
+class:
+
+<pre class="python">
+events = (<span class="pystring">"end"</span>, <span class="pystring">"start-ns"</span>, <span class="pystring">"end-ns"</span>)
+namespaces = []
+<span class="pykeyword">for</span> event, elem <span class="pykeyword">in</span> iterparse(source, events=events):
+    <span class="pykeyword">if</span> event == <span class="pystring">"start-ns"</span>:
+        namespaces.insert(0, elem)
+    <span class="pykeyword">elif</span> event == <span class="pystring">"end-ns"</span>:
+        namespaces.pop(0)
+    <span class="pykeyword">else</span>:
+        ...</pre></p><p>The <b>namespaces</b> variable in this example will contain a stack
+of (prefix, uri) tuples.</p><p>(Note how <b>iterparse</b> lets you replace instance variables
+with local variables.  The code is not only easier to write, it is
+also a lot more efficient.)</p><p>For better performance, you can append and remove items at the
+right end of the list instead, and loop backwards when looking for
+prefix mappings.</p><h3 id="incremental-decoding">Incremental Decoding&#160;<a class="nav" href="#incremental-decoding" title="bookmark!">#</a></h3><p id="xmlrpc">Here&#8217;s a rather efficient and almost complete
+<a href="http://www.xmlrpc.com">XML-RPC</a> decoder
+(just add fault handling).  This implementation is
+3 to 4 times faster than the 170-line version I wrote
+for Python&#8217;s <b>xmlrpclib</b> library&#8230;</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">from</span> cElementTree <span class="pykeyword">import</span> iterparse
+<span class="pykeyword">from</span> cStringIO <span class="pykeyword">import</span> StringIO
+<span class="pykeyword">import</span> datetime, time
+
+<span class="pykeyword">def</span> <span class="pyfunction">make_datetime</span>(text):
+    <span class="pykeyword">return</span> datetime.datetime(
+        *time.strptime(text, <span class="pystring">"%Y%m%dT%H:%M:%S"</span>)[:6]
+    )
+
+unmarshallers = {
+    <span class="pystring">"int"</span>: <span class="pykeyword">lambda</span> x: int(x.text), <span class="pystring">"i4"</span>: <span class="pykeyword">lambda</span> x: int(x.text),
+    <span class="pystring">"boolean"</span>: <span class="pykeyword">lambda</span> x: x.text == <span class="pystring">"1"</span>,
+    <span class="pystring">"string"</span>: <span class="pykeyword">lambda</span> x: x.text <span class="pykeyword">or</span> <span class="pystring">""</span>,
+    <span class="pystring">"double"</span>: <span class="pykeyword">lambda</span> x: float(x.text),
+    <span class="pystring">"dateTime.iso8601"</span>: <span class="pykeyword">lambda</span> x: make_datetime(x.text),
+    <span class="pystring">"array"</span>: <span class="pykeyword">lambda</span> x: [v.text <span class="pykeyword">for</span> v <span class="pykeyword">in</span> x],
+    <span class="pystring">"struct"</span>: <span class="pykeyword">lambda</span> x: dict((k.text <span class="pykeyword">or</span> <span class="pystring">""</span>, v.text) <span class="pykeyword">for</span> k, v <span class="pykeyword">in</span> x),
+    <span class="pystring">"base64"</span>: <span class="pykeyword">lambda</span> x: decodestring(x.text <span class="pykeyword">or</span> <span class="pystring">""</span>),
+    <span class="pystring">"value"</span>: <span class="pykeyword">lambda</span> x: x[0].text,
+}
+
+<span class="pykeyword">def</span> <span class="pyfunction">loads</span>(data):
+    params = method = None
+    <span class="pykeyword">for</span> action, elem <span class="pykeyword">in</span> iterparse(StringIO(data)):
+        unmarshal = unmarshallers.get(elem.tag)
+        <span class="pykeyword">if</span> unmarshal:
+            data = unmarshal(elem)
+            elem.clear()
+            elem.text = data
+        <span class="pykeyword">elif</span> elem.tag == <span class="pystring">"methodCall"</span>:
+            method = elem.text
+        <span class="pykeyword">elif</span> elem.tag == <span class="pystring">"params"</span>:
+            params = tuple(v.text <span class="pykeyword">for</span> v <span class="pykeyword">in</span> elem)
+    <span class="pykeyword">return</span> params, method</pre></div><div class="yui-ge"><div class="yui-u first"><p>Note that code uses the <b>text</b> attribute to temporarily hold
+unmarshalled Python objects.  All standard ElementTree implementations
+support this, but some alternative implementations may not support
+non-text attribute values.</p><p id="plist">The same approach can be used to read Apple&#8217;s <b>plist</b> format:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">try</span>:
+    <span class="pykeyword">import</span> cElementTree <span class="pykeyword">as</span> ET
+<span class="pykeyword">except</span> ImportError:
+    <span class="pykeyword">import</span> elementtree.ElementTree <span class="pykeyword">as</span> ET
+<span class="pykeyword">import</span> base64, datetime, re
+
+unmarshallers = {
+
+    <span class="pycomment"># collections</span>
+    <span class="pystring">"array"</span>: <span class="pykeyword">lambda</span> x: [v.text <span class="pykeyword">for</span> v <span class="pykeyword">in</span> x],
+    <span class="pystring">"dict"</span>: <span class="pykeyword">lambda</span> x:
+        dict((x[i].text, x[i+1].text) <span class="pykeyword">for</span> i <span class="pykeyword">in</span> range(0, len(x), 2)),
+    <span class="pystring">"key"</span>: <span class="pykeyword">lambda</span> x: x.text <span class="pykeyword">or</span> <span class="pystring">""</span>,
+
+    <span class="pycomment"># simple types</span>
+    <span class="pystring">"string"</span>: <span class="pykeyword">lambda</span> x: x.text <span class="pykeyword">or</span> <span class="pystring">""</span>,
+    <span class="pystring">"data"</span>: <span class="pykeyword">lambda</span> x: base64.decodestring(x.text <span class="pykeyword">or</span> <span class="pystring">""</span>),
+    <span class="pystring">"date"</span>: <span class="pykeyword">lambda</span> x: datetime.datetime(*map(int, re.findall(<span class="pystring">"\d+"</span>, x.text))),
+    <span class="pystring">"true"</span>: <span class="pykeyword">lambda</span> x: True,
+    <span class="pystring">"false"</span>: <span class="pykeyword">lambda</span> x: False,
+    <span class="pystring">"real"</span>: <span class="pykeyword">lambda</span> x: float(x.text),
+    <span class="pystring">"integer"</span>: <span class="pykeyword">lambda</span> x: int(x.text),
+
+}
+
+<span class="pykeyword">def</span> <span class="pyfunction">load</span>(file):
+    parser = iterparse(file)
+    <span class="pykeyword">for</span> action, elem <span class="pykeyword">in</span> parser:
+        unmarshal = unmarshallers.get(elem.tag)
+        <span class="pykeyword">if</span> unmarshal:
+            data = unmarshal(elem)
+            elem.clear()
+            elem.text = data
+        <span class="pykeyword">elif</span> elem.tag != <span class="pystring">"plist"</span>:
+            <span class="pykeyword">raise</span> IOError(<span class="pystring">"unknown plist type: %r"</span> % elem.tag)
+    <span class="pykeyword">return</span> parser.root[0].text</pre></div><div class="yui-ge"><div class="yui-u first"><p id="rss">To round this off, here&#8217;s the obligatory RSS-reader-in-less-than-eight-lines example:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">from</span> urllib <span class="pykeyword">import</span> urlopen
+<span class="pykeyword">from</span> cElementTree <span class="pykeyword">import</span> iterparse
+
+<span class="pykeyword">for</span> event, elem <span class="pykeyword">in</span> iterparse(urlopen(<span class="pystring">"http://online.effbot.org/rss.xml"</span>)):
+    <span class="pykeyword">if</span> elem.tag == <span class="pystring">"item"</span>:
+        <span class="pykeyword">print</span> elem.findtext(<span class="pystring">"link"</span>), <span class="pystring">"-"</span>, elem.findtext(<span class="pystring">"title"</span>)
+        elem.clear() <span class="pycomment"># won't need the children any more</span></pre></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><ul><li><a href="#usage">Usage</a></li><li><a href="#incremental-parsing">Incremental Parsing</a></li><li><a href="#namespace-events">Namespace Events</a></li><li><a href="#incremental-decoding">Incremental Decoding</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

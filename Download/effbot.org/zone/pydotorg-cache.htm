@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Step 1: Using Django as Front-End&nbsp;Cache</title></head><body data-page-id="200"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Step 1: Using Django as Front-End&nbsp;Cache</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | February 2006</p><p>This note describes the first step in the proposed deployment plan.
+In this step, <a href="http://www.djangoproject.com">a Django server</a>
+is placed in front of the current site, and content is then migrated over
+to the content wiki, page by page. Throughout this step, the python.org
+site will still look pretty much as it looks
+<a href="http://www.python.org">today</a>.</p><p>The initial setup uses a page-mapping Django application running under
+<a href="http://www.modpython.org/">mod_python</a>, and a
+<a href="http://www.danga.com/memcached/">memcached</a>
+server for page caching.
+
+</p><p>During simulations on a low-end test server on a local network, this
+configuration is able to serve well over 1,000,000 pages per hour (whether
+this would apply to python.org is more than I can tell, though).
+
+<h2>Page Mapping</h2></p><p>The Apache setup is modified so that the current content is made
+available via the <b>/data</b> prefix.  All other requests are passed
+to a simple Django application that uses a page table to map public
+URL:s to source resources. This table has the following layout:</p><dl><dt><b>path</b></dt><dd>Document path.  This is the original URL, minus the site part (e.g.
+<b>/index.html</b> for the front page).</dd>
+<dt><b>status</b></dt><dd>Document status.  This is the HTTP code to return for this document.
+For documents that are not found in this table, the renderer searches the
+file storage, adds the document if found, or returns 404 if not found.
+</dd>
+<dt><b>source</b></dt><dd>The internal document source.  If the status is 200, this can be either
+a wiki pseudo-URL or a file URL (see below).  If the status is 301 or 302,
+this should be a http URL.  If the status is 404 or 410, this field is
+ignored, and can be left blank.</dd>
+</dl><h3>Document Sources</h3><p>Documents can be stored in two locations: in the content wiki, or as
+plain files on disk (relative to a specified directory).</p><dl><dt><b>file:</b></dt><dd>File resources refer to static resources on disk.  In the initial
+phase, such resources will be returned to the client as is.</dd>
+<dt><b>wiki:</b></dt><dd>Wiki resources live in the content wiki.  In the initial phase, such
+resources will receive basic styling by the renderer, to make them look
+like existing python.org pages.</dd>
+</dl><p>(In addition, resources can also be stored elsewhere in the http:
+space, via redirects).</p><h3>Data Resources</h3><p>Requests for data resources (downloads, etc) are redirected to the
+<b>/data</b> tree (using temporary redirects), where they are handled
+by Apache.</p><h2 id="todo">To Do&#160;<a class="nav" href="#todo" title="bookmark!">#</a></h2><p>(Preliminary)
+
+<ul><li>Set up mod_python on the www.python.org server.</li><li><s><a href="http://www.djangoproject.com/documentation/modpython/">Install Django 0.91</a></s> (dead link) under e.g. <b>/django</b>.</li><li>Install memcached (a 64 or 128 megabyte cache is probably enough).
+Don&#8217;t forget the client library!</li><ul><li><a href="http://www.danga.com/memcached/download.bml">server</a>
+(or install from RPM repository)
+</li><li><a href="ftp://ftp.tummy.com/pub/python-memcached/">client</a>
+</li></ul><li>Clean up the pydotorg.dyndns.org mapping application and install under
+<b>/django</b>.
+</li><li>Populate the page map (this can be done automatically by the mapping
+application, simply by letting it look in the file tree for any resource
+that&#8217;s not found in the mapping table).
+</li><li>When everything feels right, update the Apache configuration so that
+<b>/data</b> requests are handled by Apache, and everything else is goes
+through Django.
+</li></ul></p><p>In the next step, we&#8217;ll configure the content wiki, and start serving
+portions of the site from the wiki.  More on that later.
+
+<h3>Notes</h3></p><p>The <a href="http://www.jacobian.org/2005/dec/12/django-performance-tips/"><i>Django Performance Tips</i></a> page warns against serving &#8220;media&#8221; (i.e. data and images)
+from the same Apache instance as the main site.
+
+<h2>Technical Note: Django Model</h2></p><p>(Preliminary)</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+HTTP_STATUS = (
+    (200, '200 OK'),
+    (301, '301 Permanent Redirect'),
+    (302, '302 Temporary Redirect'),
+    (404, '404 Not Found'),
+    (410, '410 Gone'),
+)
+
+class Page(meta.Model):
+
+    path = meta.CharField("URI", maxlength=200)
+    # FIXME: index? primary key?
+    status = meta.IntegerField(choices=HTTP_STATUS)
+    source = meta.CharField("File (or redirect URI)", maxlength=200, blank=True)
+    # TODO: add timestamps? auto-flags?
+
+    def __repr__(self):
+        return self.path
+
+    class META:
+        admin = meta.Admin(
+            list_display=["path", "status", "target"],
+            search_fields=["path"]
+        )
+</pre></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#todo">To Do</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

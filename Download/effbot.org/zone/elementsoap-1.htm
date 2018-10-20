@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Using the ElementTree Module to Generate SOAP Messages, Part 1: Talking to a Stock Quote&nbsp;Server</title></head><body data-page-id="101"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><p><a href="element-soap.htm">back</a>&#160;<a href="elementsoap-2.htm">next</a></p><h1 class="maintitle">Using the ElementTree Module to Generate SOAP Messages, Part 1: Talking to a Stock Quote&nbsp;Server</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">November 16, 2003 | Fredrik Lundh</p><p class="note"><b>Note:</b>
+A distribution kit containing the source code for this article is
+available from <a href="http://effbot.org/downloads#elementsoap">the
+effbot.org downloads site</a> (look for ElementSOAP).</p><p>The <a href="http://www.w3.org/TR/SOAP/">Simple Object Access
+Protocol</a> (SOAP) is an XML-based protocol for &#8220;information exchange
+in distributed environments&#8221;.  SOAP can be used in many different ways,
+but the most common approach is to use it for RPC requests over HTTP,
+where a client application sends a SOAP request message to a remote
+server, and the server returns a SOAP response message to the
+client.</p><p>A simple SOAP request can look something like this (somewhat
+simplified; namespace definitions not shown):</p><pre class="xml">
+&lt;<span class="pyfunction">soap:Envelope</span>&gt;
+  &lt;<span class="pyfunction">soap:Body</span>&gt;
+    &lt;<span class="pyfunction">this:method</span> soap:encodingStyle="..."&gt;
+      &lt;<span class="pyfunction">argument</span> xsd:type="xsi:string"&gt;value&lt;/<span class="pyfunction">argument</span>&gt;
+      ...
+    &lt;/<span class="pyfunction">this:method</span>&gt;
+  &lt;/<span class="pyfunction">soap:Body</span>&gt;
+&lt;/<span class="pyfunction">soap:Envelope</span>&gt;</pre><p>The above request refers to a method named <b>this:method</b>
+(where the <b>this</b> prefix represents some namespace), and passes
+in a single string argument.  The server might return a SOAP response
+looking something like:</p><pre class="xml">
+&lt;<span class="pyfunction">soap:Envelope</span>&gt;
+  &lt;<span class="pyfunction">soap:Body</span>&gt;
+    &lt;<span class="pyfunction">this:methodResponse</span> soap:encodingStyle="..."&gt;
+      &lt;<span class="pyfunction">value</span> xsd:type="xsi:float"&gt;result&lt;/<span class="pyfunction">value</span>&gt;
+    &lt;/<span class="pyfunction">this:methodResponse</span>&gt;
+  &lt;/<span class="pyfunction">soap:Body</span>&gt;
+&lt;/<span class="pyfunction">soap:Envelope</span>&gt;</pre><h2 id="talking-to-a-stock-quote-server">Talking to a Stock Quote Server&#160;<a class="nav" href="#talking-to-a-stock-quote-server" title="bookmark!">#</a></h2><p>In this element article, I&#8217;m going to use the <a href="http://effbot.org/zone/element.htm">ElementTree</a> module to
+talk to a public SOAP service; the <a href="http://www.xmethods.com/ve2/ViewListing.po?serviceid=2">Delayed
+Stock Quote</a> service from <a href="http://www.xmethods.com">XMethods</a>.</p><p>A <a href="http://services.xmethods.net/soap/urn:xmethods-delayed-quotes.wsdl">complete description of this service</a> is available
+as a WSDL file, which is a rather verbose XML format that contains
+everything you&#8217;ll ever need to know about this SOAP service, in a
+machine readable format.  To make things a little bit easier, we&#8217;re
+going to work from an &#8220;RPC profile&#8221; that&#8217;s available from
+<a href="http://www.xmethods.com/ve2/ViewListing.po?serviceid=2">the
+service description page</a>:</p><blockquote><table class="simpletable">
+<tr><td>Method Name</td><td><b>getQuote</b></td></tr>
+<tr><td>Endpoint URL</td><td><b>http://66.28.98.121:9090/soap</b></td></tr>
+<tr><td>SOAPAction</td><td><b>urn:xmethods-delayed-quotes#getQuote</b></td></tr>
+<tr><td>Method Namespace URI</td><td><b>urn:xmethods-delayed-quotes</b></td></tr>
+<tr><td>Input Parameters</td><td><b>symbol</b> (string)</td></tr>
+<tr><td>Output Parameters</td><td><b>Result</b> (float)</td></tr>
+</table></blockquote><p>Translated to english, this tells you that to issue a <b>getQuote</b>
+request, you need to send an HTTP request to the given endpoint URL,
+include a SOAPAction field in the HTTP request header, and provide
+a request body named <b>{urn:xmethods-delayed-quotes}getQuote</b>
+which contains a single input parameter, <b>symbol</b>.  If
+successful, the server will return a response body containing a
+<b>Result</b> value.</p><p>Building SOAP requests with the Element module is straightforward.
+Let&#8217;s start with some definitions and helper functions:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">from</span> elementtree.ElementTree <span class="pykeyword">import</span> Element, SubElement, QName
+
+<span class="pycomment"># namespaces (SOAP 1.1)</span>
+NS_SOAP_ENV = <span class="pystring">"{http://schemas.xmlsoap.org/soap/envelope/}"</span>
+NS_XSI = <span class="pystring">"{http://www.w3.org/1999/XMLSchema-instance}"</span>
+NS_XSD = <span class="pystring">"{http://www.w3.org/1999/XMLSchema}"</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">SoapRequest</span>(method):
+    <span class="pycomment"># create a SOAP request element</span>
+    request = Element(method)
+    request.set(
+        NS_SOAP_ENV + <span class="pystring">"encodingStyle"</span>,
+        <span class="pystring">"http://schemas.xmlsoap.org/soap/encoding/"</span>
+        )
+    <span class="pykeyword">return</span> request
+
+<span class="pykeyword">def</span> <span class="pyfunction">SoapElement</span>(parent, name, type=None, text=None):
+    <span class="pycomment"># add a typed SOAP element to a request structure</span>
+    elem = SubElement(parent, name)
+    <span class="pykeyword">if</span> type:
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> isinstance(type, QName):
+            type = QName(<span class="pystring">"http://www.w3.org/1999/XMLSchema"</span>, type)
+        elem.set(NS_XSI + <span class="pystring">"type"</span>, type)
+    elem.text = text
+    <span class="pykeyword">return</span> elem</pre></div><div class="yui-ge"><div class="yui-u first"><p>The <b>SoapRequest</b> function creates a SOAP request element from
+the full method name (method namespace plus method name).  The
+<b>SoapElement</b> function adds a typed element to a parent
+element.  Note the use of the <b>QName</b> element class; this is used
+to tell the ElementTree module that the attribute <i>value</i> contains
+an XML namespace.</p><p>The next step is to write some glue code for the quote service.
+The following class handles calls to the <b>getQuote</b> method, and
+builds a request body which it passes to the <b>call</b> method on the
+parent class:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">class</span> <span class="pyclass">QuoteService</span>(SoapService):
+    url = <span class="pystring">"http://66.28.98.121:9090/soap"</span>
+    <span class="pykeyword">def</span> <span class="pyfunction">getQuote</span>(self, symbol):
+        action = <span class="pystring">"urn:xmethods-delayed-quotes#getQuote"</span>
+        request = SoapRequest(<span class="pystring">"{urn:xmethods-delayed-quotes}getQuote"</span>)
+        SoapElement(request, <span class="pystring">"symbol"</span>, <span class="pystring">"string"</span>, symbol)
+        response = self.call(action, request)
+        <span class="pykeyword">return</span> float(response.findtext(<span class="pystring">"Result"</span>))</pre></div><div class="yui-ge"><div class="yui-u first"><p>And here&#8217;s the parent:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">from</span> HTTPClient <span class="pykeyword">import</span> HTTPClient
+<span class="pykeyword">from</span> elementtree.ElementTree <span class="pykeyword">import</span> Element, SubElement, tostring
+
+<span class="pykeyword">class</span> <span class="pyclass">SoapService</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, url=None):
+        self.__client = HTTPClient(url <span class="pykeyword">or</span> self.url)
+    <span class="pykeyword">def</span> <span class="pyfunction">call</span>(self, action, request):
+        <span class="pycomment"># build SOAP envelope</span>
+        envelope = Element(NS_SOAP_ENV + <span class="pystring">"Envelope"</span>)
+        body = SubElement(envelope, NS_SOAP_ENV + <span class="pystring">"Body"</span>)
+        body.append(request)
+        <span class="pycomment"># call the server</span>
+        response = self.__client.do_request(
+            tostring(envelope),
+            extra_headers=[(<span class="pystring">"SOAPAction"</span>, action)]
+            )
+        <span class="pykeyword">return</span> response.getroot().find(body.tag)[0]</pre></div><div class="yui-ge"><div class="yui-u first"><p>The <b>call</b> method wraps the request element in SOAP <b>Envelope</b>
+and <b>Body</b> elements, and uses the <b>HTTPClient</b> library to send the
+request to the server.  The method then extracts the response element from
+the returned body, and returns it to the calling application.</p><p>Finally, here&#8217;s a snippet that uses the <b>QuoteService</b> to
+fetch the current stock price for <a href="http://www.redhat.com">Red
+Hat</a> (LNUX):</p><pre class="python">
+&gt;&gt;&gt; q = QuoteService()
+&gt;&gt;&gt; q.getQuote(<span class="pystring">"LNUX"</span>)
+4.78</pre></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p><a href="element-soap.htm">back</a>&#160;<a href="elementsoap-2.htm">next</a></p></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#talking-to-a-stock-quote-server">Talking to a Stock Quote Server</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

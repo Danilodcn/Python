@@ -1,0 +1,546 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capítulo 20: Árvores &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Apêndice A: Depuração" href="apendice_a.html" />
+    <link rel="prev" title="Capítulo 19: Filas" href="capitulo_19.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="apendice_a.html" title="Apêndice A: Depuração"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_19.html" title="Capítulo 19: Filas"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="capitulo-20-arvores">
+<h1><a class="toc-backref" href="#id1">Capítulo 20: Árvores</a><a class="headerlink" href="#capitulo-20-arvores" title="Link permanente para este título">¶</a></h1>
+<div class="contents topic" id="topicos">
+<p class="topic-title first">Tópicos</p>
+<ul class="simple">
+<li><a class="reference external" href="#capitulo-20-arvores" id="id1">Capítulo 20: Árvores</a><ul>
+<li><a class="reference external" href="#construindo-arvores" id="id2">20.1 Construindo árvores</a></li>
+<li><a class="reference external" href="#percorrendo-arvores" id="id3">20.2 Percorrendo árvores</a></li>
+<li><a class="reference external" href="#arvores-de-expressoes" id="id4">20.3 Árvores de expressões</a></li>
+<li><a class="reference external" href="#percurso-de-arvores" id="id5">20.4 Percurso de árvores</a></li>
+<li><a class="reference external" href="#construindo-uma-arvore-de-expressao" id="id6">20.5 Construindo uma árvore de expressão</a></li>
+<li><a class="reference external" href="#manipulando-erros" id="id7">20.6 Manipulando erros</a></li>
+<li><a class="reference external" href="#a-arvore-dos-animais" id="id8">20.7 A árvore dos animais</a></li>
+<li><a class="reference external" href="#glossario" id="id9">20.8 Glossário</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Nota</p>
+<p class="last">Veja a discussão sobre o vocabulário usado no fim da página.</p>
+</div>
+<hr class="docutils" />
+<p>Como listas ligadas, árvores são constituídas de células. Uma espécie comum de árvores é a <strong>árvore binária</strong>, em que cada célula contém referências a duas outras células (possivelmente nulas). Tais referências são chamadas de subárvore esquerda e direita. Como as células de listas ligadas, as células de árvores também contém uma carga. Um diagrama de estados para uma árvore pode aparecer assim:</p>
+<div class="sidebar">
+<p class="first sidebar-title">Figura 1</p>
+<img alt="_images/20_01_arvore1.png" class="last" src="_images/20_01_arvore1.png" />
+</div>
+<p>Para evitar a sobrecarga da figura, nós frequentemente omitimos os <tt class="docutils literal"><span class="pre">Nones</span></tt>.</p>
+<p>O topo da árvore (a célula à qual o apontador <tt class="docutils literal"><span class="pre">tree</span></tt> se refere) é chamada de <strong>raiz</strong>. Seguindo a metáfora das árvores, as outras células são chamadas de galhos e as células nas pontas contendo as referências vazia são chamadas de <strong>folhas</strong>. Pode parecer estranho que desenhamos a figura com a raiz em cima e as folhas em baixo, mas isto nem será a coisa mais estranha.</p>
+<p>Para piorar as coisas, cientistas da computação misturam outra metáfora além da metáfora biológica - a árvore genealógica. Uma célula superior pode ser chamada de <strong>pai</strong> e as células a que ela se refere são chamadas de seus <strong>filhos</strong>. Células com o mesmo pai são chamadas de <strong>irmãos</strong>.</p>
+<p>Finalmente, existe também o vocabulário geométrico para falar de árvores. Já mencionamos esquerda e direita, mas existem também as direções &#8220;para cima&#8221; (na direção da raiz) e &#8220;para baixo&#8221; (na direção dos filhos/folhas). Ainda nesta terminologia, todas as células situadas à mesma distância da raiz constituem um <strong>nível</strong> da árvore.</p>
+<p>Provavelmente não precisamos de três metáforas para falar de árvores, mas aí elas estão.</p>
+<p>Como listas ligadas, árvores são estruturas de dados recursivas já que elas são definidas recursivamente:</p>
+<blockquote>
+<p>Uma árvore é</p>
+<blockquote>
+<ul class="simple">
+<li>a árvore vazia, representada por <tt class="xref docutils literal"><span class="pre">None</span></tt>, ou</li>
+<li>uma célula que contém uma referência a um objeto (a carga da célula) e duas referências a árvores.</li>
+</ul>
+</blockquote>
+</blockquote>
+<div class="section" id="construindo-arvores">
+<h2><a class="toc-backref" href="#id2">20.1 Construindo árvores</a><a class="headerlink" href="#construindo-arvores" title="Link permanente para este título">¶</a></h2>
+<p>O processo de montar uma árvore é similar ao processo de montar uma lista ligada. cada invocação do construtor cria uma célula.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Tree</span> <span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cargo</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span> <span class="p">:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">cargo</span> <span class="o">=</span> <span class="n">cargo</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">left</span>  <span class="o">=</span> <span class="n">left</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">right</span>
+
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cargo</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A <tt class="docutils literal"><span class="pre">carga</span></tt> pode ser de qualquer tipo, mas os parâmetros <tt class="docutils literal"><span class="pre">left</span></tt> e <tt class="docutils literal"><span class="pre">right</span></tt> devem ser células. <tt class="docutils literal"><span class="pre">left</span></tt> e <tt class="docutils literal"><span class="pre">right</span></tt> são opcionais; o valor default é <tt class="xref docutils literal"><span class="pre">None</span></tt>.</p>
+<p>Para imprimir uma célula, imprimimos apenas a sua carga.</p>
+<p>Uma forma de construir uma árvore é de baixo para cima. Aloque os filhos primeiro:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">left</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">right</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Em seguida crie a célula pai e ligue ela a seus filhos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">tree</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Podemos escrever este código mais concisamente encaixando as invocações do construtor:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>De qualquer forma, o resultado é a árvore que apareceu no início do capítulo.</p>
+</div>
+<div class="section" id="percorrendo-arvores">
+<h2><a class="toc-backref" href="#id3">20.2 Percorrendo árvores</a><a class="headerlink" href="#percorrendo-arvores" title="Link permanente para este título">¶</a></h2>
+<p>Cada vez que Você vê uma nova estrutura de dados, sua primeira pergunta deveria ser &#8220;Como eu percorro esta estrutura?&#8221; A forma mais natural de percorrer uma árvore é fazer o percurso recursivamente. Por exemplo, se a árvore contém inteiros na carga, a função abaixo retorna a soma das cargas:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">total</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span> <span class="p">:</span>
+  <span class="k">if</span> <span class="n">tree</span> <span class="o">==</span> <span class="bp">None</span> <span class="p">:</span> <span class="k">return</span> <span class="mi">0</span>
+  <span class="k">return</span> <span class="n">total</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">left</span><span class="p">)</span> <span class="o">+</span> <span class="n">total</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">right</span><span class="p">)</span> <span class="o">+</span> <span class="n">tree</span><span class="o">.</span><span class="n">cargo</span>
+</pre></div>
+</div>
+<p>O caso base é a árvore vazia, que não contém nenhuma carga, logo a soma das cargas é 0. O passo recursivo faz duas chamadas recursivas para achar a soma das cargas das subárvores dos filhos. Ao finalizar a chamada recursiva, adicionamos a carga do pai e devolvemos o valor total.</p>
+</div>
+<div class="section" id="arvores-de-expressoes">
+<h2><a class="toc-backref" href="#id4">20.3 Árvores de expressões</a><a class="headerlink" href="#arvores-de-expressoes" title="Link permanente para este título">¶</a></h2>
+<p>Uma árvore é uma forma natural para representar a estrutura de uma expressão. Ao contrário de outras notações, a árvore pode representar a computação de forma não ambígua. Por exemplo, a expressão infixa <tt class="docutils literal"><span class="pre">1</span> <span class="pre">+</span> <span class="pre">2</span> <span class="pre">*</span> <span class="pre">3</span></tt> é ambígua, a menos que saibamos que a multiplicação é feita antes da adição.</p>
+<p>A árvore de expressão seguinte representa a mesma computação:</p>
+<div class="sidebar">
+<p class="first sidebar-title">Figura 2</p>
+<img alt="_images/20_02_arvore2.png" class="last" src="_images/20_02_arvore2.png" />
+</div>
+<p>As células de uma árvore de expressão podem ser operandos como <tt class="docutils literal"><span class="pre">1</span></tt> e <tt class="docutils literal"><span class="pre">2</span></tt> ou operações como <tt class="docutils literal"><span class="pre">+</span></tt> e <tt class="docutils literal"><span class="pre">*</span></tt>. As células contendo operandos são folhas; aquelas contendo operações devem ter referências aos seus operandos. (Todos os nossos operandos são <strong>binários</strong>, significando que eles tem exatamente dois operandos.)</p>
+<p>Podemos construir árvores assim:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="s">&#39;+&#39;</span><span class="p">,</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Tree</span><span class="p">(</span><span class="s">&#39;*&#39;</span><span class="p">,</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">3</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>Examinando a figura, não há dúvida quanto à ordem das operações; a multiplicação é feita primeiro para calcular o segundo operando da adição.</p>
+<p>Árvores de expressão tem muitos usos. O exemplo neste capítulo usa árvores para traduzir expressões para as notações pósfixa, prefixa e infixa. Árvores similares são usadas em compiladores para analisar sintaticamente, otimizar e traduzir programas.</p>
+</div>
+<div class="section" id="percurso-de-arvores">
+<h2><a class="toc-backref" href="#id5">20.4 Percurso de árvores</a><a class="headerlink" href="#percurso-de-arvores" title="Link permanente para este título">¶</a></h2>
+<p>Podemos percorrer uma árvore de expressão e imprimir o seu conteúdo como segue:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">printTree</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span> <span class="p">:</span>
+  <span class="k">if</span> <span class="n">tree</span> <span class="o">==</span> <span class="bp">None</span> <span class="p">:</span> <span class="k">return</span>
+  <span class="k">print</span> <span class="n">tree</span><span class="o">.</span><span class="n">cargo</span><span class="p">,</span>
+  <span class="n">printTree</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+  <span class="n">printTree</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Em outras palavras, para imprimir uma árvore, imprima primeiro o conteúdo da raiz, em seguida imprima toda a subárvore esquerda e finalmente imprima toda a subárvore direita. Esta forma de percorrer uma árvore é chamada de <strong>préordem</strong>, porque o conteúdo da raiz aparece <em>antes</em> dos conteúdos dos filhos. Para o exemplo anterior, a saída é:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="s">&#39;+&#39;</span><span class="p">,</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Tree</span><span class="p">(</span><span class="s">&#39;*&#39;</span><span class="p">,</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Tree</span><span class="p">(</span><span class="mi">3</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">printTree</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="go">+ 1 * 2 3</span>
+</pre></div>
+</div>
+<p>Esta notação é diferente tanto da notação pósfixa quanto da infixa; é uma notação chamada de <strong>prefixa</strong>, em que os operadores aparecem antes dos seus operandos.</p>
+<p>Você pode suspeitar que se Você percorre a árvore numa ordem diferente, Você produzirá expressões numa notação diferente. Por exemplo, se Você imprime subárvores primeiro e depois a raiz, Você terá:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">printTreePostorder</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span> <span class="p">:</span>
+  <span class="k">if</span> <span class="n">tree</span> <span class="o">==</span> <span class="bp">None</span> <span class="p">:</span> <span class="k">return</span>
+  <span class="n">printTreePostorder</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+  <span class="n">printTreePostorder</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+  <span class="k">print</span> <span class="n">tree</span><span class="o">.</span><span class="n">cargo</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>O resultado, <tt class="docutils literal"><span class="pre">1</span> <span class="pre">2</span> <span class="pre">3</span> <span class="pre">*</span> <span class="pre">+</span></tt>, está na notação pósfixa! Esta ordem de percurso é chamada de pósordem.</p>
+<p>Finalmente, para percorrer uma árvore em <strong>inordem</strong>, Você imprime a subárvore esquerda, depois a raiz e depois a subárvore direita:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">printTreeInorder</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span> <span class="p">:</span>
+  <span class="k">if</span> <span class="n">tree</span> <span class="o">==</span> <span class="bp">None</span> <span class="p">:</span> <span class="k">return</span>
+  <span class="n">printTreeInorder</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+  <span class="k">print</span> <span class="n">tree</span><span class="o">.</span><span class="n">cargo</span><span class="p">,</span>
+  <span class="n">printTreeInorder</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>O resultado é <tt class="docutils literal"><span class="pre">1</span> <span class="pre">+</span> <span class="pre">2</span> <span class="pre">*</span> <span class="pre">3</span></tt>, que é a expressão na notação infixa.</p>
+<p>Para sermos justos, devemos lembrar que acabamos de omitir uma complicação importante. algumas vezes quando escrevemos expressões na notação infixa devemos usar parêntesis para prescrever a ordem das operações. Ou seja, um percurso em inordem não é suficiente para gerar a expressão infixa.</p>
+<p>Ainda assim, com alguns aperfeiçoamentos, a árvore de expressão e os três modos recursivos de percurso resultam em algoritmos para transformar expressões de uma notação para outra.</p>
+<blockquote>
+<em>Como um exercício, modifique `printTreeInorder` de modo que ele coloque parêntesis em volta de cada operador e par de operandos. A saída é correta e não ambígua? Os parêntesis são sempre necessários?</em></blockquote>
+<p>Se percorrermos uma árvore em inordem e acompanharmos em qual nível na árvore estamos, podemos gerar uma representação gráfica da árvore:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">printTreeIndented</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="p">:</span>
+  <span class="k">if</span> <span class="n">tree</span> <span class="o">==</span> <span class="bp">None</span> <span class="p">:</span> <span class="k">return</span>
+  <span class="n">printTreeIndented</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">level</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+  <span class="k">print</span> <span class="s">&#39;  &#39;</span><span class="o">*</span><span class="n">level</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">cargo</span><span class="p">)</span>
+  <span class="n">printTreeIndented</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">level</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>O parâmetro <tt class="docutils literal"><span class="pre">level</span></tt> registra aonde estamos na árvore. Por &#8216;default&#8217;, o nível inicialmente é zero. A cada chamada recursiva repassamos <tt class="docutils literal"><span class="pre">level+1</span></tt> porque o nível do filho é sempre um a mais do que o nível do pai. Cada item é indentado dois espaços por nível. Para o nosso exemplo obtemos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">printTreeIndented</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="go">    3</span>
+<span class="go">  *</span>
+<span class="go">    2</span>
+<span class="go">+</span>
+<span class="go">  1</span>
+</pre></div>
+</div>
+<p>Se Você deitar a saída acima Você enxerga uma versão simplificada da figura original.</p>
+</div>
+<div class="section" id="construindo-uma-arvore-de-expressao">
+<h2><a class="toc-backref" href="#id6">20.5 Construindo uma árvore de expressão</a><a class="headerlink" href="#construindo-uma-arvore-de-expressao" title="Link permanente para este título">¶</a></h2>
+<p>Nesta seção analisamos expressões infixas e construímos as árvores de expressã correspondentes. Por exemplo, para a expressão <tt class="docutils literal"><span class="pre">(3+7)*9</span></tt> resultará a seguinte árvore:</p>
+<div class="sidebar">
+<p class="first sidebar-title">Figura 3</p>
+<img alt="_images/20_03_arvore3.png" class="last" src="_images/20_03_arvore3.png" />
+</div>
+<p>Note que simplificamos o diagrama omitindo os nomes dos campos.</p>
+<p>O analisador que escreveremos aceitará expressões que incluam números, parêntesis e as operações <tt class="docutils literal"><span class="pre">+</span></tt> e <tt class="docutils literal"><span class="pre">*</span></tt>. Vamos supor que a cadeia de entrada já foi tokenizada numa lista do Python. A lista de tokens para a expressão <tt class="docutils literal"><span class="pre">(3+7)*9</span></tt> é:</p>
+<p><tt class="docutils literal"><span class="pre">['(',</span> <span class="pre">3,</span> <span class="pre">'+',</span> <span class="pre">7,</span> <span class="pre">')',</span> <span class="pre">'*',</span> <span class="pre">9,</span> <span class="pre">'end']</span></tt></p>
+<p>O token final <tt class="docutils literal"><span class="pre">end</span></tt> é prático para prevenir que o analisador tente buscar mais dados após o término da lista.</p>
+<blockquote>
+<em>A título de um exercício, escreva uma função que recebe uma expressão na forma de uma cadeia e devolve a lista de tokens.</em></blockquote>
+<p>A primeira função que escreveremos é <tt class="docutils literal"><span class="pre">getToken</span></tt> que recebe como parâmetros uma lista de tokens e um token esperado. Ela compara o token esperado com o o primeiro token da lista: se eles batem a função remove o token da lista e devolve um valor verdadeiro, caso contrário a função devolve um valor falso:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">getToken</span><span class="p">(</span><span class="n">tokenList</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span> <span class="p">:</span>
+  <span class="k">if</span> <span class="n">tokenList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">expected</span> <span class="p">:</span>
+    <span class="n">tokenList</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>   <span class="c"># remove the token</span>
+    <span class="k">return</span> <span class="mi">1</span>
+  <span class="k">else</span> <span class="p">:</span>
+    <span class="k">return</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>Já que <tt class="docutils literal"><span class="pre">tokenList</span></tt> refere a um objeto mutável, as alterações feitas aqui são visíveis para qualquer outra variável que se refira ao mesmo objeto.</p>
+<p>A próxima função, <tt class="docutils literal"><span class="pre">getNumber</span></tt>, trata de operandos. Se o primeiro token na <tt class="docutils literal"><span class="pre">tokenList</span></tt> for um número então <tt class="docutils literal"><span class="pre">getNumber</span></tt> o remove da lista e devolve uma célula folha contendo o número; caso contrário ele devolve <tt class="xref docutils literal"><span class="pre">None</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">getNumber</span><span class="p">(</span><span class="n">tokenList</span><span class="p">)</span> <span class="p">:</span>
+  <span class="n">x</span> <span class="o">=</span> <span class="n">tokenList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">None</span>
+  <span class="k">del</span> <span class="n">tokenList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="k">return</span> <span class="n">Tree</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Antes de continuar, convém testar <tt class="docutils literal"><span class="pre">getNumber</span></tt> isoladamente. Atribuímos uma lista de números a <tt class="docutils literal"><span class="pre">tokenList</span></tt>, extraímos o primeiro, imprimimos o resultado e imprimimos o que resta na lista de tokens:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tokenList</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="s">&#39;end&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">getNumber</span><span class="p">(</span><span class="n">tokenList</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">printTreePostorder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">9</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">tokenList</span>
+<span class="go">[11, &#39;end&#39;]</span>
+</pre></div>
+</div>
+<p>Em seguida precisaremos da função <tt class="docutils literal"><span class="pre">getProduct</span></tt>, que constrói uma árvore de expressão para produtos. Os dois operandos de um produto simples são números, como em <tt class="docutils literal"><span class="pre">3</span> <span class="pre">*</span> <span class="pre">7</span></tt>.</p>
+<p>Segue uma versão de <tt class="docutils literal"><span class="pre">getProduct</span></tt> que trata de produtos simples.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">getProduct</span><span class="p">(</span><span class="n">tokenList</span><span class="p">)</span> <span class="p">:</span>
+  <span class="n">a</span> <span class="o">=</span> <span class="n">getNumber</span><span class="p">(</span><span class="n">tokenList</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">getToken</span><span class="p">(</span><span class="n">tokenList</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">)</span> <span class="p">:</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">getNumber</span><span class="p">(</span><span class="n">tokenList</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Tree</span><span class="p">(</span><span class="s">&#39;*&#39;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+  <span class="k">else</span> <span class="p">:</span>
+    <span class="k">return</span> <span class="n">a</span>
+</pre></div>
+</div>
+<p>Supondo que a chamada de <tt class="docutils literal"><span class="pre">getNumber</span></tt> seja bem sucedida e devolva uma árvore de uma só célula atribuímos o primeiro operando a <cite>à`</cite>. Se o próximo caractere for <tt class="docutils literal"><span class="pre">*</span></tt>, vamos buscar o segundo número e construir a árvore com <tt class="docutils literal"><span class="pre">a</span></tt>, <tt class="docutils literal"><span class="pre">b</span></tt> e o operador.</p>
+<p>Se o caractere seguinte for qualquer outra coisa, então simplesmente devolvemos uma célula folha com <tt class="docutils literal"><span class="pre">a</span></tt>. Seguem dois exemplos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tokenList</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="s">&#39;end&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">getProduct</span><span class="p">(</span><span class="n">tokenList</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">printTreePostorder</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="go">9 11 *</span>
+
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenList</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="s">&#39;+&#39;</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="s">&#39;end&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">getProduct</span><span class="p">(</span><span class="n">tokenList</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">printTreePostorder</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="go">9</span>
+</pre></div>
+</div>
+<p>O segundo exemplo sugere que nós consideramos um operando unitário como uma espécie de produto. Esta definição de &#8220;produto&#8221; talvez não seja intuitiva, mas ela será útil.</p>
+<p>Agora tratamos produtos compostos, como <tt class="docutils literal"><span class="pre">3</span> <span class="pre">*</span> <span class="pre">5</span> <span class="pre">*</span> <span class="pre">13</span></tt>. Encaramos esta expressão como um produto de produtos, mais precisamente como <tt class="docutils literal"><span class="pre">3</span> <span class="pre">*</span> <span class="pre">(5</span> <span class="pre">*</span> <span class="pre">13)</span></tt>. A árvore resultante é:</p>
+<div class="sidebar">
+<p class="first sidebar-title">Figura 4</p>
+<img alt="_images/20_04_arvore4.png" class="last" src="_images/20_04_arvore4.png" />
+</div>
+<p>Com uma pequena alteração em <tt class="docutils literal"><span class="pre">getProduct</span></tt>, podemos acomodar produtos arbitrariamente longos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">getProduct</span><span class="p">(</span><span class="n">tokenList</span><span class="p">)</span> <span class="p">:</span>
+  <span class="n">a</span> <span class="o">=</span> <span class="n">getNumber</span><span class="p">(</span><span class="n">tokenList</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">getToken</span><span class="p">(</span><span class="n">tokenList</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">)</span> <span class="p">:</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">getProduct</span><span class="p">(</span><span class="n">tokenList</span><span class="p">)</span>        <span class="c"># this line changed</span>
+    <span class="k">return</span> <span class="n">Tree</span><span class="p">(</span><span class="s">&#39;*&#39;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+  <span class="k">else</span> <span class="p">:</span>
+    <span class="k">return</span> <span class="n">a</span>
+</pre></div>
+</div>
+<p>Em outras palavras, um produto pode ser um singleton ou uma árvore com <tt class="docutils literal"><span class="pre">*</span></tt> na raiz, que tem um número como filho esquerdo e um produto como filho direito. Este tipo de definição recursiva devia começar a ficar familiar.</p>
+<p>Testemos a nova versão com um produto composto:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tokenList</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">,</span> <span class="mi">5</span> <span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="s">&#39;end&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">getProduct</span><span class="p">(</span><span class="n">tokenList</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">printTreePostorder</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="go">2 3 5 7 * * *</span>
+</pre></div>
+</div>
+<p>A seguir adicionamos o tratamento de somas. De novo, usamos uma definição de &#8220;soma&#8221; que é ligeiramente não intuitiva. Para nós, uma soma pode ser uma árvore com <tt class="docutils literal"><span class="pre">+</span></tt> na raiz, que tem um produto como filho esquerdo e uma soma como filho direito. Ou, uma soma pode ser simplesmente um produto.</p>
+<p>Se Você está disposto a brincar com esta definição, ela tem uma propriedade interessante: podemos representar qualquer expressão (sem parêntesis) como uma soma de produtos. Esta propriedade é a base do nosso algoritmo de análise sintática.</p>
+<p><tt class="docutils literal"><span class="pre">getSum</span></tt> tenta construir a árvore com um produto à esquerda e uma soma à direita. Mas, se ele não encontra uma <tt class="docutils literal"><span class="pre">+</span></tt>, ele simplesmente constrói um produto.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">getSum</span><span class="p">(</span><span class="n">tokenList</span><span class="p">)</span> <span class="p">:</span>
+  <span class="n">a</span> <span class="o">=</span> <span class="n">getProduct</span><span class="p">(</span><span class="n">tokenList</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">getToken</span><span class="p">(</span><span class="n">tokenList</span><span class="p">,</span> <span class="s">&#39;+&#39;</span><span class="p">)</span> <span class="p">:</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">getSum</span><span class="p">(</span><span class="n">tokenList</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Tree</span><span class="p">(</span><span class="s">&#39;+&#39;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+  <span class="k">else</span> <span class="p">:</span>
+    <span class="k">return</span> <span class="n">a</span>
+</pre></div>
+</div>
+<p>Vamos testar o algoritmo com <tt class="docutils literal"><span class="pre">9</span> <span class="pre">*</span> <span class="pre">11</span> <span class="pre">+</span> <span class="pre">5</span> <span class="pre">*</span> <span class="pre">7</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tokenList</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="s">&#39;+&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="s">&#39;end&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">getSum</span><span class="p">(</span><span class="n">tokenList</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">printTreePostorder</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="go">9 11 * 5 7 * +</span>
+</pre></div>
+</div>
+<p>Quase terminamos, mas ainda temos que tratar dos parêntesis. Em qualquer lugar numa expressão onde podemos ter um número, podemos também ter uma soma inteira envolvida entre parêntesis. Precisamos, apenas, modificar <tt class="docutils literal"><span class="pre">getNumber</span></tt> para que ela possa tratar de <strong>subexpressões</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">getNumber</span><span class="p">(</span><span class="n">tokenList</span><span class="p">)</span> <span class="p">:</span>
+  <span class="k">if</span> <span class="n">getToken</span><span class="p">(</span><span class="n">tokenList</span><span class="p">,</span> <span class="s">&#39;(&#39;</span><span class="p">)</span> <span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">getSum</span><span class="p">(</span><span class="n">tokenList</span><span class="p">)</span>      <span class="c"># get subexpression</span>
+    <span class="n">getToken</span><span class="p">(</span><span class="n">tokenList</span><span class="p">,</span> <span class="s">&#39;)&#39;</span><span class="p">)</span>    <span class="c"># eat the closing parenthesis</span>
+    <span class="k">return</span> <span class="n">x</span>
+  <span class="k">else</span> <span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">tokenList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="bp">None</span>
+    <span class="n">tokenList</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>   <span class="c"># remove the token</span>
+    <span class="k">return</span> <span class="n">Tree</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>    <span class="c"># return a leaf with the number</span>
+</pre></div>
+</div>
+<p>Testemos este código com <tt class="docutils literal"><span class="pre">9</span> <span class="pre">*</span> <span class="pre">(11</span> <span class="pre">+</span> <span class="pre">5)</span> <span class="pre">*</span> <span class="pre">7</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tokenList</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">,</span> <span class="s">&#39;(&#39;</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="s">&#39;+&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="s">&#39;)&#39;</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="s">&#39;end&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">getSum</span><span class="p">(</span><span class="n">tokenList</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">printTreePostorder</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="go">9 11 5 + 7 * *</span>
+</pre></div>
+</div>
+<p>O analisador tratou os parêntesis corretamente; a adição é feita antes da multiplicação.</p>
+<p>Na versão final do programa, seria uma boa idéia dar a <tt class="docutils literal"><span class="pre">getNumber</span></tt> um nome mais descritivo do seu novo papel.</p>
+</div>
+<div class="section" id="manipulando-erros">
+<h2><a class="toc-backref" href="#id7">20.6 Manipulando erros</a><a class="headerlink" href="#manipulando-erros" title="Link permanente para este título">¶</a></h2>
+<p>Ao longo do analisador sintático tínhamos suposto que as expressões (de entrada) são bem formadas. Por exemplo, quando atingimos o fim de uma subexpressão, supomos que o próximo caractere é um facha parêntesis. Caso haja um erro e o próximo caractere seja algo diferente, devemos tratar disto.</p>
+<div class="highlight-python"><pre>def getNumber(tokenList) :
+  if getToken(tokenList, '(') :
+    x = getSum(tokenList)
+    if not getToken(tokenList, ')'):
+      raise 'BadExpressionError', 'missing parenthesis'
+    return x
+  else :
+    # the rest of the function omitted</pre>
+</div>
+<p>O comando <tt class="docutils literal"><span class="pre">raise</span></tt> cria uma exceção; neste caso criamos um novo tipo de exceção, chamada de <tt class="docutils literal"><span class="pre">BadExpressionError</span></tt>. Se a função que chamou <tt class="docutils literal"><span class="pre">getNumber</span></tt>, ou uma das outras funções no traceback, manipular a exceção, então o programa pode continuar. caso contrário Python vai imprimir uma mensagem de erro e terminará o processamento em seguida.</p>
+<blockquote>
+<em>A título de exercício, encontre outros locais nas funções criadas onde erros possam ocorrer e adiciona comandos ``raise`` apropriados. Teste seu código com expressões mal formadas.</em></blockquote>
+</div>
+<div class="section" id="a-arvore-dos-animais">
+<h2><a class="toc-backref" href="#id8">20.7 A árvore dos animais</a><a class="headerlink" href="#a-arvore-dos-animais" title="Link permanente para este título">¶</a></h2>
+<p>Nesta seção, desenvolvemos um pequeno programa que usa uma árvore para representar uma base de conhecimento.</p>
+<p>O programa interage com o usuário para criar uma árvore de perguntas e de nomes de animais. Segue uma amostra da funcionalidade:</p>
+<div class="highlight-python"><pre>Are you thinking of an animal? y
+Is it a bird? n
+What is the animals name? dog
+What question would distinguish a dog from a bird? Can it fly
+If the animal were dog the answer would be? n
+
+Are you thinking of an animal? y
+Can it fly? n
+Is it a dog? n
+What is the animals name? cat
+What question would distinguish a cat from a dog? Does it bark
+If the animal were cat the answer would be? n
+
+Are you thinking of an animal? y
+Can it fly? n
+Does it bark? y
+Is it a dog? y
+I rule!
+
+Are you thinking of an animal? n</pre>
+</div>
+<p>Aqui está a árvore que este diálogo constrói:</p>
+<div class="sidebar">
+<p class="first sidebar-title">Figura 5</p>
+<img alt="_images/20_05_arvore5.png" class="last" src="_images/20_05_arvore5.png" />
+</div>
+<p>No começo de cada rodada, o programa parte do topo da árvore e faz a primeira pergunta. Dependendo da resposta, ele segue pelo filho esquerdo ou direito e continua até chegar numa folha. Neste ponto ele arrisca um palpite. Se o palpite não for correto, ele pergunta ao usuário o nome de um novo animal e uma pergunta que distingue o palpite errado do novo animal. A seguir, adiciona uma célula à árvore contendo a nova pergunta e o novo animal.</p>
+<p>Aqui está o código:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">animal</span><span class="p">()</span> <span class="p">:</span>
+   <span class="c"># start with a singleton</span>
+   <span class="n">root</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="s">&quot;bird&quot;</span><span class="p">)</span>
+
+   <span class="c"># loop until the user quits</span>
+   <span class="k">while</span> <span class="mi">1</span> <span class="p">:</span>
+     <span class="k">print</span>
+     <span class="k">if</span> <span class="ow">not</span> <span class="n">yes</span><span class="p">(</span><span class="s">&quot;Are you thinking of an animal? &quot;</span><span class="p">)</span> <span class="p">:</span> <span class="k">break</span>
+
+     <span class="c"># walk the tree</span>
+     <span class="n">tree</span> <span class="o">=</span> <span class="n">root</span>
+     <span class="k">while</span> <span class="n">tree</span><span class="o">.</span><span class="n">getLeft</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">None</span> <span class="p">:</span>
+       <span class="n">prompt</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getCargo</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;? &quot;</span>
+       <span class="k">if</span> <span class="n">yes</span><span class="p">(</span><span class="n">prompt</span><span class="p">):</span>
+         <span class="n">tree</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getRight</span><span class="p">()</span>
+       <span class="k">else</span><span class="p">:</span>
+         <span class="n">tree</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getLeft</span><span class="p">()</span>
+
+     <span class="c"># make a guess</span>
+     <span class="n">guess</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getCargo</span><span class="p">()</span>
+     <span class="n">prompt</span> <span class="o">=</span> <span class="s">&quot;Is it a &quot;</span> <span class="o">+</span> <span class="n">guess</span> <span class="o">+</span> <span class="s">&quot;? &quot;</span>
+     <span class="k">if</span> <span class="n">yes</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span> <span class="p">:</span>
+       <span class="k">print</span> <span class="s">&quot;I rule!&quot;</span>
+       <span class="k">continue</span>
+
+     <span class="c"># get new information</span>
+     <span class="n">prompt</span>  <span class="o">=</span> <span class="s">&quot;What is the animal</span><span class="se">\&#39;</span><span class="s">s name? &quot;</span>
+     <span class="n">animal</span>  <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+     <span class="n">prompt</span>  <span class="o">=</span> <span class="s">&quot;What question would distinguish a </span><span class="si">%s</span><span class="s"> from a </span><span class="si">%s</span><span class="s">? &quot;</span>
+     <span class="n">question</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="n">prompt</span> <span class="o">%</span> <span class="p">(</span><span class="n">animal</span><span class="p">,</span><span class="n">guess</span><span class="p">))</span>
+
+     <span class="c"># add new information to the tree</span>
+     <span class="n">tree</span><span class="o">.</span><span class="n">setCargo</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
+     <span class="n">prompt</span> <span class="o">=</span> <span class="s">&quot;If the animal were </span><span class="si">%s</span><span class="s"> the answer would be? &quot;</span>
+     <span class="k">if</span> <span class="n">yes</span><span class="p">(</span><span class="n">prompt</span> <span class="o">%</span> <span class="n">animal</span><span class="p">)</span> <span class="p">:</span>
+       <span class="n">tree</span><span class="o">.</span><span class="n">setLeft</span><span class="p">(</span><span class="n">Tree</span><span class="p">(</span><span class="n">guess</span><span class="p">))</span>
+       <span class="n">tree</span><span class="o">.</span><span class="n">setRight</span><span class="p">(</span><span class="n">Tree</span><span class="p">(</span><span class="n">animal</span><span class="p">))</span>
+     <span class="k">else</span> <span class="p">:</span>
+       <span class="n">tree</span><span class="o">.</span><span class="n">setLeft</span><span class="p">(</span><span class="n">Tree</span><span class="p">(</span><span class="n">animal</span><span class="p">))</span>
+       <span class="n">tree</span><span class="o">.</span><span class="n">setRight</span><span class="p">(</span><span class="n">Tree</span><span class="p">(</span><span class="n">guess</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>A função <tt class="docutils literal"><span class="pre">yes</span></tt> é um auxiliar; ele imprime um prompt e em seguida solicita do usuário uma entrada. Se a resposta começar com <tt class="docutils literal"><span class="pre">y</span></tt> ou <tt class="docutils literal"><span class="pre">Y</span></tt>, a função devolve um valor verdadeiro:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">yes</span><span class="p">(</span><span class="n">ques</span><span class="p">)</span> <span class="p">:</span>
+  <span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">lower</span>
+  <span class="n">ans</span> <span class="o">=</span> <span class="n">lower</span><span class="p">(</span><span class="nb">raw_input</span><span class="p">(</span><span class="n">ques</span><span class="p">))</span>
+  <span class="k">return</span> <span class="p">(</span><span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;y&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A condição do laço externo é <tt class="docutils literal"><span class="pre">1`</span></tt>, que significa que ele continuará até a execução de um comando <tt class="docutils literal"><span class="pre">break</span></tt>, caso o usuário não pense num animal.</p>
+<p>O laço <tt class="docutils literal"><span class="pre">while</span></tt> interno caminha na árvore de cima para baixo, guiado pelas respostas do usuário.</p>
+<p>Quando uma nova célula é adicionada à árvore, a nova pergunta substitui a carga e os dois filhos são o novo animal e a carga original.</p>
+<p>Uma falha do programa é que ao sair ele esquece tudo que lhe foi cuidadosamente ensinado!</p>
+<blockquote>
+<em>A título de exercício, pense de várias jeitos para salvar a árvore do conhecimento acumulado num arquivo. Implemente aquele que Você pensa ser o mais fácil.</em></blockquote>
+</div>
+<div class="section" id="glossario">
+<h2><a class="toc-backref" href="#id9">20.8 Glossário</a><a class="headerlink" href="#glossario" title="Link permanente para este título">¶</a></h2>
+<dl class="docutils">
+<dt>árvore binária (<em>binary tree</em>)</dt>
+<dd>Uma árvore em que cada célula tem zero, um ou dois descendentes.</dd>
+<dt>raiz (<em>root</em>)</dt>
+<dd>A célula mais alta de uma árvore, a (única) célula de uma árvore que não tem pai.</dd>
+<dt>folha (<em>leaf</em>)</dt>
+<dd>Uma célula mais baixa numa árvore; uma célula que não tem descendentes.</dd>
+<dt>pai (<em>parent</em>)</dt>
+<dd>A célula que aponta para uma célula dada.</dd>
+<dt>filho (<em>child</em>)</dt>
+<dd>Uma célula apontada por uma célula dada.</dd>
+<dt>irmãos (<em>siebling</em>)</dt>
+<dd>Células que tem o mesmo pai.</dd>
+<dt>nível (<em>level</em>)</dt>
+<dd>Um conjunto de células equidistantes da raiz.</dd>
+<dt>operador binário (<em>binary operator</em>)</dt>
+<dd>Um operador sobre dois operandos.</dd>
+<dt>subexpressão (<em>subexpression</em>)</dt>
+<dd>Uma expressão entre parêntesis que se comporta como um operando simples numa expressão maior.</dd>
+<dt>pré-ordem (<em>preorder</em>)</dt>
+<dd>Uma forma de percorrer uma árvore visitando cada célula antes dos seus filhos.</dd>
+<dt>notação prefixa (<em>prefix notation</em>)</dt>
+<dd>Uma forma de escrever uma expressão matemática em que cada operador aparece antes dos seus operandos.</dd>
+<dt>pós-ordem (<em>postorder</em>)</dt>
+<dd>Uma forma de percorrer uma árvore visitando os filhos de cada célula antes da própria célula.</dd>
+<dt>in-ordem (<em>inorder</em>)</dt>
+<dd>Uma forma de percorrer uma árvore visitando a subárvore esquerda, seguida da raiz e finalmente da subárvore direita.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Capítulo 20: Árvores</a><ul>
+<li><a class="reference internal" href="#construindo-arvores">20.1 Construindo árvores</a></li>
+<li><a class="reference internal" href="#percorrendo-arvores">20.2 Percorrendo árvores</a></li>
+<li><a class="reference internal" href="#arvores-de-expressoes">20.3 Árvores de expressões</a></li>
+<li><a class="reference internal" href="#percurso-de-arvores">20.4 Percurso de árvores</a></li>
+<li><a class="reference internal" href="#construindo-uma-arvore-de-expressao">20.5 Construindo uma árvore de expressão</a></li>
+<li><a class="reference internal" href="#manipulando-erros">20.6 Manipulando erros</a></li>
+<li><a class="reference internal" href="#a-arvore-dos-animais">20.7 A árvore dos animais</a></li>
+<li><a class="reference internal" href="#glossario">20.8 Glossário</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="capitulo_19.html"
+                        title="capítulo anterior">Capítulo 19: Filas</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="apendice_a.html"
+                        title="próximo capítulo">Apêndice A: Depuração</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/capitulo_20.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="apendice_a.html" title="Apêndice A: Depuração"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_19.html" title="Capítulo 19: Filas"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

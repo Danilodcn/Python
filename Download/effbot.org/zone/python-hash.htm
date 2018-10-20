@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Python Hash&nbsp;Algorithms</title></head><body data-page-id="217"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Python Hash&nbsp;Algorithms</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">July 11, 2002 | Fredrik Lundh</p><p>This note describes how Python calculates hash values for
+some internal data types.</p><h2 id="strings">Strings&#160;<a class="nav" href="#strings" title="bookmark!">#</a></h2><p>Strings (both 8-bit and Unicode) use the following hash
+function:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">string</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__hash__</span>(self):
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> self:
+            <span class="pykeyword">return</span> 0 <span class="pycomment"># empty</span>
+        value = ord(self[0]) &lt;&lt; 7
+        <span class="pykeyword">for</span> char <span class="pykeyword">in</span> self:
+            value = c_mul(1000003, value) ^ ord(char)
+        value = value ^ len(self)
+        <span class="pykeyword">if</span> value == -1:
+            value = -2
+        <span class="pykeyword">return</span> value</pre><p>The hash value -1 is reserved (it&#8217;s used to flag errors in
+the C implementation).  If the hash algorithm generates this
+value, we simply use -2 instead.</p><p>The <b>c_mul</b> function in this example is an ordinary C
+multiplication, using long (usually 32-bit) arguments.  In C,
+the result simply wraps around when the result gets too large
+(only the low 32 bits are kept), which is exactly what we want
+in this case.</p><p>Getting the same behaviour from Python is a bit tricker;
+Python&#8217;s multiplication operator either gives an overflow error,
+or in later versions, happily returns a Python long large enough
+to hold the entire result.  And given that we&#8217;re multiplying
+the hash with a million for each character, that&#8217;s a really
+really large number, for anything but the shortest strings.</p><p>Anyway, here&#8217;s a rather ugly Python implementation:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">c_mul</span>(a, b):
+    <span class="pykeyword">return</span> eval(hex((long(a) * b) &amp; 0xFFFFFFFFL)[:-1])</pre><p>Note that you cannot use <b>int</b> instead of <b>eval</b>
+here; the latter converts 0xFFFFFFFF to -1, the former throws
+an exception in that case.
+</p><p class="small">(I&#8217;m sure there&#8217;s some better way to simular
+a C multiplication in Python, but I&#8217;ll leave that for another
+day.)</p><h2 id="integers">Integers&#160;<a class="nav" href="#integers" title="bookmark!">#</a></h2><p>For ordinary integers, the hash value is simply the integer
+itself (unless it&#8217;s -1).</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">int</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__hash__</span>(self):
+        value = self
+        <span class="pykeyword">if</span> value == -1:
+            value == -2
+        <span class="pykeyword">return</span> value</pre><p>For long Python integers, things are a little tricker.  For now,
+let&#8217;s just say that the hash algorithm is designed to make sure that
+an ordinary integer and a long integer with the same value will hash
+to the same value.</p><p class="small">(alright, calculating the hash value for a positive
+long integer isn&#8217;t that hard: take the integer, add the low 15 bits to
+the hash, shift it 15 bits to the right, and keep doing that until you
+run out of bits.  Dealing with negative numbers, or really large positive
+integers is a bit tricker, unless you&#8217;re implementing the algorithm in C).</p><h2 id="tuples">Tuples&#160;<a class="nav" href="#tuples" title="bookmark!">#</a></h2><p>The tuple hash function is similar to that used for strings,
+but instead of character values, it&#8217;s using hash values for the
+individual members.</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">tuple</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__hash__</span>(self):
+        value = 0x345678
+        <span class="pykeyword">for</span> item <span class="pykeyword">in</span> self:
+            value = c_mul(1000003, value) ^ hash(item)
+        value = value ^ len(self)
+        <span class="pykeyword">if</span> value == -1:
+            value = -2
+        <span class="pykeyword">return</span> value</pre><p>(In Python 2.4 and later, the algorithm is slightly different.)</p><p>Instead of &#8220;seeding&#8221; the hash with the first item, this function
+use a fixed seed (and from the look of it, a lot of research went
+into finding the right value ;-).</p><p>Another, less obvious difference is that this hash function may
+fail, if the tuple contains something that doesn&#8217;t have a hash value
+(like a list or dictionary).  In that case, the <b>hash(item)</b>
+call will raise a <b>TypeError</b> exception.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#strings">Strings</a></li><li><a href="#integers">Integers</a></li><li><a href="#tuples">Tuples</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

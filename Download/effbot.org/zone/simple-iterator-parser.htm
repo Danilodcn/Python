@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Simple Iterator-based&nbsp;Parsing</title></head><body data-page-id="267"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Simple Iterator-based&nbsp;Parsing</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | November 2005 | Originally posted to <a href="http://online.effbot.org">online.effbot.org</a></p><p>Iterator-based parsing is an efficient and straightforward way of writing recursive-descent parsers in Python. Here&#8217;s an outline:</p><ol><li>use an iterator to split the source into a stream of tokens or token descriptors.
+</li><li>pass the iterator&#8217;s <b>next</b> method and the first token to the toplevel parser class.
+</li><li>use separate functions, where appropriate, for individual grammar rules. pass the <b>next</b> method and the current token on to these functions as well.
+</li><li>to check the current token, inspect the token argument. to fetch the next token, call the <b>next</b> method. 
+</li></ol><p>Here&#8217;s a simple example.  This is a limited but hopefully safe version
+of Python&#8217;s <b>eval</b> function, which handles strings, floating point
+values, integers, and tuples only.  Tuples can be nested.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">import</span> cStringIO, tokenize
+
+<span class="pykeyword">def</span> <span class="pyfunction">atom</span>(next, token):
+    <span class="pykeyword">if</span> token[1] == <span class="pystring">"("</span>:
+        out = []
+        token = next()
+        <span class="pykeyword">while</span> token[1] != <span class="pystring">")"</span>:
+            out.append(atom(next, token))
+            token = next()
+            <span class="pykeyword">if</span> token[1] == <span class="pystring">","</span>:
+                token = next()
+        <span class="pykeyword">return</span> tuple(out)
+    <span class="pykeyword">elif</span> token[0] <span class="pykeyword">is</span> tokenize.STRING:
+        <span class="pykeyword">return</span> token[1][1:-1].decode(<span class="pystring">"string-escape"</span>)
+    <span class="pykeyword">elif</span> token[0] <span class="pykeyword">is</span> tokenize.NUMBER:
+        <span class="pykeyword">try</span>:
+            <span class="pykeyword">return</span> int(token[1], 0)
+        <span class="pykeyword">except</span> ValueError:
+            <span class="pykeyword">return</span> float(token[1])
+    <span class="pykeyword">raise</span> SyntaxError(<span class="pystring">"malformed expression (%s)"</span> % token[1])
+
+<span class="pykeyword">def</span> <span class="pyfunction">simple_eval</span>(source):
+    src = cStringIO.StringIO(source).readline
+    src = tokenize.generate_tokens(src)
+    <span class="pykeyword">return</span> atom(src.next, src.next())</pre></div><div class="yui-ge"><div class="yui-u first"><p>The <b>simple_eval</b> function uses the <b>generate_tokens</b>
+function in the standard <b>tokenize</b> module to produce a stream
+of tokens (for each token, this function returns a tuple containing
+a token code, the token value, start and end offsets, and the source
+line (as returned by <b>readline</b>)).</p><p>The <b>atom</b> function implements a simplified version of the
+<i>atom</i> rule in the Python grammar.  In this version, it handles
+tuples, numbers, and strings with inline code, and calls itself to
+extract the tuple members.</p><p>Here&#8217;s the code in action:</p><pre class="python">
+&gt;&gt;&gt; simple_eval(<span class="pystring">"'hello'"</span>)
+<span class="pystring">'hello'</span>
+&gt;&gt;&gt; simple_eval(<span class="pystring">"(1, 2, 3, 4711.0)"</span>)
+(1, 2, 3, 4711.0)
+&gt;&gt;&gt; simple_eval(<span class="pystring">"('spam',123,('spam','egg'),0x10,(3.14,))"</span>)
+(<span class="pystring">'spam'</span>, 123, (<span class="pystring">'spam'</span>, <span class="pystring">'egg'</span>), 16, (3.1400000000000001,))</pre><p>This first version doesn&#8217;t check if anything&#8217;s left in the token
+stream before it returns the result, so valid expressions that happens to
+be followed by junk characters will parse just fine:</p><pre class="python">
+&gt;&gt;&gt; simple_eval(<span class="pystring">"'hello')))"</span>)
+<span class="pystring">'hello'</span></pre><p>To fix this, add a check to the <b>simple_eval</b> function.  In this
+case, the <b>tokenize</b> module uses a special token to indicate that
+it has reached the end of the source, so all you have to do is to grab
+the next token and make sure it&#8217;s the expected end marker:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">simple_eval</span>(source):
+    src = cStringIO.StringIO(source).readline
+    src = tokenize.generate_tokens(src)
+    res = atom(src.next, src.next())
+    <span class="pykeyword">if</span> src.next()[0] <span class="pykeyword">is</span> <span class="pykeyword">not</span> tokenize.ENDMARKER:
+        <span class="pykeyword">raise</span> SyntaxError(<span class="pystring">"bogus data after expression"</span>)
+    <span class="pykeyword">return</span> res</pre><p>With this in place, you&#8217;ll get a nice little exception:</p><pre>
+&gt;&gt;&gt; simple_eval("'hello')))")
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+  File "test.py", line 27, in simple_eval
+    raise SyntaxError("bogus data after expression")
+SyntaxError: bogus data after expression
+
+&gt;&gt;&gt; simple_eval("'hello'")
+'hello'
+</stdin></pre><p>Here&#8217;s another buglet (there is at least one more, but I&#8217;ll return
+to that one later): the code uses cStringIO to split the source string
+into individual lines, but the parser chokes on line breaks:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+&gt;&gt;&gt; simple_eval("(1, 2, 3, \n4711.0)")
+Traceback (most recent call last):
+  File "test.py", line 33, in ?
+    print repr(simple_eval("(1, 2, 3, \n4711.0)"))
+  File "test.py", line 27, in simple_eval
+    res = atom(src.next, src.next())
+  File "test.py", line 8, in atom
+    out.append(atom(next, token))
+  File "test.py", line 21, in atom
+    raise SyntaxError("malformed expression (%s)" % token[1])
+SyntaxError: malformed expression (
+)
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>It&#8217;s not obvious, but the erronous token is a newline character.
+Changing (%s) to (%r) in the error format string makes it easier to
+spot the problem:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+&gt;&gt;&gt; simple_eval("(1, 2, 3, \n4711.0)")
+Traceback (most recent call last):
+  File "test.py", line 33, in ?
+    print repr(simple_eval("(1, 2, 3, \n4711.0)"))
+  File "test.py", line 27, in simple_eval
+    res = atom(src.next, src.next())
+  File "test.py", line 8, in atom
+    out.append(atom(next, token))
+  File "test.py", line 21, in atom
+    raise SyntaxError("malformed expression (%r)" % token[1])
+SyntaxError: malformed expression ('\n')
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>To fix this bug, the code needs to ignore newline characters.  The
+easiest way to do this is to add a filter to the token stream.  A generator
+expression comes in handy:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">def</span> <span class="pyfunction">simple_eval</span>(source):
+    src = cStringIO.StringIO(source).readline
+    src = tokenize.generate_tokens(src)
+    src = (token <span class="pykeyword">for</span> token <span class="pykeyword">in</span> src <span class="pykeyword">if</span> token[0] <span class="pykeyword">is</span> <span class="pykeyword">not</span> tokenize.NL)
+    res = atom(src.next, src.next())
+    <span class="pykeyword">if</span> src.next()[0] <span class="pykeyword">is</span> <span class="pykeyword">not</span> tokenize.ENDMARKER:
+        <span class="pykeyword">raise</span> SyntaxError(<span class="pystring">"bogus data after expression"</span>)
+    <span class="pykeyword">return</span> res</pre></div><div class="yui-ge"><div class="yui-u first"><p>The generator expression will simply skip all NL tokens, so the
+rest of the code don&#8217;t really have to bother.</p><pre class="python">
+&gt;&gt;&gt; simple_eval(<span class="pystring">"(1, 2, 3, \n4711.0)"</span>)
+(1, 2, 3, 4711.0)</pre><p>Generator expressions were added in Python 2.4.  In Python 2.3, you can use <b>itertools.ifilter</b> instead.</p><p>Note that the use of stacked generators results in lazy parsing of the source file; the parser will call the expression&#8217;s <b>next</b> method to get the next non-NL token, and the expression will call the tokenizer&#8217;s <b>next</b> method until it gets one.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Closures in&nbsp;Python</title></head><body data-page-id="26"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Closures in&nbsp;Python</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">December 2006</p><p>From the newsgroup:</p><p><i>Q. I don&#8217;t understand why while a nested function perfectly matches the
+definition of closure, it is not closure simply because it is not used
+by external world.</i></p><p>Like so many other computing terms, the word &#8220;closure&#8221; is used in
+different ways by different people.
+
+</p><p>Strictly speaking, a closure is simply a function with free variables,
+where the bindings for all such variables are known in advance. Some
+early languages didn&#8217;t have &#8220;closed&#8221; functions; the bindings for free
+variables were left open, and was determined at runtime. And languages
+that had both &#8220;open&#8221; and &#8220;closed&#8221; functions needed some way to
+distinguish between the two, so people started referring to the latter
+as &#8220;closures&#8221;.
+
+</p><p>But in Python, as well as in most other modern languages, all functions
+are &#8220;closed&#8221; &#8212; i.e. there are no &#8220;open&#8221; free variables &#8212; so the use of
+the term has morphed from &#8220;a function for which all free variables have
+a known binding&#8221; to &#8220;a function that can refer to environments that are
+no longer active&#8221; (such as the local namespace of an outer function,
+even after that function has returned). And since <i>that</i> is somewhat
+difficult to implement, and programmers don&#8217;t like to hide things that
+are hard to implement, people still like to use the term to distinguish
+between closed functions of kind 1 and closed functions of kind 2. As
+in this [newsgroup] thread, they sometimes argue that when you&#8217;re using a closed
+function of kind 2 in a specific way, it&#8217;s not quite as much of a
+closure as when you use it in another way. Heck, some people even argue
+that languages that don&#8217;t support closed functions of kind 3 (a kind
+that Python currently doesn&#8217;t support) don&#8217;t really have closures at all.
+
+</p><p>But as a language user, you can actually forget about all this &#8212; all
+you need to know is that in Python, all functions are closed, and free
+variables bind to <i>variable names</i> in lexically nested outer scopes.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

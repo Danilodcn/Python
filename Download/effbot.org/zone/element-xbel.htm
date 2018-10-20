@@ -1,0 +1,14 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Using Element Trees to Parse XBEL&nbsp;Files</title></head><body data-page-id="97"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Using Element Trees to Parse XBEL&nbsp;Files</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">July 15, 2002 | Fredrik Lundh</p><p>The <a href="http://pyxml.sourceforge.net/topics/xbel/"><b>XML
+Bookmark Exchange Language</b></a> (XBEL) is a simple XML format
+that can be used to store &#8220;bookmark collections&#8221; as used by
+Internet browsers.</p><h3>Parsing XBEL Files</h3><p>XBEL files are ordinary XML files.  Just parse them, and you&#8217;re
+done:</p><pre class="python">
+<span class="pykeyword">import</span> elementtree.ElementTree <span class="pykeyword">as</span> ET
+
+bookmarks = ET.parse(<span class="pystring">"bm1.xbel"</span>)
+
+<span class="pykeyword">for</span> bookmark <span class="pykeyword">in</span> bookmarks.getiterator(<span class="pystring">"bookmark"</span>):
+    <span class="pykeyword">print</span> bookmark.get(<span class="pystring">"href"</span>), bookmark.findtext(<span class="pystring">"title"</span>)</pre><h3>Merging XBEL Files</h3><p>Over at the <a href="http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/135131">ASPN Cookbook</a>, Uche Ogbuji has posted a 90 line script which merges two XBEL bookmark files.</p><p>My ElementTree version isn&#8217;t quite ready for public consumption, but
+I can assure you that it&#8217;s a little bit shorter&#8230; ;-)</p><p><i>To be continued&#8230;</i></p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

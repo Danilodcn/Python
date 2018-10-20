@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Using Element Trees to Parse WSDL&nbsp;Files</title></head><body data-page-id="96"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Using Element Trees to Parse WSDL&nbsp;Files</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">July 17, 2002 | Updated July 27, 2002 | Fredrik Lundh</p><p>The <a href="http://www.w3.org/TR/wsdl"><b>Web Services Description
+Language</b></a> (WSDL) is an XML sublangage used to describe network
+services.</p><p>WSDL lets you describe services provided via SOAP 1.1, HTTP
+GET/POST, and MIME messages.</p><p>This note briefly describes the WSDL file format, and the
+<b>ElementWSDL</b> module included in the <a href="xmltoys.htm">xmltoys</a> library.</p><h2>Parsing WSDL Files</h2><p>WSDL files are ordinary XML files; you can use the standard
+ElementTree XML parser right away:</p><pre class="python">
+<span class="pykeyword">from</span> xmltoys <span class="pykeyword">import</span> ElementTree
+
+bookmarks = ElementTree.parse(<span class="pystring">"google.wsdl"</span>)</pre><p>However, some WSDL attributes needs special treatment by the
+parser.  We&#8217;ll get back to that later, once we&#8217;ve looked at what&#8217;s
+inside the WSDL file.</p><h2>Understanding WSDL Files</h2><h3>Concepts</h3><p>In WSDL, a <b>web service</b> is a network endpoint that provides
+one or more <b>operations</b>.  The endpoint can be implemented as a
+Python class, with methods for the various implementations, or it can
+be a set of Javascript handlers, a C++ program, or anything else that
+talks the right protocol.</p><p>A service can provide one or more <b>bindings</b>, which are ways
+to talk to the service.  For example, a service may provide both a
+SOAP and a traditional HTTP interface.  The binding lists the
+operations it supports, and what protocol to use to perform that
+operation.</p><p>Closely related to the binding is the <b>port type</b>, which
+defines what messages an operation consists of.  The binding tells you
+what protocol to use, while the port type tells you what messages to
+send using that protocol.</p><p>The <b>messages</b> themselves are defined separately.  This allows
+you to reuse the same message descriptor for several operations.  Each
+message consists of a number of parameters, or <b>parts</b>.  Each
+part is a single object, converted to XML according to the <b>type</b>
+given in the message.</p><h3>Document Layout</h3><p>The WSDL document is of a <b>definitions</b> root element, which
+contain elements corresponding to the concepts describe above.  The
+root element can contain any number of the following five different
+subelements:</p><dl><dt><b>wsdl:service</b></dt><dd><p>The <b>service</b> element describes an individual service.
+This element provides a name for the service, and points to one or
+more <b>bindings</b> which provide more information about the
+operations.</p></dd>
+<dt><b>wsdl:binding</b></dt><dd><p>This element defines what operations this service provides, and
+what protocol to use to access them.</p></dd>
+<dt><b>wsdl:portType</b></dt><dd><p>This element is similar to the <b>binding</b> element, but
+defines what messages to use for a given operation.</p></dd>
+<dt><b>wsdl:message</b></dt><dd><p>This element defines the parts make up an individual message.
+The <b>message</b> element contains <b>part</b> subelements, each
+specifying the name and type for an individual parameters.  Note that
+under the WSDL model, a normal RPC-style exchange consists of two
+messages, one for the request and one for the response.  For an RPC
+request, the parts are what arguments to use.  For an RPC response,
+the parts are the return values.</p></dd>
+<dt><b>wsdl:types</b></dt><dd><p>Finally, the <b>types</b> element is used to define custom
+types used by this service.  By default, WSDL uses the XML Schema type
+system, and you can use any simple XML Schema type, such as strings,
+integers, and dates, without having to declare it first.</p></dd>
+</dl><p>All elements mentioned this far lives in the
+<b>http://schemas.xmlsoap.org/wsdl/</b> namespace.  In this article, I
+will refer to this namespace using the <b>wsdl:</b> prefix.</p><h3>The WSDL Service Element</h3><p>The <b>service</b> element provides one or more ports where
+this service is available.</p><pre class="xml">
+xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+xmlns:tns="http://spam.effbot.org/SpamService.wsdl"
+
+&lt;<span class="pyfunction">wsdl:service</span> name="SpamService"&gt;
+  &lt;<span class="pyfunction">wsdl:documentation</span>&gt;
+  wsdl file for the effbot.org spam service
+  &lt;/<span class="pyfunction">wsdl:documentation</span>&gt;
+  &lt;<span class="pyfunction">wsdl:port</span> binding="tns:SpamBinding" name="SpamPort"&gt;
+    ...
+  &lt;/<span class="pyfunction">wsdl:port</span>&gt;
+&lt;/<span class="pyfunction">wsdl:service</span>&gt;</pre><h4>Things to notice</h4><p><b class="mark">Toplevel elements have name attributes</b>.
+The <b>service</b> element has a <b>name</b> attribute which
+provides a unique identifier for this element.  Other toplevel
+elements can also have name attributes.</p><p>To refer to a named attribute, WSDL uses qualified names as
+attribute values.  To refer to elements in the WSDL document
+itself, the uri part of the attribute value should be set to
+the same as the <b>targetNamespace</b> attribute of the
+<b>definitions</b> root element.
+
+</p><p>In this example, the target namespace is <b>http://spam.effbot.org/SpamService.wsdl</b>.</p><p><b class="mark">The service element can contain human-friendly
+documentation.</b> The optional <b>documentation</b> element can
+contain a brief description of the service.</p><h3>The WSDL Binding Element</h3><p>The <b>binding</b> attribute in the <b>port</b> subelement referred
+to an <b>binding</b> element named <b>{http://spam.effbot.org/SpamService.wsdl}SpamBinding</b>.</p><p class="small">(Check: does all names live in a single namespace,
+or does WSDL differ between bindings, messages, and so on)</p><pre class="xml">
+xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+xmlns:tns="http://spam.effbot.org/SpamService.wsdl"
+
+&lt;<span class="pyfunction">wsdl:binding</span> name="SpamBinding" type="tns:SpamPortType"&gt;
+  ...
+  &lt;<span class="pyfunction">wsdl:operation</span> name="getspam"&gt;
+    &lt;<span class="pyfunction">wsdl:input</span>&gt;
+      ...
+    &lt;/<span class="pyfunction">wsdl:input</span>&gt;
+    &lt;<span class="pyfunction">wsdl:output</span>&gt;
+      ...
+    &lt;/<span class="pyfunction">wsdl:output</span>&gt;
+  &lt;/<span class="pyfunction">wsdl:operation</span>&gt;
+&lt;/<span class="pyfunction">wsdl:binding</span>&gt;</pre><h3>The WSDL PortType Element</h3><pre class="xml">
+xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+xmlns:tns="http://spam.effbot.org/SpamService.wsdl"
+
+&lt;<span class="pyfunction">wsdl:portType</span> name="SpamPortType"&gt;
+  &lt;<span class="pyfunction">wsdl:operation</span> name="getspam"&gt;
+    &lt;<span class="pyfunction">wsdl:input</span> message="tns:getspamrequest" /&gt;
+    &lt;<span class="pyfunction">wsdl:output</span> message="tns:getspamresponse" /&gt;
+  &lt;/<span class="pyfunction">wsdl:operation</span>&gt;
+&lt;/<span class="pyfunction">wsdl:portType</span>&gt;</pre><h3>The WSDL Message Element</h3><pre class="xml">
+xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+
+&lt;<span class="pyfunction">wsdl:message</span> name="getspamrequest"&gt;
+  &lt;<span class="pyfunction">part</span> name="amount" type="xsd:int"/&gt;
+&lt;/<span class="pyfunction">wsdl:message</span>&gt;
+&lt;<span class="pyfunction">wsdl:message</span> name="getspamresponse"&gt;
+  &lt;<span class="pyfunction">part</span> name="result" type="xsd:string"/&gt;
+&lt;/<span class="pyfunction">wsdl:message</span>&gt;</pre><p><i>To be continued&#8230;</i></p><h3>The WSDL Types Element</h3><h2>The SOAP Bindings</h2><h2>The ElementWSDL Helper Module</h2><hr /><div class="small"><p><b class="mark">Notes:</b></p><p>See <a href="element-qnames.htm">Element Trees and QNames</a>.</p></div></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

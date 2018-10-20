@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Getting HSL&nbsp;Values</title></head><body data-page-id="187"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Getting HSL&nbsp;Values</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">March 18, 2002 | Fredrik Lundh</p><p><i>
+Q. PIL can supply me with RGB data of an image. Does anybody know, how I can
+PIL have to transform this into the HSL (aka HSI) model?
+</i></p><p>PIL doesn&#8217;t support HLS images.</p><p>If you need HLS values for individual pixels, you can use
+<a href="/tag/python.colorsys">the <b>colorsys</b> module</a>
+in Python&#8217;s standard library:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+&gt;&gt;&gt; <span class="pykeyword">import</span> Image
+&gt;&gt;&gt; im = Image.open(<span class="pystring">"lenna.im"</span>)
+&gt;&gt;&gt; im.mode
+<span class="pystring">'RGB'</span>
+&gt;&gt;&gt; im.getpixel((0, 0))
+(226, 161, 119)
+&gt;&gt;&gt; <span class="pykeyword">import</span> colorsys
+&gt;&gt;&gt; colorsys.rgb_to_hls(*[x/255.0 <span class="pykeyword">for</span> x <span class="pykeyword">in</span> im.getpixel((0, 0))])
+(0.065420560747663545, 0.67647058823529416, 0.64848484848484833)</pre></div><div class="yui-ge"><div class="yui-u first"><p>Note that PIL returns RGB values in the range 0-255, while the
+<b>colorsys</b> module uses floating point values in the range 0.0-1.0.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

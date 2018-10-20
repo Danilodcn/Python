@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Element Tree&nbsp;Infosets</title></head><body data-page-id="79"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Element Tree&nbsp;Infosets</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Updated January 18, 2003 | Fredrik Lundh</p><h2>The XML Infoset Model</h2><p>The <a href="http://www.w3.org/TR/xml-infoset/">XML Information Set
+(Infoset)</a> is an attempt to define a data model complete enough to
+represent anything that can be stored in an XML document.  The infoset
+defines a number of &#8220;abstract&#8221; building blocks, such as
+elements, attributes and characters.</p><p>(It&#8217;s probably a good idea to see the infoset data model as the
+basis for the entire XML universe.  The <a href="http://www.w3.org/TR/REC-xml">XML 1.0</a> specification simply
+describes a way to store infosets as byte streams, and standards like
+<a href="http://www.w3.org/TR/DOM-Level-2-Core/">DOM</a> and SAX
+provide programming interfaces.  Or in other words, everything beyond
+the infoset proper are just implementation details.)</p><p>The XML infoset is a tree structure, with a <b>Document Information
+Item</b> as the &#8220;root&#8221; node.  This node must contain exactly
+one <b>Element Information Item</b>, which in turn can contain a mix
+of child elements, character items, comments, and a couple of other
+element types.  Each element can also contain a number of attribute
+nodes.</p><p>For an overview, see the <a href="element-infoset-dom.htm">XML
+Infoset</a> page.</p><p>And yes, you can see the XPath data model as a variation of the
+Infoset.  Each model can be defined in terms of the other.
+
+<h2>A Simplified Infoset Model</h2></p><p>The simplified model described here was first introduced in
+Secret Labs&#8217; effDOM module, and was later made available in the
+<b>xmltoys</b> package.  This model uses an infoset tree consisting
+of individual element nodes.   Each node represents not only the
+start and end tags, but also XML attributes and text sections (as
+element attributes); there are no separate attribute or character
+data nodes in the tree.</p><p>This design is optimized for data-style XML documents, where
+each element contains either text sections (character data), <i>or</i>
+other elements, but not both.</p><p>The element type provides a basic sequence interface.  To access
+the subelements, just iterate over the element.  This will visit all
+subelements, in the order given in the source document.</p><p>To access element content, check the <b>text</b> member.  If the
+element contains character data, this member contains a string.</p><p>For more information on the element API, see the <a href="element.htm">Element Trees</a> note.</p><h3 id="mixed-content">Mixed Content&#160;<a class="nav" href="#mixed-content" title="bookmark!">#</a></h3><p>Working with &#8220;text-style&#8221; documents is also easy.  The main
+difference is that you usually have to make sure you include the
+<b>tail</b> member in the processing.</p><p>Consider the following XML fragment:</p><pre>
+&lt;ELEM key="value"&gt;text&lt;SUBELEM /&gt;tail&lt;/ELEM&gt;
+</pre><p>This fragment results in two element instances. In a Python-like
+notation, their content looks like this:</p><pre>
+element.tag = "ELEM"
+element.attrib = {"KEY": "VALUE"}
+element.text = "text"
+element.tail = None
+element[:] = [&lt;Element SUBELEM&gt;]
+
+subelement.tag = "SUBELEM"
+subelement.attrib = {}
+subelement.text = None
+subelement.tail = "tail"
+subelement[:] = []
+</pre><p>The <b>tail</b> member for an element contains the text between
+that element&#8217;s end tag, and the next tag.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><ul><li><a href="#mixed-content">Mixed Content</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Some Notes on a Simple Django&nbsp;Application</title></head><body data-page-id="40"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Some Notes on a Simple Django&nbsp;Application</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | February 2006 | Originally posted to <a href="http://online.effbot.org">online.effbot.org</a></p><div style="float: right; padding-left: 5px; ">
+<a href="http://www.djangoproject.com/"><img alt="Powered by Django." border="0" src="http://media.djangoproject.com/img/badges/djangopowered126x54.gif" title="Powered by Django." /></a></div><p>I just added a simple database-driven &#8220;announcement blog&#8221; application
+to the <s><a href="http://pydotorg.dyndns.org:8000/PythonOrg.html">AltPyDotOrgCMS</a></s> (dead link)
+demo.  This application replaces the manually maintained &#8220;announcement&#8221;
+section on <a href="http://www.python.org">python.org</a>, as well as
+the manually maintained (and not always synchronized) RSS feed.</p><p>It took me about an hour to do this, but most of that time was spent
+on hunting down a weird error message on the deployment machine.  First,
+I created a minimalistic data model (it&#8217;s a bit too simple, really, but
+we can fix that later), and added the <b>admin</b> meta attribute to it:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">class</span> <span class="pyclass">Announcement</span>(meta.Model):
+    text = meta.TextField(<span class="pystring">"Description"</span>)
+    pubdate = meta.DateTimeField(<span class="pystring">"Publication date"</span>)
+    enddate = meta.DateTimeField(<span class="pystring">"Publication end date"</span>, blank=True)
+    <span class="pykeyword">class</span> <span class="pyclass">META</span>:
+        admin = meta.Admin()</pre></div><div class="yui-ge"><div class="yui-u first"><p>With this in place, I quickly populated the database via Django&#8217;s
+admin interface, and added the necessary views to the templates.</p><p>The next step was to tweak the admin interface.  As it turned out,
+adding a nice overview page, with multiple columns, clickable headers,
+date-based navigation, free-text search for the announcements, and a
+simple well-formedness check (the check_xml function uses ElementTree
+to parse the field, and raises an exception if it fails) could be done
+in about a dozen lines of Python.
+
+</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">Here&#8217;s the final code, as it looks after a couple of iterations:
+
+<pre class="python wide">
+<span class="pykeyword">class</span> <span class="pyclass">Announcement</span>(meta.Model):
+
+    text = meta.TextField(<span class="pystring">"Description"</span>, validator_list=[check_xml])
+    pubdate = meta.DateTimeField(<span class="pystring">"Publication date"</span>)
+    enddate = meta.DateTimeField(<span class="pystring">"Publication end date"</span>, blank=True)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__repr__</span>(self):
+        <span class="pykeyword">return</span> <span class="pystring">"%s - %s"</span> % (self.pubdate, self.get_text_summary())
+
+    <span class="pykeyword">def</span> <span class="pyfunction">get_text_summary</span>(self):
+        <span class="pykeyword">from</span> pydotorg.content <span class="pykeyword">import</span> tools
+        summary = tools.strip_html(self.text)
+        <span class="pykeyword">if</span> len(summary) &gt; 80:
+            summary = summary[:80] + <span class="pystring">"..."</span>
+        <span class="pykeyword">return</span> summary
+    get_text_summary.short_description = <span class="pystring">"Summary (plain text)"</span>
+
+    <span class="pykeyword">class</span> <span class="pyclass">META</span>:
+        ordering = [<span class="pystring">"-pubdate"</span>]
+        admin = meta.Admin(
+            list_display=[<span class="pystring">"pubdate"</span>, <span class="pystring">"get_text_summary"</span>],
+            date_hierarchy =<span class="pystring">"pubdate"</span>,
+            search_fields=[<span class="pystring">"text"</span>]
+        )</pre></p></div><div class="yui-ge"><div class="yui-u first"><p>And here&#8217;s a screenshot of the resulting user interface:
+
+</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">
+<img alt="" height="509" src="/media/cache/f377515ecb042917826e5fd97e26f459.png" width="759" />
+</p></div><div class="yui-ge"><div class="yui-u first"><p>To add a new entry, click &#8220;add announcement&#8221;, fill in the text, click
+&#8220;now&#8221; to set the publication date, and click &#8220;save&#8221;.  That&#8217;s it.  Django
+takes care of the rest.
+
+</p><p>(<i>related: &#8220;<a href="http://rossp.org/blog/2006/jan/23/building-blog-django-1/">&#8230;how I wrote a blog in Django, without actually writing any real Python code</a>&#8221;</i>)</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

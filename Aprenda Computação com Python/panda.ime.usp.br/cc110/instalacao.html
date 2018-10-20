@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Como instalar Python 3.x em seu computador &#8212; Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="prev" title="Algoritmos Elementares de Ordenação" href="14-ordenacao.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulas',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'cc110',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulas/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="14-ordenacao.html" title="Algoritmos Elementares de Ordenação"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="como-instalar-python-3-x-em-seu-computador">
+<h1>Como instalar Python 3.x em seu computador<a class="headerlink" href="#como-instalar-python-3-x-em-seu-computador" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="instalando-usando-anaconda">
+<span id="index-0"></span><h2>Instalando usando Anaconda<a class="headerlink" href="#instalando-usando-anaconda" title="Permalink to this headline">¶</a></h2>
+<p>Se a sua máquina é relativamente nova (tem menos de 3 anos) e tem espaço em disco sobrando (mais de 3 GB), recomendamos a instalação do <a class="reference external" href="https://www.continuum.io/downloads">Anaconda</a>. Apesar de ocupar mais espaço, esse pacote é fácil de instalar e manter. Caso você não tenha muito espaço, você pode seguir uma das alternativas mais abaixo, usando o miniconda ou instalando Python direto na sua máquina.</p>
+<p>O  <a class="reference external" href="https://www.continuum.io">Anaconda</a> é uma plataforma de software provida pela empresa <a class="reference external" href="https://www.continuum.io">Continuum</a> que integra o Python com vários pacotes que podem ser úteis no desenvolvimento de aplicações científicas. Essa integração facilita a instalação e a manutenção desse software na sua máquina.</p>
+<p>O Anaconda pode ser instalado em computadores rodando Windows, Mac OS X ou Linux. Certifique-se de baixar e instalar a versão do Anaconda apropriada para o seu computador, com Python 3.5 ou mais recente (maior que 3.5). Os arquivos de instalação estão disponíveis em <a class="reference external" href="https://www.continuum.io/downloads">https://www.continuum.io/downloads</a>, bem como as instruções para instalação.</p>
+<p>Além de pacotes como o Numpy, Scipy, e MatPlotLib, o Anaconda inclui também ferramentas que podem ajudar você a desenvolver os seus programas em Python, como o iPython (interactive Python) e o Spyder (um ambiente integrado de desenvolviment &#8211; <a class="reference external" href="https://pt.wikipedia.org/wiki/Ambiente_de_desenvolvimento_integrado">IDE</a> &#8211; para Python).</p>
+<p>Se você está começando a aprender a programar, dê uma olhada nos seguintes vídeos:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://www.youtube.com/watch?v=tbx2rMJc4n4">Instalação do Python 3.5 em Windows 10 usando Anaconda</a>.</li>
+<li><a class="reference external" href="https://www.youtube.com/watch?v=3bcWDR0Zes0">Usando o ipython notebook para desenvolver os seus primeiros programas</a>.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="instalando-usando-miniconda">
+<h2>Instalando usando miniconda<a class="headerlink" href="#instalando-usando-miniconda" title="Permalink to this headline">¶</a></h2>
+<p>A instalação do miniconda requer cerca de 400 MB. Além do interpretador Python e o ambiente de desenvolvimento IDLE, miniconda instala também o conda, que ajuda você a gerenciar a instalação e manutenção de outros pacotes do Python. Clique aqui para ver uma rápida introdução ao conda, e assim poder instalar outros pacotes Python. Após instalar o miniconda você pode testar a sua instalação da seguinte maneira:</p>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt>Abra um terminal (janela que recebe comandos via teclado).</dt>
+<dd><ul class="first last simple">
+<li>No Windows, clique no menu &#8220;Iniciar&#8221; e digite &#8220;cmd&#8221; ENTER.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Após abrir o terminal, digite &#8220;python3&#8221; para iniciar o Python shell.</p>
+</li>
+<li><p class="first">Digite alguns comando em Python, como &#8220;2+2&#8221;, ou &#8220;x=0&#8221;.</p>
+</li>
+<li><p class="first">Digite &#8220;quit()&#8221; ou &#8220;ctrl-d&#8221; para sair do Python shell.</p>
+</li>
+</ul>
+</div></blockquote>
+<p>Além de testar o Python 3.x, experimente também chamar o &#8220;idle3&#8221; a partir do terminal.</p>
+</div>
+<div class="section" id="instalando-usando-python-org">
+<h2>Instalando usando python.org<a class="headerlink" href="#instalando-usando-python-org" title="Permalink to this headline">¶</a></h2>
+<p>Você pode instalar apenas o Python 3.x seguindo as instruções abaixo, dependendo do tipo do seu computador.</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://panda.ime.usp.br/panda/static/data/python/ubuntu.html">Ubuntu Linux</a></li>
+<li><a class="reference external" href="https://panda.ime.usp.br/panda/static/data/python/macos.html">Mac OS X</a></li>
+<li><a class="reference external" href="https://panda.ime.usp.br/panda/static/data/python/windows.html">Microsoft Windows</a></li>
+</ul>
+</div></blockquote>
+<p>Nesse caso, você via precisar gerenciar os pacotes do Python manualmente, ou usando outras ferramentas como pip, easyinstall etc. Para testar a sua instalação:</p>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt>Abra um terminal (janela que recebe comandos via teclado).</dt>
+<dd><ul class="first last simple">
+<li>No Windows, clique no menu &#8220;Iniciar&#8221; e digite &#8220;cmd&#8221; ENTER.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Após abrir o terminal, digite &#8220;python3&#8221; para iniciar o Python shell.</p>
+</li>
+<li><p class="first">Digite alguns comando em Python, como &#8220;2+2&#8221;, ou &#8220;x=0&#8221;.</p>
+</li>
+<li><p class="first">Digite &#8220;quit()&#8221; ou &#8220;ctrl-d&#8221; para sair do Python shell.</p>
+</li>
+</ul>
+</div></blockquote>
+<p>Além de testar o Python 3.x, experimente também chamar o &#8220;idle3&#8221; a partir do terminal.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Como instalar Python 3.x em seu computador</a><ul>
+<li><a class="reference internal" href="#instalando-usando-anaconda">Instalando usando Anaconda</a></li>
+<li><a class="reference internal" href="#instalando-usando-miniconda">Instalando usando miniconda</a></li>
+<li><a class="reference internal" href="#instalando-usando-python-org">Instalando usando python.org</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="14-ordenacao.html"
+                        title="previous chapter">Algoritmos Elementares de Ordenação</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="14-ordenacao.html" title="Algoritmos Elementares de Ordenação"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Jun 12, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,2024 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Funções &mdash; Como pensar como um Cientista da Computação: Edição Interativa em Python</title>
+    
+    <link rel="stylesheet" href="../_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="../_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="../_static/codemirror.js"></script>
+    <script type="text/javascript" src="../_static/python.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="../_static/assess.js"></script>
+    <script type="text/javascript" src="../_static/animationbase.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="../_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Como pensar como um Cientista da Computação: Edição Interativa em Python" href="../index.html" />
+    <link rel="next" title="Drawing a Circle" href="../Labs/lab04_01.html" />
+    <link rel="prev" title="Plotting a sine Wave" href="../Labs/sinlab.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/pensePython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'pensePython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/pensePython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../Labs/lab04_01.html" title="Drawing a Circle"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../Labs/sinlab.html" title="Plotting a sine Wave"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="funcoes">
+<h1>Funções<a class="headerlink" href="#funcoes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="index-0">
+<span id="id1"></span><h2>Funções<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h2>
+<a id="function_intro_thumb" > <img src="../_static/function_intro.png" /></a>
+<div id="function_intro" class="video_popup" >
+<video controls  >
+    <source src="http://media.interactivepython.org/thinkcsVideos/FunctionsIntro.mov" type="video/mp4"></source>
+    <source src="http://media.interactivepython.org/thinkcsVideos/FunctionsIntro.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#function_intro_thumb').click(function(e) {
+         $('#function_intro').show();
+         $('#function_intro_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'function_intro'});
+         // Log the run event
+      });
+   });
+</script>
+<p>Em Python, uma <strong>função</strong> é uma sequência de comandos que executa
+alguma tarefa e que tem um nome.
+A sua principal finalidade é nos ajudar a organizar programas em
+pedaços que correspondam a como imaginamos uma solução do problema.</p>
+<p>A sintaxe de uma <strong>definição de função</strong> é:</p>
+<div class="highlight-python"><div class="highlight"><pre>def NOME( PARÂMETROS ):
+    COMANDOS
+</pre></div>
+</div>
+<p>Você pode inventar qualquer nome para as funções que você cria, exceto
+que você não pode usar um nome que é uma palavra reservada em Python,
+e que os nomes devem seguir a regra de identificadores permitidos.
+Os parâmetros especificam qual informação, se alguma, você deve
+providenciar para que a função possa ser usada.
+Outra forma de dizer isto é que os parâmetros especificam o que a
+função necessita para executar a sua tarefa.</p>
+<p>Pode existir qualquer número de comandos em uma função, mas eles tem
+que ter a mesma tabulação a partir do <code class="docutils literal"><span class="pre">def</span></code>. Nos exemplos neste livro,
+usaremos a tabulação padrão de quatro espaços. Definição de função
+é a segunda de vários <strong>comandos compostos</strong> que veremos, todos eles
+tendo o mesmo padrão:</p>
+<ol class="arabic simple">
+<li>Uma linha de cabeçalho começando com uma palavra reservada e terminando com dois pontos.</li>
+<li>Um <strong>corpo</strong> consistindo de um ou mais comandos, cada um deles
+com a mesma tabulação &#8211; <em>4 espaços é o padrão em Python</em> &#8211; em
+relação à linha de cabeçalho.</li>
+</ol>
+<p>Já vimos o comando <cite>for</cite> que segue o mesmo padrão.</p>
+<p>Na definição de uma função, a palavra reservada no cabeçalho é
+<code class="docutils literal"><span class="pre">def</span></code>, que é seguida pelo nome da função e alguns <em>parâmetros</em> entre
+parênteses. A lista de parâmetros pode ser vazia ou conter qualquer
+número de parâmetros separados pos vírgulas. Em qualquer caso, os
+parênteses são obrigatórios.</p>
+<p>Precisamos falar um pouco mais sobre parâmetros.
+Na definição, a lista
+de parâmetros é conhecida mais especificamente como os  <strong>parâmetros
+formais</strong>. Esta lista de nomes descrevem o que a função precisará
+receber do usuário da função. Quando você usa uma função, você fornece
+valores aos parâmetros formais.</p>
+<p>A figura abaixo mostra essa relação. A função precisa de certas
+informações para poder executar a sua tarefa. Esses valores, frequentemente
+chamados de <strong>argumentos</strong> ou <strong>parâmetros reais</strong>, são passados à
+função pelo usuário.</p>
+<img alt="../_images/caixapretaproc.png" src="../_images/caixapretaproc.png" />
+<p>Este tipo de diagrama é frequentemente chamado de <strong>diagrama de caixa-preta</strong> porque ele somente mostra os requisitos do ponto de vista do usuário. O usuário precisa saber o nome da função e quais argumentos precisam ser passados. Os detalhes de como a função funciona estão escondidos dentro da &#8220;caixa-preta&#8221;.</p>
+<p>Suponha que estamos trabalhando com tartarugas e uma operação comum que precisamos é desenhar quadrados. Faria sentido se nós não precisássemos duplicar todos os passos cada vez que precisarmos fazer um quadrado. &#8220;Desenhe um quadrado&#8221; pode ser pensado como uma <em>abstração</em> de um número de passos menores. Precisaremos passar duas informações para a função executar a sua tarefa: a tartaruga para fazer o desenho e o tamanho do lado do quadrado. Poderíamos representar isto usando o seguinte diagrama de caixa-preta.</p>
+<img alt="../_images/tartarugaproc.png" src="../_images/tartarugaproc.png" />
+<p>Abaixo segue a função que captura essa ideia. Teste-a.</p>
+
+<div id="ch04_1" >
+<textarea cols="50" rows="12" id="ch04_1_code" class="active_code">
+import turtle
+
+def desenhaQuadrado(t, tam):
+    """Faca a tartaruga t desenhar um quadrado de lado tam."""
+
+    for i in range(4):
+        t.forward(tam)
+        t.left(90)
+
+
+wn = turtle.Screen()              # Inicializa a janela e seus atributos
+wn.bgcolor("lightgreen")
+
+alex = turtle.Turtle()            # cria alex
+desenhaQuadrado(alex, 50)         # Chama a função para desenhar um quadrado
+
+wn.exitonclick()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch04_1)</span> </p>
+<button onclick="runit('ch04_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch04_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch04_1');">Load</button>
+<br />
+
+<canvas id="ch04_1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch04_1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>O nome desta função é <code class="docutils literal"><span class="pre">desenhaQuadrado</span></code>. Ela tem dois
+parâmetros &#8212; um para dizer à função qual tartaruga mover e o outro
+para dizer o tamanho do quadrado que desejamos desenhar. Na definição
+da função eles são chamados <code class="docutils literal"><span class="pre">t</span></code> e <code class="docutils literal"><span class="pre">tam</span></code> respectivamente. Se
+certifique que você sabe onde o corpo da função termina &#8212; depende da
+tabulação e as linhas em branco não valem para esta finalidade.</p>
+<div class="admonition-docstrings admonition">
+<p class="first admonition-title">docstrings</p>
+<p>Se a primeira coisa depois do cabeçalho da função é um string
+(algumas ferramentas insistem em que isto precisa ser um string
+dentro de três aspas), ele é chamado de <strong>docstring</strong> e tem
+tratamento especial em Python e em algumas ferramentas de
+programação.</p>
+<p>Outra forma de recuperar esta informação é usar o interpretador
+interativo e digitar <code class="docutils literal"><span class="pre">&lt;nome_da_função&gt;.__doc__</span></code>, que recuperará o
+docstring da função. Portanto, o string que você escreve como
+documentação no início da função é recuperável <em>online</em> pelas
+ferramentas do Python. Isto é diferente dos comentários no seu
+código, que são completamente eliminados quando o programa é
+analisado pelo interpretador.</p>
+<p class="last">Por convenção, programadores em Python usam docstrings para
+documentar propriedades importantes de suas funções.</p>
+</div>
+<p>Definindo uma nova função não a faz rodar. Para tanto, precisamos
+fazer uma <strong>chamada de função</strong>. Isto é também conhecido como uma
+<strong>invocação de função</strong>. Já vimos como chamar algumas funções
+nativas como  <strong>print</strong>, <strong>range</strong> e <strong>int</strong>. Chamadas de
+função contém o nome da função a ser executada seguida por uma lista
+de valores, chamados <em>argumentos</em>, os quais são atribuídos aos
+parâmetros da definição da função. Logo, na penúltima linha do
+programa, chamamos a função e passamos <code class="docutils literal"><span class="pre">alex</span></code> como a tartaruga a ser
+manipulada, e 50 como o tamanho do quadrado que queremos.</p>
+<p>Uma vez definida uma função, podemos chamá-la quantas vezes quisermos
+e seus comandos serão executados cada vez que a chamamos. Neste caso,
+poderíamos usá-la para que uma de nossas tartarugas desenhe um
+quadrado e então podemos mover a tartaruga e fazê-la desenhar um
+quadrado diferente num local diferente. Note que levantamos a cauda de
+forma que quando <code class="docutils literal"><span class="pre">alex</span></code> se move não há rastro. Abaixamos a cauda
+antes de desenhar o próximo quadrado.</p>
+
+<div id="ch04_1a" >
+<textarea cols="50" rows="12" id="ch04_1a_code" class="active_code">
+import turtle
+
+def desenhaQuadrado(t, tam):
+    """Faca a tartaruga t desenhar um quadrado de lado tam."""
+
+    for i in range(4):
+        t.forward(tam)
+        t.left(90)
+
+
+wn = turtle.Screen()              # Inicializa a janela e seus atributos
+wn.bgcolor("lightgreen")
+
+alex = turtle.Turtle()            # cria alex
+desenhaQuadrado(alex, 50)         # Chama a função para desenhar um quadrado
+
+alex.penup()
+alex.goto(100,100)
+alex.pendown()
+
+desenhaQuadrado(alex,75)          # Desenha outro quadrado
+
+wn.exitonclick()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch04_1a)</span> </p>
+<button onclick="runit('ch04_1a',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch04_1a');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch04_1a');">Load</button>
+<br />
+
+<canvas id="ch04_1a_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch04_1a_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>No próximo exemplo, mudamos um pouco a função <code class="docutils literal"><span class="pre">desenhaQuadrado</span></code>
+e fazemos que <code class="docutils literal"><span class="pre">tess</span></code> desenhe 15 quadrados com algumas variações. Uma
+vez que a função esteja definida, a chamamos quantas vezes quisermos com
+quais parâmetros quisermos.</p>
+
+<div id="ch04_2" >
+<textarea cols="50" rows="12" id="ch04_2_code" class="active_code">
+import turtle
+
+def desenhaQuadradoMulticolorido(t, tam):
+    """Faca a tartaruga t desenhar um quadrado multicolorido de lado tam."""
+    for i in ['red','purple','hotpink','blue']:
+        t.color(i)
+        t.forward(tam)
+        t.left(90)
+
+wn = turtle.Screen()              # Inicializa a janela e seus atributos
+wn.bgcolor("lightgreen")
+
+tess = turtle.Turtle()            # cria tess e seus atributos
+tess.pensize(3)
+
+tamanho = 20                      # tamanho do menor quadrado
+for i in range(15):
+    desenhaQuadradoMulticolorido(tess, tamanho)
+    tamanho = tamanho + 10       # aumenta o tamanho para a próxima vez
+    tess.forward(10)             # move tess um pouco à frente
+    tess.right(18)               # e dá uma virada nela
+
+wn.exitonclick()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch04_2)</span> </p>
+<button onclick="runit('ch04_2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch04_2');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch04_2');">Load</button>
+<br />
+
+<canvas id="ch04_2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch04_2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="admonition-rascunho admonition">
+<p class="first admonition-title">Rascunho</p>
+<div class="last">
+<button id="butt_scratch_1" onclick="createActiveCode('scratch_1',''); $('#butt_scratch_1').hide();">Open Editor</button>
+<div id="scratch_1"></div>
+<br />
+</div></div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question5_1_1">
+    <p>5.1.1: O que é uma função em Python?</p>
+    <form name="test_question5_1_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question5_1_1_opt_a" />
+    <label for= "test_question5_1_1_opt_a">  a) Uma sequência de comando com um nome.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question5_1_1_opt_b" />
+    <label for= "test_question5_1_1_opt_b">  b) Qualquer sequência de comandos.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question5_1_1_opt_c" />
+    <label for= "test_question5_1_1_opt_c">  c) Uma expressão matemática que calcula um valor.</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question5_1_1_opt_d" />
+    <label for= "test_question5_1_1_opt_d">  d) Um comando da forma x = 5 + 4.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question5_1_1','a',['Sim, uma função é uma sequência de comando com um nome.', 'Enquanto funções contém sequências de comandos, nem toda sequência de comandos é considerada uma função.', 'Enquanto algumas funções calculam valores, a ideia de uma função em Python é levemente diferente da ideia matemática de uma função na qual todas as funções calculam valores. Considere por exemplo as funções da tartaruga desta seção. Elas fazem a tartaruga desenhar uma forma específica, em vez de calcular um valor.', 'Este comando é chamado de comando de atribuição. Ele atribui o valor à direita (9) para o nome à esquerda (x).'])"/> 
+    </form>
+    <div id="test_question5_1_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question5_1_2">
+    <p>5.1.2: Qual é uma das finalidades principais de uma função?</p>
+    <form name="test_question5_1_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question5_1_2_opt_a" />
+    <label for= "test_question5_1_2_opt_a">  a) Melhorar a velocidade de execução.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question5_1_2_opt_b" />
+    <label for= "test_question5_1_2_opt_b">  b) Ajudar programadores a organizar programas em pedaços que correspondam a como eles pensam a solução do problema.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question5_1_2_opt_c" />
+    <label for= "test_question5_1_2_opt_c">  c) Todos os programas em Python devem ser escritos usando funções.</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question5_1_2_opt_d" />
+    <label for= "test_question5_1_2_opt_d">  d) Para calcular valores.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question5_1_2','b',['Funções tem muito pouco efeito em quão rápido o programa roda.', 'Enquanto funções não são obrigatórias, elas ajudam o programador a pensar melhor a solução pela organização dos pedaços em partes lógicas que podem ser reusados.', 'Nos primeiros capítulos, você viu muitos exemplos de programas em Python escritos sem o uso de funções.  Enquanto escrever e usar funções é desejado e essencial para um bom estilo de programação na medida em que os programas ficam maiores, elas não são obrigatórias.', 'Nem toda função calcula valores.'])"/> 
+    </form>
+    <div id="test_question5_1_2_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question5_1_3">
+    <p>5.1.3: Qual dos seguintes é um cabeçalho válido de uma função (a primeira linha da definição da função)?</p>
+    <form name="test_question5_1_3_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question5_1_3_opt_a" />
+    <label for= "test_question5_1_3_opt_a">  a) def desenhaCirculo(t):</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question5_1_3_opt_b" />
+    <label for= "test_question5_1_3_opt_b">  b) def desenhaCirculo:</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question5_1_3_opt_c" />
+    <label for= "test_question5_1_3_opt_c">  c) desenhaCirculo(t, tam):</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question5_1_3_opt_d" />
+    <label for= "test_question5_1_3_opt_d">  d) def desenhaCirculo(t, tam)</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question5_1_3','a',['Uma função pode receber zero ou mais parâmetros. Não é necessário ter dois. No caso, o tamanho do círculo pode ser especificado no corpo da função.', 'Uma função precisa especificar seus parâmetros no cabeçalho.', 'Uma definição de função precisa incluir a palavra def.', 'Uma definição de função precisa terminar com dois pontos (:).'])"/> 
+    </form>
+    <div id="test_question5_1_3_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question5_1_4">
+    <p>5.1.4: Qual é o nome da seguinte função?
+<pre>
+def desenhaQuadrado(t, tam):
+    """Faca a tartaruga t desenhar um quadrado com lado tam."""
+    for i in range(4):
+        t.forward(tam)
+        t.left(90)
+</pre></p>
+    <form name="test_question5_1_4_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question5_1_4_opt_a" />
+    <label for= "test_question5_1_4_opt_a">  a) def desenhaQuadrado(t, tam)</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question5_1_4_opt_b" />
+    <label for= "test_question5_1_4_opt_b">  b) desenhaQuadrado</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question5_1_4_opt_c" />
+    <label for= "test_question5_1_4_opt_c">  c) desenhaQuadrado(t, tam)</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question5_1_4_opt_d" />
+    <label for= "test_question5_1_4_opt_d">  d) Faça a tartaruga t desenhar um quadrado com lado tam.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question5_1_4','b',['Esta linha é o cabeçalho completo da função (exceto pelos dois pontos) o que inclui o nome bem como vários outros componentes.', 'Sim, o mome da função é dado após a palavra reservada def e antes da lista de parâmetros.', 'Isto inclui o nome da função e seus parâmetros.', 'Isto é um comentário declarando o que a função faz.'])"/> 
+    </form>
+    <div id="test_question5_1_4_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question5_1_5">
+    <p>5.1.5: Quais são os parâmetros da seguinte função?
+<pre>
+def desenhaQuadrado(t, tam):
+    """Faca a tartaruga t desenhar um quadrado com lado tam."""
+    for i in range(4):
+        t.forward(tam)
+        t.left(90)
+</pre></p>
+    <form name="test_question5_1_5_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question5_1_5_opt_a" />
+    <label for= "test_question5_1_5_opt_a">  a) i</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question5_1_5_opt_b" />
+    <label for= "test_question5_1_5_opt_b">  b) t</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question5_1_5_opt_c" />
+    <label for= "test_question5_1_5_opt_c">  c) t, tam</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question5_1_5_opt_d" />
+    <label for= "test_question5_1_5_opt_d">  d) t, tam, i</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question5_1_5','c',['i é uma variável usada internamente pela função, mas não é um parâmetro passado para a função.', 't é somente um dos parâmetros para esta função.', 'Sim, a função especifica dois parâmetros: t e tam.', 'Os parâmetros incluem somente aquelas variáveis cujos valores a função espera receber como entrada. Eles são especificados no cabeçalho da função.'])"/> 
+    </form>
+    <div id="test_question5_1_5_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question5_1_6">
+    <p>5.1.6: Considerando a função abaixo, quais dos comandos seguintes chama a função corretamente (i.e., causa a execução da função)? Assuma que já definimos uma tartaruga de nome alex.
+<pre>
+def desenhaQuadrado(t, tam):
+    """Faca a tartaruga t desenhar um quadrado com lado tam."""
+    for i in range(4):
+        t.forward(tam)
+        t.left(90)
+</pre></p>
+    <form name="test_question5_1_6_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question5_1_6_opt_a" />
+    <label for= "test_question5_1_6_opt_a">  a) def desenhaQuadrado(t, tam)</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question5_1_6_opt_b" />
+    <label for= "test_question5_1_6_opt_b">  b) desenhaQuadrado</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question5_1_6_opt_c" />
+    <label for= "test_question5_1_6_opt_c">  c) desenhaQuadrado(10)</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question5_1_6_opt_d" />
+    <label for= "test_question5_1_6_opt_d">  d) desenhaQuadrado(alex, 10):</label><br />
+    
+    <input type="radio" name="group1" value="e" id="test_question5_1_6_opt_e" />
+    <label for= "test_question5_1_6_opt_e">  e) desenhaQuadrado(alex, 10)</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question5_1_6','e',['Não, t e tam são os nomes dos parâmetros formais desta função. Quando a função é chamada, ela requer que valores reais seja passados à ela.', 'Uma chamada de função sempre requer parênteses depois do nome da função.', 'Esta função tem dois parâmetros (argumentos).', 'Os dois pontos são somente requeridos na definição da função. Eles causarão um erro com a chamada da função.', 'Uma vez que alex já foi definido previamente e 10 é um valor, passamos dois valores corretos para esta função.'])"/> 
+    </form>
+    <div id="test_question5_1_6_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question5_1_7">
+    <p>5.1.7: Verdadeiro ou Falso: Uma função pode ser chamada várias vezes colocando-se uma chamada para a função no corpo de um laço.</p>
+    <form name="test_question5_1_7_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question5_1_7_opt_a" />
+    <label for= "test_question5_1_7_opt_a">  a) Verdadeiro</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question5_1_7_opt_b" />
+    <label for= "test_question5_1_7_opt_b">  b) Falso</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question5_1_7','a',['Sim, você pode chamar uma função várias vezes colocando uma chamada em um laço.', 'Uma das finalidades de uma função é permitir que você a chame mais do que uma vez. Colocando a chamada em um laço permite que ela seja executada várias vezes quando o corpo da função for executado várias vezes.'])"/> 
+    </form>
+    <div id="test_question5_1_7_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="funcoes-que-retornam-valores">
+<h2>Funções que retornam valores<a class="headerlink" href="#funcoes-que-retornam-valores" title="Permalink to this headline">¶</a></h2>
+<p>A maioria das funções requerem argumentos, valores que controlam como
+a função faz seu serviço. Por exemplo, se você quer encontrar o valor
+absoluto de um número, você tem que indicar qual é o valor do
+número. Python tem um função nativa para computar o valor absoluto:</p>
+
+<div id="ch04_4" >
+<textarea cols="50" rows="12" id="ch04_4_code" class="active_code">
+print(abs(5))
+
+print(abs(-5))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch04_4)</span> </p>
+<button onclick="runit('ch04_4',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch04_4');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch04_4');">Load</button>
+<br />
+
+<pre id="ch04_4_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Neste exemplo, os argumentos da função <code class="docutils literal"><span class="pre">abs</span></code> são 5 e -5.</p>
+<p>Algumas funções são definidas com mais do que um argumento. Por
+exemplo, o módulo matemático contém uma função chamada
+<code class="docutils literal"><span class="pre">pow</span></code> que usa dois argumentos, a base e o expoente.</p>
+
+<div id="ch04_5" >
+<textarea cols="50" rows="12" id="ch04_5_code" class="active_code">
+import math
+print(math.pow(2, 3))
+
+print(math.pow(7, 4))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch04_5)</span> </p>
+<button onclick="runit('ch04_5',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch04_5');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch04_5');">Load</button>
+<br />
+
+<pre id="ch04_5_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Note que já vimos que elevar uma base a um expoente pode ser feito com o operador ** .</p>
+</div>
+<p>Outra função nativa que requer mais do que um argumento é a função <code class="docutils literal"><span class="pre">max</span></code>.</p>
+
+<div id="ch04_6" >
+<textarea cols="50" rows="12" id="ch04_6_code" class="active_code">
+print(max(7, 11))
+print(max(4, 1, 17, 2, 12))
+print(max(3 * 11, 5**3, 512 - 9, 1024**0))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch04_6)</span> </p>
+<button onclick="runit('ch04_6',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch04_6');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch04_6');">Load</button>
+<br />
+
+<pre id="ch04_6_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><code class="docutils literal"><span class="pre">max</span></code> pode receber qualquer número de argumentos, separados por
+vírgulas e retornará o maior valor recebido. Os argumentos podem ser ou
+valores simples ou expressões. No último exemplo, 503 é retornado, uma
+vez que ele é maior do que 33, 125 e 1. Note que <code class="docutils literal"><span class="pre">max</span></code> também
+funciona com listas de valores.</p>
+<p>Ademais, todas as funções como <code class="docutils literal"><span class="pre">range</span></code>, <code class="docutils literal"><span class="pre">int</span></code>, <code class="docutils literal"><span class="pre">abs</span></code> retornam
+valores que podem ser usados para construir expressões mais complexas.</p>
+<p>Logo, uma diferença importante entre estas funções e uma como
+<code class="docutils literal"><span class="pre">desenhaQuadrado</span></code> é que <code class="docutils literal"><span class="pre">desenhaQuadrado</span></code> não foi executada porque
+queríamos que ela computasse um valor &#8212; ao contrário, escrevemos
+<code class="docutils literal"><span class="pre">desenhaQuadrado</span></code> porque queríamos que ela executasse uma sequência
+de passos que causassem à tartaruga desenhar um forma específica.</p>
+<p>Funções que retornam valores são chamadas algumas vezes de <strong>funções
+frutíferas</strong>. Em muitas outras linguagens, uma função que não retorna
+um valor é chamado de <strong>procedimento</strong>. Mas ficaremos aqui com o jeito
+do Python e também chamaremos isso de função, ou quando quisermos
+enfatizar essa propriedade de não retornar valores,  chamaremos a
+função de <em>não-frutífera</em>.</p>
+<p>Funções frutíferas ainda permitem ao usuário fornecer informação
+(argumentos). Entretanto, existe agora um dado adicional que é
+retornado da função.</p>
+<img alt="../_images/caixapretafun.png" src="../_images/caixapretafun.png" />
+<p>Como escrever funções futíferas? Vamos começar com uma função
+matemática bem simples, a função <code class="docutils literal"><span class="pre">quadrado</span></code>. A função quadrado terá
+um número como parâmetro e retornará o resultado desse número ao
+quadrado. Segue abaixo um diagrama do código Python seguinte.</p>
+<img alt="../_images/quadradofun.png" src="../_images/quadradofun.png" />
+
+<div id="ch04_quadrado" >
+<textarea cols="50" rows="12" id="ch04_quadrado_code" class="active_code">
+def quadrado(x):
+    y = x * x
+    return y
+
+aQuadrar = 10
+resultado = quadrado(aQuadrar)
+print("O resultado de", aQuadrar, "ao quadrado e'", resultado)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch04_quadrado)</span> </p>
+<button onclick="runit('ch04_quadrado',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch04_quadrado');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch04_quadrado');">Load</button>
+<br />
+
+<canvas id="ch04_quadrado_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch04_quadrado_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>O comando <strong>return</strong> é seguido de uma expressão que é calculada. Seu
+valor é retornado a quem chama a função como o <em>fruto</em> da chamada da
+função. Como o comando return pode conter qualquer expressão,
+podemos evitar de criar a <strong>variável temporária</strong> <code class="docutils literal"><span class="pre">y</span></code> e
+simplesmente usar <code class="docutils literal"><span class="pre">return</span> <span class="pre">x*x</span></code>.
+Tente modificar a função quadrado acima para ver se funciona
+da mesma forma. Por outro lado, usando <strong>variáveis temporárias</strong> como <code class="docutils literal"><span class="pre">y</span></code>, o
+programa acima permite que se encontrem erros mais facilmente. Estas
+variáveis temporárias são chamadas de <strong>variáveis locais</strong>.</p>
+<p>Observe algo importante aqui. O nome da variável que passamos como um
+argumento &#8212; <code class="docutils literal"><span class="pre">aQuadrar</span></code> &#8212; não tem nada a ver com o nome do
+parâmetro formal &#8212; <code class="docutils literal"><span class="pre">x</span></code>. É como se <code class="docutils literal"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">aQuadrar</span></code> fosse executado
+quando <code class="docutils literal"><span class="pre">quadrado</span></code> é chamado.
+Não interessa qual o nome da variável que armazenou o valor com o qual a função é chamada. Em
+<code class="docutils literal"><span class="pre">quadrado</span></code>, o  nome da viarável é <code class="docutils literal"><span class="pre">x</span></code>. Você pode ver isto
+claramente no codelens, onde as variáveis globais e variáveis locais
+para a função quadrado aparecem em lugares separados.</p>
+<p>Na medida em que você simula passo-a-passo o exemplo no codelens, note
+que o comando <strong>return</strong> não apenas causa a função retornar o valor,
+mas também retorna o fluxo de execução de volta ao local do programa
+onde a função foi chamada.</p>
+
+<div id="ch04_clquadrado"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (ch04_clquadrado)</span> </p>
+<script type="text/javascript">
+var ch04_clquadrado_trace = {"code": "def quadrado(x):\n    y = x * x\n    return y\n\naQuadrar = 10\nresultado = quadrado(aQuadrar)\nprint(resultado)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["quadrado"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 1, "event": "call"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 100, "x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "y"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 100, "x": 10, "__return__": 100}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "y", "__return__"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 3, "event": "return"}, {"ordered_globals": ["quadrado", "aQuadrar", "resultado"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"resultado": 100, "aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar", "resultado"], "stdout": "100\n", "func_name": "<module>", "stack_to_render": [], "globals": {"resultado": 100, "aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 7, "event": "return"}]};
+var ch04_clquadrado_vis;
+
+$(document).ready(function() {
+    ch04_clquadrado_vis = new ExecutionVisualizer('ch04_clquadrado',ch04_clquadrado_trace,
+                                {embeddedMode: false,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(ch04_clquadrado_vis,'ch04_clquadrado');
+    allVisualizers.push(ch04_clquadrado_vis);
+});
+
+$(document).ready(function() {
+    $("#ch04_clquadrado_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'ch04_clquadrado'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    ch04_clquadrado_vis.redrawConnectors();
+});
+</script>
+<p>Outra coisa importante para observar quando você simula os passos no
+codelens, é o destaque dos números das linhas. O codelens coloca uma
+flecha apontando para o número da linha que está sendo
+executada. Quando você começa o codelens você pode notar a flecha que
+aponta para a linha 1. A próxima linha a ser apontada é a linha 5. Por
+que isto?
+Porque a definição de uma função não é o mesmo que a execução da
+função. Linhas 2 e 3 não serão apontadas até que a função seja
+chamada na linha 6.</p>
+<p>Nomes curtos de variáveis são mais econômicos e às vezes facilita a
+leitura do código:
+E = mc<sup>2</sup> não seria tão memorável se Einstein tivesse usado
+nomes de variáveis mais compridos! Se você prefere nomes curtos, se
+certifique de colocar alguns comentários para esclarecer o leitor
+sobre o papel de cada variável.</p>
+<p>Todas as funções em Python retornam <code class="docutils literal"><span class="pre">None</span></code>, a menos que
+explicitamente exista um comando return com um valor diferente de <code class="docutils literal"><span class="pre">None</span></code>.
+Considere o seguinte erro comum feito por programadores iniciantes.
+Na medida que você faz o passo-a-passo, preste bem atenção no que é
+impresso quando a função retorna.</p>
+
+<div id="ch04_clquadrado_ruim"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (ch04_clquadrado_ruim)</span> </p>
+<script type="text/javascript">
+var ch04_clquadrado_ruim_trace = {"code": "def quadrado(x):\n    y = x * x\n    print(y)   # Ruim! deveria usar return!\n\naQuadrar = 10\nresultado = quadrado(aQuadrar)\nprint(resultado)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["quadrado"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 1, "event": "call"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 100, "x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "y"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "100\n", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 100, "x": 10, "__return__": null}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "y", "__return__"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 3, "event": "return"}, {"ordered_globals": ["quadrado", "aQuadrar", "resultado"], "stdout": "100\n", "func_name": "<module>", "stack_to_render": [], "globals": {"resultado": null, "aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar", "resultado"], "stdout": "100\nNone\n", "func_name": "<module>", "stack_to_render": [], "globals": {"resultado": null, "aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 7, "event": "return"}]};
+var ch04_clquadrado_ruim_vis;
+
+$(document).ready(function() {
+    ch04_clquadrado_ruim_vis = new ExecutionVisualizer('ch04_clquadrado_ruim',ch04_clquadrado_ruim_trace,
+                                {embeddedMode: false,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(ch04_clquadrado_ruim_vis,'ch04_clquadrado_ruim');
+    allVisualizers.push(ch04_clquadrado_ruim_vis);
+});
+
+$(document).ready(function() {
+    $("#ch04_clquadrado_ruim_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'ch04_clquadrado_ruim'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    ch04_clquadrado_ruim_vis.redrawConnectors();
+});
+</script>
+<div class="admonition-rascunho admonition" id="index-1">
+<p class="first admonition-title">Rascunho</p>
+<div class="last">
+<button id="butt_scratch_2" onclick="createActiveCode('scratch_2',''); $('#butt_scratch_2').hide();">Open Editor</button>
+<div id="scratch_2"></div>
+<br />
+</div></div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question5_2_1">
+    <p>5.2.1: O que está errado com a seguinte definição de função:
+<pre>
+def somaEm(x, y, z):
+    return x+y+z
+    print('a resposta é', x+y+z)
+</pre></p>
+    <form name="test_question5_2_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question5_2_1_opt_a" />
+    <label for= "test_question5_2_1_opt_a">  a) Você nunca deve usar o comando print em uma definição de função.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question5_2_1_opt_b" />
+    <label for= "test_question5_2_1_opt_b">  b) Você não deveria ter nenhum comando na função depois do comando return. Uma vez que o comando return é atingido, a execução da função para imediatamente.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question5_2_1_opt_c" />
+    <label for= "test_question5_2_1_opt_c">  c) Você precisa calcular o valor de x+y+z antes de retorná-lo.</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question5_2_1_opt_d" />
+    <label for= "test_question5_2_1_opt_d">  d) Uma função não pode retornar um número.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question5_2_1','b',['Embora você não deva confundir print com return, você pode incluir comandos print dentro de suas funções.', 'Este é um erro muito comum. Portanto, se certifique de olhar por isto quando você escreve o seu programa.', 'Python calculará automaticamente o valor de x+y+z e então retornará esse valor como está escrito.', 'Funções podem retornar qualquer dado válido, incluindo (mas não limitado a) números, strings, tartarugas, etc.'])"/> 
+    </form>
+    <div id="test_question5_2_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question5_2_2">
+    <p>5.2.2: O que a seguinte função retorna?
+<pre>
+def somaEm(x, y, z):
+    print(x+y+z)
+</pre></p>
+    <form name="test_question5_2_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question5_2_2_opt_a" />
+    <label for= "test_question5_2_2_opt_a">  a) Nada (nenhum valor)</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question5_2_2_opt_b" />
+    <label for= "test_question5_2_2_opt_b">  b) O valor de x+y+z</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question5_2_2_opt_c" />
+    <label for= "test_question5_2_2_opt_c">  c) O string 'x+y+z'</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question5_2_2','a',['Acidentalmente usamos print onde deveríamos ter usado return.  Este erro é MUITO COMUM, portanto cuidado! Ele também é particularmente difícil de achar porque quando você roda a função a saída parece a mesma. Somente quando você tenta atribuir seu valor a uma variável é que você nota a diferença.', 'Cuidado! Este é um erro muito comum. Aqui você imprimiu o valor de x+y+z mas não o retornou. Para retornar o valor você PRECISA uasr o comando return.', 'x+y+z calcula o número (assumindo que x, y e z são números) que representa a soma dos valores  x, y e z.'])"/> 
+    </form>
+    <div id="test_question5_2_2_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="variaveis-e-parametros-sao-locais">
+<h2>Variáveis e parâmetros são locais<a class="headerlink" href="#variaveis-e-parametros-sao-locais" title="Permalink to this headline">¶</a></h2>
+<p>Um comando de atribuição em uma função cria uma <strong>variável local</strong>
+para a variável à esquerda do =. Esta variável existe somente dentro
+da função e não pode ser usada fora dela. Por exemplo, considere
+novamente a função <code class="docutils literal"><span class="pre">quadrado</span></code>:</p>
+
+<div id="local_ruim"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (local_ruim)</span> </p>
+<script type="text/javascript">
+var local_ruim_trace = {"code": "def quadrado(x):\n    y = x * x\n    return y\n\nz = quadrado(10)\nprint(z)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["quadrado"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["quadrado"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x"]}], "globals": {"quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 1, "event": "call"}, {"ordered_globals": ["quadrado"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x"]}], "globals": {"quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["quadrado"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 100, "x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "y"]}], "globals": {"quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["quadrado"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 100, "x": 10, "__return__": 100}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "y", "__return__"]}], "globals": {"quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 3, "event": "return"}, {"ordered_globals": ["quadrado", "z"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"z": 100, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["quadrado", "z"], "stdout": "100\n", "func_name": "<module>", "stack_to_render": [], "globals": {"z": 100, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 6, "event": "return"}]};
+var local_ruim_vis;
+
+$(document).ready(function() {
+    local_ruim_vis = new ExecutionVisualizer('local_ruim',local_ruim_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(local_ruim_vis,'local_ruim');
+    allVisualizers.push(local_ruim_vis);
+});
+
+$(document).ready(function() {
+    $("#local_ruim_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'local_ruim'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    local_ruim_vis.redrawConnectors();
+});
+</script>
+<p>Quando você pressionar o botão &#8216;last &gt;&gt;&#8217;, você verá uma mensagem de
+erro. Quando tentamos usar <code class="docutils literal"><span class="pre">y</span></code> na linha 6 (fora da função), Python
+procura uma variável global chamada <code class="docutils literal"><span class="pre">y</span></code> mas não a encontra. Isto
+resulta no erro: <code class="docutils literal"><span class="pre">NameError:</span> <span class="pre">name</span> <span class="pre">'y'</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">defined.</span></code></p>
+<p>A variável <code class="docutils literal"><span class="pre">y</span></code> existe somente enquanto a função está sendo executada
+&#8212; chamamos isso de sua <strong>duração</strong>.
+Quando a execução da função termina (retorna), as variáveis locais são
+destruídas. Codelens ajuda você a visualisar isto porque as variáveis
+locais desaparecem depois que a função retorna.</p>
+<p>Parâmetros formais são também locais e funcionam como variáveis
+locais. Por exemplo, a duração de <code class="docutils literal"><span class="pre">x</span></code> se inicia quando <code class="docutils literal"><span class="pre">quadrado</span></code> é
+chamado e termina quando a função completa sua execução.</p>
+<p>Logo, não é possível para uma função atribuir para alguma variável
+local algum valor, completar sua execução, e então quando ela é
+chamada outra vez, recuperar o valor da variável local. Cada chamada
+da função cria novas variáveis locais e sua duração termina quando a
+função retorna para quem a chamou.</p>
+<p>Reciprocamente, a função pode acessar uma variável global. Mas isto é
+considerado <strong>péssima programação</strong> por quase todos os
+programadores. Veja a seguinte variação sem sentido da função quadrado.</p>
+
+<div id="quadradoruim_1" >
+<textarea cols="50" rows="12" id="quadradoruim_1_code" class="active_code">
+def quadradoruim(x):
+    y = x ** expoente
+    return y
+
+expoente = 2
+resultado = quadradoruim(10)
+print(resultado)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (quadradoruim_1)</span> </p>
+<button onclick="runit('quadradoruim_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('quadradoruim_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('quadradoruim_1');">Load</button>
+<br />
+
+<canvas id="quadradoruim_1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="quadradoruim_1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Embora a função <code class="docutils literal"><span class="pre">quadradoruim</span></code> funcione, ela está escrita de forma
+estúpida e pobre. Mas ela ilustra uma regra importante sobre como
+variáveis são procuradas em Python.
+Primeiro, Python procura para variáveis que são definidas localmente
+na função. Chamamos isso de <strong>escopo local</strong>. Se o nome da variável
+não é encontrado no escopo local, então Python procura nas variáveis
+globais, ou <strong>escopo global</strong>. Isto é exatamente o caso ilustrado no
+código acima. <code class="docutils literal"><span class="pre">expoente</span></code> não é encontrada localmente em
+<code class="docutils literal"><span class="pre">quadradoruim</span></code> mas ela existe globalmente.
+A forma apropriada de escrever esta função seria passar expoente como
+parâmetro.
+Para praticar, você deveria reescrever quadradoruim para ter um
+segundo parâmetro chamado expoente.</p>
+<p>Atribuições locais nas funções não podem mudar variáveis definidas
+fora da função. Considere o seguinte exemplo em codelens:</p>
+
+<div id="cl_expoentede_ruim"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (cl_expoentede_ruim)</span> </p>
+<script type="text/javascript">
+var cl_expoentede_ruim_trace = {"code": "def potencia(x,p):\n    expoente = p   # Outro erro burro\n    y = x ** expoente\n    return y\n\nexpoente = 3\nresultado = potencia(10,2)\nprint(resultado)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["potencia"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"potencia": ["REF", 1]}, "heap": {"1": ["FUNCTION", "potencia(x, p)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["potencia", "expoente"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"expoente": 3, "potencia": ["REF", 1]}, "heap": {"1": ["FUNCTION", "potencia(x, p)", null]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["potencia", "expoente"], "stdout": "", "func_name": "potencia", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"p": 2, "x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "potencia", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "potencia_f1", "ordered_varnames": ["x", "p"]}], "globals": {"expoente": 3, "potencia": ["REF", 1]}, "heap": {"1": ["FUNCTION", "potencia(x, p)", null]}, "line": 1, "event": "call"}, {"ordered_globals": ["potencia", "expoente"], "stdout": "", "func_name": "potencia", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"p": 2, "x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "potencia", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "potencia_f1", "ordered_varnames": ["x", "p"]}], "globals": {"expoente": 3, "potencia": ["REF", 1]}, "heap": {"1": ["FUNCTION", "potencia(x, p)", null]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["potencia", "expoente"], "stdout": "", "func_name": "potencia", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"expoente": 2, "p": 2, "x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "potencia", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "potencia_f1", "ordered_varnames": ["x", "p", "expoente"]}], "globals": {"expoente": 3, "potencia": ["REF", 1]}, "heap": {"1": ["FUNCTION", "potencia(x, p)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["potencia", "expoente"], "stdout": "", "func_name": "potencia", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"expoente": 2, "p": 2, "y": 100, "x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "potencia", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "potencia_f1", "ordered_varnames": ["x", "p", "expoente", "y"]}], "globals": {"expoente": 3, "potencia": ["REF", 1]}, "heap": {"1": ["FUNCTION", "potencia(x, p)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["potencia", "expoente"], "stdout": "", "func_name": "potencia", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"expoente": 2, "p": 2, "__return__": 100, "y": 100, "x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "potencia", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "potencia_f1", "ordered_varnames": ["x", "p", "expoente", "y", "__return__"]}], "globals": {"expoente": 3, "potencia": ["REF", 1]}, "heap": {"1": ["FUNCTION", "potencia(x, p)", null]}, "line": 4, "event": "return"}, {"ordered_globals": ["potencia", "expoente", "resultado"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"expoente": 3, "resultado": 100, "potencia": ["REF", 1]}, "heap": {"1": ["FUNCTION", "potencia(x, p)", null]}, "line": 8, "event": "step_line"}, {"ordered_globals": ["potencia", "expoente", "resultado"], "stdout": "100\n", "func_name": "<module>", "stack_to_render": [], "globals": {"expoente": 3, "resultado": 100, "potencia": ["REF", 1]}, "heap": {"1": ["FUNCTION", "potencia(x, p)", null]}, "line": 8, "event": "return"}]};
+var cl_expoentede_ruim_vis;
+
+$(document).ready(function() {
+    cl_expoentede_ruim_vis = new ExecutionVisualizer('cl_expoentede_ruim',cl_expoentede_ruim_trace,
+                                {embeddedMode: false,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(cl_expoentede_ruim_vis,'cl_expoentede_ruim');
+    allVisualizers.push(cl_expoentede_ruim_vis);
+});
+
+$(document).ready(function() {
+    $("#cl_expoentede_ruim_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'cl_expoentede_ruim'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    cl_expoentede_ruim_vis.redrawConnectors();
+});
+</script>
+<p>Agora percorra o código passo-a-passo. O que você nota dos valores de
+<code class="docutils literal"><span class="pre">expoente</span></code> no escopo local comparado ao escopo global?</p>
+<p>O valor de <code class="docutils literal"><span class="pre">expoente</span></code> no escopo local ficou diferente do valor do
+escopo global.
+Isto é porque no exemplo <code class="docutils literal"><span class="pre">expoente</span></code> foi usado do lado esquerdo da
+atribuição <code class="docutils literal"><span class="pre">expoente</span> <span class="pre">=</span> <span class="pre">p</span></code>. Quando o nome de uma variável aparece do
+lado esquerdo de um atribuição, Python cria uma variável local.
+Quando uma variável local tem o mesmo nome de uma variável global,
+dizemos que a variável local esconde a global. Isso quer dizer que a
+variável global não pode ser acessada porque a variável local é
+encontrada primeiro. Esta é outra boa razão para não usar variáveis
+globais. Como você pode ver, torna o seu código confuso e difícil de
+entender.</p>
+<p>Para consolidar todas estas ideias, vamos olhar em um exemplo
+final. Dentro da função <code class="docutils literal"><span class="pre">quadrado</span></code> vamos fazer uma atribuição para o
+parâmetro <code class="docutils literal"><span class="pre">x</span></code>. Não há nenhum bom motivo para fazer isto se não para
+enfatizar o fato de que o parâmetro <code class="docutils literal"><span class="pre">x</span></code> é uma variável local. Se
+você simular passo-a-passo no codelens o exemplo, você verá que embora
+<code class="docutils literal"><span class="pre">x</span></code> é 0 como variável local em <code class="docutils literal"><span class="pre">quadrado</span></code>, x permanece 2 no escopo
+global.
+Isto é confuso para muitos iniciantes que pensam que uma atribuição
+para um parâmetro formal causará uma mudança ao valor da variável que
+foi usada como parâmetro real; especialmente quando as duas
+compartilham o mesmo nome.
+Mas este exemplo demonstra claramente que não é assim que Python
+funciona.</p>
+
+<div id="cl_muda_parm"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (cl_muda_parm)</span> </p>
+<script type="text/javascript">
+var cl_muda_parm_trace = {"code": "def quadrado(x):\n    y = x * x\n    x = 0       # atribui um novo valor ao par\u00e2metro x\n    return y\n\nx = 2\nz = quadrado(x)\nprint(z)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["quadrado"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["quadrado", "x"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"x": 2, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["quadrado", "x"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 2}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x"]}], "globals": {"x": 2, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 1, "event": "call"}, {"ordered_globals": ["quadrado", "x"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 2}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x"]}], "globals": {"x": 2, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["quadrado", "x"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 4, "x": 2}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "y"]}], "globals": {"x": 2, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["quadrado", "x"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 4, "x": 0}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "y"]}], "globals": {"x": 2, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["quadrado", "x"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 4, "x": 0, "__return__": 4}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "y", "__return__"]}], "globals": {"x": 2, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 4, "event": "return"}, {"ordered_globals": ["quadrado", "x", "z"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"x": 2, "z": 4, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 8, "event": "step_line"}, {"ordered_globals": ["quadrado", "x", "z"], "stdout": "4\n", "func_name": "<module>", "stack_to_render": [], "globals": {"x": 2, "z": 4, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 8, "event": "return"}]};
+var cl_muda_parm_vis;
+
+$(document).ready(function() {
+    cl_muda_parm_vis = new ExecutionVisualizer('cl_muda_parm',cl_muda_parm_trace,
+                                {embeddedMode: false,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(cl_muda_parm_vis,'cl_muda_parm');
+    allVisualizers.push(cl_muda_parm_vis);
+});
+
+$(document).ready(function() {
+    $("#cl_muda_parm_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'cl_muda_parm'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    cl_muda_parm_vis.redrawConnectors();
+});
+</script>
+<div class="admonition-rascunho admonition">
+<p class="first admonition-title">Rascunho</p>
+<div class="last">
+<button id="butt_scratch_3" onclick="createActiveCode('scratch_3',''); $('#butt_scratch_3').hide();">Open Editor</button>
+<div id="scratch_3"></div>
+<br />
+</div></div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question5_3_1">
+    <p>5.3.1: Qual é o escopo de uma variável?</p>
+    <form name="test_question5_3_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question5_3_1_opt_a" />
+    <label for= "test_question5_3_1_opt_a">  a) Seu valor.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question5_3_1_opt_b" />
+    <label for= "test_question5_3_1_opt_b">  b) O trecho de código onde a variável tem um certo valor.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question5_3_1_opt_c" />
+    <label for= "test_question5_3_1_opt_c">  c) Seu nome.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question5_3_1','b',['Valor é o conteúdo da variável.  Escopo diz respeito a onde a variável é &quot;conhecida&quot;.', '', 'O nome de uma variável é apenas um identificador ou apelido.  Escopo diz respeito a onde a variável é &quot;conhecida&quot;.'])"/> 
+    </form>
+    <div id="test_question5_3_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question5_3_2">
+    <p>5.3.2: O que é uma variável local?</p>
+    <form name="test_question5_3_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question5_3_2_opt_a" />
+    <label for= "test_question5_3_2_opt_a">  a) Uma variável temporária que é usada apenas dentro de uma função.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question5_3_2_opt_b" />
+    <label for= "test_question5_3_2_opt_b">  b) O mesmo que parâmetro.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question5_3_2_opt_c" />
+    <label for= "test_question5_3_2_opt_c">  c) Outro nome para qualquer variável.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question5_3_2','a',['Sim, uma variável local é uma variável temporária que é somente conhecida na função e definida nela.', 'Enquanto parâmetros podem ser considerados variáveis locais, funções podem também definir e usar variáveis locais adicionais.', 'Variáveis que são usadas fora de uma função não são locais, mas variáveis globais.'])"/> 
+    </form>
+    <div id="test_question5_3_2_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question5_3_3">
+    <p>5.3.3: Você pode usar o mesmo nome para uma variável local e para uma variável global?</p>
+    <form name="test_question5_3_3_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question5_3_3_opt_a" />
+    <label for= "test_question5_3_3_opt_a">  a) Sim, e não há motivo para não o fazer.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question5_3_3_opt_b" />
+    <label for= "test_question5_3_3_opt_b">  b) Sim, mas é considerado ruim.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question5_3_3_opt_c" />
+    <label for= "test_question5_3_3_opt_c">  c) Não, isso causará um erro.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question5_3_3','b',['Enquanto não há problema nenhum em Python, é geralmente considerado um mau estilo pelo potencial do programa ficar confuso.', 'Isto é geralmente considerado mau estilo pelo potencial do programa ficar confuso. Se você precisa usar variáveis globais (também considerado ruim), se certifique de que elas têm nomes únicos.', 'Python gerencia escopo de variáveis globais e locais separadamente e tem regras claras para como tratar variáveis com o mesmo nome em escopos diferentes, de forma que isso não causará erro em Python.'])"/> 
+    </form>
+    <div id="test_question5_3_3_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="o-padrao-de-acumulacao">
+<h2>O Padrão de Acumulação<a class="headerlink" href="#o-padrao-de-acumulacao" title="Permalink to this headline">¶</a></h2>
+<a id="function_accumulator_pattern_thumb" > <img src="../_static/accumulatorpattern.png" /></a>
+<div id="function_accumulator_pattern" class="video_popup" >
+<video controls  >
+    <source src="http://media.interactivepython.org/thinkcsVideos/accumulatorpattern.mov" type="video/mp4"></source>
+    <source src="http://media.interactivepython.org/thinkcsVideos/accumulatorpattern.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#function_accumulator_pattern_thumb').click(function(e) {
+         $('#function_accumulator_pattern').show();
+         $('#function_accumulator_pattern_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'function_accumulator_pattern'});
+         // Log the run event
+      });
+   });
+</script>
+<p>No exemplo anterior, escrevemos uma função que calcula o quadrado de um número.
+O algoritmo que usamos na função era simples: multiplique o número por ele mesmo.
+Nesta seção iremos reescrever a função quadrado e usar um algoritmo diferente,
+um que se baseia na adição em vez da multiplicação.</p>
+<p>Se você quer multiplicar dois números, o enfoque mais básico é pensar disso
+como um processo de somar um número a ele mesmo. O número de repetições é onde
+o segundo número aparece. Por exemplo, se queremos multiplicar três por cinco, podemos
+pensar nisso como somando três a ele mesmo cinco vezes. Três mais três é seis,
+mais três é nove, mais três é doze e, finalmente, mais três é quinze.
+Generalizando, se queremos implementar a ideia do quadrado de um número, chamando-o de <cite>n</cite>,
+nós somaríamos <cite>n</cite> a ele mesmo <cite>n</cite> vezes.</p>
+<p>Faça isto na mão e tente isolar exatamente os passos que você faz.
+Você descobrirá que você precisa manter alguma &#8220;soma parcial&#8221; da soma
+até o momento, ou em algum pedaço de papel, ou em sua
+cabeça. Lembrando coisas de um passo ao passo seguinte é precisamente o motivo
+pelo qual temos variáveis no programa. Isto quer dizer que precisaremos de
+alguma variável para lembrar da &#8220;soma parcial&#8221;. Ela deve ser
+inicializada com o valor zero. Então, precisamos <strong>atualizar</strong> a
+&#8220;soma parcial&#8221; um número correto de vezes. Para cada repetição,
+queremos atualizar o total somando o número à soma.</p>
+<p>Em palavras, poderíamos dizer o seguinte. Para quadrar o valor de <cite>n</cite>,
+repetimos o processo de atualizar a soma parcial <cite>n</cite> vezes. Para
+atualizar o total, tomamos o valor antigo de &#8220;soma parcial&#8221; e somamos
+<cite>n</cite>. A soma se torna o novo valor de &#8220;soma parcial&#8221;.</p>
+<p>Aqui está o programa em activecode. Note que a definição da função é a
+mesma que era antes. Tudo que mudou são os detalhes de como o quadrado
+é feito.
+Este é um grande exemplo de projeto &#8220;caixa preta&#8221;.
+Podemos mudar os detalhes dentro da caixa e ainda assim usar a função
+exatamente como a usávamos antes.</p>
+
+<div id="sq_accum1" >
+<textarea cols="50" rows="12" id="sq_accum1_code" class="active_code">
+def quadrado(x):
+    somaparcial = 0
+    for cont in range(x):
+        somaparcial = somaparcial + x
+
+    return somaparcial
+
+aQuadrar = 10
+resultado = quadrado(aQuadrar)
+print("O resultado de", aQuadrar, "ao quadrado e'", resultado)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (sq_accum1)</span> </p>
+<button onclick="runit('sq_accum1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('sq_accum1');">Save</button>
+<button class="ac_opt" onclick="requestCode('sq_accum1');">Load</button>
+<br />
+
+<canvas id="sq_accum1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="sq_accum1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">O que acontece se colocarmos a atribuição <code class="docutils literal"><span class="pre">somaparcial</span> <span class="pre">=</span> <span class="pre">0</span></code>
+dentro do comando for? Tem dúvidas? Teste e descubra.</p>
+</div>
+<p>No programa acima, note que o variável <code class="docutils literal"><span class="pre">somaparcial</span></code> começa com o
+valor 0. Em seguida, a iteração é feita <code class="docutils literal"><span class="pre">x</span></code> vezes. Dentro do laço do
+for, a atualização ocorre. <code class="docutils literal"><span class="pre">somaparcial</span></code> é atualizada com um novo
+valor que é o valor antigo mais o valor de <code class="docutils literal"><span class="pre">x</span></code>.</p>
+<p>Este padrão de iteração da atualização da variável é chamada comumente
+como <strong>padrão de acumulação</strong>. Nos referimos à variável como o
+<strong>acumulador</strong>. Este padrão aparece repetidas vezes. Lembre que a
+chave para fazer isto funcionar com sucesso é se certificar que a
+variável é inicializada antes de você começar as iterações.
+Uma vez dentro da iteração, é requerido que você atualize o acumulador.</p>
+<p>Aqui vai um exemplo do mesmo problema em codelens.
+Faça o passo-a-passo do programa e veja como a &#8220;somaparcial&#8221; acumula o resultado.</p>
+
+<div id="sq_accum3"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (sq_accum3)</span> </p>
+<script type="text/javascript">
+var sq_accum3_trace = {"code": "def quadrado(x):\n    somaparcial = 0\n    for cont in range(x):\n        somaparcial = somaparcial + x\n\n    return somaparcial\n\naQuadrar = 10\nresultado = quadrado(aQuadrar)\nprint(resultado)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["quadrado"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 8, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 9, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 1, "event": "call"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "somaparcial": 0}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "cont": 0, "somaparcial": 0}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "cont": 0, "somaparcial": 10}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "cont": 1, "somaparcial": 10}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "cont": 1, "somaparcial": 20}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "cont": 2, "somaparcial": 20}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "cont": 2, "somaparcial": 30}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "cont": 3, "somaparcial": 30}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "cont": 3, "somaparcial": 40}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "cont": 4, "somaparcial": 40}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "cont": 4, "somaparcial": 50}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "cont": 5, "somaparcial": 50}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "cont": 5, "somaparcial": 60}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "cont": 6, "somaparcial": 60}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "cont": 6, "somaparcial": 70}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "cont": 7, "somaparcial": 70}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "cont": 7, "somaparcial": 80}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "cont": 8, "somaparcial": 80}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "cont": 8, "somaparcial": 90}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "cont": 9, "somaparcial": 90}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "cont": 9, "somaparcial": 100}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"x": 10, "cont": 9, "somaparcial": 100}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"__return__": 100, "x": 10, "cont": 9, "somaparcial": 100}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f1", "ordered_varnames": ["x", "somaparcial", "cont", "__return__"]}], "globals": {"aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 6, "event": "return"}, {"ordered_globals": ["quadrado", "aQuadrar", "resultado"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"resultado": 100, "aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 10, "event": "step_line"}, {"ordered_globals": ["quadrado", "aQuadrar", "resultado"], "stdout": "100\n", "func_name": "<module>", "stack_to_render": [], "globals": {"resultado": 100, "aQuadrar": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 10, "event": "return"}]};
+var sq_accum3_vis;
+
+$(document).ready(function() {
+    sq_accum3_vis = new ExecutionVisualizer('sq_accum3',sq_accum3_trace,
+                                {embeddedMode: false,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(sq_accum3_vis,'sq_accum3');
+    allVisualizers.push(sq_accum3_vis);
+});
+
+$(document).ready(function() {
+    $("#sq_accum3_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'sq_accum3'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    sq_accum3_vis.redrawConnectors();
+});
+</script>
+<div class="admonition-rascunho admonition" id="index-2">
+<p class="first admonition-title">Rascunho</p>
+<div class="last">
+<button id="butt_scratch_4" onclick="createActiveCode('scratch_4',''); $('#butt_scratch_4').hide();">Open Editor</button>
+<div id="scratch_4"></div>
+<br />
+</div></div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question5_4_1">
+    <p>5.4.1: Considere o seguinte código:
+<pre>
+def quadrado(x):
+    somaparcial = 0
+    for cont in range(x):
+        somaparcial = somaparcial + x
+    return somaparcial
+</pre>
+O que acontece se você coloca a inicialização de somaparcial (a
+linha somaparcial = 0) dentro do laço for como o primeiro comando
+do laço?</p>
+    <form name="test_question5_4_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question5_4_1_opt_a" />
+    <label for= "test_question5_4_1_opt_a">  a) A função quadrado irá retornar x em vez de x*x.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question5_4_1_opt_b" />
+    <label for= "test_question5_4_1_opt_b">  b) A função quadrado causará um erro.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question5_4_1_opt_c" />
+    <label for= "test_question5_4_1_opt_c">  c) A função quadrado funcionará como esperado devolvendo x*x.</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question5_4_1_opt_d" />
+    <label for= "test_question5_4_1_opt_d">  d) A função quadrado retornará 0 em vez de x*x.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question5_4_1','a',['A variável somaparcial será reinicializada com 0 cada vez que houver um iteração do laço. Entretanto, porque esta atribuição acontece como o primeiro comando, o próximo comando no laço colocará seu valor de volta para x. Quando o laço termina, ele terá o valor de x, que é retornado.', 'Atribuições são perfeitamente válidas dentro de laços e não causará um erro.', 'Colocando a atribuição que atribui zero à somaparcial dentro do laço, a atribuição é executada cada vez que o laço é iterado, em vez de uma vez antes que o laço comece. O resultado é que a somaparcial é zerada (reinicializada com 0) cada vez que o laço é iterado.', 'A linha somaparcial = 0 é a primeira linha do laço for, mas imediatamente depois dessa linha, a linha somaparcial = somaparcial + x é executada, dando à somaparcial um valor diferente de zero (assumindo que x é diferente de zero).'])"/> 
+    </form>
+    <div id="test_question5_4_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="funcoes-podem-chamar-outras-funcoes">
+<h2>Funções podem chamar outras funções<a class="headerlink" href="#funcoes-podem-chamar-outras-funcoes" title="Permalink to this headline">¶</a></h2>
+<p>É importante entender que cada uma das funções que a gente escreve
+pode ser usada e chamada pelas outras funções que a gente
+escreve. Esta é uma das mais importantes formas que permitem que
+cientistas da computação peguem um problema grande e o quebrem em um
+grupo de problemas menores.   Este processo de quebrar um problema em
+subproblemas menores é chamado de <strong>decomposição funcional</strong>.</p>
+<p>Aqui vai um exemplo simples de decomposição funcional usando duas
+funções. A primeira, chamada <code class="docutils literal"><span class="pre">quadrado</span></code> simplesmente computa o
+quadrado de um dado número. A segunda, chamada de
+<code class="docutils literal"><span class="pre">soma_de_quadrados</span></code>  usa a função quadrado para determinar a soma do
+quadrado de três números.</p>
+
+<div id="somadequadrados"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (somadequadrados)</span> </p>
+<script type="text/javascript">
+var somadequadrados_trace = {"code": "def quadrado(x):\n    y = x * x\n    return y\n\ndef soma_de_quadrados(x,y,z):\n    a = quadrado(x)\n    b = quadrado(y)\n    c = quadrado(z)\n\n    return a+b+c\n\na = -5\nb = 2\nc = 10\nresultado = soma_de_quadrados(a,b,c)\nprint(resultado)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["quadrado"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["quadrado", "soma_de_quadrados"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"soma_de_quadrados": ["REF", 2], "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 12, "event": "step_line"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"a": -5, "soma_de_quadrados": ["REF", 2], "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 13, "event": "step_line"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"a": -5, "soma_de_quadrados": ["REF", 2], "b": 2, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 14, "event": "step_line"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b", "c"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"a": -5, "soma_de_quadrados": ["REF", 2], "b": 2, "c": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 15, "event": "step_line"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b", "c"], "stdout": "", "func_name": "soma_de_quadrados", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 2, "x": -5, "z": 10}, "is_highlighted": true, "is_parent": false, "func_name": "soma_de_quadrados", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "soma_de_quadrados_f1", "ordered_varnames": ["x", "y", "z"]}], "globals": {"a": -5, "soma_de_quadrados": ["REF", 2], "b": 2, "c": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 5, "event": "call"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b", "c"], "stdout": "", "func_name": "soma_de_quadrados", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 2, "x": -5, "z": 10}, "is_highlighted": true, "is_parent": false, "func_name": "soma_de_quadrados", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "soma_de_quadrados_f1", "ordered_varnames": ["x", "y", "z"]}], "globals": {"a": -5, "soma_de_quadrados": ["REF", 2], "b": 2, "c": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b", "c"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 2, "x": -5, "z": 10}, "is_highlighted": false, "is_parent": false, "func_name": "soma_de_quadrados", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "soma_de_quadrados_f1", "ordered_varnames": ["x", "y", "z"]}, {"frame_id": 2, "encoded_locals": {"x": -5}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f2", "ordered_varnames": ["x"]}], "globals": {"a": -5, "soma_de_quadrados": ["REF", 2], "b": 2, "c": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 1, "event": "call"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b", "c"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 2, "x": -5, "z": 10}, "is_highlighted": false, "is_parent": false, "func_name": "soma_de_quadrados", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "soma_de_quadrados_f1", "ordered_varnames": ["x", "y", "z"]}, {"frame_id": 2, "encoded_locals": {"x": -5}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f2", "ordered_varnames": ["x"]}], "globals": {"a": -5, "soma_de_quadrados": ["REF", 2], "b": 2, "c": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b", "c"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 2, "x": -5, "z": 10}, "is_highlighted": false, "is_parent": false, "func_name": "soma_de_quadrados", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "soma_de_quadrados_f1", "ordered_varnames": ["x", "y", "z"]}, {"frame_id": 2, "encoded_locals": {"y": 25, "x": -5}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f2", "ordered_varnames": ["x", "y"]}], "globals": {"a": -5, "soma_de_quadrados": ["REF", 2], "b": 2, "c": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b", "c"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 2, "x": -5, "z": 10}, "is_highlighted": false, "is_parent": false, "func_name": "soma_de_quadrados", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "soma_de_quadrados_f1", "ordered_varnames": ["x", "y", "z"]}, {"frame_id": 2, "encoded_locals": {"y": 25, "x": -5, "__return__": 25}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f2", "ordered_varnames": ["x", "y", "__return__"]}], "globals": {"a": -5, "soma_de_quadrados": ["REF", 2], "b": 2, "c": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 3, "event": "return"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b", "c"], "stdout": "", "func_name": "soma_de_quadrados", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 2, "x": -5, "z": 10, "a": 25}, "is_highlighted": true, "is_parent": false, "func_name": "soma_de_quadrados", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "soma_de_quadrados_f1", "ordered_varnames": ["x", "y", "z", "a"]}], "globals": {"a": -5, "soma_de_quadrados": ["REF", 2], "b": 2, "c": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b", "c"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 2, "x": -5, "z": 10, "a": 25}, "is_highlighted": false, "is_parent": false, "func_name": "soma_de_quadrados", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "soma_de_quadrados_f1", "ordered_varnames": ["x", "y", "z", "a"]}, {"frame_id": 3, "encoded_locals": {"x": 2}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f3", "ordered_varnames": ["x"]}], "globals": {"a": -5, "soma_de_quadrados": ["REF", 2], "b": 2, "c": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 1, "event": "call"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b", "c"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 2, "x": -5, "z": 10, "a": 25}, "is_highlighted": false, "is_parent": false, "func_name": "soma_de_quadrados", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "soma_de_quadrados_f1", "ordered_varnames": ["x", "y", "z", "a"]}, {"frame_id": 3, "encoded_locals": {"x": 2}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f3", "ordered_varnames": ["x"]}], "globals": {"a": -5, "soma_de_quadrados": ["REF", 2], "b": 2, "c": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b", "c"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 2, "x": -5, "z": 10, "a": 25}, "is_highlighted": false, "is_parent": false, "func_name": "soma_de_quadrados", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "soma_de_quadrados_f1", "ordered_varnames": ["x", "y", "z", "a"]}, {"frame_id": 3, "encoded_locals": {"y": 4, "x": 2}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f3", "ordered_varnames": ["x", "y"]}], "globals": {"a": -5, "soma_de_quadrados": ["REF", 2], "b": 2, "c": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b", "c"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 2, "x": -5, "z": 10, "a": 25}, "is_highlighted": false, "is_parent": false, "func_name": "soma_de_quadrados", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "soma_de_quadrados_f1", "ordered_varnames": ["x", "y", "z", "a"]}, {"frame_id": 3, "encoded_locals": {"y": 4, "x": 2, "__return__": 4}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f3", "ordered_varnames": ["x", "y", "__return__"]}], "globals": {"a": -5, "soma_de_quadrados": ["REF", 2], "b": 2, "c": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 3, "event": "return"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b", "c"], "stdout": "", "func_name": "soma_de_quadrados", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 2, "x": -5, "z": 10, "b": 4, "a": 25}, "is_highlighted": true, "is_parent": false, "func_name": "soma_de_quadrados", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "soma_de_quadrados_f1", "ordered_varnames": ["x", "y", "z", "a", "b"]}], "globals": {"a": -5, "soma_de_quadrados": ["REF", 2], "b": 2, "c": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 8, "event": "step_line"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b", "c"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 2, "x": -5, "z": 10, "b": 4, "a": 25}, "is_highlighted": false, "is_parent": false, "func_name": "soma_de_quadrados", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "soma_de_quadrados_f1", "ordered_varnames": ["x", "y", "z", "a", "b"]}, {"frame_id": 4, "encoded_locals": {"x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f4", "ordered_varnames": ["x"]}], "globals": {"a": -5, "soma_de_quadrados": ["REF", 2], "b": 2, "c": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 1, "event": "call"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b", "c"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 2, "x": -5, "z": 10, "b": 4, "a": 25}, "is_highlighted": false, "is_parent": false, "func_name": "soma_de_quadrados", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "soma_de_quadrados_f1", "ordered_varnames": ["x", "y", "z", "a", "b"]}, {"frame_id": 4, "encoded_locals": {"x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f4", "ordered_varnames": ["x"]}], "globals": {"a": -5, "soma_de_quadrados": ["REF", 2], "b": 2, "c": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b", "c"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 2, "x": -5, "z": 10, "b": 4, "a": 25}, "is_highlighted": false, "is_parent": false, "func_name": "soma_de_quadrados", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "soma_de_quadrados_f1", "ordered_varnames": ["x", "y", "z", "a", "b"]}, {"frame_id": 4, "encoded_locals": {"y": 100, "x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f4", "ordered_varnames": ["x", "y"]}], "globals": {"a": -5, "soma_de_quadrados": ["REF", 2], "b": 2, "c": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b", "c"], "stdout": "", "func_name": "quadrado", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 2, "x": -5, "z": 10, "b": 4, "a": 25}, "is_highlighted": false, "is_parent": false, "func_name": "soma_de_quadrados", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "soma_de_quadrados_f1", "ordered_varnames": ["x", "y", "z", "a", "b"]}, {"frame_id": 4, "encoded_locals": {"y": 100, "x": 10, "__return__": 100}, "is_highlighted": true, "is_parent": false, "func_name": "quadrado", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "quadrado_f4", "ordered_varnames": ["x", "y", "__return__"]}], "globals": {"a": -5, "soma_de_quadrados": ["REF", 2], "b": 2, "c": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 3, "event": "return"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b", "c"], "stdout": "", "func_name": "soma_de_quadrados", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"a": 25, "c": 100, "b": 4, "y": 2, "x": -5, "z": 10}, "is_highlighted": true, "is_parent": false, "func_name": "soma_de_quadrados", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "soma_de_quadrados_f1", "ordered_varnames": ["x", "y", "z", "a", "b", "c"]}], "globals": {"a": -5, "soma_de_quadrados": ["REF", 2], "b": 2, "c": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 10, "event": "step_line"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b", "c"], "stdout": "", "func_name": "soma_de_quadrados", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"a": 25, "c": 100, "b": 4, "__return__": 129, "y": 2, "x": -5, "z": 10}, "is_highlighted": true, "is_parent": false, "func_name": "soma_de_quadrados", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "soma_de_quadrados_f1", "ordered_varnames": ["x", "y", "z", "a", "b", "c", "__return__"]}], "globals": {"a": -5, "soma_de_quadrados": ["REF", 2], "b": 2, "c": 10, "quadrado": ["REF", 1]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 10, "event": "return"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b", "c", "resultado"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"a": -5, "resultado": 129, "b": 2, "c": 10, "quadrado": ["REF", 1], "soma_de_quadrados": ["REF", 2]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 16, "event": "step_line"}, {"ordered_globals": ["quadrado", "soma_de_quadrados", "a", "b", "c", "resultado"], "stdout": "129\n", "func_name": "<module>", "stack_to_render": [], "globals": {"a": -5, "resultado": 129, "b": 2, "c": 10, "quadrado": ["REF", 1], "soma_de_quadrados": ["REF", 2]}, "heap": {"1": ["FUNCTION", "quadrado(x)", null], "2": ["FUNCTION", "soma_de_quadrados(x, y, z)", null]}, "line": 16, "event": "return"}]};
+var somadequadrados_vis;
+
+$(document).ready(function() {
+    somadequadrados_vis = new ExecutionVisualizer('somadequadrados',somadequadrados_trace,
+                                {embeddedMode: false,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(somadequadrados_vis,'somadequadrados');
+    allVisualizers.push(somadequadrados_vis);
+});
+
+$(document).ready(function() {
+    $("#somadequadrados_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'somadequadrados'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    somadequadrados_vis.redrawConnectors();
+});
+</script>
+<p>Embora esta seja uma ideia muito simples, na prática este exemplo
+ilustra muitos conceitos importantes em Python, incluindo variáveis
+locais e globais junto com passagem de parâmetros. Note que quando
+você faz o passo-a-passo no exemplo, codelens aponta para a
+linha 1 e depois linha 5, onde as funções foram definidas.
+O corpo da função quadrado não é executado até que ela seja chamada da
+função <code class="docutils literal"><span class="pre">soma_de_quadrados</span></code> pela primeira vez na linha 6. Também
+observe que quando <code class="docutils literal"><span class="pre">quadrado</span></code> é chamada existem dois grupo de
+variáveis locais, uma para <code class="docutils literal"><span class="pre">quadrado</span></code> e outra para
+<code class="docutils literal"><span class="pre">soma_de_quadrados</span></code>. Quando você avança no passo-a-passo, você
+notará que <code class="docutils literal"><span class="pre">x</span></code> e <code class="docutils literal"><span class="pre">y</span></code> são variáveis locais em ambas as funções e
+podem mesmo ter valores diferentes. Isso ilustra que mesmo tendo o
+mesmo nome, elas são completamente diferentes.</p>
+<p>Vamos olhar em um outro exemplo que usa duas funções e ilustra outra
+técnica importante de resolução de problemas chamada
+<strong>generalização</strong>. Vamos assumir que queremos escrever uma função para
+desenhar um quadrado. O passo de generalização é perceber que o
+quadrado é apenas um tipo especial de retângulo.</p>
+<p>Para desenhar um retângulo precisamos ser capazes de chamar a função
+com argumentos diferentes para largura e altura. Diferente do caso do
+quadrado, não podemos repetir a mesma coisa 4 vezes, porque os quatro
+lados não são iguais.
+Entretanto, é o caso que desenhar os lados de baixo e direito é a
+mesma sequência para desenhar os lados de cima e esquerdo. Logo,
+podemos chegar no seguinte código bacana para desenhar um retângulo.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">desenhaRetangulo</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Faca a tartaruga t desenhar um retangulo de largura w e altura h.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Os nomes dos parâmetros foram escolhidos deliberadamente com uma única
+letra para assegurar que eles não são confundidos. Em programas
+reais, uma vez que você tenha mais experiência, insistiremos em nomes
+de variáveis melhores do que este.
+O ponto é que o programa não &#8220;entende&#8221; que você está desenhando um
+retângulo ou que os parâmetros representam a largura e a
+altura. Conceitos como retângulo, largura e altura são significados
+que os humanos têm, não conceitos que o programa ou o computador
+entendem.</p>
+<p><em>Como pensar como um cientista da computação</em> envolve procurar por
+padrões e relações. No código acima, fizemos isso até certo ponto. Não
+apenas desenhamos quatro lados. Em vez disso, percebemos que
+podíamos desenhar um retângulo como duas metades e usamos um laço
+para repetir duas vezes o padrão.</p>
+<p>Mas agora podemos perceber que um quadrado é um caso especial de um
+retângulo. Um quadrado simplesmente usa o mesmo valor para a largura e
+altura. Já temos uma função para desenhar um retângulo, logo a podemos
+usar para desenhar nosso quadrado.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">desenhaQuadrado</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">tam</span><span class="p">):</span>        <span class="c1"># uma nova versao de desenhaQuadrado</span>
+    <span class="n">desenhaRetangulo</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">tam</span><span class="p">,</span> <span class="n">tam</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here is the entire example with the necessary set up code.</p>
+
+<div id="ch04_3" >
+<textarea cols="50" rows="12" id="ch04_3_code" class="active_code">
+import turtle
+
+def desenhaRetangulo(t, w, h):
+    """Faca a tartaruga t desenhar um retangulo de largura w e altura h."""
+    for i in range(2):
+        t.forward(w)
+        t.left(90)
+        t.forward(h)
+        t.left(90)
+
+def desenhaQuadrado(tx, tam):        # uma nova versao de desenhaQuadrado
+    desenhaRetangulo(tx, tam, tam)
+
+wn = turtle.Screen()             # Inicializa a janela
+wn.bgcolor("lightgreen")
+
+tess = turtle.Turtle()           # cria tess
+
+desenhaQuadrado(tess, 50)
+
+wn.exitonclick()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch04_3)</span> </p>
+<button onclick="runit('ch04_3',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch04_3');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch04_3');">Load</button>
+<br />
+
+<canvas id="ch04_3_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch04_3_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Alguns pontos que valem a pena ser notados:</p>
+<ul class="simple">
+<li>Funções podem chamar outras funções.</li>
+<li>Reescrever <cite>desenhaQuadrado</cite> como fizemos captura a relação que foi percebida.</li>
+<li>A função pode ser chamada como <cite>desenhaQuadrado(tess, 50)</cite>. Aos
+parâmetros da função, <code class="docutils literal"><span class="pre">tx</span></code> e <code class="docutils literal"><span class="pre">tam</span></code>, são atribuídos os valores do
+objeto tess e o int 50 respectivamente.</li>
+<li>No corpo da função os parâmetros são apenas como qualquer outra variável.</li>
+<li>Quando a chamada para <cite>desenhaRecangulo</cite> é feita, os valores nas
+variáveis <cite>tx</cite> e <cite>tam</cite> são atribuídos primeiro, e depois a chamada
+ocorre. Logo, quando entramos no início da função
+<cite>desenhaRetangulo</cite>, sua variável <cite>t</cite> recebe o objeto tess, <cite>w</cite> e
+<cite>h</cite> naquela função recebem ambos o valor 50.</li>
+</ul>
+<p>Até agora, pode não estar claro porque vale a pena se dar ao trabalho
+de criar todas essas funções novas. Na verdade, existe um monte de
+motivos, mas este exemplo mostra dois:</p>
+<ol class="arabic simple">
+<li>Criar uma função dá a você uma oportunidade de dar nome a um grupo
+de comandos. Funções podem simplificar um programa escondendo uma
+computação complexa atrás de um único comando. A função, incluindo
+seu nome, pode capturar a decomposição, ou <em>abstração</em>, do problema
+que você tem em mente.</li>
+<li>Criar uma nova função pode tornar o programa menor porque código
+repetitivo é eliminado.</li>
+<li>Algumas vezes você pode escrever funções que permitem resolver um
+problema específico usando uma solução mais geral.</li>
+</ol>
+<div class="admonition-lab admonition">
+<p class="first admonition-title">Lab</p>
+<ul class="last simple">
+<li><a class="reference external" href="../Labs/lab04_01.html">Como Desenhar uma Circunferência</a> Neste exercício
+de laboratório trabalhamos no problema de desenhar uma
+circunferência com a tartaruga.</li>
+</ul>
+</div>
+<div class="admonition-rascunho admonition" id="index-3">
+<p class="first admonition-title">Rascunho</p>
+<div class="last">
+<button id="butt_scratch_5" onclick="createActiveCode('scratch_5',''); $('#butt_scratch_5').hide();">Open Editor</button>
+<div id="scratch_5"></div>
+<br />
+</div></div>
+</div>
+<div class="section" id="sumario-do-fluxo-de-execucao">
+<h2>Sumário do fluxo de execução<a class="headerlink" href="#sumario-do-fluxo-de-execucao" title="Permalink to this headline">¶</a></h2>
+<p>Quando você está trabalhando com funções é realmente importante saber
+a ordem em que os comandos são executados. Isto é chamado de o <strong>fluxo de
+execução</strong> e já falamos disso um certo número de vezes neste capítulo.</p>
+<p>Execução sempre começa no primeiro comando do programa. Comandos são
+executados um de cada vez, em ordem, de cima para baixo.
+Definições de funções não alteram o fluxo de execução do programa, mas
+lembre-se de que os comandos dentro da função não são executados a
+menos que a função seja chamada.</p>
+<p>Chamadas de funções são como desvios do fluxo de execução. Em vez de
+ir para o próximo comando, o fluxo pula para a primeira linha da
+função chamada, executa todos os comandos de lá, e então volta para
+continuar de onde tinha parado.</p>
+<p>Isso soa bastante simples, até você lembrar que uma função pode chamar
+outra função. Enquanto no meio de uma função, o programa pode ter que
+executar os comandos de uma segunda função. Mas enquanto executando a
+segunda função, o programa pode ter que executar ainda uma terceira
+função!</p>
+<p>Felizmente, Python mantem controle de onde ele está em cada função, e
+cada vez uma função termina, o programa volta para onde tinha parado
+quando a função foi chamada. Quando o fim do programa é atingido, ele
+termina.</p>
+<p>Qual a moral deste conto sórdido? Quando você lê um programa, não o
+leia de cima a baixo. Em vez disso, siga o fluxo de execução. Sob
+risco de soar repetitivo, isto quer dizer que você lerá as
+declaraçãoes def enquanto percorre o código de cima para baixo, mas
+você deve pular o corpo da função até encontrar o ponto onde a função
+é chamada.</p>
+<span class="target" id="index-4"></span><div class="admonition-rascunho admonition" id="index-5">
+<p class="first admonition-title">Rascunho</p>
+<div class="last">
+<button id="butt_scratch_6" onclick="createActiveCode('scratch_6',''); $('#butt_scratch_6').hide();">Open Editor</button>
+<div id="scratch_6"></div>
+<br />
+</div></div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question5_6_1">
+    <p>5.6.1: Considere o seguinte código em Python. Observe que os números das linhas estão incluídos à esquerda.
+<pre>
+1    def pot(b, p):
+2        y = b ** p
+3        return y
+4
+5    def quadrado(x):
+6        a = pot(x, 2)
+7        return a
+8
+9    n = 5
+10   resultado = quadrado(n)
+11   print(resultado)
+</pre>
+Quais dos seguintes melhor reflete a ordem em que as linhas de código são processadas em Python?</p>
+    <form name="test_question5_6_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question5_6_1_opt_a" />
+    <label for= "test_question5_6_1_opt_a">  a) 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question5_6_1_opt_b" />
+    <label for= "test_question5_6_1_opt_b">  b) 1, 2, 3, 5, 6, 7, 9, 10, 11</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question5_6_1_opt_c" />
+    <label for= "test_question5_6_1_opt_c">  c) 9, 10, 11, 1, 2, 3, 5, 6, 7</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question5_6_1_opt_d" />
+    <label for= "test_question5_6_1_opt_d">  d) 9, 10, 5, 6, 7, 1, 2, 3, 11</label><br />
+    
+    <input type="radio" name="group1" value="e" id="test_question5_6_1_opt_e" />
+    <label for= "test_question5_6_1_opt_e">  e) 1, 5, 9, 10, 6, 2, 3, 7, 11</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question5_6_1','e',['Embora Python tipicamente processa as linhas em ordem de cima para baixo, as definições de funções e chamadas são um execeção à essa regra.', 'Embora Python tipicamente processa as linhas em ordem de cima para baixo, as definições de funções e chamadas são um execeção à essa regra. Embora essa ordem pule linhas em branco, é ainda uma lista de linhas do código em ordem.', 'Esta está perto, no sentido de que Python não executará as funções até elas serem chamadas, mas existem dois problemas aqui. Primeiro, Python não sabe em quais linhas estão as definições de funções até que elas sejam processadas, de forma que ele precisa pelo menos processar o cabeçalho da função antes de pular as funções. Segundo, observe que a linha 10 involve uma chamada de função. Python precisa executar a função quadrado antes de ir para a linha 11.', 'Esta está perto, no sentido de que Python não executará as funções até elas serem chamadas, mas existe um problema aqui. Python não sabe em quais linhas estão as definições de funções até que elas sejam processadas, de forma que ele precisa pelo menos processar o cabeçalho da função antes de pular as funções.', 'Python começa na linha 1, percebe que é uma definição de função e pula todas as linhas da definição da função até ele encontrar uma linha que não está incluída na função (linha 5). Ele então percebe que a linha 5 também é uma definição de função e pula novamente o corpo da função até a linha 9. Na linha 10 ele percebe que tem que executar uma função, logo ele volta e executa o corpo da função. Observe que aquela função inclui outra chamada de função. Finalmente, ele voltará para a linha 11 depois da função quadrado terminar.'])"/> 
+    </form>
+    <div id="test_question5_6_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question5_6_2">
+    <p>5.6.2: Considere o seguinte código em Python. Observe que os números das linhas estão incluídos à esquerda.
+<pre>
+1    def pot(b, p):
+2        y = b ** p
+3        return y
+4
+5    def quadrado(x):
+6        a = pot(x, 2)
+7        return a
+8
+9    n = 5
+10   resultado = quadrado(n)
+11   print(resultado)
+</pre>
+O que esse programa imprime?</p>
+    <form name="test_question5_6_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question5_6_2_opt_a" />
+    <label for= "test_question5_6_2_opt_a">  a) 25</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question5_6_2_opt_b" />
+    <label for= "test_question5_6_2_opt_b">  b) 5</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question5_6_2_opt_c" />
+    <label for= "test_question5_6_2_opt_c">  c) 125</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question5_6_2_opt_d" />
+    <label for= "test_question5_6_2_opt_d">  d) 32</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question5_6_2','a',['A função quadrado retorna o quadrado de sua entrada (através de uma chamada à pot).', 'O que é impresso é a saída da função quadrado.  5 é a entrada da função quadrado.', 'Observe que pot é chamada dentro da função quadrado com a base (b) de 5 e a potência (p) de dois.', 'Observe que pot é chamada dentro da função quadrado com a base (b) de 5 e a potência (p) de dois.'])"/> 
+    </form>
+    <div id="test_question5_6_2_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="um-diagrama-de-barras-de-uma-tartaruga">
+<h2>Um Diagrama de Barras de uma Tartaruga<a class="headerlink" href="#um-diagrama-de-barras-de-uma-tartaruga" title="Permalink to this headline">¶</a></h2>
+<p>Lembre-se da nossa discussão de módulos que eles eram um certo número
+de coisas que tartarugas podem fazer.
+Aqui vão mais uns dois truques (lembre-se que eles estão todos
+descritos na documentação do módulo).</p>
+<ul class="simple">
+<li>Podemos fazer uma tartaruga mostrar texto no canvas na posição
+atual da tartaruga. O método é chamado <cite>write</cite>.
+Por exemplo, <code class="docutils literal"><span class="pre">alex.write(&quot;Alo&quot;)</span></code>  escreveria o string <cite>Alo</cite> na
+posição atual.</li>
+<li>Podemos preencher um perfil (circunferência, semi-circunferência, triângulo, etc)
+com uma cor. É um processo de dois passos. Primeiro você chama o
+método <cite>begin_fill</cite>, por exemplo <code class="docutils literal"><span class="pre">alex.begin_fill()</span></code>. Então você
+desenha o perfil. Finalmente, você chama <cite>end_fill</cite> (<code class="docutils literal"><span class="pre">alex.end_fill()</span></code>).</li>
+<li>Previamente nós atribuímos a cor da nossa tartaruga - podemos também
+agora atribuir sua cor de preenchimento, que não precisa ser a mesma
+da tartaruga nem da caneta. Para fazer isso, usamos o método chamado <cite>fillcolor</cite>,
+por exemplo, <code class="docutils literal"><span class="pre">alex.fillcolor(&quot;red&quot;)</span></code>.</li>
+</ul>
+<p>Bom, então podemos fazer tess desenhar um diagrama de barras? Vamos
+começar com alguns dados,</p>
+<p><code class="docutils literal"><span class="pre">xs</span> <span class="pre">=</span> <span class="pre">[48,</span> <span class="pre">117,</span> <span class="pre">200,</span> <span class="pre">240,</span> <span class="pre">160,</span> <span class="pre">260,</span> <span class="pre">220]</span></code></p>
+<p>Correspondendo a cada medida, vamos desenhar um retângulo simples
+daquela altura, com uma largura fixa.
+Aqui é o que queremos criar.</p>
+<img alt="../_images/tess_bar_1.png" src="../_images/tess_bar_1.png" />
+<p>Podemos rapidamente ver que desenhando uma barra será similar a
+desenhar um retângulo ou um quadrado. Uma vez que precisamos fazer
+isso um certo número de vezes, faz sentido criar uma função,
+<code class="docutils literal"><span class="pre">desenhaBarra</span></code>, que necessitará da tartaruga e altura da
+barra. Assumiremos que a largura da barra será de 40 unidades. Uma vez
+escrita a função, podemos usá-la em um laço simples para processar a lista
+dos valores dados.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">desenhaBarra</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">altura</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Faca a tartaruga t desenhar uma barra, de altura `altura`.&quot;&quot;&quot;</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span>               <span class="c1"># Apontar</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">altura</span><span class="p">)</span>        <span class="c1"># Desenha o lado esquerdo</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">right</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span>            <span class="c1"># largura da barra no topo</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">right</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">altura</span><span class="p">)</span>        <span class="c1"># e abaixo novamente!</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span>               <span class="c1"># coloca a tartaruga na posição que a encontramos</span>
+
+<span class="o">...</span>
+<span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">xs</span><span class="p">:</span>                 <span class="c1"># assuma que xs e tess estão prontas</span>
+    <span class="n">desenhaBarra</span><span class="p">(</span><span class="n">tess</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>É um bom começo! O que é importante aqui é a decomposição que temos em
+mente. Para resolver o problema, primeiro o quebramos em pedaços
+menores. Em particular, nosso pedaço é desenhar um barra. Nós, então,
+implementamos esse pedaço com uma função. Depois, para todo o
+diagrama, chamamos repetidamente nossa função.</p>
+<p>Em seguinda, acima de cada barra, imprimimos o valor do dado.
+Faremos isso no corpo do <code class="docutils literal"><span class="pre">desenhaBarra</span></code>, adicionando <code class="docutils literal"><span class="pre">t.write('</span>&nbsp; <span class="pre">'</span> <span class="pre">+</span> <span class="pre">str(altura))</span></code>
+como a terceira linha do corpo.
+Colocamos um pequeno espaço em frente do número, e transformamos o
+número em string. Sem esse expaço extra o texto poderia ficar grudado com a
+barra à esquerda.
+Finalmente, adicionamos os dois método necessários para preencher cada
+barra.</p>
+<p>Um problema restante está relacionado com o fato de que nossa
+tartaruga vive em um mundo onde o centro é a posição (0,0). Neste
+problema, ajudaria se (0,0) fosse no canto inferior esquerdo. Para
+resolver isso, podemos usar nosso método <code class="docutils literal"><span class="pre">setworldcoordinates</span></code> para
+redimensionar a janela. Enquanto isso, devemos fazer os dados caberem
+na janela. A barra mais alta corresponde ao maior valor dos dados. a
+largura da janela necessitará ser proporcional ao número de barras (o
+número dos valores dados) onde cada um tem a largura de 40. Usando
+essa informação, podemos computar o sistema de coordenadas que fazem
+sentido para o conjunto de dados. Para melhorar a aparência do diagrama,
+adicionamos um pouco de espaço embaixo e à esquerda como uma moldura.</p>
+<p>Aqui vai o programa completo. Teste-o e então mude os dados para ver
+que ele se adapta aos novos valores.</p>
+
+<div id="ch05_barchart" >
+<textarea cols="50" rows="12" id="ch05_barchart_code" class="active_code">
+import turtle
+
+def desenhaBarra(t, altura):
+    """Faca a tartaruga t desenhar uma barra, de altura `altura`."""
+    t.begin_fill()               # comece preenchendo o perfil
+    t.left(90)
+    t.forward(altura)
+    t.write('  '+ str(altura))
+    t.right(90)
+    t.forward(40)
+    t.right(90)
+    t.forward(altura)
+    t.left(90)
+    t.end_fill()                 # pare de preencher o perfil
+
+
+
+xs = [48,117,200,240,160,260,220]  # aqui vão os dados
+alturamax = max(xs)
+numbarras = len(xs)
+moldura = 10
+
+tess = turtle.Turtle()           # cria tess e inicializa alguns de seus atributos
+tess.color("blue")
+tess.fillcolor("red")
+tess.pensize(3)
+
+wn = turtle.Screen()             # Inicializa a janela e seus atributos
+wn.bgcolor("lightgreen")
+wn.setworldcoordinates(0-moldura,0-moldura,40*numbarras+moldura,alturamax+moldura)
+
+
+for a in xs:
+    desenhaBarra(tess, a)
+
+wn.exitonclick()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch05_barchart)</span> </p>
+<button onclick="runit('ch05_barchart',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch05_barchart');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch05_barchart');">Load</button>
+<br />
+
+<canvas id="ch05_barchart_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch05_barchart_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="admonition-rascunho admonition">
+<p class="first admonition-title">Rascunho</p>
+<div class="last">
+<button id="butt_scratch_7" onclick="createActiveCode('scratch_7',''); $('#butt_scratch_7').hide();">Open Editor</button>
+<div id="scratch_7"></div>
+<br />
+</div></div>
+</div>
+<div class="section" id="glossario">
+<h2>Glossário<a class="headerlink" href="#glossario" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-argumento">argumento</dt>
+<dd>Um valor fornecido para uma função quando a função é
+chamada. Este valor é atribuído ao parâmetro correspondente na
+função. O argumento pode ser o resultado de uma expressão que
+pode envolver operadores, operandos e chamadas a outras funções
+frutíferas.</dd>
+<dt id="term-chamada-de-funcao">chamada de função</dt>
+<dd>Um comando que executa uma função. Ele consiste do nome da
+função seguido por uma lista de argumentos entre parentêses.</dd>
+<dt id="term-comando-composto">comando composto</dt>
+<dd><p class="first">Um comando que consiste de duas partes:</p>
+<ol class="arabic simple">
+<li>cabeçalho - que começa com uma plavra reservada
+determinando o tipo do comando e que termina com dois
+pontos (:).</li>
+<li>corpo - contendo um ou mais comando tabulados igualmente a
+partir do cabeçalho.</li>
+</ol>
+<p>A sintaxe de um comando composto se assemelha com:</p>
+<div class="last highlight-python"><div class="highlight"><pre>palavra-reservada expressão:
+    comando
+    comando ...
+</pre></div>
+</div>
+</dd>
+<dt id="term-composicao-de-funcoes">composição de funções</dt>
+<dd>Usando a saída de uma função como entrada de outra função.</dd>
+<dt id="term-corpo">corpo</dt>
+<dd>A segunda parte de um comando composto. O corpo consiste de
+uma sequência de comandos todos igualmente tabulados a partir
+do começo do cabeçalho. A quantidade padrão de tabulação usada
+pela comunidade do Python é 4 espaços.</dd>
+<dt id="term-declaracao-import">declaração import</dt>
+<dd>uma declaração que permite funções e variáveis definidas em
+outro módulo de Python serem trazidas ao ambiente de outro
+script. Para usar as construções da tartaruga, precisamos
+primeiro importar o módulo turtle.</dd>
+<dt id="term-definicao-de-funcao">definição de função</dt>
+<dd>Uma declaração que cria uma nova função, especificando o seu
+nome, parâmetros e os comandos que ela executa.</dd>
+<dt id="term-duracao">duração</dt>
+<dd>Variáveis e objetos tem duração &#8212; eles são criado em algum
+ponto durante a execução do programa e são destruídos em algum
+outro ponto.</dd>
+<dt id="term-docstring">docstring</dt>
+<dd>Se a primeira coisa no corpo da função (ou, como
+veremos mais tarde, em outros lugares também) é um string, ele é anexado
+à função como seu atributo <code class="docutils literal"><span class="pre">__doc__</span></code>.</dd>
+<dt id="term-fluxo-de-execucao">fluxo de execução</dt>
+<dd>A ordem em que comandos são executados durante a execução de
+um programa.</dd>
+<dt id="term-funcao">função</dt>
+<dd>Uma sequência de comandos com um nome que executa operações
+úteis. Funções podem ou não ter parâmetros e podem ou não
+produzir um resultado.</dd>
+<dt id="term-funcao-frutifera">função frutífera</dt>
+<dd>Uma função que retorna um valor quando ela é chamada.</dd>
+<dt id="term-linha-de-cabecalho">linha de cabeçalho</dt>
+<dd>A primeira parte de um comando composto. O cabeçalho começa
+com uma palavra reservada a termina com dois pontos (:).</dd>
+<dt id="term-parametro">parâmetro</dt>
+<dd>Um nome usado dentro de uma função para se referir ao valor
+que foi passado a ela como um argumento.</dd>
+<dt id="term-refatorar">refatorar</dt>
+<dd>Processo de reorganizar o código de seu programa,
+usualmente para torná-lo mais fácil de entender. Tipicamente,
+temos um programa que já está funcionando, então voltamos para
+fazer uma &#8220;arrumação&#8221;. Em geral envolve escolher nomes
+melhores para as variáveis ou perceber um padrão repetido e
+mover esse código para uma função.</dd>
+<dt id="term-variavel-local">variável local</dt>
+<dd>Uma variável definida dentro de uma função. Uma variável local
+pode somente ser usada em sua função. Parâmetros de uma
+função são também um tipo especial de variável local.</dd>
+</dl>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Use a função desenhaquadrado que escrevemos neste capítulo em um
+programa para desenhar a imagem abaixo. Assuma que cada lado mede
+20 unidade. (Dica: note que a tartaruga já se moveu do ponto final
+do último quadrado quando o programa termina.)</p>
+<img alt="../_images/five_squares.png" src="../_images/five_squares.png" />
+
+<button id="butt_ex_5_1" onclick="createActiveCode('ex_5_1','import turtle\n\ndef desenhaQuadrado(t, tam):\n    %22%22%22Faca a tartaruga t desenhar um quadrado de lado tam.%22%22%22\n\n    for i in range(4):\n        t.forward(tam)\n        t.left(90)\n\n\nwn = turtle.Screen()              # Inicializa a janela e seus atributos\nwn.bgcolor(%22lightgreen%22)\n\nalex = turtle.Turtle()            # cria alex\ndesenhaQuadrado(alex, 50)         # Chama a função para desenhar um quadrado\n\nwn.exitonclick()'); $('#butt_ex_5_1').hide();">Open Editor</button>
+<div id="ex_5_1"></div>
+<br />
+</li>
+<li><p class="first">Escreva um programa para fazer o desenho abaixo. Assuma que o lado
+do quadrado mais interno tem 20 unidade e cada quadrado tem lado
+20 unidades maior do que o anterior.</p>
+<img alt="../_images/nested_squares.png" src="../_images/nested_squares.png" />
+
+<button id="butt_ex_5_2" onclick="createActiveCode('ex_5_2',''); $('#butt_ex_5_2').hide();">Open Editor</button>
+<div id="ex_5_2"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função não-frutífera <cite>desenhaPoli(t, numeroLados, tamanho)</cite>
+que faz a tartaruga <cite>t</cite> desenhar um polígono regular com <cite>numeroLados</cite>
+lados, cada um de comprimento <cite>tamanho</cite>.
+Quando chamada com <cite>desenhaPoli(tess, 8, 50)</cite>, ela desenhará algo como:</p>
+<img alt="../_images/regularpolygon.png" src="../_images/regularpolygon.png" />
+
+<button id="butt_ex_5_3" onclick="createActiveCode('ex_5_3',''); $('#butt_ex_5_3').hide();">Open Editor</button>
+<div id="ex_5_3"></div>
+<br />
+</li>
+<li><p class="first">Desenhe o seguinte padrão.</p>
+<blockquote>
+<div><img alt="../_images/tess08.png" src="../_images/tess08.png" />
+
+<button id="butt_ex_5_4" onclick="createActiveCode('ex_5_4',''); $('#butt_ex_5_4').hide();">Open Editor</button>
+<div id="ex_5_4"></div>
+<br />
+</div></blockquote>
+</li>
+<li><p class="first">As duas espirais abaixo diferem apenas pelo ângulo de
+virada. Desenha as duas.</p>
+<a class="reference internal image-reference" href="../_images/tess_spirals.png"><img alt="../_images/tess_spirals.png" src="../_images/tess_spirals.png" style="height: 240px;" /></a>
+
+<button id="butt_ex_5_5" onclick="createActiveCode('ex_5_5',''); $('#butt_ex_5_5').hide();">Open Editor</button>
+<div id="ex_5_5"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função não-frutífera <cite>desenhaTrianguloEqui(t, tamanho)</cite>
+que chama <cite>desenhaPoli</cite> de um exercício anterior para
+fazer a tartaruga <cite>t</cite> desenhar um triângulo equilátero com lados de
+comprimento <cite>tamanho</cite>.</p>
+
+<button id="butt_ex_5_6" onclick="createActiveCode('ex_5_6',''); $('#butt_ex_5_6').hide();">Open Editor</button>
+<div id="ex_5_6"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função frutífera <cite>somaAte(n)</cite> que retorna a soma de
+todos os naturais até e incluindo <cite>n</cite>.  Por exemplo, <cite>somaAte(10)</cite>
+deve ser <cite>1+2+3...+10</cite> que retornaria o valor 55. Use a equação n*(n + 1)//2.</p>
+
+<button id="butt_ex_5_7" onclick="createActiveCode('ex_5_7','from test import testEqual\n\ndef somaAte(n):\n    # escreva o seu código aqui\n\n# Now lets see how well this works\nt = somaAte(0)\ntestEqual(t, 0)\nt = somaAte(10)\ntestEqual(t, 55)\nt = somaAte(1)\ntestEqual(t,1)'); $('#butt_ex_5_7').hide();">Open Editor</button>
+<div id="ex_5_7"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função <cite>areaDeCirculo(r)</cite> que retorna a área de um
+círculo de raio <cite>r</cite>.  Use o módulo math na sua solução.</p>
+
+<button id="butt_ex_5_8" onclick="createActiveCode('ex_5_8','from test import testEqual\n\ndef areaDeCirculo(r):\n    # escreva o seu código aqui\n\nt = areaDeCirculo(0)\ntestEqual(t,0)\nt = areaDeCirculo(1)\ntestEqual(t,math.pi)\nt = areaDeCirculo(100)\ntestEqual(t,31415.926535897932)'); $('#butt_ex_5_8').hide();">Open Editor</button>
+<div id="ex_5_8"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função não-frutífera para desenhar uma estrela de
+cinco pontas, onde o comprimento de cada lado é 100 unidades.</p>
+<img alt="../_images/star1.png" src="../_images/star1.png" />
+
+<button id="butt_ex_5_9" onclick="createActiveCode('ex_5_9',''); $('#butt_ex_5_9').hide();">Open Editor</button>
+<div id="ex_5_9"></div>
+<br />
+</li>
+<li><p class="first">Estenda seu programa acima. Desenha cinco estrelas, mas entre uma
+e outra, levante a caneta, a mova para a frente por 350 unidades,
+vire à direita por 144 graus, abaixe a caneta e desenhe a próxima
+estrela. Você obterá algo como:</p>
+<img alt="../_images/five_stars.png" src="../_images/five_stars.png" />
+<p>Como ficaria se você não levantasse a caneta?</p>
+
+<button id="butt_ex_5_10" onclick="createActiveCode('ex_5_10',''); $('#butt_ex_5_10').hide();">Open Editor</button>
+<div id="ex_5_10"></div>
+<br />
+</li>
+<li><p class="first">Estenda a função estrela para desenhar uma estrela de n pontas.  (Dica: n
+precisa ser um inteiro ímpar maior ou igual a 3.)</p>
+
+<button id="butt_ex_5_11" onclick="createActiveCode('ex_5_11',''); $('#butt_ex_5_11').hide();">Open Editor</button>
+<div id="ex_5_11"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função chamada desenheSprite que desenha um sprite.
+A função necessitará de parâmetros para a tartaruga, o número de
+pernas e o comprimento das pernas. Chame a função para criar um
+sprite de 15 pernas de comprimento 120.</p>
+
+<button id="butt_ex_5_12" onclick="createActiveCode('ex_5_12',''); $('#butt_ex_5_12').hide();">Open Editor</button>
+<div id="ex_5_12"></div>
+<br />
+</li>
+<li><p class="first">Reescreva a função <cite>somaAte(n)</cite> que retorna a soma a soma de todos
+os naturais até e incluindo <cite>n</cite>. Desta vez use o padrão de acumulação.</p>
+
+<button id="butt_ex_5_13" onclick="createActiveCode('ex_5_13','from test import testEqual\n\ndef somaAte(n):\n    # escreva o seu código aqui\n\n# Now lets see how well this works\nt = somaAte(0)\ntestEqual(t, 0)\ntestEqual(somaAte(10), 55)\ntestEqual(somaAte(1),1)'); $('#butt_ex_5_13').hide();">Open Editor</button>
+<div id="ex_5_13"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função chamada <cite>raizQ</cite> que aproxima a raiz quadrada de
+um número, digamos n, usando o algoritmo de Newton.
+O método de Newton é um algoritmo iterativo que começa chutando
+inicialmente o valor n/2 para a raiz e cada chute subsequente é
+computado usando a fórmula: proximoChute = (velhoChute+n/velhoChute)/2.</p>
+
+<button id="butt_ex_5_14" onclick="createActiveCode('ex_5_14',''); $('#butt_ex_5_14').hide();">Open Editor</button>
+<div id="ex_5_14"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função chamada <cite>meuPi</cite> que retorna uma aproximação
+para PI (3.14159...). Use a aproximação de Liebniz descrita em aula.</p>
+
+<button id="butt_ex_5_15" onclick="createActiveCode('ex_5_15',''); $('#butt_ex_5_15').hide();">Open Editor</button>
+<div id="ex_5_15"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função chamada <cite>meuPi</cite> que retorna uma aproximação
+para PI (3.14159...). Use a aproximação de Madhava descrita em aula.</p>
+
+<button id="butt_ex_5_16" onclick="createActiveCode('ex_5_16',''); $('#butt_ex_5_16').hide();">Open Editor</button>
+<div id="ex_5_16"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função chamada <cite>quadradoBonito</cite> que desenha um
+quadrado com os cantos bonitos (sprites nos cantos). Você deve
+implementar e usar a função <cite>desenhaSprite</cite> acima. Para uma
+aparência ainda mais interessante, que tal adicionar pequenos
+triângulos no fim das pernas do sprite?</p>
+
+<button id="butt_ex_5_17" onclick="createActiveCode('ex_5_17',''); $('#butt_ex_5_17').hide();">Open Editor</button>
+<div id="ex_5_17"></div>
+<br />
+</li>
+</ol>
+<div class="admonition-rascunho admonition">
+<p class="first admonition-title">Rascunho</p>
+<div class="last">
+<button id="butt_scratch_9" onclick="createActiveCode('scratch_9',''); $('#butt_scratch_9').hide();">Open Editor</button>
+<div id="scratch_9"></div>
+<br />
+</div></div>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Funções</a><ul>
+<li><a class="reference internal" href="#index-0">Funções</a></li>
+<li><a class="reference internal" href="#funcoes-que-retornam-valores">Funções que retornam valores</a></li>
+<li><a class="reference internal" href="#variaveis-e-parametros-sao-locais">Variáveis e parâmetros são locais</a></li>
+<li><a class="reference internal" href="#o-padrao-de-acumulacao">O Padrão de Acumulação</a></li>
+<li><a class="reference internal" href="#funcoes-podem-chamar-outras-funcoes">Funções podem chamar outras funções</a></li>
+<li><a class="reference internal" href="#sumario-do-fluxo-de-execucao">Sumário do fluxo de execução</a></li>
+<li><a class="reference internal" href="#um-diagrama-de-barras-de-uma-tartaruga">Um Diagrama de Barras de uma Tartaruga</a></li>
+<li><a class="reference internal" href="#glossario">Glossário</a></li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../Labs/sinlab.html"
+                        title="previous chapter">Plotting a sine Wave</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../Labs/lab04_01.html"
+                        title="next chapter">Drawing a Circle</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../Labs/lab04_01.html" title="Drawing a Circle"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../Labs/sinlab.html" title="Plotting a sine Wave"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2012, Brad Miller, David Ranum.
+      Last updated on May 24, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>PyZone Archive&nbsp;Files</title></head><body data-page-id="247"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">PyZone Archive&nbsp;Files</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | November 2006</p><p> A PyZone archive file represents a collection of documents, such as a
+zone, in a single XML file.</p><p> Here&#8217;s an outline of this format: </p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="xml wide wide">
+&lt;<span class="pyfunction">zone</span> name='identifier' last-modified='timestamp'&gt;
+  &lt;<span class="pyfunction">article</span> name='identifier' category='list of categories'&gt;
+    &lt;<span class="pyfunction">title</span>&gt; article title &lt;/<span class="pyfunction">title</span>&gt;
+    &lt;<span class="pyfunction">body</span>&gt;
+       article body text (an XHTML body fragment), minus the title
+    &lt;/<span class="pyfunction">body</span>&gt;
+    &lt;<span class="pyfunction">comments</span> count='count'&gt; (optional)
+      &lt;<span class="pyfunction">comment</span>&gt; text &lt;/<span class="pyfunction">comment</span>&gt; (optional)
+      ...
+    &lt;/<span class="pyfunction">comments</span>&gt;
+    &lt;<span class="pyfunction">terms</span> source='mechanism'&gt; (optional)
+      &lt;<span class="pyfunction">term</span>&gt; phrase &lt;/<span class="pyfunction">term</span>&gt;
+      ...
+    &lt;<span class="pyfunction">terms</span>&gt;
+    ...
+    &lt;<span class="pyfunction">source</span>&gt; source url &lt;/<span class="pyfunction">source</span>&gt; (optional)
+&lt;/<span class="pyfunction">zone</span>&gt;</pre></div><div class="yui-ge"><div class="yui-u first"><h3 id="elements">Elements&#160;<a class="nav" href="#elements" title="bookmark!">#</a></h3><p> The <b>body</b> element contains XHTML body fragments.  Link
+targets in a body can be either usual &#8220;http:&#8221; targets (for external
+links), or special &#8220;link:&#8221; targets, which need to be converted by the
+renderer.  A link target has the following syntax: </p><pre>
+    link:<i>target-domain</i>:<i>identifier</i>
+</pre><p> where the <i>target-domain</i> is one of </p><dl><dt><b>zone</b>
+</dt><dd>Articles within this zone.
+</dd><dt><b>python</b>
+</dt><dd>The standard Python namespace, with keywords, builtins,
+             and library functions.  To identify what a link points
+             to, start by checking the first part against available
+             keywords, builtins, and library modules, in that order.
+             You can then use remaining parts of the link, if any,
+             to drill down further, or just link to the top-level
+             concept.
+             There&#8217;s currently no mechanism to distinguish
+             between builtins and modules with the same name (e.g.
+             <b>repr</b>).
+</dd><dt><b>svn</b>
+</dt><dd>The python source code namespace.  This is used to refer to Python
+             source files.  The identifier is the
+             full path to the file, relative to the source directory.
+</dd><dt><b>c</b>
+</dt><dd>A C function or macro, either part of C&#8217;s standard library, or the
+             Python C library.  
+</dd><dt><b>pep</b>
+</dt><dd>Python enhancement proposals.  The identifier is the pep
+             number, given as a decimal integer. (the number may or may 
+             not have leading zeros, so it should be
+             normalized by the link translator).
+</dd><dt><b>rfc</b>
+</dt><dd>Internet RFC.  The identifier is the rfc number, given as a decimal
+integer.
+</dd></dl><p>The <b>comments</b> element may be included for articles with comments;
+if present, it usually only contains a <b>count</b> attribute.  You can use
+the <b>source</b> element, if present, to link back to the page that holds
+the comments.</p><p>Each article may also have one or more <b>terms</b> elements.  These
+contain terms and keywords, either added manually, or via automatic term
+extraction mechanisms.</p><h3 id="examples">Examples&#160;<a class="nav" href="#examples" title="bookmark!">#</a></h3><p>The <a href="/pyfaq/">Python FAQ</a> staging area is available as an
+archive file.  You can get a copy from this URL:</p><pre>
+http://effbot.org/pyfaq.xml (~400k)
+</pre><p>If you decide to use this for anything except testing, please use a
+conditional fetch to make sure that you only download it if it has actually
+changed.  You can use something like:
+
+<pre class="python">
+<span class="pykeyword">import</span> urllib2
+
+<span class="pykeyword">def</span> <span class="pyfunction">get_signature</span>(uri):
+   request = urllib2.Request(uri)
+   request.get_method = <span class="pykeyword">lambda</span>: <span class="pystring">"HEAD"</span>
+   http_file = urllib2.urlopen(request)
+   <span class="pykeyword">return</span> <span class="pystring">"/"</span>.join((
+       http_file.headers[<span class="pystring">"last-modified"</span>],
+       http_file.headers[<span class="pystring">"etag"</span>],
+       http_file.headers[<span class="pystring">"content-length"</span>]
+       ))</pre></p><p>to get get the file signature, and do a full fetch if the signature has changed since you last downloaded the file.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><ul><li><a href="#elements">Elements</a></li><li><a href="#examples">Examples</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

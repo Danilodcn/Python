@@ -1,0 +1,584 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="Versão interativa do livro Como Pensar Como um Cientista da Computação. Aprenda a programar em Python usando esse livro online." name="description" />
+<meta content="python, turtle graphics, computer science" name="keywords" />
+
+    <title>Como Pensar Como um Cientista da Computação &mdash; Como pensar como um Cientista da Computação: Edição Interativa em Python</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Como pensar como um Cientista da Computação: Edição Interativa em Python" href="#" />
+    <link rel="next" title="Aviso de direitos autorais" href="00-FrontBackMatter/copyright-ptbr.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/pensePython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'pensePython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/pensePython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="00-FrontBackMatter/copyright-ptbr.html" title="Aviso de direitos autorais"
+             accesskey="N">next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="como-pensar-como-um-cientista-da-computacao">
+<h1>Como Pensar Como um Cientista da Computação<a class="headerlink" href="#como-pensar-como-um-cientista-da-computacao" title="Permalink to this headline">¶</a></h1>
+<a class="reference internal image-reference" href="_static/python-logo.png"><img alt="ThinkCSPy Logo" src="_static/python-logo.png" style="width: 450.75px; height: 152.25px;" /></a>
+<div class="section" id="aprendendo-com-python-edicao-interativa-usando-python-3-x">
+<h2>Aprendendo com Python: Edição interativa (usando Python 3.x)<a class="headerlink" href="#aprendendo-com-python-edicao-interativa-usando-python-3-x" title="Permalink to this headline">¶</a></h2>
+<p>Tradução do livro “How to Think Like a Computer Scientist: Interactive Version”, de Brad Miller e David Ranum</p>
+<div class="section" id="preambulos">
+<h3>Preâmbulos<a class="headerlink" href="#preambulos" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="00-FrontBackMatter/copyright-ptbr.html">Aviso de direitos autorais</a></li>
+<li class="toctree-l1"><a class="reference internal" href="00-FrontBackMatter/copyright-ptbr.html#copyright-notice">Copyright Notice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="00-FrontBackMatter/foreword-ptbr.html">Prefácio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="00-FrontBackMatter/preface2e-ptbr.html">Prefácio da primeira e segunda edições</a></li>
+<li class="toctree-l1"><a class="reference internal" href="00-FrontBackMatter/preface-ptbr.html">Prefácio à terceira edição</a></li>
+<li class="toctree-l1"><a class="reference internal" href="00-FrontBackMatter/preface-ptbr.html#a-edicao-local-de-rhodes-rle">A edição local de Rhodes (RLE)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="00-FrontBackMatter/prefaceinteractive-ptbr.html">Prefácio à Edição Interativa</a></li>
+<li class="toctree-l1"><a class="reference internal" href="00-FrontBackMatter/prefaceinteractive-ptbr.html#para-que-fazer-o-log-in">Para que fazer o log in?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="00-FrontBackMatter/prefaceinteractive-ptbr.html#como-contribuir">Como Contribuir</a></li>
+<li class="toctree-l1"><a class="reference internal" href="00-FrontBackMatter/prefaceinteractive-ptbr.html#agradecimentos">Agradecimentos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="00-FrontBackMatter/contrib-ptbr.html">Lista de Contribuidores</a></li>
+<li class="toctree-l1"><a class="reference internal" href="00-FrontBackMatter/fdl-1.3.html">GNU Free Documentation License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="00-FrontBackMatter/fdl-1.3.html#addendum-how-to-use-this-license-for-your-documents">ADDENDUM: How to use this License for your documents</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="introducao">
+<h3>Introdução<a class="headerlink" href="#introducao" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="01-Introducao/introducao.html">O Caminho do Programa</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="conceitos-de-python">
+<h3>Conceitos de Python<a class="headerlink" href="#conceitos-de-python" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="02-Conceitos/conceitos.html">Variáveis, Expressões e Comandos</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="programando-uma-tartaruga-em-python">
+<h3>Programando uma Tartaruga em Python<a class="headerlink" href="#programando-uma-tartaruga-em-python" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="03-PythonTurtle/olatartaruga.html">Olá, tartaruguinhas!</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="modulos-do-python">
+<h3>Modulos do Python<a class="headerlink" href="#modulos-do-python" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="04-Modulos/modulos.html">Módulos e Obtendo Ajuda</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="04-Modulos/modulos.html#modulos">Módulos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-Modulos/modulos.html#mais-sobre-o-uso-de-modulos">Mais sobre o uso de módulos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-Modulos/modulos.html#o-modulo-math">O módulo <cite>math</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-Modulos/modulos.html#o-modulo-random">O módulo <cite>random</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-Modulos/modulos.html#glossario">Glossário</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04-Modulos/modulos.html#exercicios">Exercícios</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="funcoes">
+<h3>Funções<a class="headerlink" href="#funcoes" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="05-Funcoes/funcoes.html">Funções</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="05-Funcoes/funcoes.html#index-0">Funções</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-Funcoes/funcoes.html#funcoes-que-retornam-valores">Funções que retornam valores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-Funcoes/funcoes.html#variaveis-e-parametros-sao-locais">Variáveis e parâmetros são locais</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-Funcoes/funcoes.html#o-padrao-de-acumulacao">O Padrão de Acumulação</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-Funcoes/funcoes.html#funcoes-podem-chamar-outras-funcoes">Funções podem chamar outras funções</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-Funcoes/funcoes.html#sumario-do-fluxo-de-execucao">Sumário do fluxo de execução</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-Funcoes/funcoes.html#um-diagrama-de-barras-de-uma-tartaruga">Um Diagrama de Barras de uma Tartaruga</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-Funcoes/funcoes.html#glossario">Glossário</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-Funcoes/funcoes.html#exercicios">Exercícios</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="05-Funcoes/maisfuncoes.html">Functions Revisited</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="05-Funcoes/maisfuncoes.html#desenvolvimento-de-programas">Desenvolvimento de programas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-Funcoes/maisfuncoes.html#composicao">Composição</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-Funcoes/maisfuncoes.html#funcao-booleana">Função Booleana</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-Funcoes/maisfuncoes.html#programando-com-estilo">Programando Com Estilo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-Funcoes/maisfuncoes.html#glossario">Glossário</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-Funcoes/maisfuncoes.html#exercicios">Exercícios</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="selecao">
+<h3>Seleção<a class="headerlink" href="#selecao" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="06-Selecao/selecao.html">Decisões e Seleção</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="06-Selecao/selecao.html#valores-booleanos-e-expressoes-booleanas">Valores booleanos e expressões booleanas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06-Selecao/selecao.html#operadores-logicos">Operadores lógicos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06-Selecao/selecao.html#precedencia-de-operadores">Precedência de operadores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06-Selecao/selecao.html#execucao-condicional-selecao-binaria">Execução condicional: seleção binária</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06-Selecao/selecao.html#selecao-unaria-omissao-do-else">Seleção unária: omissão do <code class="docutils literal"><span class="pre">else</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="06-Selecao/selecao.html#condicionais-aninhados">Condicionais aninhados</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06-Selecao/selecao.html#condicionais-encadeados">Condicionais encadeados</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06-Selecao/selecao.html#funcoes-booleanas">Funções booleanas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06-Selecao/selecao.html#glossario">Glossário</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06-Selecao/selecao.html#exercicios">Exercicíos</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="mais-sobre-iteracao">
+<h3>Mais Sobre Iteração<a class="headerlink" href="#mais-sobre-iteracao" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="07-Iteracao/maisiteracao.html">Mais sobre Iteração</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="07-Iteracao/maisiteracao.html#mais-sobre-o-comando-for">Mais sobre o comando <code class="docutils literal"><span class="pre">for</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="07-Iteracao/maisiteracao.html#o-comando-while">O comando <code class="docutils literal"><span class="pre">while</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="07-Iteracao/maisiteracao.html#caminhadas-aleatorias-de-tartarugas">Caminhadas Aleatórias de Tartarugas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07-Iteracao/maisiteracao.html#a-sequencia-3n-1">A sequência 3n + 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07-Iteracao/maisiteracao.html#metodo-de-newton">Método de Newton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07-Iteracao/maisiteracao.html#revisao-de-algoritmos">Revisão de Algoritmos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07-Iteracao/maisiteracao.html#tabelas-simples">Tabelas Simples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07-Iteracao/maisiteracao.html#iteracao-bidimensional-processamento-de-imagens">Iteração Bidimensional: Processamento de Imagens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07-Iteracao/maisiteracao.html#glossario">Glossário</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07-Iteracao/maisiteracao.html#exercicios">Exercícios</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="strings">
+<h3>Strings<a class="headerlink" href="#strings" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="08-Strings/strings.html">Strings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#revisao-de-strings">Revisão de strings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#um-tipo-de-dado-composto">Um tipo de dado composto</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#operacoes-com-strings">Operações com strings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#operador-de-indexacao">Operador de indexação</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#metodos-de-string">Métodos de string</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#comprimento">Comprimento</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#fatiamento">Fatiamento</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#comparacao-de-strings">Comparação de strings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#strings-sao-imutaveis">Strings são imutáveis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#varredura-com-for-por-item">Varredura com <code class="docutils literal"><span class="pre">for</span></code> por item</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#varredura-com-for-por-indice">Varredura com <code class="docutils literal"><span class="pre">for</span></code> por índice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#varredura-com-while">Varredura com <code class="docutils literal"><span class="pre">while</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#operadores-in-e-not-in">Operadores <code class="docutils literal"><span class="pre">in</span></code> e <code class="docutils literal"><span class="pre">not</span> <span class="pre">in</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#padrao-de-acumulacao-com-strings">Padrão de acumulação com strings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#tartarugas-strings-e-sistemas-l">Tartarugas, strings e Sistemas-L</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#repeticoes-e-contagens">Repetições e contagens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#funcao-find">Função <code class="docutils literal"><span class="pre">find</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#id1">Parâmetros opcionais</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#classificacao-de-caracteres">Classificação de caracteres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#resumo">Resumo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#glossario">Glossário</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-Strings/strings.html#exercicios">Exercícios</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="listas">
+<h3>Listas<a class="headerlink" href="#listas" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="09-Listas/listas.html">Listas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#valores-em-uma-lista">Valores em uma lista</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#comprimento-de-uma-lista">Comprimento de uma lista</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#acessando-os-elementos">Acessando os elementos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#pertinencia-em-uma-lista">Pertinência em uma Lista</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#concatenacao-e-repeticao">Concatenação e repetição</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#fatias-de-listas">Fatias de listas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#listas-sao-mutaveis">Listas são mutáveis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#remocao-em-listas">Remoção em listas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#objetos-e-referencias">Objetos e referências</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#apelidos-aliasing">Apelidos (<em>Aliasing</em>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#clonando-listas">Clonando listas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#repeticoes-e-referencias">Repetições e referências</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#metodos-de-listas">Métodos de listas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#retorno-a-sistemas-l">Retorno a sistemas-L</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#append-versus-concatenacao">Append versus concatenação</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#listas-e-o-laco-for">Listas e o laço <code class="docutils literal"><span class="pre">for</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#listas-como-parametros">Listas como parâmetros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#funcao-pura">Função pura</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#qual-e-melhor">Qual é melhor?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#funcoes-que-produzem-listas">Funções que produzem listas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#list-comprehensions">List comprehensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#listas-aninhadas">Listas aninhadas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#strings-e-listas">Strings e listas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#funcao-de-conversao-list">Função de conversão <code class="docutils literal"><span class="pre">list</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#tuplas-e-mutabilidade">Tuplas e mutabilidade</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#atribuicao-de-tuplas">Atribuição de tuplas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#tuplas-como-valor-de-retorno">Tuplas como valor de retorno</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#glossario">Glossário</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09-Listas/listas.html#exercicios">Exercícios</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="arquivos">
+<h3>Arquivos<a class="headerlink" href="#arquivos" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="10-Arquivos/files.html">Trabalhando com Arquivos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="10-Arquivos/files.html#encontrando-um-arquivo-disco">Encontrando um arquivo disco</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10-Arquivos/files.html#abrindo-e-fechando-arquivos">Abrindo e fechando arquivos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10-Arquivos/files.html#iterando-sobre-as-linha-de-um-arquivo">Iterando sobre as linha de um Arquivo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10-Arquivos/files.html#metodos-alternativos-para-ler-arquivos">Métodos alternativos para ler arquivos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10-Arquivos/files.html#glossario">Glossário</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10-Arquivos/files.html#exercicios">Exercícios</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="dicionarios">
+<h3>Dicionarios<a class="headerlink" href="#dicionarios" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="11-Dicionarios/dicionarios.html">Dicionários</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="11-Dicionarios/dicionarios.html#operacoes-com-dicionarios">Operações com dicionários</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11-Dicionarios/dicionarios.html#metodos-de-dicionarios">Métodos de dicionários</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11-Dicionarios/dicionarios.html#apelidos-and-copias">Apelidos and cópias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11-Dicionarios/dicionarios.html#matrizes-esparsas">Matrizes esparsas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11-Dicionarios/dicionarios.html#glossario">Glossário</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11-Dicionarios/dicionarios.html#exercicios">Exercícios</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="recursao">
+<h3>Recursão<a class="headerlink" href="#recursao" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="12-Recursao/recursionsimple-ptbr.html">Recursão</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12-Recursao/recursionsimple-ptbr.html#objetivos">Objetivos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12-Recursao/recursionsimple-ptbr.html#o-que-e-recursao">O que é recursão?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="12-Recursao/recursionsimple-ptbr.html#calculando-a-soma-de-uma-lista-de-numeros">Calculando a soma de uma lista de números</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12-Recursao/recursionsimple-ptbr.html#as-tres-leis-da-recursao">As três leis da recursão</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12-Recursao/recursionsimple-ptbr.html#convertendo-um-inteiro-para-um-string-em-qualquer-base">Convertendo um inteiro para um string em qualquer base</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="12-Recursao/recursionsimple-ptbr.html#pilha-de-execucao-implementando-recursao">Pilha de execução: implementando recursão</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12-Recursao/graphical-ptbr.html">Visualizando recursão</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="12-Recursao/graphical-ptbr.html#triangulo-de-sierpinski">Triângulo de Sierpinski</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="12-Recursao/introexercises-ptbr.html">Glossário</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12-Recursao/introexercises-ptbr.html#exercicios-de-programacao">Exercícios de programação</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="definindo-classes">
+<h3>Definindo Classes<a class="headerlink" href="#definindo-classes" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="13-Classes/classesintro.html">Classes e Objetos - Fundamentos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="13-Classes/classesintro.html#programacao-orientada-a-objetos">Programação orientada à objetos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13-Classes/classesintro.html#uma-mudanca-de-perspectiva">Uma mudança de perspectiva</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13-Classes/classesintro.html#revisao-de-objetos">Revisão de Objetos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13-Classes/classesintro.html#classes-definidas-pelo-usuario">Classes definidas pelo usuário</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13-Classes/classesintro.html#melhorando-o-nosso-construtor">Melhorando o Nosso Construtor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13-Classes/classesintro.html#adicionando-outros-metodos-a-nossa-classe">Adicionando Outros Métodos à Nossa Classe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13-Classes/classesintro.html#objetos-como-argumentos-e-parametros">Objetos Como Argumentos e Parâmetros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13-Classes/classesintro.html#conversao-de-um-objeto-para-um-string">Conversão de um Objeto para um String</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13-Classes/classesintro.html#instancias-e-valores-de-retorno">Instâncias e Valores de Retorno</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13-Classes/classesintro.html#glossario">Glossário</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13-Classes/classesintro.html#exercicios">Exercícios</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="13-Classes/fracoes.html">Classes e Objetos - Indo um pouco mais fundo</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="13-Classes/fracoes.html#fracoes">Frações</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13-Classes/fracoes.html#objetos-sao-mutaveis">Objetos são Mutáveis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13-Classes/fracoes.html#igualdade">Igualdade</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13-Classes/fracoes.html#metodos-aritmeticos">Métodos aritméticos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13-Classes/fracoes.html#glossario">Glossário</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13-Classes/fracoes.html#exercicios">Exercícios</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="labs">
+<h3>Labs<a class="headerlink" href="#labs" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Labs/astronomylab.html">Astronomy Animation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Labs/astronomylab.html#object-oriented-programming">Object-oriented programming</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Labs/lab03_01.html">Turtle Racing Lab</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Labs/lab03_01.html#random-numbers">Random Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Labs/lab03_01.html#turtle-races">Turtle Races</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Labs/lab04_01a.html">Lessons from a Triangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Labs/lab04_01a.html#finally-a-circle">Finally a Circle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Labs/lab04_01.html">Drawing a Circle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Labs/lab12_01.html">Counting Letters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Labs/lab12_01.html#simple-solution-counting-a-single-letter">Simple Solution: Counting a Single Letter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Labs/lab12_01.html#general-solution-counting-all-letters">General Solution: Counting All Letters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Labs/lab12_02.html">Letter Count Histogram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Labs/montepi.html">Approximating the Value of Pi</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Labs/montepi.html#setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Labs/montepi.html#throwing-darts">Throwing Darts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Labs/montepi.html#counting-darts">Counting Darts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Labs/montepi.html#the-value-of-pi">The Value of Pi</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Labs/pythonshell.html">Python Beyond the Browser</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Labs/pythonshell.html#the-python-shell">The Python Shell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Labs/pythonshell.html#running-a-python-program">Running a Python Program</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Labs/pythonshell.html#installing-python-on-windows">Installing Python on Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Labs/pythonshell.html#glossary">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Labs/sequencelab.html">Experimenting With the 3n+1 Sequence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Labs/sinlab.html">Plotting a sine Wave</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Labs/sinlab.html#what-is-the-sine-function">What is the sine function?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Labs/sinlab.html#making-the-plot">Making the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Labs/sinlab.html#making-the-plot-better">Making the Plot Better</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="appendices">
+<h3>Appendices<a class="headerlink" href="#appendices" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Appendices/app_a.html">Depuração (<em>Debugging</em>)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_a.html#erros-de-sintaxe-syntax-errors">Erros de sintaxe (<em>Syntax errors</em>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_a.html#nao-consigo-fazer-o-meu-programa-rodar">Não consigo fazer o meu programa rodar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_a.html#erros-de-execucao-runtime-errors">Erros de execução (<em>Runtime errors</em>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_a.html#meu-programa-nao-faz-nada">Meu programa não faz nada</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_a.html#meu-programa-trava">Meu programa trava</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_a.html#laco-infinito">Laço infinito</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_a.html#recursao-infinita">Recursão infinita</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_a.html#fluxo-de-execucao">Fluxo de execução</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_a.html#quando-executo-o-programa-ocorre-uma-excessao">Quando executo o programa ocorre uma excessão</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_a.html#coloquei-tanto-print-no-meu-programa-que-nao-consigo-ver-nada">Coloquei tanto <code class="docutils literal"><span class="pre">print</span></code> no meu programa que não consigo ver nada</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_a.html#erros-semanticos">Erros semânticos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_a.html#meu-programa-nao-funciona">Meu programa não funciona</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_a.html#minha-expressao-cabeluda-nao-faz-o-que-eu-esperava">Minha expressão cabeluda não faz o que eu esperava</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_a.html#minha-funcao-ou-metodo-nao-retorna-o-que-eu-espero">Minha função ou método não retorna o que eu espero</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_a.html#eu-estou-realmente-travado-e-necessito-ajuda">Eu estou realmente travado e necessito ajuda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_a.html#nao-eu-realmente-preciso-de-ajuda">Não, eu realmente preciso de ajuda</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Appendices/app_b.html">Etceteras</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_b.html#cinco-habilidadee-para-proficiencia">Cinco habilidadee para proficiência</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_b.html#enviando-email">Enviando email</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Appendices/app_c.html">Configurando Ubuntu para Desenvolvimento em Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_c.html#vim">Vim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_c.html#gasp">GASP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_c.html#ambiente-home">Ambiente <cite>$HOME</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_c.html#making-a-python-script-executable-and-runnable-from-anywhere">Making a python script executable and runnable from anywhere</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Appendices/app_d.html">Customizing and Contributing to the Book</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_d.html#getting-the-source">Getting the Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Appendices/app_d.html#making-the-html-version">Making the HTML Version</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-e-tabelas">
+<h3>Índices e tabelas<a class="headerlink" href="#indices-e-tabelas" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Como Pensar Como um Cientista da Computação</a><ul>
+<li><a class="reference internal" href="#aprendendo-com-python-edicao-interativa-usando-python-3-x">Aprendendo com Python: Edição interativa (usando Python 3.x)</a><ul>
+<li><a class="reference internal" href="#preambulos">Preâmbulos</a></li>
+<li><a class="reference internal" href="#introducao">Introdução</a></li>
+<li><a class="reference internal" href="#conceitos-de-python">Conceitos de Python</a></li>
+<li><a class="reference internal" href="#programando-uma-tartaruga-em-python">Programando uma Tartaruga em Python</a></li>
+<li><a class="reference internal" href="#modulos-do-python">Modulos do Python</a></li>
+<li><a class="reference internal" href="#funcoes">Funções</a></li>
+<li><a class="reference internal" href="#selecao">Seleção</a></li>
+<li><a class="reference internal" href="#mais-sobre-iteracao">Mais Sobre Iteração</a></li>
+<li><a class="reference internal" href="#strings">Strings</a></li>
+<li><a class="reference internal" href="#listas">Listas</a></li>
+<li><a class="reference internal" href="#arquivos">Arquivos</a></li>
+<li><a class="reference internal" href="#dicionarios">Dicionarios</a></li>
+<li><a class="reference internal" href="#recursao">Recursão</a></li>
+<li><a class="reference internal" href="#definindo-classes">Definindo Classes</a></li>
+<li><a class="reference internal" href="#labs">Labs</a></li>
+<li><a class="reference internal" href="#appendices">Appendices</a></li>
+<li><a class="reference internal" href="#indices-e-tabelas">Índices e tabelas</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="00-FrontBackMatter/copyright-ptbr.html"
+                        title="next chapter">Aviso de direitos autorais</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="00-FrontBackMatter/copyright-ptbr.html" title="Aviso de direitos autorais"
+             >next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2012, Brad Miller, David Ranum.
+      Last updated on May 24, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

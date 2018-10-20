@@ -1,0 +1,458 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capítulo 4: Condicionais e recursividade &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Capítulo 5: Funções frutíferas" href="capitulo_05.html" />
+    <link rel="prev" title="Capítulo 3: Funções" href="capitulo_03.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="capitulo_05.html" title="Capítulo 5: Funções frutíferas"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_03.html" title="Capítulo 3: Funções"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="capitulo-4-condicionais-e-recursividade">
+<h1><a class="toc-backref" href="#id1">Capítulo 4: Condicionais e recursividade</a><a class="headerlink" href="#capitulo-4-condicionais-e-recursividade" title="Link permanente para este título">¶</a></h1>
+<div class="contents topic" id="topicos">
+<p class="topic-title first">Tópicos</p>
+<ul class="simple">
+<li><a class="reference external" href="#capitulo-4-condicionais-e-recursividade" id="id1">Capítulo 4: Condicionais e recursividade</a><ul>
+<li><a class="reference external" href="#o-operador-modulo" id="id2">4.1 O operador módulo</a></li>
+<li><a class="reference external" href="#expressoes-booleanas" id="id3">4.2 Expressões booleanas</a></li>
+<li><a class="reference external" href="#operadores-logicos" id="id4">4.3 Operadores lógicos</a></li>
+<li><a class="reference external" href="#execucao-condicional" id="id5">4.4 Execução condicional</a></li>
+<li><a class="reference external" href="#execucao-alternativa" id="id6">4.5 Execução alternativa</a></li>
+<li><a class="reference external" href="#condicionais-encadeados" id="id7">4.6 Condicionais encadeados</a></li>
+<li><a class="reference external" href="#condicionais-aninhados" id="id8">4.7 Condicionais aninhados</a></li>
+<li><a class="reference external" href="#a-instrucao-return" id="id9">4.8 A instrução <tt class="docutils literal"><span class="pre">return</span></tt></a></li>
+<li><a class="reference external" href="#recursividade" id="id10">4.9 Recursividade</a></li>
+<li><a class="reference external" href="#diagramas-de-pilha-para-funcoes-recursivas" id="id11">4.10 Diagramas de pilha para funções recursivas</a></li>
+<li><a class="reference external" href="#recursividade-infinita" id="id12">4.11 Recursividade infinita</a></li>
+<li><a class="reference external" href="#entrada-pelo-teclado" id="id13">4.12 Entrada pelo teclado</a></li>
+<li><a class="reference external" href="#glossario" id="id14">4.13 Glossário</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="o-operador-modulo">
+<h2><a class="toc-backref" href="#id2">4.1 O operador módulo</a><a class="headerlink" href="#o-operador-modulo" title="Link permanente para este título">¶</a></h2>
+<p>O <strong>operador módulo</strong> trabalha com inteiros (e expressões que têm inteiros como resultado) e produz o resto da divisão do primeiro pelo segundo. Em Python, o operador módulo é um símbolo de porcentagem (<tt class="docutils literal"><span class="pre">%</span></tt>). A sintaxe é a mesma que a de outros operadores:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">quociente</span> <span class="o">=</span> <span class="mi">7</span> <span class="o">/</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">quociente</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resto</span> <span class="o">=</span> <span class="mi">7</span> <span class="o">%</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">resto</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>Então, 7 dividido por 3 é 2 e o resto é 1.</p>
+<p>O operador módulo se revela surpreendentemente útil. Por exemplo, você pode checar se um número é divisível por outro - se <tt class="docutils literal"><span class="pre">x</span> <span class="pre">%</span> <span class="pre">y</span></tt> dá zero, então <tt class="docutils literal"><span class="pre">x</span></tt> é divisível por <tt class="docutils literal"><span class="pre">y</span></tt>.</p>
+<p>Você também pode extrair o algarismo ou algarismos mais à direita de um número. Por exemplo, <tt class="docutils literal"><span class="pre">x</span> <span class="pre">%</span> <span class="pre">10</span></tt> resulta o algarismo mais à direita de <tt class="docutils literal"><span class="pre">x</span></tt> (na base 10). Similarmente, <tt class="docutils literal"><span class="pre">x</span> <span class="pre">%</span> <span class="pre">100</span></tt> resulta nos dois dígitos mais à direita.</p>
+</div>
+<div class="section" id="expressoes-booleanas">
+<h2><a class="toc-backref" href="#id3">4.2 Expressões booleanas</a><a class="headerlink" href="#expressoes-booleanas" title="Link permanente para este título">¶</a></h2>
+<p>Uma expressão booleana é uma expressão que é verdadeira (<em>True</em>) ou é falsa (<em>False</em>). Em Python, uma expressão que é verdadeira tem o valor 1, e uma expressão que é falsa tem o valor 0.</p>
+<p>O operador <tt class="docutils literal"><span class="pre">==</span></tt> compara dois valores e produz uma expressão booleana:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="mi">5</span> <span class="o">==</span> <span class="mi">5</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">5</span> <span class="o">==</span> <span class="mi">6</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>No primeiro comando, os dois operadores são iguais, então a expressão avalia como <tt class="xref docutils literal"><span class="pre">True</span></tt> (verdadeiro); no segundo comando, 5 não é igual a 6, então temos <tt class="xref docutils literal"><span class="pre">False</span></tt> (falso).</p>
+<p>O operador <tt class="docutils literal"><span class="pre">==</span></tt> é um dos <strong>operadores de comparação</strong>; os outros são:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">x</span> <span class="o">!=</span> <span class="n">y</span>        <span class="c"># x é diferente de y</span>
+<span class="n">x</span> <span class="o">&gt;</span> <span class="n">y</span>         <span class="c"># x é maior que y</span>
+<span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span>         <span class="c"># x é menor que y</span>
+<span class="n">x</span> <span class="o">&gt;=</span> <span class="n">y</span>        <span class="c"># x é maior ou igual a y</span>
+<span class="n">x</span> <span class="o">&lt;=</span> <span class="n">y</span>        <span class="c"># x é menor ou igual a y</span>
+</pre></div>
+</div>
+<p>Embora esses operadores provavelmente sejam familiares a você, os símbolos em Python são diferentes dos símbolos da matemática. Um erro comum é usar um sinal de igual sozinho (<tt class="docutils literal"><span class="pre">=</span></tt>) em vez de um duplo (<tt class="docutils literal"><span class="pre">==</span></tt>). Lembre-se de que <tt class="docutils literal"><span class="pre">=</span></tt> é um operador de atribuição e <tt class="docutils literal"><span class="pre">==</span></tt> é um operador de comparação. Também não existem coisas como =&lt; ou =&gt;.</p>
+</div>
+<div class="section" id="operadores-logicos">
+<h2><a class="toc-backref" href="#id4">4.3 Operadores lógicos</a><a class="headerlink" href="#operadores-logicos" title="Link permanente para este título">¶</a></h2>
+<p>Existem três operadores lógicos: <tt class="docutils literal"><span class="pre">and</span></tt>, <tt class="docutils literal"><span class="pre">or</span></tt>, <tt class="docutils literal"><span class="pre">not</span></tt> (e, ou, não). A semântica (significado) destes operadores é similar aos seus significados em inglês (ou português). Por exemplo, <tt class="docutils literal"><span class="pre">x</span> <span class="pre">&gt;</span> <span class="pre">0</span> <span class="pre">and</span> <span class="pre">x</span> <span class="pre">&lt;</span> <span class="pre">10</span></tt> é verdadeiro somente se x for maior que 0 <em>e</em> menor que 10.</p>
+<p><tt class="docutils literal"><span class="pre">n%2</span> <span class="pre">==</span> <span class="pre">0</span> <span class="pre">or</span> <span class="pre">n%3</span> <span class="pre">==</span> <span class="pre">0</span></tt> é verdadeiro se qualquer das condições for verdadeira, quer dizer, se o número <tt class="docutils literal"><span class="pre">n</span></tt> for divisível por 2 <em>ou</em> por 3.</p>
+<p>Finalmente, o operador lógico <tt class="docutils literal"><span class="pre">not</span></tt> nega uma expressão booleana, assim, <tt class="docutils literal"><span class="pre">not(x</span> <span class="pre">&gt;</span> <span class="pre">y)</span></tt> é verdadeiro se <tt class="docutils literal"><span class="pre">(x</span> <span class="pre">&gt;</span> <span class="pre">y)</span></tt> for falso, quer dizer, se <tt class="docutils literal"><span class="pre">x</span></tt> for menor ou igual a <tt class="docutils literal"><span class="pre">y</span></tt>.</p>
+<p>A rigor, os operandos de operadores lógicos deveriam ser expressões booleanas, mas Python não é muito rigoroso. Qualquer número diferente de zero é interpretado como verdadeiro (<em>True</em>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="ow">and</span> <span class="mi">1</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="ow">and</span> <span class="mi">1</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+<p>Em geral, esse tipo de coisa não é considerado de bom estilo. Se você precisa comparar um valor com zero, deve fazê-lo explicitamente.</p>
+</div>
+<div class="section" id="execucao-condicional">
+<h2><a class="toc-backref" href="#id5">4.4 Execução condicional</a><a class="headerlink" href="#execucao-condicional" title="Link permanente para este título">¶</a></h2>
+<p>Para poder escrever programas úteis, quase sempre precisamos da habilidade de checar condições e mudar o comportamento do programa de acordo com elas. As <strong>instruções condicionais</strong> nos dão essa habilidade. A forma mais simples é a instrução <tt class="docutils literal"><span class="pre">if</span></tt> (se):</p>
+<div class="highlight-python"><pre>if x &gt; 0
+  print "x é positivo"</pre>
+</div>
+<p>A expressão booleana depois da instrução <tt class="docutils literal"><span class="pre">if</span></tt> é chamada de <strong>condição</strong>. Se ela é verdadeira (<em>true</em>), então a instrução endentada é executada. Se não, nada acontece.</p>
+<p>Assim como outras instruções compostas, a instrução <tt class="docutils literal"><span class="pre">if</span></tt> é constituída de um cabeçalho e de um bloco de instruções:</p>
+<div class="highlight-python"><pre>CABECALHO:
+  PRIMEIRO COMANDO
+  ...
+  ULTIMO COMANDO</pre>
+</div>
+<p>O cabeçalho começa com uma nova linha e termina com dois pontos (<tt class="docutils literal"><span class="pre">:</span></tt>). Os comandos ou instruções endentados que seguem são chamados de <strong>bloco</strong>. A primeira instrução não endentada marca o fim do bloco. Um bloco de comandos dentro de um comando composto ou instrução composta é chamado de <strong>corpo</strong> do comando.</p>
+<p>Não existe limite para o número de instruções que podem aparecer no corpo de uma instrução <tt class="docutils literal"><span class="pre">if</span></tt>, mas tem que haver pelo menos uma. Ocasionalmente, é útil ter um corpo sem nenhuma instrução (usualmente, como um delimitador de espaço para código que você ainda não escreveu). Nesse caso, você pode usar o comando <tt class="docutils literal"><span class="pre">pass</span></tt>, que indica ao Python: &#8220;passe por aqui sem fazer nada&#8221;.</p>
+</div>
+<div class="section" id="execucao-alternativa">
+<h2><a class="toc-backref" href="#id6">4.5 Execução alternativa</a><a class="headerlink" href="#execucao-alternativa" title="Link permanente para este título">¶</a></h2>
+<p>Um segundo formato da instrução <tt class="docutils literal"><span class="pre">if</span></tt> é a execução alternativa, na qual existem duas possibilidades e a condição determina qual delas será executada. A sintaxe se parece com:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+  <span class="k">print</span> <span class="n">x</span><span class="p">,</span> <span class="s">&quot;é par&quot;</span>
+<span class="k">else</span><span class="p">:</span>
+  <span class="k">print</span> <span class="n">x</span><span class="p">,</span> <span class="s">&quot;é impar&quot;</span>
+</pre></div>
+</div>
+<p>Se o resto da divisão de x por 2 for 0, então sabemos que x é par, e o programa exibe a mensagem para esta condição. Se a condição é falsa, o segundo grupo de instruções é executado. Desde que a condição deva ser verdadeira (<em>True</em>) ou falsa (<em>False</em>), precisamente uma das alternativas vai ser executada. As alternativas são chamadas <strong>ramos</strong> (<em>branches</em>), porque existem ramificações no fluxo de execução.</p>
+<p>Por final, se você precisa checar a paridade de números com frequência, pode colocar este código dentro de uma função:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">imprimeParidade</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">x</span><span class="p">,</span> <span class="s">&quot;é par&quot;</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">x</span><span class="p">,</span> <span class="s">&quot;é impar&quot;</span>
+</pre></div>
+</div>
+<p>Para qualquer valor de <tt class="docutils literal"><span class="pre">x</span></tt>, <tt class="docutils literal"><span class="pre">imprimeParidade</span></tt> exibe uma mensagem apropriada. Quando você a chama, pode fornecer uma expressão de resultado inteiro como um argumento:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">imprimeParidade</span><span class="p">(</span><span class="mi">17</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">imprimeParidade</span><span class="p">(</span><span class="n">y</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="condicionais-encadeados">
+<h2><a class="toc-backref" href="#id7">4.6 Condicionais encadeados</a><a class="headerlink" href="#condicionais-encadeados" title="Link permanente para este título">¶</a></h2>
+<p>Às vezes existem mais de duas possibilidades e precisamos de mais que dois ramos. Uma <strong>condicional encadeada</strong> é uma maneira de expressar uma operação dessas:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">:</span>
+  <span class="k">print</span> <span class="n">x</span><span class="p">,</span> <span class="s">&quot;é menor que&quot;</span><span class="p">,</span> <span class="n">y</span>
+<span class="k">elif</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">y</span><span class="p">:</span>
+  <span class="k">print</span> <span class="n">x</span><span class="p">,</span> <span class="s">&quot;é maior que&quot;</span><span class="p">,</span> <span class="n">y</span>
+<span class="k">else</span><span class="p">:</span>
+  <span class="k">print</span> <span class="n">x</span><span class="p">,</span> <span class="s">&quot;e&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s">&quot;são iguais&quot;</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">elif</span></tt> é uma abreviação de &#8220;else if&#8221; (&#8220;senão se&#8221;). De novo, precisamente um ramo será executado. Não existe limite para o número de instruções <tt class="docutils literal"><span class="pre">elif</span></tt>, mas se existir uma instrução <tt class="docutils literal"><span class="pre">else</span></tt> ela tem que vir por último:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">escolha</span> <span class="o">==</span> <span class="s">&#39;A&#39;</span><span class="p">:</span>
+  <span class="n">funcaoA</span><span class="p">()</span>
+<span class="k">elif</span> <span class="n">escolha</span> <span class="o">==</span> <span class="s">&#39;B&#39;</span><span class="p">:</span>
+  <span class="n">funcaoB</span><span class="p">()</span>
+<span class="k">elif</span> <span class="n">escolha</span> <span class="o">==</span> <span class="s">&#39;C&#39;</span><span class="p">:</span>
+  <span class="n">funcaoC</span><span class="p">()</span>
+<span class="k">else</span><span class="p">:</span>
+  <span class="k">print</span> <span class="s">&quot;Escolha inválida.&quot;</span>
+</pre></div>
+</div>
+<p>Cada condição é checada na ordem. Se a primeira é falsa, a próxima é checada, e assim por diante. Se uma delas é verdadeira, o ramo correspondente é executado, e a instrução termina. Mesmo que mais de uma condição seja verdadeira, apenas o primeiro ramo verdadeiro executa.</p>
+<blockquote>
+Como exercício, coloque os exemplos acima em funções chamadas <tt class="docutils literal"><span class="pre">comparar(x,</span> <span class="pre">y)</span></tt> e <tt class="docutils literal"><span class="pre">executar(escolha)</span></tt>.</blockquote>
+</div>
+<div class="section" id="condicionais-aninhados">
+<h2><a class="toc-backref" href="#id8">4.7 Condicionais aninhados</a><a class="headerlink" href="#condicionais-aninhados" title="Link permanente para este título">¶</a></h2>
+<p>Um condicional também pode ser aninhado dentro de outra. Poderíamos ter escrito o exemplo tricotômico (dividido em três) como segue:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span><span class="p">:</span>
+  <span class="k">print</span> <span class="n">x</span><span class="p">,</span> <span class="s">&quot;e&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s">&quot;são iguais&quot;</span>
+<span class="k">else</span><span class="p">:</span>
+  <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">x</span><span class="p">,</span> <span class="s">&quot;é menor que&quot;</span><span class="p">,</span> <span class="n">y</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">x</span><span class="p">,</span> <span class="s">&quot;é maior que&quot;</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+</div>
+<p>O condicional mais externo tem dois ramos. O primeiro ramo contém uma única instrução de saída. O segundo ramo contém outra instrução if, que por sua vez tem dois ramos. Os dois ramos são ambos instruções de saída, embora pudessem conter instruções condicionais também.</p>
+<p>Embora a endentação das instruções torne a estrutura aparente, condicionais aninhados tornam-se difíceis de ler rapidamente. Em geral, é uma boa ideia evitar o aninhamento quando for possível.</p>
+<p>Operadores lógicos frequentemente fornecem uma maneira de simplificar instruções condicionais aninhadas. Por exemplo, podemos reescrever o código a seguir usando uma única condicional:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">x</span><span class="p">:</span>
+  <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;x é um número positivo de um só algarismo.&quot;</span>
+</pre></div>
+</div>
+<p>A instrução <tt class="docutils literal"><span class="pre">print</span></tt> é executada somente se a fizermos passar por ambos os condicionais, então, podemos usar um operador <tt class="docutils literal"><span class="pre">and</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">x</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+  <span class="k">print</span> <span class="s">&quot;x é um número positivo de um só algarismo.&quot;</span>
+</pre></div>
+</div>
+<p>Esses tipos de condições são comuns, assim, Python provê uma sintaxe alternativa que é similar à notação matemática:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+  <span class="k">print</span> <span class="s">&quot;x é um número positivo de um só algarismo.&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="a-instrucao-return">
+<h2><a class="toc-backref" href="#id9">4.8 A instrução <tt class="docutils literal"><span class="pre">return</span></tt></a><a class="headerlink" href="#a-instrucao-return" title="Link permanente para este título">¶</a></h2>
+<p>O comando return permite terminar a execução de uma função antes que ela alcance seu fim. Uma razão para usá-lo é se você detectar uma condição de erro:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">math</span>
+
+<span class="k">def</span> <span class="nf">imprimeLogaritmo</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;Somente números positivos, por favor.&quot;</span>
+    <span class="k">return</span>
+
+  <span class="n">resultado</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="k">print</span> <span class="s">&quot;O log de x é &quot;</span><span class="p">,</span> <span class="n">resultado</span>
+</pre></div>
+</div>
+<p>A função <tt class="docutils literal"><span class="pre">imprimeLogaritmo</span></tt> recebe um parâmetro de nome <tt class="docutils literal"><span class="pre">x</span></tt>. A primeira coisa que ela faz é checar se <tt class="docutils literal"><span class="pre">x</span></tt> é menor ou igual a 0, neste caso ela exibe uma mensagem de erro e então usa <tt class="docutils literal"><span class="pre">return</span></tt> para sair da função. O fluxo de execução imediatamente retorna ao ponto chamador, quer dizer, de onde a função foi chamada, e as linhas restantes da função não são executadas.</p>
+<p>Lembre-se que para usar uma função do módulo de matemática, <tt class="docutils literal"><span class="pre">math</span></tt>, você tem de importá-lo.</p>
+</div>
+<div class="section" id="recursividade">
+<h2><a class="toc-backref" href="#id10">4.9 Recursividade</a><a class="headerlink" href="#recursividade" title="Link permanente para este título">¶</a></h2>
+<p>Já mencionamos que é válido uma função chamar outra função, e você viu vários exemplos disso. Mas ainda não tínhamos dito que também é válido uma função chamar a si mesma. Talvez não seja óbvio porque isso é bom, mas trata-se de uma das coisas mais mágicas e interessantes que um programa pode fazer. Por exemplo, dê uma olhada na seguinte função:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">contagemRegressiva</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;Fogo!&quot;</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">n</span>
+    <span class="n">contagemRegressiva</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">contagemRegressiva</span></tt> espera que o parâmetro, <tt class="docutils literal"><span class="pre">n</span></tt>, seja um inteiro positivo. Se <tt class="docutils literal"><span class="pre">n</span></tt> for 0, ela produz como saída a palavra &#8220;Fogo!&#8221;. De outro modo, ela produz como saída <tt class="docutils literal"><span class="pre">n</span></tt> e então chama uma função de nome <tt class="docutils literal"><span class="pre">contagemRegressiva</span></tt> &#8211; ela mesma &#8211; passando <tt class="docutils literal"><span class="pre">n-1</span></tt> como argumento.</p>
+<p>O que acontece se chamarmos essa função da seguinte maneira:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">contagemRegressiva</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A execução de <tt class="docutils literal"><span class="pre">contagemRegressiva</span></tt> começa com <tt class="docutils literal"><span class="pre">n=3</span></tt>, e desde que <tt class="docutils literal"><span class="pre">n</span></tt> não é 0, produz como saída o valor 3, e então chama a si mesma...</p>
+<p>A execução de <tt class="docutils literal"><span class="pre">contagemRegressiva</span></tt> começa com <tt class="docutils literal"><span class="pre">n=2</span></tt>, e desde que <tt class="docutils literal"><span class="pre">n</span></tt> não é 0, produz como saída o valor 2, e então chama a si mesma...</p>
+<p>A execução de <tt class="docutils literal"><span class="pre">contagemRegressiva</span></tt> começa com <tt class="docutils literal"><span class="pre">n=1</span></tt>, e desde que <tt class="docutils literal"><span class="pre">n</span></tt> não é 0, produz como saída o valor 1, e então chama a si mesma...</p>
+<p>A execução de <tt class="docutils literal"><span class="pre">contagemRegressiva</span></tt> começa com <tt class="docutils literal"><span class="pre">n=0</span></tt>, e desde que <tt class="docutils literal"><span class="pre">n</span></tt> é 0, produz como saída a palavra &#8220;Fogo!&#8221; e então retorna.</p>
+<p>A <tt class="docutils literal"><span class="pre">contagemRegressiva</span></tt> que tem <tt class="docutils literal"><span class="pre">n=1</span></tt> retorna.</p>
+<p>A <tt class="docutils literal"><span class="pre">contagemRegressiva</span></tt> que tem <tt class="docutils literal"><span class="pre">n=2</span></tt> retorna.</p>
+<p>A <tt class="docutils literal"><span class="pre">contagemRegressiva</span></tt> que tem <tt class="docutils literal"><span class="pre">n=1</span></tt> retorna.</p>
+<p>E então estamos de volta em <tt class="docutils literal"><span class="pre">__main__</span></tt> (que viagem!). Assim, a saída completa se parece com:</p>
+<div class="highlight-python"><pre>3
+2
+1
+Fogo!</pre>
+</div>
+<p>Como um segundo exemplo, dê uma olhada novamente nas funções <tt class="docutils literal"><span class="pre">novaLinha</span></tt> e <tt class="docutils literal"><span class="pre">tresLinhas</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">novaLinha</span><span class="p">():</span>
+  <span class="k">print</span>
+
+<span class="k">def</span> <span class="nf">tresLinhas</span><span class="p">():</span>
+  <span class="n">novaLinha</span><span class="p">()</span>
+  <span class="n">novaLinha</span><span class="p">()</span>
+  <span class="n">novaLinha</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Muito embora isso funcione, não seria muito útil se precisássemos gerar como saída 2 novas linhas, ou 106. Uma alternativa melhor seria esta:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">nLinhas</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">print</span>
+    <span class="n">nLinhas</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Esse programa é similar a <tt class="docutils literal"><span class="pre">contagemRegressiva</span></tt>. Sempre que n for maior que 0, ele gera como saída uma nova linha e então chama a si mesmo para gerar como saída <tt class="docutils literal"><span class="pre">n-1</span></tt> linhas adicionais. Deste modo, o número total de novas linhas é <tt class="docutils literal"><span class="pre">1</span> <span class="pre">+</span> <span class="pre">(n-1)</span></tt> que, se você estudou álgebra direitinho, vem a ser o próprio <tt class="docutils literal"><span class="pre">n</span></tt>.</p>
+<p>O processo de uma função chamando a si mesma é chamado de <strong>recursividade</strong>, e tais funções são ditas recursivas.</p>
+</div>
+<div class="section" id="diagramas-de-pilha-para-funcoes-recursivas">
+<h2><a class="toc-backref" href="#id11">4.10 Diagramas de pilha para funções recursivas</a><a class="headerlink" href="#diagramas-de-pilha-para-funcoes-recursivas" title="Link permanente para este título">¶</a></h2>
+<p>Na Seção 3.11, usamos um diagrama de pilha para representar o estado de um programa durante uma chamada de função. O mesmo tipo de diagrama pode ajudar a interpretar uma função recursiva.</p>
+<p>Toda vez que uma função é chamada, Python cria um novo quadro (<em>frame</em>) para a função, que contém as variáveis locais e parâmetros da função. Para uma função recursiva, terá que existir mais de um quadro na pilha ao mesmo tempo.</p>
+<p>Esta figura mostra um diagrama de pilha para <tt class="docutils literal"><span class="pre">contagemRegressiva</span></tt>, chamada com <tt class="docutils literal"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">3</span></tt>:</p>
+<img alt="_images/04_01_pilha2.png" src="_images/04_01_pilha2.png" />
+<p>Como de costume, no topo da pilha está o quadro para <tt class="docutils literal"><span class="pre">__main__</span></tt>. Ele está vazio porque nem criamos qualquer variável em <tt class="docutils literal"><span class="pre">__main__</span></tt> nem passamos qualquer valor para ele.</p>
+<p>Os quatro quadros <tt class="docutils literal"><span class="pre">contagemRegressiva</span></tt> têm valores diferentes para o parâmetro <tt class="docutils literal"><span class="pre">n</span></tt>. A parte mais em baixo na pilha, onde <tt class="docutils literal"><span class="pre">n=0</span></tt>, é chamada de <strong>caso base</strong>. Ele não faz uma chamada recursiva, então não há mais quadros.</p>
+<blockquote>
+Como exercício, desenhe um diagrama de pilha para <tt class="docutils literal"><span class="pre">nLinhas</span></tt> chamada com <tt class="docutils literal"><span class="pre">n=4</span></tt>.</blockquote>
+</div>
+<div class="section" id="recursividade-infinita">
+<h2><a class="toc-backref" href="#id12">4.11 Recursividade infinita</a><a class="headerlink" href="#recursividade-infinita" title="Link permanente para este título">¶</a></h2>
+<p>Se uma recursividade nunca chega ao caso base, ela prossegue fazendo chamadas recursivas para sempre, e o programa nunca termina. Isto é conhecido como recursividade infinita, e geralmente não é considerada uma boa ideia. Aqui está um programa mínimo com uma recursividade infinita:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">recursiva</span><span class="p">():</span>
+  <span class="n">recursiva</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Na maioria dos ambientes de programação, um programa com recursividade infinita na verdade não roda para sempre. Python reporta uma mensagem de erro quando a profundidade máxima de recursividade é alcançada:</p>
+<div class="highlight-python"><pre>File "&lt;stdin&gt;", line 2, in recursiva
+(98 repetitions omitted)
+File "&lt;stdin&gt;", line 2, in recursiva
+RuntimeError: Maximum recursion depth exceeded</pre>
+</div>
+<p>Este traceback é um pouco maior do que aquele que vimos no capítulo anterior. Quando o erro ocorre, existem 100 quadros <tt class="docutils literal"><span class="pre">recursiva</span></tt> na pilha!</p>
+<blockquote>
+Como exercício, escreva uma função com recursividade infinita e rode-a no interpretador Python.</blockquote>
+</div>
+<div class="section" id="entrada-pelo-teclado">
+<h2><a class="toc-backref" href="#id13">4.12 Entrada pelo teclado</a><a class="headerlink" href="#entrada-pelo-teclado" title="Link permanente para este título">¶</a></h2>
+<p>Os programas que temos escrito até agora são um pouco crus, no sentido de não aceitarem dados entrados pelo usuário. Eles simplesmente fazem a mesma coisa todas as vezes.</p>
+<p>Python fornece funções nativas que pegam entradas pelo teclado. A mais simples é chamada <tt class="docutils literal"><span class="pre">raw_input</span></tt>. Quando esta função é chamada, o programa pára e espera que o usuário digite alguma coisa. Quando o usuário aperta a tecla Enter ou Return, o programa prossegue e a função <tt class="docutils literal"><span class="pre">raw_input</span></tt> retorna o que o usuário digitou como uma <tt class="docutils literal"><span class="pre">string</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">entrada</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">()</span>
+<span class="go">O que você está esperando?</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">entrada</span>
+<span class="go">O que você está esperando?</span>
+</pre></div>
+</div>
+<p>Antes de chamar <tt class="docutils literal"><span class="pre">raw_input</span></tt>, é uma boa ideia exibir uma mensagem dizendo ao usuário o que ele deve entrar. Esta mensagem é uma como se fosse uma pergunta (<em>prompt</em>). Esta pergunta pode ser enviada como um argumento para <tt class="docutils literal"><span class="pre">raw_input</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">nome</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;Qual... é o seu nome? &quot;</span><span class="p">)</span>
+<span class="go">Qual... é o seu nome? Arthur, Rei dos Bretões!</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">nome</span>
+<span class="go">Arthur, Rei dos Bretões!</span>
+</pre></div>
+</div>
+<p>Se esperamos que a entrada seja um inteiro, podemos usar a função <tt class="docutils literal"><span class="pre">input</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">pergunta</span> <span class="o">=</span> <span class="s">&quot;Qual... é a velocidade de vôo de uma andorinha?</span><span class="se">\n</span><span class="s">&quot;</span>
+<span class="n">velocidade</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">pergunta</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Se o usuário digita uma string de números, ela é convertida para um inteiro e atribuída a <tt class="docutils literal"><span class="pre">velocidade</span></tt>. Infelizmente, se o usuário digitar um caractere que não seja um número, o programa trava:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">velocidade</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">pergunta</span><span class="p">)</span>
+<span class="go">Qual... é a velocidade de vôo de uma andorinha?</span>
+<span class="go">De qual você fala, uma andorinha Africana ou uma Europeia?</span>
+<span class="go">SyntaxError: invalid syntax</span>
+</pre></div>
+</div>
+<p>Para evitar esse tipo de erro, geralmente é bom usar <tt class="docutils literal"><span class="pre">raw_input</span></tt> para pegar uma string e, então, usar funções de conversão para converter para outros tipos.</p>
+</div>
+<div class="section" id="glossario">
+<h2><a class="toc-backref" href="#id14">4.13 Glossário</a><a class="headerlink" href="#glossario" title="Link permanente para este título">¶</a></h2>
+<dl class="docutils">
+<dt>aninhamento (<em>nesting</em>)</dt>
+<dd>Estrutura de programa dentro da outra, como um comando condicional dentro de um bloco de outro comando condicional.</dd>
+<dt>bloco (<em>block</em>)</dt>
+<dd>Grupo de comandos consecutivos com a mesma endentação.</dd>
+<dt>caso base (<em>base case</em>)</dt>
+<dd>Bloco de comando condicional numa função recursiva que não resulta em uma chamada recursiva.</dd>
+<dt>comando composto (<em>compound statement</em>)</dt>
+<dd>Comando que consiste de um cabeçalho e um corpo. O cabeçalho termina com um dois-pontos (:). O corpo é endentado em relação ao cabeçalho.</dd>
+<dt>comando condicional (<em>conditional statement</em>)</dt>
+<dd>Comando que controla o fluxo de execução dependendo de alguma condição.</dd>
+<dt>condição (<em>condition</em>)</dt>
+<dd>A expressão booleana que determina qual bloco será executado num comando condicional.</dd>
+<dt>corpo (<em>body</em>)</dt>
+<dd>O bloco que se segue ao cabeçalho em um comando composto.</dd>
+<dt>expressão booleana (<em>boolean expression</em>)</dt>
+<dd>Uma expressão que é verdadeira ou falsa.</dd>
+<dt>operador de comparação (<em>comparison operator</em>)</dt>
+<dd>Um dos operadores que compara dois valores: <tt class="docutils literal"><span class="pre">==</span></tt>, <tt class="docutils literal"><span class="pre">!=</span></tt>, <tt class="docutils literal"><span class="pre">&gt;</span></tt>, <tt class="docutils literal"><span class="pre">&lt;</span></tt>, <tt class="docutils literal"><span class="pre">&gt;=</span></tt>, e <tt class="docutils literal"><span class="pre">&lt;=</span></tt>.</dd>
+<dt>operador lógico (<em>logical operator</em>)</dt>
+<dd>Um dos operadores que combina expressões booleanas: <tt class="docutils literal"><span class="pre">and</span></tt>, <tt class="docutils literal"><span class="pre">or</span></tt>, e <tt class="docutils literal"><span class="pre">not</span></tt>.</dd>
+<dt>operador módulo (<em>modulus operator</em>)</dt>
+<dd>Operador denotado por um símbolo de porcentagem (%), que trabalha com inteiros e retorna o resto da divisão de um número por outro.</dd>
+<dt><em>prompt</em></dt>
+<dd>Indicação visual que diz ao usuário que o programa está esperando uma entrada de dados.</dd>
+<dt>recursividade (<em>recursion</em>)</dt>
+<dd>O processo de chamar a própria função que está sendo executada.</dd>
+<dt>recursividade infinita (<em>infinite recursion</em>)</dt>
+<dd>Função que chama a si mesma recursivamente sem nunca chegar ao caso base. Após algum tempo, uma recursividade infinita causa um erro de execução.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Capítulo 4: Condicionais e recursividade</a><ul>
+<li><a class="reference internal" href="#o-operador-modulo">4.1 O operador módulo</a></li>
+<li><a class="reference internal" href="#expressoes-booleanas">4.2 Expressões booleanas</a></li>
+<li><a class="reference internal" href="#operadores-logicos">4.3 Operadores lógicos</a></li>
+<li><a class="reference internal" href="#execucao-condicional">4.4 Execução condicional</a></li>
+<li><a class="reference internal" href="#execucao-alternativa">4.5 Execução alternativa</a></li>
+<li><a class="reference internal" href="#condicionais-encadeados">4.6 Condicionais encadeados</a></li>
+<li><a class="reference internal" href="#condicionais-aninhados">4.7 Condicionais aninhados</a></li>
+<li><a class="reference internal" href="#a-instrucao-return">4.8 A instrução <tt class="docutils literal"><span class="pre">return</span></tt></a></li>
+<li><a class="reference internal" href="#recursividade">4.9 Recursividade</a></li>
+<li><a class="reference internal" href="#diagramas-de-pilha-para-funcoes-recursivas">4.10 Diagramas de pilha para funções recursivas</a></li>
+<li><a class="reference internal" href="#recursividade-infinita">4.11 Recursividade infinita</a></li>
+<li><a class="reference internal" href="#entrada-pelo-teclado">4.12 Entrada pelo teclado</a></li>
+<li><a class="reference internal" href="#glossario">4.13 Glossário</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="capitulo_03.html"
+                        title="capítulo anterior">Capítulo 3: Funções</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="capitulo_05.html"
+                        title="próximo capítulo">Capítulo 5: Funções frutíferas</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/capitulo_04.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="capitulo_05.html" title="Capítulo 5: Funções frutíferas"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_03.html" title="Capítulo 3: Funções"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

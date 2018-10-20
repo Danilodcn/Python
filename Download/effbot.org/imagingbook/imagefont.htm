@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The ImageFont&nbsp;Module</title></head><body data-page-id="441"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><p><a href="imagefilter.htm">back</a>&#160;<a href="imagegrab.htm">next</a></p><h1 class="maintitle">The ImageFont&nbsp;Module</h1></div><div class="yui-ge"><div class="yui-u first"><p>The <b>ImageFont</b> module defines a class with the same name.
+Instances of this class store bitmap fonts, and are used with the
+<b>text</b> method of the
+<a href="imagedraw.htm"><b>ImageDraw</b></a> class.</p><p>PIL uses it&#8217;s own font file format to store bitmap fonts. You can
+use the <a href="pilfont.htm"><b>pilfont</b></a> utility to convert
+BDF and PCF font descriptors (X window font formats) to this
+format.</p><p>Starting with version 1.1.4, PIL can be configured to support
+TrueType and OpenType fonts (as well as other font formats supported
+by the FreeType library).  For earlier versions, TrueType support is
+only available as part of the imToolkit package.</p><h2 id="examples">Examples&#160;<a class="nav" href="#examples" title="bookmark!">#</a></h2><p>Here&#8217;s a simple example:</p><pre class="python">
+<span class="pykeyword">import</span> ImageFont, ImageDraw
+
+draw = ImageDraw.Draw(image)
+
+<span class="pycomment"># use a bitmap font</span>
+font = ImageFont.load(<span class="pystring">"arial.pil"</span>)
+
+draw.text((10, 10), <span class="pystring">"hello"</span>, font=font)
+
+<span class="pycomment"># use a truetype font</span>
+font = ImageFont.truetype(<span class="pystring">"arial.ttf"</span>, 15)
+
+draw.text((10, 25), <span class="pystring">"world"</span>, font=font)</pre><h2 id="functions">Functions&#160;<a class="nav" href="#functions" title="bookmark!">#</a></h2><h3 id="tag-ImageFont.load">load&#160;<a class="nav" href="#tag-ImageFont.load" title="bookmark!">#</a></h3><p><b>ImageFont.load(file)</b>
+<span>&#8658; Font instance</span></p><p>Loads a font from the given file, and returns the corresponding
+font object. If this function fails, it raises an <b>IOError</b>
+exception.</p><h3 id="tag-ImageFont.load_path">load_path&#160;<a class="nav" href="#tag-ImageFont.load_path" title="bookmark!">#</a></h3><p><b>ImageFont.load_path(file)</b>
+<span>&#8658; Font instance</span></p><p>Same as <b>load</b>, but searches for the file along
+<b>sys.path</b> if it&#8217;s not found in the current directory.</p><h3 id="tag-ImageFont.truetype">truetype&#160;<a class="nav" href="#tag-ImageFont.truetype" title="bookmark!">#</a></h3><p><b>ImageFont.truetype(file, size)</b>
+<span>&#8658; Font instance</span></p><p>Load a TrueType or OpenType font file, and create a font object.
+This function loads a font object from the given file, and creates
+a font object for a font of the given size.</p><p>On Windows, if the given file name does not exist, the loader
+also looks in Windows <b>fonts</b> directory.</p><p>This function requires the <b>_imagingft</b> service.</p><p><b>ImageFont.truetype(file, size, encoding=value)</b>
+<span>&#8658; Font instance</span></p><p>(New in 1.1.5)  Load a TrueType or OpenType font file, and create
+a font object using the given encoding.  Common encodings are &#8220;unic&#8221; (Unicode), &#8220;symb&#8221; (Microsoft Symbol), &#8220;ADOB&#8221; (Adobe Standard), &#8220;ADBE&#8221;
+(Adobe Expert), and &#8220;armn&#8221; (Apple Roman).</p><p>The following example draws a character using the Microsoft Symbol
+font, which uses the &#8220;symb&#8221; encoding and characters in the range 0xF000
+to 0xF0FF:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+    font = ImageFont.truetype(<span class="pystring">"symbol.ttf"</span>, 16, encoding=<span class="pystring">"symb"</span>)
+    draw.text((0, 0), unichr(0xF000 + 0xAA))</pre></div><div class="yui-ge"><div class="yui-u first"><h3 id="tag-ImageFont.load_default">load_default&#160;<a class="nav" href="#tag-ImageFont.load_default" title="bookmark!">#</a></h3><p><b>ImageFont.load_default()</b>
+<span>&#8658; Font instance</span></p><p>(New in 1.1.4) Load a &#8220;better than nothing&#8221; default font.</p><h2 id="methods">Methods&#160;<a class="nav" href="#methods" title="bookmark!">#</a></h2><p>Font objects must implement the following methods, which are used
+by the <b>ImageDraw</b> layer.</p><h3 id="tag-ImageFont.ImageFont.getsize">getsize&#160;<a class="nav" href="#tag-ImageFont.ImageFont.getsize" title="bookmark!">#</a></h3><p><b>font.getsize(text)</b>
+<span>&#8658; (width, height)</span></p><p>Returns the width and height of the given text, as a 2-tuple.</p><h3 id="tag-ImageFont.ImageFont.getmask">getmask&#160;<a class="nav" href="#tag-ImageFont.ImageFont.getmask" title="bookmark!">#</a></h3><p><b>font.getmask(text, mode=&#8221;&#8220;)</b>
+<span>&#8658; Image object</span></p><p>Returns a bitmap for the text.  The bitmap should be an internal
+PIL storage memory instance (as defined by the <b>Image.core</b>
+interface module).</p><p>If the font uses antialiasing, the bitmap should have mode &#8220;L&#8221; and
+use a maximum value of 255.  Otherwise, it should have mode &#8220;1&#8221;.</p><p>(New in 1.1.5) The optional mode argument is used by some graphics
+drivers to indicate what mode the driver prefers; if empty, the renderer
+may return either mode.  Note that the mode is always a string, to
+simplify C-level implementations.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p><a href="imagefilter.htm">back</a>&#160;<a href="imagegrab.htm">next</a></p></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to imagingbook index page.">::: imagingbook :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#examples">Examples</a></li><li><a href="#functions">Functions</a></li><li><ul><li><a href="#tag-ImageFont.load">load</a></li><li><a href="#tag-ImageFont.load_path">load_path</a></li><li><a href="#tag-ImageFont.truetype">truetype</a></li><li><a href="#tag-ImageFont.load_default">load_default</a></li></ul></li><li><a href="#methods">Methods</a></li><li><ul><li><a href="#tag-ImageFont.ImageFont.getsize">getsize</a></li><li><a href="#tag-ImageFont.ImageFont.getmask">getmask</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

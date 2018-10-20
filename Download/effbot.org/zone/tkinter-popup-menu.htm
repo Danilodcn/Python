@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Tkinter Popup&nbsp;Menus</title></head><body data-page-id="316"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Tkinter Popup&nbsp;Menus</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">February 14, 1998 | Fredrik Lundh</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python example wide wide">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+root = Tk()
+
+w = Label(root, text=<span class="pystring">"Right-click to display menu"</span>, width=40, height=20)
+w.pack()
+
+<span class="pycomment"># create a menu</span>
+popup = Menu(root, tearoff=0)
+popup.add_command(label=<span class="pystring">"Next"</span>) <span class="pycomment"># , command=next) etc...</span>
+popup.add_command(label=<span class="pystring">"Previous"</span>)
+popup.add_separator()
+popup.add_command(label=<span class="pystring">"Home"</span>)
+
+<span class="pykeyword">def</span> <span class="pyfunction">do_popup</span>(event):
+    <span class="pycomment"># display the popup menu</span>
+    <span class="pykeyword">try</span>:
+        popup.tk_popup(event.x_root, event.y_root, 0)
+    <span class="pykeyword">finally</span>:
+        <span class="pycomment"># make sure to release the grab (Tk 8.0a1 only)</span>
+        popup.grab_release()
+
+w.bind(<span class="pystring">"&lt;Button-3&gt;"</span>, do_popup)
+
+b = Button(root, text=<span class="pystring">"Quit"</span>, command=root.destroy)
+b.pack()
+
+mainloop()</pre></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

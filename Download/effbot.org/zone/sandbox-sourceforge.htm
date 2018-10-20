@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Sandbox: SourceForge Tools (In&nbsp;Progress)</title></head><body data-page-id="258"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Sandbox: SourceForge Tools (In&nbsp;Progress)</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | April 2006</p><p class="note"><b>Note:</b>
+The sourceforge page layout was changed slightly after the first version
+of these tools were released.  We&#8217;re working on a new version, but if you
+want to use the tools to experiment with older tracker snapshots, you need
+version 200604.  See below.
+</p><p> The <s><a href="http://effbot.python-hosting.com/browser/stuff/sandbox/sourceforge">sourceforge sandbox</a></s> (dead link) contains a set of simple tools to download and process sourceforge
+tracker items.
+
+</p><p> You need either Python 2.4 and the <a href="elementtree.htm">ElementTree</a> library (<a href="celementtree.htm">cElementTree</a> is recommended), or Python 2.5 (which ships with cElementTree).
+
+</p><p> To run the download tools, you also need the <a href="http://tidy.sourceforge.net/">tidy</a> utility.
+
+<h3>Current Version (200608, Work in Progress)</h3></p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide"> To download the current version of the tools, use Subversion:
+
+<pre class="wide">
+$ svn co http://svn.effbot.python-hosting.com/stuff/sandbox/sourceforge
+</pre><h3>Previous version (200604)</h3></p></div><div class="yui-g"><p class="wide">This version is compatible with the sourceforge tracker layout used
+in April 2006.
+
+<pre class="wide">
+$ svn co http://svn.effbot.python-hosting.com/tags/sourceforge-200604/
+</pre></p></div><div class="yui-ge"><div class="yui-u first"><p> A snapshot of the Python tracker data from April 2006 can be
+downloaded here:
+
+<ul><li><s><a href="http://svn.python.org/snapshots/tracker-20060403.zip">tracker-20060403.zip</a></s> (dead link) [~10000 items, 80 MB]
+</li></ul><h2 id="tracker-datasets">Tracker Datasets&#160;<a class="nav" href="#tracker-datasets" title="bookmark!">#</a></h2></p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide"> Tracker data is represented as a set of files in a tracker directory.
+For each tracker item, there are at least two files:
+
+<pre class="wide">
+    tracker-TTT/item-NNN.xml (index information, created by getindex.py)
+    tracker-TTT/item-NNN-page.xml (xhtml pages, created by getpages.py)
+</pre></p></div><div class="yui-ge"><div class="yui-u first"><p> where TTT is the tracker identifier, and NNN is the item identifier.
+
+</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide"> For items that have attached files, there&#8217;s also one or more
+
+<pre class="wide">
+    tracker-TTT/item-NNN-data-MMM.dat (data files, created by getfiles.py)
+</pre></p></div><div class="yui-ge"><div class="yui-u first"><p> files, where MMM is a file identifier (referred to by the page files).
+The data files consists of a copy of the HTTP header (which includes
+content-type and content-disposition headers), followed by an empty
+line, and the actual data.
+
+</p><p> Note that the datasets contain complete HTML pages.  This lets you fix
+bugs in the extraction tools without having to reload everything again (or
+download large existing datasets).
+
+<h2 id="processing-tracker-datasets"> Processing Tracker Datasets &#160;<a class="nav" href="#processing-tracker-datasets" title="bookmark!">#</a></h2></p><p>To process tracker datasets, use the <b>extract</b> module to
+extract relevant information from item-NNN-page.xml files.  See
+the export scripts for examples:
+
+<dl><dt><s><a href="http://effbot.python-hosting.com/file/stuff/sandbox/sourceforge/csv-export.py"><b>csv-export.py</b></a></s> (dead link)
+</dt><dd><p>A simple dataset to CSV exporter.</p></dd><dt><s><a href="http://effbot.python-hosting.com/file/stuff/sandbox/sourceforge/xml-export.py"><b>xml-export.py</b></a></s> (dead link)
+</dt><dd><p>A simple dataset to XML exporter.  The resulting 
+    XML file contains all data from the tracker dataset, including
+    attached files (stored as BASE64-encoded blocks).</p></dd></dl></p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide"> More export scripts, bug fixes, and other contributions are welcome.
+
+<h2> Downloading and Updating Tracker Datasets </h2><pre class="wide">
+To download tracker datasets, run 'init' to set things up, and use the
+getindex/getpages/getfiles scripts to download items.
+
+* init
+
+The 'init' script is used to select what tracker to download.  It asks
+for a tracker "group id".  To get the group id for your project, check
+the URL for the tracker homepage.  If you press return, the group id
+defaults to 5470, which is the group id for the Python tracker.
+
+The 'init' script downloads the tracker homepage, and creates tracker
+directories for the individual trackers used by the given project.
+
+    $ python init.py
+
+    enter sourceforge tracker group id [5470]: 1234
+
+    --- create tracker-123456
+
+You only have to run the 'init' script once for each project.
+
+* getindex
+
+The 'getindex' script parses the tracker index, and creates item
+files which contains overview information from the index pages.
+Usage:
+
+    $ python getindex.py tracker-123456 [offset]
+
+If the offset is omitted, the parser starts at offset 0, and keeps
+going until it gets an index page for which all items have already
+been downloaded.  If an offset is given, the parser keeps going until
+it cannot find any more items.
+
+You can use the output from 'getindex' to generate tracker statistics.
+To get more information about the items, use the 'getpages' and 'get-
+files' scripts.
+
+* getpages
+
+The 'getpages' script looks for item files, and downloads missing page
+files.
+
+    $ python getpages.py tracker-123456
+
+To refresh the page files, remove them from the tracker directory, and
+run the 'getpages' script again.
+
+    $ rm tracker-123456/*-page.xml
+    $ python getpages.py tracker-123456
+
+* getfiles
+
+The 'getfiles' script, finally, looks for download links in the
+page files, and downloads missing data files.
+
+    $ python getfiles.py tracker-123456
+
+* status
+
+The 'status' script can be used to get a download status summary:
+
+    $ python status.py
+    tracker-123456
+        6682 items
+        6682 pages (100%)
+        1912 files
+</pre></p></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#tracker-datasets">Tracker Datasets</a></li><li><a href="#processing-tracker-datasets"> Processing Tracker Datasets </a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

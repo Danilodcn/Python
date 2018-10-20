@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The ElementRXP&nbsp;module</title></head><body data-page-id="90"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The ElementRXP&nbsp;module</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | February 2005 | Originally posted to <a href="http://online.effbot.org">online.effbot.org</a></p><p>Here&#8217;s a simple module that uses <a href="http://www.reportlab.org/pyrxp.html">the PyRXP parser</a>
+to build an element tree:
+
+<pre class="python">
+<span class="pycomment"># File: ElementRXP.py</span>
+
+<span class="pykeyword">try</span>:
+    <span class="pykeyword">from</span> cElementTree <span class="pykeyword">import</span> Element
+<span class="pykeyword">except</span> ImportError:
+    <span class="pykeyword">from</span> elementtree.ElementTree <span class="pykeyword">import</span> Element
+
+<span class="pykeyword">try</span>:
+    <span class="pykeyword">from</span> pyRXPU <span class="pykeyword">import</span> Parser
+<span class="pykeyword">except</span> ImportError:
+    <span class="pycomment"># fall back on ASCII-only parser</span>
+    <span class="pykeyword">from</span> pyRXP <span class="pykeyword">import</span> Parser
+
+<span class="pykeyword">def</span> <span class="pyfunction">fixelement</span>((tag, attrib, children, spare)):
+    elem = this = Element(tag, attrib)
+    <span class="pykeyword">for</span> child <span class="pykeyword">in</span> children:
+        <span class="pykeyword">if</span> isinstance(child, tuple):
+            this = fixelement(child)
+            elem.append(this)
+        <span class="pykeyword">else</span>:
+            <span class="pycomment"># add text fragments to the right place</span>
+            <span class="pykeyword">if</span> this <span class="pykeyword">is</span> elem:
+                this.text = child
+            <span class="pykeyword">else</span>:
+                this.tail = child
+    <span class="pykeyword">return</span> elem
+
+<span class="pykeyword">def</span> <span class="pyfunction">parse</span>(file):
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> hasattr(file, <span class="pystring">"read"</span>):
+        file = open(file)
+    p = Parser(ExpandEmpty=1)
+    <span class="pykeyword">return</span> fixelement(p.parse(file.read()))</pre></p><p>This is a faster than the Python version of ElementTree, but a lot
+slower than plain cElementTree.  However, the PyRXP(U) library supports
+DTD validation, which can come in handy in some applications.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

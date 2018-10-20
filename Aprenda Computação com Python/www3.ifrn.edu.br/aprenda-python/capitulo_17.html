@@ -1,0 +1,399 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capítulo 17: Listas encadeadas &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Capítulo 18: Pilhas" href="capitulo_18.html" />
+    <link rel="prev" title="Capitulo 16: Herança" href="capitulo_16.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="capitulo_18.html" title="Capítulo 18: Pilhas"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_16.html" title="Capitulo 16: Herança"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="capitulo-17-listas-encadeadas">
+<h1><a class="toc-backref" href="#id1">Capítulo 17: Listas encadeadas</a><a class="headerlink" href="#capitulo-17-listas-encadeadas" title="Link permanente para este título">¶</a></h1>
+<div class="contents topic" id="topicos">
+<p class="topic-title first">Tópicos</p>
+<ul class="simple">
+<li><a class="reference external" href="#capitulo-17-listas-encadeadas" id="id1">Capítulo 17: Listas encadeadas</a><ul>
+<li><a class="reference external" href="#referencias-embutidas" id="id2">17.1 Referências Embutidas</a></li>
+<li><a class="reference external" href="#a-classe-no-node" id="id3">17.2 A classe <tt class="docutils literal"><span class="pre">No</span></tt> (Node)</a></li>
+<li><a class="reference external" href="#listas-como-colecoes" id="id4">17.3 Listas como Coleções</a></li>
+<li><a class="reference external" href="#listas-e-recorrencia" id="id5">17.4 Listas e Recorrência</a></li>
+<li><a class="reference external" href="#listas-infinitas" id="id6">17.5 Listas Infinitas</a></li>
+<li><a class="reference external" href="#o-teorema-da-ambiguidade-fundamental" id="id7">17.6 O Teorema da Ambigüidade Fundamental</a></li>
+<li><a class="reference external" href="#modificando-listas" id="id8">17.7 Modificando Listas</a></li>
+<li><a class="reference external" href="#envoltorios-e-ajudadores" id="id9">17.8 Envoltórios e Ajudadores</a></li>
+<li><a class="reference external" href="#a-classe-listaligada" id="id10">17.9 A Classe <tt class="docutils literal"><span class="pre">ListaLigada</span></tt></a></li>
+<li><a class="reference external" href="#invariantes" id="id11">17.10 Invariantes</a></li>
+<li><a class="reference external" href="#glossario" id="id12">17.11 Glossário</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="referencias-embutidas">
+<h2><a class="toc-backref" href="#id2">17.1 Referências Embutidas</a><a class="headerlink" href="#referencias-embutidas" title="Link permanente para este título">¶</a></h2>
+<p>Nós temos visto exemplos de atributos que referenciam outros objetos, que são chamados <strong>referências embutidas</strong> (veja a Seção 12.8). Uma estrutura de dados comum, a <strong>lista ligada</strong>, tira vantagem desta característica.</p>
+<p>Listas ligadas são constituídas de <strong>nós</strong> (nodos), onde cada nó contém uma referência para o próximo nó na lista. Além disto, cada nó contém uma unidade de dados chamada a <strong>carga</strong>.</p>
+<p>Uma lista ligada é considerada uma <strong>estrutura de dados recorrente</strong> porque ela tem uma definição recorrente.</p>
+<p>Uma lista ligada é:</p>
+<ul class="simple">
+<li>Uma lista vazia, representada por <em>None</em>, ou</li>
+<li>Um nó que contém um objeto carga e uma referência para uma lista ligada.</li>
+</ul>
+<p>Estruturas de dados recorrentes são adequadas para métodos recorrentes.</p>
+</div>
+<div class="section" id="a-classe-no-node">
+<h2><a class="toc-backref" href="#id3">17.2 A classe <tt class="docutils literal"><span class="pre">No</span></tt> (Node)</a><a class="headerlink" href="#a-classe-no-node" title="Link permanente para este título">¶</a></h2>
+<p>Como é usual quando se escreve uma nova classe, nós começaremos com os métodos de inicialização e <tt class="docutils literal"><span class="pre">__str__</span></tt> de modo que podemos testar o mecanismo básico de se criar e mostrar o novo tipo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">No</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">carga</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">proximo</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">carga</span> <span class="o">=</span> <span class="n">carga</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">proximo</span> <span class="o">=</span> <span class="n">proximo</span>
+
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">carga</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Como de costume, os parâmetros para o método de inicialização são opcionais. Por omissão (<em>default</em>), ambos, a carga e a ligação, <tt class="docutils literal"><span class="pre">proximo</span></tt>, são definidas como <tt class="xref docutils literal"><span class="pre">None</span></tt>.</p>
+<p>A representação string de um nó é simplesmente a representação string da carga. Como qualquer valor pode ser passado para a função <tt class="docutils literal"><span class="pre">str</span></tt>, nós podemos armazenar qualquer valor em uma lista.</p>
+<p>Para testar a implementação até agora, nós criamos um <tt class="docutils literal"><span class="pre">No</span></tt> e o imprimimos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">no</span> <span class="o">=</span> <span class="n">No</span><span class="p">(</span><span class="s">&quot;teste&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">no</span>
+<span class="go">teste</span>
+</pre></div>
+</div>
+<p>Para ficar interessante, nós precisamos uma lista com mais do que um nó:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">no1</span> <span class="o">=</span> <span class="n">No</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">no2</span> <span class="o">=</span> <span class="n">No</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">no3</span> <span class="o">=</span> <span class="n">No</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Este código cria três nós, mas nós ainda não temos uma lista ainda porque os nós não estão <strong>ligados</strong>. O diagrama de estado é parecido com este:</p>
+<img alt="_images/17_01_ligada1.png" src="_images/17_01_ligada1.png" />
+<p>Para ligar os nós, temos que fazer o primeiro nó da lista referir ao segundo e o segundo nó referir ao terceiro:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">no1</span><span class="o">.</span><span class="n">proximo</span> <span class="o">=</span> <span class="n">no2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">no2</span><span class="o">.</span><span class="n">proximo</span> <span class="o">=</span> <span class="n">no3</span>
+</pre></div>
+</div>
+<p>A referência do terceiro nó é <tt class="xref docutils literal"><span class="pre">None</span></tt>, que indica que ele é o final da lista. Agora o diagrama de estado se parece com:</p>
+<img alt="_images/17_02_ligada2.png" src="_images/17_02_ligada2.png" />
+<p>Agora você sabe como criar nós e ligá-los em uma lista. O que pode estar menos claro neste ponto é por quê.</p>
+</div>
+<div class="section" id="listas-como-colecoes">
+<h2><a class="toc-backref" href="#id4">17.3 Listas como Coleções</a><a class="headerlink" href="#listas-como-colecoes" title="Link permanente para este título">¶</a></h2>
+<p>Listas são úteis porque elas provêm um modo de montar múltiplos objetos em uma única entidade, algumas vezes chamada uma <strong>coleção</strong>. No exemplo, o primeiro nó da lista serve como uma referência para toda a lista.</p>
+<p>Para passar uma lista como um parâmetro, você apenas tem que passar uma referência ao primeiro nó. Por exemplo, a função <tt class="docutils literal"><span class="pre">imprimeLista</span></tt> toma um único nó como um argumento. Iniciando com o cabeça da lista, ela imprime cada nó até que chegue ao fim:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">imprimeLista</span><span class="p">(</span><span class="n">no</span><span class="p">):</span>
+  <span class="k">while</span> <span class="n">no</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">no</span><span class="p">,</span>
+    <span class="n">no</span> <span class="o">=</span> <span class="n">no</span><span class="o">.</span><span class="n">proximo</span>
+  <span class="k">print</span>
+</pre></div>
+</div>
+<p>Para chamar este método, nós passamos uma referência ao primeiro no:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">imprimeLista</span><span class="p">(</span><span class="n">no1</span><span class="p">)</span>
+<span class="go">1 2 3</span>
+</pre></div>
+</div>
+<p>Dentro de <tt class="docutils literal"><span class="pre">imprimeLista</span></tt> nós temos uma referência para o primeiro nó da lista, mas não há variáveis que refiram aos outros nós. Nós temos que usar o valor <tt class="docutils literal"><span class="pre">proximo</span></tt> de cada nó para alcançar o próximo nó.</p>
+<p>Para percorrer uma lista ligada, é comum usar uma variável laço como <tt class="docutils literal"><span class="pre">no</span></tt> para referir a cada um dos nós sucessivamente.</p>
+<p>Este diagrama mostra o valor de <tt class="docutils literal"><span class="pre">lista</span></tt> e os valores que <tt class="docutils literal"><span class="pre">no</span></tt> assume:</p>
+<img alt="_images/17_03_ligada3.png" src="_images/17_03_ligada3.png" />
+<p><em>Por convenção, listas são freqüentemente impressas em braquetes com vírgulas entre os elementos, como em [1, 2, 3]. Como um exercício, modifique</em> <tt class="docutils literal"><span class="pre">imprimeLista</span></tt> <em>para que ela gere uma saída neste formato.</em></p>
+</div>
+<div class="section" id="listas-e-recorrencia">
+<h2><a class="toc-backref" href="#id5">17.4 Listas e Recorrência</a><a class="headerlink" href="#listas-e-recorrencia" title="Link permanente para este título">¶</a></h2>
+<p>É natural expressar muitas operações de listas utilizando métodos recorrentes. Por exemplo, o seguinte é um algoritmo recorrente para imprimir uma lista de trás para frente.</p>
+<blockquote>
+<ol class="arabic simple">
+<li>Separe a lista em dois pedaços: o primeiro nó (chamado a cabeça); e o resto (chamado o rabo).</li>
+<li>Imprima o rabo de trás para frente.</li>
+<li>Imprima a cabeça.</li>
+</ol>
+</blockquote>
+<p>Logicamente, o Passo 2, a chamada recorrente, assume que nós temos um modo de imprimir a lista de trás para frente. Mas se nós assumimos que a chamada recorrente funciona &#8211; o passo de fé &#8211; então podemos nos convencer de que o algoritmo funciona.</p>
+<p>Tudo o que precisamos são um caso base e um modo de provar que para qualquer lista, nós iremos, ao final, chegar no caso base. Dada a definição recorrente de uma lista, um caso base natural é a lista vazia, representada por <tt class="xref docutils literal"><span class="pre">None</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">imprimeDeTrasParaFrente</span><span class="p">(</span><span class="n">lista</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">lista</span> <span class="o">==</span> <span class="bp">None</span> <span class="p">:</span> <span class="k">return</span>
+  <span class="n">cabeca</span> <span class="o">=</span> <span class="n">lista</span>
+  <span class="n">rabo</span> <span class="o">=</span> <span class="n">lista</span><span class="o">.</span><span class="n">proximo</span>
+  <span class="n">imprimeDeTrasParaFrente</span><span class="p">(</span><span class="n">rabo</span><span class="p">)</span>
+  <span class="k">print</span> <span class="n">cabeca</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>A primeira linha trata o caso base fazendo nada. As próximas duas linhas dividem a lista em <tt class="docutils literal"><span class="pre">cabeca</span></tt>  e  <tt class="docutils literal"><span class="pre">rabo</span></tt>. As duas últimas linhas imprimem a lista. A vírgula no final da última linha impede o Python de imprimir uma nova linha após cada nó.</p>
+<p>Nós invocamos este método como invocamos o <tt class="docutils literal"><span class="pre">imprimeLista</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">imprimeDeTrasParaFrente</span><span class="p">(</span><span class="n">no1</span><span class="p">)</span>
+<span class="go">3 2 1</span>
+</pre></div>
+</div>
+<p>O resultado é a lista de trás para frente.</p>
+<p>Você pode se perguntar por quê  <tt class="docutils literal"><span class="pre">imprimeLista</span></tt> e <tt class="docutils literal"><span class="pre">imprimeDeTrasParaFrente</span></tt> são funções e não métodos da classe <tt class="docutils literal"><span class="pre">No</span></tt>. A razão é que nós queremos usar <tt class="xref docutils literal"><span class="pre">None</span></tt> para representa a lista vazia e não é legal invocar um método sobre <tt class="xref docutils literal"><span class="pre">None</span></tt>. Esta limitação torna complicado escrever código de manipulação de lista em estilo orientado a objeto limpo.</p>
+<p>Podemos provar que <tt class="docutils literal"><span class="pre">imprimeDeTrasParaFrente</span></tt> sempre termina? Em outras palavras, irá ela sempre atingir o caso base? De fato, a resposta é não. Algumas listas farão este método falhar.</p>
+</div>
+<div class="section" id="listas-infinitas">
+<h2><a class="toc-backref" href="#id6">17.5 Listas Infinitas</a><a class="headerlink" href="#listas-infinitas" title="Link permanente para este título">¶</a></h2>
+<p>Não há nada que impeça um nó de referenciar de volta um nó anterior na lista, incluindo ele mesmo. Por exemplo, esta figura mostra uma lista com dois nós, um dos quais refere-se a si mesmo:</p>
+<img alt="_images/17_04_ligada4.png" src="_images/17_04_ligada4.png" />
+<p>Se nós invocarmos  <tt class="docutils literal"><span class="pre">imprimeLista</span></tt> nesta lista, ele ficará em laço para sempre. Se nós invocarmos <tt class="docutils literal"><span class="pre">imprimeDeTrasParaFrente</span></tt>, ele recorrerá infinitamente. Este tipo de comportamento torna as listas infinitas difíceis de se lidar.</p>
+<p>A despeito disto, elas ocasionalmente são úteis. Por exemplo, podemos representar um número como uma lista de dígitos e usar uma lista infinita para representar uma fração repetente.</p>
+<p>Mesmo assim, é problemático que não possamos provar que <tt class="docutils literal"><span class="pre">imprimeLista</span></tt> e <tt class="docutils literal"><span class="pre">imprimeDeTrasParaFrente</span></tt> terminem. O melhor que podemos fazer é a afirmação hipotética, &#8220;Se a lista não contém laços, então este método terminará.&#8221;  Este tipo de hipótese é chamado uma <strong>pré-condição</strong>. Ele impõe uma limitação sobre um dos parâmetros e descreve o comportamento do método se a limitação é satisfeita. Você verá mais exemplos em breve.</p>
+</div>
+<div class="section" id="o-teorema-da-ambiguidade-fundamental">
+<h2><a class="toc-backref" href="#id7">17.6 O Teorema da Ambigüidade Fundamental</a><a class="headerlink" href="#o-teorema-da-ambiguidade-fundamental" title="Link permanente para este título">¶</a></h2>
+<p>Uma parte de <tt class="docutils literal"><span class="pre">imprimeDeTrasParaFrente</span></tt> pode ter gerado surpresa:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">cabeca</span> <span class="o">=</span> <span class="n">lista</span>
+<span class="n">rabo</span> <span class="o">=</span> <span class="n">lista</span><span class="o">.</span><span class="n">proximo</span>
+</pre></div>
+</div>
+<p>Após a primeira atribuição, <tt class="docutils literal"><span class="pre">cabeca</span></tt> e <tt class="docutils literal"><span class="pre">lista</span></tt> têm o mesmo tipo e o mesmo valor. Então por que nós criamos uma nova variável?</p>
+<p>A razão é que as duas variáveis têm diferentes papéis. Quando pensamos em <tt class="docutils literal"><span class="pre">cabeca</span></tt>, pensamos como uma referência a um único nó, e quando pensamos em <tt class="docutils literal"><span class="pre">lista</span></tt> o fazemos como uma referência ao primeiro nó da lista. Estes &#8220;papéis&#8221; não são parte do programa; eles estão na mente do programador.</p>
+<p>Em geral não podemos dizer olhando para o programa qual o papel que uma variável tem. Esta ambigüidade pode ser útil, mas também pode tornar os programas difíceis de serem lidos. Usamos freqüentemente nomes de variáveis como <tt class="docutils literal"><span class="pre">no</span></tt> e <tt class="docutils literal"><span class="pre">lista</span></tt> para documentar como pretendemos usar uma variável e algumas vezes criamos variáveis adicionais para remover a ambigüidade.</p>
+<p>Poderíamos ter escrito <tt class="docutils literal"><span class="pre">imprimeDeTrasParaFrente</span></tt> sem <tt class="docutils literal"><span class="pre">cabeca</span></tt> e <tt class="docutils literal"><span class="pre">rabo</span></tt>, que a tornaria mais concisa mas possivelmente menos clara:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">imprimeDeTrasParaFrente</span><span class="p">(</span><span class="n">lista</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">lista</span> <span class="o">==</span> <span class="bp">None</span> <span class="p">:</span> <span class="k">return</span>
+  <span class="n">imprimeDeTrasParaFrente</span><span class="p">(</span><span class="n">lista</span><span class="o">.</span><span class="n">proximo</span><span class="p">)</span>
+  <span class="k">print</span> <span class="n">lista</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>Olhando para as duas chamadas de função, temos que lembrar que <tt class="docutils literal"><span class="pre">imprimeDeTrasParaFrente</span></tt> trata seu argumento como uma coleção e <tt class="docutils literal"><span class="pre">print</span></tt> trata seu argumento como um objeto único.</p>
+<p>O <strong>teorema da ambigüidade fundamental</strong> descreve a ambigüidade que é inerente à referência a um nó:</p>
+<blockquote>
+<strong>Uma variável que refere a um nó pode tratar o nó como um objeto único ou como o primeiro em uma lista de nós.</strong></blockquote>
+</div>
+<div class="section" id="modificando-listas">
+<h2><a class="toc-backref" href="#id8">17.7 Modificando Listas</a><a class="headerlink" href="#modificando-listas" title="Link permanente para este título">¶</a></h2>
+<p>Existem duas maneiras de se modificar uma lista ligada. Obviamente, podemos modificar a carga dos nós, mas as operações mais interessantes são aquelas que adicionam, removem ou reordenam os nós.</p>
+<p>Como um exemplo, vamos escrever um método que remove o segundo nó na lista e retorna uma referência ao nó removido:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">removeSegundo</span><span class="p">(</span><span class="n">lista</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">lista</span> <span class="o">==</span> <span class="bp">None</span> <span class="p">:</span> <span class="k">return</span>
+  <span class="n">primeiro</span> <span class="o">=</span> <span class="n">lista</span>
+  <span class="n">segundo</span> <span class="o">=</span> <span class="n">lista</span><span class="o">.</span><span class="n">proximo</span>
+  <span class="c"># faz o primeiro no referir ao terceiro</span>
+  <span class="n">primeiro</span><span class="o">.</span><span class="n">proximo</span> <span class="o">=</span> <span class="n">segundo</span><span class="o">.</span><span class="n">proximo</span>
+  <span class="c"># separa o segundo no do resto da lista</span>
+  <span class="n">segundo</span><span class="o">.</span><span class="n">proximo</span> <span class="o">=</span> <span class="bp">None</span>
+  <span class="k">return</span> <span class="n">segundo</span>
+</pre></div>
+</div>
+<p>Novamente, estamos usando variáveis temporárias para tornar o código mais fácil de ser lido. Aqui está como usar este método:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">imprimeLista</span><span class="p">(</span><span class="n">no1</span><span class="p">)</span>
+<span class="go">1 2 3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">removido</span> <span class="o">=</span> <span class="n">removeSegundo</span><span class="p">(</span><span class="n">no1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">imprimeLista</span><span class="p">(</span><span class="n">removido</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">imprimeLista</span><span class="p">(</span><span class="n">no1</span><span class="p">)</span>
+<span class="go">1 3</span>
+</pre></div>
+</div>
+<p>Este diagrama de estado mostra o efeito da operação:</p>
+<img alt="_images/17_05_ligada5.png" src="_images/17_05_ligada5.png" />
+<p>O que acontece se você invocar este método e passar uma lista com somente um elemento (um <strong>singleton</strong>)? O que acontece se você passar a lista vazia como um argumento? Existe uma pré-condição para este método? Se houver, corrija o método para tratar uma violação da pré-condição de modo razoável.</p>
+</div>
+<div class="section" id="envoltorios-e-ajudadores">
+<h2><a class="toc-backref" href="#id9">17.8 Envoltórios e Ajudadores</a><a class="headerlink" href="#envoltorios-e-ajudadores" title="Link permanente para este título">¶</a></h2>
+<p>Freqüentemente é útil dividir uma operação de lista em dois métodos. Por exemplo, para imprimir uma lista de trás para frente no formato convencional de lista [3, 2, 1], podemos usar o método <tt class="docutils literal"><span class="pre">imprimeDeTrasParaFrente</span></tt> para imprimir 3, 2, mas queremos um metodo separado para imprimir os braquetes e o primeiro nó. Vamos chamá-lo de <tt class="docutils literal"><span class="pre">imprimeDeTrasParaFrenteLegal</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">imprimeDeTrasParaFrenteLegal</span><span class="p">(</span><span class="n">lista</span><span class="p">):</span>
+  <span class="k">print</span> <span class="s">&quot;[&quot;</span><span class="p">,</span>
+  <span class="k">if</span> <span class="n">lista</span> <span class="o">!=</span> <span class="bp">None</span> <span class="p">:</span>
+    <span class="n">cabeca</span> <span class="o">=</span> <span class="n">lista</span>
+    <span class="n">rabo</span> <span class="o">=</span> <span class="n">lista</span><span class="o">.</span><span class="n">proximo</span>
+    <span class="n">imprimeDeTrasParaFrente</span><span class="p">(</span><span class="n">rabo</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">cabeca</span><span class="p">,</span>
+  <span class="k">print</span> <span class="s">&quot;]&quot;</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>Novamente, é uma boa idéia verificar métodos como este para ver se eles funcionam com casos especiais como uma lista vazia ou um singleton.</p>
+<p>Quando usamos este método em algum lugar no programa, invocamos <tt class="docutils literal"><span class="pre">imprimeDeTrasParaFrenteLegal</span></tt> diretamente, e ele invoca <tt class="docutils literal"><span class="pre">imprimeDeTrasParaFrente</span></tt> por nós. Neste sentido, <tt class="docutils literal"><span class="pre">imprimeDeTrasParaFrenteLegal</span></tt> atua como um <strong>envoltório</strong>, e usa <tt class="docutils literal"><span class="pre">imprimeDeTrasParaFrente</span></tt> como um <strong>ajudador</strong>.</p>
+</div>
+<div class="section" id="a-classe-listaligada">
+<h2><a class="toc-backref" href="#id10">17.9 A Classe <tt class="docutils literal"><span class="pre">ListaLigada</span></tt></a><a class="headerlink" href="#a-classe-listaligada" title="Link permanente para este título">¶</a></h2>
+<p>Existem alguns problemas sutis com o modo que implementamos listas. Em um inverso de causa e efeito, proporemos uma implementação alternativa primeiro e então explicaremos qual problema ela resolve.</p>
+<p>Primeiro, criaremos uma nova classe chamada <tt class="docutils literal"><span class="pre">ListaLigada</span></tt>. Seus atributos são um inteiro que contém o comprimento da lista e uma referência para o primeiro nó. Objetos do tipo <tt class="docutils literal"><span class="pre">ListaLigada</span></tt> servem como cabos (<em>handles</em>) para se manipular listas de objetos <tt class="docutils literal"><span class="pre">No</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">ListaLigada</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">comprimento</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">cabeca</span> <span class="o">=</span> <span class="bp">None</span>
+</pre></div>
+</div>
+<p>Uma coisa legal acerca da classe <tt class="docutils literal"><span class="pre">ListaLigada</span></tt> é que ela provê um lugar natural para se colocar funções envoltórias como <tt class="docutils literal"><span class="pre">imprimeDeTrasParaFrenteLegal</span></tt>, que podemos transformar em um método da classe <tt class="docutils literal"><span class="pre">ListaLigada</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">ListaLigada</span><span class="p">:</span>
+  <span class="o">...</span>
+  <span class="k">def</span> <span class="nf">imprimeDeTrasParaFrente</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">&quot;[&quot;</span><span class="p">,</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cabeca</span> <span class="o">!=</span> <span class="bp">None</span> <span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">cabeca</span><span class="o">.</span><span class="n">imprimeDeTrasParaFrente</span><span class="p">()</span>
+    <span class="k">print</span> <span class="s">&quot;]&quot;</span><span class="p">,</span>
+
+
+<span class="k">class</span> <span class="nc">No</span><span class="p">:</span>
+  <span class="o">...</span>
+  <span class="k">def</span> <span class="nf">imprimeDeTrasParaFrente</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">proximo</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+      <span class="n">rabo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">proximo</span>
+      <span class="n">rabo</span><span class="o">.</span><span class="n">imprimeDeTrasParaFrente</span><span class="p">()</span>
+    <span class="k">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">carga</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>Apenas para tornar as coisas confusas, mudamos o nome de  <tt class="docutils literal"><span class="pre">imprimeDeTrasParaFrenteLegal</span></tt>. Agora existem dois métodos chamados <tt class="docutils literal"><span class="pre">imprimeDeTrasParaFrente</span></tt>: um na classe <tt class="docutils literal"><span class="pre">No</span></tt> (o ajudador); e um na classe <tt class="docutils literal"><span class="pre">ListaLigada``(o</span> <span class="pre">envoltório).</span> <span class="pre">Quano</span> <span class="pre">o</span> <span class="pre">envoltório</span> <span class="pre">invoca</span> <span class="pre">``self.cabeca.imprimeDeTrasParaFrente</span></tt>, ele está invocando o ajudador, porque <tt class="docutils literal"><span class="pre">self.cabeca</span></tt> é um objeto <tt class="docutils literal"><span class="pre">No</span></tt>.</p>
+<p>Outro benefício da classe <tt class="docutils literal"><span class="pre">ListaLigada</span></tt> é que ela torna mais fácil adicionar e remover o primeiro elemento de uma lista. Por exemplo, <tt class="docutils literal"><span class="pre">adicionaPrimeiro</span></tt> é um método para <tt class="docutils literal"><span class="pre">ListaLigada</span></tt>; ele toma um item de carga como argumento e o coloca no início da lista:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">ListaLigada</span><span class="p">:</span>
+  <span class="o">...</span>
+  <span class="k">def</span> <span class="nf">adicionaPrimeiro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">carga</span><span class="p">):</span>
+    <span class="n">no</span> <span class="o">=</span> <span class="n">No</span><span class="p">(</span><span class="n">carga</span><span class="p">)</span>
+    <span class="n">no</span><span class="o">.</span><span class="n">proximo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cabeca</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">cabeca</span> <span class="o">=</span> <span class="n">no</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">comprimento</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comprimento</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Como de costume, você deve conferir códigos como este para ver se eles tratam os casos especiais. Por exemplo, o que acontece se a lista está inicialmente vazia?</p>
+</div>
+<div class="section" id="invariantes">
+<h2><a class="toc-backref" href="#id11">17.10 Invariantes</a><a class="headerlink" href="#invariantes" title="Link permanente para este título">¶</a></h2>
+<p>Algumas listas são &#8220;bem formadas&#8221;; outras não o são. Por exemplo, se uma lista contém um laço, ela fará muitos de nossos métodos falharem, de modo que podemos querer requerer que listas não contenham laços. Outro requerimento é que o valor de <tt class="docutils literal"><span class="pre">comprimento</span></tt> no objeto <tt class="docutils literal"><span class="pre">ListaLigada</span></tt> seja igual ao número real de nós da lista.</p>
+<p>Requerimentos como estes são chamados de <strong>invariantes</strong> porque, idealmente, eles deveriam ser verdade para cada objeto o tempo todo. Especificar invariantes para objetos é um prática de programação útil porque torna mais fácil provar a correção do código, verificar a integridade das estruturas de dados e detectar erros.</p>
+<p>Uma coisa que algumas vezes é confusa acerca de invariantes é que existem momentos em que eles são violados. Por exemplo, no meio de <tt class="docutils literal"><span class="pre">adicionaPrimeiro</span></tt>, após termos adicionado o nó mas antes de termos incrementado <tt class="docutils literal"><span class="pre">comprimento</span></tt>, o invariante é violado. Este tipo de violação é aceitável; de fato, é freqüentemente impossível modificar um objeto sem violar um invariante por, no mínimo, um pequeno instante. Normalmente, requeremos que cada método que viola um invariante deve restaurar este invariante.</p>
+<p>Se há qualquer aumento significativo de código no qual o invariante é violado, é importante tornar isto claro nos comentários, de modo que nenhuma operação seja feita que dependa daquele invariante.</p>
+</div>
+<div class="section" id="glossario">
+<h2><a class="toc-backref" href="#id12">17.11 Glossário</a><a class="headerlink" href="#glossario" title="Link permanente para este título">¶</a></h2>
+<dl class="docutils">
+<dt>referência embutida (<em>embedded reference</em>)</dt>
+<dd>Uma referência armazenada/associada em/a um atributo de um objeto.</dd>
+<dt>lista ligada (<em>linked list</em>)</dt>
+<dd>Uma estrutura de dados que implementa uma coleção usando uma sequência de nós ligados.</dd>
+<dt>nó ou nodo (<em>node</em>)</dt>
+<dd>Um elemento de uma lista, usualmente implementado como um objeto que contém uma referência para outro objeto do mesmo tipo.</dd>
+<dt>carga (<em>cargo</em>)</dt>
+<dd>Um item de dado contido em um nó.</dd>
+<dt>ligação (<em>link</em>)</dt>
+<dd>Uma referência embutida usada para ligar/conectar um objeto a outro.</dd>
+<dt>pré-condição (<em>precondition</em>)</dt>
+<dd>Uma asserção que precisa/deve ser verdadeira para que um método trabalhe corretamante.</dd>
+<dt>teorema da ambigüidade fundamental (<em>fundamental ambiguity theorem</em>)</dt>
+<dd>Uma referência para um nó de uma lista pode ser tratada como um objeto único ou como o primeiro em uma lista de nós.</dd>
+<dt>singleton (<em>singleton</em>)</dt>
+<dd>Uma lista ligada com somente um nó.</dd>
+<dt>envoltório (<em>wrapper</em>)</dt>
+<dd>Um método que atua como um intermediário (<em>middleman</em>) entre um chamador e um método ajudador (<em>helper</em>), freqüentemente tornando a invocação do método mais fácil ou menos propensa a erros.</dd>
+<dt>ajudador (<em>helper</em>)</dt>
+<dd>Um método que não é invocado diretamente pelo chamador (<em>caller</em>) mas é usado por outro método para realizar parte de uma operação.</dd>
+<dt>invariante (<em>invariant</em>)</dt>
+<dd>Uma asserção que deveria ser verdadeira sempre para um objeto  (exceto talvez enquanto o objeto estiver sendo modificado).</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Capítulo 17: Listas encadeadas</a><ul>
+<li><a class="reference internal" href="#referencias-embutidas">17.1 Referências Embutidas</a></li>
+<li><a class="reference internal" href="#a-classe-no-node">17.2 A classe <tt class="docutils literal"><span class="pre">No</span></tt> (Node)</a></li>
+<li><a class="reference internal" href="#listas-como-colecoes">17.3 Listas como Coleções</a></li>
+<li><a class="reference internal" href="#listas-e-recorrencia">17.4 Listas e Recorrência</a></li>
+<li><a class="reference internal" href="#listas-infinitas">17.5 Listas Infinitas</a></li>
+<li><a class="reference internal" href="#o-teorema-da-ambiguidade-fundamental">17.6 O Teorema da Ambigüidade Fundamental</a></li>
+<li><a class="reference internal" href="#modificando-listas">17.7 Modificando Listas</a></li>
+<li><a class="reference internal" href="#envoltorios-e-ajudadores">17.8 Envoltórios e Ajudadores</a></li>
+<li><a class="reference internal" href="#a-classe-listaligada">17.9 A Classe <tt class="docutils literal"><span class="pre">ListaLigada</span></tt></a></li>
+<li><a class="reference internal" href="#invariantes">17.10 Invariantes</a></li>
+<li><a class="reference internal" href="#glossario">17.11 Glossário</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="capitulo_16.html"
+                        title="capítulo anterior">Capitulo 16: Herança</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="capitulo_18.html"
+                        title="próximo capítulo">Capítulo 18: Pilhas</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/capitulo_17.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="capitulo_18.html" title="Capítulo 18: Pilhas"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_16.html" title="Capitulo 16: Herança"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

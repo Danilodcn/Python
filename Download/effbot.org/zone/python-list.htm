@@ -1,0 +1,337 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>An Introduction to Python&nbsp;Lists</title></head><body data-page-id="219"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">An Introduction to Python&nbsp;Lists</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | August 2006</p><h2 id="overview">Overview&#160;<a class="nav" href="#overview" title="bookmark!">#</a></h2><p>The list type is a container that holds a number of other objects,
+in a given order.  The list type implements the sequence protocol, and
+also allows you to add and remove objects from the sequence.
+
+<h2 id="creating">Creating Lists&#160;<a class="nav" href="#creating" title="bookmark!">#</a></h2></p><p>To create a list, put a number of expressions in square brackets:
+
+<pre class="python">
+    L = []
+    L = [expression, ...]</pre></p><p>This construct is known as a &#8220;list display&#8221;.  Python also supports
+computed lists, called &#8220;list comprehensions&#8221;.  In its simplest form, a
+list comprehension has the following syntax:</p><pre class="python">
+    L = [expression <span class="pykeyword">for</span> variable <span class="pykeyword">in</span> sequence]</pre><p>where the expression is evaluated once, for every item in the
+sequence.</p><p>The expressions can be anything; you can put all kinds of objects
+in lists, including other lists, and multiple references to a single
+object.</p><p>You can also use the built-in <b>list</b> type object to create
+lists:</p><pre class="python">
+    L = list() <span class="pycomment"># empty list</span>
+    L = list(sequence)
+    L = list(expression <span class="pykeyword">for</span> variable <span class="pykeyword">in</span> sequence)</pre><p>The sequence can be any kind of sequence object or iterable,
+including tuples and generators.  If you pass in another list, the
+<b>list</b> function makes a copy.
+
+</p><p>Note that Python creates a single new list every time you
+<i>execute</i> the [] expression.  No more, no less.  And Python
+never creates a new list if you assign a list to a variable.
+
+<pre class="python">
+A = B = [] <span class="pycomment"># both names will point to the same list</span>
+
+A = []
+B = A <span class="pycomment"># both names will point to the same list</span>
+
+A = []; B = [] <span class="pycomment"># independent lists</span></pre></p><p>For information on how to add items to a list once you&#8217;ve
+created it, see <a href="#modifying"><cite>Modifying Lists</cite></a>
+below.
+
+<h2 id="accessing">Accessing Lists&#160;<a class="nav" href="#accessing" title="bookmark!">#</a></h2></p><p>Lists implement the standard sequence interface; <b>len(L)</b>
+returns the number of items in the list, <b>L[i]</b> returns the item
+at index <i>i</i> (the first item has index 0), and <b>L[i:j]</b>
+returns a new list, containing the objects between <i>i</i> and
+<i>j</i>.
+
+<pre class="python">
+    n = len(L)
+
+    item = L[index]
+
+    seq = L[start:stop]</pre></p><p>If you pass in a negative index, Python adds the length of the list
+to the index.  L[-1] can be used to access the last item in a list.
+
+</p><p>For normal indexing, if the resulting index is outside the list,
+Python raises an <b>IndexError</b> exception.  Slices are treated as
+boundaries instead, and the result will simply contain all items
+between the boundaries.</p><p>Lists also support slice steps:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+    seq = L[start:stop:step]
+
+    seq = L[::2] <span class="pycomment"># get every other item, starting with the first</span>
+    seq = L[1::2] <span class="pycomment"># get every other item, starting with the second</span></pre></div><div class="yui-ge"><div class="yui-u first"><h2 id="looping">Looping Over Lists&#160;<a class="nav" href="#looping" title="bookmark!">#</a></h2><p>The <b>for-in</b> statement makes it easy to loop over the items in
+a list:
+
+<pre class="python">
+    <span class="pykeyword">for</span> item <span class="pykeyword">in</span> L:
+        <span class="pykeyword">print</span> item</pre></p><p>If you need both the index and the item, use the <b>enumerate</b>
+function:</p><pre class="python">
+    <span class="pykeyword">for</span> index, item <span class="pykeyword">in</span> enumerate(L):
+        <span class="pykeyword">print</span> index, item</pre><p>If you need only the index, use <b>range</b> and <b>len</b>:
+
+<pre class="python">
+    <span class="pykeyword">for</span> index <span class="pykeyword">in</span> range(len(L)):
+        <span class="pykeyword">print</span> index</pre></p><p>The list object supports the iterator protocol.  To explicitly
+create an iterator, use the built-in <b>iter</b> function:
+
+<pre class="python">
+    i = iter(L)
+    item = i.next() <span class="pycomment"># fetch first value</span>
+    item = i.next() <span class="pycomment"># fetch second value</span></pre></p><p>Python provides various shortcuts for common list operations.
+For example, if a list contains numbers, the built-in <b>sum</b> function
+gives you the sum:</p><pre class="python">
+    v = sum(L)
+
+    total = sum(L, subtotal)
+
+    average = float(sum(L)) / len(L)</pre><p>If a list contains strings, you can combine the string into a single
+long string using the <b>join</b> string method:</p><pre class="python">
+    s = <span class="pystring">''</span>.join(L)</pre><p>Python also provides built-in operations to search for items,
+and to sort the list.  These operations are described below.
+
+<h2 id="modifying">Modifying Lists&#160;<a class="nav" href="#modifying" title="bookmark!">#</a></h2></p><p>The list type also allows you to assign to individual items or
+slices, and to delete them.</p><pre class="python">
+    L[i] = obj
+    L[i:j] = sequence</pre><p>Note that operations that modify the list will modify it in place.
+This means that if you have multiple variables that point to the same
+list, all variables will be updated at the same time.
+
+<pre class="python">
+    L = []
+    M = L
+
+    <span class="pycomment"># modify both lists</span>
+    L.append(obj)</pre></p><p>To create a separate list, you can use slicing or the <b>list</b>
+function to quickly create a copy:</p><pre class="python">
+    L = []
+    M = L[:] <span class="pycomment"># create a copy</span>
+
+    <span class="pycomment"># modify L only</span>
+    L.append(obj)</pre><p>You can also add items to an existing sequence.  The <b>append</b>
+method adds a single item to the end of the list, the <b>extend</b> method
+adds items from another list (or any sequence) to the end, and <b>insert</b>
+inserts an item at a given index, and move the remaining items to the right.</p><pre class="python">
+    L.append(item)
+    L.extend(sequence)
+    L.insert(index, item)</pre><p>To insert items from another list or sequence at some other location,
+use slicing syntax:</p><pre class="python">
+    L[index:index] = sequence</pre><p>You can also remove items.  The <b>del</b> statement can be used to
+remove an individual item, or to remove all items identified by a slice.
+The <b>pop</b> method removes an individual item and returns it, while
+<b>remove</b> searches for an item, and removes the first matching item
+from the list.</p><pre class="python">
+    <span class="pykeyword">del</span> L[i]
+    <span class="pykeyword">del</span> L[i:j]
+    item = L.pop() <span class="pycomment"># last item</span>
+    item = L.pop(0) <span class="pycomment"># first item</span>
+    item = L.pop(index)
+    L.remove(item)</pre><p>The <b>del</b> statement and the <b>pop</b> method does pretty much
+the same thing, except that <b>pop</b> returns the removed item.</p><p>Finally, the list type allows you to quickly reverse the order of the
+list.</p><pre class="python">
+    L.reverse()</pre><p>Reversing is fast, so temporarily reversing the list can often
+speed things up if you need to remove and insert a bunch of items at
+the beginning of the list:</p><pre class="python">
+    L.reverse()
+    <span class="pycomment"># append/insert/pop/delete at far end</span>
+    L.reverse()</pre><p>Note that the <b>for-in</b> statement maintains an internal index,
+which is incremented for each loop iteration.  This means that if you
+modify the list you&#8217;re looping over, the indexes will get out of sync,
+and you may end up skipping over items, or process the same item
+multiple times.  To work around this, you can loop over a copy of the
+list:
+
+<pre class="python">
+    <span class="pykeyword">for</span> object <span class="pykeyword">in</span> L[:]:
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> condition:
+            <span class="pykeyword">del</span> L[index]</pre></p><p>Alternatively, you can use create a new list, and append to it:
+
+<pre class="python">
+    out = []
+    <span class="pykeyword">for</span> object <span class="pykeyword">in</span> L:
+        <span class="pykeyword">if</span> condition:
+            out.append(object)</pre></p><p>A common pattern is to apply a function to every item in a list,
+and replace the item with the return value from the function:
+
+<pre class="python">
+    <span class="pykeyword">for</span> index, object <span class="pykeyword">in</span> enumerate(L):
+        L[index] = function(object)
+
+    out = []
+    <span class="pykeyword">for</span> object <span class="pykeyword">in</span> L:
+        out.append(function(object))</pre></p><p>The above can be better written using either the built-in
+<b>map</b> function, or as a list comprehension:
+
+<pre class="python">
+    out = map(function, L)
+
+    out = [function(object) <span class="pykeyword">for</span> object <span class="pykeyword">in</span> L]</pre></p><p>For straightforward function calls, the <b>map</b> solution is more
+efficient, since the function object only needs to be fetched once.  For
+other constructs (e.g. expressions or calls to object methods), you have
+to use a callback or a <b>lambda</b> to wrap the operation; in such cases,
+the list comprehension is more efficient, and usually also easier to read.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">Again, if you need both the item and the index, use <b>enumerate</b>:
+
+<pre class="python wide">
+    out = [function(index, object) <span class="pykeyword">for</span> index, object <span class="pykeyword">in</span> enumerate(L)]</pre></p></div><div class="yui-ge"><div class="yui-u first"><p>You can use the list type to implement simple data structures, such
+as stacks and queues.
+
+<pre class="python">
+    stack = []
+    stack.append(object) <span class="pycomment"># push</span>
+    object = stack.pop() <span class="pycomment"># pop from end</span></pre><pre class="python">
+    queue = []
+    queue.append(object) <span class="pycomment"># push</span>
+    object = queue.pop(0) <span class="pycomment"># pop from beginning</span></pre></p><p>The list type isn&#8217;t optimized for this, so this works best when
+the structures are small (typically a few hundred items or smaller).
+For larger structures, you may need a specialized data structure,
+such as <b>collections.deque</b>.
+
+</p><p>Another data structure for which a list works well in practice,
+as long as the structure is reasonably small, is an LRU
+(least-recently-used) container.  The following statements moves an
+object to the end of the list:
+
+<pre class="python">
+    lru.remove(item)
+    lru.append(item)</pre></p><p>If you do the above every time you access an item in the LRU list,
+the least recently used items will move towards the beginning of the
+list.  (for a simple cache implementation using this approach, see
+<a href="caching.htm"><i>Caching</i></a>.) 
+
+<h2 id="searching">Searching Lists&#160;<a class="nav" href="#searching" title="bookmark!">#</a></h2></p><p>The <b>in</b> operator can be used to check if an item is present
+in the list:
+
+<pre class="python">
+    <span class="pykeyword">if</span> value <span class="pykeyword">in</span> L:
+        <span class="pykeyword">print</span> <span class="pystring">"list contains"</span>, value</pre></p><p>To get the index of the first matching item, use <b>index</b>:
+
+<pre class="python">
+    i = L.index(value)</pre></p><p>The <b>index</b> method does a linear search, and stops at the
+first matching item.  If no matching item is found, it raises a
+<b>ValueError</b> exception.
+
+<pre class="python">
+    <span class="pykeyword">try</span>:
+        i = L.index(value)
+    <span class="pykeyword">except</span> ValueError:
+        i = -1 <span class="pycomment"># no match</span></pre></p><p>To get the index for all matching items, you can use a loop, and
+pass in a start index:
+
+<pre class="python">
+    i = -1
+    <span class="pykeyword">try</span>:
+        <span class="pykeyword">while</span> 1:
+            i = L.index(value, i+1)
+            <span class="pykeyword">print</span> <span class="pystring">"match at"</span>, i
+    <span class="pykeyword">except</span> ValueError:
+        <span class="pykeyword">pass</span></pre></p><p>Moving the loop into a helper function makes it easier to use:</p><pre class="python">
+    <span class="pykeyword">def</span> <span class="pyfunction">findall</span>(L, value, start=0):
+        <span class="pycomment"># generator version</span>
+        i = start - 1
+        <span class="pykeyword">try</span>:
+            i = L.index(value, i+1)
+            <span class="pykeyword">yield</span> i
+        <span class="pykeyword">except</span> ValueError:
+            <span class="pykeyword">pass</span>
+
+    <span class="pykeyword">for</span> index <span class="pykeyword">in</span> findall(L, value):
+        <span class="pykeyword">print</span> <span class="pystring">"match at"</span>, i</pre><p>To count matching items, use the <b>count</b> method:
+
+<pre class="python">
+    n = L.count(value)</pre></p><p>Note that <b>count</b> loops over the entire list, so if you just
+want to check if a value is present in the list, you should use <b>in</b>
+or, where applicable, <b>index</b>.
+
+</p><p>To get the smallest or largest item in a list, use the built-in
+<b>min</b> and <b>max</b> functions:
+
+<pre class="python">
+    lo = min(L)
+    hi = max(L)</pre></p><p>As with <b>sort</b> (see below), you can pass in a <b>key</b> function
+that is used to map the list items before they are compared:
+
+<pre class="python">
+    lo = min(L, key=int)
+    hi = max(L, key=int)</pre><h2 id="sorting">Sorting Lists&#160;<a class="nav" href="#sorting" title="bookmark!">#</a></h2></p><p>The <b>sort</b> method sorts a list in place.
+
+<pre class="python">
+    L.sort()</pre></p><p>To get a sorted copy, use the built-in <b>sorted</b> function:
+
+<pre class="python">
+    out = sorted(L)</pre></p><p>An in-place sort is slightly more efficient, since Python does
+not have to allocate a new list to hold the result.</p><p>By default, Python&#8217;s sort algorithm determines the order by
+comparing the objects in the list against each other.  You can
+override this by passing in a callable object that takes two items,
+and returns -1 for &#8220;less than&#8221;, 0 for &#8220;equal&#8221;, and 1 for &#8220;greater
+than&#8221;.  The built-in <b>cmp</b> function is often useful for this:</p><pre class="python">
+    <span class="pykeyword">def</span> <span class="pyfunction">compare</span>(a, b):
+        <span class="pykeyword">return</span> cmp(int(a), int(b)) <span class="pycomment"># compare as integers</span>
+
+    L.sort(compare)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">compare_columns</span>(a, b):
+        <span class="pycomment"># sort on ascending index 0, descending index 2</span>
+        <span class="pykeyword">return</span> cmp(a[0], b[0]) <span class="pykeyword">or</span> cmp(b[2], a[2])
+
+    out = sorted(L, compare_columns)</pre><p>Alternatively, you can specify a mapping between list items and
+search keys.  If you do this, the sort algorithm will make one pass
+over the data to build a key array, and then sort both the key array
+and the list based on the keys.
+
+<pre class="python">
+    L.sort(key=int)
+
+    out = sorted(L, key=int)</pre></p><p>If the transform is complex, or the list is large, this can be a
+lot faster than using a compare function, since the items only have
+to be transformed once.
+
+</p><p>Python&#8217;s sort is stable; the order of items that compare equal will
+be preserved.
+
+<h2 id="printing">Printing Lists&#160;<a class="nav" href="#printing" title="bookmark!">#</a></h2></p><p>By default, the list type does a <b>repr</b> on all items, and adds
+brackets and commas as necessary.  In other words, for built-in types, the printed list looks like the corresponding list display:</p><pre class="python">
+    <span class="pykeyword">print</span> [1, 2, 3] <span class="pycomment"># prints [1, 2, 3]</span></pre><p>To control formatting, use the string <b>join</b> method, combined
+with either <b>map</b> or a list comprehension or generator expression.</p><pre class="python">
+    <span class="pykeyword">print</span> <span class="pystring">""</span>.join(L) <span class="pycomment"># if all items are strings</span>
+
+    <span class="pykeyword">print</span> <span class="pystring">", "</span>.join(map(str, L))
+
+    <span class="pykeyword">print</span> <span class="pystring">"|"</span>.join(str(v) <span class="pykeyword">for</span> v <span class="pykeyword">in</span> L <span class="pykeyword">if</span> v &gt; 0)</pre><p>To print a list of string fragments to a file, you can use <b>writelines</b>
+instead of <b>write</b>:
+
+<pre class="python">
+    sys.stdout.writelines(L) <span class="pycomment"># if all items are strings</span></pre><h2 id="performance">Performance Notes&#160;<a class="nav" href="#performance" title="bookmark!">#</a></h2></p><p>The list object consists of two internal parts; one object header,
+and one separately allocated array of object references.  The latter is
+reallocated as necessary.
+
+</p><p>The list has the following performance characteristics:
+
+<ul><li>The list object stores pointers to objects, not the actual objects
+    themselves.  The size of a list in memory depends on the number of
+    objects in the list, not the size of the objects.
+
+</li><li>The time needed to get or set an individual item is constant, no
+    matter what the size of the list is (also known as &#8220;O(1)&#8221; behaviour).
+
+</li><li>The time needed to append an item to the list is &#8220;amortized constant&#8221;;
+    whenever the list needs to allocate more memory, it allocates room for
+    a few items more than it actually needs, to avoid having
+    to reallocate on each call
+
+    (this assumes that the memory allocator is fast; for huge lists, the
+    allocation overhead may push the behaviour towards O(n*n)).
+
+</li><li>The time needed to insert an item depends on the size of
+    the list, or more exactly, how many items that are to the right of
+    the inserted item (O(n)).  In other words, inserting items at
+    the end is fast, but inserting items at the beginning can be
+    relatively slow, if the list is large.
+
+</li><li>The time needed to remove an item is about the same as the time
+    needed to insert an item at the same location; removing items at
+    the end is fast, removing items at the beginning is slow.
+
+</li><li>The time needed to reverse a list is proportional to the list size
+    (O(n)).
+
+</li><li>The time needed to sort a list varies; the worst case is O(n log n),
+    but typical cases are often a lot better than that.
+
+</li></ul></p><p class="info"><i>Last Updated: November 2006</i></p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#overview">Overview</a></li><li><a href="#creating">Creating Lists</a></li><li><a href="#accessing">Accessing Lists</a></li><li><a href="#looping">Looping Over Lists</a></li><li><a href="#modifying">Modifying Lists</a></li><li><a href="#searching">Searching Lists</a></li><li><a href="#sorting">Sorting Lists</a></li><li><a href="#printing">Printing Lists</a></li><li><a href="#performance">Performance Notes</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

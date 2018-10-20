@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Python&nbsp;Objects</title></head><body data-page-id="221"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Python&nbsp;Objects</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">December 12, 2000 | Fredrik Lundh</p><h2 id="introduction">Introduction&#160;<a class="nav" href="#introduction" title="bookmark!">#</a></h2><p>Reset your brain.</p><h2 id="objects">Objects&#160;<a class="nav" href="#objects" title="bookmark!">#</a></h2><p>All Python objects have this:</p><ul><li>a unique identity (an integer, returned by <i>id(x)</i>)</li><li>a type (returned by <i>type(x)</i>)</li><li>some content</li></ul><p>You cannot change the identity.</p><p>You cannot change the type.</p><p>Some objects allow you to change their <i>content</i> (without
+changing the identity or the type, that is).</p><p>Some objects don&#8217;t allow you to change their content (more
+below).</p><p>The type is represented by a type object, which knows more about
+objects of this type (how many bytes of memory they usually occupy,
+what methods they have, etc).</p><p>(<i>Update: In CPython 2.2 and later, you can change the type under
+<a href="http://article.gmane.org/gmane.comp.python.general/427452">some
+rather limited circumstances</a></i>.)</p><h2 id="more-about-objects">More about objects&#160;<a class="nav" href="#more-about-objects" title="bookmark!">#</a></h2><p>Objects may also have this:</p><ul><li>zero or more methods (provided by the type object)</li><li>zero or more names</li></ul><p>Some objects have methods that allow you to change the contents
+of the object (modify it in place, that is).</p><p>Some objects only have methods that allow you to access the
+contents, not change it.</p><p>Some objects don&#8217;t have any methods at all.</p><p>Even if they have methods, you can never change the type, nor
+the identity.</p><p>Things like attribute assignment and item references are just
+syntactic sugar (more below).</p><h2 id="names">Names&#160;<a class="nav" href="#names" title="bookmark!">#</a></h2><p>The names are a bit different &#8212; they&#8217;re not really properties
+of the object, and the object itself doesn&#8217;t know what it&#8217;s
+called.</p><p>An object can have any number of names, or no name at all.</p><p>Names live in namespaces (such as a module namespace, an
+instance namespace, a function&#8217;s local namespace).</p><p>Namespaces are collections of (name, object reference) pairs
+(implemented using dictionaries).</p><p>When you call a function or a method, its namespace is
+initialized with the arguments you call it with (the names are
+taken from the function&#8217;s argument list, the objects are those you
+pass in).</p><h2 id="assignments">Assignment&#160;<a class="nav" href="#assignments" title="bookmark!">#</a></h2><p>Assignment statements modify namespaces, not objects.</p><p>In other words,</p><blockquote><b>name = 10</b></blockquote><p>means that you&#8217;re adding the name &#8220;name&#8221; to your local
+namespace, and making it refer to an integer object containing the
+value 10.</p><p>If the name is already present, the assignment replaces the
+original name:</p><blockquote><b>name = 10<br />
+ name = 20</b></blockquote><p>means that you&#8217;re first adding the name &#8220;name&#8221; to the local
+namespace, and making it refer to an integer object containing the
+value 10. You&#8217;re then replacing the name, making it point to an
+integer object containing the value 20. The original &#8220;10&#8221; object
+isn&#8217;t affected by this operation, and it doesn&#8217;t care.</p><p>In contrast, if you do:</p><blockquote><b>name = []<br />
+ name.append(1)</b></blockquote><p>you&#8217;re first adding the name &#8220;name&#8221; to the local namespace,
+making it refer to an empty list object. This modifies the namespace.
+You&#8217;re then calling a method on that object, telling it to append an
+integer object to itself. This modifies the content of the list
+object, but it doesn&#8217;t touch the namespace, and it doesn&#8217;t touch
+the integer object.</p><p>Things like <i>name.attr</i> and <i>name[index]</i> are just
+syntactic sugar for method calls. The first corresponds to <i>
+__setattr__</i>/<i>__getattr__</i>, the second to <i>
+__setitem__</i>/<i>__getitem__</i> (depending on which side of the
+assignment they appear).</p><p>That&#8217;s all.</p><p class="info"><a href="copyright.htm">Copyright</a> &#169; 2000 by Fredrik Lundh</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#introduction">Introduction</a></li><li><a href="#objects">Objects</a></li><li><a href="#more-about-objects">More about objects</a></li><li><a href="#names">Names</a></li><li><a href="#assignments">Assignment</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

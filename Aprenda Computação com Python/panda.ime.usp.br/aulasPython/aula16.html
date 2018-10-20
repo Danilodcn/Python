@@ -1,0 +1,380 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Exercícios &mdash; Aulas de Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Aulas de Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Introdução" href="aula17.html" />
+    <link rel="prev" title="Mais funções com reais" href="aula15.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'aulasPython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="aula17.html" title="Introdução"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="aula15.html" title="Mais funções com reais"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="exercicios">
+<h1>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="topicos">
+<h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>mais exercícios com listas, matrizes e strings</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id1">
+<h2>Exercícios<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="exercicio-16-1">
+<h3>Exercício 16.1<a class="headerlink" href="#exercicio-16-1" title="Permalink to this headline">¶</a></h3>
+<p><strong>Parte A</strong></p>
+<p>Escreva uma função com protótipo</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">insereSeNovo</span> <span class="p">(</span><span class="n">nome</span><span class="p">,</span> <span class="n">lista</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; (str, list) -&gt; int</span>
+<span class="sd">        modifica a lista, inserindo nome na lista.</span>
+<span class="sd">        Retorna a posição de nome na lista ou None caso ele já exista.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+</pre></div>
+</div>
+<p>que devolve a posição em que o string x ocorre em lista ou, caso x não estiver na lista, insere x no final da lista e devolve o índice dessa posição.</p>
+
+<div id="aula16_ex01a_tentativa" >
+<textarea cols="50" rows="12" id="aula16_ex01a_tentativa_code" class="active_code">
+# escreva a sua função abaixo e remova o print()
+def insereSeNovo (nome, lista):
+    print("Vixe! Ainda nao fiz essa funcao!")
+
+# Codigo para testar a sua funcao
+lista = ["Ronaldo", "Romario", "Rivelino"]
+pos = insereSeNovo("Romario", lista)
+pos = insereSeNovo("Pele", lista)
+pos = insereSeNovo("Rivelino", lista)
+print(lista, " que deve ser Ronaldo, Romario, Rivelino, Pele")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula16_ex01a_tentativa)</span> </p>
+<button onclick="runit('aula16_ex01a_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula16_ex01a_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula16_ex01a_tentativa');">Load</button>
+<br />
+
+<canvas id="aula16_ex01a_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula16_ex01a_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>Parte B</strong></p>
+<p>Escreva um programa que leia uma sequência de nomes e, usando a função do
+item anterior, conte quantas vezes cada nome ocorre na sequência.</p>
+<p>Exemplo:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Para <cite>n = 7</cite> e a sequência <cite>Neimar Messi Kaka Neimar Neimar Messi Zico</cite></p>
+</li>
+<li><p class="first">a saída deve ser:</p>
+<div class="highlight-python"><div class="highlight"><pre>Neimar ocorre 3 vezes
+Messi ocorre 2 vezes
+Kaka ocorre 1 vezes
+Zico ocorre 1 vezes
+</pre></div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+
+<div id="aula16_ex01b_tentativa" >
+<textarea cols="50" rows="12" id="aula16_ex01b_tentativa_code" class="active_code">
+# escreva o seu programa abaixo e remova o print()
+print("Vixe! Ainda nao fiz esse exercicio!")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula16_ex01b_tentativa)</span> </p>
+<button onclick="runit('aula16_ex01b_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula16_ex01b_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula16_ex01b_tentativa');">Load</button>
+<br />
+
+<canvas id="aula16_ex01b_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula16_ex01b_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-16-2">
+<h3>Exercício 16.2<a class="headerlink" href="#exercicio-16-2" title="Permalink to this headline">¶</a></h3>
+<p><strong>Parte A</strong></p>
+<p>Escreva uma função <cite>marque_atacadas(tab)</cite> que recebe uma tabuleiro
+<cite>tab</cite> de xadrez (uma matriz 8x8 de caracteres) contendo rainhas
+(posições com <cite>R</cite>) e marca as regiões atacadas com um <cite>X</cite>, como abaixo:</p>
+<div class="highlight-python"><div class="highlight"><pre>+---+---+---+---+---+---+---+---+
+| X |   |   | X |   |   | X |   |
++---+---+---+---+---+---+---+---+
+|   | X |   | X |   | X |   |   |
++---+---+---+---+---+---+---+---+
+|   |   | X | X | X |   |   |   |
++---+---+---+---+---+---+---+---+
+| X | X | X | R | X | X | X | X |
++---+---+---+---+---+---+---+---+
+|   |   | X | X | X |   |   |   |
++---+---+---+---+---+---+---+---+
+|   | X |   | X |   | X |   |   |
++---+---+---+---+---+---+---+---+
+| X |   |   | X |   |   | X |   |
++---+---+---+---+---+---+---+---+
+|   |   |   | X |   |   |   | X |
++---+---+---+---+---+---+---+---+
+</pre></div>
+</div>
+
+<div id="aula16_ex02a_tentativa" >
+<textarea cols="50" rows="12" id="aula16_ex02a_tentativa_code" class="active_code">
+def marque_atacadas(tab):
+    """(tab) -> None
+       Altera tab marcando as posicoes atacadas por R com X
+    """
+    # escreva a sua funcao abaixo
+
+    print("Vixe! Ainda nao fiz esse exercicio!")
+
+####
+# codigo para testar a funcao
+tabuleiro = [ list('        '),
+              list('        '),
+              list('        '),
+              list('   R    '),
+              list('        '),
+              list('        '),
+              list('        '),
+              list('        ') ]
+marque_atacadas(tabuleiro)
+for lin in tabuleiro:
+    print(lin)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula16_ex02a_tentativa)</span> </p>
+<button onclick="runit('aula16_ex02a_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula16_ex02a_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula16_ex02a_tentativa');">Load</button>
+<br />
+
+<canvas id="aula16_ex02a_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula16_ex02a_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>Parte B</strong></p>
+<p>Usando a função do item anterior,
+escreva um programa que leia <cite>n</cite> e a posição de <cite>n</cite> rainhas,
+e imprima o tabuleiro (com moldura) mostrando a posição inicial
+das rainhas (tabuleiro só com <cite>R</cite>)
+e depois mostrando a posição das rainhas e as posições
+atacadas (com <cite>R</cite> e <cite>X</cite>).</p>
+
+<div id="aula16_ex02b_tentativa" >
+<textarea cols="50" rows="12" id="aula16_ex02b_tentativa_code" class="active_code">
+# escreva o seu programa abaixo e remova o print()
+print("Vixe! Ainda nao fiz esse exercicio!")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula16_ex02b_tentativa)</span> </p>
+<button onclick="runit('aula16_ex02b_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula16_ex02b_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula16_ex02b_tentativa');">Load</button>
+<br />
+
+<canvas id="aula16_ex02b_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula16_ex02b_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Exercícios</a><ul>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#id1">Exercícios</a><ul>
+<li><a class="reference internal" href="#exercicio-16-1">Exercício 16.1</a></li>
+<li><a class="reference internal" href="#exercicio-16-2">Exercício 16.2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="aula15.html"
+                        title="previous chapter">Mais funções com reais</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="aula17.html"
+                        title="next chapter">Introdução</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="aula17.html" title="Introdução"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="aula15.html" title="Mais funções com reais"
+             >previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Mar 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

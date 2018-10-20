@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Creating Palette&nbsp;Images</title></head><body data-page-id="34"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Creating Palette&nbsp;Images</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">February 05, 1999 | Fredrik Lundh | Previously published
+as &#8220;<cite>fyi #53: creating palette images</cite>&#8221;</p><h2>Introduction</h2><p>One of the weak spots in the current release of PIL is that it&#8217;s
+quite difficult to create a 8-bit palette image from scratch. The
+obvious way to create a palette, by using the <i>ImagePalette</i>
+class, simply doesn&#8217;t behave like one would expect.</p><h2>Creating the Image</h2><p>To create a new palette image, use the &#8220;P&#8221; mode with the <i>
+new</i> function:</p><blockquote><b>Image.new(&#8220;P&#8221;</b><i>, size, fill</i><b>)</b> where
+<i>size</i> is the the size in pixels given as (<i>width,
+height</i>), and <i>fill</i> is the background pixel
+value.</blockquote><p>If <i>fill</i> is omitted, it defaults to 0. To prevent PIL from
+filling the image at all (e.g. if you&#8217;re going to draw over the
+entire image anyway), use <i>None</i>.</p><h2>Changing the Palette</h2><p>PIL assigns a greyscale palette to the new image. In other
+words, for each colour index <i>i</i>, the corresponding palette
+entry is (<i>i, i, i</i>).</p><p>But how do we modify the contents of this palette? There&#8217;s not
+much on this in the documentation, but maybe we can use <i>dir</i>
+to see if there&#8217;s some attribute we could modify:</p><pre class="python">
+&gt;&gt;&gt; <span class="pykeyword">import</span> Image
+&gt;&gt;&gt; i = Image.new(<span class="pystring">"P"</span>, (512, 512))
+&gt;&gt;&gt; dir(i)
+[<span class="pystring">'category'</span>, <span class="pystring">'im'</span>, <span class="pystring">'info'</span>, <span class="pystring">'mode'</span>, <span class="pystring">'palette'</span>, <span class="pystring">'size'</span>]</pre><p>Cool. There&#8217;s a <i>palette</i> attribute in there. If we can
+figure out what it is, maybe we can modify the palette via that
+attribute.</p><pre class="python">
+&gt;&gt;&gt; <span class="pykeyword">print</span> i.palette
+None</pre><p>Oops. That wasn&#8217;t really what we expected, was it?</p><p>In fact, the <i>palette</i> attribute is used to store the
+palette in some situations. But that&#8217;s not always the case, since
+PIL also maintains an internal palette structure (the <i>
+ImagingPalette</i> structure) which is attached to the internal
+image representation.</p><p>Unfortunately, the current version of PIL doesn&#8217;t do what it
+takes to keep the externally visible <i>palette</i> attribute in
+sync with the internal one (this will most likely change in a
+future version). For example, when we created a new image, PIL
+properly set the internal palette structure to a greyscale palette,
+but it didn&#8217;t set the public <i>palette</i> attribute.</p><p>Maybe there&#8217;s some other way to change the palette? Let&#8217;s look
+at the methods provided by the <i>Image</i> class:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+&gt;&gt;&gt; dir(i.__class__)
+[<span class="pystring">'_Image__transformer'</span>, <span class="pystring">'__doc__'</span>, <span class="pystring">'__init__'</span>, <span class="pystring">'__module__'</span>,
+<span class="pystring">'__setattr__'</span>, <span class="pystring">'_dump'</span>, <span class="pystring">'_makeself'</span>, <span class="pystring">'convert'</span>, <span class="pystring">'copy'</span>, <span class="pystring">'crop'</span>,
+<span class="pystring">'draft'</span>, <span class="pystring">'filter'</span>, <span class="pystring">'format'</span>, <span class="pystring">'format_description'</span>, <span class="pystring">'fromstring'</span>,
+<span class="pystring">'getbands'</span>, <span class="pystring">'getbbox'</span>, <span class="pystring">'getdata'</span>, <span class="pystring">'getextrema'</span>, <span class="pystring">'getpixel'</span>,
+<span class="pystring">'getprojection'</span>, <span class="pystring">'histogram'</span>, <span class="pystring">'load'</span>, <span class="pystring">'offset'</span>, <span class="pystring">'paste'</span>, <span class="pystring">'point'</span>,
+<span class="pystring">'putalpha'</span>, <span class="pystring">'putdata'</span>, <span class="pystring">'putpalette'</span>, <span class="pystring">'putpixel'</span>, <span class="pystring">'quantize'</span>,
+<span class="pystring">'resize'</span>, <span class="pystring">'rotate'</span>, <span class="pystring">'save'</span>, <span class="pystring">'seek'</span>, <span class="pystring">'show'</span>, <span class="pystring">'split'</span>, <span class="pystring">'tell'</span>,
+<span class="pystring">'thumbnail'</span>, <span class="pystring">'tobitmap'</span>, <span class="pystring">'tostring'</span>, <span class="pystring">'transform'</span>, <span class="pystring">'transpose'</span>]</pre></div><div class="yui-ge"><div class="yui-u first"><p><i>putpalette</i> looks pretty promising. The only problem is
+that it appears to be undocumented (at least in the current release
+of the documentation).</p><p>Or rather, it was undocumented until now. Here&#8217;s how to use
+it:</p><blockquote><b>putpalette(</b><i>palette</i><b>)</b> where the
+image should have mode &#8220;P&#8221; or &#8220;L&#8221;, and <i>palette</i> is either a
+sequence of integers, or a string containing a binary
+representation of the palette. 
+
+<p>In both cases, the palette contents should be ordered (r, g, b,
+r, g, b, &#8230;). The palette can contain up to 768 entries (3*256).
+If a shorter palette is given, it is padded with zeros.</p></blockquote><p>And here&#8217;s a simple example. This script draws a few coloured
+objects on a black background.</p><div class="example"><pre class="python">
+<span class="pykeyword">import</span> Image
+<span class="pykeyword">import</span> ImageDraw
+
+im = Image.new(<span class="pystring">"P"</span>, (400, 400), 0)
+
+im.putpalette([
+    0, 0, 0, <span class="pycomment"># black background</span>
+    255, 0, 0, <span class="pycomment"># index 1 is red</span>
+    255, 255, 0, <span class="pycomment"># index 2 is yellow</span>
+    255, 153, 0, <span class="pycomment"># index 3 is orange</span>
+])
+
+d = ImageDraw.ImageDraw(im)
+d.setfill(1)
+
+d.setink(1)
+d.polygon((0, 0, 0, 400, 400, 400))
+
+d.setink(3)
+d.rectangle((100, 100, 300, 300))
+
+d.setink(2)
+d.ellipse((120, 120, 280, 280))
+
+im.save(<span class="pystring">"out.gif"</span>)</pre></div><p>This approach works well if you&#8217;re using only a few colours. You
+could for example write a Python module which contains your
+favourite palette definition (e.g. a standard 216-colour &#8220;web&#8221;
+palette), with symbolic names for the most common colour
+values.</p><h2>Hiding Some of the Complexity</h2><p>On the other hand, it&#8217;s not that hard to write a class that lets
+you create palettes on the fly, with the colours you happen to use
+in your image.</p><p>Here&#8217;s a very simple version; this keeps track of colours
+already used, and allocates new colour indices only when necessary:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide"><pre class="python wide">
+<span class="pykeyword">class</span> <span class="pyclass">Palette</span>:
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self):
+        self.palette = []
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__call__</span>(self, r, g, b):
+        <span class="pycomment"># map rgb tuple to colour index</span>
+        rgb = r, g, b
+        <span class="pykeyword">try</span>:
+            <span class="pykeyword">return</span> self.palette.index(rgb)
+        <span class="pykeyword">except</span>:
+            i = len(self.palette)
+            <span class="pykeyword">if</span> i &gt;= 256:
+                <span class="pykeyword">raise</span> RuntimeError, <span class="pystring">"all palette entries are used"</span>
+            self.palette.append(rgb)
+            <span class="pykeyword">return</span> i
+
+    <span class="pykeyword">def</span> <span class="pyfunction">getpalette</span>(self):
+        <span class="pycomment"># return flattened palette</span>
+        palette = []
+        <span class="pykeyword">for</span> r, g, b <span class="pykeyword">in</span> self.palette:
+            palette = palette + [r, g, b]
+        <span class="pykeyword">return</span> palette</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>And here&#8217;s how to use this class:</p><div class="example"><pre class="python">
+rgb = Palette()
+
+im = Image.new(<span class="pystring">"P"</span>, (400, 400), rgb(0, 0, 0))
+
+d = ImageDraw.ImageDraw(im)
+d.setfill(1)
+
+d.setink(rgb(255, 0, 0))
+d.polygon((0, 0, 0, 400, 400, 400))
+
+d.setink(rgb(255, 153, 0))
+d.rectangle((100, 100, 300, 300))
+
+d.setink(rgb(255, 255, 0))
+d.ellipse((120, 120, 280, 280))
+
+im.putpalette(rgb.getpalette())
+
+im.save(<span class="pystring">"out.gif"</span>)</pre></div><p>There are many ways to improve this class. You can change it so it
+supports the &#8220;#rrggbb&#8221; syntax as well, and maybe even add a colour
+database (perhaps a subset of the one used by the X window
+system).</p><p>Another change would be to make the colour search a bit less
+strict; if two colours are very similar, they might as well be mapped
+to the same colour index.</p><p>In any case, extending this class is left as an exercise for the
+interested reader.</p><p class="info"><a href="copyright.htm">Copyright</a> &#169; 1999-2001 by Fredrik Lundh</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

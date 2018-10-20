@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>An Alternative Python Reference:&nbsp;Targets</title></head><body data-page-id="207"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">An Alternative Python Reference:&nbsp;Targets</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | January 2006</p><p>(This page belongs to the <a href="pyref.htm"><cite>Alternative
+Python Reference</cite></a> project.)</p><h2 id="target-space">The Target Space&#160;<a class="nav" href="#target-space" title="bookmark!">#</a></h2><p>The semantic markup centers around the concepts of <i>targets</i>,
+and links to such targets.  A library target is any concept in the Python
+library that can be accessed by name, and the target description is simply
+the path to that object.</p><p>Some examples:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+sys.platform
+cgi.escape
+zipfile.ZipFile.write # the write method of the ZipFile class
+xml.dom.minidom.parse # the parse method in the minidom module
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>The target syntax combines the module path (the name you would use
+in an import statement) with the object path inside the module itself.
+To find the right module for a full target path, you can either start
+at the left end, and add parts until import fails, or start at the right
+end, and strip off parts as long as import fails.
+
+<h2 id="defining">Defining Targets&#160;<a class="nav" href="#defining" title="bookmark!">#</a></h2></p><p>In PyREF markup, targets are defined via special
+<a href="pyref-sections.htm">section markers</a>
+in the source code.
+The following markers are currently supported:</p><dl><dt><b>@@module</b> <i>modulename</i>
+</dt><dd>The full name, including package prefix, of the module that this
+source file documents.
+The full target name is <i>modulename</i>.
+</dd><dt><b>@@function</b> <i>name</i>
+</dt><dd>The name of a function in this module.
+The full target name is <i>modulename.name</i>.
+</dd><dt><b>@@variable</b> <i>name</i>
+</dt><dd>The name of a variable in this module.
+The full target name is <i>modulename.name</i>.
+</dd><dt><b>@@class</b> <i>classname</i>
+</dt><dd>The name of a class in this module.
+The full target name is <i>modulename.classname</i>.
+</dd><dt><b>@@method</b> <i>classname.name</i>
+</dt><dd>The name of a method (or other callable attribute) in the given class.
+The full target name is <i>modulename.classname.name</i>.
+</dd><dt><b>@@attribute</b> <i>classname.name</i>
+</dt><dd>The name of an attribute (or property) in the given class.
+The full target name is <i>modulename.classname.name</i>.
+</dd></dl><p>Additional target markers may be added in the future (e.g. @@interface,
+@@constant, @@property).
+
+<h2 id="linking">Linking to Targets&#160;<a class="nav" href="#linking" title="bookmark!">#</a></h2></p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">You can use inline <b>@link</b> tags to explicitly link to targets.
+Some link examples:
+
+<pre class="wide">
+{@link sys.platform}
+{@link cgi.escape}
+{@link zipfile.ZipFile.write}
+
+To read XML data from a file, use {@link xml.dom.minidom.parse}.
+</pre></p></div><div class="yui-ge"><div class="yui-u first"><p>For convenience, and to simplify simple renderers, links to
+functions and methods should be written with trailing parentheses
+(e.g. <tt>cgi.escape()</tt>).  More advanced renderers will ignore
+these, and use information about the actual target to determine how
+to render the link.
+
+</p><p>Links use the same name resolution rules as Python itself.  This
+means that the target for a given name will be searched for first
+in the current class, then in the current module, then in the built-in
+namespace (see below), and finally in the full library space.
+
+</p><p>To skip the local search, you can prefix the search with &#8220;<tt>python:</tt>&#8220;.  In the following example, all links in the <b>read</b> section points to
+the <b>write</b> section.</p><pre>
+@@method MyClass.read(bytes=...)
+
+  {@link write}
+  {@link MyClass.write}
+  {@link mymodule.MyClass.write}
+  {@link python:mymodule.MyClass.write}
+
+@@method MyClass.write(data)
+
+  All links above point to this entry!
+</pre><p>Parsers should expand links to their full form, and use render rules
+to decide how to render them.  For example, the above links should usually
+be rendered as <b>write</b> when written inside a method in the same class,
+and <b>MyClass.write</b> when written inside the same module.  (To get more
+control over the rendering, use the @linkplain tag instead of @link.  See
+the PythonDoc documentation for details.)</p><h2 id="the-builtin-namespace">The Built-in Namespace&#160;<a class="nav" href="#the-builtin-namespace" title="bookmark!">#</a></h2><p>The built-in namespace  contains all names from the
+<b>__builtin__</b> and <b>exceptions</b> modules,
+just like in ordinary Python.
+
+To refer to a built-in name from a module or class that contains
+objects with the same name, use the full name (e.g.
+<tt>__builtin__.len</tt>) or the prefix form or (e.g. <tt>python:len</tt>
+or <tt>python:__builtin__.len</tt>).</p><h2 id="notes">Notes&#160;<a class="nav" href="#notes" title="bookmark!">#</a></h2><p>Since the renderer knows what a link points to, there&#8217;s no need to
+repeat this information over and over again in the markup.  This makes
+the markup  a lot easier to read in many cases, as can be seen in the
+following examples:
+
+<pre>
+    # latex
+    Call the \method{gettype()} method 
+    Use the \code{\refmodule{sys}.platform} variable.
+    \function{\refmodule{cgi}.escape} replaces entities.
+
+    # pythondoc
+    Call the {@link gettype} method.
+    Use the {@link sys.platform} variable.
+    {@link cgi.escape} replaces entities.
+</pre></p><p>To avoid potential name clashes, JavaDoc uses #-separators between
+modules and object names:
+
+<pre>
+    sys#platform
+    cgi#escape
+    zipfile#ZipFile.write
+    xml.dom.minidom#parse
+</pre></p><p>PythonDoc supports this syntax, but the current Python Reference toolchain
+doesn&#8217;t.  I&#8217;m not sure we should require this syntax, but it would probably
+be a good idea to support it.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#target-space">The Target Space</a></li><li><a href="#defining">Defining Targets</a></li><li><a href="#linking">Linking to Targets</a></li><li><a href="#the-builtin-namespace">The Built-in Namespace</a></li><li><a href="#notes">Notes</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

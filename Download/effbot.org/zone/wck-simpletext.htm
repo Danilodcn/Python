@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Implementing A Simple Text Display&nbsp;Widget</title></head><body data-page-id="362"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Implementing A Simple Text Display&nbsp;Widget</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | September 2004 | Originally posted to <a href="http://online.effbot.org">online.effbot.org</a></p><p> Time for some <a href="wck.htm">WCK</a> programming. The following snippet implements a simple text widget, which can display a single paragraph of text:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget, FONT, FOREGROUND
+
+<span class="pykeyword">class</span> <span class="pyclass">SimpleTextView</span>(Widget):
+
+    ui_option_text = <span class="pystring">""</span>
+
+    ui_option_width = 200
+    ui_option_height = 100
+
+    ui_option_font = FONT
+
+    ui_option_foreground = FOREGROUND
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_config</span>(self):
+        self.font = self.ui_font(
+            self.ui_option_foreground, self.ui_option_font
+            )
+        <span class="pykeyword">return</span> int(self.ui_option_width), int(self.ui_option_height)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        space = draw.textsize(<span class="pystring">" "</span>, self.font)[0]
+        words = self.ui_option_text.split()
+        x = y = 0
+        <span class="pykeyword">for</span> word <span class="pykeyword">in</span> words:
+            <span class="pycomment"># check size of this word</span>
+            w, h = draw.textsize(word, self.font)
+            <span class="pycomment"># figure out where to draw it</span>
+            <span class="pykeyword">if</span> x:
+                x += space
+                <span class="pykeyword">if</span> x + w &gt; x1:
+                    <span class="pycomment"># new line</span>
+                    x = 0
+                    y += h
+            draw.text((x, y), word, self.font)
+            x += w</pre></div><div class="yui-ge"><div class="yui-u first"><p>The repair code treats the text as a single paragraph, consisting of one
+long list of words.  Note that the code always draws words that start at the
+left margin, even if they won&#8217;t fit on the line. For all other words (where
+<i>x</i> is not zero), the code checks if there&#8217;s room for a space character
+and the word on the current line. If not (that is, if <i>x+w&gt;x1</i> where
+<i>x1</i> is the right margin), it moves on to the next line.</p><p>Also note the use of a precomputed font object, and the use of FONT
+and FOREGROUND constants from the WCK module.
+
+</p><p>Here&#8217;s a usage example:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+TEXT = <span class="pystring">"""</span>
+I tell you I have been in the editorial business going on fourteen
+years, and it is the first time I ever heard of a man's having to know
+anything in order to edit a newspaper. You turnip!
+"""
+
+w = SimpleTextView(None, text=TEXT)
+w.pack(expand=1, fill=<span class="pystring">"both"</span>)
+w.mainloop()</pre></div><div class="yui-ge"><div class="yui-u first"><blockquote>
+<img alt="" height="134" src="/media/cache/ad534ae6dcd5e23262493729e3e55670.png" width="208" />
+</blockquote><p>In upcoming articles, we&#8217;ll look at how this can be extended to support
+multiple paragraphs, different text styles, etc.  Stay tuned.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

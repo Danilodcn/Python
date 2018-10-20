@@ -1,0 +1,463 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Valores e operadores booleanos &mdash; Aulas de Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Aulas de Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Funções" href="aula06.html" />
+    <link rel="prev" title="Classes float e str e execuções condicionais em cadeia" href="aula04.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'aulasPython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="aula06.html" title="Funções"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="aula04.html" title="Classes float e str e execuções condicionais em cadeia"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="valores-e-operadores-booleanos">
+<h1>Valores e operadores booleanos<a class="headerlink" href="#valores-e-operadores-booleanos" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="index-0"></span><div class="section" id="topicos">
+<span id="index-1"></span><h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>tipo <tt class="docutils literal"><span class="pre">bool</span></tt>;</li>
+<li>valores booleanos:  <tt class="docutils literal"><span class="pre">True</span></tt> e <tt class="docutils literal"><span class="pre">False</span></tt>;</li>
+<li>operadores lógicos <tt class="docutils literal"><span class="pre">and</span></tt>, <tt class="docutils literal"><span class="pre">or</span></tt> e <tt class="docutils literal"><span class="pre">not</span></tt>;</li>
+<li>expressões lógicas;</li>
+<li>indicadores de passagem.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="valores-booleanos">
+<h2>Valores booleanos<a class="headerlink" href="#valores-booleanos" title="Permalink to this headline">¶</a></h2>
+<p>Em Python, uma variável pode assumir valor booleano <tt class="docutils literal"><span class="pre">True</span></tt>
+(verdadeiro) ou <tt class="docutils literal"><span class="pre">False</span></tt> (falso). Esses valores são úteis para
+representar, por exemplo, o resultado de uma comparação.
+Experimente:</p>
+
+<div id="aula05_exemplo_1" >
+<textarea cols="50" rows="12" id="aula05_exemplo_1_code" class="active_code">
+a = 3
+b = 4
+c = a < b   # c recebe o valor da comparação a < b
+d = a > b   # d recebe o valor da comparação a > b
+e = a == b  # e recebe o valor da comparação a == b
+
+print("Valor de c: ", c)
+print("Valor de d: ", d)
+print("Valor de e: ", e)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula05_exemplo_1)</span> </p>
+<button onclick="runit('aula05_exemplo_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula05_exemplo_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula05_exemplo_1');">Load</button>
+<br />
+
+<canvas id="aula05_exemplo_1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula05_exemplo_1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="operadores-e-expressoes-logicas">
+<h2>Operadores e expressões lógicas<a class="headerlink" href="#operadores-e-expressoes-logicas" title="Permalink to this headline">¶</a></h2>
+<p>Assim como expressões aritméticas podem ser formadas por operadores
+aritméticos (como 2 + 3 * 4), expressões lógicas são formadas por
+operadores lógicos.</p>
+<div class="section" id="operador-and">
+<h3>Operador <tt class="docutils literal"><span class="pre">and</span></tt><a class="headerlink" href="#operador-and" title="Permalink to this headline">¶</a></h3>
+<p>Dados dois valores booleanos A e B, o operador lógico <tt class="docutils literal"><span class="pre">and</span></tt> resulta
+em <tt class="docutils literal"><span class="pre">True</span></tt> apenas quando A e B foram ambos <tt class="docutils literal"><span class="pre">True</span></tt>, e retorna
+<tt class="docutils literal"><span class="pre">False</span></tt> caso contrário.</p>
+<p>Altere os valores de A e B no programa abaixo e veja o resultado.</p>
+
+<div id="aula05_exemplo_op_logico_and" >
+<textarea cols="50" rows="12" id="aula05_exemplo_op_logico_and_code" class="active_code">
+A = True
+B = False
+print ("Valor de A and B: ", A and B)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula05_exemplo_op_logico_and)</span> </p>
+<button onclick="runit('aula05_exemplo_op_logico_and',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula05_exemplo_op_logico_and');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula05_exemplo_op_logico_and');">Load</button>
+<br />
+
+<canvas id="aula05_exemplo_op_logico_and_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula05_exemplo_op_logico_and_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>A tabela abaixo mostra o resultado de <tt class="docutils literal"><span class="pre">and</span></tt> para todas as
+combinações de A e B.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="34%" />
+<col width="31%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">and</span></tt></td>
+<td>A = True</td>
+<td>A = False</td>
+</tr>
+<tr class="row-even"><td>B = True</td>
+<td>True</td>
+<td>False</td>
+</tr>
+<tr class="row-odd"><td>B = False</td>
+<td>False</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="operador-or">
+<h3>Operador <tt class="docutils literal"><span class="pre">or</span></tt><a class="headerlink" href="#operador-or" title="Permalink to this headline">¶</a></h3>
+<p>Dados dois valores booleanos A e B, o operador lógico <tt class="docutils literal"><span class="pre">or</span></tt> resulta
+em <tt class="docutils literal"><span class="pre">False</span></tt> apenas quando A e B foram ambos <tt class="docutils literal"><span class="pre">False</span></tt>, e retorna
+<tt class="docutils literal"><span class="pre">True</span></tt> caso contrário.</p>
+<p>Altere os valores de A e B no programa abaixo e veja o resultado.</p>
+
+<div id="aula05_exemplo_op_logico_or" >
+<textarea cols="50" rows="12" id="aula05_exemplo_op_logico_or_code" class="active_code">
+A = True
+B = False
+print ("Valor de A or B: ", A or B)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula05_exemplo_op_logico_or)</span> </p>
+<button onclick="runit('aula05_exemplo_op_logico_or',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula05_exemplo_op_logico_or');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula05_exemplo_op_logico_or');">Load</button>
+<br />
+
+<canvas id="aula05_exemplo_op_logico_or_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula05_exemplo_op_logico_or_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>A tabela abaixo mostra o resultado de <tt class="docutils literal"><span class="pre">or</span></tt> para todas as
+combinações de A e B.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="34%" />
+<col width="31%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">or</span></tt></td>
+<td>A = True</td>
+<td>A = False</td>
+</tr>
+<tr class="row-even"><td>B = True</td>
+<td>True</td>
+<td>True</td>
+</tr>
+<tr class="row-odd"><td>B = False</td>
+<td>True</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="operador-not">
+<h3>Operador <tt class="docutils literal"><span class="pre">not</span></tt><a class="headerlink" href="#operador-not" title="Permalink to this headline">¶</a></h3>
+<p>O operador lógico <tt class="docutils literal"><span class="pre">not</span></tt> muda o valor de seu argumento, ou seja,
+<tt class="docutils literal"><span class="pre">not</span> <span class="pre">True</span></tt> é <tt class="docutils literal"><span class="pre">False</span></tt>, e <tt class="docutils literal"><span class="pre">not</span> <span class="pre">False</span></tt> é <tt class="docutils literal"><span class="pre">True</span></tt>.</p>
+</div>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="exercicio-5-1">
+<h3>Exercício 5.1<a class="headerlink" href="#exercicio-5-1" title="Permalink to this headline">¶</a></h3>
+<p>Dados um número inteiro <tt class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">0</span></tt> e as notas finais de <tt class="docutils literal"><span class="pre">n</span></tt> alunos,
+determinar quantos alunos ficaram de recuperação.  Um aluno está de
+recuperação se sua nota fina está entre <tt class="docutils literal"><span class="pre">3.0</span></tt> e <tt class="docutils literal"><span class="pre">5.0</span></tt> (exclusive)
+A nota máxima é 10.0.</p>
+
+<div id="aula05_ex51_tentativa" >
+<textarea cols="50" rows="12" id="aula05_ex51_tentativa_code" class="active_code">
+# Escreva o seu programa aqui
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula05_ex51_tentativa)</span> </p>
+<button onclick="runit('aula05_ex51_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula05_ex51_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula05_ex51_tentativa');">Load</button>
+<br />
+
+<canvas id="aula05_ex51_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula05_ex51_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Clique <a class="reference external" href="exercicios/ex51.html">aqui</a> para ver uma solução.</p>
+</div>
+<div class="section" id="exercicio-5-2">
+<h3>Exercício 5.2<a class="headerlink" href="#exercicio-5-2" title="Permalink to this headline">¶</a></h3>
+<p>Dados um número inteiro <tt class="docutils literal"><span class="pre">n</span></tt>, <tt class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">0</span></tt>, e uma sequência com
+<tt class="docutils literal"><span class="pre">n</span></tt> números reais, verificar se a sequência está em
+ordem crescente.</p>
+<p>Por exemplo, para a entrada</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">7</span>   <span class="o">-</span><span class="mi">6</span>   <span class="mi">0</span>   <span class="mi">12</span>   <span class="mi">15</span>   <span class="mi">37</span>   <span class="mi">101</span>   <span class="mi">201</span>
+</pre></div>
+</div>
+<p>o programa deve imprimir <tt class="docutils literal"><span class="pre">Não</span> <span class="pre">está</span> <span class="pre">em</span> <span class="pre">ordem</span> <span class="pre">crescente.</span></tt>
+e para a entrada</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">7</span>  <span class="o">-</span><span class="mi">6</span>  <span class="mi">0</span>  <span class="mi">17</span>  <span class="mi">15</span>  <span class="mi">37</span> <span class="mi">101</span> <span class="mi">201</span>
+</pre></div>
+</div>
+<p>o programa deve imprimir <tt class="docutils literal"><span class="pre">Está</span> <span class="pre">em</span> <span class="pre">ordem</span> <span class="pre">crescente.</span></tt></p>
+
+<div id="aula05_ex52_tentativa" >
+<textarea cols="50" rows="12" id="aula05_ex52_tentativa_code" class="active_code">
+# Escreva o seu programa aqui
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula05_ex52_tentativa)</span> </p>
+<button onclick="runit('aula05_ex52_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula05_ex52_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula05_ex52_tentativa');">Load</button>
+<br />
+
+<canvas id="aula05_ex52_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula05_ex52_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Clique <a class="reference external" href="exercicios/ex52.html">aqui</a> para ver uma solução.</p>
+</div>
+<div class="section" id="exercicio-5-3">
+<h3>Exercício 5.3<a class="headerlink" href="#exercicio-5-3" title="Permalink to this headline">¶</a></h3>
+<p>Dado um número inteiro <tt class="docutils literal"><span class="pre">n</span></tt>, <tt class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">0</span></tt>, verificar se este
+número contém dois dígitos adjacentes iguais.</p>
+<p>Por exemplo, para</p>
+<div class="highlight-python"><div class="highlight"><pre>1234321 a resposta é não e
+1234556 a resposta é sim.
+</pre></div>
+</div>
+
+<div id="aula05_ex53_tentativa" >
+<textarea cols="50" rows="12" id="aula05_ex53_tentativa_code" class="active_code">
+# Escreva o seu programa aqui
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula05_ex53_tentativa)</span> </p>
+<button onclick="runit('aula05_ex53_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula05_ex53_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula05_ex53_tentativa');">Load</button>
+<br />
+
+<canvas id="aula05_ex53_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula05_ex53_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Clique <a class="reference external" href="exercicios/ex53.html">aqui</a> para ver uma solução.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Valores e operadores booleanos</a><ul>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#valores-booleanos">Valores booleanos</a></li>
+<li><a class="reference internal" href="#operadores-e-expressoes-logicas">Operadores e expressões lógicas</a><ul>
+<li><a class="reference internal" href="#operador-and">Operador <tt class="docutils literal"><span class="pre">and</span></tt></a></li>
+<li><a class="reference internal" href="#operador-or">Operador <tt class="docutils literal"><span class="pre">or</span></tt></a></li>
+<li><a class="reference internal" href="#operador-not">Operador <tt class="docutils literal"><span class="pre">not</span></tt></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a><ul>
+<li><a class="reference internal" href="#exercicio-5-1">Exercício 5.1</a></li>
+<li><a class="reference internal" href="#exercicio-5-2">Exercício 5.2</a></li>
+<li><a class="reference internal" href="#exercicio-5-3">Exercício 5.3</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="aula04.html"
+                        title="previous chapter">Classes float e str e execuções condicionais em cadeia</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="aula06.html"
+                        title="next chapter">Funções</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="aula06.html" title="Funções"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="aula04.html" title="Classes float e str e execuções condicionais em cadeia"
+             >previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Mar 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

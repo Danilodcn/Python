@@ -1,0 +1,322 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html> 
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Introdução à Computação - Instalação do Code::Blocks no Linux (Ubuntu)</title>
+<meta name="keywords" content="Instalação code::blocks, codeblocks, introdução, computação, linux, ubuntu" />
+<meta name="description" content="instalação codeblocks no linux (ubuntu)" />
+<link rel="stylesheet"  href="estilo.css"  type="text/css"/>
+</head>
+
+<body>
+
+<p class="dcc">
+<small><b><a href="http://www.ime.usp.br/mac/">Departamento de Ci&ecirc;ncia da
+Computa&ccedil;&atilde;o</a> - <a href="http://www.ime.usp.br/">IME</a> - <a href="http://www.usp.br/">USP</a></b></small><br>
+
+<center>
+<h1><i>Instalação do Code::Blocks no Ubuntu Linux</i></h1>
+</center>
+
+
+<p>
+<a href="http://www.codeblocks.org/"><tt>Code::Blocks</tt></a> &eacute;
+um ambiente integrado de desenvolvimento para as linguagens <tt>C</tt> e
+<tt>C++</tt>.
+Ele &eacute; um "Free Software" (sob <a href="http://www.gnu.org/licenses/gpl.html"><i>GNU</i>
+General Public License</a>). Isso significa, entre outras coisas, que 
+ele pode ser distribuído e copiado à vontade.
+</p>
+
+<p>
+Durante o curso voc&ecirc; pode utilizar outro compilador se desejar, mas
+deve se certificar que os seus programas podem ser compilados pela vers&atilde;o
+do <i>Code::Blocks</i> dispon&iacute;vel nessa p&aacute;gina e na sala Pr&oacute;-Aluno
+antes de entreg&aacute;-los.
+</p>
+
+<p>
+Depois de instalar o <i>Code::Blocks</i> veja a 
+<a href="./codeblocksintro.html">Aula Dirigida de Uso do <tt>Code::Blocks</tt></a>.
+</p>
+<p>&nbsp;</p>
+<hr>
+<p>
+
+</p>
+
+<h1>Instala&ccedil;&atilde;o do  <i>Code::Blocks</i> no Ubuntu 14.04</h1>
+
+<p>
+<div ALIGN="CENTER"><a NAME="chamada"></a>
+  <table>
+    <caption ALIGN="BOTTOM">
+    Área de trabalho do Ubuntu do usuário <TT>hofstadter</TT> .
+    </caption>
+    <tr>
+      <td>
+	<center>
+	<img align="bottom" border="0"  src="./imgs/ubuntu-area-trabalho.png"
+	alt="trabalho" width="50%">
+	</center>
+      </td>
+    </tr>
+  </table>
+</div>
+</p>
+
+<p>
+Abra uma janela de comandos, tamb&eacute;m conhecida como <b>terminal</b> ou <b>console</b>. No Ubuntu, tecle
+<pre class="saida">
+<tt>Ctrl+Alt t</tt>
+</pre>
+<div ALIGN="CENTER"><a NAME="chamada"></a>
+  <table>
+    <caption ALIGN="BOTTOM">
+    Abertura de um terminal na área de trabalho.
+    </caption>
+    <tr>
+      <td>
+	<center>
+	<img align="bottom" border="0"  src="./imgs/ubuntu-terminal.png"
+	alt="trabalho" width="60%">
+	</center>
+      </td>
+    </tr>
+  </table>
+</div>
+</p>
+
+<p>
+No terminal (janela que abriu), digite o seguinte comando:<br>
+<pre class="saida">
+sudo apt-get install codeblocks
+</pre>
+e tecle <tt>ENTER</tt>
+</p>
+<div ALIGN="CENTER"><a NAME="chamada"></a>
+  <table>
+    <caption ALIGN="BOTTOM">
+    Comando para instalar o Code::Blocks.
+    </caption>
+    <tr>
+      <td>
+	<center>
+	<img align="bottom" border="0"  src="./imgs/ubuntu-apt-get.png"
+	alt="trabalho" width="80%">
+	</center>
+      </td>
+    </tr>
+  </table>
+</div>
+
+
+<p> Esse comando vai perguntar por sua senha
+(voc&ecirc; precisa ter permiss&atilde;o de administrador para poder instalar programas).
+<div ALIGN="CENTER"><a NAME="chamada"></a>
+  <table>
+    <caption ALIGN="BOTTOM">
+    Pedido da senha do usuário.
+    </caption>
+    <tr>
+      <td>
+	<center>
+	<img align="bottom" border="0"  src="./imgs/ubuntu-senha.png"
+	alt="trabalho" width="80%">
+	</center>
+      </td>
+    </tr>
+  </table>
+</div>
+Digite sua senha e, caso voc&ecirc; tenha permiss&atilde;o, o Ubuntu vai automaticamente buscar o programa e instal&aacute;-lo em seu computador e... PRONTO!
+</p>
+
+<p>
+Para iniciar o <tt>Code::Blocks</tt> caso tenha sucesso na instala&ccedil;&atilde;o, em um terminal, digite
+<pre class="saida">
+codeblocks &
+</pre>
+<div ALIGN="CENTER"><a NAME="chamada"></a>
+  <table>
+    <caption ALIGN="BOTTOM">
+    Comando para executar o <tt>Code::Blocks</tt>.
+    </caption>
+    <tr>
+      <td>
+	<center>
+	<img align="bottom" border="0"  src="./imgs/ubuntu-codeblocks.png"
+	alt="trabalho" width="80%">
+	</center>
+      </td>
+    </tr>
+  </table>
+</div>
+</p>
+<p>
+Depois disto o <tt>Code::Blocks</tt> se abrirá.
+<div ALIGN="CENTER"><a NAME="chamada"></a>
+  <table>
+    <caption ALIGN="BOTTOM">
+    Janela inicial <tt>Code::Blocks</tt>.
+    </caption>
+    <tr>
+      <td>
+	<center>
+	<img align="bottom" border="0"  src="./imgs/ubuntu-codeblocks-inicial.png"
+	alt="trabalho" width="60%">
+	</center>
+      </td>
+    </tr>
+  </table>
+</div>
+
+</p>
+
+<p>
+Na primeira vez que você utilizar o <tt>Code::Blocks</tt>,
+o programa vai perguntar se você deseja utilizar o compilador default
+(no caso o <tt>GCC</tt>). Aceite essa opção clicando em <b>Ok</b>.
+<div ALIGN="CENTER"><a NAME="chamada"></a>
+  <table>
+    <caption ALIGN="BOTTOM">
+    Detecção automática do <tt>GCC</tt>.
+    </caption>
+    <tr>
+      <td>
+	<center>
+	<img align="bottom" border="0"  src="./imgs/ubuntu-gcc-ok.png"
+	alt="trabalho" width="60%">
+	</center>
+      </td>
+    </tr>
+  </table>
+</div>
+</p>
+
+<p>  
+Além da tela principal, o <i>Code::Blocks</i> oferece uma janela com "dicas" para melhor utilizar a ferramenta.
+Você pode fechá;-la, ou minimizá-la, ou até mesmo explorar as dicas se desejar.
+<div ALIGN="CENTER"><a NAME="chamada"></a>
+  <table>
+    <caption ALIGN="BOTTOM">
+    Dicas do <tt>Code::Blocks</tt>.
+    </caption>
+    <tr>
+      <td>
+	<center>
+	<img align="bottom" border="0"  src="./imgs/ubuntu-codeblocks-dicas.png"
+	alt="trabalho" width="60%">
+	</center>
+      </td>
+    </tr>
+  </table>
+</div>
+</p>
+
+<p>
+Agora vamos configurar o <tt>Code::Blocks</tt>.
+Na janela do <tt>Code::Blocks</tt> vá com o cursor até o topo da tela.
+Uma barra com opções surgirá. Nessa barra siga
+<pre class="saida">
+Settings --> Compiler 
+</pre>
+<div ALIGN="CENTER"><a NAME="chamada"></a>
+  <table>
+    <caption ALIGN="BOTTOM">
+    Janela com opções de compilação do <tt>Code::Blocks</tt>.
+    </caption>
+    <tr>
+      <td>
+	<center>
+	<img align="bottom" border="0"  src="./imgs/ubuntu-codeblocks-compilacao.png"
+	alt="trabalho" width="60%">
+	</center>
+      </td>
+    </tr>
+  </table>
+</div>
+</p>
+
+<p>
+A seguir, na tela que aparecer, assinale as 4 op&ccedil;&otilde;es 
+  indicadas abaixo e clique em <b>OK</b>.
+
+<div ALIGN="CENTER"><a NAME="chamada"></a>
+  <table>
+    <caption ALIGN="BOTTOM">
+    Opções de compilação <tt>-ansi, -Wall</tt> e <tt>-pedantic</tt>.
+    </caption>
+    <tr>
+      <td>
+	<center>
+	<img align="bottom" border="0"  src="./imgs/ubuntu-codeblocks-ansi.png"
+	alt="trabalho" width="60%">
+	</center>
+      </td>
+    </tr>
+  </table>
+</div>
+<p>&nbsp;</p>
+<div ALIGN="CENTER"><a NAME="chamada"></a>
+  <table>
+    <caption ALIGN="BOTTOM">
+    Opção de compilação  <tt>-O2</tt>.
+    </caption>
+    <tr>
+      <td>
+	<center>
+	<img align="bottom" border="0"  src="./imgs/ubuntu-codeblocks-o2.png"
+	alt="trabalho" width="60%">
+	</center>
+      </td>
+    </tr>
+  </table>
+</div>
+</p>
+
+
+
+<p>
+Finalmente, clique na aba "<tt>Other options</tt>" e na janela que é mostrada
+escreva <tt>-Wno-unused-result</tt> e depois clique em OK.
+<div ALIGN="CENTER"><a NAME="chamada"></a>
+  <table>
+    <caption ALIGN="BOTTOM">
+    Opção de compilação <tt>-Wno-unused-result</tt>.
+    </caption>
+    <tr>
+      <td>
+	<center>
+	<img align="bottom" border="0"  src="./imgs/ubuntu-codeblocks-unused-result.png"
+	alt="trabalho" width="60%">
+	</center>
+      </td>
+    </tr>
+  </table>
+</div>
+</p>
+
+<p>&nbsp;</p>
+
+
+
+
+<p>
+  Agora é só correr para o abraço e se divertir!
+   Veja agora a  <a href="./codeblocksintro.html">Aula Dirigida de Uso do <tt>Code::Blocks</tt></a>.
+
+</p>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+
+<hr>
+<!-- hhmts start -->Last modified: Fri May 23 07:46:02 BRT 2014 <!-- hhmts end -->
+
+ 
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The BlockView&nbsp;Widget</title></head><body data-page-id="361"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The BlockView&nbsp;Widget</h1></div><div class="yui-ge"><div class="yui-u first"><p>The <b>BlockView</b> widget is a simple container widget that handles
+variable-height &#8220;blocks&#8221;, such as text paragraphs, images, or other items.</p><p>This implementation uses straight-forward data structures, and is
+therefore limited to a relatively small number of blocks.</p><p>Here&#8217;s the core widget implementation:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget
+
+<span class="pykeyword">class</span> <span class="pyclass">BlockView</span>(Widget):
+
+    ui_option_width = 500
+    ui_option_height = 500
+
+    ui_option_yscrollcommand = None
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, master, **options):
+        self.blocks = []
+        self.blocks_height = self.blocks_width = 0
+        self.size = 0, 0 <span class="pycomment"># not known yet</span>
+        self.offset = 0 <span class="pycomment"># pixel offset at top of window</span>
+        self.ui_init(master, options)
+        self.update_geometry()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_config</span>(self):
+        self.update_geometry()
+        <span class="pykeyword">return</span> int(self.ui_option_width), int(self.ui_option_height)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_resize</span>(self, width, height):
+        self.size = width, height
+        self.update_geometry()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_clear</span>(self, draw, x0, y0, x1, y1):
+        <span class="pykeyword">pass</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        self.reflow_blocks(draw, self.size[0])
+        top = -self.offset
+        <span class="pykeyword">for</span> block <span class="pykeyword">in</span> self.blocks:
+            bottom = top + block.height
+            <span class="pykeyword">if</span> bottom &gt; y0:
+                block.repair(self, draw, (0, top))
+            top = bottom
+            <span class="pykeyword">if</span> top &gt; y1:
+                <span class="pykeyword">break</span>
+        <span class="pykeyword">else</span>:
+            <span class="pycomment"># clear rest of widget</span>
+            draw.rectangle(
+                (x0, bottom, x1, y1),
+                self.ui_brush(self.ui_option_background)
+                )
+
+    <span class="pykeyword">def</span> <span class="pyfunction">reflow_blocks</span>(self, draw, width):
+        <span class="pycomment"># reflow blocks</span>
+        <span class="pykeyword">if</span> width == self.blocks_width:
+            <span class="pykeyword">return</span>
+        height = 0
+        <span class="pykeyword">for</span> block <span class="pykeyword">in</span> self.blocks:
+            block.setwidth(self, draw, width)
+            height = height + block.height
+        self.blocks_height = height
+        self.blocks_width = width
+        <span class="pykeyword">return</span> height
+
+    <span class="pykeyword">def</span> <span class="pyfunction">update_geometry</span>(self):
+        <span class="pycomment"># recalculate geometry related parameters, and update scrollbar</span>
+        <span class="pykeyword">if</span> callable(self.ui_option_yscrollcommand):
+            <span class="pykeyword">if</span> self.blocks <span class="pykeyword">and</span> self.size[0]:
+                <span class="pycomment"># calculate visible region</span>
+                height = self.reflow_blocks(self.ui_draw, self.size[0])
+                start = float(self.offset) / height
+                end = float(self.offset + self.size[1]) / height
+                self.ui_option_yscrollcommand(start, min(end, 1.0))
+            <span class="pykeyword">else</span>:
+                self.ui_option_yscrollcommand(0.0, 1.0)
+        self.ui_damage()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">setoffset</span>(self, offset):
+        <span class="pycomment"># set topmost position</span>
+        <span class="pykeyword">if</span> offset &gt;= self.blocks_height - self.size[1]:
+            offset = self.blocks_height - self.size[1]
+        <span class="pykeyword">if</span> offset &lt; 0:
+            offset = 0
+        <span class="pykeyword">if</span> offset != self.offset:
+            <span class="pycomment"># redraw widget</span>
+            self.offset = offset
+            self.update_geometry()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">yview</span>(self, event, value, unit=None):
+        <span class="pycomment"># adjust top index</span>
+        <span class="pykeyword">if</span> event == <span class="pystring">"moveto"</span>:
+            self.setoffset(int(self.blocks_height * float(value) + 0.5))
+        <span class="pykeyword">elif</span> event == <span class="pystring">"scroll"</span>:
+            <span class="pycomment"># FIXME: configurable step units</span>
+            full_step = float(value) * self.size[1]
+            <span class="pykeyword">if</span> unit == <span class="pystring">"units"</span>:
+                self.setoffset(self.offset + int(full_step * 0.1 + 0.5))
+            <span class="pykeyword">elif</span> unit == <span class="pystring">"pages"</span>:
+                self.setoffset(self.offset + int(full_step * 0.9 + 0.5))</pre></div><div class="yui-ge"><div class="yui-u first"><p>And here&#8217;s a minimal block implementation:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">class</span> <span class="pyclass">Block</span>:
+
+    width = height = 0
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, color, height):
+        self.color = color
+        self.height = height
+
+    <span class="pykeyword">def</span> <span class="pyfunction">setwidth</span>(self, widget, draw, width):
+        <span class="pycomment"># reflow/resize block</span>
+        self.width = width
+
+    <span class="pykeyword">def</span> <span class="pyfunction">repair</span>(self, widget, draw, offset):
+        <span class="pycomment"># render block to screen</span>
+        x0, y0 = offset
+        draw.rectangle(
+            (x0, y0, x0+self.width, y0+self.height),
+            widget.ui_brush(self.color), widget.ui_pen(<span class="pystring">"black"</span>)
+            )</pre></div><div class="yui-ge"><div class="yui-u first"><pre>
+from Tkinter import *
+
+root = Tk()
+
+view = BlockView(root)
+view.pack(expand=1, fill=BOTH)
+
+view.blocks.append(Block("red", 100))
+view.blocks.append(Block("green", 200))
+view.blocks.append(Block("blue", 100))
+
+mainloop()
+</pre></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

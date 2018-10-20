@@ -1,0 +1,2006 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Mais sobre Iteração &mdash; Como pensar como um Cientista da Computação: Edição Interativa em Python</title>
+    
+    <link rel="stylesheet" href="../_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="../_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="../_static/codemirror.js"></script>
+    <script type="text/javascript" src="../_static/python.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="../_static/assess.js"></script>
+    <script type="text/javascript" src="../_static/animationbase.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="../_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Como pensar como um Cientista da Computação: Edição Interativa em Python" href="../index.html" />
+    <link rel="next" title="Experimenting With the 3n+1 Sequence" href="../Labs/sequencelab.html" />
+    <link rel="prev" title="Approximating the Value of Pi" href="../Labs/montepi.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/pensePython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'pensePython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/pensePython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../Labs/sequencelab.html" title="Experimenting With the 3n+1 Sequence"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../Labs/montepi.html" title="Approximating the Value of Pi"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="mais-sobre-iteracao">
+<h1>Mais sobre Iteração<a class="headerlink" href="#mais-sobre-iteracao" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="index-0"></span><span class="target" id="index-1"></span><p>Realizar tarefas repetitivas sem cometer erros é algo que os
+computadores fazem bem e as pessoas nem tanto. É por isso que os
+computadores são utilizados muitas vezes para automatizar esses tipos
+de tarefas.</p>
+<p>A execução repetida de uma sequência de instruções é chamada de
+<strong>iteração</strong> (<em>iteration</em>). Como iterar é muito comum, Python tem
+várias características para torná-la mais fácil. Nós já vimos o
+comando <code class="docutils literal"><span class="pre">for</span></code> no Capítulo 3. Esta é uma forma muito comum de
+iteração em Python. Neste capítulo também vamos ver o comando
+<code class="docutils literal"><span class="pre">while</span></code> &#8212; como uma outra maneira de fazer iterações em seus
+programas.</p>
+<div class="admonition-scratch-editor admonition">
+<p class="first admonition-title">Scratch Editor</p>
+<div class="last">
+<button id="butt_scratch_7_1" onclick="createActiveCode('scratch_7_1',''); $('#butt_scratch_7_1').hide();">Open Editor</button>
+<div id="scratch_7_1"></div>
+<br />
+</div></div>
+<span class="target" id="index-2"></span><div class="section" id="mais-sobre-o-comando-for">
+<h2>Mais sobre o comando <code class="docutils literal"><span class="pre">for</span></code><a class="headerlink" href="#mais-sobre-o-comando-for" title="Permalink to this headline">¶</a></h2>
+<p>Lembre-se que o comando <code class="docutils literal"><span class="pre">for</span></code> processa cada item em uma lista. Cada item, por sua vez, é (re)atribuído a variável de contagem, e o corpo do laço é executado. Vimos este exemplo em um capítulo anterior.</p>
+
+<div id="ch07_for1" >
+<textarea cols="50" rows="12" id="ch07_for1_code" class="active_code">
+for f in ["Joe", "Amy", "Brad", "Angelina", "Zuki", "Thandi", "Paris"]:
+    invitation = "Hi " + f + ".  Please come to my party on Saturday!"
+    print(invitation)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch07_for1)</span> </p>
+<button onclick="runit('ch07_for1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch07_for1');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch07_for1');">Load</button>
+<br />
+
+<canvas id="ch07_for1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch07_for1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Vimos também que uma iteração pode ser combinada com a idéia de atualização para formar o padrão acumulador. Por exemplo, para calcular a soma dos primeiros n números inteiros, é possível criar um loop usando o comando <code class="docutils literal"><span class="pre">range</span></code> para produzir os números de 1 a n. Usando o padrão acumulador, podemos começar com um total parcial e, a cada iteração, adicionar o valor atual à variável de controle. Uma função para calcular esta soma é mostrado abaixo.</p>
+
+<div id="ch07_summation" >
+<textarea cols="50" rows="12" id="ch07_summation_code" class="active_code">
+def someAte(limite):
+    soma = 0
+    for numero in range(1, limite+1):
+        soma = soma + numero
+
+    return soma
+
+print(someAte(4))
+
+print(someAte(1000))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch07_summation)</span> </p>
+<button onclick="runit('ch07_summation',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch07_summation');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch07_summation');">Load</button>
+<br />
+
+<canvas id="ch07_summation_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch07_summation_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Para rever, a variável <code class="docutils literal"><span class="pre">soma</span></code> é chamado de acumulador. Ela é
+inicializada com zero antes de iniciar o laço. A variável do laço,
+<code class="docutils literal"><span class="pre">numero</span></code> irá assumir os valores retornados pela chamada de função
+<code class="docutils literal"><span class="pre">range(1,</span> <span class="pre">limite+1)</span></code>. Note que esta chamada produz uma lista com
+todos os inteiros a partir de 1 até o valor de <code class="docutils literal"><span class="pre">limite+1</span></code>. Se não
+tivéssemos adicionado 1 em <code class="docutils literal"><span class="pre">limite</span></code> a função range teria devolvido
+uma lista sem o valor <code class="docutils literal"><span class="pre">limite</span></code> pois essa função não inclui o limite
+superior.</p>
+<p>O comando de atribuição, <code class="docutils literal"><span class="pre">soma</span> <span class="pre">=</span> <span class="pre">soma</span> <span class="pre">+</span> <span class="pre">numero</span></code>, atualiza o valor de
+<code class="docutils literal"><span class="pre">soma</span></code> a cada iteração do laço. A variável <code class="docutils literal"><span class="pre">soma</span></code> recebe portanto
+o total parcial até um determinado instante da execução. Finalmente, a
+função <code class="docutils literal"><span class="pre">someAte</span></code> retorna o valor do acumulador.</p>
+<div class="admonition-scratch-editor admonition">
+<p class="first admonition-title">Scratch Editor</p>
+<div class="last">
+<button id="butt_scratch_7_2" onclick="createActiveCode('scratch_7_2',''); $('#butt_scratch_7_2').hide();">Open Editor</button>
+<div id="scratch_7_2"></div>
+<br />
+</div></div>
+</div>
+<div class="section" id="o-comando-while">
+<h2>O comando <code class="docutils literal"><span class="pre">while</span></code><a class="headerlink" href="#o-comando-while" title="Permalink to this headline">¶</a></h2>
+<a id="whileloop_thumb" > <img src="../_static/whileloop.png" /></a>
+<div id="whileloop" class="video_popup" >
+<video controls  >
+    <source src="http://media.interactivepython.org/thinkcsVideos/whileloop.mov" type="video/mp4"></source>
+    <source src="http://media.interactivepython.org/thinkcsVideos/whileloop.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#whileloop_thumb').click(function(e) {
+         $('#whileloop').show();
+         $('#whileloop_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'whileloop'});
+         // Log the run event
+      });
+   });
+</script>
+<p>Há um outro comando Python que pode ser usado para construir uma
+iteração. Ele é o comando <code class="docutils literal"><span class="pre">while</span></code>. O <code class="docutils literal"><span class="pre">while</span></code> fornece um mecanismo
+muito mais geral para a iteração. Semelhante ao comando <code class="docutils literal"><span class="pre">if</span></code>, ele
+usa uma expressão booleana para controlar o fluxo de execução. O corpo
+do <code class="docutils literal"><span class="pre">while</span></code> será repetido enquanto a expressão booleana de controle
+for avaliada como <code class="docutils literal"><span class="pre">True</span></code>.</p>
+<p>A figura a seguir mostra o fluxo de controle.</p>
+<img alt="../_images/while_flow.png" src="../_images/while_flow.png" />
+<p>Podemos usar o <code class="docutils literal"><span class="pre">while</span></code> para criar qualquer tipo de iteração,
+incluindo tudo o que já fizemos com um comando <code class="docutils literal"><span class="pre">for</span></code>. Por exemplo, o
+programa na seção anterior poderia ser reescrito usando o <code class="docutils literal"><span class="pre">while</span></code>.
+Ao invés de utilizar a função <code class="docutils literal"><span class="pre">range</span></code> para produzir os números para
+calcular a somatória, vamos precisar programar uma forma de
+produzi-los. Para isso, vamos criar uma variável chamada <code class="docutils literal"><span class="pre">numero</span></code> e
+inicializá-la com 1, o primeiro número da somatória. Cada iteração irá
+adicionar <code class="docutils literal"><span class="pre">numero</span></code> ao total parcial até que todos os valores tenham
+sido usados. Para controlar a iteração, temos de criar uma expressão
+booleana que deve ser avaliada como <code class="docutils literal"><span class="pre">True</span></code> enquanto desejarmos
+acrescentar valores ao total. Neste caso, a somatória deve continuar
+enquanto o <code class="docutils literal"><span class="pre">numero</span></code> for menor ou igual ao limite.</p>
+<p>A seguir ilustramos uma nova versão do programa que calcula a somatória utilizando o comando while.</p>
+
+<div id="ch07_while1" >
+<textarea cols="50" rows="12" id="ch07_while1_code" class="active_code">
+def someAte(limite):
+    """ Retorna a soma de 1+2+3 ... n """
+
+    soma  = 0
+    numero = 1
+    while numero <= limite:
+        soma = soma + numero
+        numero = numero + 1
+    return soma
+
+print(someAte(4))
+
+print(someAte(1000))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch07_while1)</span> </p>
+<button onclick="runit('ch07_while1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch07_while1');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch07_while1');">Load</button>
+<br />
+
+<canvas id="ch07_while1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch07_while1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Você quase pode ler o <code class="docutils literal"><span class="pre">while</span></code> como se fosse em linguagem natural
+como se fosse a palavara <code class="docutils literal"><span class="pre">enquanto</span></code>. Isso significa que, enquanto
+<code class="docutils literal"><span class="pre">numero</span></code> for menor ou igual a <code class="docutils literal"><span class="pre">limite</span></code>, continue a executar o
+corpo do laço. Dentro do corpo, atualize <code class="docutils literal"><span class="pre">soma</span></code> usando o padrão
+acumulador e incremente <code class="docutils literal"><span class="pre">numero</span></code> para produzir o próximo elemento da
+somatória. Ao final da execução do corpo do laço, vamos voltar a
+testar a condição do <code class="docutils literal"><span class="pre">while</span></code>. Quando <code class="docutils literal"><span class="pre">numero</span></code> tornar-se maior que
+<code class="docutils literal"><span class="pre">limite</span></code>, a condição falha e o próximo comando a ser executado de
+acordo com o fluxo de execução do <code class="docutils literal"><span class="pre">while</span></code> é o comando <code class="docutils literal"><span class="pre">return</span></code>.</p>
+<p>O mesmo programa no codelens lhe permitirá observar esse fluxo de execução.</p>
+
+<div id="ch07_while2"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (ch07_while2)</span> </p>
+<script type="text/javascript">
+var ch07_while2_trace = {"code": "def someAte(limite):\n    \"\"\" Retorna a soma de 1+2+3 ... n \"\"\"\n\n    soma  = 0\n    numero = 1\n    while numero <= limite:\n        soma = soma + numero\n        numero = numero + 1\n    return soma\n\nprint(someAte(4))", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["someAte"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"someAte": ["REF", 1]}, "heap": {"1": ["FUNCTION", "someAte(limite)", null]}, "line": 11, "event": "step_line"}, {"ordered_globals": ["someAte"], "stdout": "", "func_name": "someAte", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"limite": 4}, "is_highlighted": true, "is_parent": false, "func_name": "someAte", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "someAte_f1", "ordered_varnames": ["limite"]}], "globals": {"someAte": ["REF", 1]}, "heap": {"1": ["FUNCTION", "someAte(limite)", null]}, "line": 1, "event": "call"}, {"ordered_globals": ["someAte"], "stdout": "", "func_name": "someAte", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"limite": 4}, "is_highlighted": true, "is_parent": false, "func_name": "someAte", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "someAte_f1", "ordered_varnames": ["limite"]}], "globals": {"someAte": ["REF", 1]}, "heap": {"1": ["FUNCTION", "someAte(limite)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["someAte"], "stdout": "", "func_name": "someAte", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"limite": 4, "soma": 0}, "is_highlighted": true, "is_parent": false, "func_name": "someAte", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "someAte_f1", "ordered_varnames": ["limite", "soma"]}], "globals": {"someAte": ["REF", 1]}, "heap": {"1": ["FUNCTION", "someAte(limite)", null]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["someAte"], "stdout": "", "func_name": "someAte", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"limite": 4, "soma": 0, "numero": 1}, "is_highlighted": true, "is_parent": false, "func_name": "someAte", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "someAte_f1", "ordered_varnames": ["limite", "soma", "numero"]}], "globals": {"someAte": ["REF", 1]}, "heap": {"1": ["FUNCTION", "someAte(limite)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["someAte"], "stdout": "", "func_name": "someAte", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"limite": 4, "soma": 0, "numero": 1}, "is_highlighted": true, "is_parent": false, "func_name": "someAte", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "someAte_f1", "ordered_varnames": ["limite", "soma", "numero"]}], "globals": {"someAte": ["REF", 1]}, "heap": {"1": ["FUNCTION", "someAte(limite)", null]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["someAte"], "stdout": "", "func_name": "someAte", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"limite": 4, "soma": 1, "numero": 1}, "is_highlighted": true, "is_parent": false, "func_name": "someAte", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "someAte_f1", "ordered_varnames": ["limite", "soma", "numero"]}], "globals": {"someAte": ["REF", 1]}, "heap": {"1": ["FUNCTION", "someAte(limite)", null]}, "line": 8, "event": "step_line"}, {"ordered_globals": ["someAte"], "stdout": "", "func_name": "someAte", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"limite": 4, "soma": 1, "numero": 2}, "is_highlighted": true, "is_parent": false, "func_name": "someAte", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "someAte_f1", "ordered_varnames": ["limite", "soma", "numero"]}], "globals": {"someAte": ["REF", 1]}, "heap": {"1": ["FUNCTION", "someAte(limite)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["someAte"], "stdout": "", "func_name": "someAte", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"limite": 4, "soma": 1, "numero": 2}, "is_highlighted": true, "is_parent": false, "func_name": "someAte", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "someAte_f1", "ordered_varnames": ["limite", "soma", "numero"]}], "globals": {"someAte": ["REF", 1]}, "heap": {"1": ["FUNCTION", "someAte(limite)", null]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["someAte"], "stdout": "", "func_name": "someAte", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"limite": 4, "soma": 3, "numero": 2}, "is_highlighted": true, "is_parent": false, "func_name": "someAte", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "someAte_f1", "ordered_varnames": ["limite", "soma", "numero"]}], "globals": {"someAte": ["REF", 1]}, "heap": {"1": ["FUNCTION", "someAte(limite)", null]}, "line": 8, "event": "step_line"}, {"ordered_globals": ["someAte"], "stdout": "", "func_name": "someAte", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"limite": 4, "soma": 3, "numero": 3}, "is_highlighted": true, "is_parent": false, "func_name": "someAte", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "someAte_f1", "ordered_varnames": ["limite", "soma", "numero"]}], "globals": {"someAte": ["REF", 1]}, "heap": {"1": ["FUNCTION", "someAte(limite)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["someAte"], "stdout": "", "func_name": "someAte", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"limite": 4, "soma": 3, "numero": 3}, "is_highlighted": true, "is_parent": false, "func_name": "someAte", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "someAte_f1", "ordered_varnames": ["limite", "soma", "numero"]}], "globals": {"someAte": ["REF", 1]}, "heap": {"1": ["FUNCTION", "someAte(limite)", null]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["someAte"], "stdout": "", "func_name": "someAte", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"limite": 4, "soma": 6, "numero": 3}, "is_highlighted": true, "is_parent": false, "func_name": "someAte", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "someAte_f1", "ordered_varnames": ["limite", "soma", "numero"]}], "globals": {"someAte": ["REF", 1]}, "heap": {"1": ["FUNCTION", "someAte(limite)", null]}, "line": 8, "event": "step_line"}, {"ordered_globals": ["someAte"], "stdout": "", "func_name": "someAte", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"limite": 4, "soma": 6, "numero": 4}, "is_highlighted": true, "is_parent": false, "func_name": "someAte", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "someAte_f1", "ordered_varnames": ["limite", "soma", "numero"]}], "globals": {"someAte": ["REF", 1]}, "heap": {"1": ["FUNCTION", "someAte(limite)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["someAte"], "stdout": "", "func_name": "someAte", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"limite": 4, "soma": 6, "numero": 4}, "is_highlighted": true, "is_parent": false, "func_name": "someAte", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "someAte_f1", "ordered_varnames": ["limite", "soma", "numero"]}], "globals": {"someAte": ["REF", 1]}, "heap": {"1": ["FUNCTION", "someAte(limite)", null]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["someAte"], "stdout": "", "func_name": "someAte", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"limite": 4, "soma": 10, "numero": 4}, "is_highlighted": true, "is_parent": false, "func_name": "someAte", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "someAte_f1", "ordered_varnames": ["limite", "soma", "numero"]}], "globals": {"someAte": ["REF", 1]}, "heap": {"1": ["FUNCTION", "someAte(limite)", null]}, "line": 8, "event": "step_line"}, {"ordered_globals": ["someAte"], "stdout": "", "func_name": "someAte", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"limite": 4, "soma": 10, "numero": 5}, "is_highlighted": true, "is_parent": false, "func_name": "someAte", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "someAte_f1", "ordered_varnames": ["limite", "soma", "numero"]}], "globals": {"someAte": ["REF", 1]}, "heap": {"1": ["FUNCTION", "someAte(limite)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["someAte"], "stdout": "", "func_name": "someAte", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"limite": 4, "soma": 10, "numero": 5}, "is_highlighted": true, "is_parent": false, "func_name": "someAte", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "someAte_f1", "ordered_varnames": ["limite", "soma", "numero"]}], "globals": {"someAte": ["REF", 1]}, "heap": {"1": ["FUNCTION", "someAte(limite)", null]}, "line": 9, "event": "step_line"}, {"ordered_globals": ["someAte"], "stdout": "", "func_name": "someAte", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"limite": 4, "soma": 10, "__return__": 10, "numero": 5}, "is_highlighted": true, "is_parent": false, "func_name": "someAte", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "someAte_f1", "ordered_varnames": ["limite", "soma", "numero", "__return__"]}], "globals": {"someAte": ["REF", 1]}, "heap": {"1": ["FUNCTION", "someAte(limite)", null]}, "line": 9, "event": "return"}, {"ordered_globals": ["someAte"], "stdout": "10\n", "func_name": "<module>", "stack_to_render": [], "globals": {"someAte": ["REF", 1]}, "heap": {"1": ["FUNCTION", "someAte(limite)", null]}, "line": 11, "event": "return"}]};
+var ch07_while2_vis;
+
+$(document).ready(function() {
+    ch07_while2_vis = new ExecutionVisualizer('ch07_while2',ch07_while2_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(ch07_while2_vis,'ch07_while2');
+    allVisualizers.push(ch07_while2_vis);
+});
+
+$(document).ready(function() {
+    $("#ch07_while2_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'ch07_while2'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    ch07_while2_vis.redrawConnectors();
+});
+</script>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Os nomes das variáveis foram escolhidos para facilitar a leitura do código.</p>
+</div>
+<p>Formalmente, este é o fluxo de execução do comando <code class="docutils literal"><span class="pre">while</span></code>:</p>
+<ol class="arabic simple">
+<li>Avalie a condição, que deve resultar em <code class="docutils literal"><span class="pre">False</span></code> ou <code class="docutils literal"><span class="pre">True</span></code>.</li>
+<li>Se o resultado for <code class="docutils literal"><span class="pre">False</span></code>, saia do comando <code class="docutils literal"><span class="pre">while</span></code> e continue o programa executando o próximo comando.</li>
+<li>Se o resultado da condição for <code class="docutils literal"><span class="pre">True</span></code>, execute os comandos dentro do corpo do <code class="docutils literal"><span class="pre">while</span></code> e, ao final, retorne ao passo 1.</li>
+</ol>
+<p>O corpo do <code class="docutils literal"><span class="pre">while</span></code> é constituído por todas as instruções abaixo do cabeçalho com a mesma tabulação.</p>
+<p>Este tipo de fluxo é chamado de <strong>laço</strong> (<em>loop</em>) porque o terceiro
+passo volta para o topo, fechando o <code class="docutils literal"><span class="pre">laço</span></code>. Observe que se a
+condição é avaliada como <code class="docutils literal"><span class="pre">False</span></code> no início do laço, os comandos
+dentro do corpo nunca são executados.</p>
+<p>O corpo do laço deve alterar o valor de uma ou mais variáveis para que
+a condição se torne <code class="docutils literal"><span class="pre">False</span></code> e faça o laço terminar. Caso contrário,
+o ciclo se repetirá para sempre. Isso é chamado de um <strong>laço
+infinito</strong>.  Uma boa piada para os cientistas da computação são as
+instruções que acompanham alguns xampus: ensaboe, enxague, repita; que
+resulta em um laço infinito.</p>
+<p>No exemplo anterior, podemos provar que o laço termina pois nós
+sabemos que o valor de <code class="docutils literal"><span class="pre">limite</span></code> é finito e que o valor de <code class="docutils literal"><span class="pre">numero</span></code>
+é incrementado a cada iteração do laço. Portanto, a cada iteração, o
+valor de <code class="docutils literal"><span class="pre">numero</span></code> fica mais próximo do <code class="docutils literal"><span class="pre">limite</span></code>, até
+ultrapassá-lo, quando o laço termina. Há outros casos onde não é tão
+fácil dizer se o laço termina.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">A introdução do comando while nos leva a pensar sobre os tipos
+de iteração que já vimos. O comando <code class="docutils literal"><span class="pre">for</span></code> sempre itera em
+uma sequência de valores, como a lista de nomes para o partido
+ou a lista de números criados por <code class="docutils literal"><span class="pre">range</span></code>. Com nós sabemos
+que ele vai repetir uma vez para cada valor desse conjunto,
+dizemos que o <code class="docutils literal"><span class="pre">for</span></code> cria um laço do tipo <strong>iteração
+definida</strong> (<em>definite iteration</em>) pois nós sabemos
+definitivamente quantas vezes vamos iteragir. Por outro lado,
+o <code class="docutils literal"><span class="pre">while</span></code> depende de uma condição que precisa ser avaliada
+como <code class="docutils literal"><span class="pre">False</span></code> para que o laço termine. Uma vez que não
+sabemos necessariamente quando isso vai acontecer, ele cria o
+que nós chamamos de <strong>iteração indefinida</strong> (<em>indefinite
+iteration</em>).Iteração indefinida significa simplesmente que não
+sabemos quantas vezes vamos repetir mas, eventualmente, a
+condição de controle da iteração irá falhar e a iteração vai
+parar. (A menos que tenhamos um laço infinito, que é,
+naturalmente, um problema)</p>
+</div>
+<p>Você deve notar que o <code class="docutils literal"><span class="pre">while</span></code> dá mais trabalho para você &#8212; o
+programador &#8212; do que o equivalente <code class="docutils literal"><span class="pre">for</span></code>. Ao usar um <code class="docutils literal"><span class="pre">while</span></code>
+você mesmo é que tem que controlar a variável do laço. Você deve
+fornecer um valor inicial, criar a condição de saída e depois
+certificar-se de mudar alguma coisa no corpo de modo que o laço
+termine.</p>
+<p>Então, para que precisamos de dois tipos de laços se o <code class="docutils literal"><span class="pre">for</span></code> parece
+mais fácil? Este próximo exemplo mostra uma iteração indefinida onde
+precisamos do poder extra que nós temos usando o <code class="docutils literal"><span class="pre">while</span></code>.</p>
+<div class="admonition-scratch-editor admonition">
+<p class="first admonition-title">Scratch Editor</p>
+<div class="last">
+<button id="butt_scratch_7_3" onclick="createActiveCode('scratch_7_3',''); $('#butt_scratch_7_3').hide();">Open Editor</button>
+<div id="scratch_7_3"></div>
+<br />
+</div></div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question7_2_1">
+    <p>7.2.1: Verdadeiro ou Falso: você pode reescrever qualquer ``for`` na forma de um ``while``.</p>
+    <form name="test_question7_2_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question7_2_1_opt_a" />
+    <label for= "test_question7_2_1_opt_a">  a) Verdadeiro</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question7_2_1_opt_b" />
+    <label for= "test_question7_2_1_opt_b">  b) Falso</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question7_2_1','a',['Embora o ``while`` tenha uma sintaxe diferente, ele é tão poderoso quanto o ``for`` e geralmente mais flexível.', 'Geralmente o ``for`` é mas natural e conveniente para uma tarefa, mas essa mesma tarefa pode sempre ser expressa usando um ``while``.'])"/> 
+    </form>
+    <div id="test_question7_2_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question7_2_2">
+    <p>7.2.2: O seguinte pedaço de código contém um laço infinito. Qual é a melhor explicação para o motivo desse laço não terminar?
+  <pre>
+  n = 10
+  resposta = 1
+  while ( n > 0 ):
+    resposta = resposta + n
+    n = n + 1
+  print resposta
+  </pre></p>
+    <form name="test_question7_2_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question7_2_2_opt_a" />
+    <label for= "test_question7_2_2_opt_a">  a) n começa com 10 e é incrementado de 1 a cada iteração do laço, de forma que ele é sempre positivo.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question7_2_2_opt_b" />
+    <label for= "test_question7_2_2_opt_b">  b) ``resposta`` começa em 1 e é incrementado de n a cada iteração, de forma que ele é sempre positivo</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question7_2_2_opt_c" />
+    <label for= "test_question7_2_2_opt_c">  c) Você não pode comparar n com zero em um ``while``. Você precisa comparar n com uma outra variável.</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question7_2_2_opt_d" />
+    <label for= "test_question7_2_2_opt_d">  d) No corpo de um ``while``, nós devemos tornar n ``False`` e esse código não faz isso.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question7_2_2','a',['O laço será executado enquanto n for positivo. Nesse caso, podemos ver que n nunca se tornará não-positivo.', 'Apesar de ser verdade que ``resposta`` é sempre positivo, essa variável não é usada na condição de controle do laço.', 'É perfeitamente válido comparar n com zero. Embora indiretamente, isso é o que causa o laço infinito.', 'A condição do laço deve se tornar falsa para que o laço termine, mas n, por si só, não é a condição nesse caso.'])"/> 
+    </form>
+    <div id="test_question7_2_2_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="caminhadas-aleatorias-de-tartarugas">
+<h2>Caminhadas Aleatórias de Tartarugas<a class="headerlink" href="#caminhadas-aleatorias-de-tartarugas" title="Permalink to this headline">¶</a></h2>
+<p>Suponha que nós queremos nos divertir assistindo uma tartaruga passear aleatoriamente pela tela. Ao executar o programa, queremos que a tartaruga e o programa se comportem da seguinte maneira:</p>
+<ol class="arabic simple">
+<li>A tartaruga começa no centro da tela.</li>
+<li>Jogue uma moeda. Se der cara, vire 90 graus para a esquerda. Se der coroa, vire 90 graus à direita.</li>
+<li>Dê 50 passos para a frente.</li>
+<li>Se a tartaruga passou para fora da tela então pare. Caso contrário, volte para o passo 2 e repita.</li>
+</ol>
+<p>Observe que não podemos prever quantas vezes a tartaruga terá de jogar a moeda antes que ela passe para fora da tela, de modo que não podemos usar um <code class="docutils literal"><span class="pre">for</span></code> neste caso. De fato, embora muito pouco provável, este programa pode nunca acabar e, por isso, nós chamamos esta iteração de indefinida.</p>
+<p>Assim, com base na descrição do problema acima, podemos descrever um programa tal como:</p>
+<div class="highlight-python"><div class="highlight"><pre>crie uma janela e uma tartaruga
+
+while a tartaruga estiver na janela:
+    gere um número aleatório entre 0 e 1
+    if o número == 0 (cara):
+        vire à esquerda
+    else:
+        vire à direita
+    mova a tarturuga 50 passos para frente
+</pre></div>
+</div>
+<p>Agora, provavelmente a única coisa que possa estar um pouco confusa
+para você é a parte sobre se ou não a tartaruga ainda está na
+tela. Mas esta é a parte boa da programação, nós podemos atrasar a
+solução das coisas difíceis e obter <em>algo</em> em nosso programa que
+funciona imediatamente. A maneira como vamos fazer isso é delegar o
+trabalho de decidir se a tartaruga ainda está na tela ou não para uma
+função booleana. Vamos chamar esta função booleana de
+<code class="docutils literal"><span class="pre">estaNaTela</span></code>. Nós podemos escrever uma versão muito simples dessa
+função booleana fazendo-a retornar sempre <code class="docutils literal"><span class="pre">True</span></code>, ou fazendo-a
+retornar um valor aleatório. O ponto é implementar algo simples para
+que possamos nos concentrar nas partes que já sabemos como fazer bem e
+fazê-las funcionar.  Como fazer a função retornar sempre o valor
+<code class="docutils literal"><span class="pre">True</span></code> não seria uma boa idéia, vamos escrever a nossa versão para
+retornar um valor aleatoriamente. Vamos dizer que há uma chance de 90%
+da tartaruga ainda permanecer na janela e 10% que a tartaruga tenha
+escapado.</p>
+
+<div id="iter_randwalk1" >
+<textarea cols="50" rows="12" id="iter_randwalk1_code" class="active_code">
+import random
+import turtle
+
+
+def estaNaTela(tela, tar):
+    if random.random() > 0.1:
+        return True
+    else:
+        return False
+
+
+t = turtle.Turtle()
+wn = turtle.Screen()
+
+t.shape('turtle')
+while isInScreen(wn,t):
+    coin = random.randrange(0,2)
+    if coin == 0:              # heads
+        t.left(90)
+    else:                      # tails
+        t.right(90)
+
+    t.forward(50)
+
+wn.exitonclick()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (iter_randwalk1)</span> </p>
+<button onclick="runit('iter_randwalk1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('iter_randwalk1');">Save</button>
+<button class="ac_opt" onclick="requestCode('iter_randwalk1');">Load</button>
+<br />
+
+<canvas id="iter_randwalk1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="iter_randwalk1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Agora, temos um programa funcional que desenha um passeio aleatório da
+tartaruga que tem 90% de chance de ficar na tela. Estamos em uma boa
+posição, visto que uma grande parte do nosso programa está funcionando
+e podemos nos concentrar na próxima parte do trabalho - decidir se a
+tartaruga está dentro dos limites da tela ou não.</p>
+<p>Podemos descobrir a largura e altura da tela usando as funções
+<code class="docutils literal"><span class="pre">window_width</span></code> e <code class="docutils literal"><span class="pre">window_height</span></code> do objeto <em>screen</em> (tela do
+computador).  No entanto, lembre-se que a tartaruga começa na posição
+0,0, no meio do tela. Por isso, não queremos que a tartaruga siga além
+da metade da largura da tela, tanto para a direita quanto para a
+esquerda. Nós também não queremos que a tartaruga siga para além da
+metade da altura tanto para baixo quanto para cima. Uma vez que nós
+sabemos os limites da tela, podemos criar condições para verificar a
+posição da tartaruga e retornar <code class="docutils literal"><span class="pre">False</span></code> se a tartaruga está fora ou
+<code class="docutils literal"><span class="pre">True</span></code> se a tartaruga está dentro.</p>
+<p>Uma vez obtidos os limites da tela podemos usar condições que testam a
+posição atual da tartaruga para tomar uma decisão. Aqui está uma
+implementação:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">isInScreen</span><span class="p">(</span><span class="n">wn</span><span class="p">,</span><span class="n">t</span><span class="p">):</span>
+    <span class="n">leftBound</span> <span class="o">=</span> <span class="o">-</span> <span class="n">wn</span><span class="o">.</span><span class="n">window_width</span><span class="p">()</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">rightBound</span> <span class="o">=</span> <span class="n">wn</span><span class="o">.</span><span class="n">window_width</span><span class="p">()</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">topBound</span> <span class="o">=</span> <span class="n">wn</span><span class="o">.</span><span class="n">window_height</span><span class="p">()</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">bottomBound</span> <span class="o">=</span> <span class="o">-</span><span class="n">wn</span><span class="o">.</span><span class="n">window_height</span><span class="p">()</span><span class="o">/</span><span class="mi">2</span>
+
+    <span class="n">turtleX</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">xcor</span><span class="p">()</span>
+    <span class="n">turtleY</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">ycor</span><span class="p">()</span>
+
+    <span class="n">estaDentro</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">if</span> <span class="n">turtleX</span> <span class="o">&gt;</span> <span class="n">rightBound</span> <span class="ow">or</span> <span class="n">turtleX</span> <span class="o">&lt;</span> <span class="n">leftBound</span><span class="p">:</span>
+        <span class="n">estaDentro</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">if</span> <span class="n">turtleY</span> <span class="o">&gt;</span> <span class="n">topBound</span> <span class="ow">or</span> <span class="n">turtleY</span> <span class="o">&lt;</span> <span class="n">bottomBound</span><span class="p">:</span>
+        <span class="n">estaDentro</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="k">return</span> <span class="n">estaDentro</span>
+</pre></div>
+</div>
+<p>Há várias formas de escrever a condição. Nesse caso nós atribuímos a
+<code class="docutils literal"><span class="pre">estaDentro</span></code> o valor default <code class="docutils literal"><span class="pre">True</span></code> e usamos dois comandos <code class="docutils literal"><span class="pre">if</span></code>
+para mudar o valor para <code class="docutils literal"><span class="pre">False</span></code>. Você pode reescrever essa
+verificação para usar condições encaixadas ou comandos <code class="docutils literal"><span class="pre">elif</span></code> e
+atribuir <code class="docutils literal"><span class="pre">True</span></code> para <code class="docutils literal"><span class="pre">estaDentro</span></code> usando uma cláusula <code class="docutils literal"><span class="pre">else</span></code>.</p>
+<p>Esta é a versão completa do nosso programa de caminhada aleatória.</p>
+
+<div id="iter_randwalk2" >
+<textarea cols="50" rows="12" id="iter_randwalk2_code" class="active_code">
+import random
+import turtle
+
+def isInScreen(w,t):
+    leftBound = - w.window_width()/2
+    rightBound = w.window_width()/2
+    topBound = w.window_height()/2
+    bottomBound = -w.window_height()/2
+
+    turtleX = t.xcor()
+    turtleY = t.ycor()
+
+    stillIn = True
+    if turtleX > rightBound or turtleX < leftBound:
+        stillIn = False
+    if turtleY > topBound or turtleY < bottomBound:
+        stillIn = False
+
+    return stillIn
+
+t = turtle.Turtle()
+wn = turtle.Screen()
+
+t.shape('turtle')
+while isInScreen(wn,t):
+    coin = random.randrange(0,2)
+    if coin == 0:
+        t.left(90)
+    else:
+        t.right(90)
+
+    t.forward(50)
+
+wn.exitonclick()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (iter_randwalk2)</span> </p>
+<button onclick="runit('iter_randwalk2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('iter_randwalk2');">Save</button>
+<button class="ac_opt" onclick="requestCode('iter_randwalk2');">Load</button>
+<br />
+
+<canvas id="iter_randwalk2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="iter_randwalk2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Nós poderíamos ter escrito este programa sem usar a função
+booleana. Você pode tentar reescrevê-la usando uma condição complexa
+no comando while, mas o uso da função booleana torna o programa bem
+mais legível e fácil de entender. Isso também nos fornece uma outra
+ferramenta para ser usada caso este fosse um programa maior e
+precisássemos verificar se a tartaruga ainda se encontra na tela em
+alguma outra parte do programa. Uma outra vantagem é que se você
+precisar escrever um programa parecido algum dia, você pode reutilizar
+esta função com confiança da próxima vez que você precisar
+dela. Dividir este programa em partes é um outro exemplo de
+decomposição funcional.</p>
+<div class="admonition-scratch-editor admonition">
+<p class="first admonition-title">Scratch Editor</p>
+<div class="last">
+<button id="butt_scratch_7_4" onclick="createActiveCode('scratch_7_4',''); $('#butt_scratch_7_4').hide();">Open Editor</button>
+<div id="scratch_7_4"></div>
+<br />
+</div></div>
+<p id="index-3"><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question7_3_1">
+    <p>7.3.1: Que tipo de loop pode ser usado para realizar a seguinte iteração: você escolhe um número inteiro positivo aleatório e então imprime os números inteiros a partir de 1 até o número escolhido.</p>
+    <form name="test_question7_3_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question7_3_1_opt_a" />
+    <label for= "test_question7_3_1_opt_a">  a) um loop for ou um loop while</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question7_3_1_opt_b" />
+    <label for= "test_question7_3_1_opt_b">  b) somente um loop for</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question7_3_1_opt_c" />
+    <label for= "test_question7_3_1_opt_c">  c) somente um loop while</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question7_3_1','a',['Embora você não saiba quantas iterações serão realizadas antes do programa começar a rodar, depois de escolher um número aleatório, o Python sabe exatamente quantas iterações o loop será realizado, assim tanto o loop for quanto o loop while funcionam.', 'Como você aprendeu na seção 7.2, um loop while pode ser sempre utilizado no lugar de um loop-for.', 'Embora você não saiba quantas iterações serão realizadas antes do programa começar a rodar, depois de escolher um número aleatório, o Python sabe exatamente quantas iterações o loop deve realizar, e portanto este é um exemplo com um número definido de iterações, onde o loop for pode ser utilizado naturalmente.'])"/> 
+    </form>
+    <div id="test_question7_3_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question7_3_2">
+    <p>7.3.2: No programa de caminhada aleatória exibido nesta seção, o que faz a função "isInScreen"?</p>
+    <form name="test_question7_3_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question7_3_2_opt_a" />
+    <label for= "test_question7_3_2_opt_a">  a) Retorna True se a tartaruga ainda está na tela e False se a tartaruga não está mais na tela.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question7_3_2_opt_b" />
+    <label for= "test_question7_3_2_opt_b">  b) Usa um loop while para mover a tartaruga aleatoriamente até que ela saia da tela.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question7_3_2_opt_c" />
+    <label for= "test_question7_3_2_opt_c">  c) Vira a tartaruga para a direita ou esquerda aleatoriamente e move a tartaruga 50 para frente.</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question7_3_2_opt_d" />
+    <label for= "test_question7_3_2_opt_d">  d) Calcula e retorna a posição da tartaruga na janela.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question7_3_2','a',['A função isInScreen calcula o resultado booleado se a tartaruga ainda está na tela. Ela torna a condição do loop while na parte principal do programa mais simples.', 'A função isInScreen não contém um loop while. Esse loop está fora da função isInScreen.', 'A função isInScreen não move a tartaruga.', 'Embora a função isInScreen utilize o tamanho da janela e a posição da tartaruga, ela não retorna a posição da tartaruga.'])"/> 
+    </form>
+    <div id="test_question7_3_2_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="a-sequencia-3n-1">
+<h2>A sequência 3n + 1<a class="headerlink" href="#a-sequencia-3n-1" title="Permalink to this headline">¶</a></h2>
+<p>Para ilustrar um outro exemplo com número indefinido de iterações,
+vamos olhar para uma sequência que tem fascinado matemáticos por
+vários anos.</p>
+<p>A regra para criar a sequência é começar com um dado <code class="docutils literal"><span class="pre">n</span></code>, e gerar o
+próximo termo da sequência a partir de <code class="docutils literal"><span class="pre">n</span></code> da seguinte forma: se
+<code class="docutils literal"><span class="pre">n</span></code> for par dividimos <code class="docutils literal"><span class="pre">n</span></code> por 2, ou senão, multiplicamos <code class="docutils literal"><span class="pre">n</span></code> por
+3 e somamos 1 quando <code class="docutils literal"><span class="pre">n</span></code> for impar. A sequência termina quando <code class="docutils literal"><span class="pre">n</span></code>
+se tornar 1.</p>
+<p>Esta função em Python implementa esse algoritmo. Tente rodar este
+programa várias vezes usando valores de n distintos.</p>
+
+<div id="ch07_indef1" >
+<textarea cols="50" rows="12" id="ch07_indef1_code" class="active_code">
+def seq3np1(n):
+    """ Print the 3n+1 sequence from n, terminating when it reaches 1."""
+    while n != 1:
+        print(n)
+        if n % 2 == 0:        # n is even
+            n = n // 2
+        else:                 # n is odd
+            n = n * 3 + 1
+    print(n)                  # the last print is 1
+
+seq3np1(3)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch07_indef1)</span> </p>
+<button onclick="runit('ch07_indef1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch07_indef1');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch07_indef1');">Load</button>
+<br />
+
+<canvas id="ch07_indef1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch07_indef1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>A condição para loop while é <code class="docutils literal"><span class="pre">n</span> <span class="pre">!=</span> <span class="pre">1</span></code>. Esse loop continuará
+executando até que <code class="docutils literal"><span class="pre">n</span> <span class="pre">==</span> <span class="pre">1</span></code> (que torna a condição falsa).</p>
+<p>A cada iteração do loop, o programa imprime o valor de <code class="docutils literal"><span class="pre">n</span></code> e então
+verifica se esse valor é par ou ímpar usando o operador resto. Se ele
+for par, o valor de <code class="docutils literal"><span class="pre">n</span></code> é dividido por 2 (usando divisão
+inteira). Se ele for ímpar, o valor é substituído por <code class="docutils literal"><span class="pre">n</span> <span class="pre">*</span> <span class="pre">3</span> <span class="pre">+</span> <span class="pre">1</span></code>.
+Teste para vários valores de n.</p>
+<p>Como <code class="docutils literal"><span class="pre">n</span></code> às vezes cresce e outras diminui, não há uma prova óbvia de
+que <code class="docutils literal"><span class="pre">n</span></code> atinge o valor 1, ou que o programa termina. Para alguns
+valores particulares de <code class="docutils literal"><span class="pre">n</span></code>, podemos provar a terminação. Por
+exemplo, se o valor inicial é uma potência de 2, então o valor de
+<code class="docutils literal"><span class="pre">n</span></code> será par em todas as iterações do loop até atingir o valor 1.</p>
+<p>Você pode se divertir com esse programa tentando encontrar um valor
+inicial de n que leve mais de uma centena de iterações para terminar.</p>
+<div class="admonition-lab admonition">
+<p class="first admonition-title">Lab</p>
+<ul class="last simple">
+<li><a class="reference external" href="../Labs/sequencelab.html">Experimenting with the 3n+1 Sequence</a> In this guided lab exercise we will try to learn more about this sequence.</li>
+</ul>
+</div>
+<p>A menos de alguns valores particulares, a questão interessante é se
+podemos provar que esta sequência termina para <em>todos</em> os valores de
+<code class="docutils literal"><span class="pre">n</span></code>. Até hoje, ninguém foi capaz de provar se essa afirmação é
+verdadeira ou falsa.</p>
+<p>Pense cuidadosamente sobre o que seria necessário para provar que a
+hipótese <em>&#8220;A sequência 3n+1 converge para 1 para todo inteiro
+positivo&#8221;</em>. Usando computadores rápidos, já se testaram todos os
+inteiros até um valor bem grande mas, até agora, todos eles acabam
+convergindo uma hora para 1. Mas isso não significa que não exista um
+inteiro, ainda não testado, que não seja reduzido para 1.</p>
+<p>Você vai notar que se você não parar de calcular a sequência quando
+ela chega em 1, a sequência entra em um loop: 1, 4, 2, 1, 4, 2, 1, 4,
+e assim por diante. Uma possibilidade é que existam outros ciclos que
+ainda não foram encontrados e que não contenham o 1.</p>
+<p>dica:: Como escolher entre <code class="docutils literal"><span class="pre">for</span></code> e <code class="docutils literal"><span class="pre">while</span></code></p>
+<blockquote>
+<div>Use um loop <code class="docutils literal"><span class="pre">for</span></code> se você sabe o número de vezes que o corpo do
+loop deve ser executado. Por exemplo, ao varrer uma lista ou quando
+for possível utilizar o iterador <code class="docutils literal"><span class="pre">range</span></code>, então escolha o loop
+<code class="docutils literal"><span class="pre">for</span></code>.</div></blockquote>
+<div class="admonition-scratch-editor admonition">
+<p class="first admonition-title">Scratch Editor</p>
+<div class="last">
+<button id="butt_scratch_7_5" onclick="createActiveCode('scratch_7_5',''); $('#butt_scratch_7_5').hide();">Open Editor</button>
+<div id="scratch_7_5"></div>
+<br />
+</div></div>
+<p id="index-4"><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question7_4_1">
+    <p>7.4.1: Considere o código que imprime a sequência 3n+1 na caixa
+ActiveCode 6. Será que o loop while nesse programa sempre termina
+para qualquer valor de n?</p>
+    <form name="test_question7_4_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question7_4_1_opt_a" />
+    <label for= "test_question7_4_1_opt_a">  a) Sim.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question7_4_1_opt_b" />
+    <label for= "test_question7_4_1_opt_b">  b) Não.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question7_4_1_opt_c" />
+    <label for= "test_question7_4_1_opt_c">  c) Ninguém sabe.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question7_4_1','c',['Não há prova de que a sequência 3n+1 termina para qualquer valor de n.', 'Não há contra-prova de que a sequência 3n+1 termina para qualquer valor de n. Em outras palavras, pode existir algum valor de n para o qual essa sequência não termina. Nós apenas não conseguimos encontrá-lo ainda.', 'Como não há prova nem contra-prova de que essa sequência termina, ninguém sabe se o loop while sempre terminará ou não.'])"/> 
+    </form>
+    <div id="test_question7_4_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="metodo-de-newton">
+<h2>Método de Newton<a class="headerlink" href="#metodo-de-newton" title="Permalink to this headline">¶</a></h2>
+<p>Laços são frequentemente utilizados em programas que calculam
+resultados númericos partindo de um valor estimado (um chute inicial)
+e melhorando o resultado iterativamente.</p>
+<p>Um exemplo típico é o método de Newton para o cálculo da raiz quadrada
+de <code class="docutils literal"><span class="pre">n</span></code>. Começando com um valor qualquer, você pode calcular um valor
+mais próximo da raiz quadrada verdadeira usando a seguinte fórmula:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">melhor</span> <span class="o">=</span>  <span class="mi">1</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">aprox</span> <span class="o">+</span> <span class="n">n</span><span class="o">/</span><span class="n">aprox</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Execute esse algoritmo algumas vezes usando a sua calculadora. Você
+consegue ver por que a cada iteração o valor aproximado fica um pouco
+mais perto da solução? Uma das fatásticas propriedades desse algoritmo
+em particular é a velocidade com que ele converge para uma resposta
+acurada.</p>
+<p>A seguinte implementação do método de Newton necessita de 2
+parâmetros. O primeiro é o valor cuja raiz quadrada queremos calcular
+e o segundo é o número de vezes que desejamos refinar o cálculo para
+se obter um resultado melhor.</p>
+
+<div id="chp07_newtonsdef" >
+<textarea cols="50" rows="12" id="chp07_newtonsdef_code" class="active_code">
+def newtonSqrt(n, howmany):
+    approx = 0.5 * n
+    for i in range(howmany):
+        betterapprox = 0.5 * (approx + n/approx)
+        approx = betterapprox
+    return betterapprox
+
+print(newtonSqrt(10,3))
+print(newtonSqrt(10,5))
+print(newtonSqrt(10,10))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp07_newtonsdef)</span> </p>
+<button onclick="runit('chp07_newtonsdef',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp07_newtonsdef');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp07_newtonsdef');">Load</button>
+<br />
+
+<canvas id="chp07_newtonsdef_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp07_newtonsdef_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Você deve ter notado que a segunda e terceira chamadas para
+<code class="docutils literal"><span class="pre">newtonSqrt</span></code> no exemplo anterior devolvem o mesmo valor para a raiz
+quadrada de 10. Usando 10 iterações ao invés de 5 não melhora o
+resultado. Em geral, o algoritmo de Newton vai sempre atingir um ponto
+onde a nova aproximação não é melhor que a anterior. Nesse ponto,
+poderíamos simplesmente parar.  Em outras palavras, ao aplicar essa
+fórmula repetidamente até que uma aproximação fica suficientemente
+próxima da anterior, nós podemos escrever uma função para o cálculo da
+raiz quadrada que execute apenas o número necessário de iterações e
+nada mais.</p>
+<p>A seguinte implementação, feita em codelens, usa um comando <code class="docutils literal"><span class="pre">while</span></code>
+para repetir até que a aproximação não mude mais. A cada execução do
+laço nós computamos uma aproximação <code class="docutils literal"><span class="pre">melhor</span></code> usando a fórmula
+descrita anteriormente. Enquanto o <code class="docutils literal"><span class="pre">melhor</span></code> for diferente, nós
+continuamos o processo. Execute o programa passo-a-passo e veja a
+aproximação ficar cada vez mais próxima da solução.</p>
+
+<div id="chp07_newtonswhile"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (chp07_newtonswhile)</span> </p>
+<script type="text/javascript">
+var chp07_newtonswhile_trace = {"code": "def newtonSqrt(n):\n    approx = 0.5 * n\n    better = 0.5 * (approx + n/approx)\n    while  better !=  approx:\n        approx = better\n        better = 0.5 * (approx + n/approx)\n    return approx\n\nprint(newtonSqrt(10))", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 9, "event": "step_line"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "newtonSqrt", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"n": 10}, "is_highlighted": true, "is_parent": false, "func_name": "newtonSqrt", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "newtonSqrt_f1", "ordered_varnames": ["n"]}], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 1, "event": "call"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "newtonSqrt", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"n": 10}, "is_highlighted": true, "is_parent": false, "func_name": "newtonSqrt", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "newtonSqrt_f1", "ordered_varnames": ["n"]}], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "newtonSqrt", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"approx": 5.0, "n": 10}, "is_highlighted": true, "is_parent": false, "func_name": "newtonSqrt", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "newtonSqrt_f1", "ordered_varnames": ["n", "approx"]}], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "newtonSqrt", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"better": 3.5, "approx": 5.0, "n": 10}, "is_highlighted": true, "is_parent": false, "func_name": "newtonSqrt", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "newtonSqrt_f1", "ordered_varnames": ["n", "approx", "better"]}], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "newtonSqrt", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"better": 3.5, "approx": 5.0, "n": 10}, "is_highlighted": true, "is_parent": false, "func_name": "newtonSqrt", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "newtonSqrt_f1", "ordered_varnames": ["n", "approx", "better"]}], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "newtonSqrt", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"better": 3.5, "approx": 3.5, "n": 10}, "is_highlighted": true, "is_parent": false, "func_name": "newtonSqrt", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "newtonSqrt_f1", "ordered_varnames": ["n", "approx", "better"]}], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "newtonSqrt", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"better": 3.1786, "approx": 3.5, "n": 10}, "is_highlighted": true, "is_parent": false, "func_name": "newtonSqrt", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "newtonSqrt_f1", "ordered_varnames": ["n", "approx", "better"]}], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "newtonSqrt", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"better": 3.1786, "approx": 3.5, "n": 10}, "is_highlighted": true, "is_parent": false, "func_name": "newtonSqrt", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "newtonSqrt_f1", "ordered_varnames": ["n", "approx", "better"]}], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "newtonSqrt", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"better": 3.1786, "approx": 3.1786, "n": 10}, "is_highlighted": true, "is_parent": false, "func_name": "newtonSqrt", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "newtonSqrt_f1", "ordered_varnames": ["n", "approx", "better"]}], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "newtonSqrt", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"better": 3.1623, "approx": 3.1786, "n": 10}, "is_highlighted": true, "is_parent": false, "func_name": "newtonSqrt", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "newtonSqrt_f1", "ordered_varnames": ["n", "approx", "better"]}], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "newtonSqrt", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"better": 3.1623, "approx": 3.1786, "n": 10}, "is_highlighted": true, "is_parent": false, "func_name": "newtonSqrt", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "newtonSqrt_f1", "ordered_varnames": ["n", "approx", "better"]}], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "newtonSqrt", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"better": 3.1623, "approx": 3.1623, "n": 10}, "is_highlighted": true, "is_parent": false, "func_name": "newtonSqrt", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "newtonSqrt_f1", "ordered_varnames": ["n", "approx", "better"]}], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "newtonSqrt", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"better": 3.1623, "approx": 3.1623, "n": 10}, "is_highlighted": true, "is_parent": false, "func_name": "newtonSqrt", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "newtonSqrt_f1", "ordered_varnames": ["n", "approx", "better"]}], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "newtonSqrt", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"better": 3.1623, "approx": 3.1623, "n": 10}, "is_highlighted": true, "is_parent": false, "func_name": "newtonSqrt", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "newtonSqrt_f1", "ordered_varnames": ["n", "approx", "better"]}], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "newtonSqrt", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"better": 3.1623, "approx": 3.1623, "n": 10}, "is_highlighted": true, "is_parent": false, "func_name": "newtonSqrt", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "newtonSqrt_f1", "ordered_varnames": ["n", "approx", "better"]}], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "newtonSqrt", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"better": 3.1623, "approx": 3.1623, "n": 10}, "is_highlighted": true, "is_parent": false, "func_name": "newtonSqrt", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "newtonSqrt_f1", "ordered_varnames": ["n", "approx", "better"]}], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "newtonSqrt", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"better": 3.1623, "approx": 3.1623, "n": 10}, "is_highlighted": true, "is_parent": false, "func_name": "newtonSqrt", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "newtonSqrt_f1", "ordered_varnames": ["n", "approx", "better"]}], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "newtonSqrt", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"better": 3.1623, "approx": 3.1623, "n": 10}, "is_highlighted": true, "is_parent": false, "func_name": "newtonSqrt", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "newtonSqrt_f1", "ordered_varnames": ["n", "approx", "better"]}], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "newtonSqrt", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"better": 3.1623, "approx": 3.1623, "n": 10}, "is_highlighted": true, "is_parent": false, "func_name": "newtonSqrt", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "newtonSqrt_f1", "ordered_varnames": ["n", "approx", "better"]}], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "newtonSqrt", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"better": 3.1623, "approx": 3.1623, "n": 10}, "is_highlighted": true, "is_parent": false, "func_name": "newtonSqrt", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "newtonSqrt_f1", "ordered_varnames": ["n", "approx", "better"]}], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["newtonSqrt"], "stdout": "", "func_name": "newtonSqrt", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"better": 3.1623, "__return__": 3.1623, "approx": 3.1623, "n": 10}, "is_highlighted": true, "is_parent": false, "func_name": "newtonSqrt", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "newtonSqrt_f1", "ordered_varnames": ["n", "approx", "better", "__return__"]}], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 7, "event": "return"}, {"ordered_globals": ["newtonSqrt"], "stdout": "3.16227766017\n", "func_name": "<module>", "stack_to_render": [], "globals": {"newtonSqrt": ["REF", 1]}, "heap": {"1": ["FUNCTION", "newtonSqrt(n)", null]}, "line": 9, "event": "return"}]};
+var chp07_newtonswhile_vis;
+
+$(document).ready(function() {
+    chp07_newtonswhile_vis = new ExecutionVisualizer('chp07_newtonswhile',chp07_newtonswhile_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(chp07_newtonswhile_vis,'chp07_newtonswhile');
+    allVisualizers.push(chp07_newtonswhile_vis);
+});
+
+$(document).ready(function() {
+    $("#chp07_newtonswhile_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'chp07_newtonswhile'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    chp07_newtonswhile_vis.redrawConnectors();
+});
+</script>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">O comando <code class="docutils literal"><span class="pre">while</span></code> mostrado acima compara dois números reais
+na condição. Como os números reais no computador (usando ponto
+flutuante) são eles mesmos aproximações de números reais na
+matemática, em geral é melhor comparar se os resultados estão
+próximos, dentro de um pequeno intervalo ao redor do resultado
+que você procura.</p>
+</div>
+<div class="admonition-scratch-editor admonition" id="index-5">
+<p class="first admonition-title">Scratch Editor</p>
+<div class="last">
+<button id="butt_scratch_7_6" onclick="createActiveCode('scratch_7_6',''); $('#butt_scratch_7_6').hide();">Open Editor</button>
+<div id="scratch_7_6"></div>
+<br />
+</div></div>
+</div>
+<div class="section" id="revisao-de-algoritmos">
+<h2>Revisão de Algoritmos<a class="headerlink" href="#revisao-de-algoritmos" title="Permalink to this headline">¶</a></h2>
+<p>O método de Newton é um exemplo de um <strong>algoritmo</strong>: é um processo
+mecânico para resolver uma categoria de problemas (neste caso, o
+cálculo de raízes quadradas).</p>
+<p>Não é fácil definir um algoritmo. Talvez seja mais simples começar com
+algo que não seja um algoritmo. Quando você aprendeu a multiplicar
+números de um dígito, você provavelmente memorizou a tabela de
+multiplicação. Na verdade, você memorizou 100 soluções
+específicas. Esse tipo de conhecimento não é algoritmico.</p>
+<p>Mas se você fosse preguiçoso, você poderia ter trapaceado aprendendo
+alguns truques. Por exemplo, para encontrar o produto de n e 9, você
+pode escrever n - 1 como o primeiro dígito e 10 - n como o segundo
+dígito. Este truque é uma solução geral para multiplicar qualquer
+número de um dígito por 9. Isso é um algoritmo!</p>
+<p>Da mesma forma, as técnicas que você aprendeu para adição com
+transporte, subtração com empréstimos e divisão longa são todos
+algoritmos. Uma característica de algoritmos é que eles não requerem
+nenhuma inteligência para executar. Eles são processos mecânicos em
+que cada passo segue o anterior de acordo com um conjunto simples de
+regras.</p>
+<p>Por outro lado, o entendimento de que problemas difíceis podem ser
+resolvidos por algoritmos passo-a-passo é um dos grandes avanços
+simplificadores que trouxe enormes benefícios. Assim, embora a
+execução de um algoritmo possa ser chata e não requeira inteligência,
+o racioncínio algorítmico ou computacional causou um grande impacto. É
+o processo de concepção de algoritmos que é interessante,
+intelectualmente desafiador e uma parte central do que chamamos de
+programação.</p>
+<p>Algumas coisas que as pessoas fazem naturalmente, sem dificuldade ou
+pensamento consciente, são as mais difíceis de expressar através de
+algoritmos. Entendimento de linguagem natural é um bom exemplo. Todos
+nós fazemos isso, mas até agora ninguém foi capaz de explicar <em>como</em> o
+fazemos, pelo menos não na forma de um algoritmo passo-a-passo.</p>
+<div class="admonition-scratch-editor admonition" id="index-6">
+<p class="first admonition-title">Scratch Editor</p>
+<div class="last">
+<button id="butt_scratch_7_7" onclick="createActiveCode('scratch_7_7',''); $('#butt_scratch_7_7').hide();">Open Editor</button>
+<div id="scratch_7_7"></div>
+<br />
+</div></div>
+</div>
+<div class="section" id="tabelas-simples">
+<h2>Tabelas Simples<a class="headerlink" href="#tabelas-simples" title="Permalink to this headline">¶</a></h2>
+<p>Os comandos de repetição (laços) são muito úteis na geração de dados
+tabulares.  Antes da invenção dos computadores, as pessoas tinham que
+calcular logaritmos, senos e cossenos e outras funções matemáticas
+manualmente.  Para facilitar essas tarefas, livros de matemática
+continham longas tabelas com os valores dessas funções.  A criação das
+tabelas era um processo lento e chato, e era comum encontrar vários
+erros.</p>
+<p>Quando os computadores apareceram em cena, uma das reações iniciais
+foi, <em>&#8220;Isso é ótimo! Podemos usar os computadores para gerar as
+tabelas, então não haverá erros.&#8221;</em> Que acabou por ser verdade (na
+maioria dos casos), mas míope. Logo depois, computadores e
+calculadoras ficaram tão comuns que as tabelas se tornaram obsoletas.</p>
+<p>Bem, quase. Para algumas operações, os computadores usam tabelas de
+valores para obter uma resposta aproximada e, em seguida, executar
+cálculos para melhorar a aproximação.  Em alguns casos, houve erros
+nas tabelas de base, mais notoriamente na tabela do chip do
+processador Intel Pentium usado para realizar a divisão de ponto
+flutuante.</p>
+<p>Apesar de uma tabela de potências de 2 não seja mais tão útil como já
+fora, ela ainda é um bom exercício de iteração.  O seguinte programa
+gera uma sequência de valores na coluna da esquerda e 2 elevado à
+potência daquele valor na coluna da direita:</p>
+
+<div id="ch07_table1" >
+<textarea cols="50" rows="12" id="ch07_table1_code" class="active_code">
+print("n",'\t',"2**n")     #table column headings
+print("---",'\t',"-----")
+
+for x in range(13):        # generate values for columns
+    print(x, '\t', 2**x)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch07_table1)</span> </p>
+<button onclick="runit('ch07_table1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch07_table1');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch07_table1');">Load</button>
+<br />
+
+<canvas id="ch07_table1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch07_table1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>O string <code class="docutils literal"><span class="pre">'\t'</span></code> representa um <strong>caractere de tabulação</strong> (ou
+<strong>tab</strong>). A barra invertida em <code class="docutils literal"><span class="pre">'\t'</span></code> indica o início de uma
+<strong>sequência de escape</strong>. As sequências de escape são usados para
+representar caracteres invisíveis, como tabs e mudanças de linhas. A
+sequência <code class="docutils literal"><span class="pre">\n</span></code> representa uma <strong>nova linha</strong>.</p>
+<p>Uma sequência de escape pode aparecer em qualquer lugar em uma string. Neste exemplo, o sequência de escape para tab é a única coisa na string.
+seqüência de escape é a única coisa na cadeia. Como você acha que
+uma barra invertida é representada em uma string?</p>
+<p>Como caracteres e strings são exibidos na tela, um marcador invisível
+chamado de <strong>cursor</strong> mantém o controle de onde o próximo cararactere é inserido. Depois de uma função <code class="docutils literal"><span class="pre">print</span></code>, o cursor normalmente vai para o início da próxima
+linha.</p>
+<p>O caractere tab desloca o cursor para a direita até que ele atinja uma
+das colunas de tabulação. Tabs são úteis para fazer colunas de texto
+alinhadas, como na saída do programa anterior.  Devido ao caractere de
+tabulação entre as colunas, a posição da segunda coluna não depende do
+número de dígitos na primeira coluna.</p>
+<div class="admonition-scratch-editor admonition">
+<p class="first admonition-title">Scratch Editor</p>
+<div class="last">
+<button id="butt_scratch_7_8" onclick="createActiveCode('scratch_7_8',''); $('#butt_scratch_7_8').hide();">Open Editor</button>
+<div id="scratch_7_8"></div>
+<br />
+</div></div>
+<p id="index-7"><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question7_7_1">
+    <p>7.7.1: Qual a diferença entre um tab (\t) e uma sequência de espaços?</p>
+    <form name="test_question7_7_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question7_7_1_opt_a" />
+    <label for= "test_question7_7_1_opt_a">  a) Um tab vai alinhar itens na segunda coluna de tabulação, independentemente do número de caracteres colocados na primeira coluna, enquanto espaços não garantem que os itens fiquem alinhados.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question7_7_1_opt_b" />
+    <label for= "test_question7_7_1_opt_b">  b) Não há diferença.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question7_7_1_opt_c" />
+    <label for= "test_question7_7_1_opt_c">  c) Um tab é mais largo que uma sequência de espaços.</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question7_7_1_opt_d" />
+    <label for= "test_question7_7_1_opt_d">  d) Você deve usar tabs para criar tabelas. Você não pode usar espaços.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question7_7_1','a',['Assumindo que o número de caracteres inseridos na primeira coluna seja sempre menor que um tab.', 'Tabs e espaços fazem, às vezes, com que as saídas seja visualmente diferentes.', 'Um tab tem uma largura pré-definida que equivale a um dado número de espaços.', 'Você pode utilizar espaços para criar tabelas. As colunas podem parecer desalinhadas dependendo do número de itens em cada coluna.'])"/> 
+    </form>
+    <div id="test_question7_7_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="iteracao-bidimensional-processamento-de-imagens">
+<h2>Iteração Bidimensional: Processamento de Imagens<a class="headerlink" href="#iteracao-bidimensional-processamento-de-imagens" title="Permalink to this headline">¶</a></h2>
+<p>Tabelas bidimensionais (com 2 dimensões) possuem linhas e
+colunas. Você provavelmente já viu muitas tabelas assim se você tiver
+usado um programa de planilha eletrônica. Um outro objeto que pode ser
+organizado em linhas e colunas é uma imagem digital. Nesta seção vamos
+explorar como manipular essas imagens de forma iterativa.</p>
+<p>Uma <strong>imagem digital</strong> é um conjunto finito de pequenos elementos discretos de imagem chamados de <strong>pixels</strong>. Estes pixels são organizados numa grade bidimensional. Cada pixel representa a menor quantidade de informação sobre a imagem
+disponível. Uma imagem de boa qualidade tem grande densidade de pixels, então cada pixel aparece como um pequeno &#8220;ponto&#8221;.</p>
+<p>Cada imagem (grade de pixels) tem a sua própria largura e sua própria altura. A largura é o número de colunas e a altura é o número de linhas. Podemos indicar um pixel na grade pelo número da coluna e número da linha (como uma coordenada). No entanto, é muito importante lembrar
+que os cientistas da computação gostam de começar a contar do 0! Isso significa que, se há 20 linhas, elas serão nomeados 0,1,2, e assim por diante até 19. Isso será muito útil mais tarde, quando usarmos <cite>range</cite> para iterar.</p>
+<p>Na figura abaixo, o pixel de interesse se encontra na coluna <strong>c</strong> e linha <strong>r</strong>.
+.. image:: Figures/image.png</p>
+<div class="section" id="o-modelo-de-cor-rgb">
+<h3>O Modelo de Cor RGB<a class="headerlink" href="#o-modelo-de-cor-rgb" title="Permalink to this headline">¶</a></h3>
+<p>Cada pixel da imagem representa uma única cor. A cor específica
+depende de uma fórmula que mistura quantidades de três cores básicas:
+vermelho, verde e azul. Esta técnica para a criação de cor é conhecido
+como o <strong>modelo de cor RGB</strong> (RGB do inglês Red - vermelho, Green -
+verde e Blue - azul).  A quantidade de cada cor básica, às vezes
+chamada de <strong>intensidade da cor</strong>, nos permite ter um controle muito
+fino sobre a cor resultante.</p>
+<p>O valor mínimo de intensidade para uma cor básica é 0. Por exemplo, se
+a intensidade da cor vermelha é 0, então não há vermelho no pixel. O
+valor máximo de intensidade é 255. Isto significa que há realmente 256
+valores diferentes de intensidade para cada cor básica. Como há três
+cores básicas, isso significa que você pode criar 256<sup>3</sup> cores
+distintas, utilizando o modelo de cor RGB.</p>
+<p>Aqui estão as intensidades de vermelho, verde e azul para algumas
+cores comuns. Observe que &#8220;Black&#8221; é representado por um pixel sem
+nenhuma cor básica (intensidade 0). Por outro lado, o &#8220;White&#8221; tem
+valores máximos para todos os três componentes de cores básicas.</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Cor</th>
+<th class="head">Red</th>
+<th class="head">Green</th>
+<th class="head">Blue</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Red</td>
+<td>255</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td>Green</td>
+<td>0</td>
+<td>255</td>
+<td>0</td>
+</tr>
+<tr class="row-even"><td>Blue</td>
+<td>0</td>
+<td>0</td>
+<td>255</td>
+</tr>
+<tr class="row-odd"><td>White</td>
+<td>255</td>
+<td>255</td>
+<td>255</td>
+</tr>
+<tr class="row-even"><td>Black</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td>Yellow</td>
+<td>255</td>
+<td>255</td>
+<td>0</td>
+</tr>
+<tr class="row-even"><td>Magenta</td>
+<td>255</td>
+<td>0</td>
+<td>255</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>A fim de manipular uma imagem, temos de ser capazes de acessar pixels
+individuais. Esta capacidade é fornecida pelo um módulo chamado
+<strong>image</strong>. O módulo image define duas classes: <code class="docutils literal"><span class="pre">Image</span></code> e <code class="docutils literal"><span class="pre">Pixel</span></code>.</p>
+<p>Cada objeto Pixel tem três atributos: a intensidade do vermelho
+(componente Red), do verde (Green) e do azul (Blue). Um pixel fornece
+três métodos que nos permite pedir os valores de intensidade. Eles são
+chamados de <code class="docutils literal"><span class="pre">getRed</span></code>, <code class="docutils literal"><span class="pre">getGreen</span></code>, e <code class="docutils literal"><span class="pre">getBlue</span></code>. Além disso,
+podemos pedir a um pixel para alterar um valor de intensidade usando
+os métodos <code class="docutils literal"><span class="pre">setRed</span></code>, <code class="docutils literal"><span class="pre">setGreen</span></code>, e <code class="docutils literal"><span class="pre">setBlue</span></code>.</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="21%" />
+<col width="63%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Método</th>
+<th class="head">Exemplo</th>
+<th class="head">Comentário</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Pixel(r,g,b)</td>
+<td>Pixel(20,100,50)</td>
+<td>Cria um novo pixel com R=20, G=100, e B=50</td>
+</tr>
+<tr class="row-odd"><td>getRed()</td>
+<td>r = p.getRed()</td>
+<td>Retorna a intensidade do componente red.</td>
+</tr>
+<tr class="row-even"><td>getGreen()</td>
+<td>r = p.getGreen()</td>
+<td>Retorna a intensidade do componente green.</td>
+</tr>
+<tr class="row-odd"><td>getBlue()</td>
+<td>r = p.getBlue()</td>
+<td>Retorna a intensidade do componente blue.</td>
+</tr>
+<tr class="row-even"><td>setRed()</td>
+<td>p.setRed(100)</td>
+<td>Muda o valor de red para 100.</td>
+</tr>
+<tr class="row-odd"><td>setGreen()</td>
+<td>p.setGreen(45)</td>
+<td>Muda o valor de green para 45.</td>
+</tr>
+<tr class="row-even"><td>setBlue()</td>
+<td>p.setBlue(156)</td>
+<td>Muda o valor de blue para 156.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>No exemplo abaixo, primeiro criamos um pixel com 45 unidades de
+vermelho, 76 unidades de verde, e 200 unidades de azul.  Em seguida,
+imprimimos a quantidade atual de vermelho, alteramos a quantidade de
+vermelho e, finalmente, definimos a quantidade de azul para ser a
+mesma que a quantidade atual de verde.</p>
+
+<div id="pixelex1a" >
+<textarea cols="50" rows="12" id="pixelex1a_code" class="active_code">
+import image
+
+p = image.Pixel(45,76,200)
+print(p.getRed())
+p.setRed(66)
+print(p.getRed())
+p.setBlue(p.getGreen())
+print(p.getGreen(), p.getBlue())
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (pixelex1a)</span> </p>
+<button onclick="runit('pixelex1a',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('pixelex1a');">Save</button>
+<button class="ac_opt" onclick="requestCode('pixelex1a');">Load</button>
+<br />
+
+<canvas id="pixelex1a_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="pixelex1a_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question7_8_1_1">
+    <p>7.8.1.1: Se você tem um pixel cujo valor RGB é (20, 0, 0), qual a cor desse pixel?</p>
+    <form name="test_question7_8_1_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question7_8_1_1_opt_a" />
+    <label for= "test_question7_8_1_1_opt_a">  a) Vermelho escuro</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question7_8_1_1_opt_b" />
+    <label for= "test_question7_8_1_1_opt_b">  b) Vermelho claro</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question7_8_1_1_opt_c" />
+    <label for= "test_question7_8_1_1_opt_c">  c) Verde escuro</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question7_8_1_1_opt_d" />
+    <label for= "test_question7_8_1_1_opt_d">  d) Verde claro</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question7_8_1_1','a',['Como todos os valores estão perto de 0, a cor deve ser escura. Como o valor do vermelho é maior que os demais, o pixel deve aparecer vermelho.', 'Quanto mais próximos do 0, mais escura será a cor.', 'O primeiro valor no modelo RGB é o vermelho. O segundo é o verde. Portanto essa cor não possui verde.', 'O primeiro valor no modelo RGB é o vermelho. O segundo é o verde. Portanto essa cor não possui verde.'])"/> 
+    </form>
+    <div id="test_question7_8_1_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="objetos-image">
+<h3>Objetos Image<a class="headerlink" href="#objetos-image" title="Permalink to this headline">¶</a></h3>
+<p>Para acessar os pixels em uma imagem real, precisamos primeiro criar
+um objeto <code class="docutils literal"><span class="pre">Image</span></code>. Objetos Image podem ser criados de duas
+maneiras. Em primeiro lugar, um objeto Image pode ser construído a
+partir de arquivos que armazenam imagens digitais. O objeto Image tem
+um atributo correspondente à largura, à altura e à coleção de pixels
+da imagem.</p>
+<p>É também possível criar um objeto Image que seja &#8220;vazio&#8221; (empty em
+inglês). Um objeto <code class="docutils literal"><span class="pre">EmptyImage</span></code> tem uma largura e uma altura. No
+entanto, a coleção de pixels é composta por pixels todos &#8220;White&#8221;
+(brancos).</p>
+<p>Podemos pedir a um objeto Image para retornar seu tamanho usando os
+métodos <code class="docutils literal"><span class="pre">getWidth</span></code> e <code class="docutils literal"><span class="pre">getHeight</span></code>. Nós também podemos obter um
+pixel de um local específico na imagem usando <code class="docutils literal"><span class="pre">getPixel</span></code> e mudar o
+pixel em um determinado local usando <code class="docutils literal"><span class="pre">setPixel</span></code>.</p>
+<p>A classe Image é mostrada abaixo. Observe que as duas primeiras
+entradas mostram como criar objetos de imagem. Os parâmetros são
+diferentes dependendo se você estiver usando um arquivo de imagem ou
+criando uma imagem vazia.</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="30%" />
+<col width="52%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Método</th>
+<th class="head">Example</th>
+<th class="head">Comentário</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Image(filename)</td>
+<td>img = image.Image(&#8220;cy.png&#8221;)</td>
+<td>Cria um objeto Image do arquivo cy.png.</td>
+</tr>
+<tr class="row-odd"><td>EmptyImage()</td>
+<td>img = image.EmptyImage(100,200)</td>
+<td>Cria um objeto Image com todos os pixels brancos</td>
+</tr>
+<tr class="row-even"><td>getWidth()</td>
+<td>w = img.getWidth()</td>
+<td>Retorna a largura da imagem em pixels.</td>
+</tr>
+<tr class="row-odd"><td>getHeight()</td>
+<td>h = img.getHeight()</td>
+<td>Retorna a altura da imagem em pixels.</td>
+</tr>
+<tr class="row-even"><td>getPixel(col,row)</td>
+<td>p = img.getPixel(35,86)</td>
+<td>Retorna o valor do pixel da coluna 35 e linha 86.</td>
+</tr>
+<tr class="row-odd"><td>setPixel(col,row,p)</td>
+<td>img.setPixel(100,50,mp)</td>
+<td>Muda o valor do pixel na coluna 100 e linha 50 para mp.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>Considere a imagem mostrada abaixo. Suponha que a imagem é armazenada
+em um arquivo chamado &#8220;luther.jpg&#8221;. A linha 2 abre o arquivo e usa o
+conteúdo para criar um objeto Image que é referenciado por
+<code class="docutils literal"><span class="pre">img</span></code>. Uma vez que temos um objeto Image, podemos usar os métodos
+descritos acima para acessar informações sobre a imagem ou para obter
+o valor de pixel e verificar suas intensidades de cores básicas.</p>
+<img src="../_static/LutherBellPic.jpg" id="luther.jpg">
+<div id="pixelex1" >
+<textarea cols="50" rows="12" id="pixelex1_code" class="active_code">
+import image
+img = image.Image("luther.jpg")
+
+print(img.getWidth())
+print(img.getHeight())
+
+p = img.getPixel(45,55)
+print(p.getRed(), p.getGreen(), p.getBlue())
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (pixelex1)</span> </p>
+<button onclick="runit('pixelex1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('pixelex1');">Save</button>
+<button class="ac_opt" onclick="requestCode('pixelex1');">Load</button>
+<br />
+
+<canvas id="pixelex1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="pixelex1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Quando você roda o programa você pode ver que a imagem tem 400 pixels
+de largura e 244 pixels de altura. Além disso, o pixel da coluna 45,
+linha 55, tem valores RBG de 165, 161 e 158. Experimente algumas
+outras posições de pixel trocando os argumentos de <code class="docutils literal"><span class="pre">getPixel</span></code> e
+rodando o programa novamente.</p>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question7_8_2_1">
+    <p>7.8.2.1: No exemplo 10 do ActiveCode, quais são os valores dos componentes RGB do pixel na linha 100, coluna 30?</p>
+    <form name="test_question7_8_2_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question7_8_2_1_opt_a" />
+    <label for= "test_question7_8_2_1_opt_a">  a) 149 132 122</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question7_8_2_1_opt_b" />
+    <label for= "test_question7_8_2_1_opt_b">  b) 183 179 170</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question7_8_2_1_opt_c" />
+    <label for= "test_question7_8_2_1_opt_c">  c) 165 161 158</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question7_8_2_1_opt_d" />
+    <label for= "test_question7_8_2_1_opt_d">  d) 201 104 115</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question7_8_2_1','a',['Correto, os valores RGB são 149 132 122 na linha 100 e coluna 30.', 'Esses são os valores para o pixel na linha 30, coluna 100. Pegue os valores para a linha 100 e coluna 30 usando p=img.getPixel(100,30).', 'Esses são os valores do exemplo original (linha 45, coluna 55). Pegue os valores para a linha 100 e coluna 30 usando p=img.getPixel(100,30).', 'Esses valores foram inventados que podem ou não estarem na imagem. Pegue os valores para a linha 100 e coluna 30 usando p=img.getPixel(100,30).'])"/> 
+    </form>
+    <div id="test_question7_8_2_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="processamento-de-imagem-e-iteracao-encaixada">
+<h3>Processamento de imagem e iteração encaixada<a class="headerlink" href="#processamento-de-imagem-e-iteracao-encaixada" title="Permalink to this headline">¶</a></h3>
+<p>O <strong>processamento de imagem</strong> refere-se à capacidade de manipular os
+pixels individuais de uma imagem digital. A fim de processar todos os
+pixels, é preciso ser capaz de visitar sistematicamente todas as
+linhas e colunas da imagem. A melhor maneira de fazer isso é usando
+uma <strong>iteração encaixada</strong>.</p>
+<p>Iteração encaixada simplesmente significa que vamos colocar uma
+iteração (comando de repetição ou laço) dentro de outra. Vamos chamar
+essas iterações de <strong>iteração exterior</strong> e <strong>iteração interior</strong>.
+Para ver como isso funciona, considere a iteração simples abaixo.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+   <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Vimos isso várias vezes para saber que o valor de <code class="docutils literal"><span class="pre">i</span></code> será 0, em
+seguida, 1, depois 2, e assim sucessivamente até a 4.  O <code class="docutils literal"><span class="pre">print</span></code>
+será realizada uma vez para cada passagem.  No entanto, o corpo do
+laço pode conter quaisquer afirmações incluindo outra iteração (outra
+indicação <code class="docutils literal"><span class="pre">for</span></code>). Por exemplo,</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+   <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>O <code class="docutils literal"><span class="pre">for</span> <span class="pre">i</span></code> é a iteração exterior e o <code class="docutils literal"><span class="pre">for</span> <span class="pre">j</span></code> é a iteração
+interior. Cada passagem da iteração externa irá resultar na
+transformação completa da iteração interna do começo ao fim. Isto
+significa que a saída da iteração encaixada vai mostrar que para cada
+valor de <code class="docutils literal"><span class="pre">i</span></code>, todos os valores de <code class="docutils literal"><span class="pre">j</span></code> vão ocorrer.</p>
+<p>Aqui está o mesmo exemplo em activecode. Experimente. Note que o valor
+de <code class="docutils literal"><span class="pre">i</span></code> permanece o mesmo enquanto o valor de <code class="docutils literal"><span class="pre">j</span></code> muda. A iteração
+interna, de fato, está se movendo mais rápido do que a iteração
+exterior.</p>
+
+<div id="nested1" >
+<textarea cols="50" rows="12" id="nested1_code" class="active_code">
+for i in range(5):
+   for j in range(3):
+        print(i,j)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (nested1)</span> </p>
+<button onclick="runit('nested1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('nested1');">Save</button>
+<button class="ac_opt" onclick="requestCode('nested1');">Load</button>
+<br />
+
+<canvas id="nested1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="nested1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Outra maneira de ver isso com mais detalhes é examinar o comportamento
+usando o codelens. Siga passo-a-passo através das iterações para ver o
+fluxo de controle à medida que iteração encaixada avança. Mais uma
+vez, para cada valor de <code class="docutils literal"><span class="pre">i</span></code>, todos os valores de <code class="docutils literal"><span class="pre">j</span></code> vão
+ocorrer. Você pode ver que a iteração interna completa antes de ir
+para o próximo passo da iteração externa.</p>
+
+<div id="nested2"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (nested2)</span> </p>
+<script type="text/javascript">
+var nested2_trace = {"code": "for i in range(5):\n   for j in range(3):\n        print(i,j)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0, "j": 0}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0, "j": 0}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0, "j": 1}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0, "j": 1}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0, "j": 2}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0, "j": 2}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 0, "j": 2}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 1, "j": 2}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 1, "j": 0}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 1, "j": 0}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 1, "j": 1}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 1, "j": 1}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 1, "j": 2}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 1, "j": 2}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 1, "j": 2}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 2, "j": 2}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 2, "j": 0}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 2, "j": 0}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 2, "j": 1}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n(2, 1)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 2, "j": 1}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n(2, 1)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 2, "j": 2}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n(2, 1)\n(2, 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 2, "j": 2}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n(2, 1)\n(2, 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 2, "j": 2}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n(2, 1)\n(2, 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 3, "j": 2}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n(2, 1)\n(2, 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 3, "j": 0}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n(2, 1)\n(2, 2)\n(3, 0)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 3, "j": 0}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n(2, 1)\n(2, 2)\n(3, 0)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 3, "j": 1}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n(2, 1)\n(2, 2)\n(3, 0)\n(3, 1)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 3, "j": 1}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n(2, 1)\n(2, 2)\n(3, 0)\n(3, 1)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 3, "j": 2}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n(2, 1)\n(2, 2)\n(3, 0)\n(3, 1)\n(3, 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 3, "j": 2}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n(2, 1)\n(2, 2)\n(3, 0)\n(3, 1)\n(3, 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 3, "j": 2}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n(2, 1)\n(2, 2)\n(3, 0)\n(3, 1)\n(3, 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 4, "j": 2}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n(2, 1)\n(2, 2)\n(3, 0)\n(3, 1)\n(3, 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 4, "j": 0}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n(2, 1)\n(2, 2)\n(3, 0)\n(3, 1)\n(3, 2)\n(4, 0)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 4, "j": 0}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n(2, 1)\n(2, 2)\n(3, 0)\n(3, 1)\n(3, 2)\n(4, 0)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 4, "j": 1}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n(2, 1)\n(2, 2)\n(3, 0)\n(3, 1)\n(3, 2)\n(4, 0)\n(4, 1)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 4, "j": 1}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n(2, 1)\n(2, 2)\n(3, 0)\n(3, 1)\n(3, 2)\n(4, 0)\n(4, 1)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 4, "j": 2}, "heap": {}, "line": 3, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n(2, 1)\n(2, 2)\n(3, 0)\n(3, 1)\n(3, 2)\n(4, 0)\n(4, 1)\n(4, 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 4, "j": 2}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n(2, 1)\n(2, 2)\n(3, 0)\n(3, 1)\n(3, 2)\n(4, 0)\n(4, 1)\n(4, 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 4, "j": 2}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["i", "j"], "stdout": "(0, 0)\n(0, 1)\n(0, 2)\n(1, 0)\n(1, 1)\n(1, 2)\n(2, 0)\n(2, 1)\n(2, 2)\n(3, 0)\n(3, 1)\n(3, 2)\n(4, 0)\n(4, 1)\n(4, 2)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"i": 4, "j": 2}, "heap": {}, "line": 1, "event": "return"}]};
+var nested2_vis;
+
+$(document).ready(function() {
+    nested2_vis = new ExecutionVisualizer('nested2',nested2_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(nested2_vis,'nested2');
+    allVisualizers.push(nested2_vis);
+});
+
+$(document).ready(function() {
+    $("#nested2_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'nested2'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    nested2_vis.redrawConnectors();
+});
+</script>
+<p>Nosso objetivo com o processamento de imagem é visitar cada
+pixel. Usaremos uma iteração para processar cada <cite>linha</cite>. Dentro dessa
+iteração, vamos usar uma iteração encaixada para processar cada
+<cite>coluna</cite>. O resultado é uma iteração encaixada, semelhante ao visto
+acima, onde o laço do <code class="docutils literal"><span class="pre">for</span></code> exterior processa as linhas, a partir de
+0 até (mas não incluindo) a altura da imagem.  O laço do <code class="docutils literal"><span class="pre">for</span></code>
+interior vai processar cada coluna de uma linha, novamente a partir de
+0 até (mas não incluindo) a largura da imagem.</p>
+<p>O código resultante será parecido com o seguinte. Agora nós estamos livres para fazer qualquer coisa que desejamos cada pixel da imagem.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">getWidth</span><span class="p">()):</span>
+    <span class="k">for</span> <span class="n">lin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">getHeight</span><span class="p">()):</span>
+        <span class="c1">#faça algo com o pixel na posição (col,lin)</span>
+</pre></div>
+</div>
+<p>Um dos mais fáceis algoritmos de processamento de imagem serve para
+criar o que é conhecido como imagem <strong>negativa</strong>. A imagem negativa
+significa simplesmente que cada pixel será o <cite>oposto</cite> do que era
+originalmente. Mas o que significa oposto?</p>
+<p>No modelo de cor RGB, podemos considerar o oposto do componente
+vermelho como a diferença entre o vermelho original e 255. Por
+exemplo, se o componente vermelho original 50, então o oposto, ou
+valor vermelho negativo seria `` 255-50`` ou 205. Em outras palavras,
+os pixels com um monte de vermelho terá negativos com pouco vermelho e
+pixels com pouco vermelho terá negativos com um monte. Nós fazemos o
+mesmo para o azul e o verde também.</p>
+<p>O programa abaixo implementa este algoritmo usando a imagem
+anterior. Execute o programa para ver a imagem negativa
+resultante. Note que há um monte de processamento ocorrendo e isso
+pode demorar alguns segundos para ser concluído. Além disso, aqui
+estão duas outras imagens que você pode usar. Altere o nome do arquivo
+na chamada <code class="docutils literal"><span class="pre">image.Image</span> <span class="pre">()</span></code> para ver como essas imagens se parecem
+com negativos. Além disso, observe que há uma chamada do método
+<code class="docutils literal"><span class="pre">exitonclick</span></code> no final que irá fechar a janela quando você clica
+nela. Isso permitirá que você &#8220;limpe a tela&#8221; antes de desenhar o
+próximo negativo.</p>
+<img src="../_static/cy.png" id="cy.png">
+cy.png<img src="../_static/goldygopher.png" id="goldygopher.png">
+goldygopher.png
+<div id="acimg_1" >
+<textarea cols="50" rows="12" id="acimg_1_code" class="active_code">
+import image
+
+img = image.Image("luther.jpg")
+newimg = image.EmptyImage(img.getWidth(),img.getHeight())
+win = image.ImageWin()
+
+for col in range(img.getWidth()):
+    for lin in range(img.getHeight()):
+       p = img.getPixel(col,lin)
+
+       newred = 255-p.getRed()
+       newgreen = 255-p.getGreen()
+       newblue = 255-p.getBlue()
+
+       newpixel = image.Pixel(newred,newgreen,newblue)
+
+       newimg.setPixel(col,lin,newpixel)
+
+newimg.draw(win)
+win.exitonclick()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (acimg_1)</span> </p>
+<button onclick="runit('acimg_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('acimg_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('acimg_1');">Load</button>
+<br />
+
+<canvas id="acimg_1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="acimg_1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Vamos dar uma olhada no código. Depois de importar o módulo image,
+criamos dois objetos Image. O primeiro, <code class="docutils literal"><span class="pre">img</span></code>, representa uma foto
+digital típica. A segunda, <code class="docutils literal"><span class="pre">newimg</span></code>, é uma imagem vazia que será
+&#8220;preenchida&#8221; a medida que nós processamos a imagem original pixel a
+pixel. Note que a largura e altura da imagem vazia são definidas
+usando os mesmos valores correspondentes da imagem original.</p>
+<p>As linhas 8 e 9 criam a iteração encaixada que discutimos
+anteriormente. Isto nos permite processar cada pixel na imagem. A
+linha 10 recebe um pixel individual.</p>
+<p>As linhas 12-14 criam os valores de intensidade negativa extraindo os
+valores da intensidade original e subtraindo de 255. Uma vez que temos
+os valores <code class="docutils literal"><span class="pre">newred</span></code>, <code class="docutils literal"><span class="pre">newgreen</span></code>, e <code class="docutils literal"><span class="pre">newblue</span></code>, podemos criar um
+novo pixel (Linha 16).</p>
+<p>Finalmente, é preciso inserir o novo pixel na imagem vazia no local
+correspondente ao pixel original da foto digital.</p>
+<div class="admonition-outra-manipulacao-de-pixel admonition">
+<p class="first admonition-title">Outra manipulação de pixel</p>
+<p>Há um grande número de diferentes algoritmos de processamento
+de imagem que seguem o mesmo padrão como mostrado acima. Ou
+seja, tomar o pixel original, extrair as intensidades de
+vermelho, verde e azul e, em seguida, criar um pixel novo a
+partir desses valores. O pixel novo é inserido uma imagem
+vazia no local correspondente ao original.</p>
+<p>Por exemplo, você pode criar um pixel em <strong>escala de cinza</strong>
+pela média das intensidades de vermelho, verde e azul e, em
+seguida, usar esse valor para todas as intensidades.</p>
+<p>A partir da escala de cinza você pode criar uma imagem
+<strong>binária</strong> definindo um limiar e inserindo um pixel branco ou
+um pixel preto na imagem vazia dependendo se o nível de cinza
+é maior ou menor que o limiar.</p>
+<p class="last">Você também pode fazer um pouco de aritmética complexa e criar efeitos interessantes, como
+<a class="reference external" href="http://en.wikipedia.org/wiki/Sepia_tone#Sepia_toning">Sepia Tone</a></p>
+</div>
+<div class="admonition-scratch-editor admonition">
+<p class="first admonition-title">Scratch Editor</p>
+<div class="last">
+<button id="butt_scratch_7_9" onclick="createActiveCode('scratch_7_9',''); $('#butt_scratch_7_9').hide();">Open Editor</button>
+<div id="scratch_7_9"></div>
+<br />
+</div></div>
+<p>Você acabou de passar um ponto muito importante em seu estudo de
+programação Python. Embora ainda haja um caminho longo a percorrer,
+você aprendeu todos os blocos de construção básicos que são
+necessários para resolver muitos problemas interessantes. Sob o ponto
+de vista de algoritmos, agora você pode implementar programas com
+seleção e iteração. Você também pode resolver problemas ao dividi-los
+em partes menores, escrevendo funções para essas partes e, em seguida,
+chamar as funções para concluir a implementação.  Resta ainda ver
+maneiras de melhorar as formas de representação de problemas em termos
+de dados que nós manipulamos. Agora vamos voltar nossa atenção para
+estudar as principais estruturas de dados fornecidas pelo Python.</p>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question7_8_3_1">
+    <p>7.8.3.1: O que a seguinte iteração encaixada vai imprimir? (Nota: se você estiver com dificuldade nessa questão, reveja CodeLens 3).
+ <pre>
+ for i in range(3):
+   for j in range(2):
+     print(i,j)
+ </pre>
+ a.
+ <pre>
+ 0   0
+ 0   1
+ 1   0
+ 1   1
+ 2   0
+ 2   1
+ </pre>
+ b.
+ <pre>
+ 0   0
+ 1   0
+ 2   0
+ 0   1
+ 1   1
+ 2   1
+ </pre>
+ c.
+ <pre>
+ 0   0
+ 0   1
+ 0   2
+ 1   0
+ 1   1
+ 1   2
+ </pre>
+ d.
+ <pre>
+ 0   1
+ 0   1
+ 0   1
+ </pre></p>
+    <form name="test_question7_8_3_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question7_8_3_1_opt_a" />
+    <label for= "test_question7_8_3_1_opt_a">  a) Saída a</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question7_8_3_1_opt_b" />
+    <label for= "test_question7_8_3_1_opt_b">  b) Saída b</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question7_8_3_1_opt_c" />
+    <label for= "test_question7_8_3_1_opt_c">  c) Saída c</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question7_8_3_1_opt_d" />
+    <label for= "test_question7_8_3_1_opt_d">  d) Saída d</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question7_8_3_1','a',['i começa com o valor 0 e então j itera de 0 a 1. Em seguida, i recebe 1 e j itera de 0 a 1. Finalmente, i recebe 2 e j itera de 0 a 1.', 'O laço for interno controla o segundo dígito (j). O laço for deve ser concluído antes que o laço externo possa avançar.', 'O laço for interno controla o segundo dígito (j). Note que o laço for interno percorre a lista [0, 1].', 'O laço for externo itera 3 vezes (0, 1, 2) e o laço interno roda duas vezes para cada iteração do laço externo. Então esse programa imprime 6 linhas exatamente.'])"/> 
+    </form>
+    <div id="test_question7_8_3_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question7_8_3_2">
+    <p>7.8.3.2: Qual seria a imagem produzida pelo programa da caixa 12 do ActiveCode ao substituir as linhas:
+<pre>
+newred = 255-p.getRed()
+newgreen = 255-p.getGreen()
+newblue = 255-p.getBlue()
+</pre>
+pelas linhas:
+<pre>
+newred = p.getRed()
+newgreen = 0
+newblue = 0
+</pre></p>
+    <form name="test_question7_8_3_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question7_8_3_2_opt_a" />
+    <label for= "test_question7_8_3_2_opt_a">  a) Seria uma versão avermelhada da imagem do sino.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question7_8_3_2_opt_b" />
+    <label for= "test_question7_8_3_2_opt_b">  b) Seria um retângulo vermelho sólido de mesmo tamanho da imagem original</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question7_8_3_2_opt_c" />
+    <label for= "test_question7_8_3_2_opt_c">  c) Seria a mesma imagem originalimage</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question7_8_3_2_opt_d" />
+    <label for= "test_question7_8_3_2_opt_d">  d) Seria a mesma que a imagem negativa</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question7_8_3_2','a',['Como estamos removendo os componentes verde e azul, mas mantendo as variações do componente vermelho, obteríamos a mesma imagem, mas avermelhada.', 'Como o valor de vermelho varia de pixel para pixel, a imagem não seria um vermelho sólido. Para ser sólido, todos os pixels deveriam receber o mesmo valor de vermelho.', 'Ao remover o azul e o verde dos pixels, a imagem ficará diferente, mesmo que a imagem original não aparente ter cores verde e azul (lembre-se que outras cores são formadas pela combinação de vermelho, verde e azul).', 'Como nós mudamos os valores dos pixels de forma diferente do código anterior, a imagem resultante não será igual a imagem negativa.'])"/> 
+    </form>
+    <div id="test_question7_8_3_2_feedback">
+    </div>
+    </div>
+    </div>
+</div>
+<div class="section" id="glossario">
+<h2>Glossário<a class="headerlink" href="#glossario" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-algoritmo">algoritmo</dt>
+<dd>Um processo passo-a-passo para resolver uma categoria de problemas.</dd>
+<dt id="term-contador">contador</dt>
+<dd>Uma variável usada para contar algo, em geral inicializada com zero e
+incrementada no corpo de um laço.</dd>
+<dt id="term-corpo">corpo</dt>
+<dd>Os comandos dentro de um laço.</dd>
+<dt id="term-cursor">cursor</dt>
+<dd>Um marcador invisível que guarda a posição onde o próximo caracter
+deve ser inserido.</dd>
+<dt id="term-generalizar">generalizar</dt>
+<dd>Substituir algo muito específico (como o valor de uma constante)
+por algo apropriadamente mais genérico (como uma variável ou parâmetro).
+A generalização torna o código mais versátil, melhora as chances dele ser
+reusado e, às vezes, até mais fácil de escrever.</dd>
+<dt id="term-iteracao">iteração</dt>
+<dd>Execução repetida de um conjunto de comandos de programação.</dd>
+<dt id="term-iteracao-definida">iteração definida</dt>
+<dd>Um laço que possui um limite superior no número de vezes que
+seu corpo será executado. Uma iteração definida é melhor
+implementada, em geral, usando um comando <code class="docutils literal"><span class="pre">for</span></code>.</dd>
+<dt id="term-iteracao-indefinida">iteração indefinida</dt>
+<dd>Um laço que se repete até que alguma condição seja encontrada.
+Um comando <code class="docutils literal"><span class="pre">while</span></code> é mais apropriado nesses casos.</dd>
+<dt id="term-laco">laço</dt>
+<dd>Um comando ou grupo de comandos executados repetidamente até que
+uma condição de parada seja satisfeita.</dd>
+<dt id="term-laco-encaixado">laço encaixado</dt>
+<dd>Um laço dentro do corpo de outro laço.</dd>
+<dt id="term-laco-infinito">laço infinito</dt>
+<dd>Uma laço cuja condição de parada nunca é satisfeita.</dd>
+<dt id="term-newline">newline</dt>
+<dd>Um caractere especial que faz o cursor se mover para
+o início da linha seguinte.</dd>
+<dt id="term-reatribuicao">reatribuição</dt>
+<dd>Fazer mais de uma atribuição para a mesma variável
+durante a execução do programa.</dd>
+<dt id="term-sequencia-de-escape">sequencia de escape</dt>
+<dd>Um caractere de escape, \, seguido de um ou mais caracteres é usado
+para representar um caractere que não é impresso (não é visível no texto).</dd>
+<dt id="term-tab">tab</dt>
+<dd>Um caractere especial que faz o cursor se mover para a próxima
+coluna de tabulação na linha atual.</dd>
+<dt id="term-variavel-do-laco">variável do laço</dt>
+<dd>Uma variável usada como parte da condição de parada do laço</dd>
+</dl>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<p>Este capítulo nos mostrou como somar uma lista de itens e como contar
+itens. O exemplo de contagem também usou um comando <code class="docutils literal"><span class="pre">if</span></code> que nos
+permite contar apenas itens selecionados. No capítulo anterior vimos
+também uma função <code class="docutils literal"><span class="pre">find_first_2_letter_word</span></code> que nos permite uma
+&#8220;saída precoce&#8221; de dentro de um laço usando <code class="docutils literal"><span class="pre">return</span></code> quando alguma
+condição se torna verdadeira.  Agora, também temos <code class="docutils literal"><span class="pre">break</span></code> para sair
+de um laço (mas não da função), e <code class="docutils literal"><span class="pre">continue</span></code> para abandonar a
+iteração atual do laço sem terminar o laço.</p>
+<p>A composição de percorrer listas, somar, contar, testar condições e
+saída precoce é uma rica coleção de blocos de construção que podem ser
+combinados de maneiras poderosas para criar muitas funções que são
+todas um pouco diferentes.</p>
+<p>As seis primeiras questões são sobre funções típicas você deve ser
+capaz de escrever usando apenas esses blocos de construção.</p>
+<ol class="arabic">
+<li><p class="first">Adicione uma chamada para a função print à função <code class="docutils literal"><span class="pre">sqrt</span></code> de Newton
+para imprimir a palavra <code class="docutils literal"><span class="pre">melhor</span></code> toda vez que uma nova raiz é calculada.
+Chame a sua função modificada usando 25 como argumento e veja os resultados.</p>
+<blockquote>
+<div>
+<button id="butt_ex_7_7" onclick="createActiveCode('ex_7_7',''); $('#butt_ex_7_7').hide();">Open Editor</button>
+<div id="ex_7_7"></div>
+<br />
+</div></blockquote>
+</li>
+<li><p class="first">Escreva uma função <code class="docutils literal"><span class="pre">print_triangular_numbers(n)</span></code> que imprime os n primeiros
+números triangulares. Uma chamada da forma
+<code class="docutils literal"><span class="pre">print_triangular_numbers(5)</span></code> deve produzir a seguinte saída:</p>
+<div class="highlight-python"><div class="highlight"><pre>1       1
+2       3
+3       6
+4       10
+5       15
+</pre></div>
+</div>
+<p>(<em>dica: faça uma busca na internet para saber o que é um número triangular.</em>)</p>
+
+<button id="butt_ex_7_8" onclick="createActiveCode('ex_7_8',''); $('#butt_ex_7_8').hide();">Open Editor</button>
+<div id="ex_7_8"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função <code class="docutils literal"><span class="pre">is_prime</span></code>, que recebe um único argumento inteiro e
+retorna <code class="docutils literal"><span class="pre">True</span></code> quando o argumento é um <em>número primo</em> e <code class="docutils literal"><span class="pre">False</span></code>
+em caso contrário.</p>
+<blockquote>
+<div>
+<button id="butt_ex_7_9" onclick="createActiveCode('ex_7_9',''); $('#butt_ex_7_9').hide();">Open Editor</button>
+<div id="ex_7_9"></div>
+<br />
+</div></blockquote>
+</li>
+<li><p class="first">Modifique o programa Random turtle walk para que a tartaruga de meia volta
+quando ela bate na parede e volte na outra direção.
+Esse comportamento de bate e volta deve se repetir até que a tartaruga bata
+4 vezes na parede.</p>
+<blockquote>
+<div>
+<button id="butt_ex_7_12" onclick="createActiveCode('ex_7_12',''); $('#butt_ex_7_12').hide();">Open Editor</button>
+<div id="ex_7_12"></div>
+<br />
+</div></blockquote>
+</li>
+<li><p class="first">Modifique o programa anterior para que você tenha 2 tartarugas, cada uma
+com uma posição inicial aleatória. Faça as tartarugas se moverem, batendo
+nas paredes e voltando, até que as duas tartarugas colidam entre si.</p>
+<blockquote>
+<div>
+<button id="butt_ex_7_13" onclick="createActiveCode('ex_7_13',''); $('#butt_ex_7_13').hide();">Open Editor</button>
+<div id="ex_7_13"></div>
+<br />
+</div></blockquote>
+</li>
+<li><p class="first">Modifique o programa anterior para que, ao invés de virar para a esquerda
+ou direita, o ângulo de virada seja determinado aleatóriamente a cada passo.
+Quando a tartaruga bate na parede, você deve calcular o ângulo correto
+de reflexão.</p>
+<blockquote>
+<div>
+<button id="butt_ex_7_14" onclick="createActiveCode('ex_7_14',''); $('#butt_ex_7_14').hide();">Open Editor</button>
+<div id="ex_7_14"></div>
+<br />
+</div></blockquote>
+</li>
+<li><p class="first">Escreva uma função para remover todo o vermelho de uma imagem RGB.</p>
+<blockquote>
+<div>
+<button id="butt_ex_7_15" onclick="createActiveCode('ex_7_15',''); $('#butt_ex_7_15').hide();">Open Editor</button>
+<div id="ex_7_15"></div>
+<br />
+</div></blockquote>
+</li>
+<li><p class="first">Escreva uma função para converter uma imagem RGB para níveis de cinza.</p>
+<blockquote>
+<div>
+<button id="butt_ex_7_16" onclick="createActiveCode('ex_7_16',''); $('#butt_ex_7_16').hide();">Open Editor</button>
+<div id="ex_7_16"></div>
+<br />
+</div></blockquote>
+</li>
+<li><p class="first">Escreva uma função para converter uma imagem RGB para binária.</p>
+<blockquote>
+<div>
+<button id="butt_ex_7_17" onclick="createActiveCode('ex_7_17',''); $('#butt_ex_7_17').hide();">Open Editor</button>
+<div id="ex_7_17"></div>
+<br />
+</div></blockquote>
+</li>
+<li><dl class="first docutils">
+<dt>Sepia é um efeito que torna uma imagem RGB amarronzada, dando a impressão de foto antiga.</dt>
+<dd><p class="first">A fórmula para criar esse efeito é a seguinte:</p>
+<div class="last highlight-python"><div class="highlight"><pre>newR = (R × 0.393 + G × 0.769 + B × 0.189)
+newG = (R × 0.349 + G × 0.686 + B × 0.168)
+newB = (R × 0.272 + G × 0.534 + B × 0.131)
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Escreva uma função para converter uma imagem para sepia.
+<em>Dica:</em> lembre que os valores rgb devem ser inteiros entre 0 e 255.</p>
+<blockquote>
+<div>
+<button id="butt_ex_7_18" onclick="createActiveCode('ex_7_18',''); $('#butt_ex_7_18').hide();">Open Editor</button>
+<div id="ex_7_18"></div>
+<br />
+</div></blockquote>
+</li>
+<li><p class="first">Escreva uma função para reduzir ou aumentar uma imagem de forma uniforme.
+Sua função deve receber uma imagem e um fator de escala. Para reduzir a
+imagem, o fator de escala deve estar no intervalo 0 e 1. Para aumentar a
+imagem, o fator de escala deve ser maior que 1.</p>
+<blockquote>
+<div>
+<button id="butt_ex_7_19" onclick="createActiveCode('ex_7_19',''); $('#butt_ex_7_19').hide();">Open Editor</button>
+<div id="ex_7_19"></div>
+<br />
+</div></blockquote>
+</li>
+<li><p class="first">Escreva uma função para rotacionar uma imagem. Sua função deve receber uma imagem
+e um ângulo em graus. O ângulo de rotação pode ser positivo ou negativo e deve ser
+múltiplo de 90 graus.</p>
+<blockquote>
+<div>
+<button id="butt_ex_7_20" onclick="createActiveCode('ex_7_20',''); $('#butt_ex_7_20').hide();">Open Editor</button>
+<div id="ex_7_20"></div>
+<br />
+</div></blockquote>
+</li>
+<li><p class="first">Após escalar uma imagem por um fator de escala grande a imagem parece quadriculada.
+Uma forma de reduzir esse efeito de blocos na imagem é substituir cada pixel com
+a média dos valores dos pixels ao seu redor. O efeito disso é suavizar as mudanças
+na cor. Escreva uma função que recebe uma imagem como parâmetro e retorna a imagem
+suavizada.</p>
+<blockquote>
+<div>
+<button id="butt_ex_7_21" onclick="createActiveCode('ex_7_21',''); $('#butt_ex_7_21').hide();">Open Editor</button>
+<div id="ex_7_21"></div>
+<br />
+</div></blockquote>
+</li>
+<li><p class="first">Quando você digitaliza uma foto usando um escaneador, a imagem escaneada pode
+ter muito ruído devido a particulas de poeira (na foto e/ou no escaner),
+danificando a imagem. Uma forma de eliminar esse ruído é substituir cada pixel
+pela mediana dos pixels vizinhos.</p>
+<blockquote>
+<div>
+<button id="butt_ex_7_22" onclick="createActiveCode('ex_7_22',''); $('#butt_ex_7_22').hide();">Open Editor</button>
+<div id="ex_7_22"></div>
+<br />
+</div></blockquote>
+</li>
+<li><p class="first">Pesquise sobre o algoritmo de detecção de bordas de Sobel e implemente-o.</p>
+<blockquote>
+<div>
+<button id="butt_ex_7_23" onclick="createActiveCode('ex_7_23',''); $('#butt_ex_7_23').hide();">Open Editor</button>
+<div id="ex_7_23"></div>
+<br />
+</div></blockquote>
+</li>
+</ol>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Mais sobre Iteração</a><ul>
+<li><a class="reference internal" href="#mais-sobre-o-comando-for">Mais sobre o comando <code class="docutils literal"><span class="pre">for</span></code></a></li>
+<li><a class="reference internal" href="#o-comando-while">O comando <code class="docutils literal"><span class="pre">while</span></code></a></li>
+<li><a class="reference internal" href="#caminhadas-aleatorias-de-tartarugas">Caminhadas Aleatórias de Tartarugas</a></li>
+<li><a class="reference internal" href="#a-sequencia-3n-1">A sequência 3n + 1</a></li>
+<li><a class="reference internal" href="#metodo-de-newton">Método de Newton</a></li>
+<li><a class="reference internal" href="#revisao-de-algoritmos">Revisão de Algoritmos</a></li>
+<li><a class="reference internal" href="#tabelas-simples">Tabelas Simples</a></li>
+<li><a class="reference internal" href="#iteracao-bidimensional-processamento-de-imagens">Iteração Bidimensional: Processamento de Imagens</a><ul>
+<li><a class="reference internal" href="#o-modelo-de-cor-rgb">O Modelo de Cor RGB</a></li>
+<li><a class="reference internal" href="#objetos-image">Objetos Image</a></li>
+<li><a class="reference internal" href="#processamento-de-imagem-e-iteracao-encaixada">Processamento de imagem e iteração encaixada</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#glossario">Glossário</a></li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../Labs/montepi.html"
+                        title="previous chapter">Approximating the Value of Pi</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../Labs/sequencelab.html"
+                        title="next chapter">Experimenting With the 3n+1 Sequence</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../Labs/sequencelab.html" title="Experimenting With the 3n+1 Sequence"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../Labs/montepi.html" title="Approximating the Value of Pi"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2012, Brad Miller, David Ranum.
+      Last updated on May 24, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

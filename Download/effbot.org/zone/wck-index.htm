@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The Widget Construction&nbsp;Kit</title></head><body data-page-id="357"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The Widget Construction&nbsp;Kit</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh</p></div><div class="yui-u">&#160;</div></div><div class="yui-ge"><div class="yui-u first"><p>The Widget Construction Kit (WCK) is an extension API that allows you
+to implement all sorts of custom widgets, in pure Python.  Creating a new
+widget can be as simple as:</p><pre class="python">
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget
+
+<span class="pykeyword">class</span> <span class="pyclass">HelloWidget</span>(Widget):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        font = self.ui_font(<span class="pystring">"black"</span>, <span class="pystring">"times"</span>)
+        draw.text((0, 0), <span class="pystring">"hello, world!"</span>, font)</pre><p>The <a href="tkinter3000-wck.htm">Tkinter 3000 implementation</a> of
+the WCK is designed to work with the existing Tkinter layer, as well as
+the upcoming Tkinter 3000 interface layer.</p><p>The WCK is based on PythonWare&#8217;s uiToolkit&#8217;s extension API, and is
+designed to let you run new widgets under other toolkits as well.
+(for example, the <a href="effnews-exe.htm">effnews RSS reader for
+Windows</a> uses a WCK implementation built on top of Windows&#8217; native
+API.)</p><p>For more information, see <a href="wck.htm">this page</a>.</p><p>&#8220;<i>Most toolkits have long assumed that a fixed library of interactive components
+covered the vast majority of interfaces that were to be built.  As a result,
+they have placed an emphasis on making components from the library easy to
+employ, while generally neglecting the issue of making it easy to create new
+interactive components. For example, creating a new widget in the popular Motif
+toolkit is very difficult. The implicit or explicit assumptions (and in some
+cases simply poor early design choices) made by a system, significantly limit
+the kinds of things that can be (easily) accomplished with it.
+</i>&#8221; &#8212; Brad Myers et al, in <i>Past, Present and Future of User Interface Software Tools.</i></p></div><div class="yui-u"><div class="sidebar" id="effbot_download"><div class="source"><p><b><a href="/downloads#tkinter3000">Download Source Code</a></b></p></div><div class="windows"><p><b><a href="/downloads#tkinter3000">Download for Windows</a></b></p><p>If the installer cannot find your Python interpreter, see <a href="python-register.htm">this page</a>.</p></div></div></div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Sepia Toning with&nbsp;PIL</title></head><body data-page-id="2023"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Sepia Toning with&nbsp;PIL</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | July 2008 (originally posted to the image-sig mailing list)</p></div><div class="yui-u">&#160;</div></div><div class="yui-ge"><div class="yui-u first"><p><em>Q. I&#8217;m wondering if there&#8217;s some snazzy way to get sepia image conversion with PIL?</em></p><p>Simple sepia toning is usually done by converting the image to grayscale, and then attaching a brownish palette to the image.  See e.g.</p><p><a href="http://en.wikipedia.org/wiki/List_of_software_palettes#Color_gradient_palettes">http://en.wikipedia.org/wiki/List_of_software_palettes#Color_gradient_palettes</a></p><p>To do this in PIL, convert the image to mode &#8220;L&#8221;, and use <strong>putpalette</strong> to attach a suitable palette to the image.  Something like this might work:</p><pre class="python"><span class="pykeyword">from</span> PIL <span class="pykeyword">import</span> Image, ImageOps
+
+<span class="pykeyword">def</span> <span class="pyfunction">make_linear_ramp</span>(white):
+    <span class="pycomment"># putpalette expects [r,g,b,r,g,b,...]</span>
+    ramp = []
+    r, g, b = white
+    <span class="pykeyword">for</span> i <span class="pykeyword">in</span> range(255):
+        ramp.extend((r*i/255, g*i/255, b*i/255))
+    <span class="pykeyword">return</span> ramp
+
+<span class="pycomment"># make sepia ramp (tweak color as necessary)</span>
+sepia = make_linear_ramp((255, 240, 192))
+
+im = Image.open(<span class="pystring">"somefile.jpg"</span>)
+
+<span class="pycomment"># convert to grayscale</span>
+<span class="pykeyword">if</span> im.mode != <span class="pystring">"L"</span>:
+    im = im.convert(<span class="pystring">"L"</span>)
+
+<span class="pycomment"># optional: apply contrast enhancement here, e.g.</span>
+im = ImageOps.autocontrast(im)
+
+<span class="pycomment"># apply sepia palette</span>
+im.putpalette(sepia)
+
+<span class="pycomment"># convert back to RGB so we can save it as JPEG</span>
+<span class="pycomment"># (alternatively, save it in PNG or similar)</span>
+im = im.convert(<span class="pystring">"RGB"</span>)
+
+im.save(<span class="pystring">"file.jpg"</span>)</pre></div><div class="yui-u"><p class="sidebar">
+<img alt="" height="128" src="/media/cache/1e3c64534456259b6943892679ff188c.jpg" width="128" />
+</p></div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

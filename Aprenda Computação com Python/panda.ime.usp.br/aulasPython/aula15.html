@@ -1,0 +1,474 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Mais funções com reais &mdash; Aulas de Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Aulas de Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Exercícios" href="aula16.html" />
+    <link rel="prev" title="Mais sobre números reais" href="aula14.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'aulasPython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="aula16.html" title="Exercícios"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="aula14.html" title="Mais sobre números reais"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="mais-funcoes-com-reais">
+<h1>Mais funções com reais<a class="headerlink" href="#mais-funcoes-com-reais" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="topicos">
+<h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>mais funções com reais</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="exercicio-15-1">
+<h3>Exercício 15.1<a class="headerlink" href="#exercicio-15-1" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="http://www.ime.usp.br/~macmulti/exercicios/funcoes1/index.html">Exercício 4 da lista de exercícios com funções - parte I</a></p>
+<p><strong>Parte A</strong></p>
+<p>Faça uma função <cite>arctan</cite> que recebe o número real <span class="math">\(x \in [0,1]\)</span> e devolve uma aproximação do arco tangente de <span class="math">\(x\)</span> (em radianos) através da série incluindo todos os termos da série</p>
+<div class="math">
+\[\text{arctan}(x) = x - \frac{x^3}{3} + \frac{x^5}{5} - \frac{x^7}{7} + \ldots\]</div>
+<p>incluindo todos os termos da série até</p>
+<div class="math">
+\[\begin{split}\big\| \frac{x^k}{k} &lt; 0.0001 \big\|\end{split}\]</div>
+
+<div id="aula15_ex01_a_tentativa" >
+<textarea cols="50" rows="12" id="aula15_ex01_a_tentativa_code" class="active_code">
+# escreva o seu programa abaixo e remova o print()
+print("Vixe! Ainda nao fiz esse exercicio!")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula15_ex01_a_tentativa)</span> </p>
+<button onclick="runit('aula15_ex01_a_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula15_ex01_a_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula15_ex01_a_tentativa');">Load</button>
+<br />
+
+<canvas id="aula15_ex01_a_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula15_ex01_a_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>Parte B</strong></p>
+<p>Faça uma função <cite>angulo</cite> que recebe um ponto de coordenadas
+cartesianas reais <span class="math">\((x,y)\)</span>, com <span class="math">\(x &gt; 0\)</span> e <span class="math">\(y &gt; 0\)</span>
+e devolve o ângulo formado pelo vetor <span class="math">\((x,y)\)</span> e o eixo horizontal.</p>
+<p>A tabela abaixo mostra exemplos com ângulos correspondentes a algumas
+coordenadas:</p>
+<table border="1" class="docutils">
+<caption>Exemplos</caption>
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">(x, y)</th>
+<th class="head">ângulo</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>(0, 1)</td>
+<td>90 graus</td>
+</tr>
+<tr class="row-odd"><td>(2, 2)</td>
+<td>45 graus</td>
+</tr>
+<tr class="row-even"><td>(1, 4)</td>
+<td>75 graus</td>
+</tr>
+<tr class="row-odd"><td>(5, 1)</td>
+<td>11 graus</td>
+</tr>
+</tbody>
+</table>
+<p>Use a função do item anterior mesmo que você não a tenha feito. Note
+que a função só calcula o arco tangente de números entre 0 e 1, e o
+valor devolvido é o ângulo em radianos
+(use o valor  = 3.14 radianos = 180 graus).
+Para calcular o valor do ângulo pedido, use a seguinte fórmula:</p>
+<div class="math">
+\[\begin{split}\begin{array}{lll}
+\alpha = &amp; \text{arctan}( y/x ) &amp; \text{caso} y &lt; x ; \text{ou}\\
+\alpha = &amp; \pi/2 - \text{arctan}( x/y ) &amp; \text{caso contrário}\\
+\end{array}\end{split}\]</div>
+
+<div id="aula15_ex01_b_tentativa" >
+<textarea cols="50" rows="12" id="aula15_ex01_b_tentativa_code" class="active_code">
+# escreva o seu programa abaixo e remova o print()
+print("Vixe! Ainda nao fiz esse exercicio!")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula15_ex01_b_tentativa)</span> </p>
+<button onclick="runit('aula15_ex01_b_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula15_ex01_b_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula15_ex01_b_tentativa');">Load</button>
+<br />
+
+<canvas id="aula15_ex01_b_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula15_ex01_b_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>Parte C</strong></p>
+<p>Faça um programa que, dados n pontos do primeiro quadrante
+(<span class="math">\(x &gt; 0 \text{e} y &gt; 0\)</span>)
+através de suas coordenadas cartesianas, determina o ponto que
+forma o menor ângulo com o eixo horizontal. Use a função do item
+anterior, mesmo que você não a tenha feito .</p>
+
+<div id="aula15_ex01_c_tentativa" >
+<textarea cols="50" rows="12" id="aula15_ex01_c_tentativa_code" class="active_code">
+# escreva o seu programa abaixo e remova o print()
+print("Vixe! Ainda nao fiz esse exercicio!")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula15_ex01_c_tentativa)</span> </p>
+<button onclick="runit('aula15_ex01_c_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula15_ex01_c_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula15_ex01_c_tentativa');">Load</button>
+<br />
+
+<canvas id="aula15_ex01_c_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula15_ex01_c_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-15-2">
+<h3>Exercício 15.2<a class="headerlink" href="#exercicio-15-2" title="Permalink to this headline">¶</a></h3>
+<p><strong>Parte A</strong></p>
+<p>Escreva uma função com protótipo</p>
+<div class="highlight-python"><div class="highlight"><pre>def divide (d, m, n):
+    ``` (int, int, int) -&gt; bool, int, int
+    ```
+</pre></div>
+</div>
+<p>que recebe três inteiros positivos <cite>m, n, d</cite>, e retorna
+<cite>False, m, n</cite> caso <cite>d</cite> não for divisor de <cite>m</cite> ou <cite>n</cite>.
+Caso contrário,
+função retorna
+<cite>True</cite>, <cite>m&#8217;</cite> e <cite>n&#8217;</cite>, onde
+<cite>m&#8217;=m/d</cite> caso <cite>m</cite> for múltiplo de <cite>d</cite> e <cite>m&#8217; = m</cite> caso contrário, e
+<cite>n&#8217;=n/d</cite> caso <cite>n</cite> for múltiplo de <cite>d</cite> e <cite>n&#8217; = n</cite> caso contrário.</p>
+<p>Exemplos:</p>
+<table border="1" class="docutils">
+<caption>divide(d, m, n)</caption>
+<colgroup>
+<col width="37%" />
+<col width="63%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">d,  m,  n</th>
+<th class="head">resultado</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>2,  5,  15</td>
+<td>False, 5, 15</td>
+</tr>
+<tr class="row-odd"><td>3,  7,   9</td>
+<td>True, 7, 3</td>
+</tr>
+<tr class="row-even"><td>3,  9,  21</td>
+<td>True, 3, 7</td>
+</tr>
+</tbody>
+</table>
+<p>Escreva a sua solução abaixo:</p>
+
+<div id="aula15_ex02_a_tentativa" >
+<textarea cols="50" rows="12" id="aula15_ex02_a_tentativa_code" class="active_code">
+# escreva o seu programa abaixo e remova o print()
+print("Vixe! Ainda nao fiz esse exercicio!")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula15_ex02_a_tentativa)</span> </p>
+<button onclick="runit('aula15_ex02_a_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula15_ex02_a_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula15_ex02_a_tentativa');">Load</button>
+<br />
+
+<canvas id="aula15_ex02_a_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula15_ex02_a_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>Parte B</strong></p>
+<p>Escreva um programa que lê dois inteiros positivos <cite>m</cite> e <cite>n</cite> e
+calcula, usando a função acima, o mínimo múltiplo comum entre <cite>m</cite> e <cite>n</cite>.</p>
+
+<div id="aula15_ex02_b_tentativa" >
+<textarea cols="50" rows="12" id="aula15_ex02_b_tentativa_code" class="active_code">
+# escreva o seu programa abaixo e remova o print()
+print("Vixe! Ainda nao fiz esse exercicio!")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula15_ex02_b_tentativa)</span> </p>
+<button onclick="runit('aula15_ex02_b_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula15_ex02_b_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula15_ex02_b_tentativa');">Load</button>
+<br />
+
+<canvas id="aula15_ex02_b_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula15_ex02_b_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-15-3">
+<h3>Exercício 15.3<a class="headerlink" href="#exercicio-15-3" title="Permalink to this headline">¶</a></h3>
+<p><strong>Parte A</strong></p>
+<p>Faça uma função com protótipo</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">somabit</span> <span class="p">(</span><span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">vemum</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; (int, int, int) -&gt; int, int</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+</pre></div>
+</div>
+<p>que recebe três bits (inteiros 0 ou 1) <cite>b1</cite>, <cite>b2</cite> e <cite>vemum</cite> e retorna
+dois bits, um bit <cite>soma</cite> representando a soma de
+<cite>b1 + b2 + vemum</cite> e o bit <cite>vaium</cite> para o próximo par de bits.</p>
+
+<div id="aula15_ex03_a_tentativa" >
+<textarea cols="50" rows="12" id="aula15_ex03_a_tentativa_code" class="active_code">
+# escreva o seu programa abaixo e remova o print()
+print("Vixe! Ainda nao fiz esse exercicio!")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula15_ex03_a_tentativa)</span> </p>
+<button onclick="runit('aula15_ex03_a_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula15_ex03_a_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula15_ex03_a_tentativa');">Load</button>
+<br />
+
+<canvas id="aula15_ex03_a_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula15_ex03_a_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>Parte B</strong></p>
+<p>Escreva um programa que lê dois números em binário e calcula um
+número em binário que é a soma dos dois números dados. Utilize a
+função da parte A.</p>
+
+<div id="aula15_ex03_b_tentativa" >
+<textarea cols="50" rows="12" id="aula15_ex03_b_tentativa_code" class="active_code">
+# escreva o seu programa abaixo e remova o print()
+print("Vixe! Ainda nao fiz esse exercicio!")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula15_ex03_b_tentativa)</span> </p>
+<button onclick="runit('aula15_ex03_b_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula15_ex03_b_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula15_ex03_b_tentativa');">Load</button>
+<br />
+
+<canvas id="aula15_ex03_b_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula15_ex03_b_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Mais funções com reais</a><ul>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a><ul>
+<li><a class="reference internal" href="#exercicio-15-1">Exercício 15.1</a></li>
+<li><a class="reference internal" href="#exercicio-15-2">Exercício 15.2</a></li>
+<li><a class="reference internal" href="#exercicio-15-3">Exercício 15.3</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="aula14.html"
+                        title="previous chapter">Mais sobre números reais</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="aula16.html"
+                        title="next chapter">Exercícios</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="aula16.html" title="Exercícios"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="aula14.html" title="Mais sobre números reais"
+             >previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Mar 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,2 @@
+print("s")
+k = input()

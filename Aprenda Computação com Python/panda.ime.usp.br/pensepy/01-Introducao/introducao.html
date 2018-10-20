@@ -1,0 +1,1142 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>O Caminho do Programa &mdash; Como pensar como um Cientista da Computação: Edição Interativa em Python</title>
+    
+    <link rel="stylesheet" href="../_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="../_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="../_static/codemirror.js"></script>
+    <script type="text/javascript" src="../_static/python.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="../_static/assess.js"></script>
+    <script type="text/javascript" src="../_static/animationbase.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="../_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Como pensar como um Cientista da Computação: Edição Interativa em Python" href="../index.html" />
+    <link rel="next" title="Variáveis, Expressões e Comandos" href="../02-Conceitos/conceitos.html" />
+    <link rel="prev" title="GNU Free Documentation License" href="../00-FrontBackMatter/fdl-1.3.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/pensePython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'pensePython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/pensePython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../02-Conceitos/conceitos.html" title="Variáveis, Expressões e Comandos"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../00-FrontBackMatter/fdl-1.3.html" title="GNU Free Documentation License"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="o-caminho-do-programa">
+<h1>O Caminho do Programa<a class="headerlink" href="#o-caminho-do-programa" title="Permalink to this headline">¶</a></h1>
+<p>O objetivo deste livro é ensinar você a pensar como um cientista da
+computação. Essa maneira de pensar combina algumas das melhores
+características da matemática, da engenharia e das ciências
+naturais. Como os matemáticos, os cientistas da computação usam
+linguagens formais para representar ideias (especificamente,
+computações). Como os engenheiros, eles projetam coisas, montando
+sistemas a partir de componentes e avaliando as vantagens e
+desvantagens entre as alternativas. Como os cientistas, eles observam
+o comportamento de sistemas complexos, formam hipóteses e testam
+previsões.</p>
+<p>A habilidade mais importante de um cientista da computação é a de
+<strong>solucionar problemas</strong>. A solução de problemas requer a habilidade
+de formular questões, pensar criativamente sobre soluções possíveis e
+expressar uma solução de forma clara e precisa. Ocorre que aprender a
+programar é uma excelente oportunidade de praticar a habilidade da
+solucionar problemas. É por isso que este capítulo se chama <em>O Caminho
+do Programa</em>.</p>
+<p>Em um certo nível, você aprenderá a programar, uma habilidade que é
+útil em si mesma. Em um outro nível, você usará a programação como um
+meio para atingir um objetivo. À medida que você for avançando na
+leitura, esse objetivo se tornará mais claro.</p>
+<div class="section" id="algoritmos">
+<span id="index-0"></span><h2>Algoritmos<a class="headerlink" href="#algoritmos" title="Permalink to this headline">¶</a></h2>
+<p>Se a habilidade de resolver problemas é uma parte central da ciência
+da computação, então as soluções que você cria por meio do processo de
+resolução de problemas também são importantes. Na ciência da
+computação, essas soluções são conhecidas como <strong>algoritmos</strong>. Um
+algoritmo é uma lista passo-a-passo de instruções que, caso seguidas
+exatamente, resolvem o problema sendo considerado.</p>
+<p>Nosso objetivo na ciência da computação é considerar um problema e
+desenvolver um algoritmo que possa servir como uma solução
+genérica. Uma vez obtida tal solução, um computador pode ser utilizado
+para automatizar a execução. Dessa forma, programação é uma habilidade
+que permite ao cientista da computação pegar um algoritmo e
+representá-lo em uma notação (um programa) que possa ser executado por
+um computador. Esses programas são escritos utilizando <strong>linguagens de
+programação</strong>.</p>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="question1_1_1">
+    <p>1.1.1: Qual a habilidade mais importante para um cientista da computação?</p>
+    <form name="question1_1_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question1_1_1_opt_a" />
+    <label for= "question1_1_1_opt_a">  a) Pensar como um computador.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question1_1_1_opt_b" />
+    <label for= "question1_1_1_opt_b">  b) Ser capaz de escrever código muito bem.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question1_1_1_opt_c" />
+    <label for= "question1_1_1_opt_c">  c) Ser capaz de resolver problemas.</label><br />
+    
+    <input type="radio" name="group1" value="d" id="question1_1_1_opt_d" />
+    <label for= "question1_1_1_opt_d">  d) Ser muito bom de matemática.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question1_1_1','c',['Computadores não pensam, eles somente fazem o que os humanos lhes dizem param fazer por meio dos programas.', 'Embora seja necessário saber programar para a maioria dos cientistas da computação, essa não é a habilidade mais importante.', 'Cientistas da computação resolvem problemas! Os computadores são utilizados para automatizar as soluções e fazer computações mais rapidamente e com maior precisão que nós conseguimos fazer manualmente.', 'A Ciência da Computação e a Matemática são similares em muitas formas e ajuda possuir um fundamento matemático forte, porém você não precisa ser bom de matemática para ser um bom cientista da computação.'])"/> 
+    </form>
+    <div id="question1_1_1_feedback">
+    </div>
+    </div>
+    
+    <div id="question1_1_2">
+    <p>1.1.2: Um algoritmo é:</p>
+    <form name="question1_1_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question1_1_2_opt_a" />
+    <label for= "question1_1_2_opt_a">  a) Uma solução para um problema que pode ser resolvido por um computador.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question1_1_2_opt_b" />
+    <label for= "question1_1_2_opt_b">  b) Uma lista passo-a-passo de instruções que, caso seguidas exatamente, resolvem o problema sendo considerado.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question1_1_2_opt_c" />
+    <label for= "question1_1_2_opt_c">  c) Uma série de instruções implementadas em uma linguagem de programação.</label><br />
+    
+    <input type="radio" name="group1" value="d" id="question1_1_2_opt_d" />
+    <label for= "question1_1_2_opt_d">  d) Um tipo especial de notação usado por cientistas da computação.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question1_1_2','b',['Embora seja verdade que um algoritmo em geral resolve problemas, essa não é a melhor resposta. Um algoritmo é mais que apenas uma solução de um problema para um computador. Um algoritmo pode ser utilizado para resolver todos os tipos de problemas, incluindo aqueles que não tenham nada a ver com computadores.', 'Algoritmos são como receitas: elas precisam ser seguidas exatamente, elas precisam ser claras e não ter ambiguidades, e precisam ter um fim.', 'Linguagens de programação são usadas para expressar algoritmos mas um algoritmo não precisa ser expresso na forma de uma linguagem de programação.', 'Cientistas da computação as vezes se utilizam de notações especiais para ilustrar ou documentar um algoritmo, mas essa não é a definição de um algoritmo.'])"/> 
+    </form>
+    <div id="question1_1_2_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="a-linguagem-de-programacao-python">
+<h2>A linguagem de programação Python<a class="headerlink" href="#a-linguagem-de-programacao-python" title="Permalink to this headline">¶</a></h2>
+<p>A linguagem de programação que você vai aprender é Python. Python é um
+exemplo de <strong>linguagem de programação de alto nível</strong>; outras
+linguagens de alto nível que você já pode ter ouvido falar são C++,
+PHP e Java.</p>
+<p>Como você deve ter imaginado, existem também as <strong>linguagens de baixo
+nível</strong>, às vezes chamadas de &#8220;linguagens de máquina&#8221; ou &#8220;linguagens
+assembly&#8221; (&#8220;linguagens de montagem&#8221;). Dito de maneira simples, o
+computador só consegue executar programas escritos em linguagens de
+baixo nível. Deste modo, programas escritos em linguagens de alto
+nível precisam ser processados antes que possam rodar. Esse
+processamento extra toma algum tempo, o que é uma pequena desvantagem
+das linguagens de alto nível. Mas as vantagens são enormes.</p>
+<p>Primeiro, é muito mais fácil programar em uma linguagem de alto nível.
+É mais rápido escrever programas em uma linguagem de alto nível; os
+programas ficam mais curtos, mais fáceis de ler, mais simples de
+alterar, e é mais provável que estejam corretos. Segundo, as
+linguagens de alto nível são <strong>portáveis</strong>, o que significa que podem
+rodar em diferentes tipos de computador, com pouca ou nenhuma
+modificação. Programas em baixo nível só podem rodar em um único tipo
+de computador e precisam ser re-escritos para rodar em outro tipo.</p>
+<p>Devido a essas vantagens, quase todos os programas são escritos em
+linguagens de alto nível. As de baixo nível são utilizadas somente
+para umas poucas aplicações especializadas.</p>
+<p>Dois tipos de programas processam linguagens de alto nível,
+traduzindo-as para linguagens de baixo nível: <strong>interpretadores</strong> e
+<strong>compiladores</strong>. O interpretador lê um programa escrito em linguagem
+de alto nível e o executa, ou seja, faz o que o programa diz. Ele
+processa o programa um pouco de cada vez, alternadamente: ora lendo
+algumas linhas, ora realizando computações.</p>
+<img alt="ilustração: interpretador" src="../_images/interpret.png" />
+<p>O compilador lê o programa e o traduz completamente antes que o
+programa comece a rodar. Neste caso, o programa escrito em linguagem
+de alto nível é chamado de <strong>código fonte</strong>, e o programa traduzido é
+chamado de <strong>código objeto</strong> ou <strong>executável</strong>. Uma vez que um
+programa é compilado, você pode executá-lo repetidamente, sem que
+precise de nova tradução.</p>
+<img alt="Ilustração: compilador" src="../_images/compile.png" />
+<p>Muitas linguagens modernas se utilizam desses dois processos. O código
+fonte é primeiramente compilado para uma linguagem de baixo nível,
+chamado de <strong>código em bytes</strong> (&#8220;byte code&#8221;), e então são
+interpretados por um programa chamado de <strong>máquina virtual</strong>. O Python
+usa ambos os processos, mas devido a forma com que os programadores
+interagem com essa linguagem, ela é em geral considerada uma linguagem
+interpretada.</p>
+<blockquote>
+<div>Existem duas maneiras de usar o interpretador: no modo <em>linha de
+comando</em> (&#8220;shell mode&#8221;) e no modo de <em>script</em> (&#8220;program mode&#8221;). No
+modo de linha de comando, você digita programas em Python e o
+interpretador mostra o resultado. O exemplo a seguir ilustra o
+funcionamento do <strong>terminal Python</strong> (Python shell).</div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre>$ python3
+Python 3.4.2 (default, Oct  8 2014, 13:08:17)
+[GCC 4.9.1] on linux
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&gt;&gt;&gt; 2 + 3
+5
+&gt;&gt;&gt;
+</pre></div>
+</div>
+<p>O símbolo <code class="docutils literal"><span class="pre">&gt;&gt;&gt;</span></code> é chamado de <strong>prompt</strong> do Python. O interpretador
+usa o prompt para indicar que está pronto para receber um comando. Ao
+digitar <code class="docutils literal"><span class="pre">2</span> <span class="pre">+</span> <span class="pre">3</span></code>, o interpretador avalia a expressão e responde
+<code class="docutils literal"><span class="pre">5</span></code>. A seguir, ele fornece um novo prompt na linha seguinte,
+indicando que ele está pronto para um novo comando.</p>
+<p>Trabalhar diretamente no interpretador é conveniente para testar
+pequenos pedaços de código pois você recebe uma resposta rapidamente,
+como se você estivesse trabalhando nos seus problemas em uma folha de
+rascunho. Qualquer coisa maior que algumas linhas deve ser colocada em
+um script.</p>
+<p>Você pode escrever um programa inteiro em um arquivo e usar o
+interpretador para executar o conteúdo do arquivo como um todo. Esse
+arquivo é normalmente chamado de <strong>código fonte</strong>. Por exemplo, nós
+podemos usar um editor de texto para criar o código fonte no arquivo
+chamado &#8220;programa1.py&#8221; com o seguinte conteúdo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s2">&quot;Meu primeiro programa soma os numeros 2 e 3:&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Por convenção, arquivos que contém programas em Python tem nomes que terminam com a extensão <code class="docutils literal"><span class="pre">.py</span></code>.
+Seguir essa convenção vai ajudar o seu sistema operacional e outros programas a identificar um arquivo contendo código python.</p>
+<div class="highlight-python"><div class="highlight"><pre>$ python programa1.py
+Meu primeiro programa soma os numeros 2 e 3:
+5
+</pre></div>
+</div>
+<p>Esse exemplo mostra o Python sendo executado a partir da linha de comando de um terminal Unix. Em outros ambientes de desenvolvimento, os detalhes de execução de programas podem ser diferentes. Além disso, a maioria dos programas também vão ser mais interessantes.</p>
+<div class="admonition-voce-quer-aprender-mais-sobre-python admonition">
+<p class="first admonition-title">Você quer aprender mais sobre Python?</p>
+<p>Se você quiser aprender mais sobre como instalar e usar Python, aqui estão alguns links para vídeos:</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li><a class="reference external" href="http://youtu.be/9EfGpN1Pnsg">Installing Python for Windows</a> mostra como instalar o Python no ambiente Windows Vista,</li>
+<li><a class="reference external" href="http://youtu.be/MEmEJCLLI2k">Installing Python for Mac</a> mostra como instalar no Mac OS/X, e</li>
+<li><a class="reference external" href="http://youtu.be/RLPYBxfAud4">Installing Python for Linux</a> mostra como instalar no Linux a partir da linha de comando.</li>
+<li><a class="reference external" href="http://youtu.be/kXbpB5_ywDw">Using Python</a> mostra alguns detalhes sobre o terminal Python e código fonte.</li>
+</ul>
+</div></blockquote>
+</div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="question1_2_1">
+    <p>1.2.1: O que é código fonte?</p>
+    <form name="question1_2_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question1_2_1_opt_a" />
+    <label for= "question1_2_1_opt_a">  a) São as instruções de um programa, armazenadas em um arquivo</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question1_2_1_opt_b" />
+    <label for= "question1_2_1_opt_b">  b) A linguagem de programação que você usa (por exemplo, Python)</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question1_2_1_opt_c" />
+    <label for= "question1_2_1_opt_c">  c) O ambiente/ferramenta que você usa para programar</label><br />
+    
+    <input type="radio" name="group1" value="d" id="question1_2_1_opt_d" />
+    <label for= "question1_2_1_opt_d">  d) A senha (ou “código”) que você precisa fornecer no início de cada programa para que ele possa ser executado.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question1_2_1','a',['O arquivo que contém as instruções escritas em uma linguagem de alto nível é chamado de arquivo de código fonte.', 'Essa linguagem é chamada simplesmente de linguagem de programação, ou mais simplesmente ainda de linguagem.', 'O ambiente pode ser chamado de IDE (integrated development environment - ambiente integrado de desenvolvimento), mas nem sempre.', 'Essa senha que você precisa fornecer para rodar o programa não existe.'])"/> 
+    </form>
+    <div id="question1_2_1_feedback">
+    </div>
+    </div>
+    
+    <div id="question1_2_2">
+    <p>1.2.2:  Qual a diferença entre uma linguagem de programação de alto nível e uma de baixo nível?</p>
+    <form name="question1_2_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question1_2_2_opt_a" />
+    <label for= "question1_2_2_opt_a">  a) Ela é de alto nível se você estiver de pé e de baixo nível se você estiver sentado.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question1_2_2_opt_b" />
+    <label for= "question1_2_2_opt_b">  b) Ela é de alto nível se você estiver programando para um computador e de baixo nível se você estiver programando para um telefone ou dispositivo móvel.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question1_2_2_opt_c" />
+    <label for= "question1_2_2_opt_c">  c) Ela é de alto nível se o programa precisa ser processado antes de rodar, e de baixo nível se o computador pode executá-lo sem processamento adicional.</label><br />
+    
+    <input type="radio" name="group1" value="d" id="question1_2_2_opt_d" />
+    <label for= "question1_2_2_opt_d">  d) Ela é de alto nível se ela for fácil de programar e os programas serem curtos, e de baixo nível se for realmente difícil de programar e seus programas ficarem muito longos.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question1_2_2','c',['Nesse caso, o alto e baixo nível não tem nada a ver com a sua altura.', 'Alto e baixo não tem a ver com o tipo de dispositivo a ser utilizado. Ao contrário, pense no que é necessário para executar o programa escrito na linguagem.', 'Correto. Python é uma linguagem de alto nível que precisa ser interpretada para o código de máquina (binário) antes de ser executada.', 'Apesar de ser verdade que as linguagens de alto nível são mais fáceis de programar e geram programas mais curtos, isso nem sempre é verdade.'])"/> 
+    </form>
+    <div id="question1_2_2_feedback">
+    </div>
+    </div>
+    
+    <div id="question1_2_3">
+    <p>1.2.3: Escolha a melhor alternativa para completar os espaços 1 e 2 na
+seguinte frase:<br> Ao comparar compiladores e interpretadores, um
+compilador é como 1 enquanto um interpretador é como 2.</p>
+    <form name="question1_2_3_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question1_2_3_opt_a" />
+    <label for= "question1_2_3_opt_a">  a) 1 = um processo, 2 = uma função</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question1_2_3_opt_b" />
+    <label for= "question1_2_3_opt_b">  b) 1 = traduzir um livro inteiro, 2 = traduzir uma linha de cada vez</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question1_2_3_opt_c" />
+    <label for= "question1_2_3_opt_c">  c) 1 = software, 2 = hardware</label><br />
+    
+    <input type="radio" name="group1" value="d" id="question1_2_3_opt_d" />
+    <label for= "question1_2_3_opt_d">  d) 1 = código objeto, 2 = código em bytes.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question1_2_3','b',['Compilar é um processo de software, e rodar o interpretador equivale a chamar uma função, mas como um processo é diferente de uma função?', 'Compiladores pegam todo o código fonte e produzem código objeto ou executável e os interpretadores executam o código linha a linha.', 'Tanto os compiladores quanto os interpretadores são softwares.', 'Os compiladores podem produzir tanto código objeto quanto código em bytes, dependendo da linguagem. Um interpretador não produz esses códigos.'])"/> 
+    </form>
+    <div id="question1_2_3_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="formas-especiais-para-rodar-python-nesse-livro">
+<h2>Formas especiais para rodar Python nesse livro<a class="headerlink" href="#formas-especiais-para-rodar-python-nesse-livro" title="Permalink to this headline">¶</a></h2>
+<a id="videoinfo_thumb" > <img src="../_static/activecodethumb.png" /></a>
+<div id="videoinfo" class="video_popup" >
+<video controls  >
+    <source src="http://media.interactivepython.org/thinkcsVideos/activecodelens.mov" type="video/mp4"></source>
+    <source src="http://media.interactivepython.org/thinkcsVideos/activecodelens.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#videoinfo_thumb').click(function(e) {
+         $('#videoinfo').show();
+         $('#videoinfo_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'videoinfo'});
+         // Log the run event
+      });
+   });
+</script>
+<p>Esse livro fornece duas formas adicionais para executar os programas
+em Python. Ambas as técnicas foram projetadas para ajudar você a
+aprender a linguagem de programação Python. Elas vão ajudar você a
+melhorar o seu entendimento sobre o funcionamento dos programas.</p>
+<p>Primeiro, você pode escrever, modificar e executar programas usando um
+interpretador especial de <strong>activecode</strong> que permite você executar
+código Python diretamente no texto do seu navegador. Embora essa não
+seja a forma com que os programas reais são escritos, esse
+interpretador fornece um excelente ambiente para aprender uma
+linguagem de programação como Python, pois você pode ir experimentando
+a linguagem a medida que você avança com a leitura.</p>
+<p>Dê uma olhada no interpretador de activecode em funcionamento. Se você
+usar o código Python do exemplo anterior e torná-lo ativo, você verá
+que ele pode ser executado diretamente simplesmente clicando no botão
+<em>Run</em>. Experimente clicar no botão <em>Run</em> abaixo.</p>
+
+<div id="ch01_1" >
+<textarea cols="50" rows="12" id="ch01_1_code" class="active_code">
+print("Meu primeiro programa soma os numeros 2 e 3:")
+print(2 + 3)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch01_1)</span> </p>
+<button onclick="runit('ch01_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch01_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch01_1');">Load</button>
+<br />
+
+<canvas id="ch01_1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch01_1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Agora tente modificar o programa. Primeiro modifique o texto do
+primeiro print, mudando a palavra <em>soma</em> por <em>multiplica</em>. Agora
+clique em <em>Run</em>. Você pode ver que o resultado do programa mudou,
+embora ele ainda forneça &#8220;5&#8221; como resposta. Modifique o segundo print
+trocando o símbolo de soma &#8220;+&#8221; pelo símbolo de multiplicação
+&#8220;*&#8221;. Clique em <em>Run</em> para ver o resultado.</p>
+<p>Você pode também salvar as suas alterações para serem utilizadas mais
+tarde. As opções <em>Save</em> e <em>Load</em> permitem que você mantenha uma cópia
+do programa que você estiver trabalhando. Por exemplo, clique no botão
+<em>Save</em> agora. Você acaba de salvar o programa que está na janela do
+activecode. Agora faça algumas modificações e execute o programa
+clicando em <em>Run</em>. Esse programa foi modificado, mas clicando em
+<em>Load</em> você pode restaurar a versão salva previamente.
+(NOTA: esses recursos ainda não estão funcionando na versão em português).</p>
+<p>Além do activecode, você pode também executar código Python por meio
+de uma ferramenta especial para visualização. Essa ferramenta,
+denominada <strong>codelens</strong>, permite que você controle os passos de
+execução de um programa. Ele também permite observar o conteúdo de
+todas as variáveis a medida em que elas são criadas e modificadas. O
+exemplo a seguir mostra o codelens em funcionamento, utilizando o
+mesmo programa visto anteriormente. Note que em activecode, o código
+fonte é executado do início ao fim e você só vê o resultado final. No
+codelens, você pode ver e controlar a execução do programa
+passo-a-passo.</p>
+<p>Os exemplos nesse livro usam uma mistura do interpretador Python
+padrão, código fonte, activecode e codelens. Você será capaz de
+distinguir entre essas formas olhando para o prompt do Python no caso
+de código executado em linha de comando, o botão <em>Run</em> no activecode
+ou para os botões <em>forward/backward</em> no codelens.</p>
+
+<div id="firstexample"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (firstexample)</span> </p>
+<script type="text/javascript">
+var firstexample_trace = {"code": "print(\"Meu primeiro programa soma os n\u00fameros 2 e 3:\")\nprint(2 + 3)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": [], "stdout": "Meu primeiro programa soma os n\u00fameros 2 e 3:\n", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": [], "stdout": "Meu primeiro programa soma os n\u00fameros 2 e 3:\n5\n", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 2, "event": "return"}]};
+var firstexample_vis;
+
+$(document).ready(function() {
+    firstexample_vis = new ExecutionVisualizer('firstexample',firstexample_trace,
+                                {embeddedMode: false,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(firstexample_vis,'firstexample');
+    allVisualizers.push(firstexample_vis);
+});
+
+$(document).ready(function() {
+    $("#firstexample_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'firstexample'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    firstexample_vis.redrawConnectors();
+});
+</script>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="question1_3_1">
+    <p>1.3.1: O interpretador de activecode permite que você (selecione todas as verdadeiras):</p>
+    <form name="question1_3_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="checkbox" name="group1" value="a" id="question1_3_1_opt_a" />
+    <label for= "question1_3_1_opt_a">  a) Salve programas e (re)carregue programas salvos.</label><br />
+    
+    <input type="checkbox" name="group1" value="b" id="question1_3_1_opt_b" />
+    <label for= "question1_3_1_opt_b">  b) Digitar programas em Python.</label><br />
+    
+    <input type="checkbox" name="group1" value="c" id="question1_3_1_opt_c" />
+    <label for= "question1_3_1_opt_c">  c) Executar código Python diretamente no texto do navegador.</label><br />
+    
+    <input type="checkbox" name="group1" value="d" id="question1_3_1_opt_d" />
+    <label for= "question1_3_1_opt_d">  d) Receber uma resposta sim/não sobre se o código está correto ou não.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMA('question1_3_1','a,b,c',['Você pode (e deve) salvar o seu programa na janela do activecode.', 'Você não precisa se limitar a rodar os programas que já estão lá. Experimente modificar ou criar o seu próprio programa.', 'O interpretador de activecode permite que você digite código Python na caixa de texto, que pode ser executado.', 'Embora você possa (e deva) verificar se o seu código está correto verificando a seu resultado (saída), o activecode não diz diretamente se você implementou o programa corretamente.'])"/> 
+    </form>
+    <div id="question1_3_1_feedback">
+    </div>
+    </div>
+    
+    <div id="question1_3_2">
+    <p>1.3.2: O codelens permite (selecione todas as verdadeiras):</p>
+    <form name="question1_3_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="checkbox" name="group1" value="a" id="question1_3_2_opt_a" />
+    <label for= "question1_3_2_opt_a">  a) Medir a velocidade de execução de um programa.</label><br />
+    
+    <input type="checkbox" name="group1" value="b" id="question1_3_2_opt_b" />
+    <label for= "question1_3_2_opt_b">  b) Controlar a execução de um programa passo-a-passo.</label><br />
+    
+    <input type="checkbox" name="group1" value="c" id="question1_3_2_opt_c" />
+    <label for= "question1_3_2_opt_c">  c) Escrever e executar seu próprio programa em Python.</label><br />
+    
+    <input type="checkbox" name="group1" value="d" id="question1_3_2_opt_d" />
+    <label for= "question1_3_2_opt_d">  d) Executar o código Python que estiver no Codelens.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMA('question1_3_2','b,d',['De fato, o Codelens executa uma linha do programa a cada clique, o que é MUITO mais lento que o interpretador Python.', 'Ao utilizar o Codelens, você pode controlar a execução do programa passo-a-passo. Você pode até voltar na execução!', 'O CodeLens funciona apenas nos exemplos pré-programados.', 'Executa o código Python que estiver no Codelens.'])"/> 
+    </form>
+    <div id="question1_3_2_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="mais-sobre-programas">
+<span id="index-1"></span><h2>Mais sobre programas<a class="headerlink" href="#mais-sobre-programas" title="Permalink to this headline">¶</a></h2>
+<p>Um <strong>programa</strong> é uma sequência de instruções que especificam como executar uma computação. A computação pode ser algo tão complexo quanto exibir uma página de html em um navegador ou codificar um vídeo e transmití-lo pela internet.
+Pode ser também uma computação simbólica, como buscar e substituir uma palavra em um documento ou (estranhamente) compilar um programa.</p>
+<p>Os detalhes são diferentes em diferentes linguagens, mas algumas instruções básicas aparecem em
+praticamente todas as linguagens.</p>
+<dl class="docutils">
+<dt>entrada</dt>
+<dd>Pega os dados do teclado, de um arquivo ou outro dispositivo.</dd>
+<dt>saída</dt>
+<dd>Mostra os dados na tela ou envia os dados para um arquivo ou outro dispositivo.</dd>
+<dt>lógica e matemática</dt>
+<dd>Realiza operações matemáticas básicas como soma e multiplicação, e operações lógicas como <code class="docutils literal"><span class="pre">e</span></code>, <code class="docutils literal"><span class="pre">ou</span></code>, e <code class="docutils literal"><span class="pre">negação</span></code>.</dd>
+<dt>execução condicional</dt>
+<dd>Verifica se certas condições são satisfeitas antes de executar a sequência apropriada de comandos.</dd>
+<dt>repetição</dt>
+<dd>Realiza algumas ações repetidamente, em geral com alguma variação.</dd>
+</dl>
+<p>Acredite se quiser: isso é praticamente tudo. Todos os programas que você já usou, não importa quão complicados, são feitos de instruções mais ou menos
+parecidas com essas. Assim, poderíamos definir programação como o processo de dividir uma tarefa grande e complexa em sub-tarefas cada vez menores, até que as sub-tarefas sejam simples o suficiente para serem executadas com uma dessas instruções básicas.</p>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="question1_4_1">
+    <p>1.4.1: Um programa é:</p>
+    <form name="question1_4_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question1_4_1_opt_a" />
+    <label for= "question1_4_1_opt_a">  a) Uma sequência de instruções que especifica como uma computação é realizada.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question1_4_1_opt_b" />
+    <label for= "question1_4_1_opt_b">  b) Algo que você segue em uma peça de teatro ou concerto.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question1_4_1_opt_c" />
+    <label for= "question1_4_1_opt_c">  c) Uma computação, mesmo uma computação simbólica.</label><br />
+    
+    <input type="radio" name="group1" value="d" id="question1_4_1_opt_d" />
+    <label for= "question1_4_1_opt_d">  d) O mesmo que um algoritmo.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question1_4_1','a',['É apenas uma sequência de instruções passo-a-passo que o computador consegue entender e executar. Em geral, um programa implementa um algoritmo, mas note que algoritmos são tipicamente menos precisos que programas e não precisam ser escritos em uma linguagem de programação.', 'Verdade, mas não nesse contexto. Nos referimos a programas de computador.', 'Um programa pode realizar uma computação, mas não é uma computação em si.', 'Em geral, um programa implementa um algoritmo, mas eles não são a mesma coisa. Um algoritmo é um lista de instruções passo-a-passo, mas essas instruções não são necessariamente precisas o suficiente para um computador executar. Um programa precisa ser escrito em uma linguagem de programação que o computador consiga entender.'])"/> 
+    </form>
+    <div id="question1_4_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="o-que-e-depuracao">
+<span id="index-2"></span><h2>O que é depuração?<a class="headerlink" href="#o-que-e-depuracao" title="Permalink to this headline">¶</a></h2>
+<p>Programar é um processo complicado e, como é feito por seres humanos, frequentemente conduz a erros.
+Erros em programas são chamados de <strong>bugs</strong> e o processo de encontrá-los e corrigi-los é chamado de <strong>depuração</strong> (<em>debugging</em>).
+Alguns afirmam que, em 1945, uma mariposa morta causou um problema no relé número 70 do painel F de um
+dos primeiros computadores da Universidade de Harvard, e o termo <strong>bug</strong> permaneceu em uso desde então. Para saber mais sobre este episódio histórico, veja  <a class="reference external" href="http://en.wikipedia.org/wiki/File:H96566k.jpg">first bug</a>.</p>
+<p>Três tipos de erro podem acontecer em um programa:
+<a class="reference external" href="http://en.wikipedia.org/wiki/Syntax_error">erros de sintaxe</a>,
+<a class="reference external" href="http://en.wikipedia.org/wiki/Runtime_error">erros de execução</a>,
+e <a class="reference external" href="http://en.wikipedia.org/wiki/Logic_error">erros de semântica</a>.
+É importante distinguir entre eles para encontrá-los mais rapidamente.</p>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="question1_5_1">
+    <p>1.5.1: Depuração é:</p>
+    <form name="question1_5_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question1_5_1_opt_a" />
+    <label for= "question1_5_1_opt_a">  a) Encontrar erros de programação e corrigí-los.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question1_5_1_opt_b" />
+    <label for= "question1_5_1_opt_b">  b) Filtrar o ar para eliminar o mal cheiro.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question1_5_1_opt_c" />
+    <label for= "question1_5_1_opt_c">  c) Encontrar todos os bugs em um programa.</label><br />
+    
+    <input type="radio" name="group1" value="d" id="question1_5_1_opt_d" />
+    <label for= "question1_5_1_opt_d">  d) Corrigir todos os bugs em um programa.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question1_5_1','a',['Erros de programação, conhecidos como bugs, são encontrados e removidos pelo processo de depuração.', 'Talvez, mas não é sobre isso que estamos falando nesse contexto.', 'Essa resposta está parcialmente correta. Depuração é mais que encontrar bugs.', 'Essa resposta está parcialmente correta. Depuração é mais que corrigir bugs. O que a gente precisa fazer antes de corrigí-los?'])"/> 
+    </form>
+    <div id="question1_5_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="erros-de-sintaxe">
+<span id="index-3"></span><h2>Erros de sintaxe<a class="headerlink" href="#erros-de-sintaxe" title="Permalink to this headline">¶</a></h2>
+<p>Python só executa um programa se ele estiver sintaticamente correto; caso contrário, o processo falha e devolve uma mensagem de erro.
+<strong>Sintaxe</strong> se refere à estrutura de um programa e às regras sobre esta estrutura. Por exemplo, em português, uma frase deve começar com uma letra maiúscula e terminar com um ponto.</p>
+<p>esta frase contém um <strong>erro de sintaxe</strong>. Assim
+como esta</p>
+<p>Para a maioria dos leitores, uns errinhos de sintaxe não chegam a ser um problema significativo e é por isso que conseguimos ler a poesia moderna de E.
+E. Cummings sem cuspir mensagens de erro. Python não é tão indulgente. Se o seu programa tiver um único erro de sintaxe em algum lugar, o interpretador Python vai exibir uma mensagem de erro e vai terminar - e o programa não vai rodar. Durante as primeiras semanas da sua carreira como programador, você provavelmente perderá um bocado de tempo procurando erros de sintaxe. Conforme for ganhando experiência, entretanto, cometerá menos erros e os localizará mais rápido.</p>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="question1_6_1">
+    <p>1.6.1: Qual alternativa corresponde a um erro de sintaxe?</p>
+    <form name="question1_6_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question1_6_1_opt_a" />
+    <label for= "question1_6_1_opt_a">  a) Tentativa de divisão por 0</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question1_6_1_opt_b" />
+    <label for= "question1_6_1_opt_b">  b) Esquecer de digitar dois pontos (:) no final de um comando, quando necessário.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question1_6_1_opt_c" />
+    <label for= "question1_6_1_opt_c">  c) Esquecer de dividir por 100 ao imprimir a porcentagem de uma quantia.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question1_6_1','b',['Um erro de sintaxe é um erro na estrutura do código python que pode ser detectada antes do programa ser executado. O interpretador Python normalmente não pode dizer se você está tentando dividir por 0 até que esteja executando o programa (por exemplo, o programa pode pedir ao usuário para entrar com um valor e depois dividir por esse valor, e você não tem como saber qual o valor que o usuário vai entrar antes de executar o programa).', 'Este é um problema com a estrutura formal do programa. O Python sabe onde os dois pontos são necessários e pode detectar quando um está faltando simplesmente olhando o código sem executá-lo.', 'Isso irá produzir uma resposta errada, mas o Python não vai considerá-la um erro. O programador é que entende que a resposta produzida está errada.'])"/> 
+    </form>
+    <div id="question1_6_1_feedback">
+    </div>
+    </div>
+    
+    <div id="question1_6_2">
+    <p>1.6.2: Quem ou o que, tipicamente, encontra erros de sintaxe?</p>
+    <form name="question1_6_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question1_6_2_opt_a" />
+    <label for= "question1_6_2_opt_a">  a) Programador</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question1_6_2_opt_b" />
+    <label for= "question1_6_2_opt_b">  b) Compilador / Interpretador</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question1_6_2_opt_c" />
+    <label for= "question1_6_2_opt_c">  c) Computador</label><br />
+    
+    <input type="radio" name="group1" value="d" id="question1_6_2_opt_d" />
+    <label for= "question1_6_2_opt_d">  d) Professor / Instrutor</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question1_6_2','b',['Os programadores raramente encontram todos os erros de sintaxe. Nós temos um programa que faz isso por nós.', 'O compilador e/ou o interpretador é um programa que determina se o seu programa está escrito de forma que possa ser traduzido para linguagem de máquina e executado.', 'Correto, mas há algo mais específico no computador que faz isso. O computador sozinho, sem essa parte específica, não é capaz de fazer.', 'Talvez. Seu professor ou instrutor pode ser capaz de encontrar a maior parte dos erros de sintaxe, mas só porque eles são experientes na leitura e possivelmente na escrita de código. Ganhando experiência, os erros de sintaxe ficam fáceis de achar. Mas nós temos também uma forma automática de encontrar esse tipo de erro.'])"/> 
+    </form>
+    <div id="question1_6_2_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="erros-de-execucao-runtime-errors">
+<span id="index-4"></span><h2>Erros de Execução (Runtime Errors)<a class="headerlink" href="#erros-de-execucao-runtime-errors" title="Permalink to this headline">¶</a></h2>
+<p>O segundo tipo de erro é o <strong>erro de execução</strong> (runtime), que só aparece quando você roda o programa. Esses erros são também conhecidos como <strong>exceções</strong>, porque normalmente indicam que alguma coisa excepcional (e ruim) aconteceu.</p>
+<p>Erros de execução são raros nos programas simples que você vai ver nos primeiros capítulos - então, pode demorar um pouco até você se deparar com um erro desse tipo.</p>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="question1_7_1">
+    <p>1.7.1: Qual alternativa corresponde a um erro de execução?</p>
+    <form name="question1_7_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question1_7_1_opt_a" />
+    <label for= "question1_7_1_opt_a">  a) Tentativa de divisão por 0</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question1_7_1_opt_b" />
+    <label for= "question1_7_1_opt_b">  b) Esquecer de digitar dois pontos (:) no final de um comando, quando necessário.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question1_7_1_opt_c" />
+    <label for= "question1_7_1_opt_c">  c) Esquecer de dividir por 100 ao imprimir a porcentagem de uma quantia.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question1_7_1','a',['O interpretador Python normalmente não pode dizer se você está tentando dividir por 0 até que esteja executando o programa (por exemplo, o programa pode pedir ao usuário para entrar com um valor e depois dividir por esse valor, e você não tem como saber qual o valor que o usuário vai entrar antes de executar o programa).', 'Este é um problema com a estrutura formal do programa. O Python sabe onde os dois pontos são necessários e pode detectar quando um está faltando simplesmente olhando o código sem executá-lo.', 'Isso irá produzir uma resposta errada, mas o Python não vai considerá-la um erro. O programador é que entende que a resposta produzida está errada.'])"/> 
+    </form>
+    <div id="question1_7_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="erros-de-semantica">
+<span id="index-5"></span><h2>Erros de semântica<a class="headerlink" href="#erros-de-semantica" title="Permalink to this headline">¶</a></h2>
+<p>O terceiro tipo de erro é o erro de semântica (também chamado de erro de lógica). Mesmo que o seu programa tenha um erro semântico, ele vai rodar com sucesso, no sentido de que o computador não vai gerar nenhuma mensagem de erro. Só que o programa não vai fazer a coisa certa, vai fazer alguma outra coisa. Especificamente, aquilo que você tiver dito para ele fazer.</p>
+<p>O problema é que o programa que você escreveu não é aquele que você queria escrever. O significado do programa (sua semântica ou lógica) está errado. Identificar erros semânticos pode ser complicado, porque requer que você trabalhe de trás para frente, olhando a saída do programa e tentando imaginar o que ele está fazendo.</p>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="question1_8_1">
+    <p>1.8.1: Qual alternativa corresponde a um erro semântico?</p>
+    <form name="question1_8_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question1_8_1_opt_a" />
+    <label for= "question1_8_1_opt_a">  a) Tentativa de divisão por 0</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question1_8_1_opt_b" />
+    <label for= "question1_8_1_opt_b">  b) Esquecer de digitar dois pontos (:) no final de um comando, quando necessário.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question1_8_1_opt_c" />
+    <label for= "question1_8_1_opt_c">  c) Esquecer de dividir por 100 ao imprimir a porcentagem de uma quantia.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question1_8_1','c',['Um erro semântico é um erro de lógica. O programa não produz o resultado correto pois o problema não foi resolvido corretamente. Esse seria considerado um erro de execução.', 'Este é um problema com a estrutura formal do programa. O Python sabe onde os dois pontos são necessários e pode detectar quando um está faltando simplesmente olhando o código sem executá-lo.', 'Isso irá produzir uma resposta errada, mas o Python não vai considerá-la um erro. O programador é que entende que a resposta produzida está errada.'])"/> 
+    </form>
+    <div id="question1_8_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="depuracao-experimental">
+<span id="index-6"></span><h2>Depuração experimental<a class="headerlink" href="#depuracao-experimental" title="Permalink to this headline">¶</a></h2>
+<p>Uma das habilidades mais importantes que você vai desenvolver é a de depurar. Embora possa ser frustrante, depurar é uma das partes intelectualmente mais ricas, desafiadoras e interessantes da programação.</p>
+<p>De certa maneira, a depuração é como um trabalho de detetive. Você se depara com pistas e tem que deduzir os processos e eventos que levaram aos resultados que aparecem.</p>
+<p>Depurar também é como uma ciência experimental. Uma vez que você tem uma ideia do que está errado, você modifica o seu programa e tenta de novo. Se a sua hipótese estava correta, então você consegue prever o resultado da modificação e fica um passo mais perto de um programa que funciona. Se a sua hipótese estava errada, você tem que tentar uma nova. Como Sherlock Holmes mostrou, &#8220;Quando você tiver eliminado o impossível, aquilo que restou, ainda que improvável, deve ser a verdade.&#8221; (A.
+Conan Doyle, <em>O signo dos quatro</em>).</p>
+<p>Para algumas pessoas, programação e depuração são a mesma coisa. Ou seja, programar é o processo de gradualmente depurar um programa, até que ele
+faça o que você quer. A idéia é começar com um programa que faça <em>alguma coisa</em> e ir fazendo pequenas modificações, depurando-as conforme avança, de modo que você tenha sempre um programa que funciona.</p>
+<p>Por exemplo, o Linux é um sistema operacional que contém milhares de linhas de código, mas começou como um programa simples, que Linus Torvalds usou para explorar o chip Intel 80386. De acordo com Larry Greenfield, um dos primeiros projetos de Linus Torvalds foi um programa que deveria alternar entre imprimir AAAA e BBBB. Isso depois evoluiu até o Linux. (<em>The Linux User&#8217;s Guide</em> Versão Beta 1).</p>
+<p>Capítulos posteriores farão mais sugestões sobre depuração e outras práticas de programação.</p>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="question1_9_1">
+    <p>1.9.1: A diferença entre programação e depuração e:</p>
+    <form name="question1_9_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question1_9_1_opt_a" />
+    <label for= "question1_9_1_opt_a">  a) Programação é o processo de depurar um programa gradualmente até que ele faça o que você quer.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question1_9_1_opt_b" />
+    <label for= "question1_9_1_opt_b">  b) Programação é criativa e depuração é rotina.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question1_9_1_opt_c" />
+    <label for= "question1_9_1_opt_c">  c) Programação é divertimento e depuração é trabalho.</label><br />
+    
+    <input type="radio" name="group1" value="d" id="question1_9_1_opt_d" />
+    <label for= "question1_9_1_opt_d">  d) Não há diferenças entre elas.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question1_9_1','a',['Programar é escrever o código fonte e depurar é o processo de encontrar e corrigir todos os erros até que o programa esteja correto.', 'Programar pode ser criativo mas também segue um processo e depurar pode ser criativo na forma de encontrar os erros.', 'Algumas pessoas acham que depurar é até mais divertido que programar (eles em geral se tornam bons testadores de software). Depuração está mais ligada a resolver quebra-cabeças, o que algumas pessoas acham que é divertido!', 'Não é possível depurar sem que haja um programa, o que significa que alguém teve que programar primeiro.'])"/> 
+    </form>
+    <div id="question1_9_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="linguagens-formais-e-naturais">
+<span id="index-7"></span><h2>Linguagens formais e naturais<a class="headerlink" href="#linguagens-formais-e-naturais" title="Permalink to this headline">¶</a></h2>
+<p><strong>Linguagens naturais</strong> são as linguagens que as pessoas falam, como o português, o inglês e o espanhol. Elas não foram projetadas pelas pessoas (muito embora as pessoas tentem colocar alguma ordem nelas); elas evoluíram naturalmente.</p>
+<p><strong>Linguagens formais</strong> são linguagens que foram projetadas por pessoas para aplicações específicas. Por exemplo, a notação que os matemáticos usam é uma linguagem formal, que é particularmente boa em denotar relações entre números e símbolos. Os químicos usam uma linguagem formal para representar a estrutura química das moléculas. E, mais importante:</p>
+<blockquote>
+<div><em>Linguagens de programação são linguagens formais que foram desenvolvidas para expressar computações.</em></div></blockquote>
+<p>As linguagens formais tendem a ter regras estritas quanto à sintaxe. Por exemplo,
+<code class="docutils literal"><span class="pre">3+3=6</span></code>
+é uma expressão matemática sintaticamente correta, mas <code class="docutils literal"><span class="pre">3=+6$</span></code> não
+é. H<sub>2</sub>O é um nome químico sintaticamente correto, mas  <sub>2</sub>Zz não é.</p>
+<p>As regras de sintaxe são de dois tipos, um relacionado aos <strong>tokens</strong>, outro à estrutura. &#8220;Tokens&#8221; são os elementos básicos da linguagem, como as palavras, números, e elementos químicos. Um dos problemas com <code class="docutils literal"><span class="pre">3=+6$</span></code> é que  <code class="docutils literal"><span class="pre">$</span></code>  não é um token válido em linguagem matemática (pelo menos
+até onde sabemos). Do mesmo modo, <sub>2</sub>Zz é inválida porque não existe nenhum elemento cuja abreviatura seja <code class="docutils literal"><span class="pre">Zz</span></code>.</p>
+<p>O segundo tipo de erro de sintaxe está relacionado à <strong>estrutura</strong> de uma expressão&#8212;
+quer dizer, ao modo como os tokens estão arrumados. A expressão <code class="docutils literal"><span class="pre">3=+6$</span></code> é
+estruturalmente inválida, porque você não pode colocar um sinal de &#8220;mais&#8221; imediatamente após um sinal de &#8220;igual&#8221;. Do mesmo modo, fórmulas moleculares devem ter índices subscritos colocados depois do nome do elemento, não antes.</p>
+<p>Quando você lê uma frase em português ou uma expressão em uma linguagem formal, você tem de imaginar como é a estrutura da frase (embora, em uma
+linguagem natural, você faça isso inconscientemente). Este
+processo é chamado <strong>parsing</strong> (análise sintática).</p>
+<p>Por exemplo, quando você ouve a frase, &#8220;O outro sapato caiu&#8221;, você entende que &#8220;o outro sapato&#8221; é o sujeito e &#8220;caiu&#8221; é o verbo. Uma vez que você analisou a frase, consegue entender o seu significado, ou a <strong>semântica</strong> da frase. Assumindo que você saiba o que é um sapato e o que significa cair, você entenderá o sentido geral dessa frase.</p>
+<p>Muito embora as linguagens formais e as naturais tenham muitas características em comum &#8212; tokens, estrutura, sintaxe e semântica &#8212; existem muitas diferenças:</p>
+<dl class="glossary docutils">
+<dt id="term-ambiguidade">ambiguidade</dt>
+<dd>As linguagens naturais estão cheias de ambiguidades, que as pessoas contornam usando pistas contextuais e outras informações. Já as linguagens formais são desenvolvidas para serem quase ou totalmente desprovidas de ambiguidade, o que significa que qualquer expressão tem precisamente só um sentido, independentemente do contexto.</dd>
+<dt id="term-redundancia">redundância</dt>
+<dd>Para compensar a ambiguidade e reduzir mal-entendidos, emprega-se muita redundância nas linguagens naturais, o que frequentemente as torna prolixas. As linguagens formais são menos redundantes e mais concisas.</dd>
+<dt id="term-literalidade">literalidade</dt>
+<dd><p class="first">As linguagens naturais estão cheias de expressões idiomáticas e metáforas. Se uma pessoa diz &#8220;O outro sapato caiu&#8221;, é possível que não haja sapato algum e nada caindo.</p>
+<div class="last admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">Você vai precisar encontrar a piada original para entender o significado de &#8220;o outro sapato caiu&#8221;. O <em>Yahoo! Answers</em> pensa que sabe!</p>
+</div>
+</dd>
+</dl>
+<p>Pessoas que crescem falando uma linguagem natural&#8212;todo mundo&#8212;muitas vezes têm dificuldade de se acostumar com uma linguagem formal. De certa maneira, a diferença entre linguagens formais e naturais é como a diferença entre poesia e prosa, porém mais acentuada:</p>
+<dl class="glossary docutils">
+<dt id="term-poesia">poesia</dt>
+<dd>As palavras são usadas pela sua sonoridade, além de seus sentidos, e o poema como um todo cria um efeito ou uma reação emocional. A ambiguidade não é apenas frequente, mas na maioria das vezes, proposital.</dd>
+<dt id="term-prosa">prosa</dt>
+<dd>O sentido literal das palavras é mais importante, e a estrutura contribui mais para o significado. A prosa é mais fácil de analisar do que a poesia, mas ainda é muitas vezes ambígua.</dd>
+<dt id="term-programa">programa</dt>
+<dd>O significado de um programa de computador é exato e literal, e pode ser inteiramente entendido pela análise de seus tokens e de sua estrutura.</dd>
+</dl>
+<p>Aqui vão algumas sugestões para a leitura de programas (e de outras
+linguagens formais). Primeiro, lembre-se de que linguagens formais são
+muito mais densas do que linguagens naturais, por isso, levam mais
+tempo para ler. A estrutura também é muito importante, logo, geralmente não é uma boa ideia ler de cima para baixo, da esquerda para a direita. Em vez disso, aprenda a analisar o programa na sua cabeça, identificando os tokens e interpretando a estrutura. Finalmente, os detalhes são importantes. Pequenas coisas como erros ortográficos e má pontuação, com as quais você pode se safar nas linguagens naturais, podem fazer uma grande diferença em uma linguagem formal.</p>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="question1_10_1">
+    <p>1.10.1: Entre as diferenças das linguagens formais e naturais podemos citar:</p>
+    <form name="question1_10_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question1_10_1_opt_a" />
+    <label for= "question1_10_1_opt_a">  a) Linguagens naturais podem ser analisadas e as linguagens formais não.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question1_10_1_opt_b" />
+    <label for= "question1_10_1_opt_b">  b) Ambiguidade, redundância e literalidade</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question1_10_1_opt_c" />
+    <label for= "question1_10_1_opt_c">  c) Não há diferença entre linguagens formais e naturais</label><br />
+    
+    <input type="radio" name="group1" value="d" id="question1_10_1_opt_d" />
+    <label for= "question1_10_1_opt_d">  d) Tokens, estrutura, sintaxe e semântica</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question1_10_1','b',['Na verdade, ambas as linguagens podem ser analisadas para determinar a estrutura de uma sentença, mas as linguagens formais são mais fáceis de serem analisadas por software.', 'Todas essas podem estar presentes em linguagens naturais mas não podem existir em linguagens formais.', 'Há várias diferenças entre as duas mas elas também são muito similares.', 'Essas são similaridades entre elas.'])"/> 
+    </form>
+    <div id="question1_10_1_feedback">
+    </div>
+    </div>
+    
+    <div id="question1_10_2">
+    <p>1.10.2: Verdadeiro ou Falso: ler um programa é como ler outras formas de texto.</p>
+    <form name="question1_10_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question1_10_2_opt_a" />
+    <label for= "question1_10_2_opt_a">  a) Verdadeiro</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question1_10_2_opt_b" />
+    <label for= "question1_10_2_opt_b">  b) Falso</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question1_10_2','b',['Em geral gasta-se mais tempo para ler um programa pois como a sua estrutura é tão importante quanto o conteúdo, o programa deve ser lido em pedaços pequenos para facilitar o seu entendimento.', 'Em geral gasta-se mais tempo para ler um programa pois como a sua estrutura é tão importante quanto o conteúdo, o programa deve ser lido em pedaços pequenos para facilitar o seu entendimento.'])"/> 
+    </form>
+    <div id="question1_10_2_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="um-primeiro-programa-tipico">
+<h2>Um primeiro programa típico<a class="headerlink" href="#um-primeiro-programa-tipico" title="Permalink to this headline">¶</a></h2>
+<p>Tradicionalmente, o primeiro programa escrito em uma nova linguagem de
+programação é chamado de &#8220;Ola Mundo!&#8221; porque tudo que ele faz é apresentar as palavras &#8220;Ola Mundo!&#8221;. Em Python, ele é assim:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s2">&quot;Ola Mundo!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Isso é um exemplo da <strong>função print</strong>, que na realidade não &#8220;imprime&#8221;
+nada em papel. Ela apresenta um valor na tela. Neste caso, o resultado
+é o texto:</p>
+<div class="highlight-python"><div class="highlight"><pre>Ola Mundo!
+</pre></div>
+</div>
+<p>Experimente a seguir o activecode usando esse mesmo exemplo.</p>
+
+<div id="ch01_2" >
+<textarea cols="50" rows="12" id="ch01_2_code" class="active_code">
+print("Ola Mundo!")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch01_2)</span> </p>
+<button onclick="runit('ch01_2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch01_2');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch01_2');">Load</button>
+<br />
+
+<canvas id="ch01_2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch01_2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>As aspas no programa marcam o começo e o fim do texto. Elas não
+aparecem no resultado final.</p>
+<p>Algumas pessoas julgam a qualidade de uma linguagem de programação
+pela simplicidade do programa &#8220;Ola Mundo!&#8221;. Por esse padrão, Python se
+sai tão bem quanto possível.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Nota sobre a versão em Português: embora seja possível o uso de
+acentos no Python, a versão do activecode que estamos utilizando
+ainda não suporta palavras acentuadas, como em &#8220;Olá Mundo!&#8221;.</p>
+</div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="question1_11_1">
+    <p>1.11.1: A função print:</p>
+    <form name="question1_11_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question1_11_1_opt_a" />
+    <label for= "question1_11_1_opt_a">  a) Manda informação para a impressora, para ser impressa em papel.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question1_11_1_opt_b" />
+    <label for= "question1_11_1_opt_b">  b) Mostra um valor na tela.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question1_11_1_opt_c" />
+    <label for= "question1_11_1_opt_c">  c) Diz ao computador para colocar a informação no formato print, ao invés do formato cursivo.</label><br />
+    
+    <input type="radio" name="group1" value="d" id="question1_11_1_opt_d" />
+    <label for= "question1_11_1_opt_d">  d) Diz ao computador para falar a informação.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question1_11_1','b',['Na linguagem Python, a função print não está relacionada à impressora.', 'Sim, a  função print mostra o valor do objeto passado para a função na tela.', 'O formato dos caracteres é chamado de fonte mas não tem relação com função print.', 'Essa seria uma outra função.'])"/> 
+    </form>
+    <div id="question1_11_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="comentarios">
+<span id="index-8"></span><h2>Comentários<a class="headerlink" href="#comentarios" title="Permalink to this headline">¶</a></h2>
+<p>À medida que os programas se tornam maiores e mais complicados, eles se tornam mais difíceis de ler. As linguagens formais são densas e em geral é difícil olhar para um pedaço de código e entender o que ele faz ou porquê. Por isso, é uma boa ideia colocar anotações em seus programas para explicar, em linguagem natural, o que ele está fazendo. Essas anotações são chamadas de comentários.</p>
+<p>Um <strong>comentário</strong> em um programa é um texto que serve para ser lido apenas por humanos - ele é completamente ignorado pelo interpretador. Em Python, o símbolo <cite>#</cite> é usado para dar início a um comentário, e o resto da linha é ignorado. Temos a seguir uma nova versão do <em>Olá Mundo!</em>.</p>
+
+<div id="ch01_3" >
+<textarea cols="50" rows="12" id="ch01_3_code" class="active_code">
+#---------------------------------------------------------
+# Esse exemplo de programa mostra como o Python é elegante
+# Escrito por Joe Soap, Dezembro 2010.
+# Qualquer pessoa pode usar e modificar esse programa.
+#---------------------------------------------------------
+
+print("Ola Mundo!")     # Muito fácil!
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch01_3)</span> </p>
+<button onclick="runit('ch01_3',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch01_3');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch01_3');">Load</button>
+<br />
+
+<canvas id="ch01_3_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch01_3_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Observe que ao rodar esse programa, ele continua imprimindo apenas a frase &#8220;Ola Mundo!&#8221; na tela. Nenhum comentário é exibido. Note também que nós deixamos uma linha em branco no programa, antes do print. Linhas em branco também são ignoradas pelo interpretador, mas essas linhas e os comentários podem tornar o seu programa muito mais fáceis de serem analisados por humanos. Use-os livremente!</p>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="question1_12_1">
+    <p>1.12.1: Para que servem comentários?</p>
+    <form name="question1_12_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="question1_12_1_opt_a" />
+    <label for= "question1_12_1_opt_a">  a) Para dizer ao computador o que você quer do seu programa.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="question1_12_1_opt_b" />
+    <label for= "question1_12_1_opt_b">  b) Para as pessoas que forem ler o seu código saberem, em linguagem natural, o que o programa está fazendo.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="question1_12_1_opt_c" />
+    <label for= "question1_12_1_opt_c">  c) Nada, são informações desnecessárias.</label><br />
+    
+    <input type="radio" name="group1" value="d" id="question1_12_1_opt_d" />
+    <label for= "question1_12_1_opt_d">  d) Nada em um programa pequeno. Eles são necessários apenas em programas grandes.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('question1_12_1','b',['Os comentários são ignorados pelo computador.', 'O computador ignora os comentários. Essas informações são voltadas para os humanos.', 'Comentários podem fornecer muita informação útil para alguém lendo o programa.', 'Mesmo os programas pequenos podem se beneficiar de comentários.'])"/> 
+    </form>
+    <div id="question1_12_1_feedback">
+    </div>
+    </div>
+    <div class="admonition-scratch-editor admonition">
+<p class="first admonition-title">Scratch Editor</p>
+<div class="last">
+<button id="butt_introscratch_1" onclick="createActiveCode('introscratch_1',''); $('#butt_introscratch_1').hide();">Open Editor</button>
+<div id="introscratch_1"></div>
+<br />
+</div></div>
+</div>
+<div class="section" id="glossario">
+<h2>Glossário<a class="headerlink" href="#glossario" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-activecode">activecode</dt>
+<dd>Um interpretador Python especial que permite executar código Python dentro de um navegador da web.</dd>
+<dt id="term-algoritmo">algoritmo</dt>
+<dd>Um processo passo-a-passo para a solução de um problema.</dd>
+<dt id="term-bug">bug</dt>
+<dd>Um erro em um programa.</dd>
+<dt id="term-codelens">codelens</dt>
+<dd>Um ambiente interactivo que permite ao utilizador controlar a execução do passo a passo de um programa Python</dd>
+<dt id="term-codigo-em-bytes-byte-code">código em bytes (<em>byte code</em>)</dt>
+<dd>Uma linguagem intermediária entre o código-fonte e código objeto. Muitas linguagens modernas primeiramente compilam o código-fonte em código em bytes e então interpretam o código em bytes com um programa chamado <em>máquina virtual</em>.</dd>
+<dt id="term-codigo-fonte-source-code">código fonte (<em>source code</em>)</dt>
+<dd>Um programa, armazenado em um arquivo, em uma linguagem de alto nível antes de ser compilado ou interpretado.</dd>
+<dt id="term-codigo-objeto-object-code">código objeto (<em>object code</em>)</dt>
+<dd>A saída do compilador, depois que traduz o programa.</dd>
+<dt id="term-comentario">comentário</dt>
+<dd>Informação em um programa que se destina a outros programadores (ou qualquer um lendo o código-fonte) e não tem efeito sobre a execução do programa.</dd>
+<dt id="term-compilar">compilar</dt>
+<dd>Traduzir um programa escrito em uma linguagem de alto nível em um de baixo nível de uma só vez, em preparação para execução posterior.</dd>
+<dt id="term-depuracao">depuração</dt>
+<dd>O processo de encontrar e remover qualquer um dos três tipos de erros de programação.</dd>
+<dt id="term-erro-de-execucao">erro de execução</dt>
+<dd>Um erro que só ocorre durante a execução do programa e evita que o programa continue.</dd>
+<dt id="term-erro-de-semantica">erro de semântica</dt>
+<dd>Um erro que faz o programa fazer algo diferente do que o programador pretendia.</dd>
+<dt id="term-erro-de-sintaxe">erro de sintaxe</dt>
+<dd>Um erro em um programa que o torna impossível de analisar &#8212; e
+portanto impossível de interpretar.</dd>
+<dt id="term-excecao">exceção</dt>
+<dd>Outro nome para um erro de execução.</dd>
+<dt id="term-executavel">executável</dt>
+<dd>Outro nome para o código-objeto que está pronto para ser executado.</dd>
+<dt id="term-interpretar">interpretar</dt>
+<dd>Executar um programa em uma linguagem de alto nível, traduzindo apenas uma linha de cada vez.</dd>
+<dt id="term-linguagem-de-alto-nivel">linguagem de alto nível</dt>
+<dd>Uma linguagem de programação como Python que é projetada para ser fácil de ler e escrever por seres humanos.</dd>
+<dt id="term-linguagem-de-baixo-nivel">linguagem de baixo nível</dt>
+<dd>Uma linguagem de programação que é projetada para ser fácil para um computador executar. Também chamada de linguagem de máquina ou linguagem de montagem.</dd>
+<dt id="term-linguagem-de-programacao">linguagem de programação</dt>
+<dd>Uma notação formal para representar soluções.</dd>
+<dt id="term-linguagem-formal">linguagem formal</dt>
+<dd>Qualquer linguagem projetada pelas pessoas para um propósito específico, como para representar ideias matemáticas ou programas de computador; todas as linguagens de programação são linguagens formais.</dd>
+<dt id="term-linguagem-natural">linguagem natural</dt>
+<dd>Qualquer linguagem falada por pessoas, que evoluiu naturalmente.</dd>
+<dt id="term-modo-linha-de-comando">modo linha de comando</dt>
+<dd>Um modo de usar o Python onde os comandos são digitados na linha do prompt e os resultados são exibidos imediatamente. Compare com o <strong>modo script</strong> e veja também a entrada em <strong>terminal Python</strong>.</dd>
+<dt id="term-parse-analise-sintatica">parse (análise sintática)</dt>
+<dd>Para examinar um programa e analisar a estrutura sintática.</dd>
+<dt id="term-portabilidade">portabilidade</dt>
+<dd>Propriedade de um programa que permite a sua execução em mais de um tipo de computador.</dd>
+<dt id="term-print">print</dt>
+<dd>Função usada em um programa ou script que faz com que o interpretador Python mostre um valor no seu dispositivo de saída (por exemplo, a tela do computador).</dd>
+<dt id="term-31">programa</dt>
+<dd>Uma sequência de instruções que especificam as ações e cálculos a serem realizados por um computador.</dd>
+<dt id="term-prompt">prompt</dt>
+<dd>Símbolo &#8220;&gt;&gt;&gt;&#8221; usado pelo terminal Python quando está pronto para receber um comando.</dd>
+<dt id="term-resolucao-de-problemas">resolução de problemas</dt>
+<dd>O processo de formulação de um problema, encontrar uma solução, e
+expressar a solução.</dd>
+<dt id="term-script">script</dt>
+<dd>Um pequeno programa. Nesse livro, script será usado como sinônimo de um programa em Python.</dd>
+<dt id="term-semantica">semântica</dt>
+<dd>O significado de um programa.</dd>
+<dt id="term-sintaxe">sintaxe</dt>
+<dd>A estrutura de um programa.</dd>
+<dt id="term-terminal-python-python-shell">terminal Python (Python shell)</dt>
+<dd>Uma interface para o interpretador Python. O usuário de um terminal Python digita comandos no prompt (&gt;&gt;&gt;), e pressiona a tecla &#8220;return&#8221; para enviar esses comandos para o interpretador processar.</dd>
+<dt id="term-token">token</dt>
+<dd>Um dos elementos básicos da estrutura sintática de um programa,
+análogo a uma palavra em uma linguagem natural. Também
+chamado de item léxico.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">O Caminho do Programa</a><ul>
+<li><a class="reference internal" href="#algoritmos">Algoritmos</a></li>
+<li><a class="reference internal" href="#a-linguagem-de-programacao-python">A linguagem de programação Python</a></li>
+<li><a class="reference internal" href="#formas-especiais-para-rodar-python-nesse-livro">Formas especiais para rodar Python nesse livro</a></li>
+<li><a class="reference internal" href="#mais-sobre-programas">Mais sobre programas</a></li>
+<li><a class="reference internal" href="#o-que-e-depuracao">O que é depuração?</a></li>
+<li><a class="reference internal" href="#erros-de-sintaxe">Erros de sintaxe</a></li>
+<li><a class="reference internal" href="#erros-de-execucao-runtime-errors">Erros de Execução (Runtime Errors)</a></li>
+<li><a class="reference internal" href="#erros-de-semantica">Erros de semântica</a></li>
+<li><a class="reference internal" href="#depuracao-experimental">Depuração experimental</a></li>
+<li><a class="reference internal" href="#linguagens-formais-e-naturais">Linguagens formais e naturais</a></li>
+<li><a class="reference internal" href="#um-primeiro-programa-tipico">Um primeiro programa típico</a></li>
+<li><a class="reference internal" href="#comentarios">Comentários</a></li>
+<li><a class="reference internal" href="#glossario">Glossário</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../00-FrontBackMatter/fdl-1.3.html"
+                        title="previous chapter">GNU Free Documentation License</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../02-Conceitos/conceitos.html"
+                        title="next chapter">Variáveis, Expressões e Comandos</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../02-Conceitos/conceitos.html" title="Variáveis, Expressões e Comandos"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../00-FrontBackMatter/fdl-1.3.html" title="GNU Free Documentation License"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2012, Brad Miller, David Ranum.
+      Last updated on May 24, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

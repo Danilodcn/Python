@@ -1,0 +1,735 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Classes e Objetos - Indo um pouco mais fundo &mdash; Como pensar como um Cientista da Computação: Edição Interativa em Python</title>
+    
+    <link rel="stylesheet" href="../_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="../_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="../_static/codemirror.js"></script>
+    <script type="text/javascript" src="../_static/python.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="../_static/assess.js"></script>
+    <script type="text/javascript" src="../_static/animationbase.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="../_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Como pensar como um Cientista da Computação: Edição Interativa em Python" href="../index.html" />
+    <link rel="next" title="Astronomy Animation" href="../Labs/astronomylab.html" />
+    <link rel="prev" title="Classes e Objetos - Fundamentos" href="classesintro.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/pensePython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'pensePython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/pensePython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../Labs/astronomylab.html" title="Astronomy Animation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="classesintro.html" title="Classes e Objetos - Fundamentos"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="classes-e-objetos-indo-um-pouco-mais-fundo">
+<h1>Classes e Objetos - Indo um pouco mais fundo<a class="headerlink" href="#classes-e-objetos-indo-um-pouco-mais-fundo" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="fracoes">
+<span id="index-0"></span><h2>Frações<a class="headerlink" href="#fracoes" title="Permalink to this headline">¶</a></h2>
+<p>Todos nós já tivemos de trabalhar com frações quando éramos mais
+jovens. Ou talvez você cozinha bastante e tem que lidar com medições
+dos ingredientes. De qualquer jeito, as frações são algo que estamos
+familiarizados.
+Neste capítulo vamos desenvolver uma classe para representar uma
+fração incluindo alguns dos métodos mais comuns que nós
+gostaríamos que as frações fossem capazes de fazer.</p>
+<p>Uma fração é mais comumente vista como dois inteiros, um sobre o
+outro, com uma linha separando os dois. O número
+na parte superior é chamado de numerador e o número na parte inferior é
+chamado de denominador. Às vezes, as pessoas usam uma barra
+para a linha e, outras vezes, eles usam uma linha reta. O fato é que
+isso realmente não importa, desde que você saiba qual
+é o numerador e qual é o denominador.</p>
+<p>Para projetar a nossa classe, nós simplesmente precisamos usar a
+análise acima para perceber que o <cite>estado</cite> de um objeto fração pode ser
+completamente descrito por dois números inteiros que o
+representam. Podemos começar pela implementação da classe
+<code class="docutils literal"><span class="pre">Fraction</span></code> e o método <code class="docutils literal"><span class="pre">__init__</span></code> que permitirá que o usuário
+forneça o numerador e o denominador da fração a ser criada.</p>
+
+<div id="fractions_init" >
+<textarea cols="50" rows="12" id="fractions_init_code" class="active_code">
+class Fraction:
+
+    def __init__(self,top,bottom):
+
+        self.num = top        #the numerator is on top
+        self.den = bottom     #the denominator is on the bottom
+
+    def __str__(self):
+        return str(self.num) + "/" + str(self.den)
+
+    def getNum(self):
+        return self.num
+
+    def getDen(self):
+        return self.den
+
+myfraction = Fraction(3,4)
+print(myfraction)
+
+print(myfraction.getNum())
+print(myfraction.getDen())
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (fractions_init)</span> </p>
+<button onclick="runit('fractions_init',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('fractions_init');">Save</button>
+<button class="ac_opt" onclick="requestCode('fractions_init');">Load</button>
+<br />
+
+<canvas id="fractions_init_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="fractions_init_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Observe que o método <code class="docutils literal"><span class="pre">__str__</span></code> fornece um visual típico de fração
+usando uma barra entre o numerador e o denominador.
+A figura abaixo mostra o estado de <code class="docutils literal"><span class="pre">myfraction</span></code>. Nós também
+incluímos alguns métodos simples de acesso, <code class="docutils literal"><span class="pre">getNum</span></code> e <code class="docutils literal"><span class="pre">getDen</span></code>,
+que retornam os valores do estado da fração.</p>
+<img alt="../_images/fractionpic1.png" src="../_images/fractionpic1.png" />
+</div>
+<div class="section" id="objetos-sao-mutaveis">
+<span id="index-1"></span><h2>Objetos são Mutáveis<a class="headerlink" href="#objetos-sao-mutaveis" title="Permalink to this headline">¶</a></h2>
+<p>Nós podemos mudar o estado de um objeto fazendo uma atribuição a uma
+das variáveis da instância.
+Por exemplo, pode-se alterar o numerador da fracção através da
+atribuição de um novo valor para <code class="docutils literal"><span class="pre">self.num</span></code>. Da mesma forma, nós
+poderíamos fazer a mesma coisa para <code class="docutils literal"><span class="pre">self.den</span></code>.</p>
+<p>Um lugar onde este tipo de modificação faz sentido é quando
+<strong>simplificamos</strong> uma fração. Uma fração completamente simplificada
+significa que o numerador e o denominador não compartilham fatores
+comuns. Por exemplo, <code class="docutils literal"><span class="pre">12</span> <span class="pre">/</span> <span class="pre">16</span></code> é uma fracção, mas não
+está completamente simplificada pois é possível dividir 12 e 16
+por 2, ou seja, 2 é um <strong>divisor comum</strong>. Se dividirmos o numerador
+eo denominador por um divisor comum, temos uma fração equivalente. Se
+dividirmos pelo <strong>máximo divisor comum</strong>,
+vamos obter a fração completamente simplificada.
+Neste caso 4 seria o máximo divisor comum e a fração simplificada
+seria 3/4.</p>
+<p>Há um método iterativo muito elegante para calcular o maior divisor
+comum de dois inteiros. Tente executar a função para vários exemplos
+diferentes.</p>
+
+<div id="fractions_gcd" >
+<textarea cols="50" rows="12" id="fractions_gcd_code" class="active_code">
+def gcd(m,n):
+    while m%n != 0:
+        oldm = m
+        oldn = n
+
+        m = oldn
+        n = oldm%oldn
+
+    return n
+
+print(gcd(12,16))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (fractions_gcd)</span> </p>
+<button onclick="runit('fractions_gcd',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('fractions_gcd');">Save</button>
+<button class="ac_opt" onclick="requestCode('fractions_gcd');">Load</button>
+<br />
+
+<canvas id="fractions_gcd_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="fractions_gcd_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Agora que temos uma função para encontrar o máximo
+divisor comum, podemos usá-la para implementar um método fração
+chamado <code class="docutils literal"><span class="pre">simplify</span></code>.
+Vamos pedir à fração que ela se &#8220;simplifique completamente&#8221;.</p>
+<p>O método <code class="docutils literal"><span class="pre">simplify</span></code> vai passar o numerador e o denominador para a
+função <code class="docutils literal"><span class="pre">gcd</span></code> para encontrar o máximo divisor comum. A instância
+então se modificará, dividindo o seu <code class="docutils literal"><span class="pre">num</span></code> e o
+seu <code class="docutils literal"><span class="pre">den</span></code> por esse valor.</p>
+
+<div id="fractions_simplify" >
+<textarea cols="50" rows="12" id="fractions_simplify_code" class="active_code">
+def gcd(m,n):
+    while m%n != 0:
+        oldm = m
+        oldn = n
+
+        m = oldn
+        n = oldm%oldn
+
+    return n
+
+class Fraction:
+
+    def __init__(self,top,bottom):
+
+        self.num = top        #the numerator is on top
+        self.den = bottom     #the denominator is on the bottom
+
+    def __str__(self):
+        return str(self.num) + "/" + str(self.den)
+
+    def simplify(self):
+        common = gcd(self.num, self.den)
+
+        self.num = self.num // common
+        self.den = self.den // common
+
+myfraction = Fraction(12,16)
+
+print(myfraction)
+myfraction.simplify()
+print(myfraction)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (fractions_simplify)</span> </p>
+<button onclick="runit('fractions_simplify',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('fractions_simplify');">Save</button>
+<button class="ac_opt" onclick="requestCode('fractions_simplify');">Load</button>
+<br />
+
+<canvas id="fractions_simplify_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="fractions_simplify_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Há duas coisas importantes a serem observadas nessa
+implementação. Em primeiro lugar, a função <code class="docutils literal"><span class="pre">gcd</span></code> não é
+um método da classe. Ele não pertence a <code class="docutils literal"><span class="pre">Fraction</span></code>. Em vez disso, é
+uma função que é usado por <code class="docutils literal"><span class="pre">Fraction</span></code> para
+auxiliar em uma tarefa que precisa ser realizada.
+Esse tipo de função é muitas vezes chamado de uma <strong>função
+auxiliar</strong>. Em segundo lugar,
+o método <code class="docutils literal"><span class="pre">simplify</span></code> não retorna nada. Sua função é modificar o
+objeto em si. Este tipo de método é
+conhecido como um método <strong>modificador</strong> (<em>mutator</em>) porque ele realiza
+modificações ou mutações do estado interno do objecto.</p>
+</div>
+<div class="section" id="igualdade">
+<span id="index-2"></span><h2>Igualdade<a class="headerlink" href="#igualdade" title="Permalink to this headline">¶</a></h2>
+<p>O significado da palavra <em>mesmo</em> parece perfeitamente claro até que
+você pense um pouco mais e então perceba que há mais do que você imaginava.</p>
+<p>Por exemplo, se você diz, Chris e eu temos o mesmo carro, você quer
+dizer que seu carro e o dele são da mesma marca e modelo, mas que eles
+são dois carros diferentes. se
+você diz, Chris e eu temos a mesma mãe, você quer dizer que sua mãe e seu
+são a mesma pessoa.</p>
+<p>Quando você fala sobre os objetos, há uma ambigüidade similar. Por exemplo, se dois
+<code class="docutils literal"><span class="pre">Fractions</span></code>s são os mesmos, isso significa que eles contêm os mesmos dados
+(o mesmo numerador e o mesmo denominador), ou que são, na verdade, o mesmo objeto?</p>
+<p>Nós já vimos o operador <code class="docutils literal"><span class="pre">is</span></code> no capítulo sobre listas, onde nós
+falou sobre apelidos (aliases).
+Ela nos permite descobrir se duas referências se referem ao mesmo
+objeto.</p>
+
+<div id="fractions_is" >
+<textarea cols="50" rows="12" id="fractions_is_code" class="active_code">
+class Fraction:
+
+    def __init__(self,top,bottom):
+
+        self.num = top        #the numerator is on top
+        self.den = bottom     #the denominator is on the bottom
+
+    def __str__(self):
+        return str(self.num) + "/" + str(self.den)
+
+
+myfraction = Fraction(3,4)
+yourfraction = Fraction(3,4)
+print(myfraction is yourfraction)
+
+ourfraction = myfraction
+print(myfraction is ourfraction)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (fractions_is)</span> </p>
+<button onclick="runit('fractions_is',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('fractions_is');">Save</button>
+<button class="ac_opt" onclick="requestCode('fractions_is');">Load</button>
+<br />
+
+<canvas id="fractions_is_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="fractions_is_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Embora <code class="docutils literal"><span class="pre">myfraction</span></code> e <code class="docutils literal"><span class="pre">yourfraction</span></code> tenham o mesmo numerodor e
+denominador, eles não são o mesmo objeto.</p>
+<img alt="../_images/fractionpic2.png" src="../_images/fractionpic2.png" />
+<p>Se atribuirmos <code class="docutils literal"><span class="pre">myfraction</span></code> a <code class="docutils literal"><span class="pre">ourfraction</span></code>, então as duas
+variáveis são apelidos do mesmo objeto.</p>
+<img alt="../_images/fractionpic3.png" src="../_images/fractionpic3.png" />
+<p>Este tipo de igualdade é chamado de <strong>igualdade rasa</strong> porque só compara
+as referências, e não o conteúdo dos objectos. Usando o operador ==
+para verificar a igualdade entre dois objetos definidos pelo usuário
+retornará o resultado da igualdade rasa. Em outras palavras, os
+objetos <code class="docutils literal"><span class="pre">Fraction</span></code> são iguais (==), se eles são o mesmo objeto.</p>
+<p>Obviamente podemos definir a igualdade para significar que as fracções
+têm o mesmo numerador e o mesmo denominador. Por exemplo, aqui é uma
+função booleana que realiza essa verificação.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">sameFraction</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">getNum</span><span class="p">()</span> <span class="o">==</span> <span class="n">f2</span><span class="o">.</span><span class="n">getNum</span><span class="p">())</span> <span class="ow">and</span> <span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">getDen</span><span class="p">()</span> <span class="o">==</span> <span class="n">f2</span><span class="o">.</span><span class="n">getDen</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Esse tipo de igualdade é chamada de <strong>igualdade profunda</strong> pois
+compara valores &#8220;profundos&#8221; no objeto, não apenas a referência ao objeto.</p>
+
+<div id="fractions_eq1" >
+<textarea cols="50" rows="12" id="fractions_eq1_code" class="active_code">
+def sameFraction(f1,f2):
+    return (f1.getNum() == f2.getNum()) and (f1.getDen() == f2.getDen())
+
+class Fraction:
+
+    def __init__(self,top,bottom):
+
+        self.num = top        #the numerator is on top
+        self.den = bottom     #the denominator is on the bottom
+
+    def __str__(self):
+        return str(self.num) + "/" + str(self.den)
+
+    def getNum(self):
+        return self.num
+
+    def getDen(self):
+        return self.den
+
+
+myfraction = Fraction(3,4)
+yourfraction = Fraction(3,4)
+print(myfraction is yourfraction)
+print(sameFraction(myfraction,yourfraction))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (fractions_eq1)</span> </p>
+<button onclick="runit('fractions_eq1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('fractions_eq1');">Save</button>
+<button class="ac_opt" onclick="requestCode('fractions_eq1');">Load</button>
+<br />
+
+<canvas id="fractions_eq1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="fractions_eq1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Obviamente, se duas variáveis se referem ao mesmo objeto, elas tem
+igualdade rasa e profunda.</p>
+<div class="admonition-tenha-cuidado-com admonition">
+<p class="first admonition-title">Tenha cuidado com  ==</p>
+<p>&#8220;Quando eu uso uma palavra&#8221;, disse Humpty Dumpty, em um tom
+bastante desdenhoso, &#8220;ela significa apenas o que eu quiser que
+ela signifique &#8212; nem mais nem menos.&#8221;    <em>Alice no País das
+Maravilhas</em></p>
+<p>O Python tem um poderoso recurso que permite que um designer de uma
+classe decida o que uma operação como <code class="docutils literal"><span class="pre">==</span></code> ou <code class="docutils literal"><span class="pre">&lt;</span></code> deve
+significar. (Acabamos de mostrar como podemos controlar a forma
+como os nossos objetos são convertidos em strings, ou seja,
+já temos um começo!) Nós vamos ver mais detalhes mais tarde.
+Mas às vezes os implementadores usam igualdade rasas, e outras
+igualdade profunda, como mostrado neste pequeno experimento:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">p</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;== on Points returns&quot;</span><span class="p">,</span> <span class="n">p</span> <span class="o">==</span> <span class="n">s</span><span class="p">)</span>  <span class="c1"># by default, == does a shallow equality test here</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;== on lists returns&quot;</span><span class="p">,</span>  <span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">)</span>  <span class="c1"># by default, == does a deep equality test on lists</span>
+</pre></div>
+</div>
+<p>Que resulta na saída:</p>
+<div class="highlight-python"><div class="highlight"><pre>== on Points returns False
+== on lists returns True
+</pre></div>
+</div>
+<p class="last">Assim, podemos concluir que, mesmo que duas listas (ou tuplas,
+etc.) sejam objetos distintos, com diferentes endereços de
+memória, em um caso o operador relacional <code class="docutils literal"><span class="pre">==</span></code> testa por
+igualdade profunda, enquanto que no caso de pontos faz um teste
+raso.</p>
+</div>
+</div>
+<div class="section" id="metodos-aritmeticos">
+<h2>Métodos aritméticos<a class="headerlink" href="#metodos-aritmeticos" title="Permalink to this headline">¶</a></h2>
+<p>Vamos concluir este capítulo, acrescentando mais alguns métodos para a
+nossa classe <code class="docutils literal"><span class="pre">Fraction</span></code>. Em particular, vamos implementar
+aritmética. Para começar, considere o que significa adicionar duas
+frações. Lembre-se que você só pode adicionar frações se elas tiverem
+o mesmo denominador. A maneira mais fácil de encontrar um denominador
+comum é multiplicar os dois denominadores. Tudo o que fazemos para o
+denominador precisa ser feito para o numerador. Isso nos dá a seguinte
+equação para soma de frações</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span><span class="o">/</span><span class="n">b</span> <span class="o">+</span> <span class="n">c</span><span class="o">/</span><span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">ad</span> <span class="o">+</span> <span class="n">cb</span><span class="p">)</span><span class="o">/</span><span class="n">bd</span>
+</pre></div>
+</div>
+<p>Nosso método <code class="docutils literal"><span class="pre">add</span></code> vai receber um <code class="docutils literal"><span class="pre">Fraction</span></code> como um
+parâmetro. Ele irá retornar um novo <code class="docutils literal"><span class="pre">Fraction</span></code> que representa a
+soma. Nós vamos usar a equação mostrada acima para calcular o novo
+numerador e o novo denominador. Uma vez que esta equação não vai
+resultar em uma fração simplificada, vamos usar uma técnica semelhante
+a que foi usada no método <code class="docutils literal"><span class="pre">simplify</span></code> para encontrar o
+máximo divisor comum e, em seguida, dividir cada parte da nova fração.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">otherfraction</span><span class="p">):</span>
+
+    <span class="n">newnum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="o">*</span><span class="n">otherfraction</span><span class="o">.</span><span class="n">den</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">den</span><span class="o">*</span><span class="n">otherfraction</span><span class="o">.</span><span class="n">num</span>
+    <span class="n">newden</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">den</span> <span class="o">*</span> <span class="n">otherfraction</span><span class="o">.</span><span class="n">den</span>
+
+    <span class="n">common</span> <span class="o">=</span> <span class="n">gcd</span><span class="p">(</span><span class="n">newnum</span><span class="p">,</span><span class="n">newden</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Fraction</span><span class="p">(</span><span class="n">newnum</span><span class="o">//</span><span class="n">common</span><span class="p">,</span><span class="n">newden</span><span class="o">//</span><span class="n">common</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Experimente o método de adição e então modifique as frações e tente de novo.</p>
+
+<div id="fractions_add1" >
+<textarea cols="50" rows="12" id="fractions_add1_code" class="active_code">
+def gcd(m,n):
+    while m%n != 0:
+        oldm = m
+        oldn = n
+
+        m = oldn
+        n = oldm%oldn
+
+    return n
+
+class Fraction:
+
+    def __init__(self,top,bottom):
+
+        self.num = top        #the numerator is on top
+        self.den = bottom     #the denominator is on the bottom
+
+    def __str__(self):
+        return str(self.num) + "/" + str(self.den)
+
+    def simplify(self):
+        common = gcd(self.num, self.den)
+
+        self.num = self.num // common
+        self.den = self.den // common
+
+    def add(self,otherfraction):
+
+        newnum = self.num*otherfraction.den + self.den*otherfraction.num
+        newden = self.den * otherfraction.den
+
+        common = gcd(newnum,newden)
+
+        return Fraction(newnum//common,newden//common)
+
+f1 = Fraction(1,2)
+f2 = Fraction(1,4)
+
+f3 = f1.add(f2)
+print(f3)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (fractions_add1)</span> </p>
+<button onclick="runit('fractions_add1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('fractions_add1');">Save</button>
+<button class="ac_opt" onclick="requestCode('fractions_add1');">Load</button>
+<br />
+
+<canvas id="fractions_add1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="fractions_add1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Uma modificação final para este método irá ser bastante útil. Em vez
+de invocar o método <code class="docutils literal"><span class="pre">add</span></code>, podemos usar o operador de adição
+&#8220;+&#8221;. Isso exige que implementemos outro método especial, desta vez
+chamado <code class="docutils literal"><span class="pre">__add__</span></code>.
+Os detalhes do método são os mesmos.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">otherfraction</span><span class="p">):</span>
+
+    <span class="n">newnum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="o">*</span><span class="n">otherfraction</span><span class="o">.</span><span class="n">den</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">den</span><span class="o">*</span><span class="n">otherfraction</span><span class="o">.</span><span class="n">num</span>
+    <span class="n">newden</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">den</span> <span class="o">*</span> <span class="n">otherfraction</span><span class="o">.</span><span class="n">den</span>
+
+    <span class="n">common</span> <span class="o">=</span> <span class="n">gcd</span><span class="p">(</span><span class="n">newnum</span><span class="p">,</span><span class="n">newden</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Fraction</span><span class="p">(</span><span class="n">newnum</span><span class="o">//</span><span class="n">common</span><span class="p">,</span><span class="n">newden</span><span class="o">//</span><span class="n">common</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Porém, agora podemos fazer somas da maneira que estamos acostumados a
+fazer com outros dados numéricos.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">f1</span> <span class="o">=</span> <span class="n">Fraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">f2</span> <span class="o">=</span> <span class="n">Fraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">f3</span> <span class="o">=</span> <span class="n">f1</span> <span class="o">+</span> <span class="n">f2</span>    <span class="c1"># calls the __add__ method of f1</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition-operador-versus-metodo-add admonition">
+<p class="first admonition-title">operador + versus método __add__</p>
+<p class="last">Acontece que a adição é um método que existe para inteiros
+também. 4+5 pode ser escrito como (4).__add__(5). Estamos
+pedindo para o 4 invocar o seu método add, passando 5 como o
+outro valor.</p>
+</div>
+</div>
+<div class="section" id="glossario">
+<h2>Glossário<a class="headerlink" href="#glossario" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-copia-profunda">cópia profunda</dt>
+<dd>Para copiar o conteúdo de um objeto, bem como quaisquer
+objetos incorporados, e dos objetos embutidos neles, e assim
+por diante; implementado pela função <code class="docutils literal"><span class="pre">deepcopy</span></code> do módulo
+<code class="docutils literal"><span class="pre">copy</span></code>.</dd>
+<dt id="term-copia-rasa">cópia rasa</dt>
+<dd>Para copiar o conteúdo de um objeto, incluindo quaisquer
+referências a objetos embutidos; implementada pela função
+<code class="docutils literal"><span class="pre">copy</span></code> no módulo <code class="docutils literal"><span class="pre">copy</span></code>.</dd>
+<dt id="term-igualdade-profunda">igualdade profunda</dt>
+<dd>Igualdade de valores, ou duas referências que apontam para os
+objetos que têm o mesmo valor.</dd>
+<dt id="term-igualdade-rasa">igualdade rasa</dt>
+<dd>Igualdade de referências, ou duas referências que apontam para
+o mesmo objeto.</dd>
+</dl>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Inclua o método <code class="docutils literal"><span class="pre">area</span></code> à classe Rectangle
+que retorna a área de uma instância:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">area</span><span class="p">(),</span> <span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Escreva um método <code class="docutils literal"><span class="pre">perimeter</span></code> na classe Rectangle
+para que possamos encontrar o perímetro de uma instância de
+Rectangle:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">perimeter</span><span class="p">(),</span> <span class="mi">30</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Escreva um método <code class="docutils literal"><span class="pre">transpose</span></code> na classe Rectangle
+que troca o largura e altura de uma instância de
+Rectangle:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Escreva um novo método na classe Rectangle para testar se um Point
+está dentro de um Rectangle. Para esse exercício, assuma que o
+retângulo está em (0, 0) com largura 10 e altura 5 tem limites
+superiores <em>abertos</em> na largura e na altura, ou seja, ele se estica
+na direção x de [0 a 10), onde o 0 está dentro mas o 10 está fora,
+e de [0 a 5] na direção y. Assim o ponto (10, 2) está fora. Esses
+testes devem passar:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">)),</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)),</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">4.99999</span><span class="p">)),</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">)),</span> <span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Em jogos, nós frequentemente colocamos uma moldura retangular ao
+redor de objetos do jogo. Assim fica mais fácil realizar a
+<em>detecção de colisão</em> entre objetos, como bombas e naves espaciais,
+verificando se há alguma região de sobreposição entre os
+retângulos.</p>
+<p>Escreva uma função para determinar se dois retângulos se
+colidem. <em>Dica: esse exercício pode ser muito difícil! Pense bem
+sobre todos os casos possíveis antes de programar.</em></p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Classes e Objetos - Indo um pouco mais fundo</a><ul>
+<li><a class="reference internal" href="#fracoes">Frações</a></li>
+<li><a class="reference internal" href="#objetos-sao-mutaveis">Objetos são Mutáveis</a></li>
+<li><a class="reference internal" href="#igualdade">Igualdade</a></li>
+<li><a class="reference internal" href="#metodos-aritmeticos">Métodos aritméticos</a></li>
+<li><a class="reference internal" href="#glossario">Glossário</a></li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="classesintro.html"
+                        title="previous chapter">Classes e Objetos - Fundamentos</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../Labs/astronomylab.html"
+                        title="next chapter">Astronomy Animation</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../Labs/astronomylab.html" title="Astronomy Animation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="classesintro.html" title="Classes e Objetos - Fundamentos"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2012, Brad Miller, David Ranum.
+      Last updated on May 24, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

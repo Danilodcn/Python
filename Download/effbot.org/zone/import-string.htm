@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Some Notes on Importing Modules by&nbsp;Name</title></head><body data-page-id="150"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Some Notes on Importing Modules by&nbsp;Name</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">October 2006 | Fredrik Lundh</p><p>Python&#8217;s import statement makes it easy to import external modules,
+and bind them to names in your local namespace:</p><pre class="python">
+<span class="pycomment"># bind local "module" name to the loaded module</span>
+<span class="pykeyword">import</span> module
+
+<span class="pycomment"># bind local names to all names in the loaded module</span>
+<span class="pykeyword">from</span> module <span class="pykeyword">import</span> *</pre><h2 id="importing-by-name">Importing Modules by Name&#160;<a class="nav" href="#importing-by-name" title="bookmark!">#</a></h2><p>If you have a module name in a string, you can use the built-in
+<b>__import__</b> function to import it:</p><pre class="python">
+    module = __import__(<span class="pystring">"module"</span>)</pre><p>Note that you have to assign the module object to a variable yourself.
+This allows you to rename the module on the way in:</p><pre class="python">
+    dbapi = __import__(get_database_driver())</pre><p>Importing modules from packages is a bit trickier; __import__ does the
+full import, but it returns the top-level package, not the actual module.
+To get the module, you can use a simple <b>getattr</b> loop:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+    <span class="pykeyword">def</span> <span class="pyfunction">my_import</span>(name):
+        m = __import__(name)
+        <span class="pykeyword">for</span> n <span class="pykeyword">in</span> name.split(<span class="pystring">"."</span>)[1:]:
+            m = getattr(m, n)
+        <span class="pykeyword">return</span> m
+
+    m = __import__(<span class="pystring">"xml.etree.ElementTree"</span>) <span class="pycomment"># returns xml</span>
+    m = my_import(<span class="pystring">"xml.etree.ElementTree"</span>) <span class="pycomment"># returns ElementTree</span></pre></div><div class="yui-ge"><div class="yui-u first"><p>Alternatively, you can fetch the module from the sys.modules dictionary after the import:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+    <span class="pykeyword">import</span> sys
+
+    <span class="pykeyword">def</span> <span class="pyfunction">my_import</span>(name):
+        __import__(name)
+        <span class="pykeyword">return</span> sys.modules[name]
+
+    m = my_import(<span class="pystring">"xml.etree.ElementTree"</span>) <span class="pycomment"># returns ElementTree</span></pre></div><div class="yui-ge"><div class="yui-u first"><h2 id="importing-by-filename">Importing Modules by Filename&#160;<a class="nav" href="#importing-by-filename" title="bookmark!">#</a></h2><p>To import a module from a given filename, you can temporarily extend
+the path:</p><pre class="python">
+    filename = <span class="pystring">"directory/module.py"</span>
+
+    directory, module_name = os.path.split(filename)
+    module_name = os.path.splitext(module_name)[0]
+
+    path = list(sys.path)
+    sys.path.insert(0, directory)
+    <span class="pykeyword">try</span>:
+        module = __import__(module_name)
+    <span class="pykeyword">finally</span>:
+        sys.path[:] = path <span class="pycomment"># restore</span></pre><p>If you just want to load code from a script, instead of importing
+it, <b>execfile</b> is often a better choice.  This function lets you
+execute external scripts, and collect the result in a namespace
+dictionary.</p><pre class="python">
+    namespace = {}
+    execfile(<span class="pystring">"directory/module.py"</span>, namespace)</pre><p>To import all names from an imported module or a loaded namespace
+into your own module, similar to <b>from-import-*</b>, you can do:</p><pre class="python">
+    globals().update(vars(module))
+
+    globals().update(namespace)</pre><p>To fully emulate <b>from-import</b>, you need to check for an
+<b>__all__</b> attribute, and if that&#8217;s not present, filter out
+anything that starts with an underscore:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+    all_names = namespace.get(<span class="pystring">"__all__"</span>)
+    <span class="pykeyword">if</span> all_names <span class="pykeyword">is</span> None:
+        all_names = (key <span class="pykeyword">for</span> key <span class="pykeyword">in</span> namespace where key[0] != <span class="pystring">"_"</span>)
+    my_namespace = globals()
+    <span class="pykeyword">for</span> name <span class="pykeyword">in</span> all_names:
+        my_namespace[name] = namespace[name]</pre></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#importing-by-name">Importing Modules by Name</a></li><li><a href="#importing-by-filename">Importing Modules by Filename</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

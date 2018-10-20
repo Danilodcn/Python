@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Python's C API: Working with&nbsp;Sequences</title></head><body data-page-id="210"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Python's C API: Working with&nbsp;Sequences</h1></div><div class="yui-ge"><div class="yui-u first"><p>Assorted notes on working with lists, tuples, iterators, and other
+sequences.</p><h2 id="passing-sequences-to-c-extensions">Passing Sequences to C Extensions&#160;<a class="nav" href="#passing-sequences-to-c-extensions" title="bookmark!">#</a></h2><p class="info">November 21, 2003 | Fredrik Lundh</p><p>Q. <i>Is there a way to pass a variable-length list with flexible length 
+to a C extension?</i></p><p>Summary: Use a PyObject* variable to hold the list object (use &#8220;O&#8221;
+for the type code), and use <s><a href="http://www.python.org/doc/current/api/sequence.html">the sequence API</a></s> (dead link) to loop over the list contents.</p><p>Unless your sequences are really large (too large to hold in memory),
+the <b>PySequence_Fast</b> API is the most efficient way to extract the
+items.  This API applies <b>tuple()</b> on the source, unless it&#8217;s already
+a tuple or a list, and uses direct access into the object structure to
+pick out individual items.</p><p>Here&#8217;s a sample snippet:</p><pre>
+
+...
+
+    PyObject* obj;
+    PyObject* seq;
+    int i, len;
+
+    if (!PyArg_ParseTuple(args, "O", &amp;obj))
+        return NULL;
+
+    seq = PySequence_Fast(obj, "expected a sequence");
+    len = PySequence_Size(obj);
+    for (i = 0; i &lt; len; i++) {
+        item = PySequence_Fast_GET_ITEM(seq, i);
+        ...
+        /* <i>DON'T DECREF item here</i> */
+    }
+    Py_DECREF(seq);
+
+...
+</pre><p>You can find plenty of examples in the source code for the standard
+library (grep for PySequence and look for GetItem, GET_ITEM, and
+Fast_GET_ITEM calls&#8230;)</p><p>You can also use <s><a href="http://www.python.org/doc/current/api/listObjects.html">the PyList API</a></s> (dead link), but that only works for lists, and is only marginally faster than the PySequence_Fast API.</p><p>To squeeze out the last cycles from PySequence_Fast, expand the loop
+body yourself:</p><pre>
+    seq = PySequence_Fast(obj, "expected a sequence");
+    len = PySequence_Size(obj);
+    if (PyList_Check(seq))
+        for (i = 0; i &lt; len; i++) {
+            item = PyList_GET_ITEM(seq, i);
+            ...
+        }
+    else
+        for (i = 0; i &lt; len; i++) {
+            item = PyTuple_GET_ITEM(seq, i);
+            ...
+        }
+    Py_DECREF(seq);
+</pre><p>This design is as fast as a list-only implementation, but still supports
+tuples (fast) and other sequence objects, including arbitrary iterable
+objects (slower).</p><p>Here is a complete example: <a href="http://article.gmane.org/gmane.comp.python.general/424736"><i>Help creating extension for C function</i></a></p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#passing-sequences-to-c-extensions">Passing Sequences to C Extensions</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

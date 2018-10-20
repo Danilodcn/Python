@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>A Cache Status View for&nbsp;Django</title></head><body data-page-id="2005"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">A Cache Status View for&nbsp;Django</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | August 2007</p><p>Since I&#8217;m running <strong>effbot.org</strong> on a shared server with limited memory for long-running processes, I&#8217;m quite interested in keeping track of my Django application&#8217;s resource usage.</p><p>As part of this, I wanted an easy way to see what the <strong>memcached</strong> server I&#8217;m using for caching is up to, and came up with a a simple Django view that grabs the current status from the server.</p><p>Here&#8217;s how to implement this on your own Django site:</p><p>The first step is to add an entry to the URL configuration file that points to the view module; something like:</p><pre class="python">
+urlpatterns = patterns(<span class="pystring">''</span>,
+    ...
+    (<span class="pystring">r'^status/cache/$'</span>, <span class="pystring">'mysite.memcached_status.view'</span>),
+)</pre><p>Next, add the following view to your
+application, in the location you specified in
+the URL file:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pycomment"># memcached_status.py</span>
+
+<span class="pykeyword">from</span> django <span class="pykeyword">import</span> http
+<span class="pykeyword">from</span> django.shortcuts <span class="pykeyword">import</span> render_to_response
+<span class="pykeyword">from</span> django.conf <span class="pykeyword">import</span> settings
+
+<span class="pykeyword">import</span> datetime, re
+
+<span class="pykeyword">def</span> <span class="pyfunction">view</span>(request):
+
+    <span class="pykeyword">try</span>:
+        <span class="pykeyword">import</span> memcache
+    <span class="pykeyword">except</span> ImportError:
+        <span class="pykeyword">raise</span> http.Http404
+
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> (request.user.is_authenticated() <span class="pykeyword">and</span>
+            request.user.is_staff):
+        <span class="pykeyword">raise</span> http.Http404
+
+    <span class="pycomment"># get first memcached URI</span>
+    m = re.match(
+        <span class="pystring">"memcached://([.\w]+:\d+)"</span>, settings.CACHE_BACKEND
+    )
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> m:
+        <span class="pykeyword">raise</span> http.Http404
+
+    host = memcache._Host(m.group(1))
+    host.connect()
+    host.send_cmd(<span class="pystring">"stats"</span>)
+
+    <span class="pykeyword">class</span> <span class="pyclass">Stats</span>:
+        <span class="pykeyword">pass</span>
+
+    stats = Stats()
+
+    <span class="pykeyword">while</span> 1:
+        line = host.readline().split(None, 2)
+        <span class="pykeyword">if</span> line[0] == <span class="pystring">"END"</span>:
+            <span class="pykeyword">break</span>
+        stat, key, value = line
+        <span class="pykeyword">try</span>:
+            <span class="pycomment"># convert to native type, if possible</span>
+            value = int(value)
+            <span class="pykeyword">if</span> key == <span class="pystring">"uptime"</span>:
+                value = datetime.timedelta(seconds=value)
+            <span class="pykeyword">elif</span> key == <span class="pystring">"time"</span>:
+                value = datetime.datetime.fromtimestamp(value)
+        <span class="pykeyword">except</span> ValueError:
+            <span class="pykeyword">pass</span>
+        setattr(stats, key, value)
+
+    host.close_socket()
+
+    <span class="pykeyword">return</span> render_to_response(
+        <span class="pystring">'memcached_status.html'</span>, dict(
+            stats=stats,
+            hit_rate=100 * stats.get_hits / stats.cmd_get,
+            time=datetime.datetime.now(), <span class="pycomment"># server time</span>
+        ))</pre></div><div class="yui-ge"><div class="yui-u first"><p>This, somewhat rough, view collects all statistics and other status variables from the <strong>memcached</strong> server in a <strong>stats</strong> object that&#8217;s passed on to the template, and also calculates the hit rate.</p><p>Finally, to view the statistics, you need a suitable template.  Here&#8217;s a simple one that displays some of the variables, plus the hit rate:</p><pre class="xml">
+&lt;<span class="pyfunction">!--</span> templates/memcached_status.html --&gt;
+
+&lt;<span class="pyfunction">h1</span>&gt;cache status&lt;/<span class="pyfunction">h1</span>&gt;
+
+&lt;<span class="pyfunction">ul</span>&gt;
+&lt;<span class="pyfunction">li</span>&gt;memory usage:
+    {{ stats.bytes|filesizeformat }}
+&lt;<span class="pyfunction">li</span>&gt;keys in cache:
+    {{ stats.curr_items }} of {{ stats.total_items }}
+&lt;<span class="pyfunction">li</span>&gt;cache hits:
+    {{ stats.get_hits }} of {{ stats.cmd_get }}:
+    &lt;<span class="pyfunction">b</span>&gt;{{ hit_rate }}%&lt;/<span class="pyfunction">b</span>&gt;
+&lt;<span class="pyfunction">li</span>&gt;cache traffic:
+    {{ stats.bytes_read|filesizeformat }} in,
+    {{ stats.bytes_written|filesizeformat }} out
+&lt;<span class="pyfunction">li</span>&gt;uptime: {{ stats.uptime }}
+&lt;/<span class="pyfunction">ul</span>&gt;</pre><p>With this in place, restart the server and point your browser to the URL you specified in the URL configuration file (e.g. <strong>/status/cache</strong>), and provided that you&#8217;re logged in as a &#8220;staff member&#8221;, you&#8217;ll get something like:</p><blockquote><p><strong>cache status</strong></p><ul><li>memory usage: 11.3 MB</li><li>keys in cache: 2867 of 14624</li><li>cache hits: 24025 of 38102: <strong>63%</strong></li><li>cache traffic: 62.0 MB in, 129.4 MB out</li><li>uptime: 2:18:54 </li></ul></blockquote><p>The memory usage and hit rate figures are probably what&#8217;s most interesting here.</p><p>When you use small caches, <strong>memcached</strong> has a tendency to grab noticably more memory than it&#8217;s allowed to use, and usage grows somewhat over time even after the cache has filled up; I&#8217;m not sure if this is a bug, or if it&#8217;s just including I/O buffers and other extra structures in the reported memory usage, but not in the cache size checks.</p><p>The hit rate depends a lot on your site&#8217;s characteristics, user access patterns, and cache timeouts.  The higher the value, the less work your Django server has to do.  But there&#8217;s a trade-off here, of course: you can reach nearly 100% hit rate by making the cache large enough and setting CACHE_MIDDLEWARE_SECONDS
+to something really big, but that&#8217;ll make your server extremely static &#8212; even if you change things, old versions will keep being served from your cache, and will be stuck in caches around the net, for a very long time.</p><p>I recommend values from a few minutes for commonly updated sites to one hour for more static sites.  For highly dynamic sites, with lots of user interaction, you should probably not use the cache middleware at all; let your views use the cache to store individual page fragments and database result sets instead.</p><h3 id="more-statistics">More Statistics&#160;<a class="nav" href="#more-statistics" title="bookmark!">#</a></h3><p>The full set of variables is described in the <strong>memcached</strong> protocol specification:</p><blockquote><p><s><a href="http://code.sixapart.com/svn/memcached/trunk/server/doc/protocol.txt">http://code.sixapart.com/svn/memcached/trunk/server/doc/protocol.txt</a></s> (dead link)</p></blockquote><p>For your convenience, here&#8217;s a template that displays all documented variables, without any formatting:</p><pre class="xml">
+&lt;<span class="pyfunction">pre</span>&gt;
+pid                   {{ stats.pid }}
+uptime                {{ stats.uptime }}
+time                  {{ stats.time }}
+version               {{ stats.version }}
+rusage_user           {{ stats.rusage_user }}
+rusage_system         {{ stats.rusage_system }}
+curr_items            {{ stats.curr_items }}
+total_items           {{ stats.total_items }}
+bytes                 {{ stats.bytes }}
+curr_connections      {{ stats.curr_connections }}
+total_connections     {{ stats.total_connections }}
+connection_structures {{ stats.connection_structures }}
+cmd_get               {{ stats.cmd_get }}
+cmd_set               {{ stats.cmd_set }}
+get_hits              {{ stats.get_hits }}
+get_misses            {{ stats.get_misses }}
+evictions             {{ stats.evictions }}
+bytes_read            {{ stats.bytes_read }}
+bytes_written         {{ stats.bytes_written }}
+limit_maxbytes        {{ stats.limit_maxbytes }}
+&lt;/<span class="pyfunction">pre</span>&gt;</pre><p>You can include this temporarily when tweaking the status template, or, if you like raw data, just use it instead of the nicely formatted version.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><ul><li><a href="#more-statistics">More Statistics</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

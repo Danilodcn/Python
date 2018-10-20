@@ -1,0 +1,1094 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html> 
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Introdução à Computação - Aula Dirigida de Introdução ao Code::Blocks</title>
+<meta name="keywords" content="aula, dirigida, code::blocks, codeblocks, introdução, computação" />
+<meta name="description" content="aula dirigida de uso ao code::blocks" />
+<link rel="stylesheet"  href="estilo.css"  type="text/css"/>
+</head>
+
+
+<p class="dcc">
+<small><b><a href="http://www.ime.usp.br/mac/">Departamento de Ci&ecirc;ncia da
+Computa&ccedil;&atilde;o</a> - <a href="http://www.ime.usp.br/">IME</a> - <a href="http://www.usp.br/">USP</a></b></small><br>
+
+
+
+<center>
+<h1><i>Aula Dirigida de Introdução ao Code::Blocks</i></h1>
+</center>
+
+<h1>Introdução</h1>
+
+O que vem a ser um programa em <tt>C</tt>?  Voc&ecirc; talvez j&aacute; tenha
+ouvido falar que um compilador &eacute; um programa ou ferramenta que
+transforma um programa fonte 
+escrito em uma linguagem de programa&ccedil;&atilde;o de alto n&iacute;vel, como
+<tt>C</tt>, para uma linguagem que o computador &eacute; capaz de "entender",
+o chamado programa execut&aacute;vel. Assim, um compilador &eacute; essencialmente um
+tradutor e este processo de tradu&ccedil;&atilde;o &eacute; chamado de
+compila&ccedil;&atilde;o. 
+
+<p>
+Para facilitar o desenvolvimento e compila&ccedil;&atilde;o de um programa em
+<tt>C</tt>, o <tt>Code::Blocks</tt> oferece um ambiente que integra um editor de textos 
+a um compilador para linguagem <tt>C</tt>. O compilador usado pelo <tt>Code::Blocks</tt>
+&eacute; o famoso (Uau!) <tt>gcc</tt> (<b>Gnu C Compiler</b>).
+
+<p>
+No Windows h&aacute; basicamente dois tipos de programas de usu&aacute;rio: 
+<ul>
+  <li> aplica&ccedil;&otilde;es para o console (<i>Console Applications</i>), que s&atilde;o
+  executadas numa janela de texto (tamb&eacute;m conhecida como <tt>Prompt do
+    MS-DOS</tt>); e
+  <li> aplica&ccedil;&otilde;es Gr&aacute;ficas (<i>GUI Applications</i>), que usam janelas, menus
+  e outros elementos visuais como parte de sua interface com o programador.
+</ul>
+Todos os programas em <tt>C</tt> que faremos ser&atilde;o aplica&ccedil;&otilde;es para o console. 
+
+<p>
+O <tt>Code::Blocks</tt>  &eacute; ``Free
+Software'' (sob <i>GNU General Public License</i>). Isto  significa,
+entre outras coisas, que ele pode ser distribu&iacute;do e copiado &agrave; vontade.
+
+<p>
+Voc&ecirc; pode instalar o  <tt>Code::Blocks</tt> segundo as instruções que estão
+<a HREF="./index.html">aqui</a>.
+<p>
+
+<hr>
+
+<!------------------------------------------------------------------------------------------------------>
+
+<h1>Objetivo</h1>
+
+O objetivo desta aula dirigida &eacute; ajud&aacute;-lo no seu primeiro contato com
+<tt>Code::Blocks</tt>.  Esta aula abrange uma parte muito pequena
+dos recursos dispon&iacute;veis nos computadores.  Cabe a voc&ecirc; consultar os
+manuais com informa&ccedil;&otilde;es mais detalhadas para ampliar seus
+conhecimentos.  Ao final dessa aula, voc&ecirc; dever&aacute; ser capaz de:
+<ul>
+<li> escrever programas através do <tt>Code::Blocks</tt>;
+<li> compilar e executar programas com o <tt>Code::Blocks</tt>; e
+<li> salvar e reutilizar arquivos na sala Pró-Aluno.
+</ul>
+
+<p>
+A aula consta de duas partes. A primeira lhe ensina como criar um arquivo
+contendo um programa, compilá-lo e executá-lo, usando um programa bem simples
+do tipo ``Hello World'' (como se diz na gíria). Na segunda parte você
+criará um programa um pouco mais complexo, para conhecer outros recursos do
+<tt>Code::Blocks</tt>.
+
+
+<p>
+<hr>
+
+<!------------------------------------------------------------------------------------------------------>
+
+<h1>Requisitos</h1>
+
+Se você instalou o <tt>Code::Blocks</tt> em seu computador pessoal, você pode fazer
+essa aula prática em casa. Neste caso, somente os nomes das pastas
+poderão ser diferentes.
+
+<p>
+Para utilizar os computadores da sala Pró-Aluno você precisa de
+um cadastro que consiste em um nome de usuário (<i>user name</i>) e   
+uma senha (<i>password</i>). A responsabilidade de fornecer esse nome de usuário e senha é de 
+sua unidade (IAG, IF, IME, IO, POLI).
+Essa aula dirigida supõe que você possui uma conta e uma senha.
+
+<p>
+Caso você não esteja ainda cadastrado para usar os computadores, pe&ccedil;a
+ao monitor respons&aacute;vel pela sala para abrir uma sess&atilde;o para voc&ecirc;.
+
+<p>
+Não é permitido que sejam deixados (ou, como se diz por ai,
+salvos) arquivos nos computadores da sala Pró-Aluno. Todos os arquivos
+que você usa durante uma sessão são apagados quando outro aluno abre
+uma outra sessão no mesmo computador.
+Desta forma, quando você for utilizar a sala Pró-Aluno, traga um
+<b>chaveiro</b> (<i>pen drive</i>) para salvar os seus programas.
+
+<p>
+<hr>
+
+<!------------------------------------------------------------------------------------------------------>
+
+<h1>Janela inicial do Code::Blocks</h1>
+
+No Windows inicie o <tt>Code::Blocks</tt> clicando no &iacute;cone do mesmo que aparece na &aacute;rea de trabalho, ou
+em 
+<pre class="saida">
+<tt>Iniciar &mdash;&mdash;&mdash;> Todos os Programas &mdash;&mdash;&mdash;> CodeBlocks &mdash;&mdash;&mdash;> CodeBlocks</tt>
+</pre>
+Isto &eacute;, usando o mouse, posicione o cursor do Windows
+sobre o bot&atilde;o <tt>Iniciar</tt>, localizado no canto inferior esquerdo da
+janela, e aperte a tecla esquerda do mouse.
+Aparecer&aacute;, logo acima do bot&atilde;o, um menu de op&ccedil;&otilde;es.
+Selecione a op&ccedil;&atilde;o <tt>Programas</tt>.
+Novamente aparecer&aacute; um outro menu de op&ccedil;&otilde;es.
+Selecione a op&ccedil;&atilde;o <tt>CodeBlocks</tt> e, novamente, a op&ccedil;&atilde;o
+<tt>CodeBlocks</tt>, a qual voc&ecirc; deve clicar com o bot&atilde;o esquerdo do mouse.
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="chamada"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Chamada do <TT>Code::Blocks</TT> .
+</CAPTION>
+<TR>
+  <TD>
+    <IMG ALIGN="BOTTOM" BORDER="0"  SRC="./imgs/aula-codeblocks-inicio.png"  ALT="chamada">
+  </TD>
+</TR>
+</TABLE>
+</DIV>
+
+
+<p>
+Com isso, o ambiente de programa&ccedil;&atilde;o do <tt>Code::Blocks</tt> &eacute; iniciado. Isso far&aacute;
+com que apare&ccedil;a no monitor uma janela semelhante &agrave; mostrada a seguir.
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="janelainicial"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Janela inicial do ambiente de programa&ccedil;&atilde;o do <TT>Code::Blocks</TT>.
+</CAPTION>
+  <!-- WIDTH="769" HEIGHT="552" -->
+<TR>
+  <TD>
+    <center>
+      <IMG   ALIGN="BOTTOM" BORDER="0"  SRC="./imgs/aula-codeblocks-janela-inicial.png" WIDTH = "70%" ALT="Image janela_inicial">
+    </center>
+  </TD>
+</TR>
+</TABLE>
+</DIV>
+
+<p>
+<hr>
+
+
+<A NAME="helloworld"></a>
+<h1>Hello World</h1>
+
+
+Depois de iniciar o <tt>Code::Blocks</tt>, na <a href="#janelainicial">janela inicial do <tt>Code::Blocks</tt></a>
+clique em
+<pre class="saida">
+<tt>File &mdash;&mdash;&mdash;> New &mdash;&mdash;&mdash;> File...</tt>.
+</pre>
+conforme ilustrado abaixo.
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="open"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Abertura de arquivo.
+</CAPTION>
+<TR>
+  <TD>
+    <center>
+    <IMG  SRC="./imgs/aula-codeblocks-janela-file.png"  WIDTH = "70%" ALT="Open file">
+    </center>
+  </TD>
+</TR>
+</TABLE>
+</DIV>
+
+<p>
+Na pr&oacute;xima janela, escolha <tt>C/C++ source</tt> e clique em <tt>Go</tt>.
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="csource"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Abertura de arquivo.
+</CAPTION>
+<TR>
+  <TD>
+    <center>
+    <IMG  SRC="./imgs/aula-codeblocks-template.png" ALT="C source">
+    </center>
+  </TD>
+</TR>
+</TABLE>
+</DIV>
+
+<p>
+Na pr&oacute;xima janela, faça um tique em "<tt>Skip this page next time</tt>" e clique em <tt>Next</tt>.
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="csource"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Wizard.
+</CAPTION>
+<TR>
+  <TD>
+    <center>
+    <IMG  SRC="./imgs/aula-codeblocks-wizard.png" ALT="wizard">
+    </center>
+  </TD>
+</TR>
+</TABLE>
+</DIV>
+
+
+<p>
+Na janela a seguir, certifique-se que linguagem
+selecionada &eacute; a <tt>C</tt> e depois  Clique em <tt>Next</tt>.
+
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="escolhaC"></A>
+  <TABLE>
+    <CAPTION ALIGN="BOTTOM">
+    Escolha C.
+    </CAPTION>
+    <TR>
+      <TD>
+	<IMG SRC="./imgs/aula-codeblocks-language.png"  ALT="Escolha C">
+      </TD>
+    </TR>
+  </TABLE>
+</DIV>
+
+<p>
+Na janela a seguir, digite um nome para o arquivo de programa a ser
+digitado. Para tanto, clique no quadrado com <tt>...</tt> que aparece
+ao lado da caixa com t&iacute;tulo <tt>Filename with full path:</tt> e digite
+um nome de arquivo, por exemplo <tt>fantastico<font color="red"><b>.c</b></font></tt>.
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="escolhaC"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Digite nome de arquivo.
+</CAPTION>
+  <TR>
+    <TD>
+      <center>
+      <IMG  SRC="./imgs/aula-codeblocks-filename-tudo.png"  WIDTH="70%" ALT="nome de arquivo">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+<p>
+Clique agora em <tt>Salve</tt> e depois em <tt>Finish</tt>.
+Na janela que foi criada voc&ecirc; vai digitar, compilar e executar seu primeiro programa em <tt>C</tt>.
+
+<p>
+Digite o programa mostrado abaixo.
+Dependendo da configura&ccedil;&atilde;o do computador que voc&ecirc; estiver utilizando, pode ser
+necessário pressionar a barra de espaço após digitar o caractere <tt>&quot;</tt> a
+fim de que ele apare&ccedil;a na janela. 
+Voc&ecirc; vai precisar utilizar este caractere para
+digitar os seus programas.
+<DIV ALIGN="CENTER"><A NAME="progrmahello"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Programa <TT>fantastico.c</TT>.
+</CAPTION>
+  <TR>
+    <TD>
+      <center>
+      <IMG ALIGN="BOTTOM" BORDER="0"  SRC="imgs/aula-codeblocks-fantastico.png" WIDTH="70%" ALT="Image fantastico">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+<p>
+Certifique-se de que o programa que voc&ecirc; acabou de digitar
+&eacute; igual ao mostrado na figura. 
+
+<p>
+Para compilar o seu programa voc&ecirc; deve clicar em 
+<pre class="saida">
+<tt>Build &mdash;&mdash;&mdash;> Compile current file</tt>
+</pre>
+<DIV ALIGN="CENTER"><A NAME="progrmahello"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Compilar <TT>fantastico.c</TT>.
+  </CAPTION>
+  <TR>
+    <TD>
+      <center>  
+      <IMG ALIGN="BOTTOM" BORDER="0"  SRC="imgs/aula-codeblocks-fantastico-compile.png" WIDTH="70%" ALT="Compilar fantastico">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+<p>
+Se tudo der certo, na janela de <b>log</b> abaixo do programa, haver&aacute;
+a indica&ccedil;&atilde;o de que o programa foi compilado com sucesso: "<tt>0 errors, 0 warnings</tt>"
+<DIV ALIGN="CENTER"><A NAME="progrmahello"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+  <TT>fantastico</TT> compilado.
+</CAPTION>
+<TR>
+  <TD>
+    <center>
+      <IMG ALIGN="BOTTOM" BORDER="0"  SRC="imgs/aula-codeblocks-fantastico-compile-resultado.png" WIDTH="70%" ALT="Compilado fantastico">
+    </center>
+  </TD>
+</TR>
+</TABLE>
+</div>
+
+<p>
+Bem, com o programa <tt>fantastico.c</tt> compilado sem erros, a pasta
+ onde foi salvo o arquivo <tt>fantastico.c</tt> cont&eacute;m agora o programa execut&aacute;vel
+ <tt>fantastico.exe</tt>.  
+Para executar o programa clique no bot&atilde;o
+<pre class="saida">
+<tt>Build &mdash;&mdash;&mdash;> Run</tt>
+</pre>
+da janela principal do <tt>Code::Blocks</tt>.
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="fig:outputHello"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Sa&iacute;da do programa <TT>fantastico.exe</TT>.
+</CAPTION>
+  <TR>
+    <TD>
+      <center>
+       <IMG ALIGN="BOTTOM" BORDER="0"  SRC="imgs/aula-codeblocks-fantastico-run.png" WIDTH="70%" ALT="Image fantastico execucao">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+<p>
+Dever&aacute; surgir uma nova janela, de DOS, mostrando a execu&ccedil;&atilde;o de
+seu programa, como pode ser visto na figura abaixo.
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="fig:outputHello"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Sa&iacute;da do programa <TT>fantastico.exe</TT>.
+</CAPTION>
+  <TR>
+    <TD>
+      <center>
+       <IMG ALIGN="BOTTOM" BORDER="0"  SRC="imgs/aula-codeblocks-fantastico-execucao.png" WIDTH="70%" ALT="Image fantastico execucao">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+<p>
+Note que na janela do <tt>DOS</tt> aparece a mensagem
+<pre class="saida">
+<tt>Press any key to continue . . .</tt>
+</pre>
+Traduzindo, "<tt>Pressione qualquer tecla para continuar . . .</tt>".
+<p>
+Depois de conferir o resultado, pressione qualquer tecla para que a janela do
+DOS desapare&ccedil;a.  Se a janela do DOS n&atilde;o desaparecer, para fech&aacute;-la clique no
+<tt>X</tt>, no canto superior direito da mesma.
+
+<p>
+Agora que voc&ecirc; sabe criar um programa, compil&aacute;-lo,
+salv&aacute;-lo e execut&aacute;-lo, vamos tentar novamente com um programa um
+pouco mais complexo.
+
+<p><hr>
+
+<!------------------------------------------------------------------------------------------------------>
+
+<h1>Um Programa de Verdade</h1>
+
+Nesse exemplo, vamos observar alguns outros recursos do <tt>Code::Blocks</tt>.
+Para isso, crie um novo arquivo por exemplo, chamado <tt>primprog.c</tt>,
+no diret&oacute;rio que voc&ecirc; achar mais apropriado (vamos deixar isso
+ao seu encargo). Clique em
+<pre class="saida">
+<tt>File &mdash;&mdash;&mdash;> New &mdash;&mdash;&mdash;> File...</tt>
+</pre>
+e prossiga como no programa anterior, o <tt>fantastico.c</tt>, criando
+agora um arquivo de nome <tt>primprog.c</tt>.
+
+<p>
+Ent&atilde;o, digite o seguinte programa, <b>exatamente</b> como mostrado a seguir.
+
+<pre class="saida">
+#include &lt;stdio.h>
+
+int main()
+{
+  int n, par, impar, num;
+  
+  printf("Digite o tamanho da sequencia: "); /* mostra mensagem na tela  */
+  scanf("%d", n);                           /* le informacao do teclado */  
+
+  par   = 0;
+  impar = 0;
+  cont  = 0;
+  while (cont < n) 
+    {
+      print("Digite o %do. numero: ",cont+1);
+      scanf("%d", &num);
+      if (num%2 = 0) par = par + 1;
+      else impar = impar + 1;
+      cont = cont + 1;
+    }
+  
+  printf("A sequencia e' formada por %d numeros pares e %d impares.\n\n",
+         par,impar)
+
+  return 0;
+}
+</pre>
+
+Procure salvar o programa com frequência,
+assim voc&ecirc; se protege contra poss&iacute;veis acidentes. 
+Se voc&ecirc; digitou o programa como ele aparece acima, depois de salv&aacute;-lo e
+compil&aacute;-lo, a situa&ccedil;&atilde;o ser&aacute;, essencialmente, como 
+a mostrada na figura abaixo.
+<p>
+<DIV ALIGN="CENTER"><A NAME="primprogcomp1"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Resultado da compila&ccedil;&atilde;o do programa <TT>primprog.c</TT>.
+  </CAPTION>
+  <TR>
+    <TD>
+      <center>
+      <IMG  SRC="imgs/aula-codeblocks-primprog-compilacao1.png"  WIDTH="70%" ALT="Image primprog coompila">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+<p>
+O compilador que &eacute; usado pelo <tt>Code::Blocks</tt>, ou seja, o <tt>gcc</tt>, 
+&eacute; capaz de identificar muitos erros de sintaxe nos programas.
+Preste aten&ccedil;&atilde;o nas mensagens que aparecem na base da janela do <tt>Code::Blocks</tt>. 
+As linhas do seu programa onde foram encontrados erros est&atilde;o na coluna 
+do canto inferior esquerdo da janela do <tt>Code::Blocks</tt>.
+Nesse exemplo, o <tt>Code::Blocks</tt>
+est&aacute; indicando que ocorreram erros (<tt>error</tt>) e avisos (<tt>warning</tt>).
+Vamos tratar desses erros e avisos aos poucos.
+</p>
+<p>
+No aviso referente à linha <i>8</i>, a mensagem diz
+<pre class="saida">
+<tt>warning: format '%d' expects argument of type 'int *', but argument 2 has type 'int' (-Wformat)</tt>
+</pre>
+Essa mensagem indica que há algo de errado na linha <i>8</i>. Olhando essa linha com mais atenção vemos que
+no <tt>scanf</tt> está faltando "<tt>&</tt>" antes da variável <tt>n</tt>. Para corrigir isso,
+altere a linha <i>8</i> para:
+<pre class="saida">
+    scanf("%d", <font color="red"><b>&</b></font>n);                           /* le informacao do teclado */  
+</pre>
+Já a mensagem de erro referente &agrave; linha <i>12</i> diz 
+<pre class="saida">
+<tt>error `cont' undeclared (first use in this function)</tt>.
+</pre>
+Na figura, o editor do <tt>Code::Blocks</tt> mostra a linha onde o 
+erro foi detectado pelo <tt>gcc</tt>.
+A mensagem de erro indica que na linha <i>12</i> o identificador
+<tt>cont</tt> foi usado sem ter sido declarado. Para corrigir isso,
+altere a linha <i>5</i> para: 
+<pre class="saida">
+    int n, par, impar, num, <font color="red"><b>cont</b></font>;
+</pre>
+
+<p>
+Agora, compile novamente o programa para ver se as alterações corrigiram os problemas.
+O resultado dessa segunda compilação pode ser visto a seguir.
+<p>
+<DIV ALIGN="CENTER"><A NAME="primprogcomp2"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Resultado da segunda compila&ccedil;&atilde;o do programa <TT>primprog.c</TT>.
+  </CAPTION>
+  <TR>
+    <TD>
+      <center>
+      <IMG  SRC="imgs/aula-codeblocks-primprog-compilacao2.png"  WIDTH="70%" ALT="Image primprog coompila">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+
+
+<p>
+Foram corrigidos um problema com um aviso e outro com um erro, mas o programa continua com problemas.
+O aviso referente a linha <i>15</i> diz
+<pre class="saida">
+<tt>warning: implicit declaration of function  `print' (-Wimplicit-function-declaration)</tt>
+</pre>
+Essa mensagem mostra que foi escrito "<tt>print</tt>" onde deveria estar escrito "<tt>printf</tt>".
+Para corrigir esse problema, altera a linha <i>15</i> para:
+</p>
+<pre class="saida">
+  print<font color="red"><b>f</b></font>("Digite o %do. numero: ", cont+1);
+</pre>
+Já o erro referente a linha <i>17</i>, onde o Code::Blocks mostra um retângulo vermelho no início da linha diz:
+<pre class="saida">
+  <tt>error: lvalue required as left operand of assigment</tt>
+</pre>
+Essa mensagem é um pouco complicada, mas nela aparece a palavra "<i>assigment</i>" (atribuição).
+Isto é devido ao fato de haver um "<tt>=</tt>", que é usado para atribuição, onde  
+deveria haver um "<tt>==</tt>" que representa uma comparação. Altere a linha <i>17</i> para:
+<pre class="saida">
+  if (num%2 =<font color="red"><b>=</b></font> 0) par = par + 1;
+</pre>
+
+<p>
+Depois dessas duas correções 
+compile o programa mais uma vez, seguindo novamente 
+<pre class="saida">
+<tt>Build &mdash;&mdash;&mdash;> Compile current file</tt>
+</pre>
+O resultado da terceira compilação é mostrado a seguir.
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="primprogcomp3"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Resultado da terceira compila&ccedil;&atilde;o do programa <TT>primprog.c</TT>.
+  </CAPTION>
+  <TR>
+    <TD>
+      <center>
+      <IMG  SRC="imgs/aula-codeblocks-primprog-compilacao3.png"  WIDTH="70%" ALT="Image primprog coompila">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+<p>
+
+A terceira compilação mostra que ainda temos 1 erro e 1 aviso.
+O aviso da linha <i>26</i> é na verdade uma consequência do erro que o <tt>gcc</tt> encontrou
+na linha <i>25</i>:
+<pre class="saida">
+  <tt>error: expected ';' before 'return'</tt>
+</pre> 
+Esse erro é mais fácil de ser compreendido. Para corrigi-lo acrescente um simples ';' no final da linha <i>23</i>
+<pre class="saida">
+         par,impar)<font color="red"><b>;</b></font>
+</pre>
+
+<p>
+Compilando o programa mais uma vez, obtemos o resultado mostrado a seguir.
+<pre class="saida">
+<tt>Build &mdash;&mdash;&mdash;> Compile current file</tt>
+</pre>
+O novo resultado da compila&ccedil;&atilde;o, que pode ser visto na figura abaixo,
+mostra que n&atilde;o foram encontrados erros ou avisos de sintaxe no programa.
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="primprogcomp4"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Resultado da quarta compilação do programa <TT>primprog.c</TT> ap&oacute;s mais corre&ccedil;&otilde;es.
+</CAPTION>
+<TR>
+  <TD>
+    <center>
+    <IMG  SRC="imgs/aula-codeblocks-primprog-compilacao4.png"  WIDTH="70%" ALT="Image primprog coompila">
+    </center>
+  </TD>
+</TR>
+</TABLE>
+</DIV>
+
+<p>
+Para executar o programa clique no bot&atilde;o
+<pre class="saida">
+<tt>Build &mdash;&mdash;&mdash;> Run</tt>
+</pre>
+Uma janela do DOS aparecer&aacute;, com a mensagem "<tt>Digite o
+  tamanho da sequencia:</tt>".  Digite algum n&uacute;mero inteiro positivo para indicar o
+n&uacute;mero de elementos da seq&uuml;&ecirc;ncia, seguido por <tt>Enter</tt>.  Esse n&uacute;mero determinar&aacute;
+a quantidade de n&uacute;meros que dever&atilde;o ser digitados a seguir.  Depois de voc&ecirc;
+digitar cada n&uacute;mero da seq&uuml;&ecirc;ncia seguido de <tt>Enter</tt>, o programa mostrar&aacute;
+quantos n&uacute;meros &iacute;mpares e quantos n&uacute;meros pares voc&ecirc; digitou.
+
+<p>
+Ap&oacute;s seu programa ser executado, aparecer&aacute; a mensagem
+<tt>"Pressione qualquer tecla para continuar..."</tt>.
+Um exemplo de resultado da
+execu&ccedil;&atilde;o do programa pode ser visto na figura abaixo.
+Depois de conferir o resultado digite qualquer tecla.
+<DIV ALIGN="CENTER"><A NAME="primprogexe"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Resultado da execu&ccedil;&atilde;o do  programa <TT>primprog.c</TT>.
+</CAPTION>
+  <TR>
+    <TD>
+      <center>
+      <IMG  SRC="imgs/aula-codeblocks-primprog-run.png"  WIDTH="70%" ALT="Image execucao primprog">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+<p><hr>
+
+<!------------------------------------------------------------------------------------------------------>
+
+<h1>Salvando e reutilizando os seus programas</h1>
+
+A aula est&aacute; quase no fim. Clique
+<pre class="saida">
+<tt>File &mdash;&mdash;&mdash;> Quit</tt>
+</pre>
+para encerrar o <tt>Code::Blocks</tt> .
+
+<p>
+Todos os seus arquivos ser&atilde;o apagados assim que o computador for
+desligado, devido &agrave;s peculiaridades da rede da sala Pr&oacute;-Aluno.
+Portanto, voc&ecirc; precisa gravar os seus programas em um <i>pen drive</i>
+para reutiliza&ccedil;&atilde;o futura. No caso, os arquivos <tt>fantastico.c</tt>
+e <tt>primprog.c</tt>  poderiam ser gravados em um <tt>pen drive</tt>.
+
+<p>
+Se voc&ecirc; n&atilde;o sabe como gravar os arquivos no <i>pen drive</i>, pe&ccedil;a
+ajuda do monitor da sala.
+
+<p>
+Com seus programas salvos no <tt>pen drive</tt>,
+voc&ecirc; pode querer reutiliz&aacute;-los numa ocasi&atilde;o futura.
+
+<p>
+Ap&oacute;s copiar o seu programa do <i>pen drive</i> para o computador,
+inicie o <tt>Code::Blocks</tt> e carregue o seu programa
+<tt>primprog.c</tt> clicando em
+<pre class="saida">
+<tt>File &mdash;&mdash;&mdash;> Open...</tt>
+</pre>
+e indicando, na janela <tt>Open file</tt>, que a pasta a ser examinada &eacute; a
+<tt>temp</tt> e que o nome do arquivo a ser carregado &eacute; o <tt>primprog.c</tt>.
+Pronto, o seu programa <tt>primprog.c</tt>  ser&aacute; carregado pelo <tt>Code::Blocks</tt> e
+estar&aacute; pronto para ser reutilizado.
+
+<p><hr>
+
+<!------------------------------------------------------------------------------------------------------>
+
+<h1>Antes de voc&ecirc; ir embora...</h1>
+
+<p>
+O que está escrito a seguir só faz sentido se você estiver programando em uma das salas pró-aluno ou em algum
+laboratório.
+</p>
+
+<p>
+Agora voc&ecirc; j&aacute; sabe criar um arquivo, edit&aacute;-lo, salv&aacute;-lo e
+recuper&aacute;-lo. 
+E ainda, se seu
+arquivo cont&eacute;m um programa em C, sabe como mandar compil&aacute;-lo e execut&aacute;-lo.
+</p>
+
+<p>
+Finalmente, n&atilde;o se esque&ccedil;a agora de se desconectar da rede.
+Primeiro, saia do <tt>Code::Blocks</tt> clicando em 
+<pre class="saida">
+<tt>File &mdash;&mdash;&mdash;> Quit</tt>
+</pre>
+Agora, clique com o  mouse em
+<pre class="saida">
+<tt>Iniciar &mdash;&mdash;&mdash;>  Desligar ...</tt>.
+</pre>
+Confirme que voc&ecirc; quer realmente se desconectar, clicando
+em <tt>OK</tt>.
+
+<p><hr>
+
+<!------------------------------------------------------------------------------------------------------>
+
+<!------------------------------------------------------------------------------------------------------>
+
+<h1>Projetos</h1>
+
+<p>
+É comum um programa ser divido em vários arquivos fontes (.c) e de cabeçalhos (headers .h).
+Nesse caso, esses arquivos juntos formam um
+<font color="red"><b>projeto</b></font>. A seguir descrevemos como cria um projeto no Code::Blocks. 
+</p>
+
+<p>
+Na janela inicial do <tt>Code::Blocks</tt> clique em
+<pre class="saida">
+<tt>File &mdash;&mdash;&mdash;> New &mdash;&mdash;&mdash;> Project...</tt>
+</pre>
+Como pode ser visto na imagem a seguir, através da página inicial do
+<tt>Code::Blocks</tt>é possível criar um  novo projeto apenas clicando
+em <tt>Create a new project</tt>, Abrir um projeto já existente
+clicando em <tt>Open a existing project</tt> e clicar par abrir um
+project que foi criado recentemente que está na lista de <tt>Recent
+projects</tt>. 
+</p>
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="projeto"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Criação de um projeto.
+  </CAPTION>
+  <TR>
+    <TD>
+      <center>
+      <IMG  SRC="imgs/aula-codeblocks-projeto.png"  WIDTH="70%" ALT="Image projeto">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+<p>
+Em seguida, deverá ser selecionada a categoria do projeto.
+Na janela que se abrirá selecione <tt>Empty Project</tt>. Nesse caso não utilizaremos um arquivo <tt>main.c</tt> com algum trecho de código já preparado pelo
+<i>wizard</i>. Para prosseguir clique no botão <tt>Go</tt>.
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="projeto"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+<TT>Seleção da categoria do projeto</TT>.
+  </CAPTION>
+  <TR>
+    <TD>
+      <center>
+      <IMG  SRC="imgs/aula-codeblocks-projeto-categoria.png"
+      WIDTH="70%" ALT="Image projeto categoria">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+<p>
+Na próxima janela que se abrirá clique no botão <tt>Next</tt>.
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="projeto"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Wizard para aplicação de console.
+  </CAPTION>
+  <TR>
+    <TD>
+      <center>
+      <IMG  SRC="imgs/aula-codeblocks-projeto-console.png"
+      WIDTH="70%" ALT="Image projeto console">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+<p>
+Em seguida, selecione a linguagem.
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="projeto"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Escolha da linguagem.
+  </CAPTION>
+  <TR>
+    <TD>
+      <center>
+      <IMG  SRC="imgs/aula-codeblocks-projeto-language.png"
+      WIDTH="78%" ALT="Image projeto language">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+<p>
+Agora, devemos selecionar o título do projeto, e a pasta/diretória em
+que ele estará. Na figura abaixo título do projeto é <tt>lightout</tt>
+e ele ficará no diretório <tt>/home/hofstadter/ep1</tt>, o botão
+"<tt>...</tt>" pode ajudar na seleção da pasta/diretório. Nesse
+diretório será criada pelo Code::Blocks a pasta/diretório
+<tt>lightout</tt>.
+
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="projeto"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Escolha do título e diretório do projeto.
+  </CAPTION>
+  <TR>
+    <TD>
+      <center>
+      <IMG  SRC="imgs/aula-codeblocks-projeto-titulo.png"
+      WIDTH="70%" ALT="Image projeto titulo">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+<p>
+A próxima janela apresenta o compilador e onde serão armazenados
+alguns arquivos. Clique no botão <tt>Finish</tt>.
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="projeto"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Escolha do compilador.
+  </CAPTION>
+  <TR>
+    <TD>
+      <center>
+      <IMG  SRC="imgs/aula-codeblocks-projeto-compiler.png"
+      WIDTH="70%" ALT="Image projeto compilador">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+<p>
+Nesse ponto temos que o projeto foi criado, mas ainda não contém
+nenhum arquivo.
+Agora arquivos devem ser criados e adicionados ao projeto.
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="projeto"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Termino da criação do projeto.
+  </CAPTION>
+  <TR>
+    <TD>
+      <center>
+      <IMG  SRC="imgs/aula-codeblocks-projeto-criado.png"
+      WIDTH="70%" ALT="Image projeto criado">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+
+<p>
+Para adicionar um arquivo ao projeto clique
+<pre class="saida">
+<tt>Project &mdash;&mdash;&mdash;> Add files...</tt>.
+</pre>
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="projeto"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Adicionando um arquivo ao projeto.
+  </CAPTION>
+  <TR>
+    <TD>
+      <center>
+      <IMG  SRC="imgs/aula-codeblocks-projeto-add.png"
+      WIDTH="70%" ALT="Image projeto add">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+<p>
+As imagens a seguir mostram a adição ao projeto dos arquivos
+<tt>main.c, main.h, animacao.c</tt> e <tt>animacao.h</tt> e que todos
+estão na pasta diretório <tt>/home/hofstader/ep1</tt>. Os arquivos
+podem ser selecionados um por vez ou podesse selecioná-los em bloco
+usando as teclas <tt>Shift +</tt> seta para cima ou para baixo.
+Depois clique no botão <tt>Open</tt>.
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="projeto"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Adicionando um arquivo ao projeto.
+  </CAPTION>
+  <TR>
+    <TD>
+      <center>
+      <IMG  SRC="imgs/aula-codeblocks-projeto-arquivos.png"
+      WIDTH="70%" ALT="Image projeto arquivos">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="projeto"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Os arquivos que serão adicionados estão marcados.
+  </CAPTION>
+  <TR>
+    <TD>
+      <center>
+      <IMG  SRC="imgs/aula-codeblocks-projeto-arquivos-add.png"
+      WIDTH="70%" ALT="Image projeto arquivos add">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+<p>
+Na janela seguinte clique no botão <tt>OK</tt>
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="projeto"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Seleção dos arquivos adicionas (continuação).
+  </CAPTION>
+  <TR>
+    <TD>
+      <center>
+      <IMG  SRC="imgs/aula-codeblocks-projeto-selecao-multipla.png"
+      WIDTH="70%" ALT="Image projeto selecao multipla de arquivos">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+<p>
+Abrindo-se as abas <tt>Sources</tt> e <tt>Headers</tt> no canto
+direito da janela do <tt>Code::Blocks</tt> é possível ver que os
+arquivos que fazem parte do projeto.
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="projeto"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Arquivos que fazem parte do projeto <tt>lightout</tt>.
+  </CAPTION>
+  <TR>
+    <TD>
+      <center>
+      <IMG  SRC="imgs/aula-codeblocks-projeto-lista-arquivos.png"
+      WIDTH="70%" ALT="Image projeto lista arquivos">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+
+<p>
+Para compilar o projeto tecle <tt>Crtl+F9</tt> ou clique em
+<pre class="saida">
+<tt>Project &mdash;&mdash;&mdash;> Build  </tt>
+</pre>
+Para executar tecle <tt>Crtl+F10</tt> ou clique em
+<pre class="saida">
+<tt>Project &mdash;&mdash;&mdash;> Run </tt>
+</pre>
+Os dois passos anteriores podem ser realizados simultaneamente
+teclando <tt>F9</tt>
+ou clicando 
+<pre class="saida">
+<tt>Project &mdash;&mdash;&mdash;> Build and run </tt>
+</pre>
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="projeto"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Compilando (<tt>build</tt>) um projeto.
+  </CAPTION>
+  <TR>
+    <TD>
+      <center>
+      <IMG  SRC="imgs/aula-codeblocks-projeto-build.png"
+      WIDTH="70%" ALT="Image projeto build">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+<p>
+Caso seja necessário incluir alguma biblioteca para o <tt>linker</tt>
+clique em
+<pre class="saida">
+<tt>Settings &mdash;&mdash;&mdash;> Compiler </tt>
+</pre>
+Depois clique em <tt>linker</tt> e adicione os trechos referentes no
+campo <tt>Other linker options:</tt>.
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="projeto"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Acrescentado bibliotecas para o <tt>Linker</tt>.
+  </CAPTION>
+  <TR>
+    <TD>
+      <center>
+      <IMG  SRC="imgs/aula-codeblocks-projeto-compiler-options.png"
+      WIDTH="70%" ALT="Image projeto linker">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+<p>
+<DIV ALIGN="CENTER"><A NAME="projeto"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM">
+Acrescentado bibliotecas para o <tt>Linker</tt>.
+  </CAPTION>
+  <TR>
+    <TD>
+      <center>
+      <IMG  SRC="imgs/aula-codeblocks-projeto-linker.png"
+      WIDTH="70%" ALT="Image projeto linker">
+      </center>
+    </TD>
+  </TR>
+</TABLE>
+</DIV>
+
+<hr>
+<!-- hhmts start -->Last modified: Tue Aug 26 15:20:22 BRT 2014 <!-- hhmts end -->
+
+
+</body>
+</html>
+
+
+
+ 
+ 

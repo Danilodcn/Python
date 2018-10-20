@@ -1,0 +1,205 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The Widget Construction&nbsp;Kit</title></head><body data-page-id="334"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The Widget Construction&nbsp;Kit</h1></div><div class="yui-ge"><div class="yui-u first"><p>
+The <b>Widget Construction Kit</b> (WCK) is an extension API that
+allows you to implement all sorts of custom widgets, in pure Python.</p><p>
+The WCK is based on PythonWare&#8217;s <b>uiToolkit</b>&#8216;s extension API, and
+is designed to let you run new widgets under other toolkits as well
+(including <b>uiToolkit</b>, of course)
+</p><h3>Widgets vs. Megawidgets</h3><p>
+There are several other Tkinter-based toolkits out there which allows
+the user to build custom widgets, including Tix and Pmw.</p><p>
+Tix allows you to create new &#8220;megawidgets&#8221; by combining
+existing widgets (e.g. a label and an entry widget), and make them
+behave as any other widget class on the Tk level.
+</p><p>
+Pmw does the same thing, on the Tkinter level.
+</p><p>
+In contrast, the Tkinter 3000 WCK allows you to implement new Tkinter
+<i>widgets</i> in Python, instead of writing them in C or C++.
+</p><p>
+The Tkinter 3000 approach has several advantages, including:
+</p><ul><li><p>A WCK widget is a single widget (window).  You don&#8217;t
+need to delegate option settings, method calls, or events to
+subwidgets.</p></li><li><p>The drawing API takes Python objects, not Tcl objects.
+You don&#8217;t have to wait for the Tkinter layer to convert your data for
+you - just draw it directly from the Python data
+structures.</p></li><li><p>Things like double buffering and lazy redrawing
+(though <b>idletasks</b>) are optional.  If speed is
+more important than anything else, you can draw directly to the
+window.</p></li><li><p>The WCK uses ordinary Python classes, and inheritance
+and object composition work as usual.  No need to learn another object
+model.</p></li></ul><h2>The Widget Construction Kit</h2><h2>Widget Interface</h2><p>
+To implement a new Tkinter 3000 widget, all you have to do is to
+subclass the <a href="#widget-class"><b>Widget</b> class</a>, and
+implement one or more methods from the <a href="#widget-interface"><b>Widget</b></a>
+interface:
+</p><p>Here&#8217;s a very simple example.  This widget displays the text
+&#8220;hello, world&#8221; in the upper left corner:</p><div class="example">
+<b>A very simple WCK widget</b>
+<pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">HelloWorld</span>(Widget):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        font = self.ui_font(<span class="pystring">"black"</span>, <span class="pystring">"times"</span>)
+        draw.text((0, 0), <span class="pystring">"hello, world"</span>, font)
+
+widget = HelloWorld(root)
+widget.pack()</pre></div><p>
+You can override the following <b>Widget</b> methods:
+</p><ul><li><p><b><a href="#widget-ui-handle-clear-method">ui_handle_clear</a></b>
+is called to redraw the background</p></li><li><p><b><a href="#widget-ui-handle-config-method">ui_handle_config</a></b>
+is called when the widget is (re)configured</p></li><li><p><b><a href="#widget-ui-handle-damage-method">ui_handle_damage</a></b>
+is called to indicate that some region needs to be redrawn.  The
+widget should redraw itself in <b>ui_handle_repair</b>,
+not in this method.</p></li><li><p><b><a href="#widget-ui-handle-destroy-method">ui_handle_destroy</a></b>
+is called to release widget resources</p></li><li><p><b><a href="#widget-ui-handle-focus-method">ui_handle_focus</a></b>
+is called to redraw the focus indicator</p></li><li><p><b><a href="#widget-ui-handle-repair-method">ui_handle_repair</a></b>
+is called to redraw damaged regions</p></li><li><p><b><a href="#widget-ui-handle-resize-method">ui_handle_resize</a></b>
+is called when the widget&#8217;s geometry is changed</p></li><li><p><b><a href="#widget-ui-handle-select-method">ui_handle_select</a></b>
+is called to handle cut buffers/selections</p></li></ul><p>
+All methods have default implementations, but you probably want to
+override at least <b>ui_handle_repair</b>.
+</p><p>
+In the following example, the widget uses
+<b>ui_handle_config</b> to prepare the text and font
+attributes when the widget&#8217;s options are changed, and
+<b>ui_handle_resize</b> to handle changes to the
+widget&#8217;s size.
+</p><div class="example">
+<b>A slightly more advanced widget</b>
+<pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">HelloWorld</span>(Widget):
+
+    ui_option_message = <span class="pystring">"hello, world"</span>
+
+    ui_option_font = FONT
+
+    ui_option_foreground = FOREGROUND
+    ui_option_background = BACKGROUND
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_config</span>(self):
+        self.text = str(self.ui_option_message)
+        self.font = self.ui_font(
+            self.ui_option_foreground,
+            self.ui_option_font
+        )
+        <span class="pykeyword">return</span> self.font.measure(self.text)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_resize</span>(self, width, height):
+        w, h = self.font.measure(self.text)
+        self.offset = (width - w) / 2, (height - h) / 2
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        draw.text(self.offset, self.text, self.font)
+
+widget = HelloWorld(root, font=<span class="pystring">"helvetica"</span>)
+widget.pack()</pre></div><h2>Graphics Library</h2><p>
+The <b>ui_handle_repair</b> method is called with a draw
+object, which are used to draw on the screen.  This object implements
+the <a href="#draw-interface"><b>Draw</b></a>
+interface:
+</p><ul><li><p> <b><a href="#draw-line-method">line</a></b> draws a line
+consisting of one or more line segments.  </p></li><li><p> <b><a href="#draw-rectangle-method">rectangle</a></b> draws a
+rectangle.  </p></li><li><p> <b><a href="#draw-polygon-method">polygon</a></b> draws a
+polygon.  </p></li><li><p> <b><a href="#draw-ellipse-method">ellipse</a></b> draws an
+ellipse.  </p></li><li><p> <b><a href="#draw-text-method">text</a></b> draws text.
+</p></li><li><p> <b><a href="#draw-textsize-method">textsize</a></b> measures the
+size of a text fragment.
+</p></li><li><p> <b><a href="#draw-image-method">image</a></b> draws an image.
+</p></li></ul><p>
+Most methods in the <b>Draw</b> interface take
+graphics resource objects, such as brushes, fonts, etc.  To create
+such objects, you should use the following methods in the <a href="#widget-interface"><b>Widget</b></a>
+interface:
+</p><ul><li><p>
+<b><a href="#widget-ui-pen-method">ui_pen</a></b>
+creates a pen resource object.
+</p></li><li><p>
+<b><a href="#widget-ui-brush-method">ui_brush</a></b>
+creates a brush resource object.
+</p></li><li><p>
+<b><a href="#widget-ui-font-method">ui_font</a></b>
+creates a font resource object.
+</p></li><li><p>
+<b><a href="#widget-ui-image-method">ui_image</a></b>
+creates an image resource object.
+</p></li></ul><p>
+Resource objects are opaque, and can only be used in the widget for
+which they were allocated.  The framework may cache resources and use
+them for several widgets, but you shouldn&#8217;t rely on that.
+</p><h2>Controllers</h2><p>Controllers are used to provide interactive behaviour for
+widgets.  A controller receives mouse and keyboard events, and uses
+them to update the widget.</p><p>To implement a controller, subclass the <a href="#controller-class"><b>Controller</b>
+class</a>, and bind events to actions in the <b>create</b> method.
+</p><p>Here&#8217;s a simple example:</p><div class="example">
+<b>A very simple controller</b>
+<pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">ClickController</span>(Controller):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">create</span>(self, bind):
+        bind(<span class="pystring">"&lt;Button-1&gt;"</span>, self.handle_click)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_click</span>(self, event):
+        widget = event.widget
+        widget.invoke()</pre></div><p>The <b>create</b> method is called to initialize
+the controller.  It&#8217;s interface is a bit unusual: it&#8217;s called with a
+function that should be used to associate callbacks with events.</p><p>In this example, the <b>create</b> function adds a
+single event handler.  When the user presses the left mouse button
+(button 1), the <b>handle_click</b> method is called
+with an event descriptor.</p><p>Controller instances are shared between widgets of the same
+type.  To figure out what widget the event came from, the event
+handler must use the event structure&#8217;s <b>widget</b> attribute.</p><p>The widget implementation might look something like this:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">SimpleButton</span>(Widget):
+
+    ui_option_command = None
+
+    ui_controller = ClickController
+
+    ...
+
+    <span class="pykeyword">def</span> <span class="pyfunction">invoke</span>(self):
+        <span class="pykeyword">if</span> callable(self.ui_option_command):
+            self.ui_option_command()</pre><p>
+To associate a controller with a widget class, set the
+<b>ui_controller</b> attribute in the widget class.  When
+present, this attribute must point to a
+<b>Controller</b> subclass.
+</p><h2>Option Management</h2><p>
+Widget options are implemented using attributes of the form
+<b>ui_option_name</b>.  For each option, just set the
+default values in the widget class, and the framework will take care
+of the rest.
+</p><div class="example">
+<b>Defining options</b>
+<pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">HelloWorld</span>(Widget):
+
+    ui_option_font = FONT
+
+    ui_option_foreground = FOREGROUND
+    ui_option_background = FOREGROUND</pre></div><p>
+The above code fragment defines three options, <b>font</b>,
+<b>foreground</b>, and <b>background</b>.  The
+widget will also accept any standard option provided by the
+<b>Widget</b> base class (this includes
+<b>borderwidth</b>, <b>cursor</b>, and a few
+others)
+</p><p>
+To change options after the widget has been created, use the
+<b>config</b> method as usual.  Do not modify the
+attributes directly; the widget framework will not detect such
+changes, and anything may happen.
+</p><h3>Option inheritance</h3><p>
+Option attributes are inherited, like all other Python attributes.  But
+unlike attributes, you can hide an inherited option by assigning the
+<b>NOT_INHERITED</b> constant to it in the subclass:
+</p><div class="example">
+<b>Hiding options</b>
+<pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">HelloWorldFixedFont</span>(HelloWorld):
+
+    ui_option_font = NOT_INHERITED
+
+    ui_option_foreground = FOREGROUND
+    ui_option_background = FOREGROUND</pre></div></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

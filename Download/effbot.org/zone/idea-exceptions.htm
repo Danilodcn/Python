@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Idea: Replacing the Exceptions&nbsp;Module</title></head><body data-page-id="123"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Idea: Replacing the Exceptions&nbsp;Module</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">February 9, 2000 | Fredrik Lundh</p><p class="note"><b>June 5, 2000:</b> Thanks to Barry Warsaw,
+an improved version of this module has now been added to Python
+1.6.</p><p>The <i>exceptions</i> module defines class-versions of all
+standard exceptions. It&#8217;s automatically imported by Python
+interpreter during startup.</p><p>In 1.5.2, this module is implemented in Python, which means that
+you need to have Python modules installed (and the Python path set
+to something reasonable) if you want to use class exceptions in
+your program.</p><p>This experimental module provides an alternative. It
+reimplements <i>exceptions.py</i> as a C module, which can be
+statically linked to the Python interpreter. And it&#8217;s faster than
+the Python version, of course.</p><p><b class="mark">Usage</b>: The current snapshot is highly
+experimental. To try it out, compile <i>_exceptions.c</i> into a C
+module, and create a file called <em>exceptions.py</em> which
+simply imports everything from the <em>_exceptions</em> module.</p><p>Or rename the C file, if you prefer (if you do, don&#8217;t forget to
+change the initialization code).</p><p><b class="mark">Status</b>: This is work in progress. The
+current release seems to work, but it doesn&#8217;t provide full
+implementations for the <i>SyntaxError</i> and <i>
+EnvironmentError</i> classes.</p><p><b class="mark">Download</b>: <s>exceptions-000209.zip</s></p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

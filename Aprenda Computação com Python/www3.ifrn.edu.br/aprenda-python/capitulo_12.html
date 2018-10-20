@@ -1,0 +1,397 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capítulo 12: Classes e objetos &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Capítulo 13: Classes e funções" href="capitulo_13.html" />
+    <link rel="prev" title="Capítulo 11: Arquivos e exceções" href="capitulo_11.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="capitulo_13.html" title="Capítulo 13: Classes e funções"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_11.html" title="Capítulo 11: Arquivos e exceções"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="capitulo-12-classes-e-objetos">
+<h1><a class="toc-backref" href="#id7">Capítulo 12: Classes e objetos</a><a class="headerlink" href="#capitulo-12-classes-e-objetos" title="Link permanente para este título">¶</a></h1>
+<div class="contents topic" id="topicos">
+<p class="topic-title first">Tópicos</p>
+<ul class="simple">
+<li><a class="reference external" href="#capitulo-12-classes-e-objetos" id="id7">Capítulo 12: Classes e objetos</a><ul>
+<li><a class="reference external" href="#tipos-compostos-definidos-pelo-usuario" id="id8">12.1 Tipos compostos definidos pelo usuário</a></li>
+<li><a class="reference external" href="#atributos" id="id9">12.2 Atributos</a></li>
+<li><a class="reference external" href="#instancias-como-parametros" id="id10">12.3 Instâncias como parâmetros</a></li>
+<li><a class="reference external" href="#o-significado-de-mesmo" id="id11">12.4 O significado de &#8220;mesmo&#8221;</a></li>
+<li><a class="reference external" href="#retangulos" id="id12">12.5 Retângulos</a></li>
+<li><a class="reference external" href="#instancias-como-valores-retornados" id="id13">12.6 Instancias como valores retornados</a></li>
+<li><a class="reference external" href="#objetos-sao-mutaveis" id="id14">12.7 Objetos são mutáveis</a></li>
+<li><a class="reference external" href="#copiando" id="id15">12.8 Copiando</a></li>
+<li><a class="reference external" href="#glossario" id="id16">12.9 Glossário</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="tipos-compostos-definidos-pelo-usuario">
+<h2><a class="toc-backref" href="#id8">12.1 Tipos compostos definidos pelo usuário</a><a class="headerlink" href="#tipos-compostos-definidos-pelo-usuario" title="Link permanente para este título">¶</a></h2>
+<p>Depois de usarmos alguns tipos nativos do Python, estamos prontos para criar um tipo de dados: o <tt class="docutils literal"><span class="pre">Ponto</span></tt>.</p>
+<p>Considere o conceito matemático de um ponto. Em duas dimensões, um ponto é um par de números (coordenadas) que são tratadas coletivamente como um objeto simples. Na notação matemática, pontos são freqüentemente escritos entre parênteses com vírgula separando as coordenadas. Por exemplo, (0, 0) representa a origem, e (<em>x</em>, <em>y</em>) representa o ponto <em>x</em> unidades à direita, e <em>y</em> unidades acima da origem.</p>
+<p>Uma maneira natural para representar um ponto em Python, é com dois valores numéricos em ponto flutuante. A questão, então, é como agrupar estes dois valores em um objeto composto. A maneira rápida e rasteira é usar uma lista ou uma tupla, e para algumas aplicações, esso pode ser a melhor escolha <a class="footnote-reference" href="#id2" id="id1">[1]</a>.</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><strong>N.T.</strong>: A linguagem Python também incorpora um tipo nativo <tt class="docutils literal"><span class="pre">complex</span></tt> que representa números complexos. Uma instância de <tt class="docutils literal"><span class="pre">complex</span></tt>, como <tt class="docutils literal"><span class="pre">a=3+5j</span></tt> possui dois valores de ponto flutuante em seus atributos <tt class="docutils literal"><span class="pre">a.real</span></tt> e <tt class="docutils literal"><span class="pre">a.imag</span></tt>, e pode ser utilizada para armazenar pontos em um espaço bi-dimensional.</td></tr>
+</tbody>
+</table>
+<p>Uma alternativa é definir um novo tipo composto, também chamado uma <strong>classe</strong>. Esta abordagem envolve um pouco mais de esforço, mas ela tem vantagens que logo ficarão evidentes.</p>
+<p>Eis a definição de uma classe:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Ponto</span><span class="p">:</span>
+  <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Definições de classes podem aparecer em qualquer parte de um programa, mas elas costuma ficar próximas do começo do programa (após os comandos <tt class="docutils literal"><span class="pre">import</span></tt>). As regras de sintaxe para a definição de classes são as mesmas de outros comandos compostos (veja Seção 4.4).</p>
+<p>A definição acima cria uma nova classe chamada <tt class="docutils literal"><span class="pre">Ponto</span></tt>. O comando
+<tt class="docutils literal"><span class="pre">pass</span></tt> não tem nenhum efeito; aqui ele é necessário porque um comando composto precisa ter algo no seu corpo.</p>
+<p>Quando criamos a classe <tt class="docutils literal"><span class="pre">Ponto</span></tt>, criamos um novo tipo de dado, também chamado <tt class="docutils literal"><span class="pre">Ponto</span></tt>. Os membros deste novo tipo são chamados <strong>instâncias</strong>  deste tipo ou <strong>objetos</strong>. Criar uma nova instância é <strong>instanciar</strong>. Para instanciar o objeto <tt class="docutils literal"><span class="pre">Ponto</span></tt>, invocamos a função (adivinhou?) <tt class="docutils literal"><span class="pre">Ponto</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">final</span> <span class="o">=</span> <span class="n">Ponto</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>A variável <tt class="docutils literal"><span class="pre">final</span></tt> agora contém uma referência a um novo objeto da classe <tt class="docutils literal"><span class="pre">Ponto</span></tt>. Uma função como <tt class="docutils literal"><span class="pre">Ponto</span></tt>, que cria novos objetos, é chamada <strong>construtor</strong>.</p>
+</div>
+<div class="section" id="atributos">
+<h2><a class="toc-backref" href="#id9">12.2 Atributos</a><a class="headerlink" href="#atributos" title="Link permanente para este título">¶</a></h2>
+<p>Podemos adicionar novos dados em uma instância usando a notação de ponto (<em>dot notation</em>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">final</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">3.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">final</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">4.0</span>
+</pre></div>
+</div>
+<p>Esta sintaxe é similar à sintaxe para acessar uma variável de um módulo, como <tt class="docutils literal"><span class="pre">math.pi</span></tt> ou <tt class="docutils literal"><span class="pre">string.uppercase</span></tt>. Neste caso, porém, estamos acessando um item de dado de uma instância. Estes itens são chamados <strong>atributos</strong>.</p>
+<p>O seguinte diagrama de estado mostra o resultado destas atribuições:</p>
+<img alt="_images/12_01_ponto.png" src="_images/12_01_ponto.png" />
+<p>A variável <tt class="docutils literal"><span class="pre">final</span></tt> refere a um objeto <tt class="docutils literal"><span class="pre">Ponto</span></tt>, que contém dois atributos. Cada atributo faz referência a um número em ponto flutuante.</p>
+<p>Podemos ler o valor de um atributo usando a mesma sintaxe:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">final</span><span class="o">.</span><span class="n">y</span>
+<span class="go">4.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">final</span><span class="o">.</span><span class="n">x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">x</span>
+<span class="go">3.0</span>
+</pre></div>
+</div>
+<p>A expressão <tt class="docutils literal"><span class="pre">final.x</span></tt> significa, &#8220;Vá ao objeto <tt class="docutils literal"><span class="pre">final</span></tt> e pegue o valor de <tt class="docutils literal"><span class="pre">x</span></tt>&#8220;. Neste caso,  atribuímos este valor a uma variável cujo nome é &#8216;x&#8217;. Não há conflito entre a variável <tt class="docutils literal"><span class="pre">x</span></tt> e o atributo <tt class="docutils literal"><span class="pre">x</span></tt>. O propósito da notação <tt class="docutils literal"><span class="pre">objeto.atributo</span></tt> é identificar a qual variável você está fazendo referência de forma que não é ambíguo.</p>
+<p>Você pode usar a notação <tt class="docutils literal"><span class="pre">objeto.atributo</span></tt> como parte de qualquer expressão; assim os seguintes comandos são válidos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">&#39;(&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">final</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;, &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">final</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;)&#39;</span>
+<span class="n">distAoQuadrado</span> <span class="o">=</span> <span class="n">final</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">final</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">final</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">final</span><span class="o">.</span><span class="n">y</span>
+</pre></div>
+</div>
+<p>A primeira linha imprime (3.0, 4.0); a segunda linha calcula o valor 25.0.</p>
+<p>É tentador imprimir o valor do próprio objeto <tt class="docutils literal"><span class="pre">final</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">final</span>
+<span class="go">&lt;__main__.Ponto instance at 80f8e70&gt;</span>
+</pre></div>
+</div>
+<p>O resultado indica que <tt class="docutils literal"><span class="pre">final</span></tt> é uma instância da classe <tt class="docutils literal"><span class="pre">Ponto</span></tt> e foi definida no prgrama principal: <tt class="docutils literal"><span class="pre">__main__</span></tt>. 80f8e70 é o identificador único deste objeto, escrito em hexadecimal (base 16). Esta não é provavelmente a forma mais informativa para mostrar um objeto <tt class="docutils literal"><span class="pre">Ponto</span></tt>. Logo você irá ver como mudar isso.</p>
+<blockquote>
+Como exercício, crie e imprima um objeto Ponto, e então use <tt class="docutils literal"><span class="pre">id</span></tt> para imprimir o identificador único do objeto. Traduza a forma hexadecimal para a forma decimal e confirme se são compatíveis.</blockquote>
+</div>
+<div class="section" id="instancias-como-parametros">
+<h2><a class="toc-backref" href="#id10">12.3 Instâncias como parâmetros</a><a class="headerlink" href="#instancias-como-parametros" title="Link permanente para este título">¶</a></h2>
+<p>Você pode passar uma instância como um parâmetro da forma usual. Por exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">mostrarPonto</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+  <span class="k">print</span> <span class="s">&#39;(&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;, &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;)&#39;</span>
+</pre></div>
+</div>
+<p>A função <tt class="docutils literal"><span class="pre">mostrarPonto</span></tt> pega o ponto (p) como um argumento e mostra-o no formato padrão. Se você chamar <tt class="docutils literal"><span class="pre">mostrarPonto(final)</span></tt>, a saída será (3.0, 4.0).</p>
+<blockquote>
+Como um exercício, re-escreva a função distância da Seção 5.2 para receber dois pontos como parâmetros, ao invés de quatro números.</blockquote>
+</div>
+<div class="section" id="o-significado-de-mesmo">
+<h2><a class="toc-backref" href="#id11">12.4 O significado de &#8220;mesmo&#8221;</a><a class="headerlink" href="#o-significado-de-mesmo" title="Link permanente para este título">¶</a></h2>
+<p>O significado da palavra &#8220;mesmo&#8221; parece perfeitamente claro até que você pense a respeito, e então você percebe que há mais nesta palavra do que você esperava.</p>
+<p>Por exemplo, se você diz &#8220;Cris e eu temos o mesmo carro&#8221;, você está dizendo que o carro de Cris e o seu são do mesmo fabricante e modelo, mas são dois carros diferentes. Se você disser &#8220;Cris e eu temos a mesma mãe&#8221;, você está dizendo que a mãe de Cris e a sua, são a mesma pessoa <a class="footnote-reference" href="#id4" id="id3">[2]</a>. Portanto a idéia de &#8216;semelhança&#8217; é diferente dependendo do contexto.</p>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>Nem todos os idiomas têm este problema. Por exemplo, em alemão há palavras diferentes para diferentes sentidos de &#8220;mesmo&#8221;. &#8220;Mesmo carro&#8221; nesse contexto seria &#8220;gleiche Auto&#8221;, e &#8220;mesma mãe&#8221; seria &#8220;selbe Mutter&#8221;.</td></tr>
+</tbody>
+</table>
+<p>Quando falamos de objetos, há uma ambigüidade similar. Por exemplo, se dois Pontos forem os mesmos, isto quer dizer que eles contêm os mesmos dados (coordenadas) ou que são realmente o &#8220;mesmo&#8221; objeto?</p>
+<p>Para verificar se duas referências se referem ao &#8216;mesmo&#8217; objeto, use o operador &#8216;==&#8217; <a class="footnote-reference" href="#id6" id="id5">[3]</a>. Por exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Ponto</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Ponto</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">==</span> <span class="n">p2</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<table class="docutils footnote" frame="void" id="id6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[3]</a></td><td>XXX LR: Eu não diria que devemos usar == para verificar se dois objetos são o mesmo. Isto é uma falha do livro que talvez se origine no original que falava de Java. Em Python o operador is faz o mesmo que o == de Java: compara referências, e portanto serve para determinar se duas variáveis apontam para o mesmo objeto. No entanto, a o código acima está correto porque em Python a implemetação default de == (método __eq__) é comparar o id das instâncias, porém as classes list e dict, por exemplo, implementam __eq__ comparando os valores contidos (ex.: isto retorna True: l1 = [1,2,3]; l2 = [1,2,3]; l1 == l2).</td></tr>
+</tbody>
+</table>
+<p>Mesmo que p1 e p2 contenham as mesmas coordenadas, os dois não representam o mesmo objeto. Se atribuirmos p1 a p2, então as duas variáveis são pseudônimos do mesmo objeto.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">p1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">==</span> <span class="n">p2</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>Este tipo de igualdade é chamado de igualdade rasa porque ela compara somente as referências e não o conteúdo dos objetos.</p>
+<p>Para comparar o conteúdo dos objetos &#8211; igualdade profunda &#8211; podemos escrever uma função chamada mesmoPonto:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">mesmoPonto</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span> <span class="p">:</span>
+  <span class="k">return</span> <span class="p">(</span><span class="n">p1</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">p2</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">p1</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">p2</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Agora se criarmos dois diferentes objetos que contém os mesmos dados, podemos usar mesmoPonto para verificar se eles representam o mesmo ponto.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Ponto</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Ponto</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mesmoPonto</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>É claro, se as duas variáveis referirem ao mesmo objeto, elas têm igualdade rasa e igualdade profunda.</p>
+</div>
+<div class="section" id="retangulos">
+<h2><a class="toc-backref" href="#id12">12.5 Retângulos</a><a class="headerlink" href="#retangulos" title="Link permanente para este título">¶</a></h2>
+<p>Digamos que desejemos uma classe para representar um retângulo. A questão é, qual informação temos de prover para especificar um retângulo? Para manter as coisas simples, assuma que o retângulo é orientado verticalmente ou horizontalmente, nunca em um ângulo.</p>
+<p>Há algumas possibilidades: poderíamos especificar o centro do retângulo (duas coordenadas) e seu tamanho (largura e altura); ou poderíamos especificar um dos lados e o tamanho; ou poderíamos especificar dois lados opostos. A escolha convencional é especificar o canto superior esquerdo do retângulo e o tamanho.</p>
+<p>Novamente, vamos definir uma nova classe:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Rectangle</span><span class="p">:</span>
+  <span class="k">pass</span>
+</pre></div>
+</div>
+<p>E instanciá-la:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">box</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">()</span>
+<span class="n">box</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="mf">100.0</span>
+<span class="n">box</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="mf">200.0</span>
+</pre></div>
+</div>
+<p>Este código cria um novo objeto Retângulo com dois atributos ponto-flutuante. Para especificar o canto superior esquerdo, podemos embutir um objeto dentro de um objeto!</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">box</span><span class="o">.</span><span class="n">corner</span> <span class="o">=</span> <span class="n">Ponto</span><span class="p">()</span>
+<span class="n">box</span><span class="o">.</span><span class="n">corner</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="n">box</span><span class="o">.</span><span class="n">corner</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>A expressão box.corner.x significa, &#8220;vá ao objeto referenciado por &#8216;box&#8217; e selecione o atributo &#8216;corner&#8217;; então vá ao objeto &#8216;corner&#8217; e deste, selecione o atributo de nome &#8216;x&#8217;&#8221;.</p>
+<p>A figura mostra o estado deste objeto:</p>
+<img alt="_images/12_02_retangulo.png" src="_images/12_02_retangulo.png" />
+</div>
+<div class="section" id="instancias-como-valores-retornados">
+<h2><a class="toc-backref" href="#id13">12.6 Instancias como valores retornados</a><a class="headerlink" href="#instancias-como-valores-retornados" title="Link permanente para este título">¶</a></h2>
+<p>Funções podem retornar instâncias. Por exemplo, findCenter pega um Retângulo como um argumento e retorna um Ponto que contem as coordenadas do centro do retângulo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">findCenter</span><span class="p">(</span><span class="n">box</span><span class="p">):</span>
+      <span class="n">p</span> <span class="o">=</span> <span class="n">Ponto</span><span class="p">()</span>
+      <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">box</span><span class="o">.</span><span class="n">corner</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">box</span><span class="o">.</span><span class="n">width</span><span class="o">/</span><span class="mf">2.0</span>
+      <span class="n">p</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">box</span><span class="o">.</span><span class="n">corner</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">box</span><span class="o">.</span><span class="n">height</span><span class="o">/</span><span class="mf">2.0</span>
+</pre></div>
+</div>
+<p>Para chamar esta função, passe &#8216;box&#8217; como um argumento e coloque o resultado em uma variável.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">center</span> <span class="o">=</span> <span class="n">findCenter</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">mostrarPonto</span><span class="p">(</span><span class="n">center</span><span class="p">)</span>
+<span class="go">(50.0, 100.0)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="objetos-sao-mutaveis">
+<h2><a class="toc-backref" href="#id14">12.7 Objetos são mutáveis</a><a class="headerlink" href="#objetos-sao-mutaveis" title="Link permanente para este título">¶</a></h2>
+<p>Podemos mudar o estado de um objeto fazendo uma atribuição a um dos seus atributos. Por exemplo, para mudar o tamanho de um retângulo sem mudar sua posição, podemos modificar os valores de sua largura e altura. Veja:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">box</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">box</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="mi">50</span>
+<span class="n">box</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">box</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="mi">100</span>
+</pre></div>
+</div>
+<p>Poderíamos encapsular este código em um método e generaliza-lo para aumentar o tamanho deste retângulo em qualquer medida:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">growRect</span><span class="p">(</span><span class="n">box</span><span class="p">,</span> <span class="n">dwidth</span><span class="p">,</span> <span class="n">dheight</span><span class="p">)</span> <span class="p">:</span>
+      <span class="n">box</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">box</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">dwidth</span>
+      <span class="n">box</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">box</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="n">dheight</span>
+</pre></div>
+</div>
+<p>As variáveis dwidth e dheight indicam em quanto vamos aumentar o tamanho do retângulo em cada direção. Chamando este método, teríamos o mesmo efeito.</p>
+<p>Por exemplo, poderíamos criar um novo Retângulo com o nome de &#8216;bob&#8217; e passar este nome para o método growRect:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">bob</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bob</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="mf">100.00</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bob</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="mf">200.00</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bob</span><span class="o">.</span><span class="n">corner</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bob</span><span class="o">.</span><span class="n">corner</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">growRect</span><span class="p">(</span><span class="n">bob</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Enquanto growRect está sendo executado, o parâmetro &#8216;box&#8217; é um alias (apelido) para &#8216;bob&#8217;. Qualquer mudança feita em &#8216;box&#8217;, também irá afetar &#8216;bob&#8217;.</p>
+<p>Como exercício, escreva uma function (método) com o nome de moveRect que pega um Rectangle e dois parâmetros com o nome de &#8216;dx&#8217; e &#8216;dy&#8217;. Esta função deverá mudar a localização do retângulo através da adição de &#8216;dx&#8217; à coordenada &#8216;x&#8217; e da adição de &#8216;dy&#8217; à coordenada &#8216;y&#8217;.</p>
+</div>
+<div class="section" id="copiando">
+<h2><a class="toc-backref" href="#id15">12.8 Copiando</a><a class="headerlink" href="#copiando" title="Link permanente para este título">¶</a></h2>
+<p>Ao usar &#8216;alias&#8217; - como fizemos na seção anterior - podemos tornar o programa um pouco difícil de ler ou entender, pois as mudanças feitas em um local, podem afetar inesperadamente um outro objeto. E pode se tornar difícil de encontrar todas as variáveis que podem afetar um dado objeto.</p>
+<p>Copiar um objeto é freqüentemente uma alternativa ao &#8216;alias&#8217;. O modulo &#8216;copy&#8217; contém uma função chamada &#8216;copy&#8217; que duplica um qualquer objeto. Veja:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">copy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Ponto</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">==</span> <span class="n">p2</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mesmoPonto</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>Uma vez que importamos o modulo &#8216;copy&#8217;, podemos usar o método &#8216;copy&#8217; para criar um outro &#8216;Ponto&#8217;. p1 e p2 não representam o mesmo ponto, mas eles contem os mesmo dados.</p>
+<p>Para copiar um simples objeto como um &#8216;Ponto&#8217;, que não contem nenhum objeto embutido, &#8216;copy&#8217; é suficiente. Isto eh chamado &#8216;shallow&#8217; copia.</p>
+<p>Mas para um objeto como um &#8216;Rectangle&#8217;, que contem uma referencia para um &#8216;Ponto&#8217;, o método &#8216;copy&#8217; não irá executar corretamente a copia. Ele irá copiar a referencia para o objeto &#8216;Ponto&#8217;, portanto o que acontece aqui é que os dois Rectangle (o novo e o antigo) irão fazer referencia a um simples &#8216;Ponto&#8217;.</p>
+<p>Em outras palavras, se criarmos um &#8216;box&#8217;, c1, utilizando a forma usual, e depois fazer uma copia, c2, usando o método &#8216;copy&#8217;, o diagrama de estado resultante ficará assim:</p>
+<img alt="_images/12_03_retangulo2.png" src="_images/12_03_retangulo2.png" />
+<p>o resultado não será o que esperamos. Neste caso, invocando &#8216;growRect&#8217; em um dos retângulos (c1), isto não irá afetar o outro retângulo (c2, neste exemplo). Mas se usarmos o método &#8216;moveRect&#8217; em qualquer um deles, isto irá inevitavelmente afetar o outro. Este comportamento é confuso e propenso a erros!</p>
+<p>Mas felizmente o modulo &#8216;copy&#8217; contem um método chamado &#8216;deepcopy&#8217; que copia não somente o objeto, mas também copia todo e qualquer objeto &#8216;embutido&#8217; neste objeto. Por isto, você não ficará surpreso porque este método chama-se &#8216;deepcopy&#8217; (copia profunda) não é? Veja como funciona:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">c2</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">c1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Agora, c1 e c2 são objetos completamente separados.</p>
+<p>Podemos usar &#8216;deepcopy&#8217; para re-escrever &#8216;growRect&#8217; sendo que ao invés de modificar um Rectangle existente, ele cria um novo que tem a mesma localização do outro, mas com novas dimensões:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">growRect</span><span class="p">(</span><span class="n">box</span><span class="p">,</span> <span class="n">dwidth</span><span class="p">,</span> <span class="n">dheight</span><span class="p">):</span>
+  <span class="kn">import</span> <span class="nn">copy</span>
+  <span class="n">newBox</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
+  <span class="n">newBox</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">newBox</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">dwidth</span>
+  <span class="n">newBox</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">newBox</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="n">dheight</span>
+  <span class="k">return</span> <span class="n">newBox</span>
+</pre></div>
+</div>
+<p>Como exercício, re-escreva o método &#8216;moveRect&#8217; para ele criar e retornar um novo Rectangle ao invés de apenas modificar o antigo.</p>
+</div>
+<div class="section" id="glossario">
+<h2><a class="toc-backref" href="#id16">12.9 Glossário</a><a class="headerlink" href="#glossario" title="Link permanente para este título">¶</a></h2>
+<dl class="docutils">
+<dt>classe (<em>class</em>)</dt>
+<dd>Um tipo composto (XXX compound type) definido pelo usuário. Uma classe também pode ser visualizada como um molde que define a forma dos objetos que serão suas instâncias.</dd>
+<dt>instanciar (<em>instantiate</em>)</dt>
+<dd>Criar uma instância de uma classe.</dd>
+<dt>instância (<em>instance</em>)</dt>
+<dd>Um objeto que pertence a uma classe.</dd>
+<dt>objeto (<em>object</em>)</dt>
+<dd>Um tipo de dado composto comumente utilizado para representar uma coisa ou um conceito do mundo real.</dd>
+<dt>construtor (<em>constructor</em>)</dt>
+<dd>Um método utilizado para criar novos objetos.</dd>
+<dt>atributo (<em>attribute</em>)</dt>
+<dd>Um dos itens de dados nomeados que compõem uma instância.</dd>
+<dt>igualdade rasa (<em>shallow equality</em>)</dt>
+<dd>Igualdade de referências; ocorre quando duas referências apontam para o mesmo objeto.</dd>
+<dt>igualdade profunda (<em>deep equality</em>)</dt>
+<dd>Igualdade de valores; ocorre quando duas referências apontam para objetos que têm o mesmo valor.</dd>
+<dt>cópia rasa (<em>shallow copy</em>)</dt>
+<dd>Ato de copiar o conteúdo de um objeto, incluindo as referências a objetos embutidos (XXX embedded); implementada pela função <tt class="docutils literal"><span class="pre">copy</span></tt> do módulo <tt class="docutils literal"><span class="pre">copy</span></tt>.</dd>
+<dt>cópia profunda (<em>deep copy</em>)</dt>
+<dd>Ato de copiar o conteúdo de um objeto, bem como dos objetos embutidos (XXX embedded), e dos objetos embutidos nestes, e assim por diante; implementada pela função <tt class="docutils literal"><span class="pre">deepcopy</span></tt> do módulo <tt class="docutils literal"><span class="pre">copy</span></tt>.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Capítulo 12: Classes e objetos</a><ul>
+<li><a class="reference internal" href="#tipos-compostos-definidos-pelo-usuario">12.1 Tipos compostos definidos pelo usuário</a></li>
+<li><a class="reference internal" href="#atributos">12.2 Atributos</a></li>
+<li><a class="reference internal" href="#instancias-como-parametros">12.3 Instâncias como parâmetros</a></li>
+<li><a class="reference internal" href="#o-significado-de-mesmo">12.4 O significado de &#8220;mesmo&#8221;</a></li>
+<li><a class="reference internal" href="#retangulos">12.5 Retângulos</a></li>
+<li><a class="reference internal" href="#instancias-como-valores-retornados">12.6 Instancias como valores retornados</a></li>
+<li><a class="reference internal" href="#objetos-sao-mutaveis">12.7 Objetos são mutáveis</a></li>
+<li><a class="reference internal" href="#copiando">12.8 Copiando</a></li>
+<li><a class="reference internal" href="#glossario">12.9 Glossário</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="capitulo_11.html"
+                        title="capítulo anterior">Capítulo 11: Arquivos e exceções</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="capitulo_13.html"
+                        title="próximo capítulo">Capítulo 13: Classes e funções</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/capitulo_12.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="capitulo_13.html" title="Capítulo 13: Classes e funções"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_11.html" title="Capítulo 11: Arquivos e exceções"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

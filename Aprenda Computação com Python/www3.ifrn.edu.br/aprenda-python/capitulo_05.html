@@ -1,0 +1,452 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capítulo 5: Funções frutíferas &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Capítulo 6: Iteração" href="capitulo_06.html" />
+    <link rel="prev" title="Capítulo 4: Condicionais e recursividade" href="capitulo_04.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="capitulo_06.html" title="Capítulo 6: Iteração"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_04.html" title="Capítulo 4: Condicionais e recursividade"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="capitulo-5-funcoes-frutiferas">
+<h1><a class="toc-backref" href="#id1">Capítulo 5: Funções frutíferas</a><a class="headerlink" href="#capitulo-5-funcoes-frutiferas" title="Link permanente para este título">¶</a></h1>
+<div class="contents topic" id="topicos">
+<p class="topic-title first">Tópicos</p>
+<ul class="simple">
+<li><a class="reference external" href="#capitulo-5-funcoes-frutiferas" id="id1">Capítulo 5: Funções frutíferas</a><ul>
+<li><a class="reference external" href="#valores-de-retorno" id="id2">5.1 Valores de retorno</a></li>
+<li><a class="reference external" href="#desenvolvimento-de-programas" id="id3">5.2 Desenvolvimento de programas</a></li>
+<li><a class="reference external" href="#composicao" id="id4">5.3 Composição</a></li>
+<li><a class="reference external" href="#funcoes-booleanas" id="id5">5.4 Funções booleanas</a></li>
+<li><a class="reference external" href="#mais-recursividade" id="id6">5.5 Mais recursividade</a></li>
+<li><a class="reference external" href="#voto-de-confianca-leap-of-faith" id="id7">5.6 Voto de confiança (Leap of faith)</a></li>
+<li><a class="reference external" href="#mais-um-exemplo" id="id8">5.7 Mais um exemplo</a></li>
+<li><a class="reference external" href="#checagem-de-tipos" id="id9">5.8 Checagem de tipos</a></li>
+<li><a class="reference external" href="#glossario" id="id10">5.9 Glossário</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="valores-de-retorno">
+<h2><a class="toc-backref" href="#id2">5.1 Valores de retorno</a><a class="headerlink" href="#valores-de-retorno" title="Link permanente para este título">¶</a></h2>
+<p>Algumas das funções nativas do Python que temos usado, como as funções matemáticas, produziram resultados. Chamar a função gerou um novo valor, o qual geralmente atribuímos à uma variável ou usamos como parte de uma expressão:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">e</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">altura</span> <span class="o">=</span> <span class="n">raio</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angulo</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Mas até agora, nenhuma das funções que nós escrevemos retornou um valor.</p>
+<p>Neste capítulo, iremos escrever funções que retornam valores, as quais chamaremos de <strong>funções frutíferas</strong>, ou funções que dão frutos, na falta de um nome melhor. O primeiro exemplo é <tt class="docutils literal"><span class="pre">area</span></tt>, que retorna a área de um círculo dado o seu raio:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">math</span>
+
+<span class="k">def</span> <span class="nf">area</span><span class="p">(</span><span class="n">raio</span><span class="p">):</span>
+  <span class="n">temp</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">raio</span><span class="o">**</span><span class="mi">2</span>
+  <span class="k">return</span> <span class="n">temp</span>
+</pre></div>
+</div>
+<p>Já vimos a instrução <tt class="docutils literal"><span class="pre">return</span></tt> antes, mas em uma função frutífera a instrução <tt class="docutils literal"><span class="pre">return</span></tt> inclui um <strong>valor de retorno</strong>. Esta instrução significa: &#8220;Retorne imediatamente desta função e use a expressão em seguida como um valor de retorno&#8221;. A expressão fornecida pode ser arbitrariamente complicada, de modo que poderíamos ter escrito esta função de maneira mais concisa:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">area</span><span class="p">(</span><span class="n">raio</span><span class="p">):</span>
+  <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">raio</span><span class="o">**</span><span class="mi">2</span>
+</pre></div>
+</div>
+<p>Por outro lado, variáveis temporárias como <tt class="docutils literal"><span class="pre">temp</span></tt> muitas vezes tornam a depuração mais fácil.</p>
+<p>Às vezes é útil ter múltiplos comandos <tt class="docutils literal"><span class="pre">return</span></tt>, um em cada ramo de uma condicional:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">valorAbsoluto</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">x</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>Já que estes comandos <tt class="docutils literal"><span class="pre">return</span></tt> estão em ramos alternativos da condicional, apenas um será executado. Tão logo um seja executado, a função termina sem executar qualquer instrução ou comando subsequente.</p>
+<p>O código que aparece depois de uma instrução <tt class="docutils literal"><span class="pre">return</span></tt>, ou em qualquer outro lugar que o fluxo de execução jamais alcance, é chamado código morto (<em>dead code</em>).</p>
+<p>Em uma função frutífera, é uma boa ideia assegurar que todo caminho possível dentro do programa encontre uma instrução <tt class="docutils literal"><span class="pre">return</span></tt>. Por exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">valorAbsoluto</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">x</span>
+  <span class="k">elif</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>Este programa não está correto porque se <tt class="docutils literal"><span class="pre">x</span></tt> for 0, nenhuma das condições será verdadeira, e a função terminará sem encontrar um comando <tt class="docutils literal"><span class="pre">return</span></tt>. Neste caso, o valor de retorno será um valor especial chamado <tt class="xref docutils literal"><span class="pre">None</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">valorAbsoluto</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">None</span>
+</pre></div>
+</div>
+<p>Como exercício, escreva uma função compare que retorne 1 se x &gt; y, 0 se x == y e -1 se x &lt; y.</p>
+</div>
+<div class="section" id="desenvolvimento-de-programas">
+<h2><a class="toc-backref" href="#id3">5.2 Desenvolvimento de programas</a><a class="headerlink" href="#desenvolvimento-de-programas" title="Link permanente para este título">¶</a></h2>
+<p>Neste ponto, você deve estar apto a olhar para funções completas e dizer o que elas fazem. Também, se você vem fazendo os exercícios, você escreveu algumas pequenas funções. Conforme escrever funções maiores, você pode começar a ter mais dificuldade, especialmente com erros em tempo de execução (erros de runtime) ou erros semânticos.</p>
+<p>Para lidar com programas de crescente complexidade, vamos sugerir uma técnica chamada desenvolvimento incremental. A meta do desenvolvimento incremental é evitar seções de depuração (<em>debugging</em>) muito longas pela adição e teste de somente uma pequena quantidade de código de cada vez.</p>
+<p>Como exemplo, suponha que você queira encontrar a distância entre dois pontos, dados pelas coordenadas (x1,y1) e (x2,y2). Pelo teorema de Pitágoras, a distância é:</p>
+<div class="highlight-python"><pre>distancia = V (x2 - x1)2 + (y2 - y1)2         (5.1)</pre>
+</div>
+<p>XXX: falta o sinal de raiz e elevar os expoentes desta fórmula</p>
+<p>O primeiro passo é considerar como deveria ser uma função <tt class="docutils literal"><span class="pre">distancia</span></tt> em Python. Em outras palavras, quais são as entradas (parâmetros) e qual é a saída (valor de retorno)?</p>
+<p>Neste caso, os dois pontos são as entradas, os quais podemos representar usando quatro parâmetros. O valor de retorno é a distância, que é um valor em ponto flutuante.</p>
+<p>Já podemos escrever um esboço da função:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">distancia</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">):</span>
+  <span class="k">return</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+<p>Obviamente, esta versão da função não calcula distâncias; ela sempre retorna zero. Mas ela está sintaticamente correta, e vai rodar, o que significa que podemos testá-la antes de torná-la mais complicada.</p>
+<p>Para testar a nova função, vamos chamá-la com valores hipotéticos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">distancia</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="go">0.0</span>
+</pre></div>
+</div>
+<p>Escolhemos estes valores de modo que a distância horizontal seja igual a 3 e a distância vertical seja igual a 4; deste modo, o resultado é 5 (a hipotenusa de um triângulo 3-4-5). Quando testamos uma função, é útil sabermos qual o resultado correto.</p>
+<p>Neste ponto, já confirmamos que a função está sintaticamente correta, e podemos começar a adicionar linhas de código. Depois de cada mudança adicionada, testamos a função de novo. Se um erro ocorre em qualquer ponto, sabemos aonde ele deve estar: nas linhas adicionadas mais recentemente.</p>
+<p>Um primeiro passo lógico nesta operação é encontrar as diferenças x2 - x1 e y2 - y1. Nós iremos guardar estes valores em variáveis temporárias chamadas <tt class="docutils literal"><span class="pre">dx</span></tt> e <tt class="docutils literal"><span class="pre">dy</span></tt> e imprimi-las:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">distancia</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">):</span>
+  <span class="n">dx</span> <span class="o">=</span> <span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span>
+  <span class="n">dy</span> <span class="o">=</span> <span class="n">y2</span> <span class="o">-</span> <span class="n">y1</span>
+  <span class="k">print</span> <span class="s">&quot;dx vale&quot;</span><span class="p">,</span> <span class="n">dx</span>
+  <span class="k">print</span> <span class="s">&quot;dy vale&quot;</span><span class="p">,</span> <span class="n">dy</span>
+  <span class="k">return</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+<p>Se a função estiver funcionando, as saídas deverão ser 3 e 4. Se é assim, sabemos que a função está recebendo os parâmetros corretos e realizando o primeiro cálculo corretamente. Se não, existem poucas linhas para checar.</p>
+<p>Em seguida, calcularemos a soma dos quadrados de <tt class="docutils literal"><span class="pre">dx</span></tt> e <tt class="docutils literal"><span class="pre">dy</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">distancia</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">):</span>
+  <span class="n">dx</span> <span class="o">=</span> <span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span>
+  <span class="n">dy</span> <span class="o">=</span> <span class="n">y2</span> <span class="o">-</span> <span class="n">y1</span>
+  <span class="n">dquadrado</span> <span class="o">=</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">dy</span><span class="o">**</span><span class="mi">2</span>
+  <span class="k">print</span> <span class="s">&quot;dquadrado vale: &quot;</span><span class="p">,</span> <span class="n">dquadrado</span>
+  <span class="k">return</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+<p>Note que removemos os comandos <tt class="docutils literal"><span class="pre">print</span></tt> que havíamos escrito no passo anterior. Código como este ajuda a escrever o programa, mas não é parte do produto final (em inglês é usado o termo <em>scaffolding</em>).</p>
+<p>De novo, nós vamos rodar o programa neste estágio e checar a saída (que deveria ser 25).</p>
+<p>Finalmente, se nós tínhamos importado o módulo matemático <tt class="docutils literal"><span class="pre">math</span></tt>, podemos usar a função <tt class="docutils literal"><span class="pre">sqrt</span></tt> para computar e retornar o resultado:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">distancia</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">):</span>
+  <span class="n">dx</span> <span class="o">=</span> <span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span>
+  <span class="n">dy</span> <span class="o">=</span> <span class="n">y2</span> <span class="o">-</span> <span class="n">y1</span>
+  <span class="n">dquadrado</span> <span class="o">=</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">dy</span><span class="o">**</span><span class="mi">2</span>
+  <span class="n">resultado</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dquadrado</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">resultado</span>
+</pre></div>
+</div>
+<p>Se isto funcionar corretamente, você conseguiu. Caso contrário, talvez fosse preciso imprimir (exibir) o valor de <tt class="docutils literal"><span class="pre">resultado</span></tt> antes da instrução <tt class="docutils literal"><span class="pre">return</span></tt>.</p>
+<p>Enquanto for iniciante, você deve acrescentar apenas uma ou duas linhas de código de cada vez. Conforme ganhar mais experiência, você se verá escrevendo e depurando pedaços maiores. De qualquer modo, o processo de desenvolvimento incremental pode poupar um bocado de tempo de depuração.</p>
+<p>Os aspectos chave do processo são:</p>
+<ol class="arabic simple">
+<li>Comece com um programa que funciona e faça pequenas mudanças incrementais. Em qualquer ponto do processo, se houver um erro, você saberá exatamente onde ele está.</li>
+<li>Use variáveis temporárias para manter valores intermediários de modo que você possa exibi-los e checá-los.</li>
+<li>Uma vez que o programa funcione, você pode querer remover algum código muleta, ou algum <em>scaffolding</em> ou consolidar múltiplos comandos dentro de expressões compostas, mas somente se isto não tornar o programa difícil de ler.</li>
+</ol>
+<blockquote>
+Como um exercício, use o desenvolvimento incremental para escrever uma função chamada <tt class="docutils literal"><span class="pre">hipotenusa</span></tt> que retorna a medida da hipotenusa de um triângulo retângulo dadas as medidas dos dois catetos como parâmetros. Registre cada estágio do desenvolvimento incremental conforme você avance.</blockquote>
+</div>
+<div class="section" id="composicao">
+<h2><a class="toc-backref" href="#id4">5.3 Composição</a><a class="headerlink" href="#composicao" title="Link permanente para este título">¶</a></h2>
+<p>Conforme você poderia esperar agora, você pode chamar uma função de dentro de outra. Esta habilidade é chamada de <strong>composição</strong>.</p>
+<p>Como um exemplo, vamos escrever uma função que recebe dois pontos, o centro de um círculo e um ponto em seu perímetro, e calcula a área do círculo.</p>
+<p>Assuma que o ponto do centro está guardado nas variáveis <tt class="docutils literal"><span class="pre">xc</span></tt> e <tt class="docutils literal"><span class="pre">yc</span></tt>, e que o ponto do perímetro está nas variáveis <tt class="docutils literal"><span class="pre">xp</span></tt> e <tt class="docutils literal"><span class="pre">yp</span></tt>. O primeiro passo é encontrar o raio do círculo, o qual é a entre os dois pontos. Felizmente, temos uma função, <tt class="docutils literal"><span class="pre">distancia</span></tt>, que faz isto:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Raio</span> <span class="o">=</span> <span class="n">distancia</span><span class="p">(</span><span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>O segundo passo é encontrar a área de um círculo com o raio dado e retorná-la:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">resultado</span> <span class="o">=</span> <span class="n">area</span><span class="p">(</span><span class="n">raio</span><span class="p">)</span>
+<span class="k">return</span> <span class="n">resultado</span>
+</pre></div>
+</div>
+<p>Juntando tudo numa função, temos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">area2</span><span class="p">(</span><span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">):</span>
+
+  <span class="n">raio</span> <span class="o">=</span> <span class="n">distancia</span><span class="p">(</span><span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">)</span>
+  <span class="n">resultado</span> <span class="o">=</span> <span class="n">area</span><span class="p">(</span><span class="n">raio</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">resultado</span>
+</pre></div>
+</div>
+<p>Chamamos à esta função de <tt class="docutils literal"><span class="pre">area2</span></tt> para distinguir da função <tt class="docutils literal"><span class="pre">area</span></tt>, definida anteriormente. Só pode existir uma única função com um determinado nome em um determinado módulo.</p>
+<p>As variáveis temporárias <tt class="docutils literal"><span class="pre">raio</span></tt> e <tt class="docutils literal"><span class="pre">resultado</span></tt> são úteis para o desenvolvimento e para depuração (<em>debugging</em>), mas uma vez que o programa esteja funcionando, podemos torná-lo mais conciso através da composição das chamadas de função:</p>
+<div class="highlight-python"><pre>def area2(xc, yc, xp, yp):
+
+  return area(distancia(xc, yc, xp, yp))
+
+  Como exercício, escreva uma função ``coeficienteAngular(x1, y1, x2, y2)`` que retorne a coeficiente angular de uma linha dados os pontos (x1, y1) e (x2, y2). Depois use esta função em uma função chamada ``cortaY(x1, y1, x2, y2)`` que retorne a interseção da linha com o eixo y, dados os pontos (x1, y1) e (x2, y2).</pre>
+</div>
+</div>
+<div class="section" id="funcoes-booleanas">
+<h2><a class="toc-backref" href="#id5">5.4 Funções booleanas</a><a class="headerlink" href="#funcoes-booleanas" title="Link permanente para este título">¶</a></h2>
+<p>Funções podem retornar valores booleanos, o que muitas vezes é conveniente por ocultar testes complicados dentro de funções. Por exemplo:</p>
+<div class="highlight-python"><pre>def ehDivisivel(x, y):
+  If  x % y == 0:
+    return True  # é verdadeiro (True), é divisível
+  else:
+    return False # é falso (False), não é divisível</pre>
+</div>
+<p>O nome desta função é <tt class="docutils literal"><span class="pre">ehDivisivel</span></tt> (&#8220;é divisível&#8221;). É comum dar a uma função booleana nomes que soem como perguntas sim/não. <tt class="docutils literal"><span class="pre">ehDivisivel</span></tt> retorna ou <tt class="xref docutils literal"><span class="pre">True</span></tt> ou <tt class="xref docutils literal"><span class="pre">False</span></tt> para indicar se <tt class="docutils literal"><span class="pre">x</span></tt> é ou não é divisível por <tt class="docutils literal"><span class="pre">y</span></tt>.</p>
+<p>Podemos tornar a função mais concisa se tirarmos vantagem do fato de a condição da instrução <tt class="docutils literal"><span class="pre">if</span></tt> ser ela mesma uma expressão booleana. Podemos retorná-la diretamente, evitando totalmente o <tt class="docutils literal"><span class="pre">if</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">ehDivisivel</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+  <span class="k">return</span> <span class="n">x</span> <span class="o">%</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>Esta sessão mostra a nova função em ação:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ehDivisivel</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ehDivisivel</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>Funções booleanas são frequentemente usadas em comandos condicionais:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">ehDivisivel</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+  <span class="k">print</span> <span class="s">&quot;x é divisível por y&quot;</span>
+<span class="k">else</span><span class="p">:</span>
+  <span class="k">print</span> <span class="s">&quot;x não é divisível por y&quot;</span>
+</pre></div>
+</div>
+<p>Mas a comparação extra é desnecessária.</p>
+<blockquote>
+Como exercício, escreva uma função <tt class="docutils literal"><span class="pre">estaEntre(x,</span> <span class="pre">y,</span> <span class="pre">z)</span></tt> que retorne <tt class="xref docutils literal"><span class="pre">True</span></tt> se y &lt; x &lt; z ou <tt class="xref docutils literal"><span class="pre">False</span></tt>, se não.</blockquote>
+</div>
+<div class="section" id="mais-recursividade">
+<h2><a class="toc-backref" href="#id6">5.5 Mais recursividade</a><a class="headerlink" href="#mais-recursividade" title="Link permanente para este título">¶</a></h2>
+<p>Até aqui, você aprendeu apenas um pequeno subconjunto da linguagem Python, mas pode ser que te interesse saber que este pequeno subconjunto é uma linguagem de programação completa, o que significa que qualquer coisa que possa ser traduzida em operação computacional pode ser expressa nesta linguagem. Qualquer programa já escrito pode ser reescrito usando somente os aspectos da linguagem que você aprendeu até agora (usualmente, você precisaria de uns poucos comandos para controlar dispositivos como o teclado, mouse, discos, etc., mas isto é tudo).</p>
+<p>Provar esta afirmação é um exercício nada trivial, que foi alcançado pela primeira vez por Alan Turing, um dos primeiros cientistas da computação (alguém poderia dizer que ele foi um matemático, mas muitos dos primeiros cientistas da computação começaram como matemáticos). Por isso, ficou conhecido como Tese de Turing. Se você fizer um curso em Teoria da Computação, você terá chance de ver a prova.</p>
+<p>Para te dar uma ideia do que você pode fazer com as ferramentas que aprendeu a usar até agora, vamos avaliar algumas funções matemáticas recursivamente definidas. Uma definição recursiva é similar à uma definição circular, no sentido de que a definição faz referência à coisa que está sendo definida. Uma verdadeira definição circular não é muito útil:</p>
+<p>vorpal: adjetivo usado para descrever algo que é vorpal.</p>
+<p>Se você visse esta definição em um dicionário, ficaria confuso. Por outro lado, se você procurasse pela definição da função matemática fatorial, você encontraria algo assim:</p>
+<div class="highlight-python"><pre>0! = 1
+n! = n.(n-1)!</pre>
+</div>
+<p>Esta definição diz que o fatorial de 0 é 1, e que o fatorial de qualquer outro valor, n, é n multiplicado pelo fatorial de n-1.</p>
+<p>Assim, 3! (lê-se &#8220;3 fatorial&#8221; ou &#8220;fatorial de 3&#8221;) é 3 vezes 2!, o qual é 2 vezes 1!, o qual é 1 vezes 0!. Colocando tudo isso junto, 3! igual 3 vezes 2 vezes 1 vezes 1, o que é 6.</p>
+<p>Se você pode escrever uma definição recursiva de alguma coisa, você geralmente pode escrever um programa em Python para executá-la. O primeiro passo é decidir quais são os parâmetros para esta função. Com pouco esforço, você deverá concluir que <tt class="docutils literal"><span class="pre">fatorial</span></tt> recebe um único parâmetro:</p>
+<div class="highlight-python"><pre>def fatorial(n):</pre>
+</div>
+<p>Se acontece de o argumento ser 0, tudo o que temos de fazer é retornar 1:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">fatorial</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">return</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Por outro lado, e esta é a parte interessante, temos que fazer uma chamada recursiva para encontrar o fatorial de n-1 e então multiplicá-lo por n:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">fatorial</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">return</span> <span class="mi">1</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">recursivo</span> <span class="o">=</span> <span class="n">fatorial</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">resultado</span> <span class="o">=</span> <span class="n">n</span> <span class="o">*</span> <span class="n">recursivo</span>
+    <span class="k">return</span> <span class="n">resultado</span>
+</pre></div>
+</div>
+<p>O fluxo de execução para este programa é similar ao fluxo de <tt class="docutils literal"><span class="pre">contagemRegressiva</span></tt> na Seção 4.9. Se chamarmos <tt class="docutils literal"><span class="pre">fatorial</span></tt> com o valor 3:</p>
+<p>Já que 3 não é 0, tomamos o segundo ramo e calculamos o fatorial de <tt class="docutils literal"><span class="pre">n-1</span></tt> ...</p>
+<p>Já que 2 não é 0, tomamos o segundo ramo e calculamos o fatorial de <tt class="docutils literal"><span class="pre">n-1</span></tt> ...</p>
+<p>Já que 1 não é 0, tomamos o segundo ramo e calculamos o fatorial de <tt class="docutils literal"><span class="pre">n-1</span></tt> ...</p>
+<p>Já que 0 <em>é</em> 0, tomamos o primeiro ramo e retornamos 1 sem fazer mais qualquer chamada recursiva.</p>
+<p>O valor retornado (1) é multiplicado por <tt class="docutils literal"><span class="pre">n</span></tt>, que é 1, e o resultado é retornado.</p>
+<p>O valor retornado (1) é multiplicado por <tt class="docutils literal"><span class="pre">n</span></tt>, que é 2, e o resultado é retornado.</p>
+<p>O valor retornado (2) é multiplicado por <tt class="docutils literal"><span class="pre">n</span></tt>, que é 1, e o resultado, 6, se torna o valor de retorno da chamada de função que iniciou todo o processo.</p>
+<p>Eis o diagrama de pilha para esta sequência de chamadas de função:</p>
+<img alt="_images/05_01_pilha3.png" src="_images/05_01_pilha3.png" />
+<p>Os valores de retorno são mostrados sendo passados de volta para cima da pilha. Em cada quadro, o valor de retorno é o valor de <tt class="docutils literal"><span class="pre">resultado</span></tt>, o qual é o produto de <tt class="docutils literal"><span class="pre">n</span></tt> por <tt class="docutils literal"><span class="pre">recursivo</span></tt>.</p>
+</div>
+<div class="section" id="voto-de-confianca-leap-of-faith">
+<h2><a class="toc-backref" href="#id7">5.6 Voto de confiança (Leap of faith)</a><a class="headerlink" href="#voto-de-confianca-leap-of-faith" title="Link permanente para este título">¶</a></h2>
+<p>Seguir o fluxo de execução é uma maneira de ler programas, mas que pode rapidamente se transformar em um labirinto. Uma alternativa é o que chamamos de &#8220;voto de confiança&#8221;. Quando você tem uma chamada de função, em vez de seguir o fluxo de execução, você <em>assume</em> que a função funciona corretamente e retorna o valor apropriado.</p>
+<p>De fato, você está agora mesmo praticando este voto de confiança ao usar as funções nativas. Quando você chama <tt class="docutils literal"><span class="pre">math.cos</span></tt> ou <tt class="docutils literal"><span class="pre">math.exp</span></tt>, você não examina a implementação destas funções. Você apenas assume que elas funcionam porque as pessoas que escreveram as bibliotecas nativas eram bons programadores.</p>
+<p>O mesmo também é verdade quando você chama uma de suas próprias funções. Por exemplo, na Seção 5.4, escrevemos a função chamada <tt class="docutils literal"><span class="pre">ehDivisivel</span></tt> que determina se um número é divisível por outro. Uma vez que nos convencemos que esta função está correta &#8211; ao testar e examinar o código &#8211; podemos usar a função sem examinar o código novamente.</p>
+<p>O mesmo também é verdadeiro para programas recursivos. Quando você tem uma chamada recursiva, em vez de seguir o fluxo de execução, você poderia assumir que a chamada recursiva funciona (produz o resultado correto) e então perguntar-se, &#8220;Assumindo que eu possa encontrar o fatorial de <em>n-1</em>, posso calcular o fatorial de <em>n</em>?&#8221; Neste caso, é claro que você pode, multiplicando por <em>n</em>.</p>
+<p>Naturalmente, é um pouco estranho que uma função funcione corretamente se você ainda nem terminou de escrevê-la, mas é por isso que se chama voto de confiança!</p>
+</div>
+<div class="section" id="mais-um-exemplo">
+<h2><a class="toc-backref" href="#id8">5.7 Mais um exemplo</a><a class="headerlink" href="#mais-um-exemplo" title="Link permanente para este título">¶</a></h2>
+<p>No exemplo anterior, usamos variáveis temporárias para deixar claros os passos e tornar o código mais fácil de depurar, mas poderíamos ter economizado algumas linhas:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">fatorial</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">return</span> <span class="mi">1</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fatorial</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>De agora em diante, tenderemos a utilizar um formato mais conciso, mas recomendamos que você use a versão mais explícita enquanto estiver desenvolvendo código. Quando ele estiver funcionando, você pode enxugá-lo se estiver se sentindo inspirado.</p>
+<p>Depois de <tt class="docutils literal"><span class="pre">fatorial</span></tt>, o exemplo mais comum de uma função matemática definida recursivamente é <tt class="docutils literal"><span class="pre">fibonacci</span></tt>, a qual tem a seguinte definição:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fibonacci</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">fibonacci</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Traduzido em Python, parecerá assim:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="k">return</span> <span class="mi">1</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Se você tentar seguir o fluxo de execução aqui, mesmo para valores bem pequenos de n, sua cabeça explodirá. Mas, de acordo com o voto de confiança, se você assume que as duas chamadas recursivas funcionam corretamente, então é claro que você terá o resultado correto ao juntá-las.</p>
+</div>
+<div class="section" id="checagem-de-tipos">
+<h2><a class="toc-backref" href="#id9">5.8 Checagem de tipos</a><a class="headerlink" href="#checagem-de-tipos" title="Link permanente para este título">¶</a></h2>
+<p>O que acontece se chamamos <tt class="docutils literal"><span class="pre">fatorial</span></tt> e damos a ela 1.5 como argumento?:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fatorial</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="go">RuntimeError: Maximum recursion depth exceeded</span>
+</pre></div>
+</div>
+<p>Parece um caso de recursividade infinita. Mas o que será que é de fato? Existe um caso base &#8211; quando <tt class="docutils literal"><span class="pre">n</span> <span class="pre">==</span> <span class="pre">0</span></tt>. O problema é que o valor de <tt class="docutils literal"><span class="pre">n</span></tt> <em>nunca encontra</em> o caso base.</p>
+<p>Na primeira chamada recursiva, o valor de <tt class="docutils literal"><span class="pre">n</span></tt> é 0.5. Na próxima, ele é igual a -0.5. Daí em diante, ele se torna cada vez menor, mas jamais será 0.</p>
+<p>Temos então duas alternativas. Podemos tentar generalizar a função <tt class="docutils literal"><span class="pre">fatorial</span></tt> para que funcione com números em ponto flutuante, ou fazemos <tt class="docutils literal"><span class="pre">fatorial</span></tt> realizar a checagem de tipo de seus parâmetros. A primeira é chamada função gamma e está um pouco além do escopo deste livro. Sendo assim, ficaremos com a segunda.</p>
+<p>Podemos usar <tt class="docutils literal"><span class="pre">type</span></tt> para comparar o tipo do parâmetro com o tipo de um valor inteiro conhecido (como 1). Ao mesmo tempo em que fazemos isto, podemos nos certificar também de que o parâmetro seja positivo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">fatorial</span> <span class="p">(</span><span class="n">n</span><span class="p">):</span>
+  <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">&quot;Fatorial somente é definido para inteiros.&quot;</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="k">elif</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;Fatorial somente é definido para inteiros positivos.&quot;</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="k">elif</span> <span class="n">n</span> <span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+    <span class="k">return</span> <span class="mi">1</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fatorial</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Agora temos três casos base. O primeiro pega os não-inteiros. O segundo pega os inteiros negativos. Em ambos os casos, o programa exibe uma mensagem de erro e retorna um valor especial, -1, para indicar que alguma coisa saiu errada:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fatorial</span> <span class="p">(</span><span class="s">&quot;Fred&quot;</span><span class="p">)</span>
+<span class="go">Fatorial somente é definido para inteiros.</span>
+<span class="go">-1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fatorial</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">Fatorial somente é definido para inteiros positivos.</span>
+<span class="go">-1</span>
+</pre></div>
+</div>
+<p>Se passarmos pelas duas checagens, então saberemos que <tt class="docutils literal"><span class="pre">n</span></tt> é um inteiro positivo, e poderemos provar que a recursividade encontra seu término.</p>
+<p>Este programa demonstra um padrão (<em>pattern</em>) chamado às vezes de <strong>guardião</strong>. As duas primeiras condicionais atuam como guardiãs, protegendo o código que vem em seguida de valores que poderiam causar um erro. Os guardiões tornam possível garantir a correção do código.</p>
+</div>
+<div class="section" id="glossario">
+<h2><a class="toc-backref" href="#id10">5.9 Glossário</a><a class="headerlink" href="#glossario" title="Link permanente para este título">¶</a></h2>
+<dl class="docutils">
+<dt>código morto (<em>dead code</em>)</dt>
+<dd>Parte de um programa que nunca pode ser executada, muitas vezes por que ela aparece depois de uma instrução <tt class="docutils literal"><span class="pre">return</span></tt>.</dd>
+<dt>desenvolvimento incremental (<em>incremental development</em>)</dt>
+<dd>Uma estratégia de desenvolvimento de programas que evita a depuração ao adicionar e testar somente uma pequena quantidade de código de cada vez.</dd>
+<dt>função frutífera (<em>fruitful function</em>)</dt>
+<dd>Uma função que produz um valor de retorno.</dd>
+<dt>guardião (<em>guardian</em>)</dt>
+<dd>Uma condição que checa e manipula circunstâncias que poderiam causar um erro.</dd>
+<dt><tt class="xref docutils literal"><span class="pre">None</span></tt></dt>
+<dd>Um valor especial em Python, retornado por funções que não possuem uma instrução <tt class="docutils literal"><span class="pre">return</span></tt> ou têm uma instrução <tt class="docutils literal"><span class="pre">return</span></tt> sem argumento.</dd>
+<dt><em>scaffolding</em></dt>
+<dd>Código usado durante o desenvolvimento do programa, mas que não faz parte do produto final.</dd>
+<dt>variável temporária (<em>temporary variable</em>)</dt>
+<dd>Uma variável usada para guardar um valor intermediário em um cálculo complexo.</dd>
+<dt>valor de retorno (<em>return value</em>)</dt>
+<dd>O valor entregue como resultado de uma chamada de função.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Capítulo 5: Funções frutíferas</a><ul>
+<li><a class="reference internal" href="#valores-de-retorno">5.1 Valores de retorno</a></li>
+<li><a class="reference internal" href="#desenvolvimento-de-programas">5.2 Desenvolvimento de programas</a></li>
+<li><a class="reference internal" href="#composicao">5.3 Composição</a></li>
+<li><a class="reference internal" href="#funcoes-booleanas">5.4 Funções booleanas</a></li>
+<li><a class="reference internal" href="#mais-recursividade">5.5 Mais recursividade</a></li>
+<li><a class="reference internal" href="#voto-de-confianca-leap-of-faith">5.6 Voto de confiança (Leap of faith)</a></li>
+<li><a class="reference internal" href="#mais-um-exemplo">5.7 Mais um exemplo</a></li>
+<li><a class="reference internal" href="#checagem-de-tipos">5.8 Checagem de tipos</a></li>
+<li><a class="reference internal" href="#glossario">5.9 Glossário</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="capitulo_04.html"
+                        title="capítulo anterior">Capítulo 4: Condicionais e recursividade</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="capitulo_06.html"
+                        title="próximo capítulo">Capítulo 6: Iteração</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/capitulo_05.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="capitulo_06.html" title="Capítulo 6: Iteração"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_04.html" title="Capítulo 4: Condicionais e recursividade"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

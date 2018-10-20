@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Generating RFC 822-style Date&nbsp;Strings</title></head><body data-page-id="116"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Generating RFC 822-style Date&nbsp;Strings</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | June 2003 | Originally posted to <a href="http://online.effbot.org">online.effbot.org</a></p><p>The <s><a href="http://backend.userland.com/rss">RSS 2.0</a></s> (dead link) specification
+uses RFC 822-style date strings to store publication dates and build dates.
+
+</p><p>Here&#8217;s a snippet from my publishing tool that takes an &#8220;yyyymmdd&#8221;
+or &#8220;yyyymmddhhmmss&#8221; string, and generates an RSS-compatible string.
+It uses Python&#8217;s <b>calendar</b> module to calculate weekdays, and to get
+day and month names.  Tweak as necessary:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">def</span> <span class="pyfunction">formatpubdate</span>(date):
+    <span class="pycomment"># convert a yyyymmddhhmmss (UTC) string to RSS pubDate format</span>
+    <span class="pykeyword">from</span> calendar <span class="pykeyword">import</span> weekday, month_abbr, day_abbr
+    year, month, day = date[:4], date[4:6], date[6:8]
+    hour, minute, second = date[8:10], date[10:12], date[12:14]
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> hour:
+        hour = <span class="pystring">"12"</span>
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> minute:
+        minute = <span class="pystring">"00"</span>
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> second:
+        second = <span class="pystring">"00"</span>
+    wday = weekday(int(year), int(month), int(day))
+    <span class="pykeyword">return</span> <span class="pystring">"%s, %s %s %s %s:%s:%s GMT"</span> % (
+        day_abbr[wday], day, month_abbr[int(month)], year,
+        hour, minute, second
+        )</pre></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

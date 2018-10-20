@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Incremental Parsing Using the Consumer&nbsp;API</title></head><body data-page-id="75"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Incremental Parsing Using the Consumer&nbsp;API</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">November 5, 2004 | Fredrik Lundh</p><p>The <a href="element-index.htm">ElementTree</a> library provides
+several ways to parse XML documents.</p><p>The most common way is to read the document from a file or an input
+stream, using the <b>parse</b> function:</p><pre class="python">
+<span class="pykeyword">from</span> elementtree <span class="pykeyword">import</span> ElementTree
+
+tree = ElementTree.parse(<span class="pystring">"document.xml"</span>)
+root = tree.getroot()</pre><p>Alternatively, you can create an empty <b>ElementTree</b> instance,
+and use the <b>parse</b> method to load a document into it:</p><pre class="python">
+<span class="pykeyword">from</span> elementtree <span class="pykeyword">import</span> ElementTree
+
+tree = ElementTree.ElementTree()
+tree.parse(<span class="pystring">"document.xml"</span>)
+root = tree.getroot()</pre><p>The <b>XML</b> helper can be used to create an XML document from a
+string buffer (or a string literal):</p><pre class="python">
+<span class="pykeyword">from</span> elementtree <span class="pykeyword">import</span> ElementTree
+
+root = ElementTree.XML(<span class="pystring">"&lt;document&gt;body&lt;/document&gt;"</span>)</pre><p>You can also use the parser and tree builder components directly,
+to get more control over the document build process.  The core XML
+parser component is called <b>XMLTreeBuilder</b>.  This class implements
+<a href="consumer.htm">the standard consumer interface</a>, which lets
+you feed data to the parser, piece by piece:</p><pre class="python">
+<span class="pykeyword">from</span> elementtree <span class="pykeyword">import</span> ElementTree
+
+parser = ElementTree.XMLTreeBuilder()
+
+parser.feed(<span class="pystring">"&lt;document&gt;"</span>)
+parser.feed(<span class="pystring">"body"</span>)
+parser.feed(<span class="pystring">"&lt;/docu"</span>)
+parser.feed(<span class="pystring">"ment&gt;"</span>)
+
+root = parser.close()</pre><p>The pieces can be of any size, and tags and entities can be spread
+over multiple pieces.</p><p>Note that the <b>close</b> method returns the resulting document
+root (as an <b>Element</b> instance).  If you want an <b>ElementTree</b>,
+just wrap it as usual:</p><pre class="python">
+<span class="pykeyword">from</span> elementtree <span class="pykeyword">import</span> ElementTree
+
+parser = ElementTree.XMLTreeBuilder()
+
+parser.feed(<span class="pystring">"&lt;document&gt;bo"</span>)
+parser.feed(<span class="pystring">"dy&lt;/document&gt;"</span>)
+
+tree = ElementTree.ElementTree(parser.close())</pre></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

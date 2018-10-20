@@ -1,0 +1,596 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Recursão &mdash; Princípios de Desenvolvimeto de Algoritmos em Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Princípios de Desenvolvimeto de Algoritmos em Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Técnicas em Projeto de Algoritmos" href="03-algoritmos.html" />
+    <link rel="prev" title="Introdução - Resumo de Python" href="01-introducao.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'algoritmos',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="03-algoritmos.html" title="Técnicas em Projeto de Algoritmos"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="01-introducao.html" title="Introdução - Resumo de Python"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Princípios de Desenvolvimeto de Algoritmos em Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="recursao">
+<h1>Recursão<a class="headerlink" href="#recursao" title="Permalink to this headline">¶</a></h1>
+<p id="index-0">Recursão é um método de solução de problemas que visa quebrar o problema em
+subproblemas menores, em geral fazendo a função chamar ela mesma, até
+alcançar um problema simples o bastante para ser resolvido trivialmente.
+O uso de algoritmos recursivos nos permite escrever soluções elegantes
+para problemas que, de outra forma, seriam muito difíceis de programar.</p>
+<div class="section" id="objetivos">
+<h2>Objetivos<a class="headerlink" href="#objetivos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>Entender que problemas complexos, difíceis de resolver, podem ter uma solução recursiva simples.</li>
+<li>Aprender como formular programas recursivamente.</li>
+<li>Entender e aplicar as três leis da recursão.</li>
+<li>Entender recursão como uma forma de iteração.</li>
+<li>Implementar a formulação recursiva de um problema.</li>
+<li>Entender como recursão é implementada em um computador.</li>
+</ul>
+</div></blockquote>
+<hr class="docutils" />
+<p>O texto desse capítulo foi baseado nos seguintes materiais, que contém mais detalhes, e podem ser utilizados para aprofundar os seus conhecimentos.</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://panda.ime.usp.br/pensepy/static/pensepy/12-Recursao/recursionsimple-ptbr.html">Recursão</a>, do livro <a class="reference external" href="https://panda.ime.usp.br/pensepy/static/pensepy/index.html">Como pensar como um cientista da computação</a>;</li>
+<li><a class="reference external" href="http://interactivepython.org/runestone/static/pythonds/index.html#recursion">Recursion</a>, do livro  <a class="reference external" href="http://interactivepython.org/runestone/static/pythonds/index.html">Problem Solving with Algorithms and Data Structures</a>.</li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt>Para saber mais</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="http://www.ime.usp.br/~pf/algoritmos/aulas/recu.html">Recursão e algoritmos recursivos</a>, da página <a class="reference external" href="http://www.ime.usp.br/~pf/algoritmos/">Projeto de Algoritmos em C</a>;</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="introducao">
+<h2>Introdução<a class="headerlink" href="#introducao" title="Permalink to this headline">¶</a></h2>
+<p>Considere a seguinte solução iterativa para o cálculo do fatorial:</p>
+
+<div id="simulacao_do_fatorial_iterativo"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (simulacao_do_fatorial_iterativo)</span> </p>
+<script type="text/javascript">
+var simulacao_do_fatorial_iterativo_trace = {"code": "def fat(n):\n\n    resultado = 1\n    while n > 0:\n        resultado = resultado * n\n        n = n - 1\n    return resultado\n\n# testes\nprint(\"Fatorial de 3: \", fat(3))", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["fat"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"fat": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fat(n)", null]}, "line": 10, "event": "step_line"}, {"ordered_globals": ["fat"], "stdout": "", "func_name": "fat", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"n": 3}, "is_highlighted": true, "is_parent": false, "func_name": "fat", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fat_f1", "ordered_varnames": ["n"]}], "globals": {"fat": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fat(n)", null]}, "line": 1, "event": "call"}, {"ordered_globals": ["fat"], "stdout": "", "func_name": "fat", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"n": 3}, "is_highlighted": true, "is_parent": false, "func_name": "fat", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fat_f1", "ordered_varnames": ["n"]}], "globals": {"fat": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fat(n)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["fat"], "stdout": "", "func_name": "fat", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"resultado": 1, "n": 3}, "is_highlighted": true, "is_parent": false, "func_name": "fat", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fat_f1", "ordered_varnames": ["n", "resultado"]}], "globals": {"fat": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fat(n)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["fat"], "stdout": "", "func_name": "fat", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"resultado": 1, "n": 3}, "is_highlighted": true, "is_parent": false, "func_name": "fat", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fat_f1", "ordered_varnames": ["n", "resultado"]}], "globals": {"fat": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fat(n)", null]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["fat"], "stdout": "", "func_name": "fat", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"resultado": 3, "n": 3}, "is_highlighted": true, "is_parent": false, "func_name": "fat", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fat_f1", "ordered_varnames": ["n", "resultado"]}], "globals": {"fat": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fat(n)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["fat"], "stdout": "", "func_name": "fat", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"resultado": 3, "n": 2}, "is_highlighted": true, "is_parent": false, "func_name": "fat", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fat_f1", "ordered_varnames": ["n", "resultado"]}], "globals": {"fat": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fat(n)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["fat"], "stdout": "", "func_name": "fat", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"resultado": 3, "n": 2}, "is_highlighted": true, "is_parent": false, "func_name": "fat", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fat_f1", "ordered_varnames": ["n", "resultado"]}], "globals": {"fat": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fat(n)", null]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["fat"], "stdout": "", "func_name": "fat", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"resultado": 6, "n": 2}, "is_highlighted": true, "is_parent": false, "func_name": "fat", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fat_f1", "ordered_varnames": ["n", "resultado"]}], "globals": {"fat": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fat(n)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["fat"], "stdout": "", "func_name": "fat", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"resultado": 6, "n": 1}, "is_highlighted": true, "is_parent": false, "func_name": "fat", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fat_f1", "ordered_varnames": ["n", "resultado"]}], "globals": {"fat": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fat(n)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["fat"], "stdout": "", "func_name": "fat", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"resultado": 6, "n": 1}, "is_highlighted": true, "is_parent": false, "func_name": "fat", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fat_f1", "ordered_varnames": ["n", "resultado"]}], "globals": {"fat": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fat(n)", null]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["fat"], "stdout": "", "func_name": "fat", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"resultado": 6, "n": 1}, "is_highlighted": true, "is_parent": false, "func_name": "fat", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fat_f1", "ordered_varnames": ["n", "resultado"]}], "globals": {"fat": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fat(n)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["fat"], "stdout": "", "func_name": "fat", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"resultado": 6, "n": 0}, "is_highlighted": true, "is_parent": false, "func_name": "fat", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fat_f1", "ordered_varnames": ["n", "resultado"]}], "globals": {"fat": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fat(n)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["fat"], "stdout": "", "func_name": "fat", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"resultado": 6, "n": 0}, "is_highlighted": true, "is_parent": false, "func_name": "fat", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fat_f1", "ordered_varnames": ["n", "resultado"]}], "globals": {"fat": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fat(n)", null]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["fat"], "stdout": "", "func_name": "fat", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"__return__": 6, "resultado": 6, "n": 0}, "is_highlighted": true, "is_parent": false, "func_name": "fat", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fat_f1", "ordered_varnames": ["n", "resultado", "__return__"]}], "globals": {"fat": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fat(n)", null]}, "line": 7, "event": "return"}, {"ordered_globals": ["fat"], "stdout": "('Fatorial de 3: ', 6)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"fat": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fat(n)", null]}, "line": 10, "event": "return"}]};
+var simulacao_do_fatorial_iterativo_vis;
+
+$(document).ready(function() {
+    simulacao_do_fatorial_iterativo_vis = new ExecutionVisualizer('simulacao_do_fatorial_iterativo',simulacao_do_fatorial_iterativo_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(simulacao_do_fatorial_iterativo_vis,'simulacao_do_fatorial_iterativo');
+    allVisualizers.push(simulacao_do_fatorial_iterativo_vis);
+});
+
+$(document).ready(function() {
+    $("#simulacao_do_fatorial_iterativo_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'simulacao_do_fatorial_iterativo'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    simulacao_do_fatorial_iterativo_vis.redrawConnectors();
+});
+</script>
+<p>A cada iteração, o valor de <span class="math">\(n\)</span> se aproxima cada vez mais de zero e,
+ao atingir zero, a função termina e retorna o resultado.</p>
+<p>Várias procedimentos computacionais podem ser descritos de forma recursiva,
+ou seja, que utiliza o mesmo procedimento para solução de subproblemas.
+Por exemplo, a função fatorial pode ser escrita da seguinte forma:</p>
+<div class="math">
+\[\text{fat}(n) = n * \text{fat}(n - 1)\]</div>
+<p>A partir dessa definição recursiva da função fatorial, podemos escrever
+a seguinte função recursiva em Python:</p>
+
+<div id="exemplo_fatorial_recursivo" >
+<textarea cols="50" rows="12" id="exemplo_fatorial_recursivo_code" class="active_code">
+def fatR(n):
+    ''' (int) -> int '''
+    if n == 0:
+        return 1
+    else:
+        return n * fatR(n-1)
+
+# testes
+print("Fatorial de 0: ", fatR(0))
+print("Fatorial de 1: ", fatR(1))
+print("Fatorial de 3: ", fatR(3))
+print("Fatorial de 100: ", fatR(100))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exemplo_fatorial_recursivo)</span> </p>
+<button onclick="runit('exemplo_fatorial_recursivo',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exemplo_fatorial_recursivo');">Save</button>
+<button class="ac_opt" onclick="requestCode('exemplo_fatorial_recursivo');">Load</button>
+<br />
+
+<canvas id="exemplo_fatorial_recursivo_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exemplo_fatorial_recursivo_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Observe que não utilizamos, nessa versão recursiva, o comando <cite>while</cite>.
+A recursividade substitui as iterações do <cite>while</cite>.
+Para entender como essa função recursiva funciona,
+simule essa função para <span class="math">\(n = 3\)</span>.</p>
+
+<div id="simulando_o_fatorial_recursivo"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (simulando_o_fatorial_recursivo)</span> </p>
+<script type="text/javascript">
+var simulando_o_fatorial_recursivo_trace = {"code": "def fatR(n):\n    ''' (int) -> int '''\n    if n == 0:\n        return 1\n    else:\n        return n * fatR(n-1)\n\n# testes\nprint(\"Fatorial de 3: \", fatR(3))", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["fatR"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"fatR": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fatR(n)", null]}, "line": 9, "event": "step_line"}, {"ordered_globals": ["fatR"], "stdout": "", "func_name": "fatR", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"n": 3}, "is_highlighted": true, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f1", "ordered_varnames": ["n"]}], "globals": {"fatR": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fatR(n)", null]}, "line": 1, "event": "call"}, {"ordered_globals": ["fatR"], "stdout": "", "func_name": "fatR", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"n": 3}, "is_highlighted": true, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f1", "ordered_varnames": ["n"]}], "globals": {"fatR": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fatR(n)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["fatR"], "stdout": "", "func_name": "fatR", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"n": 3}, "is_highlighted": true, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f1", "ordered_varnames": ["n"]}], "globals": {"fatR": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fatR(n)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["fatR"], "stdout": "", "func_name": "fatR", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"n": 3}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f1", "ordered_varnames": ["n"]}, {"frame_id": 2, "encoded_locals": {"n": 2}, "is_highlighted": true, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f2", "ordered_varnames": ["n"]}], "globals": {"fatR": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fatR(n)", null]}, "line": 1, "event": "call"}, {"ordered_globals": ["fatR"], "stdout": "", "func_name": "fatR", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"n": 3}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f1", "ordered_varnames": ["n"]}, {"frame_id": 2, "encoded_locals": {"n": 2}, "is_highlighted": true, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f2", "ordered_varnames": ["n"]}], "globals": {"fatR": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fatR(n)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["fatR"], "stdout": "", "func_name": "fatR", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"n": 3}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f1", "ordered_varnames": ["n"]}, {"frame_id": 2, "encoded_locals": {"n": 2}, "is_highlighted": true, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f2", "ordered_varnames": ["n"]}], "globals": {"fatR": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fatR(n)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["fatR"], "stdout": "", "func_name": "fatR", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"n": 3}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f1", "ordered_varnames": ["n"]}, {"frame_id": 2, "encoded_locals": {"n": 2}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f2", "ordered_varnames": ["n"]}, {"frame_id": 3, "encoded_locals": {"n": 1}, "is_highlighted": true, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f3", "ordered_varnames": ["n"]}], "globals": {"fatR": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fatR(n)", null]}, "line": 1, "event": "call"}, {"ordered_globals": ["fatR"], "stdout": "", "func_name": "fatR", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"n": 3}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f1", "ordered_varnames": ["n"]}, {"frame_id": 2, "encoded_locals": {"n": 2}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f2", "ordered_varnames": ["n"]}, {"frame_id": 3, "encoded_locals": {"n": 1}, "is_highlighted": true, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f3", "ordered_varnames": ["n"]}], "globals": {"fatR": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fatR(n)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["fatR"], "stdout": "", "func_name": "fatR", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"n": 3}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f1", "ordered_varnames": ["n"]}, {"frame_id": 2, "encoded_locals": {"n": 2}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f2", "ordered_varnames": ["n"]}, {"frame_id": 3, "encoded_locals": {"n": 1}, "is_highlighted": true, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f3", "ordered_varnames": ["n"]}], "globals": {"fatR": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fatR(n)", null]}, "line": 6, "event": "step_line"}, {"ordered_globals": ["fatR"], "stdout": "", "func_name": "fatR", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"n": 3}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f1", "ordered_varnames": ["n"]}, {"frame_id": 2, "encoded_locals": {"n": 2}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f2", "ordered_varnames": ["n"]}, {"frame_id": 3, "encoded_locals": {"n": 1}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f3", "ordered_varnames": ["n"]}, {"frame_id": 4, "encoded_locals": {"n": 0}, "is_highlighted": true, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f4", "ordered_varnames": ["n"]}], "globals": {"fatR": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fatR(n)", null]}, "line": 1, "event": "call"}, {"ordered_globals": ["fatR"], "stdout": "", "func_name": "fatR", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"n": 3}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f1", "ordered_varnames": ["n"]}, {"frame_id": 2, "encoded_locals": {"n": 2}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f2", "ordered_varnames": ["n"]}, {"frame_id": 3, "encoded_locals": {"n": 1}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f3", "ordered_varnames": ["n"]}, {"frame_id": 4, "encoded_locals": {"n": 0}, "is_highlighted": true, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f4", "ordered_varnames": ["n"]}], "globals": {"fatR": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fatR(n)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["fatR"], "stdout": "", "func_name": "fatR", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"n": 3}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f1", "ordered_varnames": ["n"]}, {"frame_id": 2, "encoded_locals": {"n": 2}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f2", "ordered_varnames": ["n"]}, {"frame_id": 3, "encoded_locals": {"n": 1}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f3", "ordered_varnames": ["n"]}, {"frame_id": 4, "encoded_locals": {"n": 0}, "is_highlighted": true, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f4", "ordered_varnames": ["n"]}], "globals": {"fatR": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fatR(n)", null]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["fatR"], "stdout": "", "func_name": "fatR", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"n": 3}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f1", "ordered_varnames": ["n"]}, {"frame_id": 2, "encoded_locals": {"n": 2}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f2", "ordered_varnames": ["n"]}, {"frame_id": 3, "encoded_locals": {"n": 1}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f3", "ordered_varnames": ["n"]}, {"frame_id": 4, "encoded_locals": {"__return__": 1, "n": 0}, "is_highlighted": true, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f4", "ordered_varnames": ["n", "__return__"]}], "globals": {"fatR": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fatR(n)", null]}, "line": 4, "event": "return"}, {"ordered_globals": ["fatR"], "stdout": "", "func_name": "fatR", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"n": 3}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f1", "ordered_varnames": ["n"]}, {"frame_id": 2, "encoded_locals": {"n": 2}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f2", "ordered_varnames": ["n"]}, {"frame_id": 3, "encoded_locals": {"__return__": 1, "n": 1}, "is_highlighted": true, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f3", "ordered_varnames": ["n", "__return__"]}], "globals": {"fatR": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fatR(n)", null]}, "line": 6, "event": "return"}, {"ordered_globals": ["fatR"], "stdout": "", "func_name": "fatR", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"n": 3}, "is_highlighted": false, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f1", "ordered_varnames": ["n"]}, {"frame_id": 2, "encoded_locals": {"__return__": 2, "n": 2}, "is_highlighted": true, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f2", "ordered_varnames": ["n", "__return__"]}], "globals": {"fatR": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fatR(n)", null]}, "line": 6, "event": "return"}, {"ordered_globals": ["fatR"], "stdout": "", "func_name": "fatR", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"__return__": 6, "n": 3}, "is_highlighted": true, "is_parent": false, "func_name": "fatR", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "fatR_f1", "ordered_varnames": ["n", "__return__"]}], "globals": {"fatR": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fatR(n)", null]}, "line": 6, "event": "return"}, {"ordered_globals": ["fatR"], "stdout": "('Fatorial de 3: ', 6)\n", "func_name": "<module>", "stack_to_render": [], "globals": {"fatR": ["REF", 1]}, "heap": {"1": ["FUNCTION", "fatR(n)", null]}, "line": 9, "event": "return"}]};
+var simulando_o_fatorial_recursivo_vis;
+
+$(document).ready(function() {
+    simulando_o_fatorial_recursivo_vis = new ExecutionVisualizer('simulando_o_fatorial_recursivo',simulando_o_fatorial_recursivo_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(simulando_o_fatorial_recursivo_vis,'simulando_o_fatorial_recursivo');
+    allVisualizers.push(simulando_o_fatorial_recursivo_vis);
+});
+
+$(document).ready(function() {
+    $("#simulando_o_fatorial_recursivo_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'simulando_o_fatorial_recursivo'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    simulando_o_fatorial_recursivo_vis.redrawConnectors();
+});
+</script>
+<p>A cada chamada recursiva, o computador cria um novo contexto para
+executar a função <cite>fatR()</cite> na sua pilha de execução para
+calcular o fatorial de um número menor (<cite>n-1</cite>),
+até que <cite>fatR()</cite> seja chamada com zero.
+Quando isso acontece, o valor 1 é retornado
+(pois <span class="math">\(0! = 1\)</span>), desencadeando o cálculo dos
+produtos
+<cite>n * fat(n-1)</cite> de todas as chamadas recursivas que foram empilhadas.</p>
+
+    <div id="cap02_questao_mult01">
+    <p>:  Quantas chamadas recursivas são realizadas para fatR(3)?</p>
+    <form name="cap02_questao_mult01_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="cap02_questao_mult01_opt_a" />
+    <label for= "cap02_questao_mult01_opt_a">  a) 5</label><br />
+    
+    <input type="radio" name="group1" value="b" id="cap02_questao_mult01_opt_b" />
+    <label for= "cap02_questao_mult01_opt_b">  b) 4</label><br />
+    
+    <input type="radio" name="group1" value="c" id="cap02_questao_mult01_opt_c" />
+    <label for= "cap02_questao_mult01_opt_c">  c) 3</label><br />
+    
+    <input type="radio" name="group1" value="d" id="cap02_questao_mult01_opt_d" />
+    <label for= "cap02_questao_mult01_opt_d">  d) 2</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('cap02_questao_mult01','c',['Considere que a primeira chamada fatR(3) não é recursiva.', 'Considere que a primeira chamada fatR(3) não é recursiva.', 'A primeira chamada de fatR(3) faz as chamadas recursivas fatR(2), que chama fatR(1), que chama fatR(0).', 'Considere que a primeira chamada fatR(3) não é recursiva.'])"/> 
+    </form>
+    <div id="cap02_questao_mult01_feedback">
+    </div>
+    </div>
+    <div class="section" id="as-tres-leis-da-recursao">
+<h3>As três leis da recursão<a class="headerlink" href="#as-tres-leis-da-recursao" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>Todo algoritmo recursivo deve obedecer a três leis:</dt>
+<dd><ul class="first last simple">
+<li>O algoritmo recursivo deve possuir um <strong>caso base</strong>;</li>
+<li>O algoritmo recursivo deve alterar o seu estado de maneira a <strong>se aproximar do caso base</strong>;</li>
+<li>O algoritmo recursivo deve ter uma <strong>chamada a si mesmo</strong> (direta ou indiretamente).</li>
+</ul>
+</dd>
+<dt>Para o caso da função fatorial recursiva:</dt>
+<dd><ul class="first last simple">
+<li>O caso caso base é o fatorial de zero;</li>
+<li>Para se aproximar do caso base, o fatorial de <span class="math">\(n\)</span> é calculado como <span class="math">\(n * fat(n-1)\)</span>;</li>
+<li>A chamada recursiva é feita diretamente usando <span class="math">\(fat(n-1)\)</span></li>
+</ul>
+</dd>
+</dl>
+<p>Vamos treinar a resolução do conceito de recursão por meio dos seguintes exercícios.</p>
+</div>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="exercicio-2-1">
+<h3>Exercício 2.1<a class="headerlink" href="#exercicio-2-1" title="Permalink to this headline">¶</a></h3>
+<p>Escreva uma função recursiva que recebe uma lista não vazia de números inteiros e retorna o elemento de valor máximo dessa lista.</p>
+<p><em>Dica</em>: Observe que o máximo da lista [12, 15, 7] pode ser calculado como: max(12, max([15,7])).
+Nesse caso, qual seria o caso base?</p>
+
+<div id="cap02_ex1_tentativa" >
+<textarea cols="50" rows="12" id="cap02_ex1_tentativa_code" class="active_code">
+def maxR( lista ):
+    ''' (list) -> int
+        recebe uma lista de numeros inteiros e retorna o valor do maior elemento.
+        Exemplo: para a entrada [12, 15, 7], a funcao deve retornar 15.
+    '''
+# escreva a sua funcao recursiva
+
+# escreva os seus testes
+lista1 = [12, 15, 7]
+print("Teste 1 usando a lista ", lista1, ". Valor maximo encontrado: ",  maxR(lista1))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (cap02_ex1_tentativa)</span> </p>
+<button onclick="runit('cap02_ex1_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('cap02_ex1_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('cap02_ex1_tentativa');">Load</button>
+<br />
+
+<canvas id="cap02_ex1_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="cap02_ex1_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><em>Alternativa</em>: Modifique a sua função recursiva para que ela retorne, ao invés do valor máximo, o índice
+do valor máximo. Em caso de empate, retorne o menor índice. Exemplo: para a entrada [12, 15, 7, 15] a função deve
+retornar 1 (que é o índice da primeira ocorrência de 15).</p>
+</div>
+<div class="section" id="exercicio-2-2">
+<h3>Exercício 2.2<a class="headerlink" href="#exercicio-2-2" title="Permalink to this headline">¶</a></h3>
+<p>Escreva uma função recursiva que recebe uma lista de números e retorna a soma dos números na lista.</p>
+
+<div id="cap02_ex2_tentativa" >
+<textarea cols="50" rows="12" id="cap02_ex2_tentativa_code" class="active_code">
+# escreva a sua funcao recursiva
+
+# escreva os seus testes
+print("Vixe, ainda nao fiz esse exercicio!")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (cap02_ex2_tentativa)</span> </p>
+<button onclick="runit('cap02_ex2_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('cap02_ex2_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('cap02_ex2_tentativa');">Load</button>
+<br />
+
+<canvas id="cap02_ex2_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="cap02_ex2_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-2-3">
+<h3>Exercício 2.3<a class="headerlink" href="#exercicio-2-3" title="Permalink to this headline">¶</a></h3>
+<p>Escreva uma função recursiva que recebe uma lista de números e retorna a lista invertida.</p>
+<p>Exemplo: para a lista [10, -1, 4] a função deve retornar [4, -1, 10]</p>
+
+<div id="cap02_ex3_tentativa" >
+<textarea cols="50" rows="12" id="cap02_ex3_tentativa_code" class="active_code">
+# escreva a sua funcao recursiva
+
+# escreva os seus testes
+print("Vixe, ainda nao fiz esse exercicio!")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (cap02_ex3_tentativa)</span> </p>
+<button onclick="runit('cap02_ex3_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('cap02_ex3_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('cap02_ex3_tentativa');">Load</button>
+<br />
+
+<canvas id="cap02_ex3_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="cap02_ex3_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-2-4">
+<h3>Exercício 2.4<a class="headerlink" href="#exercicio-2-4" title="Permalink to this headline">¶</a></h3>
+<p>Escreva uma função recursiva que recebe dois inteiros <span class="math">\(n\)</span> e <span class="math">\(k\)</span>
+e retorna o número binomial de <span class="math">\(n\)</span> e <span class="math">\(k\)</span>.</p>
+<dl class="docutils">
+<dt>Exemplos:</dt>
+<dd><ul class="first last simple">
+<li>binomial(0, 0) é 1</li>
+<li>binomial(3, 2) é 3</li>
+<li>binomial(5, 3) é 10</li>
+</ul>
+</dd>
+</dl>
+<p>o binomial de <span class="math">\(n\)</span> e <span class="math">\(k\)</span> pode ser calculado pela regra de Pascal:</p>
+<div class="math">
+\[\begin{split}\binom{\mathtt{n}}{\mathtt{k}} =
+\begin{cases}
+\mathtt{0}, &amp; \mbox{quando $\mathtt{{n} = 0}$ e $\mathtt{{k} &gt; 0}$}, \\
+\mathtt{1}, &amp; \mbox{quando $\mathtt{n} \geq 0$ e $\mathtt{{k} = 0}$}, \\
+\binom{\mathtt{n}-1}{\mathtt{k}}
++ \binom{\mathtt{{n}-1}}{\mathtt{{k}-1}},&amp;
+\mbox{quando $\mathtt{n}, \mathtt{{k}&gt;0}$}.\\
+\end{cases}\end{split}\]</div>
+
+<div id="cap02_ex4_tentativa" >
+<textarea cols="50" rows="12" id="cap02_ex4_tentativa_code" class="active_code">
+# escreva a sua funcao recursiva
+
+# escreva os seus testes
+print("Vixe, ainda nao fiz esse exercicio!")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (cap02_ex4_tentativa)</span> </p>
+<button onclick="runit('cap02_ex4_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('cap02_ex4_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('cap02_ex4_tentativa');">Load</button>
+<br />
+
+<canvas id="cap02_ex4_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="cap02_ex4_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-2-5">
+<h3>Exercício 2.5<a class="headerlink" href="#exercicio-2-5" title="Permalink to this headline">¶</a></h3>
+<p>Escreva uma função recursiva que calcula e imprime a sequência de Fibonacci.</p>
+
+<div id="cap02_ex5_tentativa" >
+<textarea cols="50" rows="12" id="cap02_ex5_tentativa_code" class="active_code">
+# escreva a sua funcao recursiva
+
+# escreva os seus testes
+print("Vixe, ainda nao fiz esse exercicio!")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (cap02_ex5_tentativa)</span> </p>
+<button onclick="runit('cap02_ex5_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('cap02_ex5_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('cap02_ex5_tentativa');">Load</button>
+<br />
+
+<canvas id="cap02_ex5_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="cap02_ex5_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-2-6">
+<h3>Exercício 2.6<a class="headerlink" href="#exercicio-2-6" title="Permalink to this headline">¶</a></h3>
+<p>Utilizando o módulo gráfico <cite>Turtle</cite>, escreva um programa que
+desenha o Triângulo de Sierpinski.</p>
+
+<div id="cap02_ex6_tentativa" >
+<textarea cols="50" rows="12" id="cap02_ex6_tentativa_code" class="active_code">
+# escreva aqui o seu programa
+print("Vixe, ainda nao fiz esse exercicio!")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (cap02_ex6_tentativa)</span> </p>
+<button onclick="runit('cap02_ex6_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('cap02_ex6_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('cap02_ex6_tentativa');">Load</button>
+<br />
+
+<canvas id="cap02_ex6_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="cap02_ex6_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Recursão</a><ul>
+<li><a class="reference internal" href="#objetivos">Objetivos</a></li>
+<li><a class="reference internal" href="#introducao">Introdução</a><ul>
+<li><a class="reference internal" href="#as-tres-leis-da-recursao">As três leis da recursão</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a><ul>
+<li><a class="reference internal" href="#exercicio-2-1">Exercício 2.1</a></li>
+<li><a class="reference internal" href="#exercicio-2-2">Exercício 2.2</a></li>
+<li><a class="reference internal" href="#exercicio-2-3">Exercício 2.3</a></li>
+<li><a class="reference internal" href="#exercicio-2-4">Exercício 2.4</a></li>
+<li><a class="reference internal" href="#exercicio-2-5">Exercício 2.5</a></li>
+<li><a class="reference internal" href="#exercicio-2-6">Exercício 2.6</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="01-introducao.html"
+                        title="previous chapter">Introdução - Resumo de Python</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="03-algoritmos.html"
+                        title="next chapter">Técnicas em Projeto de Algoritmos</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="03-algoritmos.html" title="Técnicas em Projeto de Algoritmos"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="01-introducao.html" title="Introdução - Resumo de Python"
+             >previous</a> |</li>
+        <li><a href="index.html">Princípios de Desenvolvimeto de Algoritmos em Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on May 16, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

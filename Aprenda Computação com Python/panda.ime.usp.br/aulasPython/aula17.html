@@ -1,0 +1,669 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introdução &mdash; Aulas de Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Aulas de Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Exercícios com objetos" href="aula18.html" />
+    <link rel="prev" title="Exercícios" href="aula16.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'aulasPython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="aula18.html" title="Exercícios com objetos"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="aula16.html" title="Exercícios"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="introducao">
+<h1>Introdução<a class="headerlink" href="#introducao" title="Permalink to this headline">¶</a></h1>
+<p>Na primeira parte desse curso tratamos de tipos básicos como <cite>int</cite> e <cite>float</cite>, e na segunda parte introduzimos listas e strings, que são estruturas mais complexas, capazes de reunir sequências de dados.
+Nesse terceira parte vamos explorar conceitos de programação orientada à objetos para tratar de tipos de dados ainda mais complexos.
+Dentre os tópicos que serão cobertos estão:</p>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt>Princípios de programação orientada a objetos</dt>
+<dd><ul class="first last simple">
+<li>Classes e objetos</li>
+<li>Atributos e métodos</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Tipos abstratos de dados</dt>
+<dd><ul class="first last simple">
+<li>Filas</li>
+<li>Pilhas</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Algoritmos de busca e ordenação;</dt>
+<dd><ul class="first last simple">
+<li>Busca sequencial e binária</li>
+<li>Algoritmos elementares de ordenação</li>
+<li>Noção de complexidade</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="programacao-orientada-a-objetos">
+<h1>Programação orientada a objetos<a class="headerlink" href="#programacao-orientada-a-objetos" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="objetivo">
+<h2>Objetivo<a class="headerlink" href="#objetivo" title="Permalink to this headline">¶</a></h2>
+<p>Introduzir conceitos de orientação a objetos. Ao final dessa aula você
+deve saber o que é uma <strong>classe</strong> e a diferença para um <strong>objeto</strong> da
+classe, o que são <strong>atributos</strong> e <strong>métodos</strong>. Você saberá também como
+definir um classe em Python, e utilizar o método <cite>__init__</cite>
+(<strong>construtor</strong>) e <cite>__str__</cite>.</p>
+</div>
+<div class="section" id="topicos">
+<h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/13-Classes/classesintro.html">Capítulo 13: Classes e Objetos - Fundamentos</a>;</li>
+<li>Classes e objetos</li>
+<li>Atributos e métodos</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id1">
+<h2>Programação orientada a objetos<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>A capacidade de representar e abstrair conceitos é fundamental para o nosso
+pensamento, tornando possível a generalização de coisas e a construção de
+conceitos cada vez mais complexos.</p>
+<p>Na evolução das linguagens de programação, a necessidade de se representar e manipular informações complexas resultou no conceito de classes e objetos, onde classes servem como abstrações (representação) e objetos seriam instâncias de classes que mantém e permitem a manipulação da informação.</p>
+</div>
+<div class="section" id="classes-e-objetos-em-python">
+<h2>Classes e Objetos em Python<a class="headerlink" href="#classes-e-objetos-em-python" title="Permalink to this headline">¶</a></h2>
+<p>Em Python, toda informação que usamos é representada na forma de um objeto.
+Assim, o número 6 é um objeto da classe <cite>int</cite>,
+o número 3.14 é um objeto da classe <cite>float</cite>, e assim por diante.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>  <span class="c"># type mostra o tipo do objeto passado como argumento</span>
+<span class="go">&lt;class &#39;int&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>    <span class="c"># mostra o local na memória (endereço) onde o objeto está armazenado</span>
+<span class="go">4297370848</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">i</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">j</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>    <span class="c"># note que i e j correspondem ao mesmo objeto 6</span>
+<span class="go">4297370848   # pois estão no mesmo lugar na memória</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<span class="go">4297370848</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>Em computação, criar um objeto significa criar uma instância de uma classe.
+Linguagens orientadas a objetos permitem a definição de novas classes.</p>
+<p>Uma classe é uma abstração de alguma &#8220;coisa&#8221;,
+que possui um estado e comportamento. Um estado é definido por um
+conjunto de variáveis chamadas de atributos. Esses estados podem ser
+alterados por meio de &#8220;ações&#8221; sobre o objeto, que definem seu
+comportamento. Essas ações são funções chamadas de &#8220;métodos&#8221;.</p>
+<p>Por exemplo, para representar um carro podemos definir:</p>
+<div class="highlight-python"><div class="highlight"><pre>- uma classe Carro:
+- com os atributos: ano, modelo, cor, e vel
+- e os métodos:
+    - acelera(vel): acelera até vel
+    - pare(): vel = 0
+</pre></div>
+</div>
+<div class="section" id="definicao-de-classes-e-criacao-de-objetos">
+<h3>Definição de classes e criação de objetos<a class="headerlink" href="#definicao-de-classes-e-criacao-de-objetos" title="Permalink to this headline">¶</a></h3>
+<p>Uma classe mínima em Python pode ser definida como:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Carro</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="k">pass</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fusca</span> <span class="o">=</span> <span class="n">Carro</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">brasilia</span> <span class="o">=</span> <span class="n">Carro</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Essa classe não possui atributos nem métodos, mas já nos permite criar
+objetos, ou seja, <strong>instâncias</strong> da classe Carro.</p>
+</div>
+<div class="section" id="atributos">
+<h3>Atributos<a class="headerlink" href="#atributos" title="Permalink to this headline">¶</a></h3>
+<p>Para criar atributos, basta fazer atribuições
+usando <cite>nome_do_objeto.nome_do_atributo</cite> e,
+a seguir, usar os atributos como variáveis. Exemplo:</p>
+
+<div id="exemplo1_carros" >
+<textarea cols="50" rows="12" id="exemplo1_carros_code" class="active_code">
+class Carro:
+    pass
+
+# teste da classe Carro
+fusca    = Carro()   # cria um objeto referenciado pela variavel fusca
+brasilia = Carro()
+
+fusca.ano = 1968
+fusca.modelo = 'Fusca'
+fusca.cor = 'preto'
+
+brasilia.ano = 1981
+brasilia.modelo = 'Brasilia'
+brasilia.cor = 'amarela'
+
+novo_fusca = fusca
+print("Fusca igual a brasilia? > ", fusca == brasilia)
+print("Fusca igual a novo_fusca? > ", fusca == novo_fusca)
+fusca.ano += 10
+print("fusca.ano = ", fusca.ano)
+print("novo_fusca.ano = ", novo_fusca.ano)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exemplo1_carros)</span> </p>
+<button onclick="runit('exemplo1_carros',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exemplo1_carros');">Save</button>
+<button class="ac_opt" onclick="requestCode('exemplo1_carros');">Load</button>
+<br />
+
+<canvas id="exemplo1_carros_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exemplo1_carros_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Assim como listas, <strong>tome muito cuidado com referências ao mesmo objeto</strong>.
+Crie outros atributos e outros carros e verifique o que acontece.</p>
+</div>
+<div class="section" id="o-metodo-especial-init-construtor">
+<h3>O método especial <cite>__init__</cite> (construtor)<a class="headerlink" href="#o-metodo-especial-init-construtor" title="Permalink to this headline">¶</a></h3>
+<p>Como sabemos que todos os carros que queremos representar possuem as
+propriedades &#8220;cor&#8221;, &#8220;ano&#8221;, e &#8220;modelo&#8221;, podemos deixar essas
+propriedades como atributos da classe e inicializá-las quando um
+objeto é instanciado (criado).
+Para isso, vamos utilizar o método especial <cite>__init__</cite>, conhecido como
+construtor da classe.</p>
+<p>A nova definição da classe ficaria assim:</p>
+
+<div id="exemplo02_carros" >
+<textarea cols="50" rows="12" id="exemplo02_carros_code" class="active_code">
+class Carro:
+    def __init__(self, m, a, c):
+        self.modelo = m
+        self.ano    = a
+        self.cor    = c
+
+brasilia = Carro('Brasilia', 1968, 'amarela')
+fusca = Carro('Fusca', 1981, 'preto')
+
+fusca.ano += 10   # observe que podemos acessar atributos de fusca
+print(fusca.ano)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exemplo02_carros)</span> </p>
+<button onclick="runit('exemplo02_carros',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exemplo02_carros');">Save</button>
+<button class="ac_opt" onclick="requestCode('exemplo02_carros');">Load</button>
+<br />
+
+<canvas id="exemplo02_carros_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exemplo02_carros_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="admonition-mas-o-que-e-esse-self admonition">
+<p class="first admonition-title">Mas o que é esse <cite>self</cite>?</p>
+<p>Todo método de uma classe recebe como primeiro parâmetro
+uma referência à instância que chama o método, permitindo
+assim que o objeto acesse os seus próprios atributos e métodos. Por
+convenção, chamamos esse primeiro parâmetro de <cite>self</cite>, mas qualquer
+outro nome poderia ser utilizado.</p>
+<p>O método especial <cite>__init__</cite> é chamado automaticamente após a
+criação de um objeto, e no caso de um <cite>Carro</cite>, na nova instância
+são criados os atributos &#8216;modelo&#8217;, &#8216;ano&#8217; e &#8216;cor&#8217; com os valores
+dados como argumentos do construtor (no caso <cite>Carro(&#8220;Brasilia&#8221;,
+1968,  &#8220;amarela&#8221;)</cite>).</p>
+<p class="last">Assim, no corpo de qualquer método, um atributo pode ser criado,
+acessado ou modificado usando <cite>self.nome_do_atributo</cite>.</p>
+</div>
+</div>
+<div class="section" id="outros-metodos">
+<h3>Outros métodos<a class="headerlink" href="#outros-metodos" title="Permalink to this headline">¶</a></h3>
+<p>Para exemplificar a criação de outros métodos e entender melhor o papel do <cite>self</cite>
+vamos criar os métodos <cite>imprima</cite>, <cite>acelere</cite> e <cite>pare</cite>.
+Por ser um exemplo mais elaborado, vamos também colocar os
+testes dentro da função <cite>main</cite>.</p>
+
+<div id="exemplo03_carros" >
+<textarea cols="50" rows="12" id="exemplo03_carros_code" class="active_code">
+def main():
+    pri = Carro('brasilia', 1968, 'amarela', 80)
+    seg = Carro('fuscao', 1981, 'preto', 95)
+
+    Carro.acelere(pri, 40)
+    Carro.acelere(seg, 50)
+    Carro.acelere(pri, 80)
+    Carro.pare(pri)
+    Carro.acelere(seg, 100)
+
+class Carro:
+    def __init__(self, m, a, c, vm):
+        self.modelo = m
+        self.ano    = a
+        self.cor    = c
+        self.vel    = 0
+        self.maxV   = vm  # velocidade maxima
+
+    def imprima(self):
+        if self.vel == 0: # parado da para ver o ano
+            print( "%s %s %d"%(self.modelo, self.cor, self.ano)     )
+        elif self.vel < self.maxV:
+            print( "%s %s indo a %d Km/h"%(self.modelo, self.cor, self.vel) )
+        else:
+            print( "%s %s indo muito raaaaaapiiiiiiiidoooooo!"%(self.modelo, self.cor))
+
+    def acelere(self, v):
+        self.vel = v
+        if self.vel > self.maxV:
+            self.vel = self.maxV
+        Carro.imprima(self)
+
+    def pare(self):
+        self.vel = 0
+        Carro.imprima(self)
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exemplo03_carros)</span> </p>
+<button onclick="runit('exemplo03_carros',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exemplo03_carros');">Save</button>
+<button class="ac_opt" onclick="requestCode('exemplo03_carros');">Load</button>
+<br />
+
+<canvas id="exemplo03_carros_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exemplo03_carros_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Leia esse código com atenção e confira a sua execução.</p>
+<p>Na função <cite>main</cite>, <cite>pri</cite> e <cite>seg</cite> são instâncias de Carro.
+Para chamar o método <cite>acelere</cite> de Carro, usamos a notação:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sb">`Carro.acelere(pri, 40)`</span>
+</pre></div>
+</div>
+<p>O método <cite>acelere</cite> recebe dois parâmetros, <cite>self</cite> e <cite>v</cite>. Assim, quando o método é executado, <cite>self</cite> é o objeto <cite>pri</cite> e <cite>v</cite> é o número 40.
+Observe que na chamada:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sb">`Carro.pare(pri)`</span>
+</pre></div>
+</div>
+<p>Apenas a instância (<cite>self</cite>) é passada ao método <cite>pare</cite>, pois esse método recebe apenas 1 argumento.</p>
+<p>Essa notação explicita a passagem dos objetos como primeiro parâmetro em cada método, mas é redundante visto que todo objeto sabe a que classe ele pertence.
+Uma notação mais comum e enxuta é chamar os métodos usando a notação com <cite>.</cite> de forma semelhante aos atributos e, como o primeiro argumento é sempre ele mesmo, ele pode ser evitado. Assim a chamada:</p>
+<div class="highlight-python"><div class="highlight"><pre>`Carro.acelere.(pri, 40)`
+</pre></div>
+</div>
+<p>pode ser escrita como:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sb">`pri.acelere(40)`</span>
+</pre></div>
+</div>
+<p>O exemplo abaixa mostra o mesmo código anterior, mas usando a notação mais enxuta.</p>
+
+<div id="exemplo04_carros" >
+<textarea cols="50" rows="12" id="exemplo04_carros_code" class="active_code">
+def main():
+    pri = Carro('brasilia', 1968, 'amarela', 80)
+    seg = Carro('fuscao', 1981, 'preto', 95)
+
+    pri.acelere(40)
+    seg.acelere(50)
+    pri.acelere(80)
+    pri.pare()
+    seg.acelere(100)
+
+class Carro:
+    def __init__(self, m, a, c, vm):
+        self.modelo = m
+        self.ano    = a
+        self.cor    = c
+        self.vel    = 0
+        self.maxV   = vm  # velocidade maxima
+
+    def imprima(self):
+        if self.vel == 0: # parado da para ver o ano
+            print( "%s %s %d"%(self.modelo, self.cor, self.ano)     )
+        elif self.vel < self.maxV:
+            print( "%s %s indo a %d Km/h"%(self.modelo, self.cor, self.vel) )
+        else:
+            print( "%s %s indo muito raaaaaapiiiiiiiidoooooo!"%(self.modelo, self.cor))
+
+    def acelere(self, v):
+        self.vel = v
+        if self.vel > self.maxV:
+            self.vel = self.maxV
+        self.imprima()
+
+    def pare(self):
+        self.vel = 0
+        self.imprima()
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exemplo04_carros)</span> </p>
+<button onclick="runit('exemplo04_carros',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exemplo04_carros');">Save</button>
+<button class="ac_opt" onclick="requestCode('exemplo04_carros');">Load</button>
+<br />
+
+<canvas id="exemplo04_carros_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exemplo04_carros_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Observe que tanto o método <cite>acelere</cite> quanto <cite>pare</cite> chamam o método <cite>imprima</cite> usando <cite>self.imprima()</cite> para exibir o estado da instância.</p>
+</div>
+<div class="section" id="o-metodo-especial-str">
+<h3>O método especial <cite>__str__</cite><a class="headerlink" href="#o-metodo-especial-str" title="Permalink to this headline">¶</a></h3>
+<p>O método <cite>imprima</cite> é muito útil para qualquer tipo de objeto mas não é a forma mais comum utilizando objetos. Em muitos casos, é desejável simplesmente utilizar a função <cite>print</cite> para imprimir uma &#8220;representação textual&#8221; do objeto.</p>
+<p>Na verdade, quando executamos o comando <cite>print(6)</cite>, como o 6 é um objeto da classe <cite>int</cite>, a função <cite>print</cite> converte o inteiro 6 no string <cite>6</cite> antes de ser impresso, algo como <cite>print( str(6) )</cite>. Lembre-se que, dentre as funções para conversão de tipos (lembra do <cite>int</cite> em <cite>int(input(&#8220;Digite um número: &#8221;))</cite>?), a função <cite>str</cite> converte o inteiro 6 para o string <cite>6</cite>.</p>
+<p>Para exibir então o conteúdo de um objeto usando <cite>print</cite>,
+devemos definir o método especial <cite>__str__</cite>, e devolver um string
+com a representação textual do objeto. A função <cite>str</cite>
+também chama e retorna o valor desse método (se existir).</p>
+<p>O código abaixo é basicamente o mesmo que o anterior, mas substituimos o método <cite>imprima</cite> pelo método especial <cite>__str__</cite>. No corpo desse método, ao invés de chamar a função <cite>print</cite>, carrega-se um string apropriado em <cite>s</cite>, que é retornado pelo método para a função <cite>print</cite> ou <cite>str</cite>.  Veja que nos métodos <cite>acelere</cite> e <cite>pare</cite>, basta chamar <cite>print(self)</cite>.</p>
+
+<div id="exercício05_carros" >
+<textarea cols="50" rows="12" id="exercício05_carros_code" class="active_code">
+def main():
+    pri = Carro('brasilia', 1968, 'amarela', 80)
+    seg = Carro('fuscao', 1981, 'preto', 95)
+
+    print(pri)
+    print(seg)
+
+    pri.acelere(40)
+    seg.acelere(50)
+    pri.acelere(80)
+    pri.pare()
+    seg.acelere(100)
+
+class Carro:
+    def __init__(self, m, a, c, vm):
+        self.modelo = m
+        self.ano    = a
+        self.cor    = c
+        self.vel    = 0
+        self.maxV   = vm  # velocidade maxima
+
+    def __str__(self):
+        if self.vel == 0: # parado da para ver o ano
+            s = "%s %s %d"%(self.modelo, self.cor, self.ano)
+        elif self.vel < self.maxV:
+            s = "%s %s indo a %d Km/h"%(self.modelo, self.cor, self.vel)
+        else:
+            s = "%s %s indo muito raaaaaapiiiiiiiidoooooo!"%(self.modelo, self.cor)
+        return s
+
+    def acelere(self, v):
+        self.vel = v
+        if self.vel > self.maxV:
+            self.vel = self.maxV
+        print(self)
+
+    def pare(self):
+        self.vel = 0
+        print(self)
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exercício05_carros)</span> </p>
+<button onclick="runit('exercício05_carros',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exercício05_carros');">Save</button>
+<button class="ac_opt" onclick="requestCode('exercício05_carros');">Load</button>
+<br />
+
+<canvas id="exercício05_carros_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exercício05_carros_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-17-1">
+<h3>Exercício 17.1<a class="headerlink" href="#exercicio-17-1" title="Permalink to this headline">¶</a></h3>
+<p>Escreva uma classe <cite>Complexo</cite> que permita representar números complexos e
+ao menos os métodos:</p>
+<blockquote>
+<div><ul class="simple">
+<li><cite>__init__</cite> (esse precisa estar presente em todas as classes)</li>
+<li>soma</li>
+<li>multiplicação</li>
+<li><cite>__str__</cite>, que retorna um string na forma <cite>a+bj</cite> (ou <cite>a-bj</cite>), onde <cite>a</cite> e <cite>b</cite> são as partes real e imaginária do número complexo.</li>
+</ul>
+</div></blockquote>
+<p>OBS: o Python tem uma classe <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#typesnumeric">complex</a> para manipular números complexos.</p>
+
+<div id="exercício_17_1_tentativa" >
+<textarea cols="50" rows="12" id="exercício_17_1_tentativa_code" class="active_code">
+class Complexo:
+    # remova a linha abaixo e escreva os metodos da classe Complexo
+    pass
+
+
+# testes como
+# cpx1 = Complexo(2,3)
+# print(cpx1)
+
+# escreva outros testes
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exercício_17_1_tentativa)</span> </p>
+<button onclick="runit('exercício_17_1_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exercício_17_1_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('exercício_17_1_tentativa');">Load</button>
+<br />
+
+<canvas id="exercício_17_1_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exercício_17_1_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introdução</a></li>
+<li><a class="reference internal" href="#programacao-orientada-a-objetos">Programação orientada a objetos</a><ul>
+<li><a class="reference internal" href="#objetivo">Objetivo</a></li>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#id1">Programação orientada a objetos</a></li>
+<li><a class="reference internal" href="#classes-e-objetos-em-python">Classes e Objetos em Python</a><ul>
+<li><a class="reference internal" href="#definicao-de-classes-e-criacao-de-objetos">Definição de classes e criação de objetos</a></li>
+<li><a class="reference internal" href="#atributos">Atributos</a></li>
+<li><a class="reference internal" href="#o-metodo-especial-init-construtor">O método especial <cite>__init__</cite> (construtor)</a></li>
+<li><a class="reference internal" href="#outros-metodos">Outros métodos</a></li>
+<li><a class="reference internal" href="#o-metodo-especial-str">O método especial <cite>__str__</cite></a></li>
+<li><a class="reference internal" href="#exercicio-17-1">Exercício 17.1</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="aula16.html"
+                        title="previous chapter">Exercícios</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="aula18.html"
+                        title="next chapter">Exercícios com objetos</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="aula18.html" title="Exercícios com objetos"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="aula16.html" title="Exercícios"
+             >previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Mar 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

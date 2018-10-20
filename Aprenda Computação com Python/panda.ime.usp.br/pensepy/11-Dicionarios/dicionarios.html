@@ -1,0 +1,1203 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Dicionários &mdash; Como pensar como um Cientista da Computação: Edição Interativa em Python</title>
+    
+    <link rel="stylesheet" href="../_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="../_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="../_static/codemirror.js"></script>
+    <script type="text/javascript" src="../_static/python.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="../_static/assess.js"></script>
+    <script type="text/javascript" src="../_static/animationbase.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="../_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Como pensar como um Cientista da Computação: Edição Interativa em Python" href="../index.html" />
+    <link rel="next" title="Recursão" href="../12-Recursao/recursionsimple-ptbr.html" />
+    <link rel="prev" title="Trabalhando com Arquivos" href="../10-Arquivos/files.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/pensePython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'pensePython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/pensePython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../12-Recursao/recursionsimple-ptbr.html" title="Recursão"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../10-Arquivos/files.html" title="Trabalhando com Arquivos"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="dicionarios">
+<h1>Dicionários<a class="headerlink" href="#dicionarios" title="Permalink to this headline">¶</a></h1>
+<p id="index-0">Todos os tipos de dados compostos que estudamos em detalhes até agora &#8212; strings,
+listas e tuplas &#8212; são coleções sequenciais. Isto significa que os
+itens na coleção estão ordenados da esquerda para a direita e eles
+usam números inteiros como índices para acessar os valores que eles contêm.</p>
+<p><strong>Dicionário</strong> é um tipo diferente de coleção.
+Ele é um <strong>tipo de mapeamento</strong> nativo do Python.
+Um mapa é uma coleção associativa desordenada. A associação, ou mapeamento,
+é feita a partir de uma <strong>chave</strong>, que pode ser qualquer tipo imutável,
+para um <strong>valor</strong>, que pode ser qualquer objeto de dados do Python.</p>
+<p>Como exemplo, vamos criar um dicionário para traduzir palavras em
+inglês para Espanhol. Para este dicionário, as chaves são strings.</p>
+<p>Uma maneira de criar um dicionário é começar com o dicionário vazio e adicionar
+<strong>pares chave-valor</strong>. O dicionário vazio é denotado <code class="docutils literal"><span class="pre">{}</span></code></p>
+
+<div id="chp12_dict1"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (chp12_dict1)</span> </p>
+<script type="text/javascript">
+var chp12_dict1_trace = {"code": "eng2sp = {}\neng2sp['one'] = 'uno'\neng2sp['two'] = 'dos'\neng2sp['three'] = 'tres'", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["eng2sp"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"eng2sp": ["REF", 1]}, "heap": {"1": ["DICT"]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["eng2sp"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"eng2sp": ["REF", 1]}, "heap": {"1": ["DICT", ["one", "uno"]]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["eng2sp"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"eng2sp": ["REF", 1]}, "heap": {"1": ["DICT", ["two", "dos"], ["one", "uno"]]}, "line": 4, "event": "step_line"}, {"ordered_globals": ["eng2sp"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"eng2sp": ["REF", 1]}, "heap": {"1": ["DICT", ["three", "tres"], ["two", "dos"], ["one", "uno"]]}, "line": 4, "event": "return"}]};
+var chp12_dict1_vis;
+
+$(document).ready(function() {
+    chp12_dict1_vis = new ExecutionVisualizer('chp12_dict1',chp12_dict1_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(chp12_dict1_vis,'chp12_dict1');
+    allVisualizers.push(chp12_dict1_vis);
+});
+
+$(document).ready(function() {
+    $("#chp12_dict1_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'chp12_dict1'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    chp12_dict1_vis.redrawConnectors();
+});
+</script>
+<p>A primeira atribuição cria um dicionário chamado <code class="docutils literal"><span class="pre">eng2sp</span></code>. As outras
+atribuições adicionam novos pares chave-valor para o dicionário. O
+lado esquerdo define o dicionário e a chave a ser associada. O lado direito
+define o valor a ser associado a essa chave.
+Nós podemos imprimir o valor atual do dicionário da maneira usual.
+Os pares chave-valor do dicionário são separados por vírgulas. cada par
+contém uma chave e um valor separado por dois pontos.</p>
+<p>A ordem dos pares pode não ser a que você esperava. O Python usa
+algoritmos complexos, projetados para acesso muito rápido, para
+determinar onde os pares chave-valor são armazenadas em um dicionário.
+Para os nossos propósitos, podemos pensar que esta ordenação é imprevisível.</p>
+<p>Outra maneira de criar um dicionário é fornecer uma lista de pares
+chave-valor usando a mesma sintaxe que a saída anterior.</p>
+
+<div id="chp12_dict2"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (chp12_dict2)</span> </p>
+<script type="text/javascript">
+var chp12_dict2_trace = {"code": "eng2sp = {'three': 'tres', 'one': 'uno', 'two': 'dos'}\nprint(eng2sp)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["eng2sp"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"eng2sp": ["REF", 1]}, "heap": {"1": ["DICT", ["three", "tres"], ["two", "dos"], ["one", "uno"]]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["eng2sp"], "stdout": "{'three': 'tres', 'two': 'dos', 'one': 'uno'}\n", "func_name": "<module>", "stack_to_render": [], "globals": {"eng2sp": ["REF", 1]}, "heap": {"1": ["DICT", ["three", "tres"], ["two", "dos"], ["one", "uno"]]}, "line": 2, "event": "return"}]};
+var chp12_dict2_vis;
+
+$(document).ready(function() {
+    chp12_dict2_vis = new ExecutionVisualizer('chp12_dict2',chp12_dict2_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(chp12_dict2_vis,'chp12_dict2');
+    allVisualizers.push(chp12_dict2_vis);
+});
+
+$(document).ready(function() {
+    $("#chp12_dict2_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'chp12_dict2'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    chp12_dict2_vis.redrawConnectors();
+});
+</script>
+<p>Não importa em que ordem escrevemos os pares. Os valores em um dicionário são
+acessados com chaves, não com índices, por isso não há necessidade de
+se preocupar com a ordenação.</p>
+<p>O exemplo mostra como usar uma chave para pesquisar o valor correspondente.</p>
+
+<div id="chp12_dict3"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (chp12_dict3)</span> </p>
+<script type="text/javascript">
+var chp12_dict3_trace = {"code": "eng2sp = {'three': 'tres', 'one': 'uno', 'two': 'dos'}\n\nvalue = eng2sp['two']", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["eng2sp"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"eng2sp": ["REF", 1]}, "heap": {"1": ["DICT", ["three", "tres"], ["two", "dos"], ["one", "uno"]]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["eng2sp", "value"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"eng2sp": ["REF", 1], "value": "dos"}, "heap": {"1": ["DICT", ["three", "tres"], ["two", "dos"], ["one", "uno"]]}, "line": 3, "event": "return"}]};
+var chp12_dict3_vis;
+
+$(document).ready(function() {
+    chp12_dict3_vis = new ExecutionVisualizer('chp12_dict3',chp12_dict3_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(chp12_dict3_vis,'chp12_dict3');
+    allVisualizers.push(chp12_dict3_vis);
+});
+
+$(document).ready(function() {
+    $("#chp12_dict3_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'chp12_dict3'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    chp12_dict3_vis.redrawConnectors();
+});
+</script>
+<p>A chave <code class="docutils literal"><span class="pre">'two'</span></code> resulta no valor <code class="docutils literal"><span class="pre">'dos'</span></code>.</p>
+<div class="admonition-scratch-editor admonition">
+<p class="first admonition-title">Scratch Editor</p>
+<div class="last">
+<button id="butt_dict_scratch_1" onclick="createActiveCode('dict_scratch_1',''); $('#butt_dict_scratch_1').hide();">Open Editor</button>
+<div id="dict_scratch_1"></div>
+<br />
+</div></div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question11_1_1">
+    <p>11.1.1: Um dicionário é uma coleção não ordenada de pares chave-valor.</p>
+    <form name="test_question11_1_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question11_1_1_opt_a" />
+    <label for= "test_question11_1_1_opt_a">  a) False</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question11_1_1_opt_b" />
+    <label for= "test_question11_1_1_opt_b">  b) True</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question11_1_1','b',['Dicionários associam chaves com valores mas não há uma ordenação das entradas.', 'Sim, dicionários são coleções associativas, o que significa que eles armazenam pares chave-valor.'])"/> 
+    </form>
+    <div id="test_question11_1_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question11_1_2">
+    <p>11.1.2: O que é impresso pelos seguintes comandos?
+
+<pre>
+mydict = {"cat":12, "dog":6, "elephant":23}
+print(mydict["dog"])
+</pre></p>
+    <form name="test_question11_1_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question11_1_2_opt_a" />
+    <label for= "test_question11_1_2_opt_a">  a) 12</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question11_1_2_opt_b" />
+    <label for= "test_question11_1_2_opt_b">  b) 6</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question11_1_2_opt_c" />
+    <label for= "test_question11_1_2_opt_c">  c) 23</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question11_1_2_opt_d" />
+    <label for= "test_question11_1_2_opt_d">  d) Error, you cannot use the index operator with a dictionary.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question11_1_2','b',['12 está associado com a chave cat.', 'Yes, 6 está associado com a chave dog.', '23 está associado com a chave elephant.', 'O operador [ ], quando usado com dicionário, vai procurar um valor baseado na chave.'])"/> 
+    </form>
+    <div id="test_question11_1_2_feedback">
+    </div>
+    </div>
+    <div class="section" id="operacoes-com-dicionarios">
+<span id="index-1"></span><h2>Operações com dicionários<a class="headerlink" href="#operacoes-com-dicionarios" title="Permalink to this headline">¶</a></h2>
+<p>O comando <code class="docutils literal"><span class="pre">del</span></code> remove um par chave-valor de um dicionário. Por exemplo,
+o seguinte dicionário contém os nomes de várias frutas e o número de
+cada fruta em estoque. Se alguém compra todas as peras, podemos remover a entrada do dicionário.</p>
+
+<div id="ch12_dict4"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (ch12_dict4)</span> </p>
+<script type="text/javascript">
+var ch12_dict4_trace = {"code": "inventario = {'kiwis': 430, 'bananas': 312, 'laranjas': 525, 'peras': 217}\n\ndel inventario['peras']", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["inventario"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"inventario": ["REF", 1]}, "heap": {"1": ["DICT", ["peras", 217], ["kiwis", 430], ["laranjas", 525], ["bananas", 312]]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["inventario"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"inventario": ["REF", 1]}, "heap": {"1": ["DICT", ["kiwis", 430], ["laranjas", 525], ["bananas", 312]]}, "line": 3, "event": "return"}]};
+var ch12_dict4_vis;
+
+$(document).ready(function() {
+    ch12_dict4_vis = new ExecutionVisualizer('ch12_dict4',ch12_dict4_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(ch12_dict4_vis,'ch12_dict4');
+    allVisualizers.push(ch12_dict4_vis);
+});
+
+$(document).ready(function() {
+    $("#ch12_dict4_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'ch12_dict4'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    ch12_dict4_vis.redrawConnectors();
+});
+</script>
+<p>Dicionários também são mutáveis. Como vimos antes, com listas, isso significa que o dicionário pode ser modificado pela referência a uma associação no lado esquerdo de um comando de atribuição. No exemplo anterior, em vez de excluir a entrada para <code class="docutils literal"><span class="pre">peras</span></code>, poderíamos ter definido o inventário para <code class="docutils literal"><span class="pre">0</span></code>.</p>
+
+<div id="ch12_dict4a"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (ch12_dict4a)</span> </p>
+<script type="text/javascript">
+var ch12_dict4a_trace = {"code": "inventario = {'kiwis': 430, 'bananas': 312, 'laranjas': 525, 'peras': 217}\n\ninventario['peras'] = 0", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["inventario"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"inventario": ["REF", 1]}, "heap": {"1": ["DICT", ["peras", 217], ["kiwis", 430], ["laranjas", 525], ["bananas", 312]]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["inventario"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"inventario": ["REF", 1]}, "heap": {"1": ["DICT", ["peras", 0], ["kiwis", 430], ["laranjas", 525], ["bananas", 312]]}, "line": 3, "event": "return"}]};
+var ch12_dict4a_vis;
+
+$(document).ready(function() {
+    ch12_dict4a_vis = new ExecutionVisualizer('ch12_dict4a',ch12_dict4a_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(ch12_dict4a_vis,'ch12_dict4a');
+    allVisualizers.push(ch12_dict4a_vis);
+});
+
+$(document).ready(function() {
+    $("#ch12_dict4a_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'ch12_dict4a'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    ch12_dict4a_vis.redrawConnectors();
+});
+</script>
+<p>Similarmente, um novo carregamento de bananas pode ser tratado assim.</p>
+
+<div id="ch12_dict5"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (ch12_dict5)</span> </p>
+<script type="text/javascript">
+var ch12_dict5_trace = {"code": "inventario = {'kiwis': 430, 'bananas': 312, 'laranjas': 525, 'peras': 217}\ninventario['bananas'] = inventario['bananas'] + 200\n\n\nnumItems = len(inventario)", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["inventario"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"inventario": ["REF", 1]}, "heap": {"1": ["DICT", ["peras", 217], ["kiwis", 430], ["laranjas", 525], ["bananas", 312]]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["inventario"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"inventario": ["REF", 1]}, "heap": {"1": ["DICT", ["peras", 217], ["kiwis", 430], ["laranjas", 525], ["bananas", 512]]}, "line": 5, "event": "step_line"}, {"ordered_globals": ["inventario", "numItems"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"inventario": ["REF", 1], "numItems": 4}, "heap": {"1": ["DICT", ["peras", 217], ["kiwis", 430], ["laranjas", 525], ["bananas", 512]]}, "line": 5, "event": "return"}]};
+var ch12_dict5_vis;
+
+$(document).ready(function() {
+    ch12_dict5_vis = new ExecutionVisualizer('ch12_dict5',ch12_dict5_trace,
+                                {embeddedMode: true,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(ch12_dict5_vis,'ch12_dict5');
+    allVisualizers.push(ch12_dict5_vis);
+});
+
+$(document).ready(function() {
+    $("#ch12_dict5_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'ch12_dict5'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    ch12_dict5_vis.redrawConnectors();
+});
+</script>
+<p>Observe que há agora 512 bananas &#8212; o dicionário foi modificado. Note também que a função <code class="docutils literal"><span class="pre">len</span></code> também funciona em dicionários. Ela retorna o número de pares chave-valor:</p>
+<div class="admonition-scratch-editor admonition">
+<p class="first admonition-title">Scratch Editor</p>
+<div class="last">
+<button id="butt_dict_scratch_2" onclick="createActiveCode('dict_scratch_2',''); $('#butt_dict_scratch_2').hide();">Open Editor</button>
+<div id="dict_scratch_2"></div>
+<br />
+</div></div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question11_2_1">
+    <p>11.2.1: O que é impresso pelos seguintes comandos?
+
+<pre>
+mydict = {"cat":12, "dog":6, "elephant":23}
+mydict["mouse"] = mydict["cat"] + mydict["dog"]
+print(mydict["mouse"])
+</pre></p>
+    <form name="test_question11_2_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question11_2_1_opt_a" />
+    <label for= "test_question11_2_1_opt_a">  a) 12</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question11_2_1_opt_b" />
+    <label for= "test_question11_2_1_opt_b">  b) 0</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question11_2_1_opt_c" />
+    <label for= "test_question11_2_1_opt_c">  c) 18</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question11_2_1_opt_d" />
+    <label for= "test_question11_2_1_opt_d">  d) Error, there is no entry with mouse as the key.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question11_2_1','c',['12 está associado à chave cat.', 'A chave mouse ficará associada com a soma de dois valores.', 'Sim, some o valor para cat e o valor para dog (12 + 6) e crie uma nova entrada para mouse.', 'Como a nova chave é introduzida na esquerda de um comando de atribuição, um novo par chave-valor é adicionado ao dicionário.'])"/> 
+    </form>
+    <div id="test_question11_2_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="metodos-de-dicionarios">
+<h2>Métodos de dicionários<a class="headerlink" href="#metodos-de-dicionarios" title="Permalink to this headline">¶</a></h2>
+<p>Dicionários possuem vários métodos nativos úteis. A seguinte tabela fornece um resumo e mais detalhes podem ser encontrados em
+<a class="reference external" href="http://docs.python.org/py3k/library/stdtypes.html#mapping-types-dict">Python Documentation</a>.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="18%" />
+<col width="70%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Método</th>
+<th class="head">Parâmetros</th>
+<th class="head">Descrição</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>keys</td>
+<td>nenhum</td>
+<td>Retorna uma vista das chaves no dicionário</td>
+</tr>
+<tr class="row-odd"><td>values</td>
+<td>nenhum</td>
+<td>Retorna uma vista dos valores no dicionário</td>
+</tr>
+<tr class="row-even"><td>items</td>
+<td>nenhum</td>
+<td>Retorna uma vista dos pares chave-valor no dicionário</td>
+</tr>
+<tr class="row-odd"><td>get</td>
+<td>key</td>
+<td>Retorna o valor associado com a chave; ou None</td>
+</tr>
+<tr class="row-even"><td>get</td>
+<td>key,alt</td>
+<td>Retorna o valor associado com a chave; ou alt</td>
+</tr>
+</tbody>
+</table>
+<p>O método <code class="docutils literal"><span class="pre">keys</span></code> retorna o que o Python 3 chama de <strong>vista</strong> (view) das chaves.
+Podemos iterar sobre a vista ou transformar a vista em uma lista usando a função
+<code class="docutils literal"><span class="pre">list</span></code> de conversão.</p>
+
+<div id="chp12_dict6" >
+<textarea cols="50" rows="12" id="chp12_dict6_code" class="active_code">
+inventory = {'apples': 430, 'bananas': 312, 'oranges': 525, 'pears': 217}
+
+for akey in inventory.keys():     # the order in which we get the keys is not defined
+   print("Got key", akey, "which maps to value", inventory[akey])
+
+ks = list(inventory.keys())
+print(ks)
+
+for k in inventory:
+   print("Got key", k)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp12_dict6)</span> </p>
+<button onclick="runit('chp12_dict6',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp12_dict6');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp12_dict6');">Load</button>
+<br />
+
+<canvas id="chp12_dict6_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp12_dict6_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>É tão comum iterar sobre as chaves em um dicionário que você pode omitir a chamada ao método <code class="docutils literal"><span class="pre">keys</span></code> na malha <code class="docutils literal"><span class="pre">for</span></code> &#8212; iterar sobre um dicionário itera implicitamente sobre suas chaves.</p>
+
+<div id="chp12_dict7" >
+<textarea cols="50" rows="12" id="chp12_dict7_code" class="active_code">
+inventory = {'apples': 430, 'bananas': 312, 'oranges': 525, 'pears': 217}
+
+for k in inventory:
+   print("Got key", k)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp12_dict7)</span> </p>
+<button onclick="runit('chp12_dict7',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp12_dict7');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp12_dict7');">Load</button>
+<br />
+
+<canvas id="chp12_dict7_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp12_dict7_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Como vimos anteriormente com strings e listas, métodos de dicionário usam a notação de ponto, que especifica o nome do método para a direita do ponto e o nome do objeto sobre o qual se aplica o método imediatamente à esquerda do ponto. O parênteses vazio, no caso de <code class="docutils literal"><span class="pre">keys</span></code> indicam que este método não tem parâmetros.</p>
+<p>Os métodos  <code class="docutils literal"><span class="pre">values</span></code> e <code class="docutils literal"><span class="pre">items</span></code> são semelhantes ao <code class="docutils literal"><span class="pre">keys</span></code>. Eles retornam objetos vista que podem ser transformados em listas ou iterada diretamente. Note que os itens são mostrados como tuplas contendo a chave e o valor associado.</p>
+
+<div id="chp12_dict8" >
+<textarea cols="50" rows="12" id="chp12_dict8_code" class="active_code">
+inventory = {'apples': 430, 'bananas': 312, 'oranges': 525, 'pears': 217}
+
+print(list(inventory.values()))
+print(list(inventory.items()))
+
+for (k,v) in inventory.items():
+    print("Got",k,"that maps to",v)
+
+for k in inventory:
+    print("Got",k,"that maps to",inventory[k])
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp12_dict8)</span> </p>
+<button onclick="runit('chp12_dict8',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp12_dict8');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp12_dict8');">Load</button>
+<br />
+
+<canvas id="chp12_dict8_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp12_dict8_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Note que os tuplas são muitas vezes úteis para obter tanto a chave quanto o valor ao mesmo tempo, enquanto você está iterando no laço. Os dois laços fazer a mesma coisa.</p>
+<p>Os operadores <code class="docutils literal"><span class="pre">in</span></code> e <code class="docutils literal"><span class="pre">not</span> <span class="pre">in</span></code> podem testar se uma chave está no dicionário:</p>
+
+<div id="chp12_dict9" >
+<textarea cols="50" rows="12" id="chp12_dict9_code" class="active_code">
+inventory = {'apples': 430, 'bananas': 312, 'oranges': 525, 'pears': 217}
+print('apples' in inventory)
+print('cherries' in inventory)
+
+if 'bananas' in inventory:
+    print(inventory['bananas'])
+else:
+    print("We have no bananas")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp12_dict9)</span> </p>
+<button onclick="runit('chp12_dict9',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp12_dict9');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp12_dict9');">Load</button>
+<br />
+
+<canvas id="chp12_dict9_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp12_dict9_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Este operador pode ser muito útil pois acessar uma chave inexistente em um
+dicionário provoca um erro de execução.</p>
+<p>O método <code class="docutils literal"><span class="pre">get</span></code> nos permite acessar o valor associado a uma chave, similar ao operador <code class="docutils literal"><span class="pre">[]</span></code>. A diferença importante é que <code class="docutils literal"><span class="pre">get</span></code> não irá causar um erro de execução se a chave não está presente. Ao invés disso, retorna None. Existe uma variação de <code class="docutils literal"><span class="pre">get</span></code> que permite o retorno de um valor alternativo quando a chave não está presente.</p>
+
+<div id="chp12_dict10" >
+<textarea cols="50" rows="12" id="chp12_dict10_code" class="active_code">
+inventory = {'apples': 430, 'bananas': 312, 'oranges': 525, 'pears': 217}
+
+print(inventory.get("apples"))
+print(inventory.get("cherries"))
+
+print(inventory.get("cherries",0))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp12_dict10)</span> </p>
+<button onclick="runit('chp12_dict10',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp12_dict10');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp12_dict10');">Load</button>
+<br />
+
+<canvas id="chp12_dict10_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp12_dict10_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question11_3_1">
+    <p>11.3.1: O que é impresso pelos seguintes comandos?
+
+<pre>
+mydict = {"cat":12, "dog":6, "elephant":23, "bear":20}
+keylist = list(mydict.keys())
+keylist.sort()
+print(keylist[3])
+</pre></p>
+    <form name="test_question11_3_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question11_3_1_opt_a" />
+    <label for= "test_question11_3_1_opt_a">  a) cat</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question11_3_1_opt_b" />
+    <label for= "test_question11_3_1_opt_b">  b) dog</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question11_3_1_opt_c" />
+    <label for= "test_question11_3_1_opt_c">  c) elephant</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question11_3_1_opt_d" />
+    <label for= "test_question11_3_1_opt_d">  d) bear</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question11_3_1','c',['keylist é uma lista de todas as chaves que é então ordenada. cat teria o índice 1.', 'keylist é uma lista de todas as chaves que é então ordenada. dog teria o índice 2.', 'Sim, a lista de chaves é ordenada e o item de índice 3 é impresso.', 'keylist é uma lista de todas as chaves que é então ordenada. bear teria o índice 0.'])"/> 
+    </form>
+    <div id="test_question11_3_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question11_3_2">
+    <p>11.3.2: O que é impresso pelos seguintes comandos?
+
+<pre>
+mydict = {"cat":12, "dog":6, "elephant":23, "bear":20}
+answer = mydict.get("cat")//mydict.get("dog")
+print(answer)
+</pre></p>
+    <form name="test_question11_3_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question11_3_2_opt_a" />
+    <label for= "test_question11_3_2_opt_a">  a) 2</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question11_3_2_opt_b" />
+    <label for= "test_question11_3_2_opt_b">  b) 0.5</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question11_3_2_opt_c" />
+    <label for= "test_question11_3_2_opt_c">  c) bear</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question11_3_2_opt_d" />
+    <label for= "test_question11_3_2_opt_d">  d) Erro, divisão não é uma operação válida em dicionários.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question11_3_2','a',['get retorna o valor associado com uma dada chave, assim o programa divide 12 por 6.', '12 é dividido por 6, não o inverso.', 'Dê uma nova olhada no exemplo de get dado acima. get retorna o valor associado com uma dada chave.', 'O operador de divisão inteira está sendo usado sobre os valores retornados pelo método get, não sobre o dicionário.'])"/> 
+    </form>
+    <div id="test_question11_3_2_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question11_3_3">
+    <p>11.3.3: O que é impresso pelos seguintes comandos?
+
+<pre>
+mydict = {"cat":12, "dog":6, "elephant":23, "bear":20}
+print("dog" in mydict)
+</pre></p>
+    <form name="test_question11_3_3_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question11_3_3_opt_a" />
+    <label for= "test_question11_3_3_opt_a">  a) True</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question11_3_3_opt_b" />
+    <label for= "test_question11_3_3_opt_b">  b) False</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question11_3_3','a',['Sim, dog é uma chave no dicionário.', 'O operador in retorna True se a chave está no dicionário, False em caso contrário.'])"/> 
+    </form>
+    <div id="test_question11_3_3_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question11_3_4">
+    <p>11.3.4: O que é impresso pelos seguintes comandos?
+
+<pre>
+mydict = {"cat":12, "dog":6, "elephant":23, "bear":20}
+print(23 in mydict)
+</pre></p>
+    <form name="test_question11_3_4_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question11_3_4_opt_a" />
+    <label for= "test_question11_3_4_opt_a">  a) True</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question11_3_4_opt_b" />
+    <label for= "test_question11_3_4_opt_b">  b) False</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question11_3_4','b',['23 é um valor no dicionário, não uma chave.', 'Sim, o operador in retorna True se a chave está no dicionário, False em caso contrário.'])"/> 
+    </form>
+    <div id="test_question11_3_4_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question11_3_5">
+    <p>11.3.5: O que é impresso pelos seguintes comandos?
+
+<pre>
+total = 0
+mydict = {"cat":12, "dog":6, "elephant":23, "bear":20}
+for akey in mydict:
+   if len(akey) > 3:
+      total = total + mydict[akey]
+print(total)
+
+</pre></p>
+    <form name="test_question11_3_5_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question11_3_5_opt_a" />
+    <label for= "test_question11_3_5_opt_a">  a) 18</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question11_3_5_opt_b" />
+    <label for= "test_question11_3_5_opt_b">  b) 43</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question11_3_5_opt_c" />
+    <label for= "test_question11_3_5_opt_c">  c) 0</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question11_3_5_opt_d" />
+    <label for= "test_question11_3_5_opt_d">  d) 61</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question11_3_5','b',['Some os valores que tem chaves maiores que 3, não iguais a 3.', 'Sim, o laço for itera sobre as chaves. Ele soma os valores das chaves que tem comprimento maior que 3.', 'Este é o padrão de acumulação. total começa com 0 mas muda a medida que a iteração prossegue.', 'Nem todos os valores são somados. O comando if escolhe apenas alguns.'])"/> 
+    </form>
+    <div id="test_question11_3_5_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="apelidos-and-copias">
+<span id="index-2"></span><h2>Apelidos and cópias<a class="headerlink" href="#apelidos-and-copias" title="Permalink to this headline">¶</a></h2>
+<p>Como os dicionários são mutáveis, você precisa estar ciente de apelidos (ou aliasing, como vimos com listas). Sempre que duas variáveis se referem ao mesmo objeto no dicionário, a mudança de uma afeta a outra.
+Por exemplo, <code class="docutils literal"><span class="pre">opposites</span></code> é um dicionário que contém pares
+de opostos.</p>
+
+<div id="ch12_dict11" >
+<textarea cols="50" rows="12" id="ch12_dict11_code" class="active_code">
+opposites = {'up': 'down', 'right': 'wrong', 'true': 'false'}
+alias = opposites
+
+print(alias is opposites)
+
+alias['right'] = 'left'
+print(opposites['right'])
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch12_dict11)</span> </p>
+<button onclick="runit('ch12_dict11',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch12_dict11');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch12_dict11');">Load</button>
+<br />
+
+<canvas id="ch12_dict11_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch12_dict11_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Como você pode notar do operador <code class="docutils literal"><span class="pre">is</span></code>, <code class="docutils literal"><span class="pre">alias</span></code> e <code class="docutils literal"><span class="pre">opposites</span></code> se referem ao mesmo objeto.</p>
+<p>Se você deseja modificar um dicionário e manter uma cópia do original, use o método <code class="docutils literal"><span class="pre">copy</span></code> de dicionários. como <em>acopy</em> é uma cópia do dicionário, mudanças nesse dicionário não afetarão o original.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">acopy</span> <span class="o">=</span> <span class="n">opposites</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">acopy</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span>    <span class="c1"># does not change opposites</span>
+</pre></div>
+</div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question11_4_1">
+    <p>11.4.1: O que é impresso pelos seguintes comandos?
+
+<pre>
+mydict = {"cat":12, "dog":6, "elephant":23, "bear":20}
+yourdict = mydict
+yourdict["elephant"] = 999
+print(mydict["elephant"])
+</pre></p>
+    <form name="test_question11_4_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question11_4_1_opt_a" />
+    <label for= "test_question11_4_1_opt_a">  a) 23</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question11_4_1_opt_b" />
+    <label for= "test_question11_4_1_opt_b">  b) None</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question11_4_1_opt_c" />
+    <label for= "test_question11_4_1_opt_c">  c) 999</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question11_4_1_opt_d" />
+    <label for= "test_question11_4_1_opt_d">  d) Erro, há duas chaves de nome elephant.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question11_4_1','c',['mydict e yourdict são ambos nomes do mesmo dicionário.', 'O dicionário é mutável, assim mudanças podem ser feitas para as chaves e valores.', 'Sim, como yourdict é um apelido para mydict, o valor para a chave elephant foi trocada.', 'Há apenas um dicionário com somente uma chave chamada elephant. O dicionário tem dois nome diferentes, mydict e yourdict.'])"/> 
+    </form>
+    <div id="test_question11_4_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="matrizes-esparsas">
+<span id="index-3"></span><h2>Matrizes esparsas<a class="headerlink" href="#matrizes-esparsas" title="Permalink to this headline">¶</a></h2>
+<p>Nós usamos anteriormente uma lista de listas para representar um matrix. Essa é uma boa escolha para uma matriz com a maioria de seus valores diferentes de zero, mas considere uma <a class="reference external" href="http://en.wikipedia.org/wiki/Sparse_matrix">matriz esparsa</a> como esta:</p>
+<img alt="sparse matrix" src="../_images/sparse.png" />
+<p>A representação usando listas contém muitos zeros:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">matrix</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+          <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+          <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+          <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+          <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Uma alternativa é a utilização de um dicionário. Para as chaves, podemos usar tuplas que contêm os números de linha e coluna. Aqui está a representação da mesma matriz usando dicionário.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">matrix</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span> <span class="mi">3</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Nós precisamos de apenas 3 pares chave-valor, um para cada elemento não-zero da matriz. Cada chave é uma tupla e cada valor é um inteiro.</p>
+<p>Para acessar um elemento da matriz, nós podemos usar o operador <code class="docutils literal"><span class="pre">[]</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">matrix</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>Observe que a sintaxe para a representação de um dicionário não é o mesma que a
+sintaxe da representação lista aninhada. Em vez de dois índices inteiros,
+utilizamos um índice que é uma tupla de inteiros.</p>
+<p>Existe um problema. Se especificarmos um elemento que é zero, teremos um erro pois
+não há nenhum elemento no dicionário com essa chave.
+A versão alternativa do método <code class="docutils literal"><span class="pre">get</span></code> resolve este problema.
+O primeiro argumento será a chave. O segundo argumento é o valor que <code class="docutils literal"><span class="pre">get</span></code> deve
+retornar caso a chave não esteja no dicionário (o que seria 0, uma vez que é uma matriz esparsa).</p>
+
+<div id="chp12_sparse" >
+<textarea cols="50" rows="12" id="chp12_sparse_code" class="active_code">
+matrix = {(0, 3): 1, (2, 1): 2, (4, 3): 3}
+print(matrix.get((0,3)))
+
+print(matrix.get((1, 3), 0))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp12_sparse)</span> </p>
+<button onclick="runit('chp12_sparse',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp12_sparse');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp12_sparse');">Load</button>
+<br />
+
+<canvas id="chp12_sparse_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp12_sparse_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="admonition-lab admonition">
+<p class="first admonition-title">Lab</p>
+<ul class="last simple">
+<li><a class="reference external" href="../Labs/lab12_01.html">Counting Letters</a> Nesse exercício dirigido de laboratório vamos trabalhar com um exercício que vai usar dicionários para generalizar a solução para contar as ocorrências de todas as letras em um string.</li>
+</ul>
+</div>
+<div class="admonition-lab admonition">
+<p class="first admonition-title">Lab</p>
+<ul class="last simple">
+<li><a class="reference external" href="../Labs/lab12_02.html">Letter Count Histogram</a> Combina o laboratório anterior com o exemplo de histogramas.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="glossario">
+<h2>Glossário<a class="headerlink" href="#glossario" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-chave">chave</dt>
+<dd>Um item de dados que é <em>mapeado</em> para um valor em um dicionário. As chaves são utilizadas para acessar os respectivos valores em um dicionário.</dd>
+<dt id="term-dicionario">dicionário</dt>
+<dd>Uma coleção de pares chave-valor que mapeiam chaves em valores. As chaves podem ser de qualquer tipo imutável e os valores podem ser de qualquer tipo.</dd>
+<dt id="term-grafico-de-chamadas">gráfico de chamadas</dt>
+<dd>Um gráfico consistindo de nós que representam chamadas de funções (ou  invocações), e arestas (linhas com setas) mostrando que chamadas deram origem a outras chamadas.</dd>
+<dt id="term-memorando">memorando</dt>
+<dd>O armazenamento temporário de valores pré-computadas para evitar a duplicação da mesma computação.</dd>
+<dt id="term-par-chave-valor">par chave-valor</dt>
+<dd>Um dos pares de elementos de um dicionário. Os valores são acessados em um dicionário pelas suas chaves.</dd>
+<dt id="term-tipo-de-mapeamento">tipo de mapeamento</dt>
+<dd>Um tipo de mapeamento é um tipo de dados composto por uma coleção de chaves e valores associados. O único tipo de mapeamento nativo do Python é o dicionário. Dicionários implementam o tipo de dados abstrato &#8212;  <cite>vetores associativos &lt;http://en.wikipedia.org/wiki/Associative_array&gt;</cite>.</dd>
+</dl>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Escreva um programa que lê em uma sequência da linha de comando e retorna uma tabela com as letras do alfabeto em ordem alfabética que ocorrem na sequência junto com o número de vezes que cada letra ocorre. Ignore se as letras são maiúsculas ou minúsculas. Um exemplo de execução do programa ficaria assim:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ python letter_counts.py &quot;ThiS is String with Upper and lower case Letters.&quot;
+a  2
+c  1
+d  1
+e  5
+g  1
+h  2
+i  4
+l  2
+n  2
+o  1
+p  2
+r  4
+s  5
+t  5
+u  1
+w  2
+$
+</pre></div>
+</div>
+
+<button id="butt_ex_11_01" onclick="createActiveCode('ex_11_01',''); $('#butt_ex_11_01').hide();">Open Editor</button>
+<div id="ex_11_01"></div>
+<br />
+</li>
+<li><p class="first">Forneça a resposta do interpretador Python para cada uma das questões seguintes, assumindo que os comandos são dados continuamente na mesma sessão:</p>
+<ol class="loweralpha">
+<li><div class="first highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;apples&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="s1">&#39;bananas&#39;</span><span class="p">:</span> <span class="mi">35</span><span class="p">,</span> <span class="s1">&#39;grapes&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;banana&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</li>
+<li><div class="first highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;oranges&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><div class="first highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;grapes&#39;</span> <span class="ow">in</span> <span class="n">d</span>
+</pre></div>
+</div>
+</li>
+<li><div class="first highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;pears&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</li>
+<li><div class="first highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pears&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><div class="first highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">fruits</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><div class="first highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;apples&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;apples&#39;</span> <span class="ow">in</span> <span class="n">d</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Certifique-se de que você entendeu a razão de cada resultado. Então aplique o que você aprendeu para preencher o corpo da função abaixo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">add_fruit</span><span class="p">(</span><span class="n">inventory</span><span class="p">,</span> <span class="n">fruit</span><span class="p">,</span> <span class="n">quantity</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+     <span class="k">pass</span>
+
+<span class="c1"># faça esses testes funcionarem...</span>
+<span class="n">new_inventory</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">add_fruit</span><span class="p">(</span><span class="n">new_inventory</span><span class="p">,</span> <span class="s1">&#39;strawberries&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="s1">&#39;strawberries&#39;</span> <span class="ow">in</span> <span class="n">new_inventory</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">new_inventory</span><span class="p">[</span><span class="s1">&#39;strawberries&#39;</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">add_fruit</span><span class="p">(</span><span class="n">new_inventory</span><span class="p">,</span> <span class="s1">&#39;strawberries&#39;</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="n">test</span><span class="p">(</span><span class="n">new_inventory</span><span class="p">[</span><span class="s1">&#39;strawberries&#39;</span><span class="p">]</span> <span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Escreva um programa chamado <code class="docutils literal"><span class="pre">alice_words.py</span></code> que cria um arquivo de texto chamado <code class="docutils literal"><span class="pre">alice_words.txt</span></code> contendo uma lista alfabética de todas as palavras, e o número de vezes que cada palavra ocorre, na versão de texto do <cite>Alice&#8217;s Adventures in Wonderland</cite>. (Você pode obter uma versão em texto puro gratuita do livro, junto com muitos outros, a partir de <a class="reference external" href="http://www.gutenberg.org">http://www.gutenberg.org</a>.) As primeiras 10 linhas do seu arquivo de saída devem se parecer com:</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Palava</th>
+<th class="head">Contador</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>a</td>
+<td>631</td>
+</tr>
+<tr class="row-odd"><td>a-piece</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>abide</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>able</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>about</td>
+<td>94</td>
+</tr>
+<tr class="row-odd"><td>above</td>
+<td>3</td>
+</tr>
+<tr class="row-even"><td>absence</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>absurd</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>Quantas vezes a palavra <code class="docutils literal"><span class="pre">alice</span></code> aparece no livro? Se você está usando o activecode, simplesmente imprima os resultados ao invés de escrever em um arquivo.</p>
+
+<button id="butt_ex_11_02" onclick="createActiveCode('ex_11_02',''); $('#butt_ex_11_02').hide();">Open Editor</button>
+<div id="ex_11_02"></div>
+<br />
+</li>
+<li><p class="first">Qual é a palavra mais comprida no livro <code class="docutils literal"><span class="pre">Alice</span> <span class="pre">in</span> <span class="pre">Wonderland</span></code>? Quantos caracteres ela possui?</p>
+
+<button id="butt_ex_11_03" onclick="createActiveCode('ex_11_03',''); $('#butt_ex_11_03').hide();">Open Editor</button>
+<div id="ex_11_03"></div>
+<br />
+</li>
+<li><p class="first">A seguinte tabela contém tradução de algumas palavras em inglês para a língua dos piratas</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="37%" />
+<col width="63%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Inglês</th>
+<th class="head">Pirata</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>sir</td>
+<td>matey</td>
+</tr>
+<tr class="row-odd"><td>hotel</td>
+<td>fleabag inn</td>
+</tr>
+<tr class="row-even"><td>student</td>
+<td>swabbie</td>
+</tr>
+<tr class="row-odd"><td>boy</td>
+<td>matey</td>
+</tr>
+<tr class="row-even"><td>madam</td>
+<td>proud beauty</td>
+</tr>
+<tr class="row-odd"><td>professor</td>
+<td>foul blaggart</td>
+</tr>
+<tr class="row-even"><td>restaurant</td>
+<td>galley</td>
+</tr>
+<tr class="row-odd"><td>your</td>
+<td>yer</td>
+</tr>
+<tr class="row-even"><td>excuse</td>
+<td>arr</td>
+</tr>
+<tr class="row-odd"><td>students</td>
+<td>swabbies</td>
+</tr>
+<tr class="row-even"><td>are</td>
+<td>be</td>
+</tr>
+<tr class="row-odd"><td>lawyer</td>
+<td>foul blaggart</td>
+</tr>
+<tr class="row-even"><td>the</td>
+<td>th&#8217;</td>
+</tr>
+<tr class="row-odd"><td>restroom</td>
+<td>head</td>
+</tr>
+<tr class="row-even"><td>my</td>
+<td>me</td>
+</tr>
+<tr class="row-odd"><td>hello</td>
+<td>avast</td>
+</tr>
+<tr class="row-even"><td>is</td>
+<td>be</td>
+</tr>
+<tr class="row-odd"><td>man</td>
+<td>matey</td>
+</tr>
+</tbody>
+</table>
+<p>Escreva um programa que pergunta ao usuário uma frase em inglês e imprime a tradução da frase para a língua dos piratas.</p>
+
+<button id="butt_ex_11_04" onclick="createActiveCode('ex_11_04',''); $('#butt_ex_11_04').hide();">Open Editor</button>
+<div id="ex_11_04"></div>
+<br />
+</div></blockquote>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Dicionários</a><ul>
+<li><a class="reference internal" href="#operacoes-com-dicionarios">Operações com dicionários</a></li>
+<li><a class="reference internal" href="#metodos-de-dicionarios">Métodos de dicionários</a></li>
+<li><a class="reference internal" href="#apelidos-and-copias">Apelidos and cópias</a></li>
+<li><a class="reference internal" href="#matrizes-esparsas">Matrizes esparsas</a></li>
+<li><a class="reference internal" href="#glossario">Glossário</a></li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../10-Arquivos/files.html"
+                        title="previous chapter">Trabalhando com Arquivos</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../12-Recursao/recursionsimple-ptbr.html"
+                        title="next chapter">Recursão</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../12-Recursao/recursionsimple-ptbr.html" title="Recursão"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../10-Arquivos/files.html" title="Trabalhando com Arquivos"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2012, Brad Miller, David Ranum.
+      Last updated on May 24, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

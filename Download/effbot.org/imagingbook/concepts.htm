@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Concepts</title></head><body data-page-id="390"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><p><a href="introduction.htm">back</a>&#160;<a href="image.htm">next</a></p><h1 class="maintitle">Concepts</h1></div><div class="yui-ge"><div class="yui-u first"><p>The Python Imaging Library handles <i>raster images</i>; that
+is, rectangles of pixel data.</p><h2 id="bands">Bands&#160;<a class="nav" href="#bands" title="bookmark!">#</a></h2><p>An image can consist of one or more bands of data. The Python
+Imaging Library allows you to store several bands in a single
+image, provided they all have the same dimensions and depth.</p><p>To get the number and names of bands in an image, use the
+<a href="/tag/PIL.Image.getbands"><b>getbands</b></a> method.</p><h2 id="mode">Mode&#160;<a class="nav" href="#mode" title="bookmark!">#</a></h2><p>The mode of an image defines the type and depth of a pixel in
+the image. The current release supports the following standard
+modes:</p><ul><li><p><b>1</b> (1-bit pixels, black and white, stored with one pixel per
+byte)</p></li><li><p><b>L</b> (8-bit pixels, black and white)</p></li><li><p><b>P</b> (8-bit pixels, mapped to any other mode using a colour
+palette)</p></li><li><p><b>RGB</b> (3x8-bit pixels, true colour)</p></li><li><p><b>RGBA</b> (4x8-bit pixels, true colour with transparency
+mask)</p></li><li><p><b>CMYK</b> (4x8-bit pixels, colour separation)</p></li><li><p><b>YCbCr</b> (3x8-bit pixels, colour video format)</p></li><li><p><b>I</b> (32-bit signed integer pixels)</p></li><li><p><b>F</b> (32-bit floating point pixels)</p></li></ul><p>PIL also provides limited support for a few special modes,
+including <b>LA</b> (L with alpha), <b>RGBX</b> (true colour with
+padding) and <b>RGBa</b> (true colour with premultiplied alpha).
+However, PIL doesn&#8217;t support user-defined modes; if you to handle band
+combinations that are not listed above, use a sequence of Image
+objects.</p><p>You can read the mode of an image through the <a href="/tag/PIL.Image.Image.mode"><b>mode</b></a> attribute. This
+is a string containing one of the above values.</p><h2 id="size">Size&#160;<a class="nav" href="#size" title="bookmark!">#</a></h2><p>You can read the image size through the <a href="/tag/PIL.Image.Image.size"><b>size</b></a>
+attribute. This is a 2-tuple, containing the horizontal and vertical
+size in pixels.</p><h2 id="coordinate-system">Coordinate System&#160;<a class="nav" href="#coordinate-system" title="bookmark!">#</a></h2><p>The Python Imaging Library uses a Cartesian pixel coordinate
+system, with (0,0) in the upper left corner. Note that the
+coordinates refer to the implied pixel corners; the centre of a
+pixel addressed as (0, 0) actually lies at (0.5, 0.5).</p><p class="fixme">FIXME: Add illustration!</p><p>Coordinates are usually passed to the library as 2-tuples (x,
+y). Rectangles are represented as 4-tuples, with the upper left corner
+given first. For example, a rectangle covering all of an 800x600 pixel
+image is written as (0, 0, 800, 600).</p><h2 id="palette">Palette&#160;<a class="nav" href="#palette" title="bookmark!">#</a></h2><p>The palette mode (&#8220;P&#8221;) uses a colour palette to define the actual
+colour for each pixel.</p><h2 id="info">Info&#160;<a class="nav" href="#info" title="bookmark!">#</a></h2><p>You can attach auxiliary information to an image using the <a href="/tag/PIL.Image.Image.info"><b>info</b></a>
+attribute. This is a dictionary object.</p><p>How such information is handled when loading and saving image files
+is up to the file format handler (see the chapter on <a href="formats.htm"><i>Image File Formats</i></a>).  Most handlers
+add properties to the <b>info</b> attribute when loading an image, but
+ignore it when saving images.</p><h2 id="filters">Filters&#160;<a class="nav" href="#filters" title="bookmark!">#</a></h2><p>For geometry operations that may map multiple input pixels to a
+single output pixel, the Python Imaging Library provides four
+different resampling <i>filters</i>.</p><dl><dt><b>NEAREST</b></dt><dd><p>Pick the nearest pixel from the input image.  Ignore all other
+input pixels.</p></dd>
+<dt><b>BILINEAR</b></dt><dd><p>Use linear interpolation over a 2x2 environment in the input
+image.  Note that in the current version of PIL, this filter uses a
+fixed input environment when downsampling.</p></dd>
+<dt><b>BICUBIC</b></dt><dd><p>Use cubic interpolation over a 4x4 environment in the input
+image.  Note that in the current version of PIL, this filter uses a
+fixed input environment when downsampling.</p></dd>
+<dt><b>ANTIALIAS</b></dt><dd><p>(New in PIL 1.1.3).  Calculate the output pixel value using a
+high-quality resampling filter (a truncated sinc) on all pixels that
+may contribute to the output value.  In the current version of PIL,
+this filter can only be used with the <b>resize</b> and
+<b>thumbnail</b> methods.</p></dd>
+</dl><p>Note that in the current version of PIL, the ANTIALIAS filter is
+the only filter that behaves properly when downsampling (that is, when
+converting a large image to a small one).  The BILINEAR and BICUBIC
+filters use a fixed input environment, and are best used for
+scale-preserving geometric transforms and upsamping.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p><a href="introduction.htm">back</a>&#160;<a href="image.htm">next</a></p></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to imagingbook index page.">::: imagingbook :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#bands">Bands</a></li><li><a href="#mode">Mode</a></li><li><a href="#size">Size</a></li><li><a href="#coordinate-system">Coordinate System</a></li><li><a href="#palette">Palette</a></li><li><a href="#info">Info</a></li><li><a href="#filters">Filters</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

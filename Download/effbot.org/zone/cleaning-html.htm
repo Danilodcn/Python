@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Cleaning up HTML&nbsp;snippets</title></head><body data-page-id="25"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Cleaning up HTML&nbsp;snippets</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | November 2003 | Originally posted to <a href="http://online.effbot.org">online.effbot.org</a></p><p>The following <b>fixsnippet</b> function takes an HTML fragment and
+turns it into a well-formed XHTML fragment.  It checks that the fragment
+only contains tags from the <b>VALID_TAGS</b> list, maps presentational
+tags to semantic tags, and removes attributes from most tags.  You can
+use this to convert things like blog entries, comments, and HTML mails
+into glorious XHTML.</p><p>Note that you need both the ElementTree library and the ElementTidy
+extension; follow the links below for details.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">from</span> elementtidy.TidyHTMLTreeBuilder <span class="pykeyword">import</span> TidyHTMLTreeBuilder
+<span class="pykeyword">from</span> elementtree.ElementTree <span class="pykeyword">import</span> tostring
+
+<span class="pycomment"># list of accepted tags</span>
+VALID_TAGS = (
+    <span class="pystring">"a"</span>, <span class="pystring">"p"</span>, <span class="pystring">"blockquote"</span>, <span class="pystring">"ul"</span>, <span class="pystring">"ol"</span>, <span class="pystring">"li"</span>, <span class="pystring">"dl"</span>, <span class="pystring">"dt"</span>, <span class="pystring">"dd"</span>, <span class="pystring">"em"</span>,
+    <span class="pystring">"strong"</span>, <span class="pystring">"dfn"</span>, <span class="pystring">"code"</span>, <span class="pystring">"q"</span>, <span class="pystring">"samp"</span>, <span class="pystring">"kbd"</span>, <span class="pystring">"var"</span>, <span class="pystring">"cite"</span>,
+    <span class="pystring">"abbr"</span>, <span class="pystring">"acronym"</span>, <span class="pystring">"sub"</span>, <span class="pystring">"sup"</span>
+    )
+
+<span class="pycomment"># dictionary mapping presentational tags to semantic tags</span>
+TAG_MAP = { <span class="pystring">"b"</span>: <span class="pystring">"strong"</span>, <span class="pystring">"i"</span>: <span class="pystring">"em"</span>, <span class="pystring">"tt"</span>: <span class="pystring">"samp"</span> }
+
+<span class="pycomment"># XHTML namespace url</span>
+NS_XHTML = <span class="pystring">"{http://www.w3.org/1999/xhtml}"</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">fixsnippet</span>(snippet):
+
+    parser = TidyHTMLTreeBuilder()
+    parser.feed(snippet)
+
+    body = parser.close().find(NS_XHTML + <span class="pystring">"body"</span>)
+
+    <span class="pykeyword">for</span> elem <span class="pykeyword">in</span> body:
+        <span class="pykeyword">for</span> elem <span class="pykeyword">in</span> elem.getiterator():
+            <span class="pycomment"># get rid of XHTML namespace</span>
+            <span class="pykeyword">if</span> elem.tag.startswith(NS_XHTML):
+                elem.tag = elem.tag[len(NS_XHTML):]
+
+            <span class="pycomment"># map presentation tags to semantic tags</span>
+            elem.tag = TAG_MAP.get(elem.tag, elem.tag)
+
+            <span class="pycomment"># check for bad tags</span>
+            <span class="pykeyword">if</span> elem.tag <span class="pykeyword">not</span> <span class="pykeyword">in</span> VALID_TAGS:
+                <span class="pykeyword">raise</span> SyntaxError(<span class="pystring">"invalid tag: %r"</span> % elem.tag)
+
+            <span class="pycomment"># clear out attributes (extend as necessary)</span>
+            <span class="pykeyword">if</span> elem.tag == <span class="pystring">"a"</span>:
+                href = elem.get(<span class="pystring">"href"</span>)
+                elem.attrib.clear()
+                <span class="pykeyword">if</span> href:
+                    elem.set(<span class="pystring">"href"</span>, href)
+            <span class="pykeyword">else</span>:
+                elem.attrib.clear()
+
+    <span class="pycomment"># change the body tag to a div tag</span>
+    body.tag = <span class="pystring">"div"</span>; body.attrib.clear()
+    <span class="pykeyword">return</span> tostring(body)</pre></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

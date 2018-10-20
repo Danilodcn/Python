@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The ImageGL&nbsp;Module</title></head><body data-page-id="442"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><p><a href="imagecrackcode.htm">back</a>&#160;<a href="imagemath.htm">next</a></p><h1 class="maintitle">The ImageGL&nbsp;Module</h1></div><div class="yui-ge"><div class="yui-u first"><p>(<s><a href="http://www.pythonware.com/products/pil/plus.htm">PIL Plus</a></s> (dead link)) (May be added to 1.2)
+The <b>ImageGL</b> module allows you to copy PIL images to OpenGL texture
+objects.  The module is designed to be used together with a separate OpenGL
+binding, such as <a href="http://pyopengl.sourceforge.net/">PyOpenGL</a>.</p><h3 id="examples">Examples&#160;<a class="nav" href="#examples" title="bookmark!">#</a></h3><div class="example">
+<b>Creating an OpenGL texture</b>
+<pre class="python">
+<span class="pykeyword">import</span> Image, ImageGL
+
+... set up an OpenGL context ...
+
+factory = ImageGL.TextureFactory()
+
+im = Image.open(<span class="pystring">"example.jpg"</span>)
+
+texture = factory.maketexture(im)
+texture.draw((0, 0, 100, 100))</pre></div></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p><a href="imagecrackcode.htm">back</a>&#160;<a href="imagemath.htm">next</a></p></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to imagingbook index page.">::: imagingbook :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><ul><li><a href="#examples">Examples</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

@@ -1,0 +1,404 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capítulo 9: Tuplas &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Capítulo 10: Dicionários" href="capitulo_10.html" />
+    <link rel="prev" title="Capítulo 8: Listas" href="capitulo_08.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="capitulo_10.html" title="Capítulo 10: Dicionários"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_08.html" title="Capítulo 8: Listas"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="capitulo-9-tuplas">
+<h1><a class="toc-backref" href="#id1">Capítulo 9: Tuplas</a><a class="headerlink" href="#capitulo-9-tuplas" title="Link permanente para este título">¶</a></h1>
+<div class="contents topic" id="topicos">
+<p class="topic-title first">Tópicos</p>
+<ul class="simple">
+<li><a class="reference external" href="#capitulo-9-tuplas" id="id1">Capítulo 9: Tuplas</a><ul>
+<li><a class="reference external" href="#mutabilidade-e-tuplas" id="id2">9.1 Mutabilidade e tuplas</a></li>
+<li><a class="reference external" href="#atribuicoes-de-tupla" id="id3">9.2 Atribuições de tupla</a></li>
+<li><a class="reference external" href="#tuplas-como-valores-de-retorno" id="id4">9.3 Tuplas como valores de retorno</a></li>
+<li><a class="reference external" href="#numeros-aleatorios" id="id5">9.4 Números aleatórios</a></li>
+<li><a class="reference external" href="#lista-de-numeros-aleatorios" id="id6">9.5 Lista de números aleatórios</a></li>
+<li><a class="reference external" href="#contando" id="id7">9.6 Contando</a></li>
+<li><a class="reference external" href="#varios-intervalos" id="id8">9.7 Vários intervalos</a></li>
+<li><a class="reference external" href="#uma-solucao-em-um-so-passo" id="id9">9.8 Uma solução em um só passo</a></li>
+<li><a class="reference external" href="#glossario" id="id10">9.9 Glossário</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="mutabilidade-e-tuplas">
+<h2><a class="toc-backref" href="#id2">9.1 Mutabilidade e tuplas</a><a class="headerlink" href="#mutabilidade-e-tuplas" title="Link permanente para este título">¶</a></h2>
+<p>Até agora, você tem visto dois tipos compostos: strings, que são compostos de caracteres; e listas, que são compostas de elementos de qualquer tipo. Uma das diferenças que notamos é que os elementos de uma lista podem ser modificados, mas os caracteres em uma string não. Em outras palavras, strings são <strong>imutáveis</strong> e listas são <strong>mutáveis</strong>.</p>
+<p>Há um outro tipo em Python chamado <strong>tupla</strong> <em>(tuple)</em> que é similar a uma lista exceto por ele ser <strong>imutável</strong>. Sintaticamente, uma tupla é uma lista de valores separados por vírgulas:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tupla</span> <span class="o">=</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">,</span> <span class="s">&#39;d&#39;</span><span class="p">,</span> <span class="s">&#39;e&#39;</span>
+</pre></div>
+</div>
+<p>Embora não seja necessário, é convencional colocar tuplas entre parênteses:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tupla</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">,</span> <span class="s">&#39;d&#39;</span><span class="p">,</span> <span class="s">&#39;e&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Para criar uma tupla com um único elemento, temos que incluir uma vírgula final:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">t1</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>
+<span class="go">&lt;type &#39;tuple&#39;&gt;</span>
+</pre></div>
+</div>
+<p>Sem a vírgula, Python entende <tt class="docutils literal"><span class="pre">('a')</span></tt> como uma string entre parênteses:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">t2</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">t2</span><span class="p">)</span>
+<span class="go">&lt;type &#39;string&#39;&gt;</span>
+</pre></div>
+</div>
+<p>Questões de sintaxe de lado, as operações em tuplas são as mesmas operações das listas. O operador índice seleciona um elemento da tupla.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tupla</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">,</span> <span class="s">&#39;d&#39;</span><span class="p">,</span> <span class="s">&#39;e&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tupla</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">&#39;a&#39;</span>
+</pre></div>
+</div>
+<p>E o operador <em>slice</em> (fatia) seleciona uma &#8220;faixa&#8221; (<em>range</em>) de elementos.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tupla</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+<span class="go">(&#39;b&#39;, &#39;c&#39;)</span>
+</pre></div>
+</div>
+<p>Mas se tentarmos modificar um dos elementos de uma tupla, teremos um erro:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tupla</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;A&#39;</span>
+<span class="go">TypeError: object doesn&#39;t support item assignment</span>
+</pre></div>
+</div>
+<p>Naturalmente, mesmo que não possamos modificar os elementos de uma tupla, podemos substituí-la por uma tupla diferente:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tupla</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;A&#39;</span><span class="p">,)</span> <span class="o">+</span> <span class="n">tupla</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tupla</span>
+<span class="go">(&#39;A&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="atribuicoes-de-tupla">
+<h2><a class="toc-backref" href="#id3">9.2 Atribuições de tupla</a><a class="headerlink" href="#atribuicoes-de-tupla" title="Link permanente para este título">¶</a></h2>
+<p>De vez em quando, é necessário trocar entre si os valores de duas variáveis. Com operações de atribuição convencionais, temos que utilizar uma variável temporária. Por exemplo, para fazer a troca entre <tt class="docutils literal"><span class="pre">a</span></tt> e <tt class="docutils literal"><span class="pre">b</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">temp</span> <span class="o">=</span> <span class="n">a</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">temp</span>
+</pre></div>
+</div>
+<p>Se você tiver que fazer isso com frequência, esta abordagem se torna incômoda. Python fornece uma forma de <strong>atribuição de tupla</strong> que resolve esse problema elegantemente:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span>
+</pre></div>
+</div>
+<p>O lado esquedo é uma tupla de variáveis; o lado direito é uma tupla de valores. Cada valor é atribuído à sua respectiva variável. Todas as expressões do lado direito são avaliadas antes de qualquer das atribuições. Esta característica torna as atribuições de tupla bastante versáteis.</p>
+<p>Naturalmente, o número de variáveis na esquerda e o número de valores na direita deve ser igual:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span>
+<span class="go">ValueError: unpack tuple of wrong size</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tuplas-como-valores-de-retorno">
+<h2><a class="toc-backref" href="#id4">9.3 Tuplas como valores de retorno</a><a class="headerlink" href="#tuplas-como-valores-de-retorno" title="Link permanente para este título">¶</a></h2>
+<p>Funções podem retornar tuplas como valor de retorno. Por Exemplo, nós poderíamos escrever uma função que troca dois parâmetros entre si:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">troca</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+  <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>Então nós poderíamos atribuir o valor de retorno para uma tupla com duas variáveis:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">troca</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Neste caso, não existe uma grande vantagem em fazer de <tt class="docutils literal"><span class="pre">troca</span></tt> (<em>swap</em>) uma função. De fato, existe um perigo em tentar encapsular <tt class="docutils literal"><span class="pre">troca</span></tt>, o qual é a tentação de cometer o seguinte erro:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">troca</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>      <span class="c"># versao incorreta</span>
+  <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>Se nós chamarmos esta função desta forma:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">troca</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>então <tt class="docutils literal"><span class="pre">a</span></tt> e <tt class="docutils literal"><span class="pre">x</span></tt> são apelidos para um mesmo valor. Mudar <tt class="docutils literal"><span class="pre">x</span></tt> dentro da função <tt class="docutils literal"><span class="pre">troca</span></tt>, faz com que <tt class="docutils literal"><span class="pre">x</span></tt> se referencie a um valor diferente, mas sem  efeito sobre <tt class="docutils literal"><span class="pre">a</span></tt> dentro de <tt class="docutils literal"><span class="pre">__main__</span></tt>. Do mesmo modo, a mudança em <tt class="docutils literal"><span class="pre">y</span></tt> não tem efeito sobre <tt class="docutils literal"><span class="pre">b</span></tt>.</p>
+<p>Esta função roda sem produzir uma mensagem de erro, mas ela não faz o que pretendemos. Este é um exemplo de um erro semântico.</p>
+<blockquote>
+<em>Como exercício, desenhe um diagrama de estado pra esta função de modo que você possa ver porque ela não funciona.</em></blockquote>
+</div>
+<div class="section" id="numeros-aleatorios">
+<h2><a class="toc-backref" href="#id5">9.4 Números aleatórios</a><a class="headerlink" href="#numeros-aleatorios" title="Link permanente para este título">¶</a></h2>
+<p>A maioria dos programas de computador fazem a mesma coisa sempre que são executados, então, podemos dizer que eles são <strong>determinísticos</strong>. Determinismo em geral é uma coisa boa, se nós esperamos que um cálculo dê sempre o mesmo resultado. Entretanto, para algumas aplicações queremos que o computador se torne imprevisível. Jogos são um exemplo óbvio, mas existem outros.</p>
+<p>Fazer um programa realmente não-determinístico se mostra não ser tão fácil, mas existem maneiras de fazê-lo ao menos parecer não-determinístico. Uma dessas maneiras é gerar números aleatórios e usá-los para determinar o resultado de um programa. Python tem uma função nativa que gera números <strong>pseudo aleatórios</strong>, os quais não são verdadeiramente aleatórios no sentido matemático, mas para os nossos propósitos eles são.</p>
+<p>O módulo <tt class="docutils literal"><span class="pre">random</span></tt> contém uma função chamada <tt class="docutils literal"><span class="pre">random</span></tt> que retorna um número em ponto flutuante (<em>floating-point number</em>) entre 0.0 e 1.0. Cada vez que você chama <tt class="docutils literal"><span class="pre">random</span></tt>, você recebe o próximo número de uma longa série. Para ver uma amostra, execute este loop:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">random</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+  <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+  <span class="k">print</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>Para gerar um número aleatório ente 0.0 e um limite superior, digamos <tt class="docutils literal"><span class="pre">superior</span></tt>, multiplique <tt class="docutils literal"><span class="pre">x</span></tt> por <tt class="docutils literal"><span class="pre">superior</span></tt>.</p>
+<blockquote>
+<p><em>Como exercício, gere um número aleatório entre &#8216;inferior&#8217; e &#8216;superior&#8217;.</em></p>
+<p><em>Como exercício adicional, gere um número inteiro aleatório entre &#8216;inferior&#8217; e &#8216;superior&#8217;, inclusive os dois extremos.</em></p>
+</blockquote>
+</div>
+<div class="section" id="lista-de-numeros-aleatorios">
+<h2><a class="toc-backref" href="#id6">9.5 Lista de números aleatórios</a><a class="headerlink" href="#lista-de-numeros-aleatorios" title="Link permanente para este título">¶</a></h2>
+<p>O primeiro passo é gerar uma lista aleatória de valores. <tt class="docutils literal"><span class="pre">listaAleatoria</span></tt> pega um parâmetro inteiro e retorna uma lista de números aleatórios com o comprimento dado. Inicia-se com uma lista de <tt class="docutils literal"><span class="pre">n</span></tt> zeros. A cada iteração do loop, ele substitui um dos elementos por um número aleatório. O valor retornado é uma referência para a lista completa:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">listaAleatoria</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+  <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+  <span class="k">return</span> <span class="n">s</span>
+</pre></div>
+</div>
+<p>Vamos realizar um teste desta função com uma lista de oito elementos. Para efeitos de depuração, é uma boa idéia começar com uma lista pequena.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">listaAleatoria</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="go">0.15156642489</span>
+<span class="go">0.498048560109</span>
+<span class="go">0.810894847068</span>
+<span class="go">0.360371157682</span>
+<span class="go">0.275119183077</span>
+<span class="go">0.328578797631</span>
+<span class="go">0.759199803101</span>
+<span class="go">0.800367163582</span>
+</pre></div>
+</div>
+<p>Os números gerados por <tt class="docutils literal"><span class="pre">random</span></tt> são supostamente uniformemente distribuídos, o que significa que cada valor tem uma probabilidade igual de acontecer.</p>
+<p>Se nós dividirmos a faixa de valores possíveis em intervalos do mesmo tamanho, e contarmos o número de vezes que um determinado valor aleatório caiu em seu respectivo intervalo, nós devemos obter  o mesmo número aproximado de valores em cada um dos intervalos.</p>
+<p>Nós podemos testar esta teoria escrevendo um programa que divida a faixa de valores em intervalos e conte o número de valores de cada intervalo.</p>
+</div>
+<div class="section" id="contando">
+<h2><a class="toc-backref" href="#id7">9.6 Contando</a><a class="headerlink" href="#contando" title="Link permanente para este título">¶</a></h2>
+<p>Uma boa maneira de abordar problemas como esse é dividir o problema em subproblemas, e encontrar um subproblema que se enquadre em um padrão de solução computacional que você já tenha visto antes.</p>
+<p>Neste caso, queremos percorrer uma lista de números e contar o número de vezes que valor se encaixa em um determinado intervalo. Isso soa familiar. Na Seção 7.8, nós escrevemos um programa que percorria uma string e contava o número de vezes que uma determinada letra aparecia.</p>
+<p>Assim, podemos prosseguir copiando o programa original e adaptando-o para o problema atual. O programa original era:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">contador</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">letra</span> <span class="ow">in</span> <span class="n">fruta</span><span class="p">:</span>
+  <span class="k">if</span> <span class="n">letra</span> <span class="o">==</span> <span class="s">&#39;a&#39;</span><span class="p">:</span>
+    <span class="n">contador</span> <span class="o">=</span> <span class="n">contador</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="k">print</span> <span class="n">contador</span>
+</pre></div>
+</div>
+<p>O primeiro passo é substituir <tt class="docutils literal"><span class="pre">fruta</span></tt> por <tt class="docutils literal"><span class="pre">lista</span></tt> e <tt class="docutils literal"><span class="pre">letra</span></tt> por <tt class="docutils literal"><span class="pre">numero</span></tt>. Isso não muda o programa, apenas o ajusta para que ele se torne mais fácil de ler e entender.</p>
+<p>O segundo passo é mudar o teste. Nós não estamos interessados em procurar letras. Nós queremos ver se <tt class="docutils literal"><span class="pre">numero</span></tt> está entre <tt class="docutils literal"><span class="pre">inferior</span></tt> e <tt class="docutils literal"><span class="pre">superior</span></tt>.:</p>
+<div class="highlight-python"><pre>contador = 0
+  for numero in lista
+    if inferior &lt; numero &lt; superior:
+      contador = contador + 1
+  print contador</pre>
+</div>
+<p>O último passo é encapsular este código em uma função chamada <tt class="docutils literal"><span class="pre">noIntervalo</span></tt>. Os parâmetros são a lista e os valores <tt class="docutils literal"><span class="pre">inferior</span></tt> e <tt class="docutils literal"><span class="pre">superior</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">noIntervalo</span><span class="p">(</span><span class="n">lista</span><span class="p">,</span> <span class="n">inferior</span><span class="p">,</span> <span class="n">superior</span><span class="p">):</span>
+    <span class="n">contador</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">numero</span> <span class="ow">in</span> <span class="n">lista</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">inferior</span> <span class="o">&lt;</span> <span class="n">numero</span> <span class="o">&lt;</span> <span class="n">superior</span><span class="p">:</span>
+        <span class="n">contador</span> <span class="o">=</span> <span class="n">contador</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">contador</span>
+</pre></div>
+</div>
+<p>Através da cópia e da modificação de um programa existente, estamos aptos a escrever esta função rapidamente e economizar um bocado de tempo de depuração. Este plano de desenvolvimento é chamado de <strong>casamento de padrões</strong>. Se você se encontrar trabalhando em um problema que você já solucionou antes, reuse a solução.</p>
+</div>
+<div class="section" id="varios-intervalos">
+<h2><a class="toc-backref" href="#id8">9.7 Vários intervalos</a><a class="headerlink" href="#varios-intervalos" title="Link permanente para este título">¶</a></h2>
+<p>Conforme o número de intervalos aumenta, <tt class="docutils literal"><span class="pre">noIntervalo</span></tt> torna-se intragável. Com dois intervalos, não é tão ruim:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">inferior</span> <span class="o">=</span> <span class="n">noIntervalo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">superior</span> <span class="o">=</span> <span class="n">noIntervalo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Mas com quatro intervalos, começa a ficar desconfortável.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">intervalo1</span> <span class="o">=</span> <span class="n">noIntervalo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
+<span class="n">intervalo2</span> <span class="o">=</span> <span class="n">noIntervalo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">intervalo3</span> <span class="o">=</span> <span class="n">noIntervalo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">)</span>
+<span class="n">intervalo4</span> <span class="o">=</span> <span class="n">noIntervalo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Existem aqui dois problemas. Um é que temos que criar novos nomes de variável para cada resultado. O outro é que temos que calcular os limites de cada intervalo.</p>
+<p>Vamos resolver o segundo problema primeiro. Se o número de intervalos é <tt class="docutils literal"><span class="pre">numeroDeIntervalos</span></tt>, então a largura de cada intervalo é 1.0 / <tt class="docutils literal"><span class="pre">numeroDeIntervalos</span></tt>.</p>
+<p>Vamos usar um laço (<em>loop</em>) para calcular a faixa, ou largura, de cada intervalo. A variável do <em>loop</em>, <tt class="docutils literal"><span class="pre">i</span></tt>, conta de 0 até <tt class="docutils literal"><span class="pre">numeroDeIntervalos-1</span></tt>:</p>
+<div class="highlight-python"><pre>larguraDoIntervalo = 1.0 / numeroDeIntervalos
+for i in range(numeroDeIntervalos):
+  inferior = i * larguraDoIntervalo
+  superior = inferior + larguraDoIntervalo
+  print "do" inferior, "ao", superior</pre>
+</div>
+<p>Para calcular o limite inferior (<tt class="docutils literal"><span class="pre">inferior</span></tt>) de cada intervalo, nós multiplicamos a variável do <em>loop</em> (<tt class="docutils literal"><span class="pre">i</span></tt>) pela largura do intervalo (<tt class="docutils literal"><span class="pre">larguraDoIntervalo</span></tt>). O limite superior (<tt class="docutils literal"><span class="pre">superior</span></tt>) está exatamente uma &#8220;largura de intervalo&#8221; acima.</p>
+<p>Com <tt class="docutils literal"><span class="pre">numeroDeIntervalos</span> <span class="pre">=</span> <span class="pre">8</span></tt>, o resultado é:</p>
+<div class="highlight-python"><pre>0.0 to 0.125
+0.125 to 0.25
+0.25 to 0.375
+0.375 to 0.5
+0.5 to 0.625
+0.625 to 0.75
+0.75 to 0.875
+0.875 to 1.0</pre>
+</div>
+<p>Você pode confirmar que cada intervalo tem a mesma largura, que eles não se sobrepõe, e que eles cobrem toda a faixa de valores de 0.0 a 1.0.</p>
+<p>Agora, de volta ao primeiro problema. Nós precisamos de uma maneira de guardar oito inteiros, usando a váriavel do <em>loop</em> para indicar cada um destes inteiros. Você deve estar pensando, &#8220;Lista!&#8221;</p>
+<p>Nós temos que criar a lista de intervalos fora do <em>loop</em>, porque queremos fazer isto apenas uma vez. Dentro do loop, nós vamos chamar <tt class="docutils literal"><span class="pre">noIntervalo</span></tt> repetidamente e atualizar o <tt class="docutils literal"><span class="pre">i</span></tt>-ésimo elemento da lista:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">numeroDeIntervalos</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">intervalos</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">numeroDeIntervalos</span>
+<span class="n">larguraDoIntervalo</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">numeroDeIntervalos</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numeroDeIntervalos</span><span class="p">):</span>
+  <span class="n">inferior</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">larguraDoIntervalo</span>
+  <span class="n">superior</span> <span class="o">=</span> <span class="n">inferior</span> <span class="o">+</span> <span class="n">larguraDoIntervalo</span>
+  <span class="n">intervalos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">noIntervalo</span><span class="p">(</span><span class="n">lista</span><span class="p">,</span> <span class="n">inferior</span><span class="p">,</span> <span class="n">superior</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">intervalos</span>
+</pre></div>
+</div>
+<p>Com uma lista de 1000 valores, este código vai produzir esta lista de quantidades de valores em cada intervalo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="mi">138</span><span class="p">,</span> <span class="mi">124</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">118</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">117</span><span class="p">,</span> <span class="mi">114</span><span class="p">,</span> <span class="mi">131</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Esses números estão razoavelmente póximos de 125, o que era o que esperávamos. Pelo menos eles estão próximos o bastante para nos fazer acreditar que o gerador de número aleatórios está funcionando.</p>
+<blockquote>
+<em>Como exercício, teste esta função com algumas listas longas, e veja se o número de valores em cada um dos intervalos tendem a uma distribuição nivelada.</em></blockquote>
+</div>
+<div class="section" id="uma-solucao-em-um-so-passo">
+<h2><a class="toc-backref" href="#id9">9.8 Uma solução em um só passo</a><a class="headerlink" href="#uma-solucao-em-um-so-passo" title="Link permanente para este título">¶</a></h2>
+<p>Embora este programa funcione, ele não é tão eficiente quanto poderia ser. Toda vez que ele chama <tt class="docutils literal"><span class="pre">noIntervalo</span></tt>, ele percorre a lista inteira. Conforme o número de intervalos aumenta, a lista será percorrida um bocado de vezes.</p>
+<p>Seria melhor fazer uma única passagem pela lista e calcular para cada valor o índice do intervalo ao qual o valor pertença. Então podemos incrementar o contador apropriado.</p>
+<p>Na seção anterior, pegamos um índice, <tt class="docutils literal"><span class="pre">i</span></tt>, e o multiplicamos pela <tt class="docutils literal"><span class="pre">larguraDoIntervalo</span></tt> para encontrar o limite inferior daquele intervalo. Agora queremos pegar um valor entre 0.0 e 1.0 e encontrar o índice do intervalo ao qual ele se encaixa.</p>
+<p>Já que este problema é o inverso do problema anterior, podemos imaginar que deveríamos dividir por <tt class="docutils literal"><span class="pre">larguraDoIntervalo</span></tt> em vez de multiplicar. Esta suposição está correta.</p>
+<p>Já que <tt class="docutils literal"><span class="pre">larguraDoIntervalo</span></tt> = 1.0 / numeroDeIntervalos, dividir por <tt class="docutils literal"><span class="pre">larguraDoIntervalo</span></tt> é o mesmo que multiplicar por <tt class="docutils literal"><span class="pre">numeroDeIntervalos</span></tt>. Se multiplicarmos um número na faixa entre 0.0 e 1.0 por <tt class="docutils literal"><span class="pre">numeroDeIntervalos</span></tt>, obtemos um número na faixa entre 0.0 e <tt class="docutils literal"><span class="pre">numeroDeIntervalos</span></tt>. Se arredondarmos este número para baixo, ou seja, para o menor inteiro mais próximo, obtemos exatamente o que estamos procurando - o índice do intervalo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">numeroDeIntervalos</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">intervalos</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">numeroDeIntervalos</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">lista</span><span class="p">:</span>
+  <span class="n">indice</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">numeroDeIntervalos</span><span class="p">)</span>
+  <span class="n">intervalos</span><span class="p">[</span><span class="n">indice</span><span class="p">]</span> <span class="o">=</span> <span class="n">intervalos</span><span class="p">[</span><span class="n">indice</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Usamos a função <tt class="docutils literal"><span class="pre">int</span></tt> para converter um número em ponto flutuante (<em>float</em>) para um inteiro.</p>
+<p>Existe a possibilidade deste cálculo produzir um índice que esteja fora dos limites (seja negativo ou maior que <tt class="docutils literal"><span class="pre">len(intervalos)-1</span></tt>)?</p>
+<p>Uma lista como <tt class="docutils literal"><span class="pre">intervalos</span></tt> que contém uma contagem do número de valores em cada intervalo é chamada de <strong>histograma</strong>.</p>
+<blockquote>
+<em>Como exercício, escreva uma função chamada ``histograma`` que  receba uma lista e um número de intervalos como argumentos e retorne um histograma com o número de intervalos solicitado.</em></blockquote>
+</div>
+<div class="section" id="glossario">
+<h2><a class="toc-backref" href="#id10">9.9 Glossário</a><a class="headerlink" href="#glossario" title="Link permanente para este título">¶</a></h2>
+<dl class="docutils">
+<dt>tipo imutável (<em>immutable type</em>)</dt>
+<dd>Um tipo de elemento que não pode ser modificado. Atribuições a um elemento ou &#8220;fatiamento (slices)&#8221; XXX aos tipos imutáveis causarão erro.</dd>
+<dt>tipo mutável (<em>mutable type</em>)</dt>
+<dd>Tipo de dados onde os elementos podem ser modificados. Todos os tipos mutáveis, são tipos compostos. Listas e dicionários são exemplos de tipos de dados mutáveis. String e tuplas não são.</dd>
+<dt>tupla (<em>tuple</em>)</dt>
+<dd>Tipo sequencial similar as listas com exceção de que ele é imutável. Podem ser usadas Tuplas sempre que um tipo imutável for necessário, por exemplo uma &#8220;chave (key)&#8221; em um dicionário</dd>
+<dt>Atribuição a tupla (<em>tuple assignment</em>)</dt>
+<dd>Atribuição a todos os elementos de uma tupla feita num único comando de atribução. A atribuição aos elementos ocorre em paralelo, e não em sequência, tornando esta operação útil para <em>swap</em>, ou troca recíproca de valores entre variáveis (ex: a,b=b,a).</dd>
+<dt>determinístico (<em>deterministic</em>)</dt>
+<dd>Um programa que realiza a mesma coisa sempre que é executado.</dd>
+<dt>pseudo aleatório (<em>pseudorandom</em>)</dt>
+<dd>Uma sequência de números que parecem ser aleatórios mas são na verdade o resultado de uma computação &#8220;determinística&#8221;</dd>
+<dt>histograma (<em>histogram</em>)</dt>
+<dd>Uma lista de inteiros na qual cada elemento conta o número de vezes que algo acontece.</dd>
+<dt>casamento de padrão XXX (<em>pattern matching</em>)</dt>
+<dd>Um programa desenvolvido que envolve identificar um teste padrão computacional familiar e copiar a solução para um problema similar.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Capítulo 9: Tuplas</a><ul>
+<li><a class="reference internal" href="#mutabilidade-e-tuplas">9.1 Mutabilidade e tuplas</a></li>
+<li><a class="reference internal" href="#atribuicoes-de-tupla">9.2 Atribuições de tupla</a></li>
+<li><a class="reference internal" href="#tuplas-como-valores-de-retorno">9.3 Tuplas como valores de retorno</a></li>
+<li><a class="reference internal" href="#numeros-aleatorios">9.4 Números aleatórios</a></li>
+<li><a class="reference internal" href="#lista-de-numeros-aleatorios">9.5 Lista de números aleatórios</a></li>
+<li><a class="reference internal" href="#contando">9.6 Contando</a></li>
+<li><a class="reference internal" href="#varios-intervalos">9.7 Vários intervalos</a></li>
+<li><a class="reference internal" href="#uma-solucao-em-um-so-passo">9.8 Uma solução em um só passo</a></li>
+<li><a class="reference internal" href="#glossario">9.9 Glossário</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="capitulo_08.html"
+                        title="capítulo anterior">Capítulo 8: Listas</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="capitulo_10.html"
+                        title="próximo capítulo">Capítulo 10: Dicionários</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/capitulo_09.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="capitulo_10.html" title="Capítulo 10: Dicionários"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_08.html" title="Capítulo 8: Listas"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

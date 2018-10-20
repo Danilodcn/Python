@@ -1,0 +1,25 @@
+HTTP request sent, awaiting response... 200 OK
+Length: 208436 (204K) [application/octet-stream]
+Saving to: ‘effbot.org/media/downloads/aggdraw-1.1-20051010.win32-py2.3.exe’
+
+
+
+2018-02-21 23:17:18 (193 KB/s) - ‘effbot.org/media/downloads/aggdraw-1.1-20051010.win32-py2.3.exe’ saved [208436/208436]
+
+--2018-02-21 23:17:18--  http://effbot.org/media/downloads/aggdraw-1.1-20051010.zip
+Reusing existing connection to effbot.org:80.
+HTTP request sent, awaiting response... 200 OK
+Length: 382272 (373K) [application/zip]
+Saving to: ‘effbot.org/media/downloads/aggdraw-1.1-20051010.zip’
+
+
+
+2018-02-21 23:17:19 (247 KB/s) - ‘effbot.org/media/downloads/aggdraw-1.1-20051010.zip’ saved [382272/382272]
+
+--2018-02-21 23:17:19--  http://effbot.org/media/downloads/cElementTree-1.0.5-20051216.tar.gz
+Reusing existing connection to effbot.org:80.
+HTTP request sent, awaiting response... 200 OK
+Length: 93766 (92K) [text/javascript]
+Saving to: ‘effbot.org/media/downloads/cElementTree-1.0.5-20051216.tar.gz’
+
+downloads/cElementTree-1.0.5-20051216.tar  85%[========================================================================>             ]  77,93K  --.-KB/s    eta 91s    ownloads/cElementTree-1.0.5-20051216.tar.  85%[========================================================================>             ]  77,93K  --.-KB/s    eta 91s    wnloads/cElementTree-1.0.5-20051216.tar.g  85%[========================================================================>             ]  77,93K  --.-KB/s    eta 91s    nloads/cElementTree-1.0.5-20051216.tar.gz  85%[========================================================================>             ]  77,93K  --.-KB/s    eta 91s    loads/cElementTree-1.0.5-20051216.tar.gz   85%[========================================================================>             ]  77,93K  --.-KB/s    eta 92s    oads/cElementTree-1.0.5-20051216.tar.gz    85%[========================================================================>             ]  77,93K  --.-KB/s    eta 92s    ads/cElementTree-1.0.5-20051216.tar.gz     85%[========================================================================>             ]  77,93K  --.-KB/s    eta 92s    ds/cElementTree-1.0.5-20051216.tar.gz      85%[========================================================================>             ]  77,93K  --.-KB/s    eta 92s    s/cElementTree-1.0.5-20051216.tar.gz       85%[========================================================================>             ]  77,93K  --.-KB/s    eta 92s    /cElementTree-1.0.5-20051216.tar.gz        85%[========================================================================>             ]  77,93K  --.-KB/s    eta 92s    cElementTree-1.0.5-20051216.tar.gz         85%[========================================================================>             ]  77,93K  --.-KB/s    eta 93s    ElementTree-1.0.5-20051216.tar.gz          85%[========================================================================>             ]  77,93K  --.-KB/s    eta 93s    lementTree-1.0.5-20051216.tar.gz           85%[========================================================================>             ]  77,93K  --.-KB/s    eta 93s    

@@ -1,0 +1,605 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Expressões lógicas e operadores relacionais &#8212; Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Comando de repetição: while" href="03-while.html" />
+    <link rel="prev" title="Variáveis, expressões e funções de entrada e saída" href="02-expressoes.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulas',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'cc110',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulas/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="03-while.html" title="Comando de repetição: while"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="02-expressoes.html" title="Variáveis, expressões e funções de entrada e saída"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="expressoes-logicas-e-operadores-relacionais">
+<h1>Expressões lógicas e operadores relacionais<a class="headerlink" href="#expressoes-logicas-e-operadores-relacionais" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="index-0"></span><div class="section" id="topicos">
+<span id="index-1"></span><h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>tipo <code class="docutils literal"><span class="pre">bool</span></code>;</li>
+<li>valores booleanos:  <code class="docutils literal"><span class="pre">True</span></code> e <code class="docutils literal"><span class="pre">False</span></code>;</li>
+<li>operadores lógicos <code class="docutils literal"><span class="pre">and</span></code>, <code class="docutils literal"><span class="pre">or</span></code> e <code class="docutils literal"><span class="pre">not</span></code>;</li>
+<li>expressões lógicas ou booleans;</li>
+<li>operadores relacionais.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="livro">
+<h2>Livro<a class="headerlink" href="#livro" title="Permalink to this headline">¶</a></h2>
+<p>Sugerimos que seja lido o  <a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/06-Selecao/selecao.html">Valores booleanos e expressões booleanas</a> do livro Como Pensar Como um Cientista da Computação.</p>
+</div>
+<div class="section" id="videos">
+<h2>Vídeos<a class="headerlink" href="#videos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://www.youtube.com/watch?v=sgfmuFRZuWs&amp;list=PLcoJJSvnDgcKpOi_UeneTNTIVOigRQwcn&amp;index=9">Tipos booleanos e precedência de operadores</a> e</li>
+<li><a class="reference external" href="https://www.youtube.com/watch?v=d6XyTLkTYJo#t=41">Expressões lógicas (bool) [Zumbis]</a>.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="valores-booleanos">
+<h2>Valores booleanos<a class="headerlink" href="#valores-booleanos" title="Permalink to this headline">¶</a></h2>
+<p>Em Python, uma variável pode assumir valor booleano <code class="docutils literal"><span class="pre">True</span></code>
+(= verdadeiro) ou <code class="docutils literal"><span class="pre">False</span></code> (= falso). Esses valores são úteis para
+representar, por exemplo, o resultado de uma comparação.
+Experimente:</p>
+
+<div id="aula05_exemplo_1" >
+<textarea cols="50" rows="12" id="aula05_exemplo_1_code" class="active_code">
+def main():
+    a = 3
+    b = 4
+    c = a < b   # c recebe o valor da comparação a < b
+    d = a > b   # d recebe o valor da comparação a > b
+    e = a == b  # e recebe o valor da comparação a == b
+
+    print("Valor de c: ", c)
+    print("Valor de d: ", d)
+    print("Valor de e: ", e)
+
+#-----
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula05_exemplo_1)</span> </p>
+<button onclick="runit('aula05_exemplo_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula05_exemplo_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula05_exemplo_1');">Load</button>
+<br />
+
+<canvas id="aula05_exemplo_1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula05_exemplo_1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="operadores-e-expressoes-logicas">
+<h2>Operadores e expressões lógicas<a class="headerlink" href="#operadores-e-expressoes-logicas" title="Permalink to this headline">¶</a></h2>
+<p>Expressões aritméticas, como <code class="docutils literal"><span class="pre">2</span> <span class="pre">+</span> <span class="pre">3</span> <span class="pre">*</span> <span class="pre">4</span></code>, são formadas por valores e operadores
+aritméticos <code class="docutils literal"><span class="pre">+</span></code>, <code class="docutils literal"><span class="pre">*</span></code>, <code class="docutils literal"><span class="pre">-</span></code>, <code class="docutils literal"><span class="pre">/</span></code>,...
+De maneira semelhante,
+aritméticos, , <strong>expressões lógicas</strong> ou <strong>booleanas</strong> são formadas por valores e
+os operadores lógicos tais como <code class="docutils literal"><span class="pre">and</span></code>, <code class="docutils literal"><span class="pre">or</span></code> e <code class="docutils literal"><span class="pre">not</span></code>.</p>
+<div class="section" id="operador-and">
+<h3>Operador <code class="docutils literal"><span class="pre">and</span></code><a class="headerlink" href="#operador-and" title="Permalink to this headline">¶</a></h3>
+<p>Dados dois valores booleanos <code class="docutils literal"><span class="pre">a</span></code> e <code class="docutils literal"><span class="pre">b</span></code>, o operador lógico <code class="docutils literal"><span class="pre">and</span></code> resulta
+em <code class="docutils literal"><span class="pre">True</span></code> apenas quando <code class="docutils literal"><span class="pre">a</span></code> e <code class="docutils literal"><span class="pre">b</span></code> foram ambos <code class="docutils literal"><span class="pre">True</span></code>, e retorna
+<code class="docutils literal"><span class="pre">False</span></code> em caso contrário.</p>
+<p>Altere os valores de <code class="docutils literal"><span class="pre">a</span></code> e <code class="docutils literal"><span class="pre">b</span></code> no programa abaixo e veja o resultado.</p>
+
+<div id="exemplo_op_logico_and" >
+<textarea cols="50" rows="12" id="exemplo_op_logico_and_code" class="active_code">
+def main():
+    a = True
+    b = False
+    print("Valor de 'a and b': ", a and b)
+
+#-----
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exemplo_op_logico_and)</span> </p>
+<button onclick="runit('exemplo_op_logico_and',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exemplo_op_logico_and');">Save</button>
+<button class="ac_opt" onclick="requestCode('exemplo_op_logico_and');">Load</button>
+<br />
+
+<canvas id="exemplo_op_logico_and_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exemplo_op_logico_and_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>A tabela abaixo mostra o resultado de <code class="docutils literal"><span class="pre">and</span></code> para todas as
+combinações de a e b.</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="34%" />
+<col width="31%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">and</span></code></td>
+<td>a = True</td>
+<td>a = False</td>
+</tr>
+<tr class="row-even"><td>b = True</td>
+<td>True</td>
+<td>False</td>
+</tr>
+<tr class="row-odd"><td>b = False</td>
+<td>False</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="operador-or">
+<h3>Operador <code class="docutils literal"><span class="pre">or</span></code><a class="headerlink" href="#operador-or" title="Permalink to this headline">¶</a></h3>
+<p>Dados dois valores booleanos <code class="docutils literal"><span class="pre">a</span></code> e <code class="docutils literal"><span class="pre">b</span></code>, o operador lógico <code class="docutils literal"><span class="pre">or</span></code> resulta
+em <code class="docutils literal"><span class="pre">False</span></code> apenas quando <code class="docutils literal"><span class="pre">a</span></code> e <code class="docutils literal"><span class="pre">b</span></code> foram ambos <code class="docutils literal"><span class="pre">False</span></code>, e retorna
+<code class="docutils literal"><span class="pre">True</span></code> em caso contrário.</p>
+<p>Altere os valores de <code class="docutils literal"><span class="pre">a</span></code> e <code class="docutils literal"><span class="pre">b</span></code> no programa abaixo e veja o resultado.</p>
+
+<div id="exemplo_op_logico_or" >
+<textarea cols="50" rows="12" id="exemplo_op_logico_or_code" class="active_code">
+def main():
+    a = True
+    b = False
+    print("Valor de 'a or b': ", a or b)
+
+#-----
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exemplo_op_logico_or)</span> </p>
+<button onclick="runit('exemplo_op_logico_or',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exemplo_op_logico_or');">Save</button>
+<button class="ac_opt" onclick="requestCode('exemplo_op_logico_or');">Load</button>
+<br />
+
+<canvas id="exemplo_op_logico_or_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exemplo_op_logico_or_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>A tabela abaixo mostra o resultado de <code class="docutils literal"><span class="pre">or</span></code> para todas as
+combinações de <code class="docutils literal"><span class="pre">a</span></code> e <code class="docutils literal"><span class="pre">b</span></code>.</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="34%" />
+<col width="31%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">or</span></code></td>
+<td>a = True</td>
+<td>a = False</td>
+</tr>
+<tr class="row-even"><td>b = True</td>
+<td>True</td>
+<td>True</td>
+</tr>
+<tr class="row-odd"><td>b = False</td>
+<td>True</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="operador-not">
+<h3>Operador <code class="docutils literal"><span class="pre">not</span></code><a class="headerlink" href="#operador-not" title="Permalink to this headline">¶</a></h3>
+<p>O operador lógico <code class="docutils literal"><span class="pre">not</span></code> muda o valor de seu argumento, ou seja,
+<code class="docutils literal"><span class="pre">not</span> <span class="pre">True</span></code> é <code class="docutils literal"><span class="pre">False</span></code>, e <code class="docutils literal"><span class="pre">not</span> <span class="pre">False</span></code> é <code class="docutils literal"><span class="pre">True</span></code>.</p>
+</div>
+</div>
+<div class="section" id="expressoes-logicas">
+<h2>Expressões Lógicas<a class="headerlink" href="#expressoes-logicas" title="Permalink to this headline">¶</a></h2>
+<p><strong>Expressões lógicas</strong> ou <strong>booleans</strong> são expressões cujo valor
+é verdadeiro (=``True`` em Python) ou falso (=``False`` em Python) e
+usam os operadores relacionais:</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operador</th>
+<th class="head">Descrição</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>==</td>
+<td>igual</td>
+</tr>
+<tr class="row-odd"><td>!=</td>
+<td>diferente</td>
+</tr>
+<tr class="row-even"><td>&gt;</td>
+<td>maior</td>
+</tr>
+<tr class="row-odd"><td>&lt;</td>
+<td>menor</td>
+</tr>
+<tr class="row-even"><td>&gt;=</td>
+<td>maior ou igual</td>
+</tr>
+<tr class="row-odd"><td>&lt;=</td>
+<td>menor ou igual</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>Assim, o resultado de uma comparação é um valor <a class="reference external" href="http://panda.ime.usp.br/pensepy/static/pensepy/06-Selecao/selecao.html">booleano</a>,
+<code class="docutils literal"><span class="pre">True</span></code> ou <code class="docutils literal"><span class="pre">False</span></code>. Use a janela abaixo para
+experimentar esses operadores.</p>
+
+<div id="operador_relacional" >
+<textarea cols="50" rows="12" id="operador_relacional_code" class="active_code">
+def main():
+    a = 2   # modifique os valores das variáveis a e b
+    b = 3
+
+    print(a, b, b == a + 1)  # modifique a expressão, experimente outros operadores relacionais
+
+#-----
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (operador_relacional)</span> </p>
+<button onclick="runit('operador_relacional',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('operador_relacional');">Save</button>
+<button class="ac_opt" onclick="requestCode('operador_relacional');">Load</button>
+<br />
+
+<pre id="operador_relacional_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Como o resultado de uma comparação é um booleano, comparações podem
+ser encadeadas por meio de operadores lógicos. Por exemplo, o trecho
+de código abaixo ilustra se uma pessoa está dentro do peso normal
+segundo a tabela de <a class="reference external" href="http://www.calculoimc.com.br/tabela-de-imc/">Indice de Massa Corporal</a>.</p>
+
+<div id="operador_relacional_e_logico" >
+<textarea cols="50" rows="12" id="operador_relacional_e_logico_code" class="active_code">
+def main():
+    # modifique esse valor para ver o que o programa imprime
+    # altura em metros e peso em Kg
+    altura = 1.70
+    peso   = 65.3
+
+    # indice de massa corporal
+    imc = peso / (altura * altura)
+
+    print("O IMC = ", imc)
+    print("Muito abaixo do peso  : ", imc < 17)
+    print("Abaixo do peso normal : ", imc >= 17 and imc < 18.5)
+    print("Peso dentro do normal : ", imc >= 18.5 and imc < 25.0)
+    print("Acima do peso normal  : ", imc >= 25 and imc < 30)
+    print("Muito acima do peso   : ", imc >= 30)
+
+#-----
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (operador_relacional_e_logico)</span> </p>
+<button onclick="runit('operador_relacional_e_logico',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('operador_relacional_e_logico');">Save</button>
+<button class="ac_opt" onclick="requestCode('operador_relacional_e_logico');">Load</button>
+<br />
+
+<pre id="operador_relacional_e_logico_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="admonition-intervalos-em-python admonition">
+<p class="first admonition-title">Intervalos em Python</p>
+<p class="last">Para facilitar a legibilidade de intervalos, o Python permite
+escrever expressões relacionais do tipo</p>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>    17 &lt;= imc &lt; 18.5
+
+ao invés da forma mais *computacional*
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span>    17 &lt;= imc and imc &lt; 18.5
+
+Experimente reescrevendo alguns trechos de código do exemplo anterior.
+</pre></div>
+</div>
+</div>
+<div class="section" id="problemas">
+<h2>Problemas<a class="headerlink" href="#problemas" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="problema-1">
+<h3>Problema 1<a class="headerlink" href="#problema-1" title="Permalink to this headline">¶</a></h3>
+<p>Escreva um programa que leia um ano (um número inteiro) e calcula se o ano é bisexto.</p>
+<p>Um ano é bisexto deve ser múltiplo de 4 mas não pode ser múltiplo de 100, a menos que seja também múltiplo de 400.</p>
+
+<div id="booleanos_ex1_tentativa" >
+<textarea cols="50" rows="12" id="booleanos_ex1_tentativa_code" class="active_code">
+def main():
+    # Escreva sua solução aqui
+
+#-----
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (booleanos_ex1_tentativa)</span> </p>
+<button onclick="runit('booleanos_ex1_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('booleanos_ex1_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('booleanos_ex1_tentativa');">Load</button>
+<br />
+
+<canvas id="booleanos_ex1_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="booleanos_ex1_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="problema-2">
+<h3>Problema 2<a class="headerlink" href="#problema-2" title="Permalink to this headline">¶</a></h3>
+<p>O Leonard está procurando uma namorada no site <code class="docutils literal"><span class="pre">alma.gemea.org</span></code> e, para
+isso, ele preenche uma ficha com as suas preferências:</p>
+<blockquote>
+<div><ul class="simple">
+<li>altura: 155 a 170</li>
+<li>peso  : 45 a 65</li>
+<li>idade : 25 a 35</li>
+<li>cabelo: &#8220;loiro&#8221;</li>
+<li>sexo  : &#8220;feminino&#8221;</li>
+<li>escolaridade: não &#8220;PhD&#8221;</li>
+</ul>
+</div></blockquote>
+<p>O programa abaixo mostra os dados de uma cliente chamada
+Penny. Complete o programa abaixo para ver se a Penny é compatível
+com o Leonard, imprimindo <code class="docutils literal"><span class="pre">True</span></code> ou <code class="docutils literal"><span class="pre">False</span></code>.</p>
+
+<div id="booleanos_ex2_tentativa" >
+<textarea cols="50" rows="12" id="booleanos_ex2_tentativa_code" class="active_code">
+def main():
+    # dados da Penny
+    nome = "Penny"
+    sexo = "feminino"
+    altura = 167
+    peso   =  52
+    idade  =  25
+    cabelo = "loiro"
+    escolaridade = "medio"
+
+    # Complete a expressão que determina se a Penny é compatível
+    # com as preferências do Leonard
+    compativel = sexo == 'feminino' and
+
+    print("Candidata", nome, ":", compativel)
+
+#-----
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (booleanos_ex2_tentativa)</span> </p>
+<button onclick="runit('booleanos_ex2_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('booleanos_ex2_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('booleanos_ex2_tentativa');">Load</button>
+<br />
+
+<canvas id="booleanos_ex2_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="booleanos_ex2_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Modifique alguns valores para testar a sua expressão.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Expressões lógicas e operadores relacionais</a><ul>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#livro">Livro</a></li>
+<li><a class="reference internal" href="#videos">Vídeos</a></li>
+<li><a class="reference internal" href="#valores-booleanos">Valores booleanos</a></li>
+<li><a class="reference internal" href="#operadores-e-expressoes-logicas">Operadores e expressões lógicas</a><ul>
+<li><a class="reference internal" href="#operador-and">Operador <code class="docutils literal"><span class="pre">and</span></code></a></li>
+<li><a class="reference internal" href="#operador-or">Operador <code class="docutils literal"><span class="pre">or</span></code></a></li>
+<li><a class="reference internal" href="#operador-not">Operador <code class="docutils literal"><span class="pre">not</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#expressoes-logicas">Expressões Lógicas</a></li>
+<li><a class="reference internal" href="#problemas">Problemas</a><ul>
+<li><a class="reference internal" href="#problema-1">Problema 1</a></li>
+<li><a class="reference internal" href="#problema-2">Problema 2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="02-expressoes.html"
+                        title="previous chapter">Variáveis, expressões e funções de entrada e saída</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="03-while.html"
+                        title="next chapter">Comando de repetição: <code class="docutils literal"><span class="pre">while</span></code></a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="03-while.html" title="Comando de repetição: while"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="02-expressoes.html" title="Variáveis, expressões e funções de entrada e saída"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Jun 12, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

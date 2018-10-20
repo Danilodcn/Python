@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The Sgmlop&nbsp;Parser/Tokenizer</title></head><body data-page-id="263"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The Sgmlop&nbsp;Parser/Tokenizer</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Updated May 28, 2003 | Fredrik Lundh</p><p>The <b>sgmlop</b> module is a fast replacement for the regular
+expression-based parsers used in the <b>sgmllib/htmllib</b> and
+<b>xmllib</b> module. A single module supports both SGML and
+XML.</p><p>The <b>sgmlop</b> parser is tolerant, and happily accepts XML-like
+data that are not well-formed.  If you need strictness, use another
+parser.  <b>sgmlop</b> is an excellent choice for applications that
+read human-authored content and wants to be fairly tolerant, and
+also for applications that read machine-generated XML in situations
+where it&#8217;s safe to trade standard compliancy for speed.</p><p>The current release is about 6 times faster than the original
+<b>re</b>-based implementation provided with Python 1.5, when using
+an xmllib/sgmllib-style interface.  When using <b>sgmlop</b> directly,
+it can be more than 30 times faster.</p><p>If you want fast and fully compliant parsing, you can use the
+<b>XMLParser</b> component from <a href="celementtree.htm">the
+<b>cElementTree</b> module</a>.</p><h3 id="downloads">Downloads&#160;<a class="nav" href="#downloads" title="bookmark!">#</a></h3><p>The latest version is available from
+<a href="/downloads/#sgmlop">the effbot.org
+downloads</a> page.</p><h3 id="documentation">Documentation&#160;<a class="nav" href="#documentation" title="bookmark!">#</a></h3><ul><li><a href="sgmlop-handbook.htm"><cite>The Sgmlop Handbook</cite></a></li><li><a href="sgmlop-patterns.htm"><cite>Sgmlop Patterns</cite></a> (in progress)</li></ul></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><ul><li><a href="#downloads">Downloads</a></li><li><a href="#documentation">Documentation</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

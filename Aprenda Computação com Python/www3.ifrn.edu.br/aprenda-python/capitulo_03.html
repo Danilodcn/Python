@@ -1,0 +1,491 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capítulo 3: Funções &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Capítulo 4: Condicionais e recursividade" href="capitulo_04.html" />
+    <link rel="prev" title="Capítulo 2: Variáveis, expressões e comandos" href="capitulo_02.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="capitulo_04.html" title="Capítulo 4: Condicionais e recursividade"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_02.html" title="Capítulo 2: Variáveis, expressões e comandos"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="capitulo-3-funcoes">
+<h1><a class="toc-backref" href="#id1">Capítulo 3: Funções</a><a class="headerlink" href="#capitulo-3-funcoes" title="Link permanente para este título">¶</a></h1>
+<div class="contents topic" id="topicos">
+<p class="topic-title first">Tópicos</p>
+<ul class="simple">
+<li><a class="reference external" href="#capitulo-3-funcoes" id="id1">Capítulo 3: Funções</a><ul>
+<li><a class="reference external" href="#chamadas-de-funcoes" id="id2">3.1 Chamadas de funções</a></li>
+<li><a class="reference external" href="#conversao-entre-tipos" id="id3">3.2 Conversão entre tipos</a></li>
+<li><a class="reference external" href="#coercao-entre-tipos" id="id4">3.3 Coerção entre tipos</a></li>
+<li><a class="reference external" href="#funcoes-matematicas" id="id5">3.4 Funções matemáticas</a></li>
+<li><a class="reference external" href="#composicao" id="id6">3.5 Composição</a></li>
+<li><a class="reference external" href="#adicionando-novas-funcoes" id="id7">3.6 Adicionando novas funções</a></li>
+<li><a class="reference external" href="#definicoes-e-uso" id="id8">3.7 Definições e uso</a></li>
+<li><a class="reference external" href="#fluxo-de-execucao" id="id9">3.8 Fluxo de execução</a></li>
+<li><a class="reference external" href="#parametros-e-argumentos" id="id10">3.9 Parâmetros e argumentos</a></li>
+<li><a class="reference external" href="#variaveis-e-parametros-sao-locais" id="id11">3.10 Variáveis e parâmetros são locais</a></li>
+<li><a class="reference external" href="#diagramas-da-pilha" id="id12">3.11 Diagramas da pilha</a></li>
+<li><a class="reference external" href="#funcoes-com-resultados" id="id13">3.12 Funções com resultados</a></li>
+<li><a class="reference external" href="#glossario" id="id14">3.13 Glossário</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="chamadas-de-funcoes">
+<h2><a class="toc-backref" href="#id2">3.1 Chamadas de funções</a><a class="headerlink" href="#chamadas-de-funcoes" title="Link permanente para este título">¶</a></h2>
+<p>Você já viu um exemplo de uma <strong>chamada de função</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="s">&#39;32&#39;</span><span class="p">)</span>
+<span class="go">&lt;type &#39;str&#39;&gt;</span>
+</pre></div>
+</div>
+<p>O nome da função é <tt class="docutils literal"><span class="pre">type</span></tt> e ela exibe o tipo de um valor ou variável. O valor ou variável, que é chamado de <strong>argumento</strong> da função, tem que vir entre parênteses. É comum se dizer que uma função &#8216;recebe&#8217; um valor ou mais valores e &#8216;retorna&#8217; um resultado. O resultado é chamado de <strong>valor de retorno</strong>.</p>
+<p>Em vez de imprimir um valor de retorno, podemos atribui-lo a uma variável:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">bia</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="s">&#39;32&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">bia</span>
+<span class="go">&lt;type &#39;str&#39;&gt;</span>
+</pre></div>
+</div>
+<p>Como outro exemplo, a função <tt class="docutils literal"><span class="pre">id</span></tt> recebe um valor ou uma variável e retorna um inteiro, que atua como um identificador único para aquele valor:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">134882108</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bia</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bia</span><span class="p">(</span><span class="n">beth</span><span class="p">)</span>
+<span class="go">134882108</span>
+</pre></div>
+</div>
+<p>Todo valor tem um <tt class="docutils literal"><span class="pre">id</span></tt>, que é um número único relacionado ao local onde ele está guardado na memória do computador. O <tt class="docutils literal"><span class="pre">id</span></tt> de uma variável é o <tt class="docutils literal"><span class="pre">id</span></tt> do valor a qual ela se refere.</p>
+</div>
+<div class="section" id="conversao-entre-tipos">
+<h2><a class="toc-backref" href="#id3">3.2 Conversão entre tipos</a><a class="headerlink" href="#conversao-entre-tipos" title="Link permanente para este título">¶</a></h2>
+<p>Python provê uma coleção de funções nativas que convertem valores de um tipo em outro. A função <tt class="docutils literal"><span class="pre">int</span></tt> recebe um valor e o converte para inteiro, se possível, ou, se não, reclama:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">int</span><span class="p">(</span><span class="s">&#39;32&#39;</span><span class="p">)</span>
+<span class="go">32</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">int</span><span class="p">(</span><span class="s">&#39;Alô&#39;</span><span class="p">)</span>
+<span class="go">ValueError: invalid literal for int() : Alô</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">int</span></tt> também pode converter valores em ponto flutuante para inteiro, mas lembre que isso trunca a parte fracionária:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">int</span><span class="p">(</span><span class="mf">3.99999</span><span class="p">)</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">int</span><span class="p">(</span><span class="o">-</span><span class="mf">2.3</span><span class="p">)</span>
+<span class="go">-2</span>
+</pre></div>
+</div>
+<p>A função <tt class="docutils literal"><span class="pre">float</span></tt> converte inteiros e strings em números em ponto flutuante:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">float</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
+<span class="go">32.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">float</span><span class="p">(</span><span class="s">&#39;3.14159&#39;</span><span class="p">)</span>
+<span class="go">3.14159</span>
+</pre></div>
+</div>
+<p>Finalmente, a função <tt class="docutils literal"><span class="pre">str</span></tt> converte para o tipo <tt class="docutils literal"><span class="pre">string</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
+<span class="go">&#39;32&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="mf">3.14149</span><span class="p">)</span>
+<span class="go">&#39;3.14149&#39;</span>
+</pre></div>
+</div>
+<p>Pode parecer curioso que Python faça distinção entre o valor inteiro <tt class="docutils literal"><span class="pre">1</span></tt> e o valor em ponto flutuante <tt class="docutils literal"><span class="pre">1.0</span></tt>. Eles podem representar o mesmo número, mas pertencem a tipos diferentes. A razão é que eles são representados de modo diferente dentro do computador.</p>
+</div>
+<div class="section" id="coercao-entre-tipos">
+<h2><a class="toc-backref" href="#id4">3.3 Coerção entre tipos</a><a class="headerlink" href="#coercao-entre-tipos" title="Link permanente para este título">¶</a></h2>
+<p>Agora que podemos converter entre tipos, temos outra maneira de lidar com a divisão inteira. Voltando ao exemplo do capítulo anterior, suponha que queiramos calcular a fração de hora que já passou. A expressão mais óbvia, <tt class="docutils literal"><span class="pre">minuto</span> <span class="pre">/</span> <span class="pre">60</span></tt>, faz aritmética inteira, assim, o resultado é sempre 0, mesmo aos 59 minutos passados da hora.</p>
+<p>Uma solução é converter <tt class="docutils literal"><span class="pre">minuto</span></tt> para ponto flutuante e fazer a divisão em ponto flutuante:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">minuto</span> <span class="o">=</span> <span class="mi">59</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">float</span><span class="p">(</span><span class="n">minuto</span><span class="p">)</span> <span class="o">/</span> <span class="mi">60</span>
+<span class="go">0.983333333333</span>
+</pre></div>
+</div>
+<p>Opcionalmente, podemos tirar vantagem das regras de conversão automática entre tipos, chamada de <strong>coerção de tipos</strong>. Para os operadores matemáticos, se qualquer operando for um <tt class="docutils literal"><span class="pre">float</span></tt>, o outro é automaticamente convertido para <tt class="docutils literal"><span class="pre">float</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">minuto</span> <span class="o">=</span> <span class="mi">59</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">minuto</span> <span class="o">/</span> <span class="mf">60.0</span>
+<span class="go">0.983333333333</span>
+</pre></div>
+</div>
+<p>Fazendo o denominador um <tt class="docutils literal"><span class="pre">float</span></tt>, forçamos o Python a fazer a divisão em ponto flutuante.</p>
+</div>
+<div class="section" id="funcoes-matematicas">
+<h2><a class="toc-backref" href="#id5">3.4 Funções matemáticas</a><a class="headerlink" href="#funcoes-matematicas" title="Link permanente para este título">¶</a></h2>
+<p>Em matemática, você provavelmente já viu funções como seno (<tt class="docutils literal"><span class="pre">sen</span></tt>, <tt class="docutils literal"><span class="pre">sin</span></tt> em inglês) e logaritmo (<tt class="docutils literal"><span class="pre">log</span></tt>), e aprendeu a resolver expressões como <tt class="docutils literal"><span class="pre">sen(pi/2)</span></tt> e <tt class="docutils literal"><span class="pre">log(1/x)</span></tt>. Primeiro você resolve e expressão entre parênteses (o argumento). Por exemplo, <tt class="docutils literal"><span class="pre">pi/2</span></tt> é aproximadamente 1,571, e <tt class="docutils literal"><span class="pre">1/x</span></tt> é 0.1 (se <tt class="docutils literal"><span class="pre">x</span></tt> for 10,0).</p>
+<p>Aí você avalia a função propriamente dita, seja procurando numa tabela ou realizando vários cálculos. O <tt class="docutils literal"><span class="pre">sen</span></tt> de 1,571 é 1 e o <tt class="docutils literal"><span class="pre">log</span></tt> de 0,1 é -1 (assumindo que <tt class="docutils literal"><span class="pre">log</span></tt> indica o logaritmo na base 10).</p>
+<p>Este processo pode ser aplicado repetidamente para avaliar expressões mais complicadas, como <tt class="docutils literal"><span class="pre">log(1/sen(pi/2))</span></tt>. Primeiro você avalia o argumento na função mais interna, depois avalia a função e assim por diante.</p>
+<p>Python tem um módulo matemático que provê a maioria das funções matemáticas mais familiares. Um <strong>módulo</strong> é um arquivo que contém uma coleção de funções relacionadas agrupadas juntas.</p>
+<p>Antes de podermos usar as funções contidas em um módulo, temos de importá-lo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">math</span>
+</pre></div>
+</div>
+<p>Para chamar uma das funções, temos que especificar o nome do módulo e o nome da função, separados por um ponto. Esse formato é chamado de <strong>notação de ponto</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">decibel</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mf">17.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">angulo</span> <span class="o">=</span> <span class="mf">1.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">altura</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angulo</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A primeira instrução atribui a <tt class="docutils literal"><span class="pre">decibel</span></tt> o logaritmo de 17 na base 10. Existe também uma função chamada <tt class="docutils literal"><span class="pre">log</span></tt>, usada para calcular o logaritmo em outra base ou o logaritmo natural de um número (base <tt class="docutils literal"><span class="pre">e</span></tt>).</p>
+<p>A terceira instrução encontra o seno do valor da variável <tt class="docutils literal"><span class="pre">angulo</span></tt>. <tt class="docutils literal"><span class="pre">sin</span></tt> e as outras funções trigonométricas (<tt class="docutils literal"><span class="pre">cos</span></tt>, <tt class="docutils literal"><span class="pre">tan</span></tt>, etc.) recebem argumentos em radianos. Para converter de graus em radianos, divida por 360 e multiplique por <tt class="docutils literal"><span class="pre">2*pi</span></tt>. Por exemplo, para encontrar o seno de 45 graus, primeiro calcule o ângulo em radianos e depois ache o seno:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">graus</span> <span class="o">=</span> <span class="mi">45</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">angulo</span> <span class="o">=</span> <span class="n">graus</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">360.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angulo</span><span class="p">)</span>
+<span class="go">0.707106781187</span>
+</pre></div>
+</div>
+<p>A constante pi também é parte do módulo <tt class="docutils literal"><span class="pre">math</span></tt>. Se você sabe geometria, pode checar o resultado anterior comparando-o com a raiz quadrada de dois dividido por dois:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+<span class="go">0.707106781187</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="composicao">
+<h2><a class="toc-backref" href="#id6">3.5 Composição</a><a class="headerlink" href="#composicao" title="Link permanente para este título">¶</a></h2>
+<p>Do mesmo modo como nas funções matemáticas, as funções do Python podem ser compostas, o que significa que você pode usar uma expressão como parte de outra. Por exemplo, você pode usar qualquer expressão como um argumento para uma função:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angulo</span> <span class="o">+</span> <span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Esta instrução toma o valor de <tt class="docutils literal"><span class="pre">pi</span></tt>, divide-o por 2, e soma o resultado ao valor de <tt class="docutils literal"><span class="pre">angulo</span></tt>. A soma é então passada como um argumento para a função <tt class="docutils literal"><span class="pre">cos</span></tt>.</p>
+<p>Você também pode pegar o resultado de uma função e passá-lo como um argumento para outra:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">10.0</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Esta instrução encontra o logaritmo natural (base <tt class="docutils literal"><span class="pre">e</span></tt>) de 10 e então eleva <tt class="docutils literal"><span class="pre">e</span></tt> àquela potência. O resultado é atribuído a <tt class="docutils literal"><span class="pre">x</span></tt>.</p>
+</div>
+<div class="section" id="adicionando-novas-funcoes">
+<h2><a class="toc-backref" href="#id7">3.6 Adicionando novas funções</a><a class="headerlink" href="#adicionando-novas-funcoes" title="Link permanente para este título">¶</a></h2>
+<p>Até aqui, temos utilizado somente as funções que vêm com Python, mas também é possível adicionar novas funções. Criar novas funções para resolver seus próprios problemas é uma das coisas mais úteis de uma linguagem de programação de propósito geral.</p>
+<p>No contexto de programação, <strong>função</strong> é uma sequência nomeada de instruções ou comandos, que realizam uma operação desejada. Esta operação é especificada numa <strong>definição de função</strong>. Até agora, as funções que usamos neste livro são pré-definidas e suas definições não foram apresentadas. Isso demonstra que podemos usar funções sem ter que nos preocupar com os detalhes de suas definições.</p>
+<p>A sintaxe para uma definição de função é:</p>
+<div class="highlight-python"><pre>def NOME_DA_FUNCAO( LISTA DE PARAMETROS ) :
+  COMANDOS</pre>
+</div>
+<p>Você pode usar o nome que quiser para as funções que criar, exceto as palavras reservadas do Python. A lista de parâmetros especifica que informação, se houver alguma, você tem que fornecer para poder usar a nova função.</p>
+<p>Uma função pode ter quantos comandos forem necessários, mas eles precisam ser endentados a partir da margem esquerda. Nos exemplos deste livro, usaremos uma endentação de dois espaços.</p>
+<p>As primeiras funções que vamos mostrar não terão parâmetros, então, a sintaxe terá esta aparência:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">novaLinha</span><span class="p">():</span>
+  <span class="k">print</span>
+</pre></div>
+</div>
+<p>Esta função é chamada de <tt class="docutils literal"><span class="pre">novaLinha</span></tt>. Os parênteses vazios indicam que ela não tem parâmetros. Contém apenas um único comando, que gera como saída um caractere de nova linha (isso é o que acontece quando você usa um comando <tt class="docutils literal"><span class="pre">print</span></tt> sem qualquer argumento).</p>
+<p>A sintaxe para a chamada desta nova função é a mesma sintaxe para as funções nativas:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">&#39;Primeira Linha.&#39;</span>
+<span class="n">novaLinha</span><span class="p">()</span>
+<span class="k">print</span> <span class="s">&#39;Segunda Linha.&#39;</span>
+</pre></div>
+</div>
+<p>A saída deste programa é:</p>
+<div class="highlight-python"><pre>Primeira Linha.
+
+Segunda Linha.</pre>
+</div>
+<p>Observe o espaço extra entre as duas linhas. E se quiséssemos mais espaço entre as linhas? Poderíamos chamar a mesma função repetidamente:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">&#39;Primeira Linha.&#39;</span>
+<span class="n">novaLinha</span><span class="p">()</span>
+<span class="n">novaLinha</span><span class="p">()</span>
+<span class="n">novaLinha</span><span class="p">()</span>
+<span class="k">print</span> <span class="s">&#39;Segunda Linha.&#39;</span>
+</pre></div>
+</div>
+<p>Ou poderíamos escrever uma nova função chamada <tt class="docutils literal"><span class="pre">tresLinhas</span></tt>, que produzisse três novas linhas:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">tresLinhas</span><span class="p">()</span> <span class="p">:</span>
+  <span class="n">novaLinha</span><span class="p">()</span>
+  <span class="n">novaLinha</span><span class="p">()</span>
+  <span class="n">novaLinha</span><span class="p">()</span>
+
+<span class="k">print</span> <span class="s">&#39;Primeira Linha.&#39;</span>
+<span class="n">tresLinhas</span><span class="p">()</span>
+<span class="k">print</span> <span class="s">&#39;Segunda Linha.&#39;</span>
+</pre></div>
+</div>
+<p>Esta função contém três comandos, todos com recuo de dois espaços a partir da margem esquerda. Já que o próximo comando não está endentado, Python reconhece que ele não faz parte da função.</p>
+<p>Algumas coisas que devem ser observadas sobre este programa:</p>
+<ol class="arabic simple">
+<li>Você pode chamar o mesmo procedimento repetidamente. Isso é muito comum, além de útil.</li>
+<li>Você pode ter uma função chamando outra função; neste caso <tt class="docutils literal"><span class="pre">tresLinhas</span></tt> chama <tt class="docutils literal"><span class="pre">novaLinha</span></tt>.</li>
+</ol>
+<p>Pode não estar claro, até agora, de que vale o esforço de criar novas funções - existem várias razões, mas este exemplo demonstra duas delas:</p>
+<ul>
+<li><p class="first">Criar uma nova função permite que você coloque nome em um grupo de comandos. As funções podem simplificar um programa ao ocultar a execução de uma tarefa complexa por trás de um simples comando cujo nome pode ser uma palavra em português, em vez de algum código misterioso.</p>
+</li>
+<li><p class="first">Criar uma nova função pode tornar o programa menor, por eliminar código repetido. Por exemplo, um atalho para &#8216;imprimir&#8217; nove novas linhas consecutivas é chamar <tt class="docutils literal"><span class="pre">tresLinhas</span></tt> três vezes.</p>
+<blockquote>
+<p>Como exercício, escreva uma função chamada <tt class="docutils literal"><span class="pre">noveLinhas</span></tt> que use <tt class="docutils literal"><span class="pre">tresLinhas</span></tt> para imprimir nove linhas em branco. Como você poderia imprimir vinte e sete novas linhas?</p>
+</blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="definicoes-e-uso">
+<h2><a class="toc-backref" href="#id8">3.7 Definições e uso</a><a class="headerlink" href="#definicoes-e-uso" title="Link permanente para este título">¶</a></h2>
+<p>Reunindo os fragmentos de código da Seção 3.6, o programa completo fica assim:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">novaLinha</span><span class="p">()</span> <span class="p">:</span>
+  <span class="k">print</span>
+
+<span class="k">def</span> <span class="nf">tresLinhas</span><span class="p">()</span> <span class="p">:</span>
+  <span class="n">novaLinha</span><span class="p">()</span>
+  <span class="n">novaLinha</span><span class="p">()</span>
+  <span class="n">novaLinha</span><span class="p">()</span>
+
+<span class="k">print</span> <span class="s">&#39;Primeira Linha.&#39;</span>
+<span class="n">tresLinhas</span><span class="p">()</span>
+<span class="k">print</span> <span class="s">&#39;Segunda Linha.&#39;</span>
+</pre></div>
+</div>
+<p>Esse programa contém duas definições de funções: <tt class="docutils literal"><span class="pre">novaLinha</span></tt> e <tt class="docutils literal"><span class="pre">tresLinhas</span></tt>. Definições de funções são executadas como quaisquer outros comandos, mas o efeito é criar a nova função. Os comandos dentro da definição da função não são executados até que a função seja chamada, logo, a definição da função não gera nenhuma saída.</p>
+<p>Como você já deve ter imaginado, é preciso criar uma função antes de poder executá-la. Em outras palavras, a definição da função tem que ser executada antes que ela seja chamada pela primeira vez.</p>
+<blockquote>
+<p>Como exercício, mova as últimas três linhas deste programa para o topo, de modo que a chamada da função apareça antes das definições. Rode o programa e veja que mensagem de erro você terá.</p>
+<p>Também a título de exercício, comece com a versão que funciona do programa e mova a definição de <tt class="docutils literal"><span class="pre">novaLinha</span></tt> para depois da definição de <tt class="docutils literal"><span class="pre">tresLinhas</span></tt>. O que acontece quando você roda este programa?</p>
+</blockquote>
+</div>
+<div class="section" id="fluxo-de-execucao">
+<h2><a class="toc-backref" href="#id9">3.8 Fluxo de execução</a><a class="headerlink" href="#fluxo-de-execucao" title="Link permanente para este título">¶</a></h2>
+<p>Para assegurar que uma função esteja definida antes do seu primeiro uso, é preciso saber em que ordem os comandos são executados, ou seja, descobrir qual o <strong>fluxo de execução</strong> do programa.</p>
+<p>A execução sempre começa com o primeiro comando do programa. Os comandos são executados um de cada vez, pela ordem, de cima para baixo.</p>
+<p>As definições de função não alteram o fluxo de execução do programa, mas lembre-se que comandos dentro da função não são executados até a função ser chamada. Embora não seja comum, você pode definir uma função dentro de outra. Neste caso, a definição mais interna não é executada até que a função mais externa seja chamada.</p>
+<p>Chamadas de função são como um desvio no fluxo de execução. Em vez de ir para o próximo comando, o fluxo salta para a primeira linha da função chamada, executa todos os comandos lá e então volta atrás para retomar de onde havia deixado.</p>
+<p>Parece muito simples, até a hora em que você lembra que uma função pode chamar outra. Enquanto estiver no meio de uma função, o programa poderia ter de executar os comandos em uma outra função. Mas enquanto estivesse executando esta nova função, o programa poderia ter de executar ainda outra função!</p>
+<p>Felizmente, Python é adepto de monitorar a posição onde está, assim, cada vez que uma função se completa, o programa retoma de onde tinha parado na função que a chamou. Quando chega ao fim do programa, ele termina.</p>
+<p>Qual a moral dessa história sórdida? Quando você for ler um programa, não o leia de cima para baixo. Em vez disso, siga o fluxo de execução.</p>
+</div>
+<div class="section" id="parametros-e-argumentos">
+<h2><a class="toc-backref" href="#id10">3.9 Parâmetros e argumentos</a><a class="headerlink" href="#parametros-e-argumentos" title="Link permanente para este título">¶</a></h2>
+<p>Algumas das funções nativas que você já usou requerem argumentos, aqueles valores que controlam como a função faz seu trabalho. Por exemplo, se você quer achar o seno de um número, você tem que indicar qual número é. Deste modo, <tt class="docutils literal"><span class="pre">sin</span></tt> recebe um valor numérico como um argumento.</p>
+<p>Algumas funções recebem mais de um argumento. Por exemplo, <tt class="docutils literal"><span class="pre">pow</span></tt> recebe dois argumentos, a base e o expoente. Dentro da função, os valores que lhe são passados são atribuídos a variáveis chamadas <strong>parâmetros</strong>.</p>
+<p>Veja um exemplo de uma função definida pelo usuário, que recebe um parâmetro:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">imprimeDobrado</span><span class="p">(</span><span class="n">bruno</span><span class="p">):</span>
+  <span class="k">print</span> <span class="n">bruno</span><span class="p">,</span> <span class="n">bruno</span>
+</pre></div>
+</div>
+<p>Esta função recebe um único argumento e o atribui a um parâmetro chamado <tt class="docutils literal"><span class="pre">bruno</span></tt>. O valor do parâmetro (a essa altura, não sabemos qual será) é impresso duas vezes, seguido de uma nova linha. Estamos usando <tt class="docutils literal"><span class="pre">bruno</span></tt> para mostrar que o nome do parâmetro é decisão sua, mas claro que é melhor escolher um nome que seja mais ilustrativo.</p>
+<p>A função <tt class="docutils literal"><span class="pre">imprimeDobrado</span></tt> funciona para qualquer tipo que possa ser impresso:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">imprimeDoobrado</span><span class="p">(</span><span class="s">&#39;Spam&#39;</span><span class="p">)</span>
+<span class="go">Spam Spam</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">imprimeDobrado</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">5 5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">imprimeDobrado</span><span class="p">(</span><span class="mf">3.14159</span><span class="p">)</span>
+<span class="go">3.14159 3.14159</span>
+</pre></div>
+</div>
+<p>Na primeira chamada da função, o argumento é uma string. Na segunda, é um inteiro. Na terceira é um <tt class="docutils literal"><span class="pre">float</span></tt>.</p>
+<p>As mesmas regras de composição que se aplicam a funções nativas também se aplicam às funções definidas pelo usuário, assim, podemos usar qualquer tipo de expressão como um argumento para <tt class="docutils literal"><span class="pre">imprimeDobrado</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">imprimeDobrado</span><span class="p">(</span><span class="s">&#39;Spam&#39;</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">SpamSpamSpamSpam SpamSpamSpamSpam</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">imprimeDobrado</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
+<span class="go">-1.0 -1.0</span>
+</pre></div>
+</div>
+<p>Como acontece normalmente, a expressão é avaliada antes da execução da função, assim <tt class="docutils literal"><span class="pre">imprimeDobrado</span></tt> imprime <tt class="docutils literal"><span class="pre">SpamSpamSpamSpam</span></tt> <tt class="docutils literal"><span class="pre">SpamSpamSpamSpam</span></tt> em vez de <tt class="docutils literal"><span class="pre">'Spam'*4</span></tt> <tt class="docutils literal"><span class="pre">'Spam'*4</span></tt>.</p>
+<blockquote>
+Como exercício, escreva um chamada a <tt class="docutils literal"><span class="pre">imprimeDobrado</span></tt> que imprima <tt class="docutils literal"><span class="pre">'Spam'*4</span></tt> <tt class="docutils literal"><span class="pre">'Spam'*4</span></tt>. Dica: strings podem ser colocadas tanto entre aspas simples quanto duplas e o tipo de aspas que não for usado para envolver a string pode ser usado dentro da string, como parte dela.</blockquote>
+<p>Também podemos usar uma variável como argumento:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">miguel</span> <span class="o">=</span> <span class="s">&#39;Eric, the half a bee.&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">imprimeDobrado</span><span class="p">(</span><span class="n">miguel</span><span class="p">)</span>
+<span class="go">Eric, the half a bee. Eric, the half a bee.</span>
+</pre></div>
+</div>
+<p>N.T.: &#8220;Eric, the half a bee&#8221; é uma música do grupo humorístico britânico Monty Python. A linguagem Python foi batizada em homenagem ao grupo e, por isso, os programadores gostam de citar piadas deles em seus exemplos.</p>
+<p>Repare numa coisa importante: o nome da variável que passamos como um argumento (<tt class="docutils literal"><span class="pre">miguel</span></tt>) não tem nada a ver com o nome do parâmetro (<tt class="docutils literal"><span class="pre">bruno</span></tt>). Não importa de que modo o valor foi chamado de onde veio (do &#8216;chamador&#8217;); aqui, em <tt class="docutils literal"><span class="pre">imprimeDobrado</span></tt>, chamamos a todo mundo de <tt class="docutils literal"><span class="pre">bruno</span></tt>.</p>
+</div>
+<div class="section" id="variaveis-e-parametros-sao-locais">
+<h2><a class="toc-backref" href="#id11">3.10 Variáveis e parâmetros são locais</a><a class="headerlink" href="#variaveis-e-parametros-sao-locais" title="Link permanente para este título">¶</a></h2>
+<p>Quando você cria uma <strong>variável local</strong> dentro de uma função, ela só existe dentro da função e você não pode usá-la fora de lá. Por exemplo:</p>
+<div class="highlight-python"><pre>def concatDupla(parte1, parte2)
+  concat = parte1 + parte2
+  imprimeDobrado(concat)</pre>
+</div>
+<p>Esta função recebe dois argumentos, concatena-os, e então imprime o resultado duas vezes. Podemos chamar a função com duas strings:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">canto1</span> <span class="o">=</span> <span class="s">&#39;Pie Jesu domine, &#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">canto2</span> <span class="o">=</span> <span class="s">&#39;dona eis requiem. &#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">concatDupla</span><span class="p">(</span><span class="n">canto1</span><span class="p">,</span> <span class="n">canto2</span><span class="p">)</span>
+<span class="go">Pie Jesu domine, Dona eis requiem. Pie Jesu domine, Dona eis requiem.</span>
+</pre></div>
+</div>
+<p>Quando a função <tt class="docutils literal"><span class="pre">concatDupla</span></tt> termina, a variável <tt class="docutils literal"><span class="pre">concat</span></tt> é destruída. Se tentarmos imprimi-la, teremos um erro:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">concat</span>
+<span class="go">NameError: concat</span>
+</pre></div>
+</div>
+<p>Parâmetros são sempre locais. Por exemplo, fora da função <tt class="docutils literal"><span class="pre">imprimeDobrado</span></tt>, não existe nada que se chama <tt class="docutils literal"><span class="pre">bruno</span></tt>. Se você tentar utilizá-la, o Python vai reclamar.</p>
+</div>
+<div class="section" id="diagramas-da-pilha">
+<h2><a class="toc-backref" href="#id12">3.11 Diagramas da pilha</a><a class="headerlink" href="#diagramas-da-pilha" title="Link permanente para este título">¶</a></h2>
+<p>Para entender que variáveis podem ser usadas aonde, às vezes é útil desenhar um <strong>diagrama da pilha</strong>. Como os diagramas de estado, diagramas da pilha mostram o valor de cada variável, mas também a função à qual cada variável pertence.</p>
+<p>Cada função é representada por um <strong>quadro</strong>. Um quadro é uma caixa com o nome de uma função ao lado dela e os parâmetros e variáveis da função dentro dela. O diagrama de pilha para o exemplo anterior tem a seguinte aparência:</p>
+<img alt="_images/03_01_pilha.png" src="_images/03_01_pilha.png" />
+<p>A ordem da pilha mostra o fluxo de execução. <tt class="docutils literal"><span class="pre">imprimeDobrado</span></tt> foi chamado por <tt class="docutils literal"><span class="pre">concatDupla</span></tt>, e <tt class="docutils literal"><span class="pre">concatDupla</span></tt> foi chamado por <tt class="docutils literal"><span class="pre">__main__</span></tt> (principal), que é um nome especial para a função mais no topo. Quando você cria uma variável fora de qualquer função, ela pertence à <tt class="docutils literal"><span class="pre">__main__</span></tt>.</p>
+<p>Cada parâmetro se refere ao mesmo valor que o seu argumento correspondente. Assim, <tt class="docutils literal"><span class="pre">parte1</span></tt> tem o mesmo valor de <tt class="docutils literal"><span class="pre">canto1</span></tt>, <tt class="docutils literal"><span class="pre">parte2</span></tt> tem o mesmo valor de <tt class="docutils literal"><span class="pre">canto2</span></tt> e <tt class="docutils literal"><span class="pre">bruno</span></tt> tem o mesmo valor de <tt class="docutils literal"><span class="pre">concat</span></tt>.</p>
+<p>Se um erro acontece durante uma chamada de função, Python imprime o nome da função, e o nome da função que a chamou, e o nome da função que chamou a que chamou, percorrendo todo o caminho de volta a <tt class="docutils literal"><span class="pre">__main__</span></tt>.</p>
+<p>Por exemplo, se tentássemos acessar <tt class="docutils literal"><span class="pre">concat</span></tt> de dentro de <tt class="docutils literal"><span class="pre">imprimeDobrado</span></tt>, teríamos um <tt class="docutils literal"><span class="pre">NameError</span></tt>:</p>
+<div class="highlight-python"><pre>Traceback (innermost last):
+  File "teste.py", line 13, in __main__
+    concatDupla(canto1, canto2)
+  File "teste.py", line 5, in concatDupla
+    imprimeDobrado(concat)
+  File "teste.py", line 9, in imprimeDobrado
+    print concat
+NameError: concat</pre>
+</div>
+<p>Esta lista de funções é chamada de <strong>traceback</strong>. Ela mostra em qual arquivo de programa o erro ocorreu, em que linha, e quais funções estavam sendo executadas naquele momento. Mostra também a linha de código que causou o erro.</p>
+<p>Note a similaridade entre o traceback e o diagrama da pilha. Não é coincidência.</p>
+</div>
+<div class="section" id="funcoes-com-resultados">
+<h2><a class="toc-backref" href="#id13">3.12 Funções com resultados</a><a class="headerlink" href="#funcoes-com-resultados" title="Link permanente para este título">¶</a></h2>
+<p>A essa altura, você deve ter percebido que algumas das funções que estamos usando, tais como as funções matemáticas, produzem resultados. Outras funções, como <tt class="docutils literal"><span class="pre">novaLinha</span></tt>, executam uma ação, mas não retornam um valor. O que levanta algumas questões:</p>
+<ol class="arabic simple">
+<li>O que acontece se você chama uma função e não faz nada com o resultado (por exemplo, não atribui o resultado a uma variável ou o usa como parte de uma expressão maior)?</li>
+<li>O que acontece se você usa uma função que não produz resultado em uma expressão tal como <tt class="docutils literal"><span class="pre">novaLinha()</span> <span class="pre">+</span> <span class="pre">7</span></tt>?</li>
+<li>Você pode escrever funções que produzem resultados, ou está preso a funções como <tt class="docutils literal"><span class="pre">novaLinha</span></tt> e <tt class="docutils literal"><span class="pre">imprimeDobrado</span></tt>?</li>
+</ol>
+<p>A resposta para a terceira questão é afirmativa e nós vamos fazer isso no Capítulo 5.</p>
+<blockquote>
+A título de exercício, responda as outras duas questões testando-as. Se tiver dúvida sobre o que é válido ou inválido em Python, tente buscar a resposta perguntando ao interpretador.</blockquote>
+</div>
+<div class="section" id="glossario">
+<h2><a class="toc-backref" href="#id14">3.13 Glossário</a><a class="headerlink" href="#glossario" title="Link permanente para este título">¶</a></h2>
+<dl class="docutils">
+<dt>argumento (<em>argument</em>)</dt>
+<dd>Valor fornecido a uma função quando ela é chamada. Este valor é atribuído ao parâmetro correspondente na função.</dd>
+<dt>chamada de função (<em>function call</em>)</dt>
+<dd>Comando que executa uma função. Consiste do nome da função seguido de uma lista de argumentos entre parênteses.</dd>
+<dt>coerção de tipo (<em>type coercion</em>)</dt>
+<dd>Uma coerção de tipo que ocorre automaticamente, de acordo com as regras de coercividade do Python.</dd>
+<dt>conversão de tipo (<em>type conversion</em>)</dt>
+<dd>Comando explícito que pega um valor de um tipo e devolve o valor correspondente em outro tipo.</dd>
+<dt>definição de função (<em>function definition</em>)</dt>
+<dd>Comando que cria uma nova função, especificando seu nome, parâmetros e comandos que ela executa.</dd>
+<dt>diagrama da pilha (<em>stack diagram</em>)</dt>
+<dd>Representação gráfica da pilha de funções, suas variáveis e os valores aos quais elas se referem.</dd>
+<dt>fluxo de execução (<em>flow of execution</em>)</dt>
+<dd>A ordem na qual os comandos são executados durante a execução do programa.</dd>
+<dt><em>frame</em></dt>
+<dd>Retângulo no diagrama da pilha que representa uma chamada de função. Contém as variáveis locais e os parâmetros da função.</dd>
+<dt>função (<em>function</em>)</dt>
+<dd>Sequência de comandos nomeada, que realiza alguma tarefa útil. As funções podem ou não receber parâmetros e podem ou não retornar valores.</dd>
+<dt>módulo (<em>module</em>)</dt>
+<dd>Arquivo que contém uma coleção de funções e classes relacionadas entre si.</dd>
+<dt>notação de ponto (<em>dot notation</em>)</dt>
+<dd>A sintaxe para chamar uma função que está em outro módulo, especificando o nome do módulo, seguido por um ponto (.) e o nome da função.</dd>
+<dt>parâmetro (<em>parameter</em>)</dt>
+<dd>Nome usado numa função para referir-se a um valor passado como argumento.</dd>
+<dt><em>traceback</em></dt>
+<dd>Lista de funções que estão em execução, impressa quando um erro de execução ocorre.</dd>
+<dt>valor de retorno (<em>return value</em>)</dt>
+<dd>O resultado da função. Se uma chamada de função é usada como expressão, o valor de retorno é o valor da expressão.</dd>
+<dt>variável local (<em>local variable</em>)</dt>
+<dd>Variável definida dentro da função. Uma variável local só pode ser usada dentro da função onde foi definida.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Capítulo 3: Funções</a><ul>
+<li><a class="reference internal" href="#chamadas-de-funcoes">3.1 Chamadas de funções</a></li>
+<li><a class="reference internal" href="#conversao-entre-tipos">3.2 Conversão entre tipos</a></li>
+<li><a class="reference internal" href="#coercao-entre-tipos">3.3 Coerção entre tipos</a></li>
+<li><a class="reference internal" href="#funcoes-matematicas">3.4 Funções matemáticas</a></li>
+<li><a class="reference internal" href="#composicao">3.5 Composição</a></li>
+<li><a class="reference internal" href="#adicionando-novas-funcoes">3.6 Adicionando novas funções</a></li>
+<li><a class="reference internal" href="#definicoes-e-uso">3.7 Definições e uso</a></li>
+<li><a class="reference internal" href="#fluxo-de-execucao">3.8 Fluxo de execução</a></li>
+<li><a class="reference internal" href="#parametros-e-argumentos">3.9 Parâmetros e argumentos</a></li>
+<li><a class="reference internal" href="#variaveis-e-parametros-sao-locais">3.10 Variáveis e parâmetros são locais</a></li>
+<li><a class="reference internal" href="#diagramas-da-pilha">3.11 Diagramas da pilha</a></li>
+<li><a class="reference internal" href="#funcoes-com-resultados">3.12 Funções com resultados</a></li>
+<li><a class="reference internal" href="#glossario">3.13 Glossário</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="capitulo_02.html"
+                        title="capítulo anterior">Capítulo 2: Variáveis, expressões e comandos</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="capitulo_04.html"
+                        title="próximo capítulo">Capítulo 4: Condicionais e recursividade</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/capitulo_03.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="capitulo_04.html" title="Capítulo 4: Condicionais e recursividade"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_02.html" title="Capítulo 2: Variáveis, expressões e comandos"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

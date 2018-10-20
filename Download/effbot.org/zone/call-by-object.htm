@@ -1,0 +1,360 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Call By&nbsp;Object</title></head><body data-page-id="19"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Call By&nbsp;Object</h1></div><div class="yui-ge"><div class="yui-u first"><blockquote>
+&#8220;<i>When <u>I</u> use a word, Humpty Dumpty said, in a rather scornful
+tone, it means just what I choose it to mean, neither more nor less.</i>
+<p>
+<i>The question is, said Alice, whether you <u>can</u> make words
+mean so many different things.</i>
+</p><p>
+<i>The question is, said Humpty Dumpty, which is to be master &#8212;
+that&#8217;s all.</i>&#8221;
+</p></blockquote><p>From time to time, people who&#8217;ve read a little CS but not a lot CS
+(or too much of just one kind of CS)
+pop up on comp.lang.python and waste a lot of energy trying to tell
+everyone that Python&#8217;s using some calling model that it doesn&#8217;t really
+use.  It always turns out that they don&#8217;t really understand Python&#8217;s
+model, and quite often, they don&#8217;t understand their favourite model
+either.</p><p>But nevermind, the only thing <i>you</i> need to know is that Python&#8217;s
+model is neither &#8220;call by value&#8221; nor &#8220;call by reference&#8221; (because any
+attempt to use those terms for Python requires you to use non-standard
+definitions of the words &#8220;-value&#8221; and &#8220;-reference&#8221;).
+The most accurate description is CLU&#8217;s
+&#8220;<b>call by object</b>&#8221; or
+&#8220;<b>call by sharing</b>&#8220;.
+Or, if you prefer, &#8220;<b>call by object reference</b>&#8220;.</p><p>You should also read <a href="python-objects.htm">this</a>, if you
+haven&#8217;t done so already.
+
+</p><p>The following excerpts are taken from an old comp.lang.python thread.
+The interesting parts are the CLU texts, which provide a very concise
+description of Python&#8217;s calling model.</p><p>(Some day, I&#8217;ll turn this into a proper article&#8230;)</p><hr /></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+Date: Wed, 14 May 2003 08:48:08 +0200
+
+&gt; See
+&gt;
+&gt;   http://wombat.doc.ic.ac.uk/foldoc/foldoc.cgi?call-by-value
+&gt;
+&gt; What you describe is call-by-value.
+
+It's interesting that you quote FOLDOC, given that FOLDOC doesn't
+refer to Python's model as call-by-value, as can be seen in the CLU
+entry:
+
+    http://wombat.doc.ic.ac.uk/foldoc/foldoc.cgi?CLU
+
+    "Arguments are passed by call-by-sharing, similar to
+    call-by-value, except that the arguments are objects
+    and can be changed only if they are mutable."
+
+Note the use of the words "similar" and "except".
+
+For a brief description of CLU's object and argument passing models,
+see [1].  I think you'll find that it matches Python's model pretty well.
+
+The CLU Reference Manual [2] by Liskov et al says (page 14):
+
+    "We call the argument passing technique _call by sharing_,
+    because the argument objects are shared between the
+    caller and the called routine.  This technique does not
+    correspond to most traditional argument passing techniques
+    (it is similar to argument passing in LISP).  In particular it
+    is not call by value because mutations of arguments per-
+    formed by the called routine will be visible to the caller.
+    And it is not call by reference because access is not given
+    to the variables of the caller, but merely to certain objects."
+
+Note the use of "does not" and the repeated use of "it is not".
+Let me emphasise:
+
+    "IN PARTICULAR IT IS NOT CALL BY VALUE because mutations
+    of arguments performed by the called routine will be visible to
+    the caller. And IT IS NOT CALL BY REFERENCE because access
+    is not given to the variables of the caller, but merely to certain
+    objects."
+
+CLU was designed in the mid-seventies, and this reference manual
+was published in 1979.  In other literature, the CLU designers some-
+times refer to this model as "call by object" [3], or they carefully
+ignore the issue by talking about "objects" instead of values, and
+"objects that refer to other objects" instead of references [1], but
+I cannot find a single place where they've gone from "in particular
+it is not call by value" to "it is call by value".
+
+So what's your excuse for being stuck in the early seventies? ;-)
+
+&lt;/F&gt;
+
+1) http://www.cs.berkeley.edu/~jcondit/pl-prelim/liskov77clu.pdf
+2) http://www.lcs.mit.edu/publications/pubs/pdf/MIT-LCS-TR-225.pdf
+3) http://www.lcs.mit.edu/publications/pubs/pdf/MIT-LCS-TR-561.pdf
+</pre></div><div class="yui-ge"><div class="yui-u first"><hr /></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+Date: Wed, 14 May 2003 15:49:09 +0200
+
+&gt; Also interesting that [call-by-sharing] is missing
+
+did you read the "Why is this definition missing?" page?
+
+(the FOLDOC maintainers add links to articles that should be written
+some day, and keeps track of how many clicks the links get, so they
+can focus on things that people really want to read about)
+
+&gt; For a good intro to semantics, I sugest
+&gt;
+&gt;   Essentials of Programming Languages
+&gt;   Daniel P. Friedman, Mitchell Wand, Christopher Thomas Haynes
+
+if all you have is scheme, etc.
+
+&gt; I'm not familiar with CLU
+
+I suggest reading reference 3.
+
+    http://www.lcs.mit.edu/publications/pubs/pdf/MIT-LCS-TR-561.pdf
+
+CLU is an important milestone in the development of OO languages;
+to quote Liskov herself, from the above paper:
+
+    "The work on CLU, and other related work such as that on
+    Alphard, served to crystallize the idea of a data abstraction
+    and make it precise. As a result, the notion is widely used as
+    an organizing principle in program design and has become a
+    cornerstone of modern programming methodology."
+
+if you don't know your history, etc.
+
+&gt; but I think this description of Python's argument-passing
+&gt; semantics is misleading.
+
+did you read reference 1?
+
+    http://www.cs.berkeley.edu/~jcondit/pl-prelim/liskov77clu.pdf
+
+in case your PDF reader is broken, here are the relevant portions from
+that document (any typos etc added by me).
+
+    "The basic elements of CLU semantics are _objects_ and
+    _variables_.  Objects are the data entities that are created and
+    manipulated by CLU programs.  Variables are just the names used
+    in a program to refer to objects.
+
+    In CLU, each object has a particular _type_, which characterizes
+    its behavior.  A type defines a set of operations that create
+    and manipulate objects of that type.  An object may be created
+    and manipulated only via the operations of its type.
+
+    An object may _refer_ to objects.  For example, a record object
+    refers to the objects that are the components of the record.
+    This notion is one of logical, not physical, containment.  In
+    particular, it is possible for two distinct record objects to
+    refer to (or _share_) the same component object.  In the case of
+    a cyclic structure, it is even possible for an object to
+    "contain" itself.  Thus it is possible to have recursive data
+    structure definitions and shared data objects without explicit
+    reference types. /.../
+
+    CLU objects exist independently of procedure activations.  Space
+    for objects is allocated from a dynamic storage area /.../ In
+    theory, all objects continue to exist forever.  In practice, the
+    space used by an object may be reclaimed when the object isno
+    longer accessible to any CLU program.
+
+    An object may exhibit time-varying behavior.  Such an object,
+    called a _mutable_ object, has a state which may be modified by
+    certain operations without changing the identity of the
+    object. /.../
+
+    If a mutable object _m_ is shared by two other objects _x_ and
+    _y_, then a modification to _m_ made via _x_ wil be visible when
+    _m_ is examined via _y_.  /.../
+
+    Objects that do not exhibit time-varying behavior are called
+    _immutable_ objects, or constants.  Examples of constants are
+    integers, booleans, characters, and strings.  The value of a
+    constant object can not be modified.  For example, new strings
+    may be computed from old ones, but existing strings do not
+    change.  Similarily, none of the integer operations modify the
+    integers passed to them as arguments.
+
+    Variables are names used in CLU programs to _denote_ particular
+    objects at execution time.  Unlike variables in many common
+    programming languages, which _are_ objects that _contain_
+    values, CLU variables are simply names that the programmer uses
+    to refer to objects.  As such, it is possible for two variables
+    to denote (or _share_) the same object.  CLU variables are much
+    like those in LISP and are similar to pointer variables in other
+    languages.  However, CLU variables are _not_ objects; they
+    cannot be denoted by other variables or referred to by
+    objects. /.../
+
+    The basic actions in CLU are _assignment_ and _procedure
+    invocation_.  The assignment primitive 'x := E' where _x_ is a
+    variable and _E_ is an expression, causes _x_ to denote the
+    object resulting from the evaulation of _E_.  For example, if
+    _E_ is a simple variable _y_, then the assignment 'x := y'
+    causes _x_ to denote the object denoted by _y_.  The object is
+    _not_ copied, it will be _shared_ by _x_ and _y_.  Assignment
+    does not affect the state of any object.  (Recall that 'r.s :=
+    v' is not a true assignment, but an abbreviation for 'put.s(r,
+    v)'.)
+
+    Procedure invocation involves passing argument objects from the
+    caller to the called procedure and returning result objects from
+    the procedure to the caller.  The formal arguments of a
+    procedure are considered to be local variables of the procedure
+    and are initialized, by assignment, to the objects resulting
+    from the evaluation of the argument expressions.  Thus argument
+    objects are shared between the caller and the called procedure.
+    A procedure may modify mutable argument objects (e.g. records),
+    but of course it cannot modify immutable ones (e.g. integers).
+    A procedure has no access to the variables of its caller.
+
+    Procedure invocations may be used directly as statements; those
+    that return objects may also be used as expressions.  Arbitrary
+    recursive procedures are permitted."
+
+replace "CLU" with "Python", "record" with "instance", and "procedure"
+with "function or method", and you get a pretty accurate description
+of Python's object model.
+
+if you don't agree, please tell us what Python does differently.  be very
+specific.
+
+&lt;/F&gt;
+
+</pre></div><div class="yui-ge"><div class="yui-u first"><hr /></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+Date: Thu, 15 May 2003 15:55:57 +0200
+
+Tim Peters wrote:
+
+&gt; So it goes -- believe it or not, sometimes different people mean different
+&gt; things by the same words &lt;wink&gt;.
+
+that's why you should use URLs and URLs only to identify concepts.
+
+&gt; The business of warping "call by value" to mean "the internal address of
+&gt; the object is the value" doesn't seem common even in the functional world,
+&gt; though.
+
+well, I guess you can, in theory, value an artificial number assigned
+to an object as much as the object itself.
+
+    "Joe, I think our son might be lost in the woods"
+    "Don't worry, I have his social security number"
+
+&lt;/F&gt;
+
+</pre></div><div class="yui-ge"><div class="yui-u first"><hr /></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+Date: Thu, 15 May 2003 23:11:53 +0200
+   
+&gt; No, that's exactly what call-by-value means when applied to Python values
+&gt; (actually r-values).  What happens when you try this:
+&gt;
+&gt; &gt;&gt;&gt; y = [1, 2, 3]
+&gt; &gt;&gt;&gt; x = y
+&gt; &gt;&gt;&gt; x[:] = [-1]*3
+&gt; &gt;&gt;&gt; y
+&gt; [-1, -1, -1]
+&gt;
+&gt; Same behavior, no function calls.
+
+except that "x[:] =" *is* a method call.
+
+x[:] = [-1]*3 passes a slice object and the result of ([-1]*3) to
+the x.__setitem__ method, using the standard calling mechanism
+(that's what the "the object is asked" stuff in the language ref
+means)
+
+"x.y =" is also a method call (__setattr__).
+
+so is "x[y] =" (__setitem__, again).
+
+however, "x = y" isn't.
+
+(and thirty years ago, CLU also had syntactic sugar that looked
+like assignments for the uninformed observer, but really was yet
+another way to call a procedure.  nothing new here.)
+
+&lt;/F&gt;
+
+</pre></div><div class="yui-ge"><div class="yui-u first"><hr /></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+Date: Thu, 15 May 2003 23:39:30 +0200
+
+&gt; According to Joshua, me and R5RS.  R5RS says
+&gt;
+&gt; "When the procedure is later called with some actual
+&gt; arguments, the environment in which the lambda expression
+&gt; was evaluated will be extended by binding the variables
+&gt; in the formal argument list to fresh locations, the
+&gt; corresponding actual argument values will be stored
+&gt; in those locations, and the expressions in the body
+&gt; of the lambda expression will be evaluated sequentially
+&gt; in the extended environment."
+&gt;
+&gt; That's call-by-value by definition.
+
+but that's not how Python works.
+
+in Python, the variables in the formal argument list are bound to the
+actual argument objects.  the objects are _shared_ between caller
+and callee; there are no "fresh locations" or extra "stores" involved.
+
+(which, of course, is why the CLU folks called this mechanism "call-
+by-sharing".  and they were real computer scientists, working for a
+real computer science laboratory ;-)
+
+and btw, Python functions doesn't run in an extended environment,
+either.  function bodies have very limited access to the surrounding
+environment.  but that's another story.
+
+&lt;/F&gt;
+
+</pre></div><div class="yui-ge"><div class="yui-u first"><hr /></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+Date: Fri, 16 May 2003 00:25:45 +0200
+
+&gt; It's only here that I disagree with you.  I consider Python values
+&gt; themselves to be object references
+
+if you keep inventing your own terminology, you'll never win this
+argument:
+
+    http://www.python.org/doc/current/ref/objects.html
+
+    "Objects, values and types"
+
+    _Objects_ are Python's abstraction for data. All data in a
+    Python program is represented by objects or by relations
+    between objects.
+
+    Every object has an identity, a type and a value. An object's
+    _identity_ never changes once it has been created; you may
+    think of it as the object's address in memory. /.../ An object's
+    _type_ is also unchangeable. It determines the operations that
+    an object supports (e.g., ``does it have a length?'') and also
+    defines the possible values for objects of that type. /.../ The
+    _value_ of some objects can change. Objects whose value can
+    change are said to be _mutable_; objects whose value is un-
+    changeable once they are created are called _immutable_.
+
+(this is basically the same terminology as in the CLU papers, except
+that they used the term "state" instead of Python's "value")
+
+...so I guess what you've been saying all the time is that Python
+uses call-by-identity, not call-by-state.  fair enough.
+
+&lt;/F&gt;
+
+</pre></div><div class="yui-ge"><div class="yui-u first"><hr /></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+Date: Fri, 16 May 2003 01:05:37 +0200
+
+&gt; This is a description of call-by-value using CLU values (object
+&gt; references).
+
+so?  if, in doug-speak, object references are the same thing as
+values, that's also a description of call-by-object-reference.
+
+is your point that you can redefine words to make them mean
+whatever you want?  I think we've already noticed that...
+
+&lt;/F&gt;
+
+</pre></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>JPEG</title></head><body data-page-id="409"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">JPEG</h1></div><div class="yui-ge"><div class="yui-u first"><p>PIL reads JPEG, JFIF, and Adobe JPEG files containing &#8220;L&#8221;, &#8220;RGB&#8221;,
+or &#8220;CMYK&#8221; data. It writes standard and progressive JFIF files.</p><p>Using the <b>draft</b> method, you can speed things up by
+converting &#8220;RGB&#8221; images to &#8220;L&#8221;, and resize images to 1/2, 1/4 or
+1/8 of their original size while loading them. The draft method
+also configures the JPEG decoder to trade some quality for
+speed.</p><p>The <b>open</b> method sets the following <b>info</b>
+properties:</p><dl class="option"><dt><b>jfif</b></dt><dd><p>JFIF application marker found. If the file is not a JFIF file, this
+key is not present.</p></dd>
+<dt><b>adobe</b></dt><dd><p>Adobe application marker found. If the file is not an Adobe JPEG
+file, this key is not present.</p></dd>
+<dt><b>progression</b></dt><dd><p>Indicates that this is a progressive JPEG file.</p></dd>
+</dl><p>The <b>save</b> method supports the following options:</p><dl class="option"><dt><b>quality</b></dt><dd><p>The image quality, on a scale from 1 (worst) to 95 (best).
+The default is 75.  Values above 95 should be avoided; 100 
+disables portions of the JPEG compression algorithm, and
+results in large files with hardly any gain in image quality.</p></dd>
+<dt><b>optimize</b></dt><dd><p>If present, indicates that the encoder should make an extra pass
+over the image in order to select optimal encoder settings.</p></dd>
+<dt><b>progressive</b></dt><dd><p>If present, indicates that this image should be stored as a
+progressive JPEG file.</p></dd>
+</dl><p class="note">
+<b>Note:</b> To enable JPEG support, you need to build and install the
+IJG JPEG library before building the Python Imaging Library.  See the
+distribution README for details.
+</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to imagingbook index page.">::: imagingbook :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

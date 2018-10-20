@@ -1,0 +1,215 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1. Abrindo o apetite &mdash; Python v2.7.2 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.7.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Python v2.7.2 documentation"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="top" title="Python v2.7.2 documentation" href="../index.html" />
+    <link rel="up" title="O tutorial de Python" href="index.html" />
+    <link rel="next" title="2. Usando o interpretador Python" href="interpreter.html" />
+    <link rel="prev" title="O tutorial de Python" href="index.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+ 
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="interpreter.html" title="2. Usando o interpretador Python"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="O tutorial de Python"
+             accesskey="P">previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">Python v2.7.2 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">O tutorial de Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="abrindo-o-apetite">
+<span id="tut-intro"></span><h1>1. Abrindo o apetite<a class="headerlink" href="#abrindo-o-apetite" title="Permalink to this headline">¶</a></h1>
+<p>Se você trabalha muito com computadores, acabará encontrando alguma tarefa que
+gostaria de automatizar. Por exemplo, você pode querer fazer busca-e-troca em
+um grande número de arquivos de texto, ou renomear e reorganizar um monte de
+arquivos de fotos de uma maneira complicada. Talvez você gostaria de escrever
+um pequeno banco de dados personalizado, ou um aplicativo GUI especializado,
+ou um jogo simples.</p>
+<p>Se você é um desenvolvedor de software profissional, pode ter que trabalhar
+com várias bibliotecas C/C++/Java, mas o tradicional ciclo
+escrever/compilar/testar/recompilar é muito lento. Talvez você esteja
+escrevendo um conjunto de testes para uma biblioteca e está achando tedioso
+codificar os testes. Ou talvez você tenha escrito um programa que poderia
+utilizar uma linguagem de extensão, e você não quer conceber e implementar
+toda uma nova linguagem para sua aplicação.</p>
+<p>Python é a linguagem para você.</p>
+<p>Você poderia escrever um script para o shell do Unix ou arquivos em lote do
+Windows para algumas dessas tarefas, mas scripts shell são bons para mover
+arquivos e alterar textos, mas não adequados para aplicações GUI ou jogos.
+Você poderia escrever um programa em C/C++/Java, mas pode tomar
+tempo de desenvolvimento para chegar até um primeiro rascunho.
+Python é mais simples, está disponível em Windows, Mac OS X, e sistemas
+operacionais Unix, e vai ajudá-lo a fazer o trabalho mais rapidamente.</p>
+<p>Python é fácil de usar, sem deixar de ser uma linguagem de programação de
+verdade, oferecendo muito mais estruturação e suporte para programas extensos
+do que shell scripts oferecem. Por outro lado, Python também oferece melhor
+verificação de erros do que C, e por ser uma linguagem de <em>muito alto nível</em>,
+ela possui tipos nativos de alto nível: dicionários e vetores (arrays)
+flexíveis. Devido ao suporte nativo a uma variedade de tipos de dados, Python
+é aplicável a um domínio de problemas muito mais vasto do que Awk ou até mesmo
+Perl, ainda assim muitas tarefas são pelo menos tão fáceis em Python quanto
+nessas linguagens.</p>
+<p>Python permite que você organize seu programa em módulos que podem ser
+reutilizados em outros programas escritos em Python. A linguagem provê uma
+vasta coleção de módulos que podem ser utilizados como base para sua aplicação
+&#8212; ou como exemplos para estudo e aprofundamento. Alguns desses módulos
+implementam manipulação de arquivos, chamadas do sistema, sockets, e até mesmo
+acesso a bibliotecas de construção de interfaces gráficas, como Tk.</p>
+<p>Python é uma linguagem interpretada, por isso você pode economizar um tempo
+considerável durante o desenvolvimento, uma vez que não há necessidade de
+compilação e vinculação (<em>linking</em>). O interpretador pode ser usado
+interativamente, o que torna fácil experimentar diversas características da
+linguagem, escrever programas “descartáveis”, ou testar funções em um
+desenvolvimento bottom-up. É também uma útil calculadora de mesa.</p>
+<p>Python permite a escrita de programas compactos e legíveis. Programas escritos
+em Python são tipicamente mais curtos do que seus equivalentes em C, C++ ou
+Java, por diversas razões:</p>
+<ul class="simple">
+<li>os tipos de alto nível permitem que você expresse operações complexas em um
+único comando;</li>
+<li>a definição de bloco é feita por indentação ao invés de marcadores de
+início e fim de bloco;</li>
+<li>não há necessidade de declaração de variáveis ou parâmetros formais;</li>
+</ul>
+<p>Python é <em>extensível</em>: se você sabe como programar em C, é fácil adicionar
+funções ou módulos diretamente no interpretador, seja para desempenhar
+operações críticas em máxima velocidade, ou para vincular programas Python a
+bibliotecas que só estejam disponíveis em formato binário (como uma biblioteca
+gráfica de terceiros). Uma vez que você tenha sido fisgado, você pode vincular
+o interpretador Python a uma aplicação escrita em C e utilizá-la como
+linguagem de comandos ou extensão para esta aplicação.</p>
+<p>A propósito, a linguagem foi batizada a partir do famoso show da BBC “Monty
+Python’s Flying Circus” e não tem nada a ver com répteis. Fazer referências a
+citações do show na documentação não é só permitido, como também é encorajado!</p>
+<p>Agora que você está entusiasmado com Python, vai querer conhecê-la com mais
+detalhes. Partindo do princípio que a melhor maneira de aprender uma linguagem
+é usando-a, você está agora convidado a fazê-lo com este tutorial.</p>
+<p>No próximo capítulo, a mecânica de utilização do interpretador é explicada.
+Essa informação, ainda que mundana, é essencial para a experimentação dos
+exemplos apresentados mais tarde.</p>
+<p>O resto do tutorial introduz diversos aspectos do sistema e linguagem Python
+por intermédio de exemplos. Serão abordadas expressões simples, comandos,
+tipos, funções e módulos. Finalmente, serão explicados alguns conceitos
+avançados como exceções e classes definidas pelo usuário.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">O tutorial de Python</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="interpreter.html"
+                        title="next chapter">2. Usando o interpretador Python</a></p>
+<h3>This Page</h3>
+<ul class="this-page-menu">
+  <li><a href="../bugs.html">Report a Bug</a></li>
+  <li><a href="../_sources/tutorial/appetite.txt"
+         rel="nofollow">Show Source</a></li>
+</ul>
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="interpreter.html" title="2. Usando o interpretador Python"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="O tutorial de Python"
+             >previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">Python v2.7.2 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >O tutorial de Python</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+    &copy; <a href="../copyright.html">Copyright</a> 1990-2012, Python Software Foundation.
+    <br />
+    The Python Software Foundation is a non-profit corporation.  
+    <a href="http://www.python.org/psf/donations/">Please donate.</a>
+    <br />
+    Last updated on Apr 03, 2012.
+    <a href="../bugs.html">Found a bug</a>?
+    <br />
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+
+  </body>
+</html>

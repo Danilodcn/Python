@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>SQLite</title></head><body data-page-id="276"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">SQLite</h1></div><div class="yui-ge"><div class="yui-u first"><p>The <a href="http://www.sqlite.org">SQLite</a> library is a
+light-weight embedded SQL engine, with a nice <a href="http://www.python.org/topics/database/DatabaseAPI-2.0.html">DB-API</a>
+compliant <s><a href="http://pysqlite.sourceforge.net/">Python
+binding</a></s> (dead link), originally developed by Michael Owens.</p><p>A newer version, called <b>sqlite3</b>, was added to Python&#8217;s standard library in Python 2.5.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide"><pre class="python wide">
+<span class="pykeyword">import</span> sqlite3
+
+db = sqlite3.connect(<span class="pystring">"database.db"</span>)
+
+c = db.cursor()
+c.execute(<span class="pystring">"create table mytable (timestamp, size, file)"</span>)
+
+<span class="pykeyword">for</span> file <span class="pykeyword">in</span> os.listdir(<span class="pystring">"."</span>):
+    c.execute(
+        <span class="pystring">"insert into mytable values (?, ?, ?)"</span>,
+        os.path.getmtime(file), os.path.getsize(file), file
+    )
+
+c.execute(<span class="pystring">"select file, size from mytable where size &gt; 1000000"</span>)
+
+<span class="pykeyword">for</span> file, size <span class="pykeyword">in</span> c.fetchall():
+    <span class="pykeyword">print</span> file, size</pre></div></div><div class="yui-ge"><div class="yui-u first"><h2>&#8220;fatal python error: deallocating None&#8221;</h2><p> There&#8217;s a bug in pysqlite 0.5.0 (and possibly also in other releases)
+that may cause your application to halt, with a <q><i>fatal python error: deallocating None</i></q> message.  This only happens if you&#8217;re connecting
+to databases repeatedly over the lifetime of your program, but if
+you do, it may take hours or days before the bug reveals itself.
+
+</p><p> The problem is that <b>connect</b> loses one reference to None for
+every call, so if you connect enough times, Python will run out of
+references to the None singleton object.  When the None destructor
+is run, the Python interpreter prints an error message and shuts
+down.
+</p><p>
+Here&#8217;s a patch:
+<pre>
+--- src/pysqlite-0.5.0/_sqlite.c
++++ src/pysqlite-0.5.0/_sqlite.c
+@@ -755,7 +755,7 @@
+
+     if (logfile == Py_None)
+     {
+-        Py_DECREF(logfile);
++        /* Py_DECREF(logfile); */
+
+         Py_INCREF(Py_None);
+         return Py_None;
+</pre>
+
+If you cannot rebuild, you can modify the sqlite/main.py module,
+changing the set_command_logfile call around line 474 to look like
+this:
+<pre class="python">
+        <span class="pykeyword">if</span> command_logfile <span class="pykeyword">is</span> <span class="pykeyword">not</span> None:
+            self.db.set_command_logfile(command_logfile)</pre></p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

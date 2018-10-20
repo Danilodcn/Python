@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The WCK HexView&nbsp;Widget</title></head><body data-page-id="355"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The WCK HexView&nbsp;Widget</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">September 7, 2003 | Fredrik Lundh</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">This class implements a simple &#8220;hexdump&#8221; viewer, based on the <b>ListView</b>
+classes introduced in the <a href="wck-4.htm"><cite>Displaying Large Amounts of Data</cite></a> article.
+
+<div class="example">
+<b>File: wckHexView.py</b>
+<pre class="python wide">
+<span class="pykeyword">from</span> ListView <span class="pykeyword">import</span> ListView
+
+<span class="pykeyword">import</span> re
+
+<span class="pycomment">##</span>
+<span class="pycomment"># Model class</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">HexModel</span>:
+    <span class="pycomment"># turns a file into a list of (offset, 16-byte chunk) items</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, file):
+        self.file = open(file, <span class="pystring">"rb"</span>)
+        self.file.seek(0, 2) <span class="pycomment"># seek to end of file</span>
+        self.size = self.file.tell()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__getitem__</span>(self, index):
+        offset = index * 16
+        self.file.seek(offset)
+        <span class="pykeyword">return</span> offset, self.file.read(16)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__len__</span>(self):
+        <span class="pykeyword">return</span> (self.size + 15) / 16
+
+<span class="pycomment">##</span>
+<span class="pycomment"># View class</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">HexView</span>(ListView):
+    <span class="pycomment"># simple viewer</span>
+
+    ui_option_width = 8 + 1 + 16*3 + 16
+
+    ui_option_font = <span class="pystring">"courier"</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">repair_item</span>(self, draw, xy, item):
+        offset, data = item
+        <span class="pycomment"># build hexdump string</span>
+        text = [<span class="pystring">"%08x"</span> % offset]
+        <span class="pykeyword">for</span> char <span class="pykeyword">in</span> data:
+            text.append(<span class="pystring">"%02x"</span> % ord(char))
+        <span class="pykeyword">if</span> len(text) &lt; 17:
+            text.extend([<span class="pystring">"  "</span>]*(17-len(text)))
+        text.append(re.sub(<span class="pystring">"[\x00-\x1f\x7f-\xbf]"</span>, <span class="pystring">"."</span>, data))
+        draw.text(xy, <span class="pystring">" "</span>.join(text), self.font)</pre></div></p></div><div class="yui-ge"><div class="yui-u first"><p>Here&#8217;s how to use this class:</p><pre class="python">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+root = Tk()
+root.title(<span class="pystring">"WCK"</span>)
+
+scrollbar = Scrollbar(root)
+scrollbar.pack(side=RIGHT, fill=Y)
+
+listbox = HexView(root, yscrollcommand=scrollbar.set)
+listbox.pack(expand=1, fill=BOTH)
+
+scrollbar.config(command=listbox.yview)
+
+model = HexModel(<span class="pystring">"bigfile.dat"</span>)
+
+listbox.setdata(model)
+
+mainloop()</pre><blockquote>
+<img alt="" height="167" src="/media/cache/97895fdb83d076d2907671e8caba46fe.png" width="535" />
+</blockquote><p>Note that the file must be wrapped in a <b>HexModel</b> class; you
+can create your own model class if you want to dump data from other
+sources.</p><h3>Notes</h3><p>To simplify usage, you could add a <b>setfile</b> helper method to the
+<b>HexView</b> class:</p><pre class="python">
+    <span class="pykeyword">def</span> <span class="pyfunction">setfile</span>(self, file):
+        self.setdata(HexModel(file))</pre><p>Alternatively, you can override and extend the <b>ui_handle_config</b>
+method to add support for a <b>file</b> option.  Don&#8217;t forget to call the
+<b>ui_handle_config</b> implementation in the parent class before returning
+control to the WCK.</p><p>For a more extensive hex viewer/editor widget, see Michael Peuser&#8217;s
+<s><a href="http://mail.python.org/pipermail/python-list/2003-September/182306.html">wckhex</a></s> (dead link) widget class.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

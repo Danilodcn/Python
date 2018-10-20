@@ -1,0 +1,349 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>14. Aritmética de ponto flutuante: problemas e limitações &mdash; Python v2.7.2 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.7.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Python v2.7.2 documentation"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="top" title="Python v2.7.2 documentation" href="../index.html" />
+    <link rel="up" title="O tutorial de Python" href="index.html" />
+    <link rel="next" title="Notas para os tradutores da versão pt-br" href="NOTAS.html" />
+    <link rel="prev" title="13. Interactive Input Editing and History Substitution" href="interactive.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+ 
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="NOTAS.html" title="Notas para os tradutores da versão pt-br"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="interactive.html" title="13. Interactive Input Editing and History Substitution"
+             accesskey="P">previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">Python v2.7.2 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">O tutorial de Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="aritmetica-de-ponto-flutuante-problemas-e-limitacoes">
+<span id="tut-fp-issues"></span><h1>14. Aritmética de ponto flutuante: problemas e limitações<a class="headerlink" href="#aritmetica-de-ponto-flutuante-problemas-e-limitacoes" title="Permalink to this headline">¶</a></h1>
+<p>Números de ponto flutuante são representados no hardware do computador como frações binárias (base 2). Por exemplo, a fração decimal:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mf">0.125</span>
+</pre></div>
+</div>
+<p>tem o valor 1/10 + 2/100 + 5/1000, e da mesma maneira a fração binária:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mf">0.001</span>
+</pre></div>
+</div>
+<p>tem o valor 0/2 + 0/4 + 1/8.  Essas duas frações têm valores idênticos, a única
+diferença real é que a primeira está representada na forma de frações base 10,
+e a segunda na base 2.</p>
+<p>Infelizmente, muitas frações decimais não podem ser representadas precisamente
+como frações binárias. O resultado é que, em geral, os números decimais de
+ponto flutuante que você digita acabam sendo armazenados de forma apenas
+aproximada, na forma de números binários de ponto flutuante.</p>
+<p>O problema é mais fácil de entender primeiro em base 10. Considere a fração
+1/3. Podemos representá-la aproximadamente como uma fração base 10:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mf">0.3</span>
+</pre></div>
+</div>
+<p>ou melhor,</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mf">0.33</span>
+</pre></div>
+</div>
+<p>ou melhor,</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mf">0.333</span>
+</pre></div>
+</div>
+<p>e assim por diante. Não importa quantos dígitos você está disposto a escrever,
+o resultado nunca será exatamente 1/3, mas será uma aproximação de cada vez
+melhor de 1/3.</p>
+<p>Da mesma forma, não importa quantos dígitos de base 2 você está disposto a
+usar, o valor decimal 0.1 não pode ser representado exatamente como uma fração
+de base 2. Em base 2, 1/10 é uma fração binária que se repete infinitamente:</p>
+<div class="highlight-python"><pre>0.0001100110011001100110011001100110011001100110011...</pre>
+</div>
+<p>Se limitamos a representação a qualquer número finito de bits, obtemos apenas
+uma aproximação.</p>
+<p>Em uma máquina típica rodando Python, há 53 bits de precisão disponível para
+um <tt class="docutils literal"><span class="pre">float</span></tt>, de modo que o valor armazenado internamente quando você digita
+o número decimal <tt class="docutils literal"><span class="pre">0.1</span></tt> é esta fração binária:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mf">0.00011001100110011001100110011001100110011001100110011010</span>
+</pre></div>
+</div>
+<p>que chega perto, mas não é exatamente igual a 1/10.</p>
+<p>É fácil esquecer que o valor armazenado é uma aproximação da fração decimal
+original, devido à forma como floats são exibidos no interpretador interativo.
+Python exibe apenas uma aproximação decimal do verdadeiro valor decimal da
+aproximação binária armazenada pela máquina. Se Python exibisse o verdadeiro
+valor decimal da aproximação binária que representa o decimal 0.1, teria
+que mostrar:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="mf">0.1</span>
+<span class="go">0.1000000000000000055511151231257827021181583404541015625</span>
+</pre></div>
+</div>
+<p>Isso é bem mais dígitos do que a maioria das pessoas considera útil, então Python
+limita o número de dígitos, apresentando em vez disso um valor arredondado:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="mf">0.1</span>
+<span class="go">0.1</span>
+</pre></div>
+</div>
+<p>É importante perceber que isso é, de fato, uma ilusão: o valor na máquina não
+é exatamente 1/10, estamos simplesmente arredondando a exibição do verdadeiro
+valor na máquina. Esse fato torna-se evidente logo que você tenta fazer
+aritmética com estes valores:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="mf">0.1</span> <span class="o">+</span> <span class="mf">0.2</span>
+<span class="go">0.30000000000000004</span>
+</pre></div>
+</div>
+<p>Note que esse é a própria natureza do ponto flutuante binário: não é um bug em
+Python, e nem é um bug em seu código. Você verá o mesmo tipo de coisa em todas
+as linguagens que usam as instruções de aritmética de ponto flutuante do
+hardware (apesar de algumas linguagens não <em>mostrarem</em> a diferença, por
+padrão, ou em todos os modos de saída).</p>
+<p>Outras surpresas decorrem desse fato. Por exemplo, se tentar arredondar o
+valor 2.675 para duas casas decimais, obterá esse resultado:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="mf">2.675</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">2.67</span>
+</pre></div>
+</div>
+<p>A documentação da função embutida <a class="reference internal" href="../library/functions.html#round" title="round"><tt class="xref py py-func docutils literal"><span class="pre">round()</span></tt></a> diz que ela arredonda para o
+valor mais próximo, e em caso de empate opta pela aproximação mais distante de
+zero. Uma vez que a fração decimal 2.675 fica exatamente a meio caminho entre
+2.67 e 2.68, poderíamos esperar que o resultado fosse (uma aproximação binária
+de) 2.68. Mas não é, porque quando a string decimal <tt class="docutils literal"><span class="pre">2.675</span></tt> é convertida em
+um número de ponto flutuante binário, é substituída por uma aproximação
+binária, cujo valor exato é:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mf">2.67499999999999982236431605997495353221893310546875</span>
+</pre></div>
+</div>
+<p>Uma vez que esta aproximação é ligeiramente mais próxima de 2.67 do que de
+2.68, acaba sendo arredondada para baixo.</p>
+<p>Se você estiver em uma situação onde precisa saber exatamente como esses
+valores intermediários são arredondados, considere usar o módulo
+<a class="reference internal" href="../library/decimal.html#module-decimal" title="decimal: Implementation of the General Decimal Arithmetic  Specification."><tt class="xref py py-mod docutils literal"><span class="pre">decimal</span></tt></a>. Aliás, o módulo <a class="reference internal" href="../library/decimal.html#module-decimal" title="decimal: Implementation of the General Decimal Arithmetic  Specification."><tt class="xref py py-mod docutils literal"><span class="pre">decimal</span></tt></a> também oferece uma boa maneira
+de &#8220;ver&#8221; o valor exato que é armazenado em qualquer float em Python:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">decimal</span> <span class="kn">import</span> <span class="n">Decimal</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Decimal</span><span class="p">(</span><span class="mf">2.675</span><span class="p">)</span>
+<span class="go">Decimal(&#39;2.67499999999999982236431605997495353221893310546875&#39;)</span>
+</pre></div>
+</div>
+<p>Outra consequência é que, uma vez que 0.1 não é exatamente 1/10, somar 0.1 dez
+vezes também não produz exatamente 1.0:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">soma</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">soma</span> <span class="o">+=</span> <span class="mf">0.1</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">soma</span>
+<span class="go">0.9999999999999999</span>
+</pre></div>
+</div>
+<p>A aritmética de ponto flutuante binário traz muitas surpresas como essas. O
+problema do &#8220;0.1&#8221; é explicado em detalhes precisos abaixo, na seção <a class="reference internal" href="#erro-de-representacao">Erro de
+Representação</a>. Para uma descrição mais completa de outras surpresas comuns,
+veja <a class="reference external" href="http://www.lahey.com/float.htm">The Perils of Floating Point</a>.</p>
+<p>Apesar de que os casos patológicos existem, na maioria dos usos cotidianos de
+aritmética de ponto flutuante ao fim você verá o resultado esperado
+simplesmente arredondando a exibição dos resultados finais para o número de
+dígitos decimais que deseja. Para ter um bom controle sobre como um float é
+exibido, veja os especificadores de formato do método <a class="reference internal" href="../library/stdtypes.html#str.format" title="str.format"><tt class="xref py py-meth docutils literal"><span class="pre">str.format()</span></tt></a> em
+<a class="reference internal" href="../library/string.html#formatstrings"><em>Format String Syntax</em></a>.</p>
+<div class="section" id="erro-de-representacao">
+<span id="tut-fp-error"></span><h2>14.1. Erro de representação<a class="headerlink" href="#erro-de-representacao" title="Permalink to this headline">¶</a></h2>
+<p>Esta seção explica o exemplo do &#8220;0,1&#8221; em detalhes, e mostra como você pode
+realizar uma análise exata de casos semelhantes.  Assumimos que você tem uma
+familiaridade básica com representação binária de ponto flutuante.</p>
+<p><em class="dfn">Erro de representação</em> refere-se ao fato de que algumas frações decimais
+(a maioria, na verdade) não podem ser representadas exatamente como frações
+binárias (base 2). Esta é a principal razão por que Python (ou Perl, C, C++,
+Java, Fortran, e muitas outras) frequentemente não exibe o número decimal
+exato que esperamos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="mf">0.1</span> <span class="o">+</span> <span class="mf">0.2</span>
+<span class="go">0.30000000000000004</span>
+</pre></div>
+</div>
+<p>Por que isso acontece? 1/10 e 2/10 não são representáveis exatamente ​​como
+frações binárias. Quase todas as máquinas atuais (julho de 2010) usam
+aritmética de ponto flutuante conforme a norma IEEE-754, e Python, em quase
+todas as plataformas, representa um float como um &#8220;IEEE-754 double precision
+float&#8221; (&#8220;float de precisão dupla IEEE-754&#8221;). Os tais &#8220;doubles IEEE-754&#8221; têm 53
+bits de precisão, por isso na entrada o computador se esforça para converter
+0.1 para a fração mais próxima que pode, na forma <em>J</em>/2**<em>N</em> onde <em>J</em> é um
+número inteiro contendo exatamente 53 bits. Reescrevendo:</p>
+<div class="highlight-python"><pre>1 / 10 ~= J / (2**N)</pre>
+</div>
+<p>como</p>
+<div class="highlight-python"><pre>J ~= 2**N / 10</pre>
+</div>
+<p>e recordando que <em>J</em> tem exatamente 53 bits (é <tt class="docutils literal"><span class="pre">&gt;=</span> <span class="pre">2**52</span></tt>, mas <tt class="docutils literal"><span class="pre">&lt;</span> <span class="pre">2**53</span></tt>),
+o melhor valor para <em>N</em> é 56:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="mi">2</span><span class="o">**</span><span class="mi">52</span>
+<span class="go">4503599627370496</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">2</span><span class="o">**</span><span class="mi">53</span>
+<span class="go">9007199254740992</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">2</span><span class="o">**</span><span class="mi">56</span><span class="o">/</span><span class="mi">10</span>
+<span class="go">7205759403792793</span>
+</pre></div>
+</div>
+<p>Ou seja, 56 é o único valor de <em>N</em> que deixa <em>J</em> com exatamente 53 bits.
+O melhor valor possível para <em>J</em> então é aquele quociente arredondado:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">q</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">56</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span>
+<span class="go">6</span>
+</pre></div>
+</div>
+<p>Uma vez que o resto é maior que a metade de 10, a melhor aproximação é obtida
+arredondando para cima:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">q</span><span class="o">+</span><span class="mi">1</span>
+<span class="go">7205759403792794</span>
+</pre></div>
+</div>
+<p>Portanto, a melhor aproximação possível de 1/10 como um &#8220;IEEE-754 double
+precision&#8221; é aquele valor dividido por 2** 56, ou:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">7205759403792794</span> <span class="o">/</span> <span class="mi">72057594037927936</span>
+</pre></div>
+</div>
+<p>Note que, como arredondamos para cima, esse valor é de fato um pouco maior que
+1/10; se não tivéssemos arredondado para cima, o quociente teria sido um pouco
+menor que 1/10. Mas em nenhum caso ele pode ser <em>exatamente</em> 1/10!</p>
+<p>Por isso, o computador nunca &#8220;vê&#8221; 1/10: o que ele vê é exatamente a fração
+dada acima, a melhor aproximação &#8220;IEEE-754 double&#8221; possível:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="o">.</span><span class="mi">1</span> <span class="o">*</span> <span class="mi">2</span><span class="o">**</span><span class="mi">56</span>
+<span class="go">7205759403792794.0</span>
+</pre></div>
+</div>
+<p>Se multiplicarmos essa fração por 10**30, podemos ver o valor (truncado) de
+seus 30 dígitos mais significativos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="mi">7205759403792794</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">30</span> <span class="o">//</span> <span class="mi">2</span><span class="o">**</span><span class="mi">56</span>
+<span class="go">100000000000000005551115123125L</span>
+</pre></div>
+</div>
+<p>o que significa que o número exato armazenados no computador é aproximadamente
+igual ao o valor decimal 0.100000000000000005551115123125. Em versões de
+Python anteriores a 2.7 e 3.1, Python exibia esse valor arredondado para 17
+dígitos significativos, produzindo &#8216;0.10000000000000001&#8217;. Nas versões atuais,
+Python exibe a fração decimal mais curta que pode ser convertida para o
+verdadeiro valor binário, o que resulta simplesmente em &#8216;0.1&#8217;.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">14. Aritmética de ponto flutuante: problemas e limitações</a><ul>
+<li><a class="reference internal" href="#erro-de-representacao">14.1. Erro de representação</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="interactive.html"
+                        title="previous chapter">13. Interactive Input Editing and History Substitution</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="NOTAS.html"
+                        title="next chapter">Notas para os tradutores da versão pt-br</a></p>
+<h3>This Page</h3>
+<ul class="this-page-menu">
+  <li><a href="../bugs.html">Report a Bug</a></li>
+  <li><a href="../_sources/tutorial/floatingpoint.txt"
+         rel="nofollow">Show Source</a></li>
+</ul>
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="NOTAS.html" title="Notas para os tradutores da versão pt-br"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="interactive.html" title="13. Interactive Input Editing and History Substitution"
+             >previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">Python v2.7.2 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >O tutorial de Python</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+    &copy; <a href="../copyright.html">Copyright</a> 1990-2012, Python Software Foundation.
+    <br />
+    The Python Software Foundation is a non-profit corporation.  
+    <a href="http://www.python.org/psf/donations/">Please donate.</a>
+    <br />
+    Last updated on Apr 03, 2012.
+    <a href="../bugs.html">Found a bug</a>?
+    <br />
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+
+  </body>
+</html>

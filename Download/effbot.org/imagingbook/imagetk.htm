@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The ImageTk&nbsp;Module</title></head><body data-page-id="451"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><p><a href="imagestat.htm">back</a>&#160;<a href="imagewin.htm">next</a></p><h1 class="maintitle">The ImageTk&nbsp;Module</h1></div><div class="yui-ge"><div class="yui-u first"><p>The <b>ImageTk</b> module contains support to create and modify
+Tkinter <b>BitmapImage</b> and <b>PhotoImage</b> objects from PIL
+images.</p><p>For examples, see the demo programs in the <i>Scripts</i>
+directory.</p><p class="note"><b>Note:</b>
+If you&#8217;re using a prebuilt version of PIL, you might need to
+install additional packages to be able to use the <b>ImageTk</b>
+module.  
+For example, on Ubuntu, you need both <b>python-imaging</b>
+and <b>python-imaging-tk</b>.
+</p><h2 id="tag-ImageTk.BitmapImage">The BitmapImage Class&#160;<a class="nav" href="#tag-ImageTk.BitmapImage" title="bookmark!">#</a></h2><div class="class"><p><b>ImageTk.BitmapImage(image, options)</b>
+<span>&#8658; BitmapImage instance</span></p><p>Create a Tkinter-compatible bitmap image, which can be used
+everywhere Tkinter expects an image object.</p><p>The given image must have mode <span>&#8220;1&#8221;</span>. Pixels having
+value 0 are treated as transparent.  Options, if any, are passed to
+Tkinter. The most commonly used option is <b>foreground</b>, which is
+used to specify the colour for the non-transparent parts.  See the
+Tkinter documentation for information on how to specify colours.</p></div><h2 id="tag-ImageTk.PhotoImage">The PhotoImage Class&#160;<a class="nav" href="#tag-ImageTk.PhotoImage" title="bookmark!">#</a></h2><div class="class"><p><b>ImageTk.PhotoImage(image)</b>
+<span>&#8658; PhotoImage instance</span></p><p>Creates a Tkinter-compatible photo image, which can be used
+everywhere Tkinter expects an image object.  If the image is an RGBA
+image, pixels having alpha 0 are treated as transparent.</p><p><b>ImageTk.PhotoImage(mode, size)</b>
+<span>&#8658; PhotoImage instance</span></p><p>Same as above, but creates an empty (transparent) photo image
+object. Use <b>paste</b> to copy image data to this object.</p></div><h2 id="methods">Methods&#160;<a class="nav" href="#methods" title="bookmark!">#</a></h2><h3 id="tag-ImageTk.PhotoImage.paste">paste&#160;<a class="nav" href="#tag-ImageTk.PhotoImage.paste" title="bookmark!">#</a></h3><div class="method"><p><b>photo.paste(image, box)</b></p><p>Pastes an image into the photo image.  The box is a 4-tuple
+defining the left, upper, right, and lower pixel coordinate.  If the
+box is omitted, or None, all of the image is assumed.  In all cases,
+the size of the pasted image must match the size of the region.  If
+the image mode does not match the photo image mode, conversions are
+automatically applied.</p><p class="note"><b>Note:</b>
+Pasting into an RGBA image that is displayed is a very slow operation.
+It&#8217;s usually better to create a new image object.
+</p><p>&#160;</p></div></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p><a href="imagestat.htm">back</a>&#160;<a href="imagewin.htm">next</a></p></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to imagingbook index page.">::: imagingbook :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#tag-ImageTk.BitmapImage">The BitmapImage Class</a></li><li><a href="#tag-ImageTk.PhotoImage">The PhotoImage Class</a></li><li><a href="#methods">Methods</a></li><li><ul><li><a href="#tag-ImageTk.PhotoImage.paste">paste</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

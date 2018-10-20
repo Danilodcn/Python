@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The ImagePalette&nbsp;Module</title></head><body data-page-id="446"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><p><a href="imageops.htm">back</a>&#160;<a href="imagepath.htm">next</a></p><h1 class="maintitle">The ImagePalette&nbsp;Module</h1></div><div class="yui-ge"><div class="yui-u first"><p class="fixme">FIXME: This section doesn&#8217;t quite match the current
+implementation.  For now, the safest way to attach a palette to an
+image is to use the <b>putpalette</b> method with the palette data in
+a string.</p><p>To use the <b>ImagePalette</b> class and related functions,
+import the <b>ImagePalette</b> module.</p><h2 id="examples">Examples&#160;<a class="nav" href="#examples" title="bookmark!">#</a></h2><div class="example">
+<b>Attach a Palette to an Image (Sequence Syntax)</b>
+<pre class="python">
+palette = []
+<span class="pykeyword">for</span> i <span class="pykeyword">in</span> range(256):
+    palette.extend((i, i, i)) <span class="pycomment"># grayscale wedge</span>
+
+<span class="pykeyword">assert</span> len(palette) == 768
+
+im.putpalette(palette)</pre></div><p>&#160;</p><div class="example">
+<b>Attach a Palette to an Image (Not Yet Supported)</b>
+<pre class="python">
+<span class="pykeyword">import</span> ImagePalette
+
+palette = ImagePalette.ImagePalette(<span class="pystring">"RGB"</span>)
+palette.putdata(...)
+
+im.putpalette(palette)</pre></div><p>&#160;</p><div class="example">
+<b>Getting the Palette Contents Using Resize/Convert</b>
+<pre class="python">
+<span class="pykeyword">assert</span> im.mode == <span class="pystring">"P"</span>
+
+lut = im.resize((256, 1))
+lut.putdata(range(256))
+lut = lut.convert(<span class="pystring">"RGB"</span>).getdata()
+
+<span class="pycomment"># lut now contains a sequence of (r, g, b) tuples</span></pre></div><h2 id="classes">Classes&#160;<a class="nav" href="#classes" title="bookmark!">#</a></h2><h3 id="tag-ImagePalette.ImagePalette">ImagePalette&#160;<a class="nav" href="#tag-ImagePalette.ImagePalette" title="bookmark!">#</a></h3><div class="class"><p><b>ImagePalette.ImagePalette(mode=&#8221;RGB&#8221;)</b>
+<span>&#8658; palette instance</span></p><p>This constructor creates a new palette, mapping from &#8220;P&#8221; to the
+given mode.  The palette is initialised to a linear grayscale
+ramp.</p></div></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p><a href="imageops.htm">back</a>&#160;<a href="imagepath.htm">next</a></p></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to imagingbook index page.">::: imagingbook :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#examples">Examples</a></li><li><a href="#classes">Classes</a></li><li><ul><li><a href="#tag-ImagePalette.ImagePalette">ImagePalette</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

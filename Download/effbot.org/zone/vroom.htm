@@ -1,0 +1,239 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Vroom! - A Simple DarkRoom/WriteRoom Remake in&nbsp;Tkinter</title></head><body data-page-id="342"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Vroom! - A Simple DarkRoom/WriteRoom Remake in&nbsp;Tkinter</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | August 2007</p><h2 id="room-editors">Room Editors&#160;<a class="nav" href="#room-editors" title="bookmark!">#</a></h2><p>Recently, I&#8217;ve been using Jeffrey Fuller&#8217;s <a href="http://they.misled.us/dark-room/">Dark Room</a> editor for a lot of my writing.  Dark Room is a Windows remake of the OS X application <a href="http://hogbaysoftware.com/projects/writeroom">WriteRoom</a>, and is designed, just as the original, to let you focus on the text you&#8217;re working on, instead of getting distracted by a plethora of fancy features.  To quote Jeffrey,</p><blockquote><p>&#8220;<em>Dark Room is a full screen, distraction free, writing environment. Unlike standard word processors that focus on features, Dark Room is just about you and your text.</em>&#8221;</p></blockquote><p>Dark Room provides plain text editing in a fixed-pitch font, using green text on a dark background, basic editing commands, and not much else.  The editor is designed to be used in full-screen mode.</p><p>While Dark Room has suited my needs quite well, the itch to create a clone of my own just had to be scratched.  My BMW-obsessed 4-year old came up with a suitable name, <strong>Vroom!</strong>, and, building on Tkinter&#8217;s <b>Text</b> widget, I got the first version up and running in a few short programming sessions spread over two days.</p><p>A few programming sessions and a short writing session, that is, because what&#8217;s more suitable for the &#8220;maiden voyage&#8221; of a new editor than an article describing the implementation?</p><h2 id="using-the-tkinter-text-widget">Using the Tkinter Text Widget&#160;<a class="nav" href="#using-the-tkinter-text-widget" title="bookmark!">#</a></h2><p>The Tkinter UI framework is nearly as minimalistic as the Room editors, but it does come with a couple of extraordinarily powerful widgets.  The <b>Canvas</b> widget provides structured graphics, and the <b>Text</b> widget provides a combined rich-text editing and presentation component, which makes it the perfect match for this project.</p><p>Using the <b>Text</b> widget as an editor is trivial; all you have to do is to create the widget, display it, and make sure it has keyboard focus:</p><pre class="python">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+editor = Text()
+editor.pack(fill=Y, expand=1)
+
+editor.config(font=<span class="pystring">"Courier 12"</span>)
+
+editor.focus_set()
+
+mainloop()</pre><p>The above creates a bare-bones editor widget, with a fixed-pitch Courier font, and basic emacs-style keyboard bindings.  The widget is also set up to resize itself to match the Tkinter root window.  If you run the script, you can start typing in text right away.</p><blockquote>
+<img alt="" height="282" src="/media/cache/6a5d43e406bb41e8120a9b075328e31b.png" width="400" />
+</blockquote><p>It doesn&#8217;t look much like the Dark Room editor, though.  To get closer, you need to apply some basic styling.</p><h2 id="styling-the-widget">Styling the Widget&#160;<a class="nav" href="#styling-the-widget" title="bookmark!">#</a></h2><p>The following slightly enhanced script creates a root window widget, and then places a styled <b>Text</b> widget inside it.  The editor now uses green text on black background, a white cursor (to make sure it&#8217;s visible on the black background), and a maximum width of 64 characters, even if the root window is made wider than that.  Finally, support for undo/redo is enabled, which lets you use Control-Z to undo changes to the text, and Control-Y to reapply them.</p><pre class="python">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+root = Tk()
+root.title(<span class="pystring">"Vroom!"</span>)
+root.config(background=<span class="pystring">"black"</span>)
+root.wm_state(<span class="pystring">"zoomed"</span>)
+
+editor = Text(root)
+editor.pack(fill=Y, expand=1)
+
+editor.config(
+    borderwidth=0,
+    font=<span class="pystring">"{Lucida Sans Typewriter} 12"</span>,
+    foreground=<span class="pystring">"green"</span>,
+    background=<span class="pystring">"black"</span>,
+    insertbackground=<span class="pystring">"white"</span>, <span class="pycomment"># cursor</span>
+    selectforeground=<span class="pystring">"green"</span>, <span class="pycomment"># selection</span>
+    selectbackground=<span class="pystring">"#008000"</span>,
+    wrap=WORD, <span class="pycomment"># use word wrapping</span>
+    width=64,
+    undo=True, <span class="pycomment"># Tk 8.4</span>
+    )
+
+editor.focus_set()
+
+mainloop()</pre><p>(Note that the undo/redo functionality requires Tk 8.4.)</p><blockquote>
+<img alt="" height="272" src="/media/cache/ce910cd876d257b1e6ce058390bc8897.png" width="400" />
+</blockquote><h2 id="loading-and-saving-text">Loading and Saving Text&#160;<a class="nav" href="#loading-and-saving-text" title="bookmark!">#</a></h2><p>The standard <b>Text</b> widget and some nice styling is pretty much all you need to get started.  However, the only way to get text into and out from this prototype is to copy the text via the clipboard, from or to some other editor (such as <em>notepad</em> or <em>emacs</em>).</p><p>Loading text into a Text widget is pretty straightforward; the following snippet shows how to delete the current contents (everything between line 1 column 0 and the END of the buffer), insert the new contents, and finally move the insertion cursor back to the beginning of the buffer:</p><pre class="python">
+text = open(filename).read()
+editor.delete(1.0, END)
+editor.insert(END, text)
+editor.mark_set(INSERT, 1.0)</pre><p>And here&#8217;s the corresponding code to save the contents to a file.  The Text widget has a habit of appending newlines to the end of the edit buffer, something that this code addresses by simply trimming away all trailing whitespace, and adding a single newline to the file on the way out.</p><pre class="python">
+f = open(filename, <span class="pystring">"w"</span>)
+text = editor.get(1.0, END)
+<span class="pykeyword">try</span>:
+    <span class="pycomment"># normalize trailing whitespace</span>
+    f.write(text.rstrip())
+    f.write(<span class="pystring">"\n"</span>)
+<span class="pykeyword">finally</span>:
+    f.close()</pre><h2 id="towards-a-production-quality-implementation">Towards a Production-Quality Implementation&#160;<a class="nav" href="#towards-a-production-quality-implementation" title="bookmark!">#</a></h2><p>Now, given the styled widget and the snippets that shows how to load and save text, let&#8217;s start building a slightly more organized implementation.  The first step is to create a custom widget class for the editor, to give us some place to add editor-related methods and attributes.  Since the editor is a specialized Text widget, you can simply inherit from the Text widget class, and do the necessary setup in the initialization method.</p><pre class="python">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+<span class="pykeyword">class</span> <span class="pyclass">RoomEditor</span>(Text):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, master, **options):
+        Text.__init__(self, master, **options)
+
+        self.config(
+            borderwidth=0,
+            font=<span class="pystring">"{Lucida Sans Typewriter} 14"</span>,
+            foreground=<span class="pystring">"green"</span>,
+            background=<span class="pystring">"black"</span>,
+            insertbackground=<span class="pystring">"white"</span>, <span class="pycomment"># cursor</span>
+            selectforeground=<span class="pystring">"green"</span>, <span class="pycomment"># selection</span>
+            selectbackground=<span class="pystring">"#008000"</span>,
+            wrap=WORD, <span class="pycomment"># use word wrapping</span>
+            undo=True,
+            width=64,
+            )
+
+        self.filename = None <span class="pycomment"># current document</span></pre><p>The editor class shown here inherits all methods from the Text class, and also adds a <strong>filename</strong> attribute to keep track of the currently loaded file.  It&#8217;s a good idea to display this name in the editor window&#8217;s title bar, and you can use a property to make sure that this is done automatically.</p><p>Before you add the property itself, you need to add <b>object</b> to the list of parent classes; without that, Python&#8217;s property mechanism won&#8217;t work properly.  You also need to put <strong>object</strong> <em>after</em> the Tkinter widget class, or Tkinter won&#8217;t work properly.</p><p>With this in place, you can just add a getter and a setter method, and use <b>property</b> to create the &#8220;virtual&#8221; attribute:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">import</span> os
+
+TITLE = <span class="pystring">"Vroom!"</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">RoomEditor</span>(Text, object):
+
+    ...
+
+    <span class="pykeyword">def</span> <span class="pyfunction">_getfilename</span>(self):
+        <span class="pykeyword">return</span> self._filename
+
+    <span class="pykeyword">def</span> <span class="pyfunction">_setfilename</span>(self, filename):
+        self._filename = filename
+        title = os.path.basename(filename <span class="pykeyword">or</span> <span class="pystring">"(new document)"</span>)
+        title = title + <span class="pystring">" - "</span> + TITLE
+        self.winfo_toplevel().title(title)
+
+    filename = property(_getfilename, _setfilename)</pre></div><div class="yui-ge"><div class="yui-u first"><p>With this in place, the actual filename is stored in the <strong>_filename</strong> attribute, and changes to <strong>filename</strong> will also be reflected in the title bar (note that the initialization function sets <strong>filename</strong> to None, so you don&#8217;t need to explicitly initialize the internal attribute; that&#8217;s done inside <strong>_setfilename</strong> when the widget is first created).</p><p>There&#8217;s one more thing that can be nicely handled with a property, and that&#8217;s the widget&#8217;s modification flag.  This is automatically set whenever the editor buffer is modified, and can also be explicitly set or reset by the application. Unfortunately, the method used for this, <b>edit_modified</b>, appears to be broken on Python 2.5 (at least it doesn&#8217;t work properly in my installation), so you need to provide a work-around:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+    <span class="pykeyword">def</span> <span class="pyfunction">edit_modified</span>(self, value=None):
+        <span class="pycomment"># Python 2.5's implementation is broken</span>
+        <span class="pykeyword">return</span> self.tk.call(self, <span class="pystring">"edit"</span>, <span class="pystring">"modified"</span>, value)</pre></div><div class="yui-ge"><div class="yui-u first"><p>The <strong>tk.call</strong> method ignores None parameters, so a call to <strong>edit_modified</strong> without any argument will result in the Tk command &#8220;.<em>widget</em> edit modified&#8221;, which queries the current flag value, and calls with a boolean argument will result in &#8220;.<em>widget</em> edit modified <em>value</em>&#8220;, which modifies the flag.
+For convenience, you can wrap this behaviour in a property, and you can in fact use the same method both as the getter and the setter; in the former case, it&#8217;s called without any argument, so Tkinter will fetch the current flag value, and in the latter case, it&#8217;s called with the assigned value as the first argument, and will thus modify the flag.</p><pre class="python">
+    modified = property(edit_modified, edit_modified)</pre><p>So, with this in place, it&#8217;s time to add code to load and save the editor contents.  The code snippets shown earlier can be used pretty much as they are, except that you need to update the document filename, the editor title bar, and the modification flag as well.  Given the properties just added to the class, the latter is trivial.  Just assign to the properties, and the corresponding setter code takes care of the rest.</p><pre class="python">
+    <span class="pykeyword">def</span> <span class="pyfunction">load</span>(self, filename):
+        text = open(filename).read()
+        self.delete(1.0, END)
+        self.insert(END, text)
+        self.mark_set(INSERT, 1.0)
+        self.modified = False
+        self.filename = filename
+
+    <span class="pykeyword">def</span> <span class="pyfunction">save</span>(self, filename=None):
+        <span class="pykeyword">if</span> filename <span class="pykeyword">is</span> None:
+            filename = self.filename
+        f = open(filename, <span class="pystring">"w"</span>)
+        s = self.get(1.0, END)
+        <span class="pykeyword">try</span>:
+            f.write(s.rstrip())
+            f.write(<span class="pystring">"\n"</span>)
+        <span class="pykeyword">finally</span>:
+            f.close()
+        self.modified = False
+        self.filename = filename</pre><p>What&#8217;s left is some straightforward script code to set everything up:</p><pre class="python">
+root = Tk()
+root.config(background=<span class="pystring">"black"</span>)
+
+root.wm_state(<span class="pystring">"zoomed"</span>)
+
+editor = RoomEditor(root)
+editor.pack(fill=Y, expand=1, pady=10)
+
+editor.focus_set()
+
+<span class="pykeyword">try</span>:
+    editor.load(sys.argv[1])
+<span class="pykeyword">except</span> (IndexError, IOError):
+    <span class="pykeyword">pass</span>
+
+mainloop()</pre><h2 id="additional-keyboard-bindings">Additional Keyboard Bindings&#160;<a class="nav" href="#additional-keyboard-bindings" title="bookmark!">#</a></h2><p>At this point, the editor looks and feels pretty good, and you can pass in a document name on the command line and have it loaded into the editor buffer in one step.  There&#8217;s still no way to save the document, though, and it would definitely be nice to have the usual set of &#8220;file menu&#8221; operations available, such as <strong>File/Open</strong>, <strong>File/Save</strong>, and <strong>File/Save As&#8230;</strong>.</p><p>Adding this is of course just a small matter of programming.</p><p>I usually implement this kind of user-interface code in two separate layers; one for the actual operations, and one for the user-interface bindings.  This makes it easier to test the implementation, and it also gives a lot more flexibility when implementing the actual bindings.</p><p>Let&#8217;s start with code for <strong>File/Open</strong>:</p><pre class="python">
+FILETYPES = [
+    (<span class="pystring">"Text files"</span>, <span class="pystring">"*.txt"</span>), (<span class="pystring">"All files"</span>, <span class="pystring">"*"</span>)
+    ]
+
+<span class="pykeyword">class</span> <span class="pyclass">Cancel</span>(Exception):
+    <span class="pykeyword">pass</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">open_as</span>():
+    <span class="pykeyword">from</span> tkFileDialog <span class="pykeyword">import</span> askopenfilename
+    f = askopenfilename(parent=root, filetypes=FILETYPES)
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> f:
+        <span class="pykeyword">raise</span> Cancel
+    <span class="pykeyword">try</span>:
+        editor.load(f)
+    <span class="pykeyword">except</span> IOError:
+        <span class="pykeyword">from</span> tkMessageBox <span class="pykeyword">import</span> showwarning
+        showwarning(<span class="pystring">"Open"</span>, <span class="pystring">"Cannot open the file."</span>)
+        <span class="pykeyword">raise</span> Cancel</pre><p>Note the use of the global <strong>editor</strong> variable.  An alternative would be to pass in the editor instance, but we&#8217;ll only be using a single <strong>RoomEditor</strong> instance in this version of the editor, so using a global variable makes the code a little bit simpler.</p><p>Also note the use of a custom exception to indicate that the operation was cancelled, and the use of local import statements to avoid loading user-interface components before they&#8217;re actually needed.  (Python&#8217;s module system will of course still cache already loaded components for us, so subsequent imports are fast.)</p><p>The code for saving the document to a file is similar, but consists of three different functions; <strong>save_as()</strong> asks for a file name and saves the file under that name (<strong>File/Save As&#8230;</strong>), <strong>save()</strong> uses the current name if known (via the <strong>filename</strong> property), and falls back on <strong>save_as()</strong> for new documents (<strong>File/Save</strong>), and <strong>save_if_modified()</strong> checks if the document has been modified before calling <strong>save()</strong>.  This last function should be used by operations that &#8220;destroy&#8221; the editor contents, such as loading a new file, or clearing the buffer.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">def</span> <span class="pyfunction">save_as</span>():
+    <span class="pykeyword">from</span> tkFileDialog <span class="pykeyword">import</span> asksaveasfilename
+    f = asksaveasfilename(parent=root, defaultextension=<span class="pystring">".txt"</span>)
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> f:
+        <span class="pykeyword">raise</span> Cancel
+    <span class="pykeyword">try</span>:
+        editor.save(f)
+    <span class="pykeyword">except</span> IOError:
+        <span class="pykeyword">from</span> tkMessageBox <span class="pykeyword">import</span> showwarning
+        showwarning(<span class="pystring">"Save As"</span>, <span class="pystring">"Cannot save the file."</span>)
+        <span class="pykeyword">raise</span> Cancel
+
+<span class="pykeyword">def</span> <span class="pyfunction">save</span>():
+    <span class="pykeyword">if</span> editor.filename:
+        <span class="pykeyword">try</span>:
+            editor.save(editor.filename)
+        <span class="pykeyword">except</span> IOError:
+            <span class="pykeyword">from</span> tkMessageBox <span class="pykeyword">import</span> showwarning
+            showwarning(<span class="pystring">"Save"</span>, <span class="pystring">"Cannot save the file."</span>)
+            <span class="pykeyword">raise</span> Cancel
+    <span class="pykeyword">else</span>:
+        save_as()
+
+<span class="pykeyword">def</span> <span class="pyfunction">save_if_modified</span>():
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> editor.modified:
+        <span class="pykeyword">return</span>
+    <span class="pykeyword">if</span> askyesnocancel(TITLE, <span class="pystring">"Document modified. Save changes?"</span>):
+        save()</pre></div><div class="yui-ge"><div class="yui-u first"><p>(It&#8217;s worth mentioning that this part took the longest to get &#8220;right&#8221;; my first implementation used a single <strong>save()</strong> function with keyword options to control the behaviour, but the logic was somewhat convoluted, the error handling was rather messy, and it just didn&#8217;t feel right.  I finally replaced it with the much simpler, more verbose, but &#8220;obviously correct&#8221; set of functions shown here.)</p><p>The <b>tkMessageBox</b> module contains helpers for several commonly-used message styles, but a &#8220;yes/no/cancel&#8221;-style box is missing (at least as of Python 2.5).  You can use the <b>Message</b> support class to implement our own helper:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">askyesnocancel</span>(title=None, message=None, **options):
+    <span class="pykeyword">import</span> tkMessageBox
+    s = tkMessageBox.Message(
+        title=title, message=message,
+        icon=tkMessageBox.QUESTION,
+        type=tkMessageBox.YESNOCANCEL,
+        **options).show()
+    <span class="pykeyword">if</span> isinstance(s, bool):
+        <span class="pykeyword">return</span> s
+    <span class="pykeyword">if</span> s == <span class="pystring">"cancel"</span>:
+        <span class="pykeyword">raise</span> Cancel
+    <span class="pykeyword">return</span> s == <span class="pystring">"yes"</span></pre><p>This is similar to the corresponding code used by the <b>tkMessageBox</b> helpers, but uses a boolean or an exception to report the outcome, instead of string values.</p><p>With the core operations in place, you need to make them available from the user interface.  For this version of the editor, let&#8217;s stick to keyboard shortcuts for all operations.  For each shortcut, you need a dispatcher function, and one or more calls to <b>bind</b> to associate the function with a widget-level event.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">def</span> <span class="pyfunction">file_new</span>(event=None):
+    <span class="pykeyword">try</span>:
+        save_if_modified()
+        editor.clear()
+    <span class="pykeyword">except</span> Cancel:
+        <span class="pykeyword">pass</span>
+    <span class="pykeyword">return</span> <span class="pystring">"break"</span> <span class="pycomment"># don't propagate events</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">file_open</span>(event=None):
+    <span class="pykeyword">try</span>:
+        save_if_modified()
+        open_as()
+    <span class="pykeyword">except</span> Cancel:
+        <span class="pykeyword">pass</span>
+    <span class="pykeyword">return</span> <span class="pystring">"break"</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">file_save</span>(event=None):
+    <span class="pykeyword">try</span>:
+        save()
+    <span class="pykeyword">except</span> Cancel:
+        <span class="pykeyword">pass</span>
+    <span class="pykeyword">return</span> <span class="pystring">"break"</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">file_save_as</span>(event=None):
+    <span class="pykeyword">try</span>:
+        save_as()
+    <span class="pykeyword">except</span> Cancel:
+        <span class="pykeyword">pass</span>
+    <span class="pykeyword">return</span> <span class="pystring">"break"</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">file_quit</span>(event=None):
+    <span class="pykeyword">try</span>:
+        save_if_modified()
+    <span class="pykeyword">except</span> Cancel:
+        <span class="pykeyword">return</span>
+    root.quit()
+
+editor.bind(<span class="pystring">"&lt;Control-n&gt;"</span>, file_new)
+editor.bind(<span class="pystring">"&lt;Control-o&gt;"</span>, file_open)
+editor.bind(<span class="pystring">"&lt;Control-s&gt;"</span>, file_save)
+editor.bind(<span class="pystring">"&lt;Control-Shift-S&gt;"</span>, file_save_as)
+editor.bind(<span class="pystring">"&lt;Control-q&gt;"</span>, file_quit)
+
+root.protocol(<span class="pystring">"WM_DELETE_WINDOW"</span>, file_quit) <span class="pycomment"># window close button</span>
+
+mainloop()</pre></div><div class="yui-ge"><div class="yui-u first"><p>Note the use of the &#8220;break&#8221; return value, to keep Tkinter from passing the event on to other event handlers.  The reason for this is that Tkinter&#8217;s <b>Text</b> widget already has behaviour defined for Control-O (insert new line) and Control-N (move to next line); by returning &#8220;break&#8221; from the local handler, the standard bindings won&#8217;t be allowed to interfere.</p><p>Also note the call to <b>root.protocol</b> to register a DELETE_WINDOW handler for the root window. This is done to make sure that an attempt to close the window via the window manager won&#8217;t shut down the application unexpectedly.  This is also the reason that all event handlers have a default value for the <strong>event</strong> structure; it makes them easier to use in different contexts.</p><p>So now you have a core editor class, support code for basic file-menu operations, and a bunch of keyboard bindings to access them.  What are you waiting for?  Just fire up the editor and start typing.  Start at the top, write you way through any issues, press Control-S to save the result, and you&#8217;ll find yourself with a nice little article in no time at all.</p><p>Like this one, which was written with the code I&#8217;ve included above.</p><h2 id="summary">Summary&#160;<a class="nav" href="#summary" title="bookmark!">#</a></h2><p>In this article, we built a simple Write Room-style editing application, using Tkinter&#8217;s <b>Text</b> widget, and a few kilobytes of mostly straight-forward Python code.  The current version is a bit too feature-free even for an intentionally feature-limited editor, but it&#8217;s definitely useful as is, and it&#8217;s of course easy to add new features with a reasonable effort.  It&#8217;s <a href="http://www.python.org">Python</a>, after all.</p><p>And such enhancements are of course a suitable topic for a future article.  Stay tuned.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#room-editors">Room Editors</a></li><li><a href="#using-the-tkinter-text-widget">Using the Tkinter Text Widget</a></li><li><a href="#styling-the-widget">Styling the Widget</a></li><li><a href="#loading-and-saving-text">Loading and Saving Text</a></li><li><a href="#towards-a-production-quality-implementation">Towards a Production-Quality Implementation</a></li><li><a href="#additional-keyboard-bindings">Additional Keyboard Bindings</a></li><li><a href="#summary">Summary</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

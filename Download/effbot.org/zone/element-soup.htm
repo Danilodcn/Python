@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The ElementSoup&nbsp;Module</title></head><body data-page-id="92"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The ElementSoup&nbsp;Module</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | August 2006</p><p>The <b>ElementSoup</b> module is a (slightly experimental) wrapper for Leonard
+Richardson&#8217;s robust
+<a href="http://www.crummy.com/software/BeautifulSoup/">BeautifulSoup</a>
+HTML parser, which turns the BeautifulSoup data structure into an element tree.  The resulting combo is similar to <a href="element-tidylib.htm">ElementTidy</a>,
+but a lot less picky.  And therefore, a lot more practical.  Which is good.</p><h4 id="code">Code (latest versions):</h4><ul><li><a href="http://svn.effbot.org/public/stuff/sandbox/elementlib/ElementSoup.py">ElementSoup.py</a>
+[<a href="http://svn.effbot.org/public/stuff/sandbox/elementlib/ElementSoup.py">history</a>]
+</li><li>
+<s><a href="http://www.crummy.com/software/BeautifulSoup/download/BeautifulSoup.py">BeautifulSoup.py</a></s> (dead link) [<a href="http://svn.effbot.org/public/stuff/sandbox/elementlib/BeautifulSoup.py">snapshot</a>]
+</li></ul><p>Just grab the files and put them in your project directory, or at least somewhere on your Python path.
+
+<h4 id="usage">Usage:</h4></p><p>You can use the <b>parse</b> function to quickly parse a file:</p><pre class="python">
+<span class="pykeyword">import</span> ElementSoup
+
+html = ElementSoup.parse(<span class="pystring">"document.html"</span>)
+<span class="pycomment"># html is an Element instance</span>
+
+<span class="pykeyword">for</span> header <span class="pykeyword">in</span> html.findall(<span class="pystring">".//h1"</span>):
+    <span class="pykeyword">print</span> repr(header.text)</pre><p>In this example, the <b>html</b> and <b>header</b> objects are instances
+of the <b>Element</b> class from the <b>ElementTree</b> module.  For more
+on these classes, see <a href="elementtree.htm"><i>The ElementTree Module</i></a>.
+
+</p><p>You can also pass in a file-like object.  For example, you can parse
+remote HTML pages by passing in a <b>urllib</b> HTTP stream:</p><pre class="python">
+<span class="pykeyword">import</span> ElementSoup
+<span class="pykeyword">import</span> urllib, urlparse
+
+root = <span class="pystring">"http://www.python.org"</span>
+
+html = ElementSoup.parse(urllib.urlopen(root))
+
+<span class="pykeyword">for</span> anchor <span class="pykeyword">in</span> html.findall(<span class="pystring">".//a"</span>):
+    href = urlparse.urljoin(root, anchor.get(<span class="pystring">"href"</span>))
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> href.startswith(root):
+        <span class="pykeyword">print</span> href <span class="pycomment"># external link</span></pre><p>By default, <b>ElementSoup</b> picks the &#8220;best&#8221; ElementTree implementation
+it can find.  If you want to control what implementation to use, set the
+<b>ET</b> module attribute before you call the <b>parse</b> method:</p><pre class="python">
+<span class="pykeyword">import</span> ElementSoup
+<span class="pykeyword">import</span> cElementTree
+
+ElementSoup.ET = cElementTree
+
+tree = ElementSoup.parse(filename)</pre><p>Since an element tree can have only one root element, <b>ElementSoup</b>
+adds a toplevel <b>html</b> element if the document doesn&#8217;t already have
+one.  For example,</p><pre>
+&lt;h1&gt;Title&lt;/h1&gt;&lt;p&gt;Paragraph.
+</pre><p>is turned into</p><pre>
+&lt;html&gt;&lt;h1&gt;Title&lt;/h1&gt;&lt;p&gt;Paragraph.&lt;/p&gt;&lt;/html&gt;
+</pre></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

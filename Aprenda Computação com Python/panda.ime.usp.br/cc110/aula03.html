@@ -1,0 +1,689 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Execução condicional e alternativas: if, if-else e if-elif-else &mdash; Aulas de Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Aulas de Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Números reais" href="aula04.html" />
+    <link rel="prev" title="Comando de repetição: while" href="while.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulas',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'cc110',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulas/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="aula04.html" title="Números reais"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="while.html" title="Comando de repetição: while"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="execucao-condicional-e-alternativas-if-if-else-e-if-elif-else">
+<h1>Execução condicional e alternativas: <code class="docutils literal"><span class="pre">if</span></code>, <code class="docutils literal"><span class="pre">if-else</span></code> e <code class="docutils literal"><span class="pre">if-elif-else</span></code><a class="headerlink" href="#execucao-condicional-e-alternativas-if-if-else-e-if-elif-else" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="index-0"></span><div class="section" id="topicos-e-objetivos">
+<span id="index-1"></span><h2>Tópicos e Objetivos<a class="headerlink" href="#topicos-e-objetivos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/06-Selecao/selecao.html">Valores booleanos e expressões booleanas</a>;</li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/06-Selecao/selecao.html#selecao-unaria-omissao-do-else">Seleção unária: omissão do else</a>;</li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/06-Selecao/selecao.html#execucao-condicional-selecao-binaria">Execução condicional: seleção binária</a>;</li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/06-Selecao/selecao.html#condicionais-aninhados">Condicionais aninhados</a>; e</li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/06-Selecao/selecao.html#condicionais-encadeados">Condicionais encadeados</a>.</li>
+<li>divisão inteira <code class="docutils literal"><span class="pre">//</span></code></li>
+<li>resto de divisão <code class="docutils literal"><span class="pre">%</span></code></li>
+</ul>
+</div></blockquote>
+<p>Ao final dessa aula você deverá saber:</p>
+<div class="highlight-python"><div class="highlight"><pre>- Utilizar o comando de execução condicional ``if``;
+- Utilizar e identificar situações onde a utilização do comando ``if-else`` é mais adequada.
+- Utilizar e identificar situações onde a utilização do comando ``if-elif-else`` é mais adequada.
+</pre></div>
+</div>
+</div>
+<div class="section" id="introducao">
+<h2>Introdução<a class="headerlink" href="#introducao" title="Permalink to this headline">¶</a></h2>
+<p>O comando <code class="docutils literal"><span class="pre">if</span></code> (que significa <em>se</em> em português) permite que uma parte do programa seja executada apenas quando uma condição for verdadeira. A sintaxe do comando <code class="docutils literal"><span class="pre">ìf</span></code> é a seguinte:</p>
+<div class="highlight-python"><div class="highlight"><pre>if &lt;condição&gt;:
+    # bloco contendo comandos a serem executados
+    &lt;comando_1&gt;
+    &lt;comando_2&gt;
+    ...
+    &lt;comando_m&gt;
+
+&lt;comando_apos_if&gt;
+</pre></div>
+</div>
+<p>Apenas caso a &lt;condição&gt; for verdadeira, o bloco contendo os comandos &lt;comando_1&gt;  a &lt;comando_m&gt; é executado. Caso contrário, esse bloco não é executado e a execução do programa continua com o comando &lt;comando_apos_if&gt;.</p>
+<p>Dessa forma, o <code class="docutils literal"><span class="pre">if</span></code> permite resolver problemas do tipo:</p>
+
+<div id="Trecho_de_programa_usando_if" >
+<textarea cols="50" rows="12" id="Trecho_de_programa_usando_if_code" class="active_code">
+idade = int(input("Digite sua idade: "))
+
+if idade >= 18:
+    print("Parabens, voce ja tem idade para tirar a sua carteira.")
+
+print("fim.")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (Trecho_de_programa_usando_if)</span> </p>
+<button onclick="runit('Trecho_de_programa_usando_if',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('Trecho_de_programa_usando_if');">Save</button>
+<button class="ac_opt" onclick="requestCode('Trecho_de_programa_usando_if');">Load</button>
+<br />
+
+<canvas id="Trecho_de_programa_usando_if_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="Trecho_de_programa_usando_if_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="admonition-como-funciona-esse-trecho admonition">
+<p class="first admonition-title"><strong>Como funciona esse trecho?</strong></p>
+<p class="last">Após ler a idade (linha <em>1</em>), o programa testa se a idade é maior ou igual
+a 18 na linha <em>3</em>. Se a condição for verdadeira, o programa imprime a
+mensagem de parabéns (linha <em>4</em>) e depois imprime &#8220;fim&#8221;. Caso contrário,
+o programa pula o bloco dentro do <code class="docutils literal"><span class="pre">ìf</span></code> e imprime &#8220;fim&#8221; direto.</p>
+</div>
+<div class="section" id="comando-if-else">
+<h3>Comando if-else<a class="headerlink" href="#comando-if-else" title="Permalink to this headline">¶</a></h3>
+<p>Em várias ocasiões é necessário executar blocos de forma alternativa. Nesses casos, podemos utilizar o comando <code class="docutils literal"><span class="pre">ìf-else</span></code> (que significa <em>se-senão</em> em português), cuja sintaxe é a seguinte:</p>
+<div class="highlight-python"><div class="highlight"><pre>if &lt;condição&gt;:
+    # bloco contendo comandos a serem executados
+    &lt;dentro_do_if_1&gt;
+    &lt;dentro_do_if_2&gt;
+    ...
+    &lt;dentro_do_if_m&gt;
+else:
+    &lt;dentro_do_else_1&gt;
+    &lt;dentro_do_else_2&gt;
+    ...
+    &lt;dentro_do_else_n&gt;
+
+
+&lt;comando_apos_if&gt;
+</pre></div>
+</div>
+<p>Apenas caso a &lt;condição&gt; for verdadeira, o bloco contendo os comandos &lt;comando_1&gt;  a &lt;comando_n&gt; é executado. Caso contrário, esse bloco não é executado e a execução do programa continua com o comando &lt;comando_apos_if&gt;.</p>
+<p>Esse comando nos ajuda a resolver problemas como, por exemplo, determinar se um número é par ou ímpar:</p>
+
+<div id="Exemplo_ruim_de_uso_do_if" >
+<textarea cols="50" rows="12" id="Exemplo_ruim_de_uso_do_if_code" class="active_code">
+x = int(input("Digite um numero: "))
+
+if x % 2 == 0:  # se x é múltiplo de 2
+    print(x, "eh par")
+if x % 2 != 0:  # se x não é múltiplo de 2
+    print(x, "eh impar")
+
+print("fim.")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (Exemplo_ruim_de_uso_do_if)</span> </p>
+<button onclick="runit('Exemplo_ruim_de_uso_do_if',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('Exemplo_ruim_de_uso_do_if');">Save</button>
+<button class="ac_opt" onclick="requestCode('Exemplo_ruim_de_uso_do_if');">Load</button>
+<br />
+
+<pre id="Exemplo_ruim_de_uso_do_if_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="admonition-como-funciona-esse-trecho admonition">
+<p class="first admonition-title"><strong>Como funciona esse trecho?</strong></p>
+<p>Após x receber um número, o programa testa (na linha <em>3</em>) se x é múltiplo de 2 usando o operador aritmético % (que nesse caso calcula o resto da divisão de x por 2). Caso a condição seja verdadeira, o programa imprime que o número é par. Na linha <em>5</em> o programa recalcula o resto da divisão de x por 2 e verifica se o resto é diferente de zero, ou seja, se o número não é múltiplo de 2 e, nesse caso, imprime que o número é ímpar.</p>
+<p class="last">Observe que a condição dos dois <code class="docutils literal"><span class="pre">ifs</span></code> (linhas <em>3</em> e <em>5</em>) foram executadas, mesmo quando na linha <em>3</em> o número já foi identificado como par, o teste da linha <em>5</em> é realizado.</p>
+</div>
+<p>Embora essa solução produza resultados corretos,
+o uso do comando <code class="docutils literal"><span class="pre">if-else</span></code> torna o programa bem mais elegante:</p>
+
+<div id="Exemplo_de_uso_do_if-else" >
+<textarea cols="50" rows="12" id="Exemplo_de_uso_do_if-else_code" class="active_code">
+x = int(input("Digite um numero: "))
+
+if x % 2 == 0:  # se x é múltiplo de 2 então é par
+    print(x, "eh par")
+else:           # senão o número é ímpar, não precisa fazer outro teste!
+    print(x, "eh impar")
+
+print("fim.")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (Exemplo_de_uso_do_if-else)</span> </p>
+<button onclick="runit('Exemplo_de_uso_do_if-else',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('Exemplo_de_uso_do_if-else');">Save</button>
+<button class="ac_opt" onclick="requestCode('Exemplo_de_uso_do_if-else');">Load</button>
+<br />
+
+<pre id="Exemplo_de_uso_do_if-else_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="admonition-como-funciona-esse-trecho admonition">
+<p class="first admonition-title"><strong>Como funciona esse trecho?</strong></p>
+<p class="last">Observe que esse trecho usando <code class="docutils literal"><span class="pre">ìf-else</span></code> é muito semelhante ao anterior usando dois <code class="docutils literal"><span class="pre">ifs</span></code>. A grande diferença agora é que na linha <em>5</em> temos um <code class="docutils literal"><span class="pre">else</span></code>. Nesse caso, a condição do if é testada apenas uma vez e, caso verdadeira, o programa imprime que o número é par e, caso contrário, o programa vai direto para o bloco dentro do <code class="docutils literal"><span class="pre">else</span></code>, imprimindo que o número é ímpar, sem precisar perder tempo calculando outro teste.</p>
+</div>
+<p>Essa construção é mais elegante pois evita a computação de &#8220;X não é múltiplo de 2&#8221; e torna o programa mais fácil de ler, corrigir e modificar.</p>
+<p>Um <code class="docutils literal"><span class="pre">if-else</span></code> é utilizado quando temos apenas duas alterativas. Quando o número de alternativas é maior, podemos aninhar comandos <code class="docutils literal"><span class="pre">if-else</span></code>. Por exemplo, considere o problema de ler a nota de um aluno para verificar se ele está reprovado (menor que 3), de recuperação (entre 3 e 5) ou aprovado (nota maior que 5). Uma solução aninhando comandos <code class="docutils literal"><span class="pre">ìf-else</span></code> seria:</p>
+
+<div id="Exemplo_de_uso_do_if-else_aninhados" >
+<textarea cols="50" rows="12" id="Exemplo_de_uso_do_if-else_aninhados_code" class="active_code">
+nota = int(input("Digite uma nota: "))
+
+if nota < 3:
+    print("Reprovado")
+else:
+    if nota < 5:
+        print("Recuperacao")
+    else:
+        print("Aprovado")
+
+print("fim.")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (Exemplo_de_uso_do_if-else_aninhados)</span> </p>
+<button onclick="runit('Exemplo_de_uso_do_if-else_aninhados',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('Exemplo_de_uso_do_if-else_aninhados');">Save</button>
+<button class="ac_opt" onclick="requestCode('Exemplo_de_uso_do_if-else_aninhados');">Load</button>
+<br />
+
+<pre id="Exemplo_de_uso_do_if-else_aninhados_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="admonition-como-funciona-esse-trecho admonition">
+<p class="first admonition-title"><strong>Como funciona esse trecho?</strong></p>
+<p>Observe com atenção a tabulação desse programa, que mostra um <code class="docutils literal"><span class="pre">if-else</span></code> na mesma coluna da linha <em>1</em> e, dentro do primeiro <code class="docutils literal"><span class="pre">else</span></code>, vemos um outro comando <code class="docutils literal"><span class="pre">if-else</span></code>. Por esse deslocamento sabemos que o segundo <code class="docutils literal"><span class="pre">if</span></code> só será testado caso a condição do primeiro <code class="docutils literal"><span class="pre">if</span></code> (da linha <em>3</em>) seja falsa.</p>
+<p>Vamos simular esse trecho usando 3 testes: nota 2 (que deve resultar em reprovado), nota 4 (que deve resultar em recuperação) e nota 7 que deve resultar em aprovado.</p>
+<p>Quando a nota é 2, a condição do primeiro <code class="docutils literal"><span class="pre">if</span></code> é verdadeira e assim o programa imprime &#8220;Reprovado&#8221;. Quando a condição do <code class="docutils literal"><span class="pre">if</span></code> é verdadeira o <code class="docutils literal"><span class="pre">else</span></code> correspondente não é executado, e o programa termina imprimindo &#8220;fim&#8221;.</p>
+<p>Quando a nota é 4, a condição do primeiro <code class="docutils literal"><span class="pre">if</span></code> é falsa e o bloco dentro do <code class="docutils literal"><span class="pre">else</span></code> correspondente (que está na mesma coluna desse <code class="docutils literal"><span class="pre">if</span></code>) é executado, ou seja, o segundo <code class="docutils literal"><span class="pre">if-else</span></code> é executado. Para isso a condição do <code class="docutils literal"><span class="pre">if</span></code> na linha <em>6</em> é testada, resultando em verdadeiro. O programa imprime então &#8220;Recuperacao&#8221;, o <code class="docutils literal"><span class="pre">else</span></code> correspondente não é executado e o programa termina com &#8220;fim&#8221;.</p>
+<p class="last">Finalmente quando a nota é 7, a condição dos dois <code class="docutils literal"><span class="pre">ifs</span></code> é falsa e, nesse caso, o bloco dentro do segundo <code class="docutils literal"><span class="pre">else</span></code> (linha <em>9</em>) é executado. Assim o programa imprime &#8220;Aprovado&#8221; e em seguida imprime &#8220;fim&#8221;.</p>
+</div>
+<p>Observe que esse mesmo trecho de código poderia ser escrito apenas com <code class="docutils literal"><span class="pre">ifs</span></code> da seguinte forma:</p>
+
+<div id="Não_utilize_if_para_substituir_if-else" >
+<textarea cols="50" rows="12" id="Não_utilize_if_para_substituir_if-else_code" class="active_code">
+nota = int(input("Digite uma nota: "))
+
+if nota < 3:
+    print("Reprovado")
+if nota >= 3:
+    if nota < 5:
+        print("Recuperacao")
+    if nota >= 5:
+        print("Aprovado")
+
+print("fim.")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (Não_utilize_if_para_substituir_if-else)</span> </p>
+<button onclick="runit('Não_utilize_if_para_substituir_if-else',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('Não_utilize_if_para_substituir_if-else');">Save</button>
+<button class="ac_opt" onclick="requestCode('Não_utilize_if_para_substituir_if-else');">Load</button>
+<br />
+
+<pre id="Não_utilize_if_para_substituir_if-else_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="admonition-dica-de-estilo admonition">
+<p class="first admonition-title"><strong>Dica de estilo</strong></p>
+<p class="last">Embora seja possível utilizar apenas <code class="docutils literal"><span class="pre">ifs</span></code>, o uso de <code class="docutils literal"><span class="pre">if-else</span></code> é bem mais elegante pois torna o código mais simples, fácil de entender, de encontrar erros e de corrigi-los. Por esses motivos, sempre que possível, prefira usar <code class="docutils literal"><span class="pre">if-else</span></code> ao invés de apenas <code class="docutils literal"><span class="pre">ifs</span></code>.</p>
+</div>
+</div>
+<div class="section" id="comando-if-elif-else">
+<h3>Comando if-elif-else<a class="headerlink" href="#comando-if-elif-else" title="Permalink to this headline">¶</a></h3>
+<p>Para simplificar ainda mais o código de programas com <code class="docutils literal"><span class="pre">if-else</span></code> aninhados, o Python ofece o comando <code class="docutils literal"><span class="pre">if-elif-else</span></code>.</p>
+<p>Usando esse comando poderíamos escrever o programa para saber a condição de um aluno da seguinte forma:</p>
+
+<div id="Exemplo_de_uso_do_if-elif-else" >
+<textarea cols="50" rows="12" id="Exemplo_de_uso_do_if-elif-else_code" class="active_code">
+nota = int(input("Digite uma nota: "))
+
+if nota < 3:
+    print("Reprovado")
+elif nota < 5:
+    print("Recuperacao")
+else:
+    print("Aprovado")
+
+print("fim.")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (Exemplo_de_uso_do_if-elif-else)</span> </p>
+<button onclick="runit('Exemplo_de_uso_do_if-elif-else',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('Exemplo_de_uso_do_if-elif-else');">Save</button>
+<button class="ac_opt" onclick="requestCode('Exemplo_de_uso_do_if-elif-else');">Load</button>
+<br />
+
+<pre id="Exemplo_de_uso_do_if-elif-else_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>O <code class="docutils literal"><span class="pre">elif</span></code> portanto é apenas uma contração do <code class="docutils literal"><span class="pre">else</span> <span class="pre">if</span></code> que torna mais claro o tratamento das várias alternativas, encadeando as condições. Blocos de <code class="docutils literal"><span class="pre">elif</span></code> podem ser repetido várias vezes. Suponha por exemplo que gostaríamos de conhecer os alunos aprovados <cite>com louvor</cite>, ou seja, com nota superior a 9. Nesse caso, o código seria:</p>
+<div class="highlight-python"><div class="highlight"><pre>.. activecode:: Exemplo_de_uso_do_if-elif-else
+</pre></div>
+</div>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">nocanvas:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>nota = int(input(&#8220;Digite uma nota: &#8221;))</p>
+<dl class="docutils">
+<dt>if nota &lt; 3:</dt>
+<dd>print(&#8220;Reprovado&#8221;)</dd>
+<dt>elif nota &lt; 5:</dt>
+<dd>print(&#8220;Recuperacao&#8221;)</dd>
+<dt>elif nota &lt; 9:</dt>
+<dd>print(&#8220;Aprovado&#8221;)</dd>
+<dt>else:</dt>
+<dd>print(&#8220;Aprovado com louvor!&#8221;)</dd>
+</dl>
+<p>print(&#8220;fim.&#8221;)</p>
+</div></blockquote>
+<p>A sintaxe do comando <code class="docutils literal"><span class="pre">if-elif-else</span></code> é a seguinte:</p>
+<div class="highlight-python"><div class="highlight"><pre>if &lt;condição&gt;:
+    # bloco contendo comandos a serem executados
+    &lt;dentro_do_if_1&gt;
+    &lt;dentro_do_if_2&gt;
+    ...
+    &lt;dentro_do_if_p&gt;
+
+elif &lt;condição elif1&gt;:
+    &lt;dentro_do_elif1_1&gt;
+    &lt;dentro_do_elif1_2&gt;
+    ...
+    &lt;dentro_do_elif1_m1&gt;
+
+elif &lt;condição elif2&gt;:
+    &lt;dentro_do_elif2_1&gt;
+    &lt;dentro_do_elif2_2&gt;
+    ...
+    &lt;dentro_do_elif2_m2&gt;
+
+# outros possíveis blocos de elif, cada um com a sua condição
+
+elif &lt;condição elifk&gt;:
+    &lt;dentro_do_elifk_1&gt;
+    &lt;dentro_do_elifk_2&gt;
+    ...
+    &lt;dentro_do_elifk_mk&gt;
+
+else:
+    &lt;dentro_do_else_1&gt;
+    &lt;dentro_do_else_2&gt;
+    ...
+    &lt;dentro_do_else_q&gt;
+
+
+&lt;comando_apos_if&gt;
+</pre></div>
+</div>
+<p>Ou seja, o <code class="docutils literal"><span class="pre">if-elif-else</span></code> pode ter um ou mais blocos com <code class="docutils literal"><span class="pre">elif</span></code>, cada um com a sua condição específica. Cada bloco (condição) é testado um de cada vez, até que uma condição seja satisfeita e apenas os comandos dentro desse bloco são executados. Quando nenhuma condição é satisfeita, os comandos dentro do <code class="docutils literal"><span class="pre">else</span></code> são executados. Observe que <strong>não</strong> é necessário que haja um <code class="docutils literal"><span class="pre">else</span></code> no final.</p>
+<p>Faça experimentos com o trecho de código a seguir.</p>
+
+<div id="condicao_em_cadeia" >
+<textarea cols="50" rows="12" id="condicao_em_cadeia_code" class="active_code">
+x = 25   # altere esse valor e simule esse trecho novamente
+if x < 0:
+    print(x, "< 0")
+elif x == 0:
+    print(x, "== 0")
+elif x < 10:
+    print("0 < ", x,"< 10")
+elif x < 20:
+    print("10 <=", x, "< 20")
+elif x < 30:
+    print("20 <=", x, "< 30")
+elif x < 50:
+    print("30 <=", x, "< 50")
+else:
+    print("50 <=", x)
+
+print("Termino do teste.")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (condicao_em_cadeia)</span> </p>
+<button onclick="runit('condicao_em_cadeia',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('condicao_em_cadeia');">Save</button>
+<button class="ac_opt" onclick="requestCode('condicao_em_cadeia');">Load</button>
+<br />
+
+<canvas id="condicao_em_cadeia_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="condicao_em_cadeia_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="exercicio-1">
+<h3>Exercício 1<a class="headerlink" href="#exercicio-1" title="Permalink to this headline">¶</a></h3>
+<p>Dados um número inteiro <code class="docutils literal"><span class="pre">n</span></code>, <code class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>, e uma sequência com <code class="docutils literal"><span class="pre">n</span></code>
+números inteiros, determinar quantos números da sequência são pares e
+quantos são ímpares.  Por exemplo, para a sequência</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">6</span>   <span class="o">-</span><span class="mi">2</span>   <span class="mi">7</span>   <span class="mi">0</span>  <span class="o">-</span><span class="mi">5</span>   <span class="mi">8</span>  <span class="mi">4</span>
+</pre></div>
+</div>
+<p>o seu programa deve escrever o número <code class="docutils literal"><span class="pre">4</span></code> para o número de
+pares e <code class="docutils literal"><span class="pre">2</span></code> para o de ímpares.</p>
+<p>Dica: para resolver esse exercício utilize o operador &#8220;%&#8221;, que retorna
+o resto da divisão. Assim:</p>
+<div class="highlight-python"><div class="highlight"><pre>1 % 3 é 1
+2 % 3 é 2
+3 % 3 é 0
+4 % 3 é 1
+</pre></div>
+</div>
+<p>Tente escrever a sua solução abaixo primeiro e, depois,
+clique <a class="reference external" href="exercicios/ex31.html">aqui</a> para ver algumas soluções.</p>
+
+<div id="aula03_ex1_tentativa" >
+<textarea cols="50" rows="12" id="aula03_ex1_tentativa_code" class="active_code">
+# escreva o seu programa
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula03_ex1_tentativa)</span> </p>
+<button onclick="runit('aula03_ex1_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula03_ex1_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula03_ex1_tentativa');">Load</button>
+<br />
+
+<canvas id="aula03_ex1_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula03_ex1_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-2">
+<h3>Exercício 2<a class="headerlink" href="#exercicio-2" title="Permalink to this headline">¶</a></h3>
+<p>Dados um número inteiro <code class="docutils literal"><span class="pre">n</span></code>, <code class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>, e um dígito
+<code class="docutils literal"><span class="pre">d</span></code>. <code class="docutils literal"><span class="pre">0</span> <span class="pre">&lt;=</span> <span class="pre">d</span> <span class="pre">&lt;=</span> <span class="pre">9</span></code>, determinar quantas vezes <code class="docutils literal"><span class="pre">d</span></code> ocorre em <code class="docutils literal"><span class="pre">n</span></code>.</p>
+<p>Exemplo 1:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Digite</span> <span class="n">o</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">n</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="mi">63543</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Digite</span> <span class="n">o</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">d</span> <span class="p">(</span><span class="mi">0</span><span class="o">&lt;=</span><span class="n">d</span><span class="o">&lt;=</span><span class="mi">9</span><span class="p">):</span> <span class="mi">3</span>
+<span class="go">O dígito 3 ocorre 2 vezes em  63543</span>
+</pre></div>
+</div>
+<p>Exemplo 2:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Digite</span> <span class="n">o</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">n</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Digite</span> <span class="n">o</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">d</span> <span class="p">(</span><span class="mi">0</span><span class="o">&lt;=</span><span class="n">d</span><span class="o">&lt;=</span><span class="mi">9</span><span class="p">):</span> <span class="mi">0</span>
+<span class="go">O dígito 0 ocorre 0 vezes em  0</span>
+</pre></div>
+</div>
+<p>Exemplo 3:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Digite</span> <span class="n">o</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">n</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="mo">0110</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Digite</span> <span class="n">o</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">d</span> <span class="p">(</span><span class="mi">0</span><span class="o">&lt;=</span><span class="n">d</span><span class="o">&lt;=</span><span class="mi">9</span><span class="p">):</span> <span class="mi">0</span>
+<span class="go">O dígito 0 ocorre 1 vezes em  110</span>
+</pre></div>
+</div>
+<p>Dica: para resolver esse exercício utilize o operador &#8220;//&#8221;, que
+realiza a divisão inteira. Assim:</p>
+<div class="highlight-python"><div class="highlight"><pre>1 // 3 é 0
+5 // 3 é 1
+8 // 3 é 2
+19 // 10 é 1
+</pre></div>
+</div>
+<p>Tente escrever a sua solução abaixo primeiro e, depois,
+clique <a class="reference external" href="exercicios/ex32.html">aqui</a> para ver uma solução.</p>
+
+<div id="aula03_ex2_tentativa" >
+<textarea cols="50" rows="12" id="aula03_ex2_tentativa_code" class="active_code">
+# escreva o seu programa
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula03_ex2_tentativa)</span> </p>
+<button onclick="runit('aula03_ex2_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula03_ex2_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula03_ex2_tentativa');">Load</button>
+<br />
+
+<canvas id="aula03_ex2_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula03_ex2_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-3">
+<h3>Exercício 3<a class="headerlink" href="#exercicio-3" title="Permalink to this headline">¶</a></h3>
+<div class="admonition-nota admonition">
+<p class="first admonition-title">Nota</p>
+<p class="last">Exercício 10 da <a class="reference external" href="http://www.ime.usp.br/~macmulti/exercicios/inteiros/index.html">lista sobre inteiros</a>.</p>
+</div>
+<p>Dizemos que um número inteiro positivo é triangular se ele
+é o produto de três numeros inteiros consecutivos.
+Por exemplo, <code class="docutils literal"><span class="pre">120</span></code> é triangular, pois</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="mi">4</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">6</span>
+<span class="go">120</span>
+</pre></div>
+</div>
+<p>Dado um número inteiro positivo <code class="docutils literal"><span class="pre">n</span></code>, verificar se <code class="docutils literal"><span class="pre">n</span></code> é triangular.</p>
+<p>Tente escrever a sua solução abaixo primeiro e, depois, clique <a class="reference external" href="exercicios/ex33.html">aqui</a> para ver uma solução.</p>
+
+<div id="aula03_ex3_tentativa" >
+<textarea cols="50" rows="12" id="aula03_ex3_tentativa_code" class="active_code">
+# escreva o seu programa
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula03_ex3_tentativa)</span> </p>
+<button onclick="runit('aula03_ex3_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula03_ex3_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula03_ex3_tentativa');">Load</button>
+<br />
+
+<canvas id="aula03_ex3_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula03_ex3_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Execução condicional e alternativas: <code class="docutils literal"><span class="pre">if</span></code>, <code class="docutils literal"><span class="pre">if-else</span></code> e <code class="docutils literal"><span class="pre">if-elif-else</span></code></a><ul>
+<li><a class="reference internal" href="#topicos-e-objetivos">Tópicos e Objetivos</a></li>
+<li><a class="reference internal" href="#introducao">Introdução</a><ul>
+<li><a class="reference internal" href="#comando-if-else">Comando if-else</a></li>
+<li><a class="reference internal" href="#comando-if-elif-else">Comando if-elif-else</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a><ul>
+<li><a class="reference internal" href="#exercicio-1">Exercício 1</a></li>
+<li><a class="reference internal" href="#exercicio-2">Exercício 2</a></li>
+<li><a class="reference internal" href="#exercicio-3">Exercício 3</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="while.html"
+                        title="previous chapter">Comando de repetição: <code class="docutils literal"><span class="pre">while</span></code></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="aula04.html"
+                        title="next chapter">Números reais</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="aula04.html" title="Números reais"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="while.html" title="Comando de repetição: while"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Feb 14, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,2170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The EffNews Project: Building an RSS&nbsp;Newsreader</title></head><body data-page-id="58"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The EffNews Project: Building an RSS&nbsp;Newsreader</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">September 2002</p><blockquote>
+&#8220;<i>The tiny diamond-tipped pen shivered and twitched like one insane,
+and it seemed to Pugg that any minute now he would learn the most
+fabulous, unheard-of-things, things that would open up to him the
+Ultimate Mystery of Being, so he greedily read everything that flew
+out from under the diamond nib&#8230; the sizes of bedroom slippers
+available on the continent of Cob, with pompons and without&#8230; And the
+average width of the fontanel in indigenous step infants&#8230; and the
+inaugural catcalls of the Duke of Zilch, and six ways to cook cream of
+wheat&#8230; and the names of all the citizens of Foofaraw Junction
+beginning with the letter M, and the results of a poll of opinions on
+the taste of beer mixed with mushroom syrup&#8230;</i>&#8221;
+<div align="right"> &#8212; The Cyberiad, by Stanislaw Lem</div></blockquote><h3>Introducing the EffNews Project</h3><p>This effbot.org project aims to build a simple RSS-based newsreader
+(aka &#8220;aggregator&#8221;) with <b>a graphical user interface</b> front-end,
+similar to applications like
+<a href="http://www.headlineviewer.com/">Headline Viewer</a>
+and <s><a href="http://ranchero.com/software/netnewswire/">NetNewsWire</a></s> (dead link).
+The reader will be based on standard Python cross-platform tools,
+which means that it will run on Windows, Unix (including Linux),
+and hopefully also Macintosh.</p><p>The RSS file format is <a href="http://www.mnot.net/rss/tutorial/">an
+XML-based file format that provides a &#8220;site summary&#8221;</a>, that is, a brief
+summary of information published on a web site.  It&#8217;s usually used to provide
+a machine readable version of the contents on a news site or a weblog.</p><ul><li><a href="#effnews-1">Part 1. Fetching RSS Files</a></li><li><a href="#effnews-2">Part 2. Fetching and Parsing RSS Files</a></li><li><a href="#effnews-3">Part 3. Displaying RSS Files</a></li><li><a href="#effnews-4">Part 4. Parsing More RSS Files</a></li><li><a href="#effnews-5">Part 5. Odds and Ends</a> (In Progress)</li><li><a href="#effnews-6">Part 6. Using the ElementTree Module to Parse RSS Files</a> (In Progress)</li></ul><ul><li><a href="#effnews-notes">Addendas, Frequently Asked Questions, and Other Assorted Notes</a></li></ul><blockquote>
+&#8220;<i>And it grew dark before his hundred eyes, and he cried out in a mighty
+voice that he&#8217;d had enough, but Information had so swathed and
+swaddled him in its three hundred thousand tangled paper miles that he
+couldn&#8217;t move and had to read on about how Kipling would have written
+the beginning to his second Jungle Book if he had had indigestion just
+then, and what thoughts come to unmarried whales&#8230; and why we don&#8217;t
+capitalize paris in the plaster of paris.</i>&#8221;
+</blockquote><hr /><h1 id="effnews-1">EffNews Part 1: Fetching RSS Files&#160;<a class="nav" href="#effnews-1" title="bookmark!">#</a></h1><h2 id="rss-files">RSS Files&#160;<a class="nav" href="#rss-files" title="bookmark!">#</a></h2><p>The RSS file format is <a href="http://www.mnot.net/rss/tutorial/">an
+XML-based file format that provides a &#8220;site summary&#8221;</a>, that is, a brief
+summary of information published on a site.  It&#8217;s usually used to provide
+a machine readable version of the contents on a news site or a weblog.</p><p>Depending on who you talk to, RSS means &#8220;<a href="http://my.netscape.com/publish/formats/rss-spec-0.91.html">Rich Site Summary</a>&#8220;, &#8220;<a href="http://purl.org/rss/1.0">RDF Site Summary</a>&#8221; or
+&#8220;<s><a href="http://backend.userland.com/">Really Simple Syndication</a></s> (dead link)&#8221;
+(or perhaps
+&#8220;<a href="http://www.kottke.org/02/09/really-small-something">Really
+Small Something</a>&#8220;).
+It was originally created by Netscape for use on their
+<a href="http://my.netscape.com">my.netscape.com</a>
+site, and was later developed into two similar but slightly differing
+versions, <s><a href="http://backend.userland.com/">RSS 0.9x/2.0</a></s> (dead link)
+and <a href="http://purl.org/rss/1.0">RSS 1.0</a>.</p><p>An RSS 0.9x file might look something like this:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="xml wide wide">
+&lt;<span class="pyfunction">?xml</span> version="1.0"?&gt;
+&lt;<span class="pyfunction">rss</span> version="0.91"&gt;
+  &lt;<span class="pyfunction">channel</span>&gt;
+    &lt;<span class="pyfunction">title</span>&gt;the eff-bot online&lt;/<span class="pyfunction">title</span>&gt;
+    &lt;<span class="pyfunction">link</span>&gt;http://online.effbot.org&lt;/<span class="pyfunction">link</span>&gt;
+    &lt;<span class="pyfunction">description</span>&gt;Fredrik Lundh's clipbook.&lt;/<span class="pyfunction">description</span>&gt;
+    &lt;<span class="pyfunction">language</span>&gt;en-us&lt;/<span class="pyfunction">language</span>&gt;
+    ...
+    &lt;<span class="pyfunction">item</span>&gt;
+      &lt;<span class="pyfunction">title</span>&gt;spam, spam, spam&lt;/<span class="pyfunction">title</span>&gt;
+      &lt;<span class="pyfunction">link</span>&gt;http://online.effbot.org#85292735&lt;/<span class="pyfunction">link</span>&gt;
+      &lt;<span class="pyfunction">description</span>&gt;for the first seven months of 2002, the spam
+      filters watching fredrik@pythonware.com has&lt;/<span class="pyfunction">description</span>&gt;
+    &lt;/<span class="pyfunction">item</span>&gt;
+    ...
+  &lt;/<span class="pyfunction">channel</span>&gt;
+&lt;/<span class="pyfunction">rss</span>&gt;</pre></div><div class="yui-ge"><div class="yui-u first"><p>The content consists of some descriptive information (the site&#8217;s
+<b>title</b>, a <b>link</b> to an HTML rendering of the content, etc)
+and a number of <b>item</b> elements, each of which contains an item
+<b>title</b>, a <b>link</b>, and a (usually brief)
+<b>description</b>.</p><p>We&#8217;ll look into <a href="#effnews-2">RSS parsing</a> and
+<a href="#effnews-4">other RSS formats</a> in later articles.
+For now, we&#8217;re more interested in getting our hands on some RSS
+files to parse&#8230;</p><h2 id="using-http-to-download-files">Using HTTP to Download Files&#160;<a class="nav" href="#using-http-to-download-files" title="bookmark!">#</a></h2><p>Like all other resources on a web, an RSS file is identified by a
+<b>uniform resource locator</b> (URI).  A typical RSS URI might look
+something like:</p><blockquote>
+<s><a href="http://online.effbot.org/rss.xml">http://online.effbot.org/rss.xml</a></s> (dead link)
+</blockquote><p>To fetch this RSS file, the aggregator connects to the computer
+named <b>online.effbot.org</b> and issues an HTTP request, asking the
+server to return the document identified as <b>/rss.xml</b>.</p><p>Here&#8217;s a minimal HTTP request message that does exactly this:</p><pre>
+GET /rss.xml HTTP/1.0
+Host: online.effbot.org
+</pre><p>The message should be followed by an empty line.</p><p>If everything goes well, the HTTP server responds with a status
+line, followed by a number of header lines, an empty line, and the RSS
+file itself:</p><pre>
+HTTP/1.1 200 OK
+Last-Modified: Tue, 03 Sep 2002 11:04:09 GMT
+ETag: "1e49dc-dfa-3d749729"
+Content-Length: 3578
+Content-Type: text/xml
+Connection: close
+
+...RSS data...
+</pre><h3 id="sending-an-http-request">Sending an HTTP request&#160;<a class="nav" href="#sending-an-http-request" title="bookmark!">#</a></h3><p>Python makes it easy to issue HTTP requests.  Here&#8217;s an example
+that uses the <b>socket</b> module, which is a low-level interface for
+network communication:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide"><pre class="python wide">
+HOST = <span class="pystring">"online.effbot.org"</span>
+PATH = <span class="pystring">"/rss.xml"</span>
+
+<span class="pykeyword">import</span> socket
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+sock.connect((HOST, 80))
+
+sock.send(<span class="pystring">"GET %s HTTP/1.0\r\nHost: %s\r\n\r\n"</span> % (PATH, HOST))
+
+<span class="pykeyword">while</span> 1:
+    text = sock.recv(2048)
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> text:
+        <span class="pykeyword">break</span>
+    <span class="pykeyword">print</span> <span class="pystring">"read"</span>, len(text), <span class="pystring">"bytes"</span>
+
+s.close()</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>The <b>socket.socket</b> call creates a socket for the INET
+(internet) network, and of the STREAM (reliable byte stream) type.
+This is more commonly known as a <b>TCP connection</b>.</p><p>The <b>connect</b> method is used to connect to a remote computer.
+The method takes a tuple containing two values; the computer name and
+the port number to use on that computer.  In this example, we&#8217;re using
+port 80 which is the standard port for HTTP.</p><p>The <b>send</b> method is used to send the HTTP request to the
+server.  Note that lines are separated by both a carriage return (\r)
+and a newline (\n), and that there&#8217;s an extra empty line at the end of
+the request.</p><p>The <b>recv</b> method, finally, is used to read data from the
+socket.  Like the standard read method, it returns an empty string
+when there&#8217;s no more data to read.</p><h3 id="using-an-http-support-library">Using an HTTP support library&#160;<a class="nav" href="#using-an-http-support-library" title="bookmark!">#</a></h3><p>In addition to the low-level <b>socket</b> module, Python&#8217;s
+standard library comes with modules that support common network
+protocols, including HTTP.  The most obvious choice, <b>httplib</b> is
+an intermediate-level library which provides only a thin layer on top
+of the socket library.</p><p>The <b>urllib</b> module provides a higher-level interface.  It
+takes an URL, generates a full HTTP request, parses the response
+header, and returns a file-like object that can be used to read the
+rest of the response right off the server:</p><pre class="python">
+<span class="pykeyword">import</span> urllib
+
+file = urllib.urlopen(<span class="pystring">"http://"</span> + HOST + PATH)
+text = file.read()
+
+<span class="pykeyword">print</span> <span class="pystring">"read"</span>, len(text), <span class="pystring">"bytes"</span></pre><h3 id="asynchronous-http">Asynchronous HTTP&#160;<a class="nav" href="#asynchronous-http" title="bookmark!">#</a></h3><p>A problem with both the low-level socket library and <b>urllib</b>
+is that you can only read data from one site at a time.  If you use
+sockets, the <b>connect</b> and <b>recv</b> calls may block, waiting
+for the server to respond.  If you use urllib, both the <b>urlopen</b>
+and the <b>read</b> methods may block for the same reason.</p><p>If the task here was to create some kind of batch RSS aggregator,
+the easiest solution would probably be to ignore this problem, and
+read one site at a time.  Who cares if it takes one second or ten
+minutes to check all channels; it would take much longer to visit all
+the sites by hand anyway.</p><p>However, in an interactive application, it&#8217;s rather bad style to
+block for an unknown amount of time.  The application must be able to
+download things in the background, without locking up the user
+interface.</p><p>There are a number of ways to address this (including background
+processes and threads), but in this project, we&#8217;ll use something
+called <b>asynchronous sockets</b>, as provided by Python&#8217;s
+<b>asyncore</b> module.</p><p>The <b>asyncore</b> module provides &#8220;reactive&#8221; sockets, meaning
+that instead of creating socket objects, and calling methods on them
+to do things, your code is called by the socket framework when
+something can be done.  This approach is known as <b>event-driven
+programming</b>.</p><p>The asyncore module contains a basic <b>dispatcher</b> class that
+represents a reactive socket.  There&#8217;s also an extension to that class
+called <b>dispatcher_with_send</b>, which adds buffered output.</p><p>For the HTTP client, all you have to do is to subclass the
+<b>dispatcher_with_send</b> class, and implement the following
+methods:</p><ul><li><p>
+<b>handle_connect</b> is called when a connection is
+successfully established.
+</p></li><li><p>
+<b>handle_expt</b> is called when a connection fails (Windows only.
+On most other platforms, connection failures are indicated by errors
+when writing to, or reading from the socket).
+</p></li><li><p>
+<b>handle_read</b> is called when there are data waiting to
+be read from the socket.  The callback should call the
+<b>recv</b> method to get the data.
+</p></li><li><p>
+<b>handle_close</b> is called when the socket is closed or
+reset.
+</p></li></ul><p>Here&#8217;s a first version:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Example: a minimal asynchronous HTTP client (File: minimal_http_client.py)</b>
+<pre class="python wide">
+<span class="pykeyword">import</span> asyncore
+<span class="pykeyword">import</span> string, socket
+
+<span class="pykeyword">class</span> <span class="pyclass">async_http</span>(asyncore.dispatcher_with_send):
+    <span class="pycomment"># asynchronous http client</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, host, path):
+        asyncore.dispatcher_with_send.__init__(self)
+
+        self.host = host
+        self.path = path
+
+        self.header = None
+
+        self.data = <span class="pystring">""</span>
+
+        self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.connect((host, 80))
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_connect</span>(self):
+        <span class="pycomment"># connection succeeded; send request</span>
+        self.send(
+            <span class="pystring">"GET %s HTTP/1.0\r\nHost: %s\r\n\r\n"</span> %
+                (self.path, self.host)
+            )
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_expt</span>(self):
+        <span class="pycomment"># connection failed</span>
+        self.close()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_read</span>(self):
+        <span class="pycomment"># deal with incoming data</span>
+        data = self.recv(2048)
+
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> self.header:
+            <span class="pycomment"># check if we have a full header</span>
+            self.data = self.data + data
+            <span class="pykeyword">try</span>:
+                i = string.index(self.data, <span class="pystring">"\r\n\r\n"</span>)
+            <span class="pykeyword">except</span> ValueError:
+                <span class="pykeyword">return</span> <span class="pycomment"># no empty line; continue</span>
+            self.header = self.data[:i+2]
+            <span class="pykeyword">print</span> self.host, <span class="pystring">"HEADER"</span>
+            <span class="pykeyword">print</span>
+            <span class="pykeyword">print</span> self.header
+            data = self.data[i+4:]
+            self.data = <span class="pystring">""</span>
+
+        <span class="pykeyword">if</span> data:
+            <span class="pykeyword">print</span> self.host, <span class="pystring">"DATA"</span>, len(data)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_close</span>(self):
+        self.close()</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>The constructor creates a socket, and issues a connection request.
+Unlike ordinary sockets, the asynchronous <b>connect</b> method
+returns immediately; the framework calls the <b>handle_connect</b>
+method once it&#8217;s finished.  When this method is called, our class
+immediately issues an HTTP request for the given RSS file.  The
+framework makes sure that the request is sent as soon as the network
+is ready.</p><p>When the remote computer gets the request, it returns a response
+message.  As data arrives, the <b>handle_read</b> method is called
+over and over again, until there&#8217;s no more data to read.  Our
+<b>handle_read</b> method starts by looking for the header section (or
+rather, the empty line that identifies the end of the header).  After
+that, it simply prints DATA messages to standard output.</p><p>Let&#8217;s try this one out on a real site:</p><pre>
+$ <b>python</b>
+&gt;&gt;&gt; <b>from minimal_http_client import async_http</b>
+&gt;&gt;&gt; <b>async_http("online.effbot.org", "/rss.xml")</b>
+&lt;async_http at 880294&gt;
+&gt;&gt;&gt; <b>import asyncore</b>
+&gt;&gt;&gt; <b>asyncore.loop()</b>
+online.effbot.org HEADER
+
+HTTP/1.1 200 OK
+Server: Apache/1.3.22 (Unix)
+Last-Modified: Tue, 03 Sep 2002 11:04:09 GMT
+ETag: "1e49dc-dfa-3d749729"
+Content-Length: 3578
+Content-Type: text/xml
+Connection: close
+
+online.effbot.org DATA 1139
+online.effbot.org DATA 2048
+online.effbot.org DATA 391
+</pre><p>To issue a request, just create an instance of the
+<b>async_http</b> class.  The instance registers itself with the
+asyncore framework, and all you have to do to run it is to call the
+<b>asyncore.loop</b> function.</p><p>The real advantage here is that you can issue multiple requests at
+once&#8230;</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+&gt;&gt;&gt; <b>async_http("www.scripting.com", "/rss.xml")</b>
+&lt;async_http at 8da7a4&gt;
+&gt;&gt;&gt; <b>async_http("online.effbot.org", "/rss.xml")</b>
+&lt;async_http at 8daf34&gt;
+&gt;&gt;&gt; <b>async_http("www.bbc.co.uk",</b>
+... <b>    "/syndication/feeds/news/ukfs_news/front_page/rss091.xml")</b>
+&lt;async_http at 8db364&gt;
+&gt;&gt;&gt; <b>asyncore.loop()</b>
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>&#8230;and have the framework process all requests in parallel:</p><pre>
+online.effbot.org HEADER
+...
+online.effbot.org DATA 1139
+online.effbot.org DATA 2048
+online.effbot.org DATA 391
+www.scripting.com HEADER
+...
+www.scripting.com DATA 1189
+www.scripting.com DATA 1460
+www.bbc.co.uk HEADER
+...
+www.bbc.co.uk DATA 1766
+www.bbc.co.uk DATA 712
+www.scripting.com DATA 1460
+www.scripting.com DATA 1460
+www.scripting.com DATA 1158
+</pre><p>(Actual headers omitted.)</p><p>The actual output may vary depending on your network connection,
+the servers, and the phase of the moon.</p><p>To get a bit more variation, put the above statements in a script
+and run the script a couple of times.</p><h3 id="storing-the-rss-data">Storing the RSS Data&#160;<a class="nav" href="#storing-the-rss-data" title="bookmark!">#</a></h3><p>The code we&#8217;ve used this far simply prints information to the
+screen.  Before moving on to parsing and display issues, let&#8217;s add
+some code to store the RSS data on disk.</p><p>The following version adds support for a <b>consumer</b> object,
+which is called when we&#8217;ve read the header, when data is arriving, and
+when there is no more data.  A consumer should implement the following
+methods:</p><ul><li><p><b>http_header(client)</b> is called when we&#8217;ve read the HTTP
+header.  It&#8217;s called with a reference to the client object, and can
+use attributes like <b>status</b> and <b>header</b> to inspect the
+response header.</p></li><li><p><b>http_failed(client)</b> is similar to http_header, but is
+called if the framework fails to connect to the remote
+computer.</p></li><li><p><b>feed(data)</b> is called when a number of bytes has been
+read from the remote computer, after the header has been
+read.</p></li><li><p><b>close()</b> is called when there is no more data.</p></li></ul><p>In addition to consumer support, the following code uses the
+<b>mimetools</b> module to parse the header into a dictionary-like
+structure, adds counters for incoming and outgoing data, and uses a
+factory method that knows how to pull an URL into pieces.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Example: an asynchronous HTTP client with consumer support (File: http_client.py)</b>
+<pre class="python wide">
+<span class="pykeyword">import</span> asyncore
+<span class="pykeyword">import</span> socket, time
+<span class="pykeyword">import</span> StringIO
+<span class="pykeyword">import</span> mimetools, urlparse
+
+<span class="pykeyword">class</span> <span class="pyclass">async_http</span>(asyncore.dispatcher_with_send):
+    <span class="pycomment"># asynchronous http client</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, host, port, path, consumer):
+        asyncore.dispatcher_with_send.__init__(self)
+
+        self.host = host
+        self.port = port
+        self.path = path
+
+        self.consumer = consumer
+
+        self.status = None
+        self.header = None
+
+        self.bytes_in = 0
+        self.bytes_out = 0
+
+        self.data = <span class="pystring">""</span>
+
+        self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.connect((host, port))
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_connect</span>(self):
+        <span class="pycomment"># connection succeeded</span>
+        text = <span class="pystring">"GET %s HTTP/1.0\r\nHost: %s\r\n\r\n"</span> % (self.path, self.host)
+        self.send(text)
+        self.bytes_out = self.bytes_out + len(text)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_expt</span>(self):
+        <span class="pycomment"># connection failed; notify consumer</span>
+        self.close()
+        self.consumer.http_failed(self)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_read</span>(self):
+
+        data = self.recv(2048)
+        self.bytes_in = self.bytes_in + len(data)
+
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> self.header:
+            <span class="pycomment"># check if we've seen a full header</span>
+
+            self.data = self.data + data
+
+            header = self.data.split(<span class="pystring">"\r\n\r\n"</span>, 1)
+            <span class="pykeyword">if</span> len(header) &lt;= 1:
+                <span class="pykeyword">return</span>
+            header, data = header
+
+            <span class="pycomment"># parse header</span>
+            fp = StringIO.StringIO(header)
+            self.status = fp.readline().split(<span class="pystring">" "</span>, 2)
+            self.header = mimetools.Message(fp)
+
+            self.data = <span class="pystring">""</span>
+
+            self.consumer.http_header(self)
+
+            <span class="pykeyword">if</span> <span class="pykeyword">not</span> self.connected:
+                <span class="pykeyword">return</span> <span class="pycomment"># channel was closed by consumer</span>
+
+        <span class="pykeyword">if</span> data:
+            self.consumer.feed(data)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_close</span>(self):
+        self.consumer.close()
+        self.close()
+
+<span class="pykeyword">def</span> <span class="pyfunction">do_request</span>(uri, consumer):
+
+    <span class="pycomment"># turn the uri into a valid request</span>
+    scheme, host, path, params, query, fragment = urlparse.urlparse(uri)
+    <span class="pykeyword">assert</span> scheme == <span class="pystring">"http"</span>, <span class="pystring">"only supports HTTP requests"</span>
+    <span class="pykeyword">try</span>:
+        host, port = host.split(<span class="pystring">":"</span>, 1)
+        port = int(port)
+    <span class="pykeyword">except</span> (TypeError, ValueError):
+        port = 80 <span class="pycomment"># default port</span>
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> path:
+        path = <span class="pystring">"/"</span>
+    <span class="pykeyword">if</span> params:
+        path = path + <span class="pystring">";"</span> + params
+    <span class="pykeyword">if</span> query:
+        path = path + <span class="pystring">"?"</span> + query
+
+    <span class="pykeyword">return</span> async_http(host, port, path, consumer)</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>Here&#8217;s a small test program that uses the enhanced client and a
+&#8220;dummy&#8221; consumer class:</p><pre class="python">
+<span class="pykeyword">import</span> http_client, asyncore
+
+<span class="pykeyword">class</span> <span class="pyclass">dummy_consumer</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">http_header</span>(self, client):
+        self.host = client.host
+        <span class="pykeyword">print</span> self.host, repr(client.status)
+    <span class="pykeyword">def</span> <span class="pyfunction">http_failed</span>(self, client):
+        <span class="pykeyword">print</span> self.host, <span class="pystring">"failed"</span>
+    <span class="pykeyword">def</span> <span class="pyfunction">feed</span>(self, data):
+        <span class="pykeyword">print</span> self.host, len(data)
+    <span class="pykeyword">def</span> <span class="pyfunction">close</span>(self):
+        <span class="pykeyword">print</span> self.host, <span class="pystring">"CLOSE"</span>
+
+URLS = (
+    <span class="pystring">"http://online.effbot.org/rss.xml"</span>,
+    <span class="pystring">"http://www.scripting.com/rss.xml"</span>,
+    <span class="pystring">"http://www.bbc.co.uk/syndication/feeds"</span> +
+        <span class="pystring">"/news/ukfs_news/front_page/rss091.xml"</span>,
+    <span class="pystring">"http://www.example.com/rss.xml"</span>,
+    )
+
+<span class="pykeyword">for</span> url <span class="pykeyword">in</span> URLS:
+    http_client.do_request(url, dummy_consumer())
+
+asyncore.loop()</pre><p>Here&#8217;s some sample output from this test program.  Note the 404 error
+code from the <b>example.com</b> site.</p><pre>
+online.effbot.org ['HTTP/1.1', '200', 'OK\r\n']
+online.effbot.org 1139
+online.effbot.org 1460
+online.effbot.org 979
+online.effbot.org CLOSE
+www.bbc.co.uk ['HTTP/1.1', '200', 'OK\r\n']
+www.bbc.co.uk 1766
+www.bbc.co.uk 711
+www.scripting.com ['HTTP/1.1', '200', 'OK\r\n']
+www.scripting.com 1189
+www.bbc.co.uk CLOSE
+www.scripting.com 1460
+www.example.com ['HTTP/1.1', '404', 'Not Found\r\n']
+www.example.com 269
+www.example.com CLOSE
+www.scripting.com 1460
+www.scripting.com 1460
+www.scripting.com 1158
+www.scripting.com CLOSE
+</pre><p>To store things on disk, replace the dummy with a version that
+writes data to a file:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">file_consumer</span>:
+
+    <span class="pykeyword">def</span> <span class="pyfunction">http_header</span>(self, client):
+        self.host = client.host
+        self.file = None
+
+    <span class="pykeyword">def</span> <span class="pyfunction">http_failed</span>(self, client):
+        <span class="pykeyword">pass</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">feed</span>(self, data):
+        <span class="pykeyword">if</span> self.file <span class="pykeyword">is</span> None:
+            self.file = open(self.host + <span class="pystring">".rss"</span>, <span class="pystring">"w"</span>)
+        self.file.write(data)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">close</span>(self):
+        <span class="pykeyword">if</span> self.file <span class="pykeyword">is</span> <span class="pykeyword">not</span> None:
+            <span class="pykeyword">print</span> self.host + <span class="pystring">".rss ok"</span>
+            self.file.close()
+        self.file = None</pre><p>If you modify the test program to use this consumer instead of the
+dummy version, it&#8217;ll print something like this:</p><pre>
+online.effbot.org.rss ok
+www.example.com.rss ok
+www.bbc.co.uk.rss ok
+www.scripting.com.rss ok
+</pre><p>Three of the four files contain current RSS data.  The fourth
+(from example.com) contains an HTML error message.  To avoid storing
+error messages, it&#8217;s probably a good idea to let the consumer check
+the status field as well as the <b>Content-Type</b> header field.
+You can do this in the <b>http_header</b> method:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">file_consumer</span>:
+
+    <span class="pykeyword">def</span> <span class="pyfunction">http_header</span>(self, client):
+        <span class="pykeyword">if</span> (client.status[1] != <span class="pystring">"200"</span> <span class="pykeyword">or</span>
+            client.header[<span class="pystring">"content-type"</span>] != <span class="pystring">"text/xml"</span>):
+            <span class="pykeyword">print</span> client.host, <span class="pystring">"failed"</span>
+            client.close() <span class="pycomment"># bail out</span>
+            client.connected = 0
+            <span class="pykeyword">return</span>
+        self.host = client.host
+        self.file = None
+
+    ...</pre><p>Note that consumer can simply call the client&#8217;s <b>close</b>
+method to shut down the connection.  The client contains code that
+checks that it&#8217;s still connected after the <b>http_header</b> call,
+and avoids calling other consumer methods if it&#8217;s not.</p><p class="note"><b>Update 2002-09-08:</b> not all versions of asyncore
+clears the <b>connected</b> attribute when the socket is closed.  For
+example, the version shipped with Python 1.5.2 does, the version
+shipped with 2.1 doesn&#8217;t.  To be on the safe side, you have to clear
+the flag yourself in the consumer.</p><p align="center" class="mark">:::</p><p>That&#8217;s all for today.  In the next article, we&#8217;ll look at how
+to parse at least some variant of the RSS format into a more useful
+data format.</p><p>While waiting, feel free to play with the code we&#8217;ve produced this
+far.  Also, don&#8217;t forget to take a look at the RSS data files we just
+downloaded.  Mark Nottingham&#8217;s <a href="http://www.mnot.net/rss/tutorial/">RSS
+tutorial</a> contains links to more information on various RSS formats.</p><hr /><h1 id="effnews-2">EffNews Part 2: Fetching and Parsing RSS Data&#160;<a class="nav" href="#effnews-2" title="bookmark!">#</a></h1><h2 id="intermission">Intermission: Did Anyone Spot The Error Message?&#160;<a class="nav" href="#intermission" title="bookmark!">#</a></h2><p>As some of you may have noticed, if you add the last code snippet
+from <a href="#effnews-1">the previous article</a> to the test
+program, a couple of strange-looking lines of text appears among the
+ok/failed messages:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+online.effbot.org done
+www.bbc.co.uk done
+www.example.com failed
+<b>error: uncaptured python exception, closing channel &lt;async_http
+connected at 8eb07c&gt; (exceptions.AttributeError:file_consumer
+instance has no attribute 'file' [C:\py21\lib\asyncore.py|poll|95]
+[C:\py21\lib\asyncore.py|handle_read_event|383]
+[http_client.py|handle_read|77] [my-test-program.py|feed|15])</b>
+www.scripting.com done
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>(Directory names and line numbers may vary.)</p><p>The <b>error: uncaptured python exception</b> message is generated
+by <b>asyncore</b>&#8216;s default error handler when a callback raises a
+Python exception.  This message is actually a compact rendition of a
+standard <b>python traceback</b>, printed on a single line.  Here&#8217;s
+the deciphered version:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+www.bbc.co.uk done
+www.example.com
+Traceback (most recent call last):
+  File C:\py21\lib\asyncore.py, line 95, in poll:
+  File C:\py21\lib\asyncore.py, line 383, in handle_read_event:
+  File http_client.py, line 77, in handle_read:
+  File my-test-program.py, line 15, in feed:
+AttributeError:file_consumer instance has no attribute 'file'
+online.effbot.org done
+www.scripting.com done
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>So what&#8217;s causing this error?</p><p>Note that the AttributeError occurs in the <b>feed</b> method,
+which is appears to be called despite the fact that the consumer did
+close the socket in the <b>http_header</b> method.</p><p>The <b>http_client</b> is supposed code to deal with this, by
+checking the <b>connected</b> flag attribute after calling the
+<b>http_header</b> consumer method.  That flag was cleared by the
+<b>close</b> method in earlier versions of <b>asyncore</b>, but that
+was changed somewhere on the way from Python 1.5.2 to Python 2.1.</p><blockquote class="small">(And the reason I didn&#8217;t notice was sloppy
+testing: my test script contained enough debugging print statements to
+make me miss the error message.  Sorry for that.)</blockquote><h3>Closing the Channel From the Consumer, Revisited</h3><p>The obvious workaround is of course to explicitly clear the
+attribute in the consumer&#8217;s <b>http_header</b> method:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">file_consumer</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">http_header</span>(self, client):
+        <span class="pykeyword">if</span> (client.status[1] != <span class="pystring">"200"</span> <span class="pykeyword">or</span>
+            client.header[<span class="pystring">"content-type"</span>] != <span class="pystring">"text/xml"</span>):
+            <span class="pykeyword">print</span> client.host, <span class="pystring">"failed"</span>
+            client.close() <span class="pycomment"># bail out</span>
+            client.connected = 0
+            <span class="pykeyword">return</span>
+        self.host = client.host
+        self.file = None
+    ...</pre><p>However, the <b>connected</b> flag is undocumented, and may (in
+theory) disappear in future versions of <b>asyncore</b>.</p><p>To make your code more future-proof, it&#8217;s better to use return
+value or an exception to indicate that the channel should be closed.</p><p>The following example uses a custom <b>CloseConnection</b>
+exception for this purpose:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">file_consumer</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">http_header</span>(self, client):
+        <span class="pykeyword">if</span> (client.status[1] != <span class="pystring">"200"</span> <span class="pykeyword">or</span>
+            client.header[<span class="pystring">"content-type"</span>] != <span class="pystring">"text/xml"</span>):
+            <span class="pykeyword">print</span> client.host, <span class="pystring">"failed"</span>
+            <span class="pykeyword">raise</span> http_client.CloseConnection
+        self.host = client.host
+        self.file = None</pre><p>Here are the necessary additions to the <b>http_client</b>
+module:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">CloseConnection</span>(Exception):
+    <span class="pykeyword">pass</span>
+
+...
+
+<span class="pykeyword">try</span>:
+    self.consumer.http_header(self)
+<span class="pykeyword">except</span> CloseConnection:
+    self.close()
+    <span class="pykeyword">return</span></pre><h3>Overriding Asyncore&#8217;s Error Handling</h3><p>The error message is printed by a method called
+<b>handle_error</b>.  To change the look of the error message, you can
+override this in your <b>dispatcher</b> subclass.  For example, here&#8217;s
+a version that prints a traditional traceback:</p><pre class="python">
+<span class="pykeyword">import</span> traceback
+
+<span class="pykeyword">class</span> <span class="pyclass">my_channel</span>(asyncore.dispatcher_with_send):
+    ...
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_error</span>(self):
+        traceback.print_exc()
+        self.close()
+    ...</pre><p>With the above lines added to the <b>async_http</b> class, you&#8217;ll
+get the following message instead:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+www.bbc.co.uk done
+www.example.com failed
+Traceback (most recent call last):
+  File "C:\py21\lib\asyncore.py", line 95, in poll
+    obj.handle_read_event()
+  File "C:\py21\lib\asyncore.py", line 383, in handle_read_event
+    self.handle_read()
+  File "http_client.py", line 77, in handle_read
+    self.consumer.feed(data)
+  File "my-test-program.py", line 15, in feed
+    if self.file is None:
+AttributeError: file_consumer instance has no attribute 'file'
+online.effbot.org done
+www.scripting.com done
+</pre></div><div class="yui-ge"><div class="yui-u first"><h2 id="parsing-rss-files">Parsing RSS Files&#160;<a class="nav" href="#parsing-rss-files" title="bookmark!">#</a></h2><p>As shown in the first article, an RSS file contains summary
+information about a (portion of a) site, including a list of current
+news items.</p><p>For both the channel itself and the items, the RSS file can contain
+a <b>title</b>, a <b>link</b> to an HTML page, and a
+<b>description</b> field:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="xml wide wide">
+&lt;<span class="pyfunction">rss</span> version="0.91"&gt;
+  &lt;<span class="pyfunction">channel</span>&gt;
+    &lt;<span class="pyfunction">title</span>&gt;the eff-bot online&lt;/<span class="pyfunction">title</span>&gt;
+    &lt;<span class="pyfunction">link</span>&gt;http://online.effbot.org&lt;/<span class="pyfunction">link</span>&gt;
+    &lt;<span class="pyfunction">description</span>&gt;Fredrik Lundh's clipbook.&lt;/<span class="pyfunction">description</span>&gt;
+    &lt;<span class="pyfunction">language</span>&gt;en-us&gt;/language&gt;
+    ...
+    &lt;<span class="pyfunction">item</span>&gt;
+      &lt;<span class="pyfunction">title</span>&gt;spam, spam, spam&lt;/<span class="pyfunction">title</span>&gt;
+      &lt;<span class="pyfunction">link</span>&gt;http://online.effbot.org#85292735&lt;/<span class="pyfunction">link</span>&gt;
+      &lt;<span class="pyfunction">description</span>&gt;for the first seven months of 2002, the spam
+      filters watching fredrik@pythonware.com has&lt;/<span class="pyfunction">description</span>&gt;
+    &lt;/<span class="pyfunction">item</span>&gt;
+    ...
+  &lt;/<span class="pyfunction">channel</span>&gt;
+&lt;/<span class="pyfunction">rss</span>&gt;</pre></div><div class="yui-ge"><div class="yui-u first"><p>Note that the <b>item</b> elements are stored as child elements to
+the <b>channel</b> element.  Both the channel element and the
+individual item elements may contain additional subelements, including
+the <b>language</b> element present in this example.  We&#8217;ll look at
+some additional elements in a later article; for now, we&#8217;re only
+interested in the three basic elements.</p><h3 id="xml-parsers">XML Parsers&#160;<a class="nav" href="#xml-parsers" title="bookmark!">#</a></h3><p>To parse an XML-based format like RSS, you need an XML parser.
+Python provides several ways to parse XML data, including the standard
+<b>xmllib</b> module which is a simple event-driven XML parser, the
+<b>pyexpat</b> parser and other components provided in the standard
+<b>xml</b> package, <a href="http://pyxml.sourceforge.net/">the
+<b>PyXML</b> extension library</a>, and many others.</p><p>For the first version of the RSS parser, we&#8217;ll use the
+<b>xmllib</b> parser.  You can plug in another parser if you need more
+features or better performance (and as you&#8217;ll see, chances are that
+you need more, or at least different features.  More on this in a
+later article).</p><p>The <b>xmllib</b> parser works pretty much like the asyncore
+<b>dispatcher</b>; the module provides a parser base class that
+processes incoming data, and calls methods for different &#8220;XML events&#8221;.
+To handle the events, you should subclass the parser class, and
+implement methods for the events you need to deal with.</p><p>For the RSS parser, you need to implement the following
+methods:</p><ul><li><p><b>start_TAG</b> is called when the start tag (<b>&lt;TAG
+&#8230;&gt;</b>) for an element called TAG is found.  The handler is
+called with a single argument, which is a dictionary containing the
+element attributes, if any.</p></li><li><p><b>end_TAG</b> is called when the end tag (<b>&lt;/TAG&gt;</b>)
+for an element called TAG is found.</p></li><li><p><b>handle_data</b> is called for text between the elements
+(so-called character data).  This handler is called with a single
+argument, a string containing the text.  This method may be called
+more than once for any given character data segment.</p></li></ul><p>For example, when parsing this XML fragment&#8230;</p><pre>
+"&lt;title&gt;Odds &amp;amp; Ends&lt;/title&gt;\n"
+</pre><p>&#8230;the <b>xmllib</b> parser will call the following methods:</p><pre class="python">
+self.start_title({})
+self.handle_data(<span class="pystring">"Odds "</span>)
+self.handle_data(<span class="pystring">"&amp;"</span>)
+self.handle_data(<span class="pystring">" Ends"</span>)
+self.end_title()
+self.handle_data(<span class="pystring">"\n"</span>)</pre><p>Note that standard XML character entities like &amp;amp; are
+decoded by the parser, and are passed to the <b>handle_data</b> method
+as ordinary character data.</p><p>If <b>start</b> or <b>end</b> handlers are missing for elements
+that appear in the XML document, the corresponding start or end tags
+are silently ignored by the parser (but character data inside the
+element is still passed to <b>handle_data</b>).</p><p>Here&#8217;s a minimal test program that implements a character data
+handler, and start and end tag handlers for the three RSS elements
+we&#8217;re interested in:</p><div class="example"><pre class="python">
+<span class="pykeyword">import</span> xmllib
+
+<span class="pykeyword">class</span> <span class="pyclass">rss_parser</span>(xmllib.XMLParser):
+
+    data = <span class="pystring">""</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">start_title</span>(self, attr):
+        self.data = <span class="pystring">""</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">end_title</span>(self):
+        <span class="pykeyword">print</span> <span class="pystring">"TITLE"</span>, repr(self.data)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">start_link</span>(self, attr):
+        self.data = <span class="pystring">""</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">end_link</span>(self):
+        <span class="pykeyword">print</span> <span class="pystring">"LINK"</span>, repr(self.data)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">start_description</span>(self, attr):
+        self.data = <span class="pystring">""</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">end_description</span>(self):
+        <span class="pykeyword">print</span> <span class="pystring">"DESCRIPTION"</span>, repr(self.data)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_data</span>(self, data):
+        self.data = self.data + data
+
+<span class="pykeyword">import</span> sys
+
+file = open(sys.argv[1])
+
+parser = rss_parser()
+parser.feed(file.read())
+parser.close()</pre></div><p>Note that the <b>start</b> methods set the data member to an empty
+string, the <b>handle_data</b> method adds text to that string, and
+the <b>end</b> handlers print out the string.</p><p>Also note that you pass in the raw RSS data to the parser&#8217;s
+<b>feed</b> method, and call <b>close</b> method when you&#8217;re done.</p><p>Here&#8217;s some sample output from this script (using the BBC newsfeed
+we downloaded earlier):</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+$ <b>python rss-test.py www.bbc.co.uk.rss</b>
+TITLE 'BBC News | Front Page'
+LINK 'http://news.bbc.co.uk/go/rss/-/1/hi/default.stm'
+DESCRIPTION 'Updated every minute of every day'
+TITLE 'BBC News Online'
+LINK 'http://news.bbc.co.uk'
+TITLE 'Blair and Bush talk tough on Iraq\r\n'
+LINK 'http://news.bbc.co.uk/go/rss/-/1/hi/world/middle_east/2243684.stm
+DESCRIPTION 'British PM Tony Blair says he has a "shared strategy" ...
+TITLE "Al-Qaeda 'plotted nuclear attacks'"
+LINK 'http://news.bbc.co.uk/go/rss/-/1/hi/world/middle_east/2244146.stm
+DESCRIPTION 'Two alleged masterminds of the 11 September attacks ...
+TITLE "Rix: 'Scum' will profit from Tube"
+LINK 'http://news.bbc.co.uk/go/rss/-/1/hi/uk_politics/2244076.stm'
+DESCRIPTION 'Train drivers\' union leader Mick Rix says profits ...
+TITLE 'Ex-arms inspector defends Baghdad'
+LINK 'http://news.bbc.co.uk/go/rss/-/1/hi/world/middle_east/2243627.stm
+DESCRIPTION 'Scott Ritter\xb8 once head of UN inspectors in Iraq\xb8 ...
+TITLE 'Police warning as flash floods hit city'
+LINK 'http://news.bbc.co.uk/go/rss/-/1/hi/scotland/2244003.stm'
+DESCRIPTION 'People are advised not to travel to Inverness after ...
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>The first title/link/description combination contains information
+about the site, the others contain information about individual
+items.</p><p>(Note that there are extra title and link values in first section.
+If you look in the source RSS file, you&#8217;ll notice that they come from
+an extra <b>image</b> element, which we can safely ignore for the
+moment.)</p><p>To get a usable RSS parser, all you have to do is to add some logic
+that checks where in the file we are, and adds element values to the
+right data structure.</p><p>In the following example, the element handlers update a common
+<b>current</b> dictionary attribute, which is set to point to either
+the <b>channel</b> information dictionary, or a dictionary for each
+item (stored in the <b>items</b> list).  This version also does some
+very basic syntax checking.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Example: a simple RSS parser (File: rss_parser.py)</b>
+<pre class="python wide">
+<span class="pykeyword">import</span> xmllib
+
+<span class="pykeyword">class</span> <span class="pyclass">ParseError</span>(Exception):
+    <span class="pykeyword">pass</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">rss_parser</span>(xmllib.XMLParser):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self):
+        xmllib.XMLParser.__init__(self)
+        self.rss_version = None
+        self.channel = None
+        self.current = None
+        self.data_tag = None
+        self.data = None
+        self.items = []
+
+    <span class="pycomment"># stuff to deal with text elements</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">_start_data</span>(self, tag):
+        <span class="pykeyword">if</span> self.current <span class="pykeyword">is</span> None:
+            <span class="pykeyword">raise</span> ParseError(<span class="pystring">"%s tag not in channel or item element"</span> % tag)
+        self.data_tag = tag
+        self.data = <span class="pystring">""</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_data</span>(self, data):
+        <span class="pykeyword">if</span> self.data <span class="pykeyword">is</span> <span class="pykeyword">not</span> None:
+            self.data = self.data + data
+
+    <span class="pycomment"># cdata sections are handled as any other character data</span>
+    handle_cdata = handle_data
+
+    <span class="pykeyword">def</span> <span class="pyfunction">_end_data</span>(self):
+        <span class="pykeyword">if</span> self.data_tag:
+            self.current[self.data_tag] = self.data <span class="pykeyword">or</span> <span class="pystring">""</span>
+
+    <span class="pycomment"># main rss structure</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">start_rss</span>(self, attr):
+        self.rss_version = attr.get(<span class="pystring">"version"</span>)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">start_channel</span>(self, attr):
+        <span class="pykeyword">if</span> self.rss_version <span class="pykeyword">is</span> None:
+            <span class="pykeyword">raise</span> ParseError(<span class="pystring">"not a valid RSS 0.9x file"</span>)
+        self.current = {}
+        self.channel = self.current
+
+    <span class="pykeyword">def</span> <span class="pyfunction">start_item</span>(self, attr):
+        <span class="pykeyword">if</span> self.rss_version <span class="pykeyword">is</span> None:
+            <span class="pykeyword">raise</span> ParseError(<span class="pystring">"not a valid RSS 0.9x file"</span>)
+        self.current = {}
+        self.items.append(self.current)
+
+    <span class="pycomment"># content elements</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">start_title</span>(self, attr):
+        self._start_data(<span class="pystring">"title"</span>)
+    end_title = _end_data
+
+    <span class="pykeyword">def</span> <span class="pyfunction">start_link</span>(self, attr):
+        self._start_data(<span class="pystring">"link"</span>)
+    end_link = _end_data
+
+    <span class="pykeyword">def</span> <span class="pyfunction">start_description</span>(self, attr):
+        self._start_data(<span class="pystring">"description"</span>)
+    end_description = _end_data</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>The <b>_start_data</b> and <b>_end_data</b> methods are used to
+switch on and off character data processing in <b>handle_data</b>.</p><p>Here&#8217;s a test script, which prints each item to standard output
+(via the <b>end_item</b> method).</p><pre class="python">
+<span class="pykeyword">import</span> rss_parser, string, sys
+
+<span class="pykeyword">class</span> <span class="pyclass">my_rss_parser</span>(rss_parser.rss_parser):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">end_item</span>(self):
+        item = self.items[-1]
+        <span class="pykeyword">print</span> string.strip(item.get(<span class="pystring">"title"</span>) <span class="pykeyword">or</span> <span class="pystring">""</span>)
+        <span class="pykeyword">print</span> item.get(<span class="pystring">"link"</span>)
+        <span class="pykeyword">print</span> item.get(<span class="pystring">"description"</span>)
+        <span class="pykeyword">print</span>
+
+<span class="pykeyword">for</span> filename <span class="pykeyword">in</span> sys.argv[1:]:
+    file = open(filename)
+    <span class="pykeyword">try</span>:
+        parser = my_rss_parser()
+        parser.feed(file.read())
+        parser.close()
+    <span class="pykeyword">except</span>:
+        <span class="pykeyword">print</span> <span class="pystring">"=== cannot parse %s:"</span> % filename
+        <span class="pykeyword">print</span> <span class="pystring">"==="</span>, sys.exc_type, sys.exc_value</pre><h3 id="incremental-parsing">Incremental parsing&#160;<a class="nav" href="#incremental-parsing" title="bookmark!">#</a></h3><p>The above example reads the entire XML document from disk, and
+passes it to the parser in one go.  The <b>xmllib</b> library also
+supports <b>incremental parsing</b>, allowing you to pass in XML
+fragments as you receive them.  Just keep calling the <b>feed</b>
+method, and make sure to call <b>close</b> when you&#8217;re done.  The
+parser framework will take care of the rest.</p><p>This feature is of course a perfect match for the
+<b>http_client</b> client class we developed in the first article; by
+plugging in a parser instance as the consumer, you can parse RSS items
+as they arrive over the network.</p><p>The following script provides an <b>http_rss_parser</b> class that
+adds the required <b>http_header</b> and <b>http_failed</b> methods to
+the parser, and uses an <b>end_item</b> handler to print incoming
+items:</p><pre class="python">
+<span class="pykeyword">import</span> rss_parser, string
+
+<span class="pykeyword">class</span> <span class="pyclass">http_rss_parser</span>(rss_parser.rss_parser):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">http_header</span>(self, client):
+        <span class="pykeyword">if</span> (client.status[1] != <span class="pystring">"200"</span> <span class="pykeyword">or</span>
+            client.header[<span class="pystring">"content-type"</span>] != <span class="pystring">"text/xml"</span>):
+            <span class="pykeyword">raise</span> http_client.CloseConnection
+        self.host = client.host
+
+    <span class="pykeyword">def</span> <span class="pyfunction">http_failure</span>(self, client):
+        <span class="pykeyword">pass</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">end_item</span>(self):
+        item = self.items[-1]
+        <span class="pykeyword">print</span> <span class="pystring">"   "</span>, string.strip(item.get(<span class="pystring">"title"</span>) <span class="pykeyword">or</span> <span class="pystring">""</span>),
+        <span class="pykeyword">print</span> <span class="pystring">"[%s]"</span> % self.host
+        <span class="pykeyword">print</span> <span class="pystring">"   "</span>, string.strip(item.get(<span class="pystring">"link"</span>) <span class="pykeyword">or</span> <span class="pystring">""</span>)
+        <span class="pykeyword">print</span>
+        <span class="pykeyword">print</span> item.get(<span class="pystring">"description"</span>)
+        <span class="pykeyword">print</span></pre><p>Here&#8217;s a driver script that reads a list of URLs from a text file
+named <b>channels.txt</b>, and fires up one asynchonous client for
+each channel.</p><pre class="python">
+<span class="pykeyword">import</span> asyncore, http_client
+
+file = open(<span class="pystring">"channels.txt"</span>)
+
+<span class="pykeyword">for</span> url <span class="pykeyword">in</span> file.readlines():
+    url = url.strip()
+    <span class="pykeyword">if</span> url:
+        http_client.do_request(url, http_rss_parser())
+
+asyncore.loop()</pre><p>The output is a list of titles, links, and descriptions.  Here&#8217;s
+an excerpt:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+    Blair defiant over Iraq [www.bbc.co.uk]
+    <a href="http://news.bbc.co.uk/go/rss/-/1/hi/uk_politics/2247366.stm">http://news.bbc.co.uk/go/rss/-/1/hi/uk_politics/2247366.stm</a>
+
+Prime Minister Tony Blair confronts his trade union critics ...
+
+    arrgh! [online.effbot.org]
+    <a href="http://online.effbot.org#85432883">http://online.effbot.org#85432883</a>
+
+"Kom kom nu hit min v&#228;n, f&#246;r gl&#228;djen blir st&#246;rre n&#228;r man delar ...
+
+    Buffet killers [www.kottke.org]
+    <a href="http://www.kottke.org/02/09/020910buffet_kille.html">http://www.kottke.org/02/09/020910buffet_kille.html</a>
+
+We're in Las Vegas and it's buffet time. It's always buffet ...
+</pre></div><div class="yui-ge"><div class="yui-u first"><p class="note"><b>Note:</b> When I write this, the
+<b>www.scripting.com</b> channel has just switched to something
+that appears to be an <a href="http://www.scripting.com/rss.xml">
+experimental version of Dave Winer&#8217;s RSS 2.0</a>, which moves all
+RSS tags into a default namespace.  The <b>xmllib</b> parser always
+takes the namespace into account, so it won&#8217;t find a single thing
+in that channel.  Hopefully, this will be fixed in a not too distant
+future.</p><p align="center" class="mark">:::</p><p>That&#8217;s all for today.</p><p>In the next article, we&#8217;ll look at what happens if you add dozens
+or hundreds of channels to the <b>channels.txt</b> file, and discuss
+how to deal with that.  We&#8217;ll also build a simple RSS viewer using the
+Tkinter library.</p><p>In the meantime, if you&#8217;re running Unix, and are using a modern
+mail client that highlights URLs embedded in text mails, you can mail
+yourself the output from this program and let your mail reader do the
+rest:</p><pre>
+$ <b>python getchannels.py | mail -s effnews</b> <i>yourself</i>
+</pre><hr /><h1 id="effnews-3">EffNews Part 3: Displaying RSS Data&#160;<a class="nav" href="#effnews-3" title="bookmark!">#</a></h1><h2 id="storing-channel-lists">Storing Channel Lists&#160;<a class="nav" href="#storing-channel-lists" title="bookmark!">#</a></h2><p>In the <a href="#effnews-2">previous article</a>, we ended up
+creating a simple utility that downloads a number of channels,
+parses their content, and writes titles, links and descriptions to
+the screen as plain text.  The list of channels to read is stored
+in a text file, <b>channels.txt</b>.</p><p>Other RSS tools use a variety of file formats to store channel
+lists.  One popular format is <s><a href="http://www.opml.org">OPML
+(Outline Processor Markup Language)</a></s> (dead link), which is a simple XML-based
+format.  An OPML file contains a <b>head</b> element that stores
+information about the OPML file itself, and a <b>body</b> element that
+holds a number of <b>outline</b> elements.</p><p>Each <b>outline</b> element can have any number of attributes.
+Common attributes include <b>type</b> (how to interpret other
+attributes) and <b>text</b> (what to display for this node in an
+outline viewer).  Outline elements can be nested.</p><p>When storing RSS channels, the <b>type</b> attribute is set to
+<b>rss</b>, and channel information is stored in the <b>title</b> and
+<b>xmlUrl</b> attributes.  Here&#8217;s an example:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="xml wide wide">
+&lt;<span class="pyfunction">opml</span> version="1.0"&gt;
+&lt;<span class="pyfunction">body</span>&gt;
+&lt;<span class="pyfunction">outline</span> type="rss" title="bbc news"
+  xmlUrl="http://www.bbc.co.uk/syndication/feeds/news/ukfs_news/front_page/rss091.xml" /&gt;
+&lt;<span class="pyfunction">outline</span> type="rss" title="effbot.org"
+  xmlUrl="http://online.effbot.org/rss.xml" /&gt;
+&lt;<span class="pyfunction">outline</span> type="rss" title="scripting news"
+  xmlUrl="http://www.scripting.com/rss.xml" /&gt;
+&lt;<span class="pyfunction">outline</span> type="rss" title="mark pilgrim"
+  xmlUrl="http://diveintomark.org/xml/rss2.xml" /&gt;
+&lt;<span class="pyfunction">outline</span> type="rss" title="jason kottke"
+  xmlUrl="http://www.kottke.org/index.xml" /&gt;
+&lt;<span class="pyfunction">outline</span> type="rss" title="example"
+  xmlUrl="http://www.example.com/rss.xml" /&gt;
+&lt;/<span class="pyfunction">body</span>&gt;
+&lt;/<span class="pyfunction">opml</span>&gt;</pre></div><div class="yui-ge"><div class="yui-u first"><h3 id="parsing-opml">Parsing OPML&#160;<a class="nav" href="#parsing-opml" title="bookmark!">#</a></h3><p>You can use the <b>xmllib</b> library to extract channel
+information from OPML files.  The following parser class looks for
+<b>outline</b> tags, and collects titles and channel URLs from the
+attributes (Note that the parser looks for both <b>xmlUrl</b> and
+<b>xmlurl</b> attributes; both names are used in the documentation
+and samples I&#8217;ve seen).</p><div class="example">
+<b>Example: a simple OPML bookmark parser (File: opml_parser.py)</b>
+<pre class="python">
+<span class="pykeyword">import</span> xmllib
+
+<span class="pykeyword">class</span> <span class="pyclass">ParseError</span>(Exception):
+    <span class="pykeyword">pass</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">opml_parser</span>(xmllib.XMLParser):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self):
+        xmllib.XMLParser.__init__(self)
+        self.channels = []
+
+    <span class="pykeyword">def</span> <span class="pyfunction">start_opml</span>(self, attr):
+        <span class="pykeyword">if</span> attr.get(<span class="pystring">"version"</span>, <span class="pystring">"1.0"</span>) != <span class="pystring">"1.0"</span>:
+            <span class="pykeyword">raise</span> ParseError(<span class="pystring">"unknown OPML version"</span>)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">start_outline</span>(self, attr):
+        channel = attr.get(<span class="pystring">"xmlUrl"</span>) <span class="pykeyword">or</span> attr.get(<span class="pystring">"xmlurl"</span>)
+        <span class="pykeyword">if</span> channel:
+            self.add_channel(attr.get(<span class="pystring">"title"</span>), channel)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">add_channel</span>(self, title, channel):
+        <span class="pycomment"># can be overridden</span>
+        self.channels.append((title, channel))
+
+
+<span class="pykeyword">def</span> <span class="pyfunction">load</span>(file):
+
+    file = open(file)
+
+    parser = opml_parser()
+    parser.feed(file.read())
+    parser.close()
+
+    <span class="pykeyword">return</span> parser.channels</pre></div><p>The <b>load</b> function feeds the content of an OPML file through
+the parser, and returns a list of (title, channel URL) pairs.</p><p>Here&#8217;s a simple script that uses the <b>http_rss_parser</b> class
+from the <a href="#effnews-2">second article</a> to fetch and
+render all channels listed in the <b>channels.opml</b> file:</p><pre class="python">
+<span class="pykeyword">import</span> asyncore, http_client, opml_parser
+
+channels = opml_parser.load(<span class="pystring">"channels.opml"</span>)
+
+<span class="pykeyword">for</span> title, uri <span class="pykeyword">in</span> channels:
+    http_client.do_request(uri, http_rss_parser())
+
+asyncore.loop()</pre><h2 id="managing-downloads">Managing Downloads&#160;<a class="nav" href="#managing-downloads" title="bookmark!">#</a></h2><p>You can find RSS channel collections in various places on the web,
+such as <a href="http://www.newsisfree.com/syndicate.php">NewsIsFree</a> and <s><a href="http://www.syndic8.com/xml.php">Syndic8</a></s> (dead link).  These sites have
+links to thousands of RSS channels from a wide variety of sources.</p><p>Most real people probably use a dozen feeds or so, but someone like
+the pirate <a href="http://www.google.com/search?q=pirate+pugg">Pugg</a>
+(&#8220;<i>For I am not your usual uncouth pirate, but refined and with
+a Ph.D., and therefore extremely high-strung</i>&#8220;) would most
+likely want to subscribe to every feed under the sun.  What would
+happen if he tried?</p><p>If you pass an OPML file containing a thousand feeds to the
+previous script, it will happily issue a thousand socket requests.
+Exactly what happens depends on your operating system, but it&#8217;s likely
+that it will run out of resources at some point (if you decide to try
+this out on your favourite platform, let me know what happens).</p><p>To avoid this problem, you can add requests to a queue, and make
+sure you never create more sockets than your computer can handle
+(leaving some room for other applications is also a nice thing to
+do).</p><h3>Limiting the number of simultaneous connections</h3><p>Here&#8217;s a simple manager class that never creates more than a given
+number of sockets:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="wide">
+<b>Example: An HTTP connection manager class (File: http_manager.py)</b>
+<pre class="python wide">
+<span class="pykeyword">import</span> asyncore
+
+<span class="pykeyword">class</span> <span class="pyclass">http_manager</span>:
+
+    max_connections = 4
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self):
+        self._queue = []
+
+    <span class="pykeyword">def</span> <span class="pyfunction">request</span>(self, uri, consumer):
+        self._queue.append((uri, consumer))
+
+    <span class="pykeyword">def</span> <span class="pyfunction">poll</span>(self, timeout=0.1):
+        <span class="pycomment"># activate up to max_connections channels</span>
+        <span class="pykeyword">while</span> self._queue <span class="pykeyword">and</span> len(asyncore.socket_map) &lt; self.max_connections:
+            http_client.do_request(*self._queue.pop(0))
+        <span class="pycomment"># keep the network running</span>
+        asyncore.poll(timeout)
+        <span class="pycomment"># return non-zero if we should keep polling</span>
+        <span class="pykeyword">return</span> len(self._queue) <span class="pykeyword">or</span> len(asyncore.socket_map)</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>In this class, the <b>request</b> method adds URLs and consumer
+instances to an internal queue.  The <b>poll</b> method makes sure at
+least <b>max_connections</b> asyncore objects are activated (asyncore
+keeps references to active sockets in the <b>socket_map</b>
+variable).</p><p>To use the manager, all you have to do is to create an instance of
+the <b>http_manager</b> class, call the <b>request</b> method for each
+channel you want fetch, and keep calling the <b>poll</b> method over
+and over again to keep the network traffic going:</p><pre class="python">
+manager = http_manager.http_manager()
+
+manager.request(url, consumer)
+
+<span class="pykeyword">while</span> manager.poll(1):
+    <span class="pykeyword">pass</span></pre><h3>Limiting the size of an RSS file</h3><p>You can also use the manager for other purposes.  For example, to
+prevent denial-of-service attacks from malicious (or confused) RSS
+providers, you can use the http client&#8217;s byte counters, and simply
+kill the socket if it has processed more than a given number of
+bytes:</p><pre class="python">
+    max_size = 1000000 <span class="pycomment"># bytes</span>
+
+    <span class="pykeyword">for</span> channel <span class="pykeyword">in</span> asyncore.socket_map.values():
+        <span class="pykeyword">if</span> channel.bytes_in &gt; self.max_size:
+            channel.close()</pre><h3>Timeouts</h3><p>Another useful feature is a time limit; instead of checking the
+byte counter, you can check the <b>timestamp</b> variable, and compare
+it to the current time:</p><pre class="python">
+    max_time = 30 <span class="pycomment"># seconds</span>
+
+    now = time.time()
+    <span class="pykeyword">for</span> channel <span class="pykeyword">in</span> asyncore.socket_map.values():
+        <span class="pykeyword">if</span> now - channel.timestamp &gt; self.max_time:
+            channel.close()</pre><p>And of course, nothing stops you from checking both the size and
+the elapsed time in the same loop:</p><pre class="python">
+    now = time.time()
+    <span class="pykeyword">for</span> channel <span class="pykeyword">in</span> asyncore.socket_map.values():
+        <span class="pykeyword">if</span> channel.bytes_in &gt; self.max_size:
+            channel.close()
+        <span class="pykeyword">if</span> now - channel.timestamp &gt; self.max_time:
+            channel.close()</pre><h2 id="building-a-simple-user-interface">Building a Simple User Interface&#160;<a class="nav" href="#building-a-simple-user-interface" title="bookmark!">#</a></h2><p>Okay, enough infrastructure.  It&#8217;s time to start working on
+something that ordinary humans might be willing to use: a nice,
+welcoming, easy-to-use graphical front-end.</p><h3>Introducing Tkinter</h3><p><s><a href="http://www.python.org/topics/tkinter/">The Tkinter
+library</a></s> (dead link) provides a number of portable building blocks for
+graphical user interfaces.  Code written for Tkinter runs, usually
+without any changes, on systems based on Windows, Unix (and Linux), as
+well as on the Macintosh.</p><p>The most important building blocks provided by Tkinter are the
+standard <b>widgets</b>.  The term widget is used both for a piece of
+code that may control a region of the screen (a <b>widget class</b>)
+and a specific region controlled by that code (a <b>widget
+instance</b>).  Tkinter provides about a dozen standard widgets, such
+as labels, input fields, and list boxes, and it&#8217;s also relatively easy
+to create new custom widgets.</p><p>In Tkinter, each widget is represented by a Python class.  When you
+create an instance of that class, the Tkinter layer will create a
+corresponding widget and display it on the screen.</p><p>Each Tkinter widget must have a parent widget, which
+&#8220;owns&#8221; the widget.  When the parent is moved, the child
+widget also moves.  When the parent is destroyed, the child widget is
+destroyed as well.</p><p>Here&#8217;s an example:</p><pre class="python">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+root = Tk()
+root.title(<span class="pystring">"example"</span>)
+
+widget = Label(root, text=<span class="pystring">"this is an example"</span>)
+widget.pack()
+
+mainloop()</pre><p>This script creates a <b>root window</b> by calling the <b>Tk</b>
+widget constructor.  It then calls the <b>title</b> method to set the
+window title, and uses the <b>Label</b> widget constructor to add a
+text label to the window.  Note that the parent widget is passed in as
+the first argument, and that keyword arguments are used to specify the
+text.</p><p>The script then calls the <b>pack</b> method.  This is a special
+method that tells Tkinter to display the label widget inside it&#8217;s
+parent (the root window, in this case), and to make the parent large
+enough to hold the label.</p><p>Finally, the script calls the <b>mainloop</b> function.  This
+function starts an event loop that looks for events from the window
+system.  This includes events like key presses, mouse actions, and
+drawing requests, which are passed on to the widget
+implementation.</p><p>For more information on Tkinter, see <i><a href="http://www.pythonware.com/library/tkinter/introduction/index.htm">An
+Introduction to Tkinter</a></i> and the <s><a href="http://www.python.org/topics/tkinter/doc.html">other
+documentation</a></s> (dead link) available from <b>python.org</b>.</p><h3>Prototyping the EffNews application window</h3><p>For the first prototype, let&#8217;s use a standard two-panel interface,
+with a list of channels to the left, and the contents of the selected
+channel in a larger panel to the right.</p><p>The Tkinter library provides a standard <b>Listbox</b> widget that
+can be used for the channel list.  This widget displays a number of
+text strings, and lets you select one item from the list (or many,
+depending on how the widget is configured).</p><p>To render the contents, it would be nice if we could render the
+title on a line in a distinct font, followed by the description in a
+more neutral style.  Something like this:</p><blockquote class="bluebox">
+<b>High hopes for new Wembley</b><br />
+FA chief Adam Crozier says the new Wembley will be the best stadium in
+the world.<br /><br />
+<b>Archer moved from open prison</b><br />
+Lord Archer is being moved from his open prison after breaking its rules by attending a lunch party during a home visit.
+</blockquote><p>For this purpose, you can use the <b>Text</b> widget.  This widget
+allows you to display text in various styles, and it takes care of
+things like word wrapping and scrolling.  (The Text widget can also be
+used as a full-fledged text editor, but that&#8217;s outside the scope for
+this series.  At least right now.)</p><p>Before you start creating widgets, the newsreader script will need
+to do some preparations.  The first part imports Tkinter and a few
+other modules, creates a download manager instance, and parses an OPML
+file to get the list of channels to load:</p><pre class="python">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+<span class="pykeyword">import</span> sys
+<span class="pykeyword">import</span> http_manager, opml_parser
+
+manager = http_manager.http_manager()
+
+<span class="pykeyword">if</span> len(sys.argv) &gt; 1:
+    channels = opml_parser.load(sys.argv[1])
+<span class="pykeyword">else</span>:
+    channels = opml_parser.load(<span class="pystring">"channels.opml"</span>)</pre><p>Note that you can pass in the name of an OPML file on the command
+line (sys.argv[0] is the name of the program, sys.argv[1] the first
+argument).  If you leave out the file name, the script loads the
+<b>channels.opml</b> file.</p><p>The next step is to create the root window.  At the top of the
+window, add a <b>Frame</b> widget that will act like a toolbar.  The
+frame is an empty widget, which may have a background colour and a
+border, but no content of it&#8217;s own.  Frames are mostly used to
+organize other widgets, like the buttons on the toolbar.</p><pre class="python">
+root = Tk()
+root.title(<span class="pystring">"effnews"</span>)
+
+toolbar = Frame(root)
+toolbar.pack(side=TOP, fill=X)</pre><p>The toolbar is packed towards the top of the parent widget (the
+root window).  The <b>fill</b> option tells the packer to make the
+widget as wide as its parent (instead of <b>X</b>, you can use
+<b>Y</b> to make it as high as the parent, and <b>BOTH</b> to fill in
+both directions).</p><p>For now, the only thing we&#8217;ll have in the toolbar is a
+<b>reload</b> button.  When you click this button, the
+<b>schedule_reloading</b> function adds all channels to the manager
+queue.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">def</span> <span class="pyfunction">schedule_reloading</span>():
+    <span class="pykeyword">for</span> title, channel <span class="pykeyword">in</span> channels:
+        manager.request(channel, http_rss_parser(channel))
+
+b = Button(toolbar, text=<span class="pystring">"reload"</span>, command=schedule_reloading)
+b.pack(side=LEFT)</pre></div><div class="yui-ge"><div class="yui-u first"><p>Here, the button is packed against the left side of the parent
+widget (the toolbar, not the root window).  The <b>command</b> option
+is used to call a Python function when the button is pressed.</p><p>The <b>http_rss_parser</b> class used here is a variant of the
+consumer class with the same name that you&#8217;ve used earlier.  It should
+parse RSS data, and store the incoming items somewhere.  We&#8217;ll get to
+the code for this class in a moment.</p><p>Next, we&#8217;ll add a Tkinter <b>Listbox</b> widget, and fill it with
+channel titles.  The listbox is packed against the left side of the
+parent widget, under the toolbar (which was packed before the
+listbox).</p><pre class="python">
+channel_listbox = Listbox(root, background=<span class="pystring">"white"</span>)
+channel_listbox.pack(side=LEFT, fill=Y)
+
+<span class="pykeyword">for</span> title, channel <span class="pykeyword">in</span> channels:
+    <span class="pycomment"># load listbox</span>
+    channel_listbox.insert(END, title)
+
+<span class="pykeyword">def</span> <span class="pyfunction">select_channel</span>(event):
+    selection = channel_listbox.curselection()
+    <span class="pykeyword">if</span> selection:
+        selection = int(selection[0])
+        title, channel = channels[selection]
+        update_content(channel)
+
+channel_listbox.bind(<span class="pystring">"&lt;Double-Button-1&gt;"</span>, select_channel)</pre><p>The <b>select_channel</b> function is used to display the contents
+of a channel in the Text widget.  The <b>curselection</b> method
+returns the indexes of all selected items.  The indexes work like
+Python list idexes, but they are returned as strings.  If the list is
+not empty (that is, if at least one item is selected), the index is
+converted to an integer, and used to get the channel URL from the
+<b>channels</b> list.  The <b>update_content</b> function displays
+that channel in the text widget; we&#8217;ll get back to this function later
+in this article.</p><p>The <b>bind</b> call, finally, sets things up so that the
+<b>select_channel</b> function is called when the user double-clicks
+on an item in the listbox.</p><p>To complete the user interface, create a text widget for the
+channel contents.  The widget is packed against the top of remaining
+space in the parent widget (it ends up under the toolbar, and to the
+right of the listbox).  The <b>fill</b> option is used to make it fill
+the entire space, and the <b>expand</b> option tells Tkinter that if
+the user resizes the application window, the text widget gets any
+extra space.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+content_pane = Text(root, wrap=WORD)
+content_pane.pack(side=TOP, fill=BOTH, expand=1)
+
+content_pane.tag_config(<span class="pystring">"head"</span>, font=<span class="pystring">"helvetica 12 bold"</span>, foreground=<span class="pystring">"blue"</span>)
+content_pane.tag_config(<span class="pystring">"body"</span>, font=<span class="pystring">"helvetica 10"</span>)
+
+mainloop()</pre></div><div class="yui-ge"><div class="yui-u first"><p>The <b>tag_config</b> methods are used to defined styles to use in
+the text widget.  Here, we defined two styles; text using the
+<b>head</b> style is drawn in a 12-point bold Helvetica font, and
+coloured blue; text using the <b>body</b> style is drawn in a smaller
+Helvetica font, using the default colour.</p><p>That&#8217;s it.</p><p>Almost.  You also need to implement the <b>http_rss_parser</b>
+parser and the <b>update_content</b> function.</p><p>Let&#8217;s start with the parser.</p><h3>Storing the channel items</h3><p>You can reuse the <b>http_rss_parser</b> classes from the previous
+article pretty much right away.  All you have to do is to put the
+channel items somewhere, so they can be found by the
+<b>update_content</b> function.</p><p>The following example adds a channel identifier (the URL) as an
+object attribute, and uses it to store the collected items in a global
+dictionary when it reaches the end of the file.  If the identifier
+matches the <b>current_channel</b> variable, it also calls the
+<b>update_content</b> function.</p><pre class="python">
+items = {}
+
+<span class="pykeyword">class</span> <span class="pyclass">http_rss_parser</span>(rss_parser.rss_parser):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, channel):
+        rss_parser.rss_parser.__init__(self)
+        self._channel = channel
+
+    <span class="pykeyword">def</span> <span class="pyfunction">http_header</span>(self, client):
+        <span class="pykeyword">if</span> (client.status[1] != <span class="pystring">"200"</span> <span class="pykeyword">or</span>
+            client.header[<span class="pystring">"content-type"</span>] != <span class="pystring">"text/xml"</span>):
+            <span class="pykeyword">raise</span> http_client.CloseConnection
+
+    <span class="pykeyword">def</span> <span class="pyfunction">http_failure</span>(self, client):
+        <span class="pykeyword">pass</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">end_rss</span>(self):
+        items[self._channel] = self.items
+        <span class="pykeyword">if</span> self._channel == current_channel:
+            update_content(self._channel) <span class="pycomment"># update display</span></pre><h3>Displaying channel items</h3><p>The next piece of the puzzle is the <b>update_content</b> function.
+This function takes a channel identifier (the URL), and displays the
+items in the text window.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+current_channel = None
+
+<span class="pykeyword">def</span> <span class="pyfunction">update_content</span>(channel):
+
+    <span class="pykeyword">global</span> current_channel
+
+    current_channel = channel
+
+    <span class="pycomment"># clear the text widget</span>
+    content_pane.delete(1.0, END)
+
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> items.has_key(channel):
+        content_pane.insert(END, <span class="pystring">"channel not loaded"</span>)
+        <span class="pykeyword">return</span>
+
+    <span class="pycomment"># add newsitems to the text widget</span>
+    <span class="pykeyword">for</span> item <span class="pykeyword">in</span> items[channel]:
+        title = item.get(<span class="pystring">"title"</span>)
+        <span class="pykeyword">if</span> title:
+            content_pane.insert(END, title.strip() + <span class="pystring">"\n"</span>, <span class="pystring">"head"</span>)
+        description = item.get(<span class="pystring">"description"</span>)
+        <span class="pykeyword">if</span> description:
+            content_pane.insert(END, description.strip() + <span class="pystring">"\n"</span>, <span class="pystring">"body"</span>)
+        content_pane.insert(END, <span class="pystring">"\n"</span>)</pre></div><div class="yui-ge"><div class="yui-u first"><p>The global <b>current_channel</b> variable keeps track of what&#8217;s
+currently displayed in the text widget.  It is used by the parser
+class to update the widget, if the channel is being displayed.</p><p>Data may be missing from the <b>items</b> directionary, either
+because the parser haven&#8217;t finished yet, or because the channel could
+not be read or parsed.  In this case, the function displays the text
+<b>channel not loaded</b> and returns.  Otherwise, it loops over the
+items, and adds the titles and descriptions to the text widget.  The
+third argument to <b>insert</b> is the style name.</p><h3>Keeping the network traffic going</h3><p>If you put the pieces together, you&#8217;ll find that the program is
+almost working.  It creates the widgets and displays them, loads the
+channels into the listbox, and schedules a number of http requests.
+But that&#8217;s all that happens; the requests never finish.</p><p>To fix this, you need to keep the <b>poll</b> method of the
+download manager at regular intervals.  The Tkinter library contains a
+convenient timer mechanism that you can use for this purpose; the
+<b>after</b> method is used to register a callback that will be called
+after a given period of time (given in milliseconds).</p><p>The following code sets things up so that the network will be
+polled about 10 times a second.  It also schedules all channels for
+loading when the application is started, and selects the first item in
+the listbox before entering the Tkinter mainloop.</p><pre class="python">
+<span class="pykeyword">import</span> traceback
+
+<span class="pycomment"># schedule all channels for loading</span>
+schedule_reloading()
+
+<span class="pykeyword">def</span> <span class="pyfunction">poll_network</span>(root):
+    <span class="pykeyword">try</span>:
+        manager.poll(0.1)
+    <span class="pykeyword">except</span>:
+        traceback.print_exc()
+    root.after(100, poll_network, root)
+
+<span class="pycomment"># start polling the network</span>
+poll_network(root)
+
+<span class="pycomment"># display the first channel, if there is one</span>
+<span class="pykeyword">if</span> channels:
+    channel_listbox.select_set(0)
+    update_content(channels[0][1])
+
+<span class="pycomment"># start the user interface</span>
+mainloop()</pre><h3>Putting it all together</h3><p>For your convenience, here&#8217;s the final script:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Example: The first user-interface prototype (File: effnews.py)</b>
+<pre class="python wide">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+<span class="pykeyword">import</span> http_client, http_manager
+<span class="pykeyword">import</span> opml_parser
+<span class="pykeyword">import</span> rss_parser
+
+<span class="pykeyword">import</span> sys, traceback
+
+<span class="pycomment">#</span>
+<span class="pycomment"># item database</span>
+
+items = {}
+
+<span class="pycomment">#</span>
+<span class="pycomment"># parse channels, and store item lists in the global items dictionary</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">http_rss_parser</span>(rss_parser.rss_parser):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, channel):
+        rss_parser.rss_parser.__init__(self)
+        self._channel = channel
+
+    <span class="pykeyword">def</span> <span class="pyfunction">http_header</span>(self, client):
+        <span class="pykeyword">if</span> (client.status[1] != <span class="pystring">"200"</span> <span class="pykeyword">or</span>
+            client.header[<span class="pystring">"content-type"</span>] != <span class="pystring">"text/xml"</span>):
+            <span class="pykeyword">raise</span> http_client.CloseConnection
+
+    <span class="pykeyword">def</span> <span class="pyfunction">http_failure</span>(self, client):
+        <span class="pykeyword">pass</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">end_rss</span>(self):
+        items[self._channel] = self.items
+        <span class="pykeyword">if</span> self._channel == current_channel:
+            update_content(self._channel) <span class="pycomment"># update display</span>
+
+<span class="pycomment">#</span>
+<span class="pycomment"># globals</span>
+
+manager = http_manager.http_manager()
+
+<span class="pykeyword">if</span> len(sys.argv) &gt; 1:
+    channels = opml_parser.load(sys.argv[1])
+<span class="pykeyword">else</span>:
+    channels = opml_parser.load(<span class="pystring">"channels.opml"</span>)
+
+<span class="pycomment">#</span>
+<span class="pycomment"># create the user interface</span>
+
+root = Tk()
+root.title(<span class="pystring">"effnews"</span>)
+
+<span class="pycomment">#</span>
+<span class="pycomment"># toolbar</span>
+
+toolbar = Frame(root)
+toolbar.pack(side=TOP, fill=X)
+
+<span class="pykeyword">def</span> <span class="pyfunction">schedule_reloading</span>():
+    <span class="pykeyword">for</span> title, channel <span class="pykeyword">in</span> channels:
+        manager.request(channel, http_rss_parser(channel))
+
+b = Button(toolbar, text=<span class="pystring">"reload"</span>, command=schedule_reloading)
+b.pack(side=LEFT)
+
+<span class="pycomment">#</span>
+<span class="pycomment"># channels</span>
+
+channel_listbox = Listbox(root, background=<span class="pystring">"white"</span>)
+channel_listbox.pack(side=LEFT, fill=Y)
+
+<span class="pykeyword">def</span> <span class="pyfunction">select_channel</span>(event):
+    selection = channel_listbox.curselection()
+    <span class="pykeyword">if</span> selection:
+        selection = int(selection[0])
+        title, channel = channels[selection]
+        update_content(channel)
+
+channel_listbox.bind(<span class="pystring">"&lt;Double-Button-1&gt;"</span>, select_channel)
+
+<span class="pykeyword">for</span> title, channel <span class="pykeyword">in</span> channels:
+    channel_listbox.insert(END, title)
+
+<span class="pycomment">#</span>
+<span class="pycomment"># content panel</span>
+
+content_pane = Text(root, wrap=WORD)
+content_pane.pack(side=TOP, fill=BOTH, expand=1)
+
+content_pane.tag_config(<span class="pystring">"head"</span>, font=<span class="pystring">"helvetica 12 bold"</span>, foreground=<span class="pystring">"blue"</span>)
+content_pane.tag_config(<span class="pystring">"body"</span>, font=<span class="pystring">"helvetica 10"</span>)
+
+current_channel = None
+
+<span class="pykeyword">def</span> <span class="pyfunction">update_content</span>(channel):
+
+    <span class="pykeyword">global</span> current_channel
+
+    current_channel = channel
+
+    <span class="pycomment"># clear the text widget</span>
+    content_pane.delete(1.0, END)
+
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> items.has_key(channel):
+        content_pane.insert(END, <span class="pystring">"channel not loaded"</span>)
+        <span class="pykeyword">return</span>
+
+    <span class="pycomment"># add newsitems to the text widget</span>
+    <span class="pykeyword">for</span> item <span class="pykeyword">in</span> items[channel]:
+        title = item.get(<span class="pystring">"title"</span>)
+        <span class="pykeyword">if</span> title:
+            content_pane.insert(END, title.strip() + <span class="pystring">"\n"</span>, <span class="pystring">"head"</span>)
+        description = item.get(<span class="pystring">"description"</span>)
+        <span class="pykeyword">if</span> description:
+            content_pane.insert(END, description.strip() + <span class="pystring">"\n"</span>, <span class="pystring">"body"</span>)
+        content_pane.insert(END, <span class="pystring">"\n"</span>)
+
+<span class="pycomment"># get going</span>
+
+schedule_reloading()
+
+<span class="pykeyword">def</span> <span class="pyfunction">poll_network</span>(root):
+    <span class="pykeyword">try</span>:
+        manager.poll(0.1)
+    <span class="pykeyword">except</span>:
+        traceback.print_exc()
+    root.after(100, poll_network, root)
+
+poll_network(root)
+
+<span class="pykeyword">if</span> channels:
+    channel_listbox.select_set(0)
+    update_content(channels[0][1]) <span class="pycomment"># display first channel</span>
+
+mainloop()</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>If you run this script on the sample <b>channel.opml</b> file from
+the beginning of this article, you&#8217;ll get a window looking something
+like this:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><blockquote class="wide">
+<img alt="" height="373" src="/media/cache/fdb0258a00f5b578f8776b9749fcd19d.png" width="622" />
+</blockquote></div><div class="yui-ge"><div class="yui-u first"><p>The first channel is selected, and if everything goes well, the
+channel contents will appear in the window after a second or so.  To
+display any other channel, double-click on the channel title in the
+listbox.</p><p>If the text won&#8217;t fit in the text widget, you can scroll the text
+by pressing the mouse pointer inside the widget and dragging up or
+down.  (We&#8217;ll add scrollbars in the next article.)</p><p>To refresh the contents, click the <b>reload</b> button.  All channels
+will be loaded from the servers, and the items listing in the text widget
+will be updated.</p><h3>About the sample channels</h3><p>The sample <b>channels.opml</b> file contains six channels.  Only
+three of them are properly rendered by the current prototype. </p><p>The <b>bbc news</b>, <b>effbot.org</b>, and <b>kottke</b> channels
+all use the RSS 0.9x file format.  However, as you may notice, the
+<b>bbc news</b> channel is the only one that works flawlessly.</p><p>The <b>effbot.org</b> channel is generated by the <a href="http://www.blogger.com">Blogger Pro</a> tool, which has a
+tendency to mess up on non-US character encodings.  Since some
+articles are written in Swedish, using ISO Latin-1 characters, you may
+find that the XML parser chokes on the contents.  Blogger is also
+known to generate bad output if the source uses XML character
+entities.  To deal with broken feeds like this, you need a more robust
+RSS parser.</p><p>The <b>kottke</b> channel is in a better shape (possibly because
+he&#8217;s not using odd european characters), but you may find that the
+description contains strange line endings and strange little boxes.
+The line endings are probably copied verbatim from the site&#8217;s source
+code; web browsers usually don&#8217;t care about line endings.  And the
+boxes are carriage return characters that are also copied as is from
+the source code.  Getting rid of the line feeds and the bogus
+whitespace characters should be straightforward.</p><p>The <b>pilgrim</b> feed uses the new RSS 2.0 format.  RSS 2.0 is an
+extension to the 0.9x format that&#8217;s supposed to be fully backwards
+compatible, and the feed renders just fine in the current
+prototype.</p><p>The <b>scripting news</b> feed also uses the RSS 2.0 format, but
+it places all tags in an undocumented default namespace (<b>http://backend.userland.com/rss2</b>).  As a result,
+the current prototype parser won&#8217;t find a single thing in that feed.
+(And as expected, all attempts to find out if this is a problem with
+the feed or with the documentation have failed.  But that&#8217;s another
+story.)</p><p>The <b>example</b> channel, finally, contains a bogus URL, and
+results in a <b>channel not loaded</b> message.  This is of course
+exactly what&#8217;s supposed to happen.</p><p align="center" class="mark">:::</p><p>In the next article, we&#8217;ll continue working on the prototype,
+trying to turn it into a more useful and more robust application.
+We&#8217;ll look at ways to deal with possibly broken channels, such as
+the <b>effbot.org</b> and <b>scripting news</b> feeds.</p><hr /><h1 id="effnews-4">EffNews Part 4: Parsing More RSS Files&#160;<a class="nav" href="#effnews-4" title="bookmark!">#</a></h1><h2>Parsing RSS 2.0 Files With Undocumented Namespaces</h2><blockquote>&#8220;<i>
+In general, an implementation must be conservative in its sending behavior,
+and liberal in its receiving behavior.  That is, it must be careful to send
+well-formed datagrams, but must accept any datagram that it can interpret
+(e.g., not object to technical errors where the meaning is still clear).
+</i>&#8221;
+<p align="right"><a href="http://www.ietf.org/rfc/rfc0791.txt">RFC 791,
+Internet Protocol</a>, September 1981, Jon Postel (ed).</p></blockquote><p>The RSS 2.0 standard (where RSS stands for &#8220;Really Simple
+Syndication&#8221;) is an attempt to upgrade the RSS 0.9x version of
+the format.  It adds a number of new fields, designed with interactive
+RSS aggregators in mind, and also adds support for RSS extensions
+through custom namespaces.</p><p>As I&#8217;ve mentioned earlier, RSS 2.0 files comes in several flavours.
+Some providers strictly adhere to <s><a href="http://backend.userland.com/rss2">the RSS 2.0 specification</a></s> (dead link)
+and produce feeds where all the core elements (<b>rss</b>,
+<b>item</b>, <b>title</b>, etc) lives in XML&#8217;s standard namespace.
+This is a good thing, since it allows us to parse them with the same
+parser as we used for 0.9x; even if the version attribute on the
+<b>rss</b> element says 2.0, the parser will see an undecorated
+<b>item</b> tag, and will call the <b>start_item</b> handler.</p><p>Unfortunately, some tools generate RSS 2.0 feeds with all elements
+moved into a namespace.  What&#8217;s worse, the RSS 2.0 specification
+doesn&#8217;t mention this namespace at all, and provides very few clues as
+how to deal with the presence or non-presence of namespaces on the
+core RSS elements.</p><p>For example, <a href="http://www.scripting.com">the scripting
+news feed</a> contains the following declarations at the top:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="xml wide wide">
+&lt;<span class="pyfunction">rss</span> version="2.0"
+    xmlns="http://backend.userland.com/rss2"
+    xmlns:blogChannel="http://backend.userland.com/blogChannelModule"&gt;
+  &lt;<span class="pyfunction">channel</span>&gt;
+    &lt;<span class="pyfunction">title</span>&gt;Scripting News&lt;/<span class="pyfunction">title</span>&gt;
+    &lt;<span class="pyfunction">link</span>&gt;http://www.scripting.com/&lt;/<span class="pyfunction">link</span>&gt;
+    ...</pre></div><div class="yui-ge"><div class="yui-u first"><p>The <b>xmlns=&#8221;http://backend.userland.com/rss2&#8221;</b> attribute provides
+a <b>default namespace</b>.  This means that unless you specify otherwise,
+the <b>rss</b> element and all its children will be assumed to belong to the
+<b>http://backend.userland.com/rss2</b> namespace.  Since our code looks
+for elements that belong to the standard namespace, the parser won&#8217;t find
+a thing.</p><p>(For more about how namespaces really work, I recommend James
+Clark&#8217;s <a href="http://www.jclark.com/xml/xmlns.htm">XML
+Namespaces</a> tutorial.)</p><h3>Ignoring all namespaces</h3><p>The <b>xmllib</b> library provides a fallback mechanism that can be
+used to deal with unknown elements.  When the parser finds an element
+for which there is no <b>start</b> handler, it calls the
+<b>unknown_starttag</b> method with the element tag and a dictionary
+containing the attributes.  Likewise, when an element ends and there&#8217;s
+no <b>end</b> handler, the parser calls the <b>unknown_endtag</b>
+method.</p><p>To see this in action, you can add stub versions of these methods
+to the <b>rss_parser</b> class, and run it on an RSS 2.0 feed:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">rss_parser</span>(xmllib.XMLParser):
+
+    ...
+
+    <span class="pykeyword">def</span> <span class="pyfunction">unknown_starttag</span>(self, tag, attrib):
+        <span class="pykeyword">print</span> <span class="pystring">"START"</span>, repr(tag)
+        <span class="pykeyword">if</span> attrib:
+            <span class="pykeyword">print</span> attrib
+
+    <span class="pykeyword">def</span> <span class="pyfunction">unknown_endtag</span>(self, tag):
+        <span class="pykeyword">print</span> <span class="pystring">"END"</span>, repr(tag)
+
+    ...</pre><p>Running this on the <b>scriping news</b> feed results in something
+like:</p><pre>
+START 'http://backend.userland.com/rss2 rss'
+{'http://backend.userland.com/rss2 version': '2.0'}
+START 'http://backend.userland.com/rss2 channel'
+START 'http://backend.userland.com/rss2 title'
+END 'http://backend.userland.com/rss2 title'
+START 'http://backend.userland.com/rss2 link'
+END 'http://backend.userland.com/rss2 link'
+START 'http://backend.userland.com/rss2 description'
+END 'http://backend.userland.com/rss2 description'
+...
+START 'http://backend.userland.com/rss2 item'
+START 'http://backend.userland.com/rss2 description'
+END 'http://backend.userland.com/rss2 description'
+START 'http://backend.userland.com/rss2 pubDate'
+END 'http://backend.userland.com/rss2 pubDate'
+START 'http://backend.userland.com/rss2 guid'
+END 'http://backend.userland.com/rss2 guid'
+END 'http://backend.userland.com/rss2 item'
+...
+</pre><p>As you can see, the <b>xmllib</b> parser combines the namespace
+string with the tag name into a single string, using a single space to
+separate the two parts.</p><p>One easy way to deal with the RSS 2.0 confusion is to ignore all
+namespaces.  In the <b>unknown</b> handlers, you can simply split the
+tag name into two parts, and use the last part (known as the <b>local
+part</b>) to select the right method.  Something like this could
+work:</p><pre class="python">
+    <span class="pykeyword">def</span> <span class="pyfunction">unknown_starttag</span>(self, tag, attrib):
+        <span class="pykeyword">try</span>:
+            namespace, tag = tag.split()
+        <span class="pykeyword">except</span> ValueError:
+            <span class="pykeyword">pass</span> <span class="pycomment"># ignore this tag</span>
+        <span class="pykeyword">else</span>:
+            <span class="pykeyword">if</span> tag == <span class="pystring">"rss"</span>:
+                self.start_rss(attrib)
+            <span class="pykeyword">elif</span> tag == <span class="pystring">"channel"</span>:
+                self.start_channel(attrib)
+            ... etc
+
+    <span class="pykeyword">def</span> <span class="pyfunction">unknown_endtag</span>(self, tag):
+        <span class="pykeyword">try</span>:
+            namespace, tag = tag.split()
+        <span class="pykeyword">except</span> ValueError:
+            <span class="pykeyword">pass</span> <span class="pycomment"># ignore this tag</span>
+        <span class="pykeyword">else</span>:
+            <span class="pykeyword">if</span> tag == <span class="pystring">"rss"</span>:
+                self.end_rss()
+            <span class="pykeyword">elif</span> tag == <span class="pystring">"channel"</span>:
+                self.end_channel()
+            ... etc</pre><p>To simplify the code, you can reuse portions of <b>xmllib</b>&#8216;s
+existing tag dispatcher.  To get the standard handler for a tag name,
+all you have to do is to look it up in the <b>elements</b> dictionary.
+This dictionary maps tag names to (start handler, end handler) tuples.
+By adding the following methods to the parser class, you get a parser
+that ignores the namespace for all elements:</p><pre class="python">
+    <span class="pykeyword">def</span> <span class="pyfunction">unknown_starttag</span>(self, tag, attrib):
+        start, end = self._gethandlers(tag)
+        <span class="pykeyword">if</span> start:
+            start(attrib)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">unknown_endtag</span>(self, tag):
+        start, end = self._gethandlers(tag)
+        <span class="pykeyword">if</span> end:
+            end()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">_gethandlers</span>(self, tag):
+        <span class="pykeyword">try</span>:
+            namespace, tag = tag.split()
+        <span class="pykeyword">except</span> ValueError:
+            <span class="pykeyword">pass</span> <span class="pycomment"># ignore this tag</span>
+        <span class="pykeyword">else</span>:
+            methods = self.elements.get(tag)
+            <span class="pykeyword">if</span> methods:
+                <span class="pykeyword">return</span> methods
+        <span class="pykeyword">return</span> None, None</pre><p>This is almost enough to read the <b>scripting news</b> feed, but
+if you try it out, you&#8217;ll find that the parser raises a
+<b>ParseError</b> exception (<b>not a valid RSS 0.9x file</b>).  A
+little more digging reveals that this exception is raised by the
+<b>start_channel</b> method, if the <b>rss_version</b> attribute is
+not set:</p><pre class="python">
+    <span class="pykeyword">def</span> <span class="pyfunction">start_rss</span>(self, attr):
+        self.rss_version = attr.get(<span class="pystring">"version"</span>)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">start_channel</span>(self, attr):
+        <span class="pykeyword">if</span> self.rss_version <span class="pykeyword">is</span> None:
+            <span class="pykeyword">raise</span> ParseError(<span class="pystring">"not a valid RSS 0.9x file"</span>)
+        self.current = {}
+        self.channel = self.current</pre><p>If you look at the output from the stub version, you&#8217;ll notice that
+the attribute dictionary contains something called
+<b>&#8220;http://backend.userland.com/rss2 version&#8221;</b> instead of
+the <b>version</b> attribute we expected.</p><p>This is actually a bug in some versions of <b>xmllib</b>; it
+applies the default namespace not only to unqualified element names,
+but also to unqualified attribute names.  When dealing with more
+complex formats, this bug can really get in our way, but we&#8217;re
+ignoring namespaces anyway in this case, so we can simply look for
+any attribute that has the right local part:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+    <span class="pykeyword">def</span> <span class="pyfunction">start_rss</span>(self, attr):
+        self.rss_version = attr.get(<span class="pystring">"version"</span>)
+        <span class="pykeyword">if</span> self.rss_version <span class="pykeyword">is</span> None:
+            <span class="pycomment"># no undecorated version attribute.  as a work-around,</span>
+            <span class="pycomment"># just look at the local part</span>
+            <span class="pykeyword">for</span> k, v <span class="pykeyword">in</span> attr.items():
+                <span class="pykeyword">if</span> k.endswith(<span class="pystring">" version"</span>):
+                    self.rss_version = v
+                    <span class="pykeyword">break</span></pre></div><div class="yui-ge"><div class="yui-u first"><p>With these changes in place, we can use <b>effnews.py</b> to read the
+<b>scripting news</b> feed.</p><p>Almost, that is.</p><p>Compared to the other feeds, it doesn&#8217;t look quite right.  Instead
+of a list of nice title/description items in the content pane, we get
+something far less friendly:</p><blockquote class="bluebox">
+Reuters: &lt;a href=&#8221;http://www.cnn.com/2002/WORLD/meast/09/28/turkey.uranium.reut/&#8221;&gt;<br />
+Turkey seizes weapons-grade uranium&lt;/a&gt;.<br />
+<br />
+&lt;a href=&#8221;http://doc.weblogs.com/discuss/msgReader$2489?mode=day&#8221;&gt;<br />
+Phil Wolff&lt;/a&gt;: &#8220;What would you be willing to do as a journalist<br />
+to improve your chances of getting your story listed on Google&#8217;s<br />
+front page for a prime time hour?&#8221;
+</blockquote><p>There are no titles, and it looks as if the feed generator is
+putting HTML source code in the description, instead of the plain text
+description other feeds are using.</p><p>Obviously, you need to add some way to filter out the HTML elements
+from the description field, and possibly some way to generate a title
+line based on other information in the feed.  This is a nice topic for
+a later article&#8230;</p><h3>Ignoring only the backend.userland.com namespace</h3><p>A problem with the current namespace workaround is that we don&#8217;t
+really care what namespace an element is using; every <b>item</b>
+element is assumed to be an RSS item, every <b>title</b> element is
+assumed to be an RSS title, and so on.  But the RSS 2.0 specification
+explicitly allows RSS providers to use custom namespaces to add extra
+information, and <i>nothing prevents them from reusing local names
+already in use by the RSS 2.0 specification</i>.</p><p>Ignoring all namespace information might work for the moment, but
+it&#8217;s clearly not a future-proof solution.</p><p>Luckily, all you have to do to solve this is to add a single line
+to the <b>_gethandlers</b> method:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+    <span class="pykeyword">def</span> <span class="pyfunction">_gethandlers</span>(self, tag):
+        <span class="pykeyword">try</span>:
+            namespace, tag = tag.split()
+        <span class="pykeyword">except</span> ValueError:
+            <span class="pykeyword">pass</span> <span class="pycomment"># ignore this tag</span>
+        <span class="pykeyword">else</span>:
+            <span class="pykeyword">if</span> namespace == <span class="pystring">"http://backend.userland.com/rss2"</span>:
+                methods = self.elements.get(tag)
+                <span class="pykeyword">if</span> methods:
+                    <span class="pykeyword">return</span> methods
+        <span class="pykeyword">return</span> None, None</pre></div><div class="yui-ge"><div class="yui-u first"><p>With this test in place, the parser will treat RSS 0.9x elements,
+RSS 2.0 elements without a namespace, and RSS 2.0 elements in the
+<b>http://backend.userland.com/rss2</b> namespaces as the same thing.
+All other elements will be ignored.</p><h3>Allowing arbitrary namespaces for the core elements</h3><p>The RSS 2.0 specification/sample mismatch could in fact be
+interpreted to mean that RSS 2.0 allows producers to use an arbitrary
+namespace for the RSS 2.0 elements.  If I want to use
+<b>http://effbot.org/schema/rss2</b>, who can stop me?</p><p>To deal with this case, you can look at the namespace for the
+toplevel <b>rss</b> element, and allow other elements to have that
+namespace.  Something like this might work:</p><pre class="python">
+    rss_namespace = None
+
+    <span class="pykeyword">def</span> <span class="pyfunction">_gethandlers</span>(self, tag):
+        <span class="pykeyword">try</span>:
+            namespace, tag = tag.split()
+            <span class="pykeyword">if</span> tag == <span class="pystring">"rss"</span> <span class="pykeyword">and</span> <span class="pykeyword">not</span> self.rss_namespace:
+                self.rss_namespace = namespace
+        <span class="pykeyword">except</span> ValueError:
+            <span class="pykeyword">pass</span> <span class="pycomment"># ignore this tag</span>
+        <span class="pykeyword">else</span>:
+            <span class="pykeyword">if</span> namespace == self.rss_namespace:
+                methods = self.elements.get(tag)
+                <span class="pykeyword">if</span> methods:
+                    <span class="pykeyword">return</span> methods
+        <span class="pykeyword">return</span> None, None</pre><p>To quote a leading XML expert, requiring people to implement things
+like this would be &#8220;silly indeed&#8221;, so let&#8217;s hope that the RSS 2.0 crowd
+sorts this one out some day, before feed providers start doing really
+silly things&#8230;</p><h2>Parsing RSS 1.0 Files</h2><p>While we&#8217;re at it, let&#8217;s look at the third version of the RSS
+format.  In <a href="http://web.resource.org/rss/1.0/spec">RSS 1.0</a>,
+the RSS stands for &#8220;RDF Site Summary&#8221;, where RDF stands for
+&#8220;Resource Description Framework&#8221;.  RDF is building block in
+something called <a href="http://www.w3.org/2001/sw/">the Semantic Web</a>, which is a
+research project that&#8217;s likely to impact your future life in pretty
+much the same way as AI research has done over the last 30-40 years.
+But I digress.</p><p>An RSS 1.0 file is cleverly designed to look as a valid RDF file to
+RDF tools, and as an RSS 0.91 file to (some) RSS tools.  In practice,
+as a feed provider, this means that people can read your feed in
+dozens of different RSS viewers, and use it to <a href="http://www.w3.org/2001/02pd/">draw mostly meaningless graphs
+consisting of circles and arrows</a>.  But I digress.</p><p>Here&#8217;s an excerpt from <a href="http://www.diveintomark.org/xml/rss.xml">Mark Pilgrim&#8217;s RSS 1.0
+feed</a> (which contains the same data as his 2.0 feed that we used
+earlier):</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="xml wide wide">
+&lt;<span class="pyfunction">rdf:RDF</span> xmlns="http://purl.org/rss/1.0/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    ...&gt;
+  &lt;<span class="pyfunction">channel</span> rdf:about="http://diveintomark.org/"&gt;
+    &lt;<span class="pyfunction">title</span>&gt;dive into mark&lt;/<span class="pyfunction">title</span>&gt;
+    &lt;<span class="pyfunction">link</span>&gt;http://diveintomark.org/&lt;/<span class="pyfunction">link</span>&gt;
+    ...
+  &lt;/<span class="pyfunction">channel</span>&gt;
+  &lt;<span class="pyfunction">item</span> rdf:about="http://diveintomark.org/archives/2002/09/27.html#advanced_css_lists"&gt;
+    &lt;<span class="pyfunction">title</span>&gt;Advanced CSS lists&lt;/<span class="pyfunction">title</span>&gt;
+    &lt;<span class="pyfunction">description</span>&gt;Mark Newhouse: CSS Design: Taming Lists. ... &lt;/<span class="pyfunction">description</span>&gt;
+    &lt;<span class="pyfunction">link</span>&gt;http://diveintomark.org/archives/2002/09/27.html#advanced_css_lists&lt;/<span class="pyfunction">link</span>&gt;
+    &lt;<span class="pyfunction">dc:subject</span>&gt;CSS&lt;<span class="pyfunction">dc:subject</span>&gt;
+    &lt;<span class="pyfunction">dc:date</span>&gt;2002-09-27T23:22:56-05:00&lt;/<span class="pyfunction">dc:date</span>&gt;
+  &lt;/<span class="pyfunction">item</span>&gt;
+  ...
+&lt;/<span class="pyfunction">rdf:RDF</span>&gt;</pre></div><div class="yui-ge"><div class="yui-u first"><p>This feed also uses a default namespace for all core elements.
+However, this is a documented namespace; all RSS 1.0 files are
+supposed to use this namespace.  If it&#8217;s not there, it&#8217;s not an RSS
+1.0 file.</p><p class="note"><b>Update 2002-11-16:</b> Mark just told me that he&#8217;s
+no longer generating RSS 1.0 feeds, so the above link will take you to
+an RSS 2.0 feed.</p><p>Checking for multiple namespaces isn&#8217;t that much harder than
+checking for a single namespace.  Here&#8217;s one way to do it:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pycomment"># namespaces used for standard elements by different RSS formats</span>
+RSS_NAMESPACES = (
+    <span class="pystring">"http://purl.org/rss/1.0/"</span>, <span class="pycomment"># RSS 1.0</span>
+    <span class="pystring">"http://backend.userland.com/rss2"</span>, <span class="pycomment"># RSS 2.0 (sometimes)</span>
+    )
+
+<span class="pykeyword">class</span> <span class="pyclass">rss_parser</span>(xmllib.XMLParser):
+
+    ...
+
+    <span class="pykeyword">def</span> <span class="pyfunction">_gethandlers</span>(self, tag):
+        <span class="pykeyword">try</span>:
+            namespace, tag = tag.split()
+        <span class="pykeyword">except</span> ValueError:
+            <span class="pykeyword">pass</span> <span class="pycomment"># ignore this tag</span>
+        <span class="pykeyword">else</span>:
+            <span class="pykeyword">if</span> namespace <span class="pykeyword">in</span> RSS_NAMESPACES:
+                methods = self.elements.get(tag)
+                <span class="pykeyword">if</span> methods:
+                    <span class="pykeyword">return</span> methods
+        <span class="pykeyword">return</span> None, None</pre></div><div class="yui-ge"><div class="yui-u first"><p>However, if you run this on an RSS 1.0 feed, you&#8217;ll get the same
+<b>ParseError</b> exception (<b>not a valid RSS 0.9x file</b>) as you
+got when tinkering with the 2.0 feeds, and for the same reason: the
+<b>rss_version</b> attribute is never set in the <b>start_rss</b>
+method.</p><p>If you look carefully at the RSS 2.0 sample, you&#8217;ll notice that
+there simply is no <b>rss</b> tag in the RSS 1.0 format.  The root
+element is called <b>RDF</b> and lives in a <b>www.w3.org</b>
+namespace, so the <b>start_rss</b> handler will never be called.</p><p>There are several ways to fix this; the most obvious way is to look
+for the RDF start tag in the <b>unknown_starttag</b> handler, and set
+the <b>rss_version</b> attribute to something suitable.  The downside
+is that if someone passes in an RDF file that doesn&#8217;t contain RSS 1.0
+data, he&#8217;ll end up with an empty channel.</p><p>Another problem is that the <b>effnews.py</b> main application is
+using a <b>end_rss</b> handler to find out when we&#8217;re done parsing, so
+we have to change the parser interface as well.</p><p>And is it really a good idea to use the same code base for two
+radically different formats?  Strictly speaking, RSS 1.0 files are RDF
+files, not XML files.  Maybe we should use an RDF library to parse
+them, and extract the RSS information from the RDF data model?  (This
+would also allow us to deal with feeds stored in <a href="http://www.w3.org/DesignIssues/Notation3">alternative RDF
+representations</a>.).  But I digress.</p><p>To minimise the work, let&#8217;s settle for a compromise: we&#8217;ll keep
+the existing parser, and tweak it to generate the same events for an
+RSS 1.0 feed as it would generate for a corresponding RSS 0.9x or 2.0
+feed.  Turns out that this is really simple: just pretend that the RDF
+tag is really an <b>rss</b> tag without a version number, and check
+for some characteristic RSS 1.0 feature later on.  The following
+example does the RDF-to-rss mapping in the <b>_gethandlers</b> method,
+and looks for the <b>rdf:about</b> attribute in the
+<b>start_channel</b> handler, if the version attribute wasn&#8217;t set by
+<b>start_rss</b>:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+    <span class="pykeyword">def</span> <span class="pyfunction">_gethandlers</span>(self, tag):
+        <span class="pycomment"># check if the tag lives in a known RSS namespace</span>
+        <span class="pykeyword">if</span> tag == <span class="pystring">"http://www.w3.org/1999/02/22-rdf-syntax-ns# RDF"</span>:
+            <span class="pycomment"># this appears to be an RDF file.  to simplify processing,</span>
+            <span class="pycomment"># map this element to an "rss" element</span>
+            <span class="pykeyword">return</span> self.elements.get(<span class="pystring">"rss"</span>)
+        <span class="pykeyword">try</span>:
+            namespace, tag = tag.split()
+        <span class="pykeyword">except</span> ValueError:
+            <span class="pykeyword">pass</span> <span class="pycomment"># ignore</span>
+        <span class="pykeyword">else</span>:
+            <span class="pykeyword">if</span> namespace <span class="pykeyword">in</span> RSS_NAMESPACES:
+                methods = self.elements.get(tag)
+                <span class="pykeyword">if</span> methods:
+                    <span class="pykeyword">return</span> methods
+        <span class="pykeyword">return</span> None, None
+
+    ...
+
+    <span class="pykeyword">def</span> <span class="pyfunction">start_channel</span>(self, attr):
+        <span class="pykeyword">if</span> self.rss_version <span class="pykeyword">is</span> None:
+            <span class="pycomment"># no version attribute; it might still be an RSS 1.0 file.</span>
+            <span class="pycomment"># check if this element has an rdf:about attribute</span>
+            <span class="pykeyword">if</span> attr.get(<span class="pystring">"http://www.w3.org/1999/02/22-rdf-syntax-ns# about"</span>):
+                self.rss_version = <span class="pystring">"1.0"</span>
+            <span class="pykeyword">else</span>:
+                <span class="pykeyword">raise</span> ParseError(<span class="pystring">"cannot read this RSS file"</span>)
+        self.current = {}
+        self.channel = self.current</pre></div><div class="yui-ge"><div class="yui-u first"><h2>Parsing RSS 0.9 Files</h2><p><i>(Added September 30, 2002)</i></p><p>There&#8217;s actually one more RSS version out in the wild: the original
+RSS 0.9 format that Netscape created for their
+<a href="http://my.netscape.com">my.netscape.com</a> portal.  The
+portal still exists, but it hasn&#8217;t supported RSS feeds in a long time,
+and the RSS 0.9 specification is no longer available on the net.  But
+<a href="http://slashdot.org/slashdot.rdf">some providers</a> are still
+using this format.</p><p>Like 1.0, the RSS 0.9 format is based on RDF, but it uses a much
+simpler XML structure.  Here&#8217;s an example:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="xml wide wide">
+&lt;<span class="pyfunction">rdf:RDF</span> xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns="http://my.netscape.com/rdf/simple/0.9/"&lt;
+  &lt;channel&gt;
+    &lt;<span class="pyfunction">title</span>&gt;Slashdot&gt;/title&gt;
+    &lt;<span class="pyfunction">link</span>&gt;http://slashdot.org/&lt;/<span class="pyfunction">link</span>&gt;
+    &lt;<span class="pyfunction">description</span>&gt;News for nerds, stuff that matters&lt;/<span class="pyfunction">description</span>&gt; 
+  &lt;/<span class="pyfunction">channel</span>&gt;
+  ...
+  &lt;<span class="pyfunction">item</span>&gt;
+    &lt;<span class="pyfunction">title</span>&gt;Undelete In Linux&lt;/<span class="pyfunction">title</span>&gt;
+    &lt;<span class="pyfunction">link</span>&gt;http://slashdot.org/article.pl?sid=02/09/30/1233220&lt;/<span class="pyfunction">link</span>&gt;
+  &lt;/<span class="pyfunction">item</span>&gt;
+  ...</pre></div><div class="yui-ge"><div class="yui-u first"><p>Just like RSS 1.0, this format uses a toplevel RDF tag, and all
+the other tags live in a namespace.  But the rest of the file looks
+just like your usual 0.91 feed, with titles, links, and (optional)
+descriptions.</p><p>(the RDF connection was removed by Netscape in a later revision,
+<a href="http://my.netscape.com/publish/formats/rss-spec-0.91.html">RSS 0.91</a>.)</p><p>To add support for this format, you need to add the RSS 0.9 namespace
+to the RSS_NAMESPACES list.  You also need to set the <b>rss_version</b>
+variable somewhere; there&#8217;s no <b>version</b> attribute on the root
+element, and the <b>channel</b> element doesn&#8217;t contain an rdf:about
+attribute.  The simplest solution is to look for the Netscape namespace
+in the <b>_gethandlers</b> method:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pycomment"># namespaces used for standard elements by different RSS formats</span>
+RSS_NAMESPACES = (
+    <span class="pystring">"http://my.netscape.com/rdf/simple/0.9/"</span>, <span class="pycomment"># RSS 0.9</span>
+    <span class="pystring">"http://purl.org/rss/1.0/"</span>, <span class="pycomment"># RSS 1.0</span>
+    <span class="pystring">"http://backend.userland.com/rss2"</span>, <span class="pycomment"># RSS 2.0 (sometimes)</span>
+    )
+
+<span class="pykeyword">class</span> <span class="pyclass">rss_parser</span>(xmllib.XMLParser):
+
+    ...
+
+    <span class="pykeyword">def</span> <span class="pyfunction">_gethandlers</span>(self, tag):
+        <span class="pykeyword">if</span> tag == <span class="pystring">"http://my.netscape.com/rdf/simple/0.9/ channel"</span>:
+            <span class="pycomment"># this appears to be a my.netscape.com 0.9 file</span>
+            self.rss_version = <span class="pystring">"0.9"</span>
+        <span class="pykeyword">try</span>:
+            namespace, tag = tag.split()
+        <span class="pykeyword">except</span> ValueError:
+            <span class="pykeyword">pass</span> <span class="pycomment"># ignore this tag</span>
+        <span class="pykeyword">else</span>:
+            <span class="pykeyword">if</span> namespace <span class="pykeyword">in</span> RSS_NAMESPACES:
+                methods = self.elements.get(tag)
+                <span class="pykeyword">if</span> methods:
+                    <span class="pykeyword">return</span> methods
+        <span class="pykeyword">return</span> None, None</pre></div><div class="yui-ge"><div class="yui-u first"><h2>Putting It All Together</h2><p>For your convenience, here&#8217;s the updated parser, with additions
+in bold type.  Just drop it in over the one from the second article,
+and you&#8217;ll be able to read most 0.9, 1.0 and 2.0 feeds:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Example: a slightly improved RSS parser (File: rss_parser.py)</b>
+<pre class="python wide">
+<span class="pykeyword">import</span> xmllib
+
+<span class="pycomment"># namespaces used for standard elements by different RSS formats</span>
+RSS_NAMESPACES = (
+    <span class="pystring">"http://my.netscape.com/rdf/simple/0.9/"</span>, <span class="pycomment"># RSS 0.9</span>
+    <span class="pystring">"http://purl.org/rss/1.0/"</span>, <span class="pycomment"># RSS 1.0</span>
+    <span class="pystring">"http://backend.userland.com/rss2"</span>, <span class="pycomment"># RSS 2.0 (sometimes)</span>
+    )
+
+<span class="pykeyword">class</span> <span class="pyclass">ParseError</span>(Exception):
+    <span class="pykeyword">pass</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">rss_parser</span>(xmllib.XMLParser):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self):
+        xmllib.XMLParser.__init__(self)
+        self.rss_version = None
+        self.channel = None
+        self.current = None
+        self.data_tag = None
+        self.data = None
+        self.items = []
+
+    <span class="pykeyword">def</span> <span class="pyfunction">_gethandlers</span>(self, tag):
+        <span class="pycomment"># check if the tag lives in a known RSS namespace</span>
+        <span class="pykeyword">if</span> tag == <span class="pystring">"http://www.w3.org/1999/02/22-rdf-syntax-ns# RDF"</span>:
+            <span class="pycomment"># this appears to be an RDF file.  to simplify processing,</span>
+            <span class="pycomment"># map this element to an "rss" element</span>
+            <span class="pykeyword">return</span> self.elements.get(<span class="pystring">"rss"</span>)
+        <span class="pykeyword">if</span> tag == <span class="pystring">"http://my.netscape.com/rdf/simple/0.9/ channel"</span>:
+            <span class="pycomment"># this appears to be a my.netscape.com 0.9 file</span>
+            self.rss_version = <span class="pystring">"0.9"</span>
+        <span class="pykeyword">try</span>:
+            namespace, tag = tag.split()
+        <span class="pykeyword">except</span> ValueError:
+            <span class="pykeyword">pass</span> <span class="pycomment"># ignore this element</span>
+        <span class="pykeyword">else</span>:
+            <span class="pykeyword">if</span> namespace <span class="pykeyword">in</span> RSS_NAMESPACES:
+                methods = self.elements.get(tag)
+                <span class="pykeyword">if</span> methods:
+                    <span class="pykeyword">return</span> methods
+        <span class="pykeyword">return</span> None, None
+
+    <span class="pykeyword">def</span> <span class="pyfunction">unknown_starttag</span>(self, tag, attrib):
+        start, end = self._gethandlers(tag)
+        <span class="pykeyword">if</span> start:
+            start(attrib)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">unknown_endtag</span>(self, tag):
+        start, end = self._gethandlers(tag)
+        <span class="pykeyword">if</span> end:
+            end()
+
+    <span class="pycomment"># stuff to deal with text elements.</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">_start_data</span>(self, tag):
+        <span class="pykeyword">if</span> self.current <span class="pykeyword">is</span> None:
+            <span class="pykeyword">raise</span> ParseError(<span class="pystring">"%s tag not in channel or item element"</span> % tag)
+        self.data_tag = tag
+        self.data = <span class="pystring">""</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_data</span>(self, data):
+        <span class="pykeyword">if</span> self.data <span class="pykeyword">is</span> <span class="pykeyword">not</span> None:
+            self.data = self.data + data
+
+    handle_cdata = handle_data
+
+    <span class="pykeyword">def</span> <span class="pyfunction">_end_data</span>(self):
+        <span class="pykeyword">if</span> self.data_tag:
+            self.current[self.data_tag] = self.data <span class="pykeyword">or</span> <span class="pystring">""</span>
+
+    <span class="pycomment"># main rss structure</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">start_rss</span>(self, attr):
+        self.rss_version = attr.get(<span class="pystring">"version"</span>)
+        <span class="pykeyword">if</span> self.rss_version <span class="pykeyword">is</span> None:
+            <span class="pycomment"># no undecorated version attribute.  as a work-around,</span>
+            <span class="pycomment"># just look at the local names</span>
+            <span class="pykeyword">for</span> k, v <span class="pykeyword">in</span> attr.items():
+                <span class="pykeyword">if</span> k.endswith(<span class="pystring">" version"</span>):
+                    self.rss_version = v
+                    <span class="pykeyword">break</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">start_channel</span>(self, attr):
+        <span class="pykeyword">if</span> self.rss_version <span class="pykeyword">is</span> None:
+            <span class="pycomment"># no version attribute; it might still be an RSS 1.0 file.</span>
+            <span class="pycomment"># check if this element has an rdf:about attribute</span>
+            <span class="pykeyword">if</span> attr.get(<span class="pystring">"http://www.w3.org/1999/02/22-rdf-syntax-ns# about"</span>):
+                self.rss_version = <span class="pystring">"1.0"</span>
+            <span class="pykeyword">else</span>:
+                <span class="pykeyword">raise</span> ParseError(<span class="pystring">"cannot read this RSS file"</span>)
+        self.current = {}
+        self.channel = self.current
+
+    <span class="pykeyword">def</span> <span class="pyfunction">start_item</span>(self, attr):
+        <span class="pykeyword">if</span> self.rss_version <span class="pykeyword">is</span> None:
+            <span class="pykeyword">raise</span> ParseError(<span class="pystring">"cannot read this RSS file"</span>)
+        self.current = {}
+        self.items.append(self.current)
+
+    <span class="pycomment"># content elements</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">start_title</span>(self, attr):
+        self._start_data(<span class="pystring">"title"</span>)
+    end_title = _end_data
+
+    <span class="pykeyword">def</span> <span class="pyfunction">start_link</span>(self, attr):
+        self._start_data(<span class="pystring">"link"</span>)
+    end_link = _end_data
+
+    <span class="pykeyword">def</span> <span class="pyfunction">start_description</span>(self, attr):
+        self._start_data(<span class="pystring">"description"</span>)
+    end_description = _end_data</pre></div></div><div class="yui-ge"><div class="yui-u first"><hr /><h1 id="effnews-5">In Progress: EffNews Part 5: Odds and Ends&#160;<a class="nav" href="#effnews-5" title="bookmark!">#</a></h1><p>This section is not complete.</p><h2 id="improving-the-rss-support">Improving the RSS Support&#160;<a class="nav" href="#improving-the-rss-support" title="bookmark!">#</a></h2><h3 id="supporting-non-xml-character-entities">Supporting Non-XML Character Entities&#160;<a class="nav" href="#supporting-non-xml-character-entities" title="bookmark!">#</a></h3><p>Many RSS feeds embed non-XML character entities in the description
+and title fields. This is allowed by the original 0.9 and 0.91
+standards, but it&#8217;s unclear whether later standards really support
+this.  Not that the standards matter here; feeds of all kinds use the
+entities, so we have to deal with them anyway.</p><p>The <b>xmllib</b> parser uses an <b>entitydefs</b> dictionary to
+translate entities to character strings.  If an entity is not defined
+by this dictionary, the parser calls the <b>unknown_entityref</b>
+method.  The following addition to <a href="#effnews-4">our
+<b>rss_parser</b> class</a> adds all standard HTML entities to the
+entitydefs dictionary when it&#8217;s first called, and replaces all other
+entities to an empty string.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">class</span> <span class="pyclass">rss_parser</span>(xmllib.XMLParser):
+
+    ...
+
+    htmlentitydefs = None
+
+    <span class="pykeyword">def</span> <span class="pyfunction">unknown_entityref</span>(self, entity):
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> self.htmlentitydefs:
+            <span class="pycomment"># lazy loading of entitydefs table</span>
+            <span class="pykeyword">import</span> htmlentitydefs
+            <span class="pycomment"># make sure we don't overwrite entities already present in</span>
+            <span class="pycomment"># the entitydefs dictionary (doing so will confuse xmllib)</span>
+            entitydefs = htmlentitydefs.entitydefs.copy()
+            entitydefs.update(self.entitydefs)
+            self.entitydefs = self.htmlentitydefs = entitydefs
+        self.handle_data(self.entitydefs.get(entity, <span class="pystring">""</span>))
+
+    ...</pre></div><div class="yui-ge"><div class="yui-u first"><h3 id="handling-non-ascii-character-sets">Handling Non-ASCII Character Sets&#160;<a class="nav" href="#handling-non-ascii-character-sets" title="bookmark!">#</a></h3><h3 id="handling-windows-cp1252-gremlins">Handling Windows CP1252 Gremlins&#160;<a class="nav" href="#handling-windows-cp1252-gremlins" title="bookmark!">#</a></h3><h2 id="improving-the-http-support">Improving the HTTP Support&#160;<a class="nav" href="#improving-the-http-support" title="bookmark!">#</a></h2><h3 id="dealing-with-different-content-types">Dealing With Different Content Types&#160;<a class="nav" href="#dealing-with-different-content-types" title="bookmark!">#</a></h3><p>Using a list of feeds from <s><a href="http://www.syndic8.com">Syndic8.com</a></s> (dead link), I&#8217;ve tried the <a href="#effnews-4">current RSS parser</a> (including the entity
+support) on just over 2000 RSS feeds.  The result isn&#8217;t very
+encouraging:</p><pre>
+2010 feeds checked
+
+137 feeds (6.8%) successfully read:
+
+    rss 0.9: 17 feeds
+    rss 0.91: 84 feeds
+    rss 0.91fn: 2 feeds
+    rss 0.92: 20 feeds
+    rss 1.0: 10 feeds
+    rss 2.0: 4 feeds
+</pre><p>As it turns out, the problem isn&#8217;t so much the parser as the protocol
+layer; the current code only accepts responses if they&#8217;re using the
+<b>text/xml</b> content type.  Here&#8217;s a breakdown of the feeds that
+returned a valid HTTP response.  The following list shows the HTTP
+status code (200=OK) and the specified content type:</p><pre class="python">
+200 <span class="pystring">'text/plain; charset=utf-8'</span>: 1 feed
+301 <span class="pystring">'text/html; charset=iso-8859-1'</span>: 1 feed
+200 <span class="pystring">'text/html;charset=iso-8859-1'</span>: 1 feed
+200 <span class="pystring">'text/xml; charset=utf-8'</span>: 1 feed
+403 <span class="pystring">'text/html; charset=iso-8859-1'</span>: 1 feed
+200 <span class="pystring">'text/XML'</span>: 1 feed
+302 <span class="pystring">'text/html; charset=ISO-8859-1'</span>: 1 feed
+200 <span class="pystring">'application/x-cdf'</span>: 1 feed
+200 <span class="pystring">'application/unknown'</span>: 1 feed
+200 <span class="pystring">'httpd/unix-directory'</span>: 2 feeds
+200 <span class="pystring">'text/rdf'</span>: 2 feeds
+200 <span class="pystring">'application/rss+xml'</span>: 2 feeds
+200 <span class="pystring">'text/xml; charset=ISO-8859-1'</span>: 2 feeds
+404 <span class="pystring">'text/html; charset=iso-8859-1'</span>: 3 feeds
+200 <span class="pystring">'application/sgml'</span>: 3 feeds
+302 <span class="pystring">'text/html; charset=iso-8859-1'</span>: 4 feeds
+200 <span class="pystring">'text/html; charset=iso-8859-1'</span>: 4 feeds
+200 <span class="pystring">'application/x-netcdf'</span>: 5 feeds
+200 <span class="pystring">'text/plain; charset=ISO-8859-1'</span>: 7 feeds
+200 <span class="pystring">'text/plain; charset=iso-8859-1'</span>: 8 feeds
+200 <span class="pystring">'application/octet-stream'</span>: 10 feeds
+200 <span class="pystring">'application/xml'</span>: 18 feeds
+200 <span class="pystring">'text/html'</span>: 42 feeds
+200 <span class="pystring">'text/xml'</span>: 191 feeds
+200 <span class="pystring">'text/plain'</span>: 1660 feeds</pre><p>Most feeds are returned as <b>text/plain</b>, and many use
+little-known (or unregistered) content types.  The <b>charset</b>
+parameter is also somewhat common.</p><p>If we remove the check for content type from the <b>http_rss_parser</b>
+class, we get the following result:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">http_rss_parser</span>(rss_parser.rss_parser):
+    ...
+    <span class="pykeyword">def</span> <span class="pyfunction">http_header</span>(self, client):
+        <span class="pykeyword">if</span> client.status[1] != <span class="pystring">"200"</span>:
+            <span class="pykeyword">raise</span> http_client.CloseConnection</pre><pre>
+1746 feeds (86.9%) successfully read:
+
+    rss unknown: 1 feed
+    rss 0.9: 55 feeds
+    rss 0.91: 1623 feeds
+    rss 0.91fn: 2 feeds
+    rss 0.92: 22 feeds
+    rss 1.0: 39 feeds
+    rss 2.0: 4 feeds
+</pre><h3 id="handling-redirection">Handling Redirection&#160;<a class="nav" href="#handling-redirection" title="bookmark!">#</a></h3><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">http_rss_parser</span>(rss_parser.rss_parser):
+    ...
+    <span class="pykeyword">def</span> <span class="pyfunction">http_header</span>(self, client):
+        <span class="pykeyword">if</span> client.status[1].startwith(<span class="pystring">"3"</span>):
+            ... redirect ...
+            location = client.header[<span class="pystring">"location"</span>]</pre><h3>Handling Other Status Codes</h3><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">http_rss_parser</span>(rss_parser.rss_parser):
+    ...
+    <span class="pykeyword">def</span> <span class="pyfunction">http_header</span>(self, client):
+        status = client.status[1]
+        status_category = status[:1]
+        <span class="pykeyword">if</span> status_category == <span class="pystring">"3"</span>:
+            ... redirect ...
+            location = client.header[<span class="pystring">"location"</span>]
+        <span class="pykeyword">elif</span> status_category == <span class="pystring">"2"</span>:
+            ... accept ...
+        <span class="pykeyword">else</span>:
+            ...</pre><h3 id="using-conditional-fetch">Using Conditional Fetch&#160;<a class="nav" href="#using-conditional-fetch" title="bookmark!">#</a></h3><h3 id="fetching-compressed-data">Fetching Compressed Data&#160;<a class="nav" href="#fetching-compressed-data" title="bookmark!">#</a></h3><hr /><h1 id="effnews-6">In Progress: EffNews Part 6: Using the ElementTree Module to Parse RSS Files&#160;<a class="nav" href="#effnews-6" title="bookmark!">#</a></h1><p>This section is not complete.</p><p>This article will be based on a number of <a href="http://online.effbot.org">online.effbot.org</a> postings,
+including:</p><ul><li><s><a href="http://online.effbot.org/2003_07_01_archive.htm#element-tricks">Parsing
+RSS 0.9x and 2.0 Files</a></s> (dead link)</li><li><s><a href="http://online.effbot.org/2003_07_01_archive.htm#element-tricks-2">Parsing
+RSS 1.0 Files</a></s> (dead link)</li><li><s><a href="http://online.effbot.org/2003_07_01_archive.htm#element-tricks-3">Parsing
+RSS 0.9 Files</a></s> (dead link)</li></ul><hr /><h1 id="effnews-notes">EffNews Addendas, Frequently Asked Questions, and Other Assorted Notes&#160;<a class="nav" href="#effnews-notes" title="bookmark!">#</a></h1><h3>FAQ: Where&#8217;s the Code Archive?</h3><p class="info">October 7, 2002 | Fredrik Lundh</p><p>You can get a snapshot of
+<a href="#effnews-4">the <b>effnews #4</b> code base</a> from
+<a href="http://effbot.org/downloads#effnews">the effbot.org downloads
+page</a>.</p><p>For later additions, feel free to copy and paste from the articles
+(to select an entire script, triple-clicking on the first line of the
+script works fine in Internet Explorer).</p><h3>Note: Adding Entity Support</h3><p class="info">October 7, 2002 | Fredrik Lundh</p><p>Many RSS feeds embed non-XML character entities in the description
+and title fields. This is allowed by the original 0.9 and 0.91 standards,
+but it&#8217;s unclear whether later standards really support this.  Not that
+the standards matter here; feeds of all kinds use the entities, so we
+have to deal with them anyway.</p><p>The <b>xmllib</b> parser uses an <b>entitydefs</b> dictionary to
+translate entities to character strings.  If an entity is not defined
+by this dictionary, the parser calls the <b>unknown_entityref</b> method.
+The following addition to <a href="#effnews-4">our <b>rss_parser</b>
+class</a> adds all standard HTML entities to the entitydefs dictionary
+when it&#8217;s first called, and replaces all other entities to an empty
+string.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">class</span> <span class="pyclass">rss_parser</span>(xmllib.XMLParser):
+
+    ...
+
+    htmlentitydefs = None
+
+    <span class="pykeyword">def</span> <span class="pyfunction">unknown_entityref</span>(self, entity):
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> self.htmlentitydefs:
+            <span class="pycomment"># lazy loading of entitydefs table</span>
+            <span class="pykeyword">import</span> htmlentitydefs
+            <span class="pycomment"># make sure we don't overwrite entities already present in</span>
+            <span class="pycomment"># the entitydefs dictionary (doing so will confuse xmllib)</span>
+            entitydefs = htmlentitydefs.entitydefs.copy()
+            entitydefs.update(self.entitydefs)
+            self.entitydefs = self.htmlentitydefs = entitydefs
+        self.handle_data(self.entitydefs.get(entity, <span class="pystring">""</span>))
+
+    ...</pre></div><div class="yui-ge"><div class="yui-u first"><h3 id="feed-statistics">Note: Feed Statistics&#160;<a class="nav" href="#feed-statistics" title="bookmark!">#</a></h3><p class="info">October 5, 2002 | Fredrik Lundh</p><p>Using a list of feeds from <s><a href="http://www.syndic8.com">Syndic8.com</a></s> (dead link),
+I&#8217;ve tried the <a href="#effnews-4">current version of the RSS parser</a>
+(including the entity support) on just over 2000 RSS feeds.  The result isn&#8217;t
+very encouraging:</p><pre>
+2010 feeds checked
+
+137 feeds (6.8%) successfully read:
+
+    rss 0.9: 17 feeds
+    rss 0.91: 84 feeds
+    rss 0.91fn: 2 feeds
+    rss 0.92: 20 feeds
+    rss 1.0: 10 feeds
+    rss 2.0: 4 feeds
+</pre><p>As it turns out, the problem isn&#8217;t so much the parser as the protocol
+layer; the current code only accepts responses if they&#8217;re using the
+<b>text/xml</b> content type.  Here&#8217;s a breakdown of the feeds that
+returned a valid HTTP response.  The following list shows the HTTP
+status code (200=OK) and the specified content type:</p><pre>
+200 'text/plain; charset=utf-8': 1 feed
+301 'text/html; charset=iso-8859-1': 1 feed
+200 'text/html;charset=iso-8859-1': 1 feed
+200 'text/xml; charset=utf-8': 1 feed
+403 'text/html; charset=iso-8859-1': 1 feed
+200 'text/XML': 1 feed
+302 'text/html; charset=ISO-8859-1': 1 feed
+200 'application/x-cdf': 1 feed
+200 'application/unknown': 1 feed
+200 'httpd/unix-directory': 2 feeds
+200 'text/rdf': 2 feeds
+200 'application/rss+xml': 2 feeds
+200 'text/xml; charset=ISO-8859-1': 2 feeds
+404 'text/html; charset=iso-8859-1': 3 feeds
+200 'application/sgml': 3 feeds
+302 'text/html; charset=iso-8859-1': 4 feeds
+200 'text/html; charset=iso-8859-1': 4 feeds
+200 'application/x-netcdf': 5 feeds
+200 'text/plain; charset=ISO-8859-1': 7 feeds
+200 'text/plain; charset=iso-8859-1': 8 feeds
+200 'application/octet-stream': 10 feeds
+200 'application/xml': 18 feeds
+200 'text/html': 42 feeds
+200 'text/xml': 191 feeds
+200 'text/plain': 1660 feeds
+</pre><p>Most feeds are returned as <b>text/plain</b>, and many use
+little-known (or unregistered) content types.  The <b>charset</b>
+parameter is also somewhat common.</p><p>If we remove the check for content type from the <b>http_rss_parser</b>
+class, we get the following result:</p><pre>
+1746 feeds (86.9%) successfully read:
+
+    rss unknown: 1 feed
+    rss 0.9: 55 feeds
+    rss 0.91: 1623 feeds
+    rss 0.91fn: 2 feeds
+    rss 0.92: 22 feeds
+    rss 1.0: 39 feeds
+    rss 2.0: 4 feeds
+</pre><p>There&#8217;s still 264 feeds that cannot be read by the current parser.
+To figure out what (if anything) is wrong with the parser, we need to
+be able to extract more status information from the parser.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><a href="#effnews-1">EffNews Part 1: Fetching RSS Files</a></li><li><ul><li><a href="#rss-files">RSS Files</a></li><li><a href="#using-http-to-download-files">Using HTTP to Download Files</a></li><li><ul><li><a href="#sending-an-http-request">Sending an HTTP request</a></li><li><a href="#using-an-http-support-library">Using an HTTP support library</a></li><li><a href="#asynchronous-http">Asynchronous HTTP</a></li><li><a href="#storing-the-rss-data">Storing the RSS Data</a></li></ul></li></ul></li><li><a href="#effnews-2">EffNews Part 2: Fetching and Parsing RSS Data</a></li><li><ul><li><a href="#intermission">Intermission: Did Anyone Spot The Error Message?</a></li><li><a href="#parsing-rss-files">Parsing RSS Files</a></li><li><ul><li><a href="#xml-parsers">XML Parsers</a></li><li><a href="#incremental-parsing">Incremental parsing</a></li></ul></li></ul></li><li><a href="#effnews-3">EffNews Part 3: Displaying RSS Data</a></li><li><ul><li><a href="#storing-channel-lists">Storing Channel Lists</a></li><li><ul><li><a href="#parsing-opml">Parsing OPML</a></li></ul></li><li><a href="#managing-downloads">Managing Downloads</a></li><li><a href="#building-a-simple-user-interface">Building a Simple User Interface</a></li></ul></li><li><a href="#effnews-4">EffNews Part 4: Parsing More RSS Files</a></li><li><a href="#effnews-5">In Progress: EffNews Part 5: Odds and Ends</a></li><li><ul><li><a href="#improving-the-rss-support">Improving the RSS Support</a></li><li><ul><li><a href="#supporting-non-xml-character-entities">Supporting Non-XML Character Entities</a></li><li><a href="#handling-non-ascii-character-sets">Handling Non-ASCII Character Sets</a></li><li><a href="#handling-windows-cp1252-gremlins">Handling Windows CP1252 Gremlins</a></li></ul></li><li><a href="#improving-the-http-support">Improving the HTTP Support</a></li><li><ul><li><a href="#dealing-with-different-content-types">Dealing With Different Content Types</a></li><li><a href="#handling-redirection">Handling Redirection</a></li><li><a href="#using-conditional-fetch">Using Conditional Fetch</a></li><li><a href="#fetching-compressed-data">Fetching Compressed Data</a></li></ul></li></ul></li><li><a href="#effnews-6">In Progress: EffNews Part 6: Using the ElementTree Module to Parse RSS Files</a></li><li><a href="#effnews-notes">EffNews Addendas, Frequently Asked Questions, and Other Assorted Notes</a></li><li><ul><li><ul><li><a href="#feed-statistics">Note: Feed Statistics</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

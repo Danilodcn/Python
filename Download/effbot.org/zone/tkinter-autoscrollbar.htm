@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Autohiding&nbsp;Scrollbars</title></head><body data-page-id="295"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Autohiding&nbsp;Scrollbars</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">August 08, 1998 | Fredrik Lundh</p><p>The following example shows how to create a scrollable frame
+(by embedding it in a canvas), and how to remove the scrollbars
+when they&#8217;re not needed.</p><p>The AutoScrollbar class can also be used with <b>Listbox</b> and
+<b>Text</b> widgets.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide"><pre class="python wide">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+<span class="pykeyword">class</span> <span class="pyclass">AutoScrollbar</span>(Scrollbar):
+    <span class="pycomment"># a scrollbar that hides itself if it's not needed.  only</span>
+    <span class="pycomment"># works if you use the grid geometry manager.</span>
+    <span class="pykeyword">def</span> <span class="pyfunction">set</span>(self, lo, hi):
+        <span class="pykeyword">if</span> float(lo) &lt;= 0.0 <span class="pykeyword">and</span> float(hi) &gt;= 1.0:
+            <span class="pycomment"># grid_remove is currently missing from Tkinter!</span>
+            self.tk.call(<span class="pystring">"grid"</span>, <span class="pystring">"remove"</span>, self)
+        <span class="pykeyword">else</span>:
+            self.grid()
+        Scrollbar.set(self, lo, hi)
+    <span class="pykeyword">def</span> <span class="pyfunction">pack</span>(self, **kw):
+        <span class="pykeyword">raise</span> TclError, <span class="pystring">"cannot use pack with this widget"</span>
+    <span class="pykeyword">def</span> <span class="pyfunction">place</span>(self, **kw):
+        <span class="pykeyword">raise</span> TclError, <span class="pystring">"cannot use place with this widget"</span></pre></div></div><div class="yui-ge"><div class="yui-u first"><p>Usage:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pycomment">#</span>
+<span class="pycomment"># create scrolled canvas</span>
+
+root = Tk()
+
+vscrollbar = AutoScrollbar(root)
+vscrollbar.grid(row=0, column=1, sticky=N+S)
+hscrollbar = AutoScrollbar(root, orient=HORIZONTAL)
+hscrollbar.grid(row=1, column=0, sticky=E+W)
+
+canvas = Canvas(root,
+                yscrollcommand=vscrollbar.set,
+                xscrollcommand=hscrollbar.set)
+canvas.grid(row=0, column=0, sticky=N+S+E+W)
+
+vscrollbar.config(command=canvas.yview)
+hscrollbar.config(command=canvas.xview)
+
+<span class="pycomment"># make the canvas expandable</span>
+root.grid_rowconfigure(0, weight=1)
+root.grid_columnconfigure(0, weight=1)
+
+<span class="pycomment">#</span>
+<span class="pycomment"># create canvas contents</span>
+
+frame = Frame(canvas)
+frame.rowconfigure(1, weight=1)
+frame.columnconfigure(1, weight=1)
+
+rows = 5
+<span class="pykeyword">for</span> i <span class="pykeyword">in</span> range(1,rows):
+    <span class="pykeyword">for</span> j <span class="pykeyword">in</span> range(1,10):
+        button = Button(frame, padx=7, pady=7, text=<span class="pystring">"[%d,%d]"</span> % (i,j))
+        button.grid(row=i, column=j, sticky=<span class="pystring">'news'</span>)
+
+canvas.create_window(0, 0, anchor=NW, window=frame)
+
+frame.update_idletasks()
+
+canvas.config(scrollregion=canvas.bbox(<span class="pystring">"all"</span>))
+
+root.mainloop()</pre></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

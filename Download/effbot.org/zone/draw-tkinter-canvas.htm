@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Drawing Interface for the Tkinter&nbsp;Canvas</title></head><body data-page-id="48"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Drawing Interface for the Tkinter&nbsp;Canvas</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">September 25, 2004 | Fredrik Lundh</p><p>This module implements the basic <a href="wck-3.htm">WCK 2D
+Drawing Interface</a> for the Tkinter canvas.  Note that Canvas
+objects are persistent; if you need to update the drawing, you
+have to remove the corresponding objects from the canvas first
+(you can remove them all by calling <b>canvas.delete(ALL)</b>).</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>WCK drawing interface for Tkinter</b>
+<pre class="python wide">
+<span class="pycomment"># an implementation of the WCK drawing interface, for</span>
+<span class="pycomment"># the Tkinter Canvas widget</span>
+
+<span class="pykeyword">import</span> tkFont
+
+<span class="pykeyword">class</span> <span class="pyclass">Pen</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, color, width=1, **options):
+        self.color = color
+        self.width = width
+
+<span class="pykeyword">class</span> <span class="pyclass">Brush</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, color, **options):
+        self.color = color
+
+<span class="pykeyword">class</span> <span class="pyclass">Font</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, color, font):
+        self.color = color
+        self.font = font
+        self.tkfont = None <span class="pycomment"># cache for tkFont objects</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">Draw</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, canvas):
+        self.canvas = canvas
+
+    <span class="pykeyword">def</span> <span class="pyfunction">clear</span>(self):
+        self.canvas.delete(<span class="pystring">"all"</span>)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">draw</span>(self, method, xy, pen, brush, **options):
+        <span class="pycomment"># pens and brushes can be given in any order</span>
+        <span class="pykeyword">if</span> isinstance(pen, Pen):
+            options[<span class="pystring">"outline"</span>] = pen.color
+            options[<span class="pystring">"width"</span>] = pen.width
+        <span class="pykeyword">elif</span> isinstance(brush, Pen):
+            options[<span class="pystring">"outline"</span>] = brush.color
+            options[<span class="pystring">"width"</span>] = brush.width
+        <span class="pykeyword">else</span>:
+            options[<span class="pystring">"outline"</span>] = <span class="pystring">""</span>
+        <span class="pykeyword">if</span> isinstance(brush, Brush):
+            options[<span class="pystring">"fill"</span>] = brush.color
+        <span class="pykeyword">elif</span> isinstance(pen, Brush):
+            options[<span class="pystring">"fill"</span>] = pen.color
+        <span class="pykeyword">else</span>:
+            options[<span class="pystring">"fill"</span>] = <span class="pystring">""</span>
+        <span class="pykeyword">if</span> pen <span class="pykeyword">or</span> brush:
+            <span class="pykeyword">return</span> method(xy, **options)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">line</span>(self, xy, pen=None):
+        <span class="pykeyword">if</span> pen:
+            <span class="pykeyword">return</span> self.canvas.create_line(
+                xy, fill=pen.color, width=pen.width
+                )
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ellipse</span>(self, xy, pen=None, brush=None):
+        <span class="pykeyword">return</span> self.draw(self.canvas.create_oval, xy, pen, brush)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">rectangle</span>(self, xy, pen=None, brush=None):
+        <span class="pykeyword">return</span> self.draw(self.canvas.create_rectangle, xy, pen, brush)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">polygon</span>(self, xy, pen=None, brush=None):
+        <span class="pykeyword">return</span> self.draw(self.canvas.create_polygon, xy, pen, brush)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">text</span>(self, xy, text, font):
+        <span class="pykeyword">if</span> font:
+            <span class="pykeyword">return</span> self.canvas.create_text(
+                xy, text=text, font=font.font, fill=font.color, anchor=<span class="pystring">"nw"</span>
+                )
+
+    <span class="pykeyword">def</span> <span class="pyfunction">textsize</span>(self, text, font):
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> font.tkfont:
+            font.tkfont = tkFont.Font(self.canvas, font=font.font)
+            font.tkfont.height = font.tkfont.metrics(<span class="pystring">"linespace"</span>)
+        <span class="pykeyword">return</span> font.tkfont.measure(text), font.tkfont.height</pre></div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

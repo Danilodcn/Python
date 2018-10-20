@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>A Python Code&nbsp;Generator</title></head><body data-page-id="211"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">A Python Code&nbsp;Generator</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">March 23, 1998 | Fredrik Lundh</p><p>A common complaint about Python&#8217;s syntax is that it&#8217;s impossible
+to generate Python code on the fly, from a program.  Here&#8217;s a simple
+helper class that helps you do exactly that:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pycomment">#</span>
+<span class="pycomment"># a Python code generator backend</span>
+<span class="pycomment">#</span>
+<span class="pycomment"># fredrik lundh, march 1998</span>
+<span class="pycomment">#</span>
+<span class="pycomment"># fredrik@pythonware.com</span>
+<span class="pycomment"># http://www.pythonware.com</span>
+<span class="pycomment">#</span>
+
+<span class="pykeyword">import</span> sys, string
+
+<span class="pykeyword">class</span> <span class="pyclass">CodeGeneratorBackend</span>:
+
+    <span class="pykeyword">def</span> <span class="pyfunction">begin</span>(self, tab=<span class="pystring">"\t"</span>):
+        self.code = []
+        self.tab = tab
+        self.level = 0
+
+    <span class="pykeyword">def</span> <span class="pyfunction">end</span>(self):
+        <span class="pykeyword">return</span> string.join(self.code, <span class="pystring">""</span>)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">write</span>(self, string):
+        self.code.append(self.tab * self.level + string)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">indent</span>(self):
+        self.level = self.level + 1
+
+    <span class="pykeyword">def</span> <span class="pyfunction">dedent</span>(self):
+        <span class="pykeyword">if</span> self.level == 0:
+            <span class="pykeyword">raise</span> SyntaxError, <span class="pystring">"internal error in code generator"</span>
+        self.level = self.level - 1</pre></div><div class="yui-ge"><div class="yui-u first"><p>And here&#8217;s how it can be used:</p><pre class="python">
+c = CodeGeneratorBackend()
+
+c.begin(tab=<span class="pystring">"    "</span>)
+
+c.write(<span class="pystring">"for i in range(1000):\n"</span>)
+c.indent()
+c.write(<span class="pystring">"print 'code generation is trivial'"</span>)
+c.dedent()
+
+<span class="pykeyword">print</span> c.end()</pre><p>Which prints:</p><pre class="python">
+<span class="pykeyword">for</span> i <span class="pykeyword">in</span> range(1000):
+    <span class="pykeyword">print</span> <span class="pystring">'code generation is trivial'</span></pre></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

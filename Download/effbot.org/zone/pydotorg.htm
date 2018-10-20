@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>An Alternative Python.Org Content Management&nbsp;System</title></head><body data-page-id="199"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">An Alternative Python.Org Content Management&nbsp;System</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | January 2006</p><div style="float: right; width: 200px; margin-left: 30px; margin-bottom: 20px;"><p><a href="http://www.flickr.com/photos/effbot/90750530/" title="moinmoin+django=python.org ?"><img alt="moinmoin+django=python.org ?" border="1" height="240" src="http://static.flickr.com/42/90750530_5db6715e98_m.jpg" width="174" /></a></p><p class="small"><i>Alt PyDotOrg CMS design sketch (click on the image
+to get an annotated version)</i></p></div><p>The PSF is running a project to design and deploy a new version
+of the python.org site.  This far, that project has developed a new
+batch-oriented content generation tool,
+<s><a href="http://beta.python.org">a design proposal</a></s> (dead link), and translated
+some content, but that&#8217;s about it.  And they&#8217;re about a year late,
+compared to the original plans.
+
+</p><p>Frustrated with the slow progress, and the &#8220;let&#8217;s build our own
+<s>cathedral</s> pyramid&#8221; approach used this far, I&#8217;ve been experimenting
+with alternative ways to maintain and produce the site, based on
+existing Python technology.
+
+</p><p>My current experimental system consists of a
+<a href="http://moinmoin.wikiwikiweb.de/">MoinMoin wiki</a>
+as the editor/CMS, combined with a
+<a href="http://www.djangoproject.com">Django</a>
+frontend for rendering.  To convert the existing content, I&#8217;ve
+developed a simple tool that converts
+current <a href="http://ht2html.sourceforge.net/">HT2HTML</a> sources
+to wiki markup.
+
+<h3 id="status">Status&#160;<a class="nav" href="#status" title="bookmark!">#</a></h3></p><p>The HT2HTML-to-MoinMoin converter is about 80% ready; it can translate
+most content, but some constructs are not handled properly.  The current
+translator turns everything into MoinMoin markup.  For the real site, most
+legacy material can probably be left as HTML, and some material already uses ReST, which MoinMoin can handle more or less as is.
+
+</p><p>The converter automatically rewrites all intra-site links, but the
+site URL layout is not finished; I&#8217;m leaning towards a wiki-style top
+level, with automatic redirection of old URL:s.
+
+</p><p>MoinMoin is used pretty much as is; all that&#8217;s needed is a way
+to &#8220;push&#8221; HTML pages from the wiki to the site.  This can be done via
+MoinMoin save hooks, actions, or macros, or via a polling cronjob;
+experimental code exists for all alternatives.
+
+</p><p>A Django application converts rendered MoinMoin pages to XHTML fragments
+on the fly, and uses Django templates for HTML boilerplate and styling.
+Django caching is used to keep the load under control (the server is fast
+enough to render nearly 1,000,000 page views per day on an old 700 MHz test
+server even without caching; with caching enabled, the entire site will most
+likely be served entirely from memory most of the time).
+
+</p><p>A test setup of the Django application can be found here:
+
+<blockquote>
+<s>http://pydotorg.dyndns.org:8000</s>
+</blockquote></p><p>If that link doesn&#8217;t work, sample static output from the current renderer
+can be found here (~600 pages):
+
+<blockquote>
+<s>http://effbot.org/pydotorg</s>
+</blockquote></p><p>Note that the above is almost entirely unstyled, on purpose.  <s>If you
+want to help with the design, drop
+me a line.  Feel free to drop me a line if you want help out in some
+other way too, of course.</s></p><h3 id="see-also">See Also&#160;<a class="nav" href="#see-also" title="bookmark!">#</a></h3><p><a href="pyref.htm"><cite>An Alternative Python Reference</cite></a></p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><ul><li><a href="#status">Status</a></li><li><a href="#see-also">See Also</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

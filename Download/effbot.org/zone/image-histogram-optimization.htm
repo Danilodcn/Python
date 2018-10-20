@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>An Optimization&nbsp;Anecdote</title></head><body data-page-id="145"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">An Optimization&nbsp;Anecdote</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">April 07, 2002 | Fredrik Lundh</p><p class="mark">This was originally posted to the &#8220;Is it Python or is it
+C&#8221; thread on comp.lang.python, in March 2000.</p><p><i>Q. If there is a way to optimize Python, short of memorizing
+it&#8217;s source code and/or years of trial and error, someone should have
+their next book project! (I&#8217;ll buy it!)  And I say this as someone who
+doesn&#8217;t have enough Python experience to know if this is a true
+statement or not.</i></p><p>A. How about a sentence instead of a book?</p><blockquote>
+The more time your program spends at the Python level, the more chances
+you have to restructure your code so that more <i>work</i> is done by
+compiled C.
+</blockquote><p>To figure out how your program spends its time, use the profiler.</p><h2>How about an example?</h2><p>Assume you need a function which calculates a histogram over a
+greyscale image.  This function should return a list, containing the
+number of pixels in the image having the same value as the index into
+that list.</p><p>Now, the standard way to count things is to use a dictionary.
+Maybe something like this will work:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">histogram1</span>(image):
+    <span class="pycomment"># use a dictionary</span>
+    xsize, ysize = image.size
+    data = {}
+    <span class="pykeyword">for</span> y <span class="pykeyword">in</span> range(ysize):
+        <span class="pykeyword">for</span> x <span class="pykeyword">in</span> range(xsize):
+            v = image.getpixel((x, y))
+            data[v] = data.get(v, 0) + 1
+    <span class="pycomment"># convert to list</span>
+    result = []
+    <span class="pykeyword">for</span> i <span class="pykeyword">in</span> range(256):
+        result.append(data.get(i, 0))
+    <span class="pykeyword">return</span> result</pre><p>(here, <b>image</b> is a PIL Image object).</p><p>Running this on a small image works fine, but when the image gets
+larger, things will quickly go out of hand.  For a 512x512 image, this
+takes just over 11 seconds on my machine.</p><p>Looking at the code, it&#8217;s pretty clear that we might speed things
+up by using a list instead of a dictionary.  After all, an 8-bit
+grayscale image can only contain pixel values from 0 to 255.  List
+indexing should be much faster than dictionary lookups, right?</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">histogram2</span>(image):
+    <span class="pycomment"># wait, use a list instead</span>
+    xsize, ysize = image.size
+    result = [0] * 256
+    <span class="pykeyword">for</span> y <span class="pykeyword">in</span> range(ysize):
+        <span class="pykeyword">for</span> x <span class="pykeyword">in</span> range(xsize):
+            v = image.getpixel((x, y))
+            result[v] = result[v] + 1
+    <span class="pykeyword">return</span> result</pre><p>Less code.  But it doesn&#8217;t run much faster: just under 9 seconds,
+on my machine.</p><p align="center" class="mark">:::</p><p>When intuition fails, it&#8217;s time to get help.  Let&#8217;s run this under
+the Python profiler, and see if we can figure out what&#8217;s going on
+here:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1   17.463   17.463   58.874   58.874 &lt;script&gt;:26(histogram2)
+   262144   29.388    0.000   41.412    0.000 Image.py:501(getpixel)
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>As you can see, most of the time (41 seconds when running under the
+profiler) is spent down in the <b>Image</b> module.  Note that we&#8217;re
+doing 262144 Python-level calls to <b>getpixel</b> (one for each
+pixel, for obvious reasons).</p><p>What if we could get rid of some of these?</p><p>in fact, PIL contains a <b>getdata</b> method that returns a
+&#8220;flattened&#8221; one-dimensional view of the 2D pixel array.  This lets us
+process all pixels inside a single for-in loop:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">histogram3</span>(image):
+    <span class="pycomment"># wait, use a list, but get rid of that getpixel call</span>
+    result = [0] * 256
+    <span class="pykeyword">for</span> v <span class="pykeyword">in</span> image.getdata():
+        result[v] = result[v] + 1
+    <span class="pykeyword">return</span> result</pre><p>Running this takes just over one (1) second on my machine.  about
+10 times faster than our first attempt.  That&#8217;s pretty good, don&#8217;t you
+think?</p><p>Lets use the profiler again:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    1.234    1.234    1.234    1.234 &lt;script&gt;:36(histogram3)
+        1    0.000    0.000    0.000    0.000 Image.py:487(getdata)
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>This time, there&#8217;s only one call down to <b>Image.py</b> &#8212; and
+that call doesn&#8217;t take any time at all! (The
+<b>getdata</b> method returns a reference to an already existing
+sequence object.  A Python method cannot be much faster&#8230;)</p><p align="center" class="mark">:::</p><p>Now, assuming that one second is still too much, is there anything
+else we can do?  Well, that &#8220;x=x+1&#8221; stuff looks fishy.  Maybe we can
+count things a bit faster?  In fact, the list object contains a method
+called <b>count</b> that does exactly this &#8212; it tells us how many
+times a given value is found in a list.</p><p>As it turns out, doing something like <b>im.getdata().count(1)</b>
+doesn&#8217;t work &#8212; the getdata method returns a sequence object, but that
+object doesn&#8217;t implement the full list interface.  We can turn it into
+a real list using the <b>list</b> function:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">histogram4</span>(image):
+    <span class="pycomment"># wait, use the list.count operator</span>
+    data = list(image.getdata())
+    result = []
+    <span class="pykeyword">for</span> i <span class="pykeyword">in</span> range(256):
+        result.append(data.count(i))
+    <span class="pykeyword">return</span> result</pre><p>Unfortunately, running this takes over 23 seconds.  more than twice
+as slow as the original implementation.  And some additional tests
+reveal that 22 of those are spent in the <b>count</b> method.  What&#8217;s
+wrong here?  Isn&#8217;t <b>count</b> implemented in C, or what?</p><p>(if you haven&#8217;t realized what&#8217;s wrong here, why not spend a minute
+or so and see if you can figure it out by yourself?)</p><p align="center" class="mark">:::</p><p>The problem here is that we&#8217;ve replaced 2x512x512 list accesses
+with 256x512x512 integer comparisions.</p><p>Even though everything&#8217;s done at the C level, doing 16 million
+calls to the integer object takes a while&#8230;</p><p align="center" class="mark">:::</p><p>So is one second per image really the best we can do?</p><p>Nope &#8212; a little more reading of the PIL handbook reveals a method
+that does all this for us, using a tightly written C loop.</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">histogram5</span>(image):
+    <span class="pykeyword">return</span> image.histogram()</pre><p>This script takes slightly less than 0.05 seconds on my machine.
+That&#8217;s over 200 times faster than the first version, and more than 450
+times faster than the slowest one&#8230;</p><h2>Summary</h2><p>Summing up, the more you do in C, the faster your program runs.
+But C doesn&#8217;t help if you use a lousy algorithm&#8230;</p><p>(one early PIL adopter told me they&#8217;d rewritten a C++
+program in Python, using PIL, and was rather surprised to find that
+the Python code ran nearly three times faster ;-)</p><p>Or in other words, if your Python program doesn&#8217;t run fast enough,
+use the profiler.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

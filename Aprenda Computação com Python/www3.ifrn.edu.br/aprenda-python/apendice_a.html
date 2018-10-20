@@ -1,0 +1,362 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Apêndice A: Depuração &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Apêndice B: Criando um novo tipo de dado" href="apendice_b.html" />
+    <link rel="prev" title="Capítulo 20: Árvores" href="capitulo_20.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="apendice_b.html" title="Apêndice B: Criando um novo tipo de dado"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_20.html" title="Capítulo 20: Árvores"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="apendice-a-depuracao">
+<h1><a class="toc-backref" href="#id1">Apêndice A: Depuração</a><a class="headerlink" href="#apendice-a-depuracao" title="Link permanente para este título">¶</a></h1>
+<div class="contents topic" id="topicos">
+<p class="topic-title first">Tópicos</p>
+<ul class="simple">
+<li><a class="reference external" href="#apendice-a-depuracao" id="id1">Apêndice A: Depuração</a><ul>
+<li><a class="reference external" href="#a-1-erros-de-sintaxe" id="id2">A.1 Erros de sintaxe</a><ul>
+<li><a class="reference external" href="#a-1-1-eu-nao-consigo-fazer-meu-programa-executar-nao-importa-o-que-eu-faca" id="id3">A.1.1 Eu não consigo fazer meu programa executar não importa o que eu faça</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#a-2-erros-de-tempo-de-execucao" id="id4">A.2 Erros de tempo de execução</a><ul>
+<li><a class="reference external" href="#a-2-1-meu-programa-nao-faz-absolutamente-nada" id="id5">A.2.1 Meu programa não faz absolutamente nada</a></li>
+<li><a class="reference external" href="#a-2-2-meu-programa-trava" id="id6">A.2.2 Meu programa trava</a><ul>
+<li><a class="reference external" href="#laco-infinito" id="id7">Laço Infinito</a></li>
+<li><a class="reference external" href="#recursao-infinita" id="id8">Recursão Infinita</a></li>
+<li><a class="reference external" href="#fluxo-de-execucao" id="id9">Fluxo de Execução</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#a-2-3-quando-eu-executo-o-programa-recebo-uma-excecao" id="id10">A.2.3 Quando eu executo o programa, recebo uma exceção</a></li>
+<li><a class="reference external" href="#a-2-4-eu-adicionei-tantas-declaracoes-print-que-a-saida-do-programa-ficou-baguncada" id="id11">A.2.4 Eu adicionei tantas declarações <em>print</em> que a saída do programa ficou bagunçada</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#a-3-erros-de-semantica" id="id12">A.3 Erros de semântica</a><ul>
+<li><a class="reference external" href="#a-3-1-meu-programa-nao-funciona" id="id13">A.3.1 Meu programa não funciona</a></li>
+<li><a class="reference external" href="#a-3-2-eu-tenho-uma-grande-expressao-cabeluda-e-ela-nao-faz-o-que-eu-espero" id="id14">A.3.2 Eu tenho uma grande expressão cabeluda e ela não faz o que eu espero</a></li>
+<li><a class="reference external" href="#a-3-3-eu-tenho-uma-funcao-ou-metodo-que-nao-retorna-o-que-eu-espero" id="id15">A.3.3 Eu tenho uma função ou método que não retorna o que eu espero</a></li>
+<li><a class="reference external" href="#a-3-4-eu-estou-empacado-mesmo-e-eu-preciso-de-ajuda" id="id16">A.3.4 Eu estou empacado mesmo e eu preciso de ajuda</a></li>
+<li><a class="reference external" href="#a-3-5-nao-eu-preciso-mesmo-de-ajuda" id="id17">A.3.5 Não, eu preciso mesmo de ajuda</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Diferentes tipos de erros podem acontecer em um programa, e é útil distinguir entre eles para os localizar mais rapidamente:</p>
+<ul class="simple">
+<li>Erros de sintaxe são produzidos por Python quando o interpretador está traduzindo o código fonte em <em>bytecode</em>. Estes erros geralmente indicam que existe algo errado com a sintaxe do programa. Exemplo: Omitir o sinal de dois pontos (<tt class="docutils literal"><span class="pre">:</span></tt>) no final de uma declaração <tt class="docutils literal"><span class="pre">def</span></tt> produz a mensagem um tanto redundante <tt class="docutils literal"><span class="pre">SintaxError:</span> <span class="pre">invalid</span> <span class="pre">sintax</span></tt> (Erro de sintaxe: sintaxe inválida).</li>
+<li>Erros de tempo de execução são produzidos se algo de errado acontece enquanto o programa está em execução. A maioria das mensagens de tempo de execução incluem informação sobre onde o erro ocorreu e que função estava em execução. Exemplo: Uma recursão infinita eventualmente causa um erro em tempo de execução identificado como <tt class="docutils literal"><span class="pre">maximum</span> <span class="pre">recursion</span> <span class="pre">depth</span> <span class="pre">exceeded</span></tt> (Excedida a máxima profundidade de recursão).</li>
+<li>Erros de semântica, chamado por alguns autores de erros de lógica, são problemas com um programa que compila e executa mas não tem o resultado esperado. Exemplo: Uma expressão pode não ser avaliada da forma que você espera, produzindo um resultado inesperado.</li>
+</ul>
+<p>O primeiro passo na depuração é descobrir com que tipo de erro você está lidando. Embora as seções a seguir estejam organizadas por tipo de erro, algumas técnicas são aplicáveis em mais de uma situação.</p>
+<div class="section" id="a-1-erros-de-sintaxe">
+<h2><a class="toc-backref" href="#id2">A.1 Erros de sintaxe</a><a class="headerlink" href="#a-1-erros-de-sintaxe" title="Link permanente para este título">¶</a></h2>
+<p>Erros de sintaxe são geralmente fáceis de corrigir, bastando apenas que você descubra onde eles estão. Infelizmente, as mensagens de erro geralmente ajudam pouco. As mensagens mais comuns são: <tt class="docutils literal"><span class="pre">SyntaxError:</span> <span class="pre">invalid</span> <span class="pre">syntax</span></tt> (Erro de sintaxe: sintaxe inválida) e <tt class="docutils literal"><span class="pre">SyntaxError:</span> <span class="pre">invalid</span> <span class="pre">token</span></tt> (Erro de sintaxe: objeto inválido), nenhuma das duas é muito informativa.</p>
+<p>Por outro lado, a mensagem diz a você onde, no código do programa, ocorreu o problema. Na verdade, ela diz a você onde o Python encontrou o problema, que não é necessariamente onde o erro está. Às vezes o erro é anterior à localização da mensagem de erro, geralmente na linha precedente.</p>
+<p>Se você está construindo o programa incrementalmente, você terá uma boa ideia sobre onde estará o erro. Estará na última linha adicionada.</p>
+<p>Se você está copiando código de um livro, comece comparando seu código ao código do livro de forma muito cuidadosa. Verifique cada caracter. Ao mesmo tempo, lembre-se que o livro pode estar errado, então você pode perfeitamente encontrar um erro de sintaxe em um livro.</p>
+<p>Aqui estão algumas maneiras de evitar os erros de sintaxe mais comuns:</p>
+<ol class="arabic simple">
+<li>Certifique-se que você não está utilizando uma palavra reservada de Python para um nome de variável.</li>
+<li>Verifique a existência do sinal de dois pontos no final do cabeçalho de cada declaração composta, incluindo as declarações <tt class="docutils literal"><span class="pre">for</span></tt>, <tt class="docutils literal"><span class="pre">while</span></tt>, <tt class="docutils literal"><span class="pre">if</span></tt>, e <tt class="docutils literal"><span class="pre">def</span></tt>.</li>
+<li>Verifique se a endentação está consistente. Você pode endentar com espaços ou com tabulações, mas é melhor não misturá-los. Cada nível deve ser aninhado com a mesma quantidade.</li>
+<li>Assegure-se de que cada <em>string</em> no código tenha as aspas correspondentes.</li>
+<li>Se você tem <em>strings</em> de multilinhas criadas usando três aspas (simples ou duplas), assegure-se de que você terminou a <em>string</em> apropriadamente. Uma <em>string</em> terminada de forma inapropriada ou não terminada pode gerar um erro de <tt class="docutils literal"><span class="pre">invalid</span> <span class="pre">token</span></tt> (objeto inválido) no final do seu programa, ou ele pode tratar a parte seguinte do programa como uma <em>string</em> até chegar à próxima <em>string</em>. No segundo caso, pode ser que o interpretador nem mesmo produza uma mensagem de erro!</li>
+<li>Um conjunto de parênteses, colchetes ou chaves não fechados corretamente faz com que o Python continue com a próxima linha como parte da declaração anterior. Geralmente, um erro ocorre quase imediatamente na linha seguinte.</li>
+<li>Verique o clássico <tt class="docutils literal"><span class="pre">=</span></tt> ao invés de <tt class="docutils literal"><span class="pre">==</span></tt> dentro de uma condicional.</li>
+</ol>
+<p>Se nada funcionar, vá para a próxima seção.</p>
+<div class="section" id="a-1-1-eu-nao-consigo-fazer-meu-programa-executar-nao-importa-o-que-eu-faca">
+<h3><a class="toc-backref" href="#id3">A.1.1 Eu não consigo fazer meu programa executar não importa o que eu faça</a><a class="headerlink" href="#a-1-1-eu-nao-consigo-fazer-meu-programa-executar-nao-importa-o-que-eu-faca" title="Link permanente para este título">¶</a></h3>
+<p>Se o compilador diz que existe um erro e você não o vê, isto pode ser por que você e o compilador não estão olhando para o mesmo código. Verifique seu ambiente para se assegurar que o programa que você está editando é o mesmo que o Python está tentando executar. Se você não está certo, tente colocar um erro de sintaxe óbvio e deliberado no início do programa. Agora execute (ou importe) o programa novamente. Se o compilador não encontrar o novo erro, provavelmente existe algo de errado com a maneira como o ambiente está configurado.</p>
+<p>Se isto acontecer, uma abordagem é iniciar novamente com um novo programa como &#8220;Hello World!&#8221;,  e se assegurar de que você consegue colocar um programa conhecido para executar. Então gradualmente adicione as partes do novo programa ao programa que está funcionando.</p>
+</div>
+</div>
+<div class="section" id="a-2-erros-de-tempo-de-execucao">
+<h2><a class="toc-backref" href="#id4">A.2 Erros de tempo de execução</a><a class="headerlink" href="#a-2-erros-de-tempo-de-execucao" title="Link permanente para este título">¶</a></h2>
+<p>Uma vez que seu programa está sintaticamente correto, o interpretador do Python pode importá-lo e começar a executá-lo. O que poderia dar errado?</p>
+<div class="section" id="a-2-1-meu-programa-nao-faz-absolutamente-nada">
+<h3><a class="toc-backref" href="#id5">A.2.1 Meu programa não faz absolutamente nada</a><a class="headerlink" href="#a-2-1-meu-programa-nao-faz-absolutamente-nada" title="Link permanente para este título">¶</a></h3>
+<p>Este é o problema mais comum quando um arquivo consiste de funções e classes mas não chama nada realmente para iniciar a execução. Isto pode ser intencional se você planeja apenas importar este módulo para fornecer classes e funções.</p>
+<p>Se isto não é intencional, assegure-se de que você está chamando uma função para iniciar a execução ou execute uma &#8220;manualmente&#8221; do <em>prompt</em> interativo. Veja também a seção &#8220;Fluxo de Execução&#8221; abaixo.</p>
+</div>
+<div class="section" id="a-2-2-meu-programa-trava">
+<h3><a class="toc-backref" href="#id6">A.2.2 Meu programa trava</a><a class="headerlink" href="#a-2-2-meu-programa-trava" title="Link permanente para este título">¶</a></h3>
+<p>Se um programa para e parece não estar fazendo nada, dizemos que ele &#8220;travou&#8221;. Geralmente isto significa que ele foi pego num laço infinito ou numa recursão infinita.</p>
+<ul class="simple">
+<li>Se existe um laço em particular aonde você suspeita estar o problema, adicione uma declaração <tt class="docutils literal"><span class="pre">print</span></tt> imediatamente antes do laço que diga &#8220;entrando no laço&#8221; e uma outra imediatamente depois que diga &#8220;saindo do laço&#8221;. Execute o programa. Se você receber a primeira mensagem e não a segunda, você tem um laço infinito. Vá para a seção &#8220;Laço Infinito&#8221; abaixo.</li>
+<li>Na maioria das vezes, uma recursão infinita fará com que o programa execute por um tempo e então ele produzirá um erro do tipo <tt class="docutils literal"><span class="pre">Runtime</span> <span class="pre">Error:</span> <span class="pre">Maximum</span> <span class="pre">recursion</span> <span class="pre">depth</span> <span class="pre">exceeded</span></tt> (Erro de tempo de execução: Excedida a profundidade máxima de recursão). Se isto acontecer, vá para a seção &#8220;Recursão Infinita&#8221; abaixo. Se você não está recebendo este erro, mas suspeita que há um problema com um método ou função recursiva, você ainda pode utilizar as técnicas da seção &#8220;Recursão Infinita&#8221;.</li>
+<li>Se nenhum destes passos funcionar, comecea testar outros laços ou métodos ou funções recursivas.</li>
+<li>Se isso não funcionar, então é possível que você não entenda o fluxo de execução do seu programa. Vá para a seção &#8220;Fluxo de Execução&#8221; abaixo.</li>
+</ul>
+<div class="section" id="laco-infinito">
+<h4><a class="toc-backref" href="#id7">Laço Infinito</a><a class="headerlink" href="#laco-infinito" title="Link permanente para este título">¶</a></h4>
+<p>Se você acha que tem um laço infinito e desconfia de qual seja laço causador do problema, adicione uma declaração <tt class="docutils literal"><span class="pre">print</span></tt> no final do laço que imprima os valores das variáveis na condição e o valor da condição.</p>
+<p>Por exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">while</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+<span class="go">        # faz algo para x</span>
+<span class="go">        # faz algo para y</span>
+<span class="go">    print &quot;x: &quot;, x</span>
+<span class="go">    print &quot;y: &quot;, y</span>
+<span class="go">    print &quot;condição: &quot;, (x &gt; 0 and y &lt; 0)</span>
+</pre></div>
+</div>
+<p>Agora, quando você executar o programa, serão exibidas três linhas de saída para cada execução do laço. Na última execução do laço, a condição deveria ser <tt class="xref docutils literal"><span class="pre">False</span></tt> (falso). Se o laço continuar, você terá condições de ver os valores de <tt class="docutils literal"><span class="pre">x</span></tt> e <tt class="docutils literal"><span class="pre">y</span></tt>, podendo, assim, descobrir o porquê das variáveis não serem atualizadas corretamente.</p>
+</div>
+<div class="section" id="recursao-infinita">
+<h4><a class="toc-backref" href="#id8">Recursão Infinita</a><a class="headerlink" href="#recursao-infinita" title="Link permanente para este título">¶</a></h4>
+<p>Na maioria das vezes, uma recursão infinita fará com que um programa execute por um determinado tempo e então produza um erro de <tt class="docutils literal"><span class="pre">Maximum</span> <span class="pre">recursion</span> <span class="pre">depth</span> <span class="pre">exceeded</span></tt> (Excedida a profundidade máxima de recursão).</p>
+<p>Se você suspeita que uma função ou método está causando uma recursão infinita, comece verificando para se assegurar que exista um caso básico. Em outras palavras, deve existir alguma condição que faça com que a função ou método finalize sem fazer uma chamada recursiva. Se não existe tal condição, você precisa repensar o algoritmo e identificar um caso base.</p>
+<p>Se existe um caso base mas o programa parece não estar alcançando-o, adicione uma declaração <tt class="docutils literal"><span class="pre">print</span></tt> no início  da função ou método que imprime o(s) parâmetro(s). Agora, quando você executar o programa, você verá umas poucas linhas de saída todas as vezes que a função ou método for executado, e você verá o(s) parâmetro(s). Se o(s) parâmetro(s) não está(ão) se movendo em direção ao caso base, você terá ideias de por que não, e poderá então corrigir o problema.</p>
+</div>
+<div class="section" id="fluxo-de-execucao">
+<h4><a class="toc-backref" href="#id9">Fluxo de Execução</a><a class="headerlink" href="#fluxo-de-execucao" title="Link permanente para este título">¶</a></h4>
+<p>Se você não está certo de como o seu programa está fluindo, adicione declarações <tt class="docutils literal"><span class="pre">print</span></tt> ao início de cada função com uma mensagem semelhante a &#8220;entrando na função <tt class="docutils literal"><span class="pre">foo</span></tt>&#8220;, onde <tt class="docutils literal"><span class="pre">foo</span></tt> é o nome da função.</p>
+<p>Agora quando você executar o programa, será exibido um rastro de cada função à medida em que ela é invocada.</p>
+</div>
+</div>
+<div class="section" id="a-2-3-quando-eu-executo-o-programa-recebo-uma-excecao">
+<h3><a class="toc-backref" href="#id10">A.2.3 Quando eu executo o programa, recebo uma exceção</a><a class="headerlink" href="#a-2-3-quando-eu-executo-o-programa-recebo-uma-excecao" title="Link permanente para este título">¶</a></h3>
+<p>Se algo vai errado durante a execução, o Python exibe uma mensagem que inclui o nome da exceção, a linha do código do programa onde o problema ocorre, e dados para investigação do erro, onde é descrita a pilha de execução de funções e métodos.</p>
+<p>Tais dados identificam a função que está sendo executada no momento, e então a função que a invocou, e então a função que invocou <em>aquela</em>, e assim por diante (a pilha de execução de funções). Em outras palavras, ele traça o caminho das invocações da função que te levou até onde você está. Ele também inclui o número da linha no respectivo arquivo onde cada uma dessas chamadas ocorre.</p>
+<p>O primeiro passo é examinar o lugar no programa onde ocorreu o erro e tentar descobrir o que aconteceu. Esses são alguns dos erros de tempo de execução mais comuns:</p>
+<p><strong>NameError (Erro de Nome):</strong> Você está tentando utilizar uma variável que não existe no ambiente atual. Lembre-se que variáveis locais são locais. Você não pode referenciá-la fora da função onde ela foi definida.</p>
+<p><strong>TypeError (Erro de Tipo):</strong> Existem várias causas possíveis:</p>
+<blockquote>
+<ul class="simple">
+<li>Você está tentando utilizar um valor de forma imprópria. Exemplo: indexando uma <em>string</em>, lista ou tupla com alguma coisa que não é um inteiro.</li>
+<li>Há uma incompatibilidade entre os itens em um formato de <em>string</em> e os itens passados para conversão. Isto pode acontecer se o número de itens não for igual ou se uma conversão inválida é chamada. Por exemplo: Passar uma <em>string</em> para a formatação de conversão <tt class="docutils literal"><span class="pre">%f</span></tt>.</li>
+<li>Você está passando o número errado de argumentos para uma função ou método. Para métodos, verifique sua definição e confira se o primeiro parâmetro chama-se <tt class="docutils literal"><span class="pre">self</span></tt>. Então verifique a chamada ao método; certifque-se de que você está chamando o método em um objeto com o tipo correto e fornecendo os argumentos adequados.</li>
+</ul>
+</blockquote>
+<p><strong>KeyError (Erro de Chave):</strong> Você está tentando acessar um elemento de um dicionário utilizando um valor de chave que o dicionário não contém.</p>
+<p><strong>AttributeError (Erro de Atributo):</strong> Você está tentando acessar um atributo ou método que não existe em um objeto.</p>
+<p><strong>IndexError (Erro de Índice):</strong> O índice que você está usando para acessar uma lista, <em>string</em> ou tupla não existe no objeto, ou seja, é maior que seu comprimento menos um. Imediatamente antes do ponto do erro, adicione uma delaração <em>print</em> para mostrar o valor do índice e o comprimento do <em>objeto</em>. O <em>objeto</em> é do tamanho correto? O índice está com o valor adequado?</p>
+</div>
+<div class="section" id="a-2-4-eu-adicionei-tantas-declaracoes-print-que-a-saida-do-programa-ficou-baguncada">
+<h3><a class="toc-backref" href="#id11">A.2.4 Eu adicionei tantas declarações <em>print</em> que a saída do programa ficou bagunçada</a><a class="headerlink" href="#a-2-4-eu-adicionei-tantas-declaracoes-print-que-a-saida-do-programa-ficou-baguncada" title="Link permanente para este título">¶</a></h3>
+<p>Um dos problemas com o uso de declarações <em>print</em> para a depuração é que a saída pode ficar confusa, dificultando a depuração, ao invés de facilitar. Há duas coisas que podem ser feitas: simplificar a saída ou simplificar o programa.</p>
+<p>Para simplificar a saída, você pode remover ou comentar as declarações <em>print</em> que não estão ajudando, ou combiná-las, ou, ainda, formatar a saída para facilitar o entendimento.</p>
+<p>Para simplificar o programa, existem várias coisas que você pode fazer: Primeiro, reduza o problema no qual o programa está trabalhando. Por exemplo, se você está ordenando um <em>array</em>, ordene um * array* <strong>pequeno</strong>. Se o programa recebe entrada do usuário, dê a ele a entrada mais simples capaz de causar o problema.</p>
+<p>Segundo, limpe o programa. Remova código inútil e reorganize o programa para torná-lo tão fácil de ler quanto possível. Por exemplo, se você suspeita que o problema está numa parte profundamente aninhada do programa, tente reescrever aquela parte com uma estrutura mais simples. Se você suspeita de uma função longa, tente dividi-la em funções menores e testá-las separadamente.</p>
+<p>Muitas vezes o processo de encontrar o caso de teste mínimo leva você ao erro. Se você descobrir que o programa funciona em uma situação, mas não em outra, você já tem uma boa dica a respeito do que está acontecendo.</p>
+<p>De forma semelhante, reescrever pedaços de código pode ajuda a encontrar erros sutis. Se você faz uma alteração que você pensa que não afeta o programa, e ela afeta, você também tem uma dica.</p>
+</div>
+</div>
+<div class="section" id="a-3-erros-de-semantica">
+<h2><a class="toc-backref" href="#id12">A.3 Erros de semântica</a><a class="headerlink" href="#a-3-erros-de-semantica" title="Link permanente para este título">¶</a></h2>
+<p>De certa forma, os erros de semântica são os mais difíceis de depurar, porque o compilador e o sistema de tempo de execução não fornecem informações sobre o que está errado. Somente você sabe o que o programa deve fazer, e somente você sabe que ele não está fazendo isto.</p>
+<p>O primeiro passo é fazer uma conexão entre o texto do programa e o comportamento que você está vendo. Você precisa de uma hipótese sobre o que o programa está realmente fazendo. Uma das coisas que dificultam é que os computadores trabalham muito rápido.</p>
+<p>Você sempre desejará que a velocidade do programa pudesse ser diminuída para a velocidade humana, e com alguns depuradores você pode. Mas o tempo que leva para inserir umas poucas declarações <tt class="docutils literal"><span class="pre">print</span></tt> bem colocadas é geralmente mais curto quando comparado a configurar um depurador, inserir e remover <em>breakpoints</em>, e &#8220;caminhar&#8221; pelo programa até onde o erro ocorre.</p>
+<div class="section" id="a-3-1-meu-programa-nao-funciona">
+<h3><a class="toc-backref" href="#id13">A.3.1 Meu programa não funciona</a><a class="headerlink" href="#a-3-1-meu-programa-nao-funciona" title="Link permanente para este título">¶</a></h3>
+<p>Você deveria se fazer as seguintes perguntas:</p>
+<blockquote>
+<ul class="simple">
+<li>Há alguma coisa que o programa deveria fazer, mas que não parece que estar acontecendo?</li>
+<li>Não está acontecendo alguma coisa que não deveria acontecer? Encontre o código no seu programa que executa a função e veja se ele está executando no momento errado ou de forma errada.</li>
+<li>Uma parte do código está produzindo o efeito esperado? Cetifique-se que você entende o código em questão, especialmente se ele envolve chamadas de funções ou métodos em outros módulos da linguagem. Leia a documentação das funções e módulos que você está utilizando. Teste as funções escrevendo casos simples de teste e verificando os resultados.</li>
+</ul>
+</blockquote>
+<p>Para programar, você precisa ter um modelo mental de como seus programas trabalham. Se você escreve um programa que não faz aquilo que você espera, é muito comum que o problema não esteja no programa, mas sim no seu modelo mental.</p>
+<p>A melhor maneira de corrigir seu modelo mental é quebrar o programa em seus componentes (geralmente as funções e métodos) e testar cada componente de forma independente. Uma vez que você tenha encontrado a diferença entre seu modelo e a realidade, você pode resolver o problema.</p>
+<p>Obviamente, componentes devem ser desenvolvidos e testado à medida que o seu programa vai ganhando vida. Se você encontra um problema, haverá uma pequena quantidade de novo código com funcionamento incerto.</p>
+</div>
+<div class="section" id="a-3-2-eu-tenho-uma-grande-expressao-cabeluda-e-ela-nao-faz-o-que-eu-espero">
+<h3><a class="toc-backref" href="#id14">A.3.2 Eu tenho uma grande expressão cabeluda e ela não faz o que eu espero</a><a class="headerlink" href="#a-3-2-eu-tenho-uma-grande-expressao-cabeluda-e-ela-nao-faz-o-que-eu-espero" title="Link permanente para este título">¶</a></h3>
+<p>Escrever expressões complexas é legal se elas forem legíveis, mas pode ser difícil de depurar. Geralmente é uma boa ideia quebrar uma expressão complexa em uma série de atribuições para variáveis temporárias.</p>
+<p>Por exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">mao</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">adicionaCarta</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mao</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">encontraVizinho</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span><span class="o">.</span><span class="n">popCarta</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Isto pode ser escrito como:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vizinho</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encontraVizinho</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cartaPega</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mao</span><span class="p">[</span><span class="n">vizinho</span><span class="p">]</span><span class="o">.</span><span class="n">popCarta</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">mao</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">adicionaCarta</span><span class="p">(</span><span class="n">cartaPega</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A versão explícita é mais fácil de ler, pois os nomes das variáveis fornecem documentação adicional, e é mais fácil depurar, já que você pode verificar os tipos das variáveis intermediárias e mostrar seus valores.</p>
+<p>Um outro problema que pode ocorrer com expressões longas é que a ordem de avaliação pode não ser o que você espera. Por exemplo, se você está traduzido a expressão <cite>x / 2pi</cite> (XXX fazer a equação matemática) para Python, você poderia escrever:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
+</pre></div>
+</div>
+<p>Isto está correto por que a multiplicação e a divisão possuem a mesma precedência e são avalidadas da esquerda pra direita. Então a expressão calcula <cite>*x*pi/2</cite> (XXX fazer a equação matemática).</p>
+<p>Uma boa maneira de depurar expressões é adicionar parênteses para tornar a ordem de avaliação explícita:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Sempre que você não estiver seguro sobe a ordem de avaliação, utilize parênteses. Não apenas o programa estará correto(no sentido de fazer aquilo que você tinha a intenção),  ele também será mais legível por outras pessoas que não tenham memorizado as regras de precedência.</p>
+</div>
+<div class="section" id="a-3-3-eu-tenho-uma-funcao-ou-metodo-que-nao-retorna-o-que-eu-espero">
+<h3><a class="toc-backref" href="#id15">A.3.3 Eu tenho uma função ou método que não retorna o que eu espero</a><a class="headerlink" href="#a-3-3-eu-tenho-uma-funcao-ou-metodo-que-nao-retorna-o-que-eu-espero" title="Link permanente para este título">¶</a></h3>
+<p>Se você possui uma declaração <em>return</em> com uma expressão complexa, você não tem a chance de exibir o valor de <em>return</em> antes que ele seja devolvido. Novamente, você pode utilizar uma variavel temporária. Por exemplo, ao invés de:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">pega_encontrados</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="go">    return self.mao[i].devolveEncontrados()</span>
+</pre></div>
+</div>
+<p>você poderia escrever:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="nf">pega_encontrados</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="go">    qtEncontrados = self.mao[i].devolveEncontrados()</span>
+<span class="go">    return qtEncontrados</span>
+</pre></div>
+</div>
+<p>Agora você tem a oportunidade de mostrar o valor de <em>qtEncontrados</em> antes de devolvê-lo.</p>
+</div>
+<div class="section" id="a-3-4-eu-estou-empacado-mesmo-e-eu-preciso-de-ajuda">
+<h3><a class="toc-backref" href="#id16">A.3.4 Eu estou empacado mesmo e eu preciso de ajuda</a><a class="headerlink" href="#a-3-4-eu-estou-empacado-mesmo-e-eu-preciso-de-ajuda" title="Link permanente para este título">¶</a></h3>
+<p>Primeiro,tente sair da frente do computador por alguns minutos. Computadores emitem ondas que afetam o cérebro, causando estes efeitos:</p>
+<blockquote>
+<ul class="simple">
+<li>Frustação e/ou raiva.</li>
+<li>Crenças superticiosas (&#8220;o computador me odeia&#8221;) e pensamentos mágicos (&#8220;o prorama só funciona quando eu coloco meu chapéu de trás pra frente&#8221;).</li>
+<li>Programação pelo caminhar aleatório (a tentativa de programar escrevendo cada programa possível e escolhendo aquele que faz a coisa certa).</li>
+</ul>
+</blockquote>
+<p>Se você estiver sofrendo de qualquer um destes sintomas, levante-se e vá dar uma caminhada. Quando você estiver calmo, pense no programa. O que ele está fazendo? Quais são as possíveis causas do comportamento inadequado? Quando foi a última vez que você teve um programa funcionando, e o que você fez depois disto?</p>
+<p>Às vezes é uma questão de tempo para encontrar um erro. Nós geralmente encontramos os erros quando estamos longe do computador e deixamos nossa mente vaguear. Alguns dos melhores lugares para encontrar erros são trens, chuveiros e na cama, logo antes de pegar no sono.</p>
+</div>
+<div class="section" id="a-3-5-nao-eu-preciso-mesmo-de-ajuda">
+<h3><a class="toc-backref" href="#id17">A.3.5 Não, eu preciso mesmo de ajuda</a><a class="headerlink" href="#a-3-5-nao-eu-preciso-mesmo-de-ajuda" title="Link permanente para este título">¶</a></h3>
+<p>Isto acontece. Mesmo os melhores programadores empacam de vez em quando. Às vezes você trabalha num programa por tanto tempo que não consegue ver o erro. Um par fresco de olhos é o que se precisa.</p>
+<p>Antes de trazer mais alguém, certifique-se de que você tenha esgotado as técnicas descritas aqui. Seu programa deve ser tão simples quanto possível, e você deve estar trabalhando com a mais simples das entradas que causam o erro. Você deve ter declarações <em>print</em>  nos lugares apropriados (sem comprometer a compreensividade da saída do programa). Você tem que entender o problema o suficiente para descrevê-lo concisamente.</p>
+<p>Quando você trouxer alguém pra ajudar, assegure-se de dar a este alguém a informação que ele precisa:</p>
+<blockquote>
+<ul class="simple">
+<li>Se existe uma mensagem de erro, o que é ela e que parte do programa ela indica?</li>
+<li>Qual foi a última coisa que você fez antes deste erro acontecer? Quais foram as últimas linhas de código que você escreveu, ou qual é o novo caso de teste que falha?</li>
+<li>O que você já tentou até o momento, e o que você aprendeu?</li>
+</ul>
+</blockquote>
+<p>Quando você encontrar um erro, gaste um segundo para pensar sobre o que você poderia fazer para encontrá-lo mais rápido. Da próxima vez que você ver algo similar, você terá condições de encontrar o erro mais rapidamente.</p>
+<p>Lembre-se, o objetivo não é apenas fazer o programa funcionar. O objetivo é aprender como fazer o programa funcionar.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Apêndice A: Depuração</a><ul>
+<li><a class="reference internal" href="#a-1-erros-de-sintaxe">A.1 Erros de sintaxe</a><ul>
+<li><a class="reference internal" href="#a-1-1-eu-nao-consigo-fazer-meu-programa-executar-nao-importa-o-que-eu-faca">A.1.1 Eu não consigo fazer meu programa executar não importa o que eu faça</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#a-2-erros-de-tempo-de-execucao">A.2 Erros de tempo de execução</a><ul>
+<li><a class="reference internal" href="#a-2-1-meu-programa-nao-faz-absolutamente-nada">A.2.1 Meu programa não faz absolutamente nada</a></li>
+<li><a class="reference internal" href="#a-2-2-meu-programa-trava">A.2.2 Meu programa trava</a><ul>
+<li><a class="reference internal" href="#laco-infinito">Laço Infinito</a></li>
+<li><a class="reference internal" href="#recursao-infinita">Recursão Infinita</a></li>
+<li><a class="reference internal" href="#fluxo-de-execucao">Fluxo de Execução</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#a-2-3-quando-eu-executo-o-programa-recebo-uma-excecao">A.2.3 Quando eu executo o programa, recebo uma exceção</a></li>
+<li><a class="reference internal" href="#a-2-4-eu-adicionei-tantas-declaracoes-print-que-a-saida-do-programa-ficou-baguncada">A.2.4 Eu adicionei tantas declarações <em>print</em> que a saída do programa ficou bagunçada</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#a-3-erros-de-semantica">A.3 Erros de semântica</a><ul>
+<li><a class="reference internal" href="#a-3-1-meu-programa-nao-funciona">A.3.1 Meu programa não funciona</a></li>
+<li><a class="reference internal" href="#a-3-2-eu-tenho-uma-grande-expressao-cabeluda-e-ela-nao-faz-o-que-eu-espero">A.3.2 Eu tenho uma grande expressão cabeluda e ela não faz o que eu espero</a></li>
+<li><a class="reference internal" href="#a-3-3-eu-tenho-uma-funcao-ou-metodo-que-nao-retorna-o-que-eu-espero">A.3.3 Eu tenho uma função ou método que não retorna o que eu espero</a></li>
+<li><a class="reference internal" href="#a-3-4-eu-estou-empacado-mesmo-e-eu-preciso-de-ajuda">A.3.4 Eu estou empacado mesmo e eu preciso de ajuda</a></li>
+<li><a class="reference internal" href="#a-3-5-nao-eu-preciso-mesmo-de-ajuda">A.3.5 Não, eu preciso mesmo de ajuda</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="capitulo_20.html"
+                        title="capítulo anterior">Capítulo 20: Árvores</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="apendice_b.html"
+                        title="próximo capítulo">Apêndice B: Criando um novo tipo de dado</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/apendice_a.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="apendice_b.html" title="Apêndice B: Criando um novo tipo de dado"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_20.html" title="Capítulo 20: Árvores"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

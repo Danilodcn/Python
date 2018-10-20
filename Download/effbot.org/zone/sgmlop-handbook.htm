@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The Sgmlop Module&nbsp;Handbook</title></head><body data-page-id="262"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The Sgmlop Module&nbsp;Handbook</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">April 4, 1998 | Fredrik Lundh</p><p>[<a href="sgmlop-index.htm">sgmlop home</a>]</p><h2>Overview</h2><p>The <b>sgmlop</b> module provides a simple and fast parser/lexer
+for reading XML documents.  By design, the parsers provided by this
+module are very tolerant.  They will parse virtually anything into a
+stream of start tags, entities, end tags, and text sections.  If you
+need careful well-formedness checking, use <b>expat</b> instead.</p><p>The <b>sgmlop</b> module can also be used to parse SGML and HTML
+documents.</p><h2>Concepts</h2><p class="fixme">FIXME: to be added</p><h2>Patterns</h2><p class="fixme">FIXME: to be added</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">xml_handler</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">finish_starttag</span>(self, tag, attrs):
+        ...
+    <span class="pykeyword">def</span> <span class="pyfunction">finish_endtag</span>(self,tag):
+        ...
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_data</span>(self,data):
+        ...
+
+parser = sgmlop.XMLParser()
+
+target = xml_handler()
+parser.register(target)
+
+<span class="pykeyword">while</span> 1:
+    data = file.read(8192)
+    <span class="pykeyword">if</span> <span class="pykeyword">not</span> data:
+        <span class="pykeyword">break</span>
+    parser.feed(data)
+parser.close()</pre><p class="fixme">FIXME: cookbook: how to use entity resolvers</p><p class="fixme">FIXME: cookbook: how to count lines</p><p class="fixme">FIXME: cookbook: how to parse unicode strings</p><p class="fixme">FIXME: cookbook: how to parse dtd</p><p class="fixme">FIXME: cookbook: how to parse external entities</p><h2>Classes</h2><dl><dt><b>XMLParser()</b></dt><dd>
+<p>Create an XML parser.</p></dd>
+<dt><b>SGMLParser()</b></dt><dd>
+<p>Create an SGML parser.</p></dd>
+</dl><h2>Parser Methods</h2><dl><dt><b>register(target)</b></dt><dd>
+<p>Register a parser target object.  This method looks up a number of
+target methods in this object, and registers them with the parser.</p><p>For a list of target methods used by this method, see the target
+interface description below.</p><p>Note that if you use the standard pattern where a parser class holds
+a reference to the <b>sgmlop</b> object, and you&#8217;ll register methods in
+the same class, Python may leak resources.  To avoid this, you
+can either remove the object from the class before you destroy the
+class instance, or unregister all methods (by calling <b>register(None)</b>,
+or both.  Recent versions of sgmlop supports proper garbage collection for
+this situation, but it never hurts to be on the safe side.)</p></dd>
+<dt><b>feed(string)</b></dt><dd>
+<p>Feed a string (or string buffer) to the parser.</p></dd>
+<dt><b>close()</b></dt><dd>
+<p>Flush the parser buffers, and shut down the parser.  This method
+should always be called after the last call to <b>feed</b>, to make
+sure all data has been returned.</p><p>This method also releases references to registered handler methods.
+To avoid memory leaks caused by cyclical references, you <i>must</i> call
+this method when the parsing is finished.</p></dd>
+<dt><b>parse(string)</b></dt><dd>
+<p>Same as <b>feed</b> followed by a <b>close</b>.  Don&#8217;t mix this
+method with feed and close; either call this method once for the
+entire document, or use feed/close to parse your document piece by
+piece.</p></dd>
+</dl><h2>Target Interface</h2><p>The target object can implement one or more of the following
+methods.  A typical target object should implement at least
+<b>finish_starttag</b>, <b>finish_endtag</b>, and
+<b>handle_data</b>.</p><dl><dt><b>finish_starttag(tag, attrib)</b></dt><dd>
+<p>Handle a start tag.  The XML parser represents attributes as a
+dictionary, the SGML parser as a list of (key, value)-tuples.</p></dd>
+<dt><b>finish_endtag(tag)</b></dt><dd>
+<p>Handle an end tag.</p></dd>
+<dt><b>handle_proc(target, content)</b></dt><dd>
+<p>Handle a processing instruction.  If omitted, processing
+instructions are ignored.</p></dd>
+<dt><b>handle_special(content)</b></dt><dd>
+<p>Handle a special element, including the special elements that make
+up an internal DTD.  If omitted, special elements are ignored.</p></dd>
+<dt><b>handle_charref(ref)</b></dt><dd>
+<p>Handle a decimal or hexadecimal character reference.  You usually
+don&#8217;t have to define this method; if it&#8217;s not defined, the parser will
+convert the entity to a character string, and pass it to the
+<b>handle_data</b> method.</p></dd>
+<dt><b>handle_entityref(ref)</b></dt><dd>
+<p>Handle a named entity reference in character data.  If present,
+this method is called also for standard entities (<b>gt</b>,
+<b>amp</b>, etc), and for malformed character entities.</p><p>If not defined, the parser resolves internal entities by itself,
+and uses the <b>resolve_entity</b> method for other entities.  The
+resulting string is then passed to the <b>handle_data</b> methods
+instead.</p><p>If an entity cannot be resolved, it is ignored, unless running in
+strict mode.</p></dd>
+<dt><b>resolve_entityref(ref)</b> =&gt; string or None</dt><dd>
+<p>Resolve a named entity reference.  This is used for entities in
+attribute values, and also for character data, if
+<b>handle_entityref</b> is not defined.</p><p>If successful, this method should return a character string.  If
+the entity should be resolved, return None.  Otherwise, the method
+should raise a suitable exception.</p></dd>
+<dt><b>handle_data(text)</b></dt><dd>
+<p>Handle character data.</p></dd>
+<dt><b>handle_cdata(text)</b></dt><dd>
+<p>Handle a CDATA section.  If not defined, the character contents are
+passed to the <b>handle_data</b> method instead.</p></dd>
+<dt><b>handle_comment(text)</b></dt><dd>
+<p>Handle an XML comment.  If not defined, comments are ignored.</p></dd>
+</dl></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

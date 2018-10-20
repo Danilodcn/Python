@@ -1,0 +1,598 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Modularização, testes e reuso &mdash; Aulas de Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Aulas de Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Tipos abstratos de dados" href="aula21.html" />
+    <link rel="prev" title="Exercícios" href="aula19.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'aulasPython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="aula21.html" title="Tipos abstratos de dados"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="aula19.html" title="Exercícios"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="modularizacao-testes-e-reuso">
+<h1>Modularização, testes e reuso<a class="headerlink" href="#modularizacao-testes-e-reuso" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="objetivo">
+<h2>Objetivo<a class="headerlink" href="#objetivo" title="Permalink to this headline">¶</a></h2>
+<p>Ao final dessa aula você vai saber como <strong>modularizar</strong> um programa em
+Python em arquivos diversos, permitindo o <strong>teste</strong> de cada módulo de
+forma independente. Cada arquivo pode conter uma ou mais
+funções e classes, que podem ser &#8220;importadas&#8221; por outros arquivos
+facilitando o <strong>reuso</strong> de código.</p>
+</div>
+<div class="section" id="topicos">
+<h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://docs.python.org/3.3/tutorial/modules.html">Modularização do programa em arquivos</a>;</li>
+<li>Uso do comando <cite>import</cite></li>
+<li>Testes utilizando <cite>if __name__ == &#8220;__main__&#8221;:</cite>.</li>
+</ul>
+</div></blockquote>
+<p>A medida que aprendemos recursos mais avançados,
+a ferramenta utilizada nesse curso que lhe permite digitar
+e executar os programas dentro do próprio navegador (chamada de
+<cite>activecode</cite>) começa a
+apresentar algumas limitações. Nesses casos, sugerimos que você
+desenvolva os programas em seu próprio computador usando, por
+exemplo, o ambiente de desenvolvimento <cite>IDLE3</cite>. Siga as
+instruções contidas <a href="#id1"><span class="problematic" id="id2">`nessa página&lt;https://panda.ime.usp.br/python&gt;`__</span></a> para instalar
+Python3 em seu computador.</p>
+</div>
+<div class="section" id="modulos-em-python">
+<h2>Módulos em Python<a class="headerlink" href="#modulos-em-python" title="Permalink to this headline">¶</a></h2>
+<p>O desenvolvimento de programas complexos exige um cuidado maior na sua
+estruturação e testes.
+A orientação a objetos facilita bastante essa estruturação. A
+abstração de partes do problema na forma de classes de objetos
+também simplifica o processo pois, uma vez que o comportamento de uma
+classe esteja definida, implementações diferentes podem ser testadas
+simplesmente substituindo uma implementação por outra.</p>
+<p>O Python permite que partes diferentes de um programa sejam definidas
+em arquivos diferentes, chamados de módulos. O Python também oferece
+vários módulos nativos, como o <cite>math</cite> (que contém várias funções
+matemáticas), o <cite>statistics</cite> (que inclui várias rotinas estatísticas),
+o <cite>sys</cite> para acessar funções do sistema, etc.
+Para utilizar as funções e classes definidas nesses módulos utilize o
+comando <cite>import</cite>.</p>
+<p>Mas o <cite>import</cite> pode ser utilizado também para carregar os seus
+próprios módulos. Por exemplo, poderíamos colocar cada classe
+que desenvolvemos no exercício da <a class="reference external" href="aula19.html">aula 19</a>
+(<cite>Simulador</cite> e <cite>Balde</cite>) em módulos separados e armazenados nos
+arquivos <cite>simulador.py</cite> e <cite>balde.py</cite>.</p>
+<p>O conteúdo do arquivo <cite>balde.py</cite> poderia ser:</p>
+
+<div id="aula20_modulo_balde" >
+<textarea cols="50" rows="12" id="aula20_modulo_balde_code" class="active_code">
+""" Modulo Balde
+    contem a classe balde e seus testes
+    """
+
+class Balde:
+    '''
+        A classe Balde modela um recipente com capacidade cap e
+        volume atual vol. Ela armazena tambem o volume derramado e
+        indica se esta cheio.
+    '''
+    def __init__(self, c):
+        self.cap = c
+        self.vol = 0  # volume atual
+        self.der = 0  # volume derramado
+        self.cheio = False
+
+    def deposita(self, v):
+        '''
+            Deposita um volume de agua v e atualiza o estado do Balde.
+        '''
+        self.vol += v
+        if self.vol >= self.cap:
+            self.cheio = True
+            self.der = self.vol - self.cap
+            self.vol = self.cap
+        return self.vol
+
+    def __repr__(self):
+        if self.vol == self.cap:
+            return "*%2d*"%self.vol
+        else:
+            return "[%2d]"%self.vol
+
+if __name__ == "__main__":
+    # programa de teste da classe Balde
+    balde = Balde(10)
+    d1 = balde.deposita(3)
+    d2 = balde.deposita(4)
+    print(balde)
+    d3 = balde.deposita(5)
+    print(balde)
+    print(d1, d2, d3)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula20_modulo_balde)</span> </p>
+<button onclick="runit('aula20_modulo_balde',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula20_modulo_balde');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula20_modulo_balde');">Load</button>
+<br />
+
+<canvas id="aula20_modulo_balde_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula20_modulo_balde_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Observe que, ao final do arquivo utilizamos o comando:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c"># programa de teste da classe Balde</span>
+</pre></div>
+</div>
+<p>para incluir testes da classe <cite>Balde</cite>, ao invés de usar uma função
+<cite>main</cite>. A vantagem de usar <cite>if __name__ == &#8220;__main__&#8221;:</cite> é que, ao se importar o
+módulo <cite>balde</cite>, os testes não são executados, mas a classe pode ser
+utilizada.</p>
+<div class="admonition-como-funciona admonition">
+<p class="first admonition-title">Como funciona?</p>
+<p>O interpretador Python executa todas as instruções que encontra
+mas leva em conta algumas atributos especiais que definem o estado
+do interpretador. Um deles é o atributo <cite>__name__</cite>, que recebe o
+nome especial <cite>__main__</cite> quando o módulo é executado diretamente
+usando, por exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">python3</span> <span class="n">balde</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p class="last">Ao executar o comando <cite>import</cite>, o conteúdo do módulo é carregado
+com o nome do módulo que deve ser diferente de <cite>__main__</cite> (no
+caso, é <cite>balde</cite>). Dessa forma, os testes podem ser executados
+diretamente e, ao mesmo tempo, o módulo pode ser utilizado em
+outros módulos e programas.</p>
+</div>
+<div class="section" id="modulo-simulador">
+<h3>Módulo Simulador<a class="headerlink" href="#modulo-simulador" title="Permalink to this headline">¶</a></h3>
+<p>O arquivo <cite>simulador.py</cite> pode então importar <cite>balde.py</cite> da seguinte forma:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Módulo Simulador mantem o estado da simulacao e</span>
+<span class="sd">os procedimentos para simular. Note que a classe</span>
+<span class="sd">Simulador &quot;esconde&quot; o modulo random da funcao main.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">balde</span> <span class="kn">import</span> <span class="n">Balde</span>
+
+<span class="c"># definicao de constantes</span>
+<span class="n">CAP_MIN</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">CAP_MAX</span> <span class="o">=</span> <span class="mi">51</span> <span class="c"># ja ajustado ao random</span>
+<span class="n">VOL_MIN</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">VOL_MAX</span> <span class="o">=</span> <span class="mi">11</span> <span class="c"># ja ajustado ao random</span>
+
+<span class="k">class</span> <span class="nc">Simulador</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">semente</span><span class="p">):</span>
+        <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">semente</span><span class="p">)</span>
+        <span class="n">capacidade</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="n">CAP_MIN</span><span class="p">,</span> <span class="n">CAP_MAX</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rec</span> <span class="o">=</span> <span class="n">Balde</span><span class="p">(</span><span class="n">capacidade</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vol</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">avisou</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">sorteia</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vol</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="n">VOL_MIN</span><span class="p">,</span> <span class="n">VOL_MAX</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Volume atual   : &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rec</span><span class="o">.</span><span class="n">vol</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Volume sorteado: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vol</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vol</span>
+
+    <span class="k">def</span> <span class="nf">deposita</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; adiciona o ultimo volume sorteado self.vol</span>
+<span class="sd">            ao balde e retorna True se o</span>
+<span class="sd">            balde estiver cheio e False caso contrario.</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rec</span><span class="o">.</span><span class="n">deposita</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">vol</span> <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rec</span><span class="o">.</span><span class="n">vol</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rec</span><span class="o">.</span><span class="n">cap</span><span class="o">/</span><span class="mi">2</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">avisou</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">avisou</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;O volume do balde atingiu/passou a metade.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rec</span><span class="o">.</span><span class="n">cheio</span>
+
+    <span class="k">def</span> <span class="nf">finaliza</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Fim da simulacao&quot;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Capacidade do balde: </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">rec</span><span class="o">.</span><span class="n">cap</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Volume final: </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">rec</span><span class="o">.</span><span class="n">vol</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rec</span><span class="o">.</span><span class="n">der</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;Balde esta cheio e houve derramamento de agua&quot;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;Volume derramado foi: </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rec</span><span class="o">.</span><span class="n">der</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rec</span><span class="o">.</span><span class="n">cheio</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">&quot;Balde esta cheio e nao houve derramamento de agua&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">rec</span><span class="o">.</span><span class="n">cap</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">rec</span><span class="o">.</span><span class="n">vol</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vol</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">&quot;Balde nao esta cheio.&quot;</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">&quot;Havia espaco para o ultimo volume sorteado: </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">vol</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">&quot;Balde nao esta cheio.&quot;</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">&quot;Nao havia espaco para o ultimo volume sorteado: </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">vol</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">Simulador</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+    <span class="n">v1</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">sorteia</span><span class="p">()</span>
+    <span class="n">r1</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">deposita</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">r1</span><span class="p">)</span>
+    <span class="n">v2</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">sorteia</span><span class="p">()</span>
+    <span class="n">r2</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">deposita</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">v2</span><span class="p">,</span> <span class="n">r2</span><span class="p">)</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">finaliza</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Copie esses módulos <cite>balde.py</cite> e <cite>simulador.py</cite> para o seu computador
+e execute o módulo <cite>simulador.py</cite> (e <cite>balde.py</cite> também):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="o">&gt;</span> <span class="n">python3</span> <span class="n">simulador</span><span class="o">.</span><span class="n">py</span>
+<span class="n">Volume</span> <span class="n">atual</span>   <span class="p">:</span>  <span class="mi">0</span>
+<span class="n">Volume</span> <span class="n">sorteado</span><span class="p">:</span>  <span class="mi">5</span>
+<span class="mi">5</span> <span class="bp">False</span>
+
+<span class="n">Volume</span> <span class="n">atual</span>   <span class="p">:</span>  <span class="mi">5</span>
+<span class="n">Volume</span> <span class="n">sorteado</span><span class="p">:</span>  <span class="mi">2</span>
+<span class="n">O</span> <span class="n">volume</span> <span class="n">do</span> <span class="n">balde</span> <span class="n">atingiu</span><span class="o">/</span><span class="n">passou</span> <span class="n">a</span> <span class="n">metade</span><span class="o">.</span>
+<span class="mi">2</span> <span class="bp">False</span>
+
+<span class="n">Fim</span> <span class="n">da</span> <span class="n">simulacao</span>
+<span class="n">Capacidade</span> <span class="n">do</span> <span class="n">balde</span><span class="p">:</span> <span class="mi">13</span>
+<span class="n">Volume</span> <span class="n">final</span><span class="p">:</span> <span class="mi">7</span>
+<span class="n">Balde</span> <span class="n">nao</span> <span class="n">esta</span> <span class="n">cheio</span><span class="o">.</span>
+<span class="n">Havia</span> <span class="n">espaco</span> <span class="n">para</span> <span class="n">o</span> <span class="n">ultimo</span> <span class="n">volume</span> <span class="n">sorteado</span><span class="p">:</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>Observe que a classe Simulador utiliza (<cite>immport</cite>) o módulo nativo <cite>random</cite>, e
+todas as funções desse módulo são referenciadas pelo nome do módulo,
+como <cite>random.seed()</cite> e <cite>random.randrange()</cite>. Poderíamos ter feito o
+mesmo com o módulo balde escrevendo</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">balde</span>
+</pre></div>
+</div>
+<p>ao invés de</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">balde</span> <span class="kn">import</span> <span class="n">Balde</span>
+</pre></div>
+</div>
+<p>A vantagem de se utilizar a segunda forma (<cite>from balde import Balde</cite>)
+é que apenas a classe <cite>Balde</cite> é carregada e, com isso, não é mais
+necessário incluir o nome do módulo. Para criar um <cite>Balde</cite> basta
+escrever <cite>Balde(10)</cite> ao invés de <cite>balde.Balde(10)</cite>. Se você desejar
+importar tudo que estiver em um módulo sem precisar escrever o nome do
+módulo, você pode utilizar o caractere especial <cite>*</cite> como por exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">balde</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+<p>isso é razoável para que módulos pequenos fiquem bem integrados ao
+programa, mas para módulos grandes, o melhor é manter o nome do módulo
+indicando as funções desejadas explicitamente, como em
+<cite>random.seed()</cite>.</p>
+</div>
+<div class="section" id="programa-principal">
+<h3>Programa principal<a class="headerlink" href="#programa-principal" title="Permalink to this headline">¶</a></h3>
+<p>O programa <cite>main</cite>, que você pode armazenar no arquivo
+<cite>enchedagua-main.py</cite>, seria:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">simulador</span> <span class="kn">import</span> <span class="n">Simulador</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">semente</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s">&quot;Digite a semente para gerar numeros pseudo-aleatorios: &quot;</span><span class="p">))</span>
+    <span class="n">jogo</span>    <span class="o">=</span> <span class="n">Simulador</span><span class="p">(</span><span class="n">semente</span><span class="p">)</span>
+
+    <span class="n">fim</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">fim</span><span class="p">:</span>
+        <span class="n">jogo</span><span class="o">.</span><span class="n">sorteia</span><span class="p">()</span>
+        <span class="n">opcao</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">&quot;Deseja utilizar o volume sorteado? (s/n): &quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">opcao</span> <span class="o">==</span> <span class="s">&#39;s&#39;</span><span class="p">:</span>
+            <span class="n">fim</span> <span class="o">=</span> <span class="n">jogo</span><span class="o">.</span><span class="n">deposita</span><span class="p">()</span>  <span class="c"># retorna True caso o balde fique cheio</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fim</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">jogo</span><span class="o">.</span><span class="n">finaliza</span><span class="p">()</span>
+
+<span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="exercicio-20-1">
+<h2>Exercício 20.1<a class="headerlink" href="#exercicio-20-1" title="Permalink to this headline">¶</a></h2>
+<p>Você deve fazer esse exercício no seu computador. Recomendamos
+utilizar um editor Python como o IDLE3.</p>
+<p>Reutilizando o módulo <cite>balde.py</cite> acima, crie uma classe
+<cite>Simulador2</cite> no módulo <cite>simulador2.py</cite> para implementar o exercício programa
+<a class="reference external" href="http://www.ime.usp.br/~mac2166/ep2Py/">Encha de água mais ainda</a>.</p>
+<p>O programa principal, que define o comportamento do novo simulador, é
+dado a seguir:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">simulador2</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c"># cria um objeto Simulador2 usando uma semente</span>
+    <span class="n">semente</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s">&quot;Semente: &quot;</span><span class="p">))</span>
+    <span class="n">jogo</span>  <span class="o">=</span> <span class="n">Simulador2</span><span class="p">(</span><span class="n">semente</span><span class="p">)</span>
+    <span class="n">fim</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="c"># cabecalho de inicio da simulacao</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;--------------------------------&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Início da simulação</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Em cada iteração as opções possíveis são: &quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;    0 para abandonar&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;    1 para depositar no recipiente 1&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;    2 para depositar no recipiente 2&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;    3 para depositar no recipiente 3&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;    4 para descartar a quantidade de água</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">fim</span><span class="p">:</span>
+        <span class="n">sim</span><span class="o">.</span><span class="n">sorteia</span><span class="p">()</span>
+        <span class="n">escolha</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s">&quot;    Opção desejada: &quot;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">escolha</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">fim</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">elif</span> <span class="n">escolha</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="n">fim</span> <span class="o">=</span> <span class="n">jogo</span><span class="o">.</span><span class="n">descarta</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fim</span> <span class="o">=</span> <span class="n">jogo</span><span class="o">.</span><span class="n">deposita</span><span class="p">(</span><span class="n">escolha</span><span class="p">)</span>
+
+    <span class="n">jogo</span><span class="o">.</span><span class="n">finaliza</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Salve esse esse programa em um arquivo como <cite>maisagua-main.py</cite> e
+execute o programa após terminar de escrever e testar o seu módulo
+<cite>simulador2.py</cite>. Abaixo é dado um outro exemplo de simulação.</p>
+<div class="highlight-python"><div class="highlight"><pre>Semente: 123
+--------------------------------
+
+Início da simulação
+
+Em cada iteração as opções possíveis são:
+0 para abandonar
+1 para depositar no recipiente 1
+2 para depositar no recipiente 2
+3 para depositar no recipiente 3
+4 para descartar a quantidade de água
+
+. . . . . . . . . . . . . . . . . . . . .
+Iteração  : 1
+Descartes : 0
+Volumes ocupados : [ 0] [ 0] [ 0]
+Quantidade disponibilizada: 7
+Opção desejada: 1
+Volumes ocupados : [ 7] [ 0] [ 0]
+. . . . . . . . . . . . . . . . . . . . .
+Iteração  : 2
+Descartes : 0
+Volumes ocupados : [ 7] [ 0] [ 0]
+Quantidade disponibilizada: 5
+Opção desejada: 1
+Volumes ocupados : [12] [ 0] [ 0]
+. . . . . . . . . . . . . . . . . . . . .
+Iteração  : 3
+Descartes : 0
+Volumes ocupados : [12] [ 0] [ 0]
+Quantidade disponibilizada: 2
+Opção desejada: 1
+Volumes ocupados : [14] [ 0] [ 0]
+. . . . . . . . . . . . . . . . . . . . .
+Iteração  : 4
+Descartes : 0
+Volumes ocupados : [14] [ 0] [ 0]
+Quantidade disponibilizada: 1
+Opção desejada: 1
+Volumes ocupados : [15] [ 0] [ 0]
+. . . . . . . . . . . . . . . . . . . . .
+Iteração  : 5
+Descartes : 0
+Volumes ocupados : [15] [ 0] [ 0]
+Quantidade disponibilizada: 7
+Opção desejada: 1
+Volumes ocupados : *21* [ 0] [ 0]
+Escolha recipiente para depositar excedente de 1: 2
+Volumes ocupados : *21* [ 1] [ 0]
+. . . . . . . . . . . . . . . . . . . . .
+Iteração  : 6
+Descartes : 0
+Volumes ocupados : *21* [ 1] [ 0]
+Quantidade disponibilizada: 6
+Opção desejada: 2
+Volumes ocupados : *21* [ 7] [ 0]
+. . . . . . . . . . . . . . . . . . . . .
+Iteração  : 7
+Descartes : 0
+Volumes ocupados : *21* [ 7] [ 0]
+Quantidade disponibilizada: 6
+Opção desejada: 2
+Volumes ocupados : *21* *11* [ 0]
+Escolha recipiente para depositar excedente de 2: 3
+Volumes ocupados : *21* *11* * 2*
+
+Fim da simulação
+Volumes ocupados : *21* *11* * 2*
+Capacidades      :  21    11     2
+Capacidade total : 34
+Volume ocupado   : 34
+Volume livre     : 0
+Volume derramado : 0
+Descartes        : 0
+--------------------------------
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Modularização, testes e reuso</a><ul>
+<li><a class="reference internal" href="#objetivo">Objetivo</a></li>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#modulos-em-python">Módulos em Python</a><ul>
+<li><a class="reference internal" href="#modulo-simulador">Módulo Simulador</a></li>
+<li><a class="reference internal" href="#programa-principal">Programa principal</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercicio-20-1">Exercício 20.1</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="aula19.html"
+                        title="previous chapter">Exercícios</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="aula21.html"
+                        title="next chapter">Tipos abstratos de dados</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="aula21.html" title="Tipos abstratos de dados"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="aula19.html" title="Exercícios"
+             >previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Mar 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

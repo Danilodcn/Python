@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The wckCalendar&nbsp;Widget</title></head><body data-page-id="2009"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The wckCalendar&nbsp;Widget</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | September 2007</p><p>The <strong>wckCalendar</strong> module is a simple calendar widget for Tkinter and other WCK-compatible toolkits, based on Python&#8217;s
+standard <strong>calendar</strong> module.</p><blockquote>
+<img alt="" height="213" src="/media/cache/c4b7fef65bada38ca41d985cd8d863a3.png" width="216" />
+</blockquote><p>(the buttons shown in this screenshot are not part of the widget itself)</p><h2 id="installation">Installation&#160;<a class="nav" href="#installation" title="bookmark!">#</a></h2><p>To use this widget, you need Tkinter and the <a href="wck.htm">Widget Construction Kit</a> extension.</p><p>The widget itself is available from the effbot.org sandbox:</p><blockquote><p><a href="http://svn.effbot.org/public/stuff/sandbox/wcklib/">http://svn.effbot.org/public/stuff/sandbox/wcklib/</a></p></blockquote><p>The widget has been tested with Python 2.5 and WCK 1.1.  The
+current release is mostly unstyled, and doesn&#8217;t support keyboard
+navigation.  Contributions are welcome.</p><h2 id="usage">Usage&#160;<a class="nav" href="#usage" title="bookmark!">#</a></h2><p>Using the widget is easy; just create the widget, and either
+call <strong>getselection</strong> to get the selected date when needed, or register a command callback to keep track of changes.</p><pre class="python"><span class="pykeyword">import</span> wckCalendar
+
+root = Tkinter.Tk()
+
+<span class="pykeyword">def</span> <span class="pyfunction">echo</span>():
+    <span class="pykeyword">print</span> calendar.getselection()
+
+calendar = wckCalendar.Calendar(root, command=echo)
+calendar.pack()
+
+mainloop()</pre><p>By default, the widget shows the current month and pre-selects
+the current day.  To change the month, call <strong>setdate</strong>.  To
+change the selection, call <strong>setselection</strong>.  Both methods take
+a <strong>datetime.date</strong> object.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#installation">Installation</a></li><li><a href="#usage">Usage</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

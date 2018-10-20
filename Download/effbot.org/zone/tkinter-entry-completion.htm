@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Adding File Completion to the Entry&nbsp;Widget</title></head><body data-page-id="303"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Adding File Completion to the Entry&nbsp;Widget</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">May 19, 1998 | Fredrik Lundh</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+<span class="pykeyword">import</span> os
+
+<span class="pycomment">#</span>
+<span class="pycomment"># completion entry baseclass.</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">CompletionEntry</span>(Entry):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, master, **kw):
+
+        apply(Entry.__init__, (self, master), kw)
+
+        self.bind(<span class="pystring">"&lt;Tab&gt;"</span>, self.__tab)
+
+        self.__state = None, None, None
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__tab</span>(self, event):
+
+        index = self.index(INSERT)
+        value = self.get()
+        prefix, suffix = value[:index], value[index:]
+
+        <span class="pycomment"># check state</span>
+        state, old_index, old_prefix = self.__state
+        <span class="pykeyword">if</span> index != old_index <span class="pykeyword">or</span> prefix != old_prefix:
+            state = 0
+
+        <span class="pykeyword">try</span>:
+
+            <span class="pycomment"># get next completion</span>
+            match = self.complete(state, prefix, suffix)
+
+            <span class="pykeyword">if</span> match:
+
+                <span class="pycomment"># insert completion</span>
+                <span class="pykeyword">if</span> self.select_present():
+                    self.delete(SEL_FIRST, SEL_LAST)
+                self.insert(index, match)
+                self.select_range(index, index+len(match))
+                self.icursor(index)
+
+                self.__state = state+1, index, prefix
+
+            <span class="pykeyword">else</span>:
+
+                self.__state = 0, index, prefix
+
+        <span class="pykeyword">except</span> IndexError:
+            <span class="pykeyword">pass</span>
+
+        <span class="pykeyword">return</span> <span class="pystring">"break"</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">complete</span>(self, state, prefix, suffix):
+        <span class="pykeyword">return</span> None <span class="pycomment"># override</span>
+
+<span class="pycomment">#</span>
+<span class="pycomment"># file completion</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">FileEntry</span>(CompletionEntry):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">complete</span>(self, state, prefix, suffix):
+
+        <span class="pycomment"># workaround os.path.isdir buglet</span>
+        path = prefix
+        <span class="pykeyword">if</span> path[-1:] <span class="pykeyword">in</span> (<span class="pystring">"/"</span>, os.sep):
+            path = path[:-1]
+
+        <span class="pycomment"># get directory and file prefix</span>
+        <span class="pykeyword">if</span> os.path.isdir(path):
+            path, prefix = prefix, <span class="pystring">""</span>
+        <span class="pykeyword">else</span>:
+            path, prefix = os.path.split(prefix)
+
+        <span class="pykeyword">if</span> state == 0:
+
+            <span class="pykeyword">try</span>:
+
+                <span class="pycomment"># look for matching files in directory</span>
+                prefix = os.path.normcase(prefix)
+                length = len(prefix)
+
+                self.__files = []
+                <span class="pykeyword">for</span> file <span class="pykeyword">in</span> os.listdir(path):
+                    file = os.path.normcase(file)
+                    <span class="pykeyword">if</span> file[:length] == prefix:
+                        <span class="pykeyword">if</span> os.path.isdir(os.path.join(path, file)):
+                            file = file + os.sep
+                        self.__files.append(file)
+
+            <span class="pykeyword">except</span> os.error:
+                self.__files = []
+
+        <span class="pycomment"># return next match</span>
+        <span class="pykeyword">return</span> self.__files[state][len(prefix):]</pre></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The ImageChops&nbsp;Module</title></head><body data-page-id="433"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><p><a href="image.htm">back</a>&#160;<a href="imagecolor.htm">next</a></p><h1 class="maintitle">The ImageChops&nbsp;Module</h1></div><div class="yui-ge"><div class="yui-u first"><p>The <b>ImageChops</b> module contains a number of arithmetical
+image operations, called <i>channel operations</i>
+(<span>&#8220;chops&#8221;</span>). These can be used for various purposes,
+including special effects, image compositions, algorithmic painting,
+and more.</p><p>For more pre-made operations, see <a href="imageops.htm"><b>ImageOps</b></a>.
+
+</p><p>At this time, most channel operations are only implemented for 8-bit images (e.g. &#8220;L&#8221; and &#8220;RGB&#8221;).</p><h2 id="functions">Functions&#160;<a class="nav" href="#functions" title="bookmark!">#</a></h2><p>Most channel operations take one or two image arguments and
+returns a new image. Unless otherwise noted, the result of a
+channel operation is always clipped to the range 0 to MAX (which is
+255 for all modes supported by the operations in this module).</p><h3 id="tag-ImageChops.constant">constant&#160;<a class="nav" href="#tag-ImageChops.constant" title="bookmark!">#</a></h3><p><b>ImageChops.constant(image, value)</b>
+<span>&#8658; image</span></p><p>Return a layer with the same size as the given image, but filled
+with the given pixel value.</p><h3 id="tag-ImageChops.duplicate">duplicate&#160;<a class="nav" href="#tag-ImageChops.duplicate" title="bookmark!">#</a></h3><p><b>ImageChops.duplicate(image)</b>
+<span>&#8658; image</span></p><p>Return a copy of the given image.</p><h3 id="tag-ImageChops.invert">invert&#160;<a class="nav" href="#tag-ImageChops.invert" title="bookmark!">#</a></h3><p><b>ImageChops.invert(image)</b>
+<span>&#8658; image</span></p><p>Inverts an image.</p><pre>
+    out = MAX - image
+</pre><h3 id="tag-ImageChops.lighter">lighter&#160;<a class="nav" href="#tag-ImageChops.lighter" title="bookmark!">#</a></h3><p><b>ImageChops.lighter(image1, image2)</b>
+<span>&#8658; image</span></p><p>Compares the two images, pixel by pixel, and returns a new image
+containing the lighter values.</p><pre>
+    out = max(image1, image2)
+</pre><h3 id="tag-ImageChops.darker">darker&#160;<a class="nav" href="#tag-ImageChops.darker" title="bookmark!">#</a></h3><p><b>ImageChops.darker(image1, image2)</b>
+<span>&#8658; image</span></p><p>Compares the two images, pixel by pixel, and returns a new image
+containing the darker values.</p><pre>
+    out = min(image1, image2)
+</pre><h3 id="tag-ImageChops.difference">difference&#160;<a class="nav" href="#tag-ImageChops.difference" title="bookmark!">#</a></h3><p><b>ImageChops.difference(image1, image2)</b>
+<span>&#8658; image</span></p><p>Returns the absolute value of the difference between the two
+images.</p><pre>
+    out = abs(image1 - image2)
+</pre><h3 id="tag-ImageChops.multiply">multiply&#160;<a class="nav" href="#tag-ImageChops.multiply" title="bookmark!">#</a></h3><p><b>ImageChops.multiply(image1, image2)</b>
+<span>&#8658; image</span></p><p>Superimposes two images on top of each other. If you multiply an
+image with a solid black image, the result is black. If you multiply
+with a solid white image, the image is unaffected.</p><pre>
+    out = image1 * image2 / MAX
+</pre><h3 id="tag-ImageChops.screen">screen&#160;<a class="nav" href="#tag-ImageChops.screen" title="bookmark!">#</a></h3><p><b>ImageChops.screen(image1, image2)</b>
+<span>&#8658; image</span></p><p>Superimposes two inverted images on top of each other.</p><pre>
+    out = MAX - ((MAX - image1) * (MAX - image2) / MAX)
+</pre><h3 id="tag-ImageChops.add">add&#160;<a class="nav" href="#tag-ImageChops.add" title="bookmark!">#</a></h3><p><b>ImageChops.add(image1, image2, scale, offset)</b>
+<span>&#8658; image</span></p><p>Adds two images, dividing the result by scale and adding the
+offset. If omitted, scale defaults to 1.0, and offset to 0.0.</p><pre>
+    out = (image1 + image2) / scale + offset
+</pre><h3 id="tag-ImageChops.subtract">subtract&#160;<a class="nav" href="#tag-ImageChops.subtract" title="bookmark!">#</a></h3><p><b>ImageChops.subtract(image1, image2, scale, offset)</b>
+<span>&#8658; image</span></p><p>Subtracts two images, dividing the result by scale and adding the
+offset. If omitted, scale defaults to 1.0, and offset to 0.0.</p><pre>
+    out = (image1 - image2) / scale + offset
+</pre><h3 id="tag-ImageChops.blend">blend&#160;<a class="nav" href="#tag-ImageChops.blend" title="bookmark!">#</a></h3><p><b>ImageChops.blend(image1, image2, alpha)</b>
+<span>&#8658; image</span></p><p>Same as the <b>blend</b> function in the <b>Image</b> module.</p><h3 id="tag-ImageChops.composite">composite&#160;<a class="nav" href="#tag-ImageChops.composite" title="bookmark!">#</a></h3><p><b>ImageChops.composite(image1, image2, mask)</b>
+<span>&#8658; image</span></p><p>Same as the <b>composite</b> function in the <b>Image</b>
+module.</p><h3 id="tag-ImageChops.offset">offset&#160;<a class="nav" href="#tag-ImageChops.offset" title="bookmark!">#</a></h3><p><b>ImageChops.offset(image, xoffset, yoffset)</b>
+<span>&#8658; image</span></p><p><b>ImageChops.offset(image, offset)</b>
+<span>&#8658; image</span></p><p>Returns a copy of the image where data has been offset by the given
+distances.  Data wraps around the edges.  If yoffset is omitted, it is
+assumed to be equal to xoffset.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p><a href="image.htm">back</a>&#160;<a href="imagecolor.htm">next</a></p></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to imagingbook index page.">::: imagingbook :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#functions">Functions</a></li><li><ul><li><a href="#tag-ImageChops.constant">constant</a></li><li><a href="#tag-ImageChops.duplicate">duplicate</a></li><li><a href="#tag-ImageChops.invert">invert</a></li><li><a href="#tag-ImageChops.lighter">lighter</a></li><li><a href="#tag-ImageChops.darker">darker</a></li><li><a href="#tag-ImageChops.difference">difference</a></li><li><a href="#tag-ImageChops.multiply">multiply</a></li><li><a href="#tag-ImageChops.screen">screen</a></li><li><a href="#tag-ImageChops.add">add</a></li><li><a href="#tag-ImageChops.subtract">subtract</a></li><li><a href="#tag-ImageChops.blend">blend</a></li><li><a href="#tag-ImageChops.composite">composite</a></li><li><a href="#tag-ImageChops.offset">offset</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

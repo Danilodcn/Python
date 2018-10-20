@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>"decoder jpeg not&nbsp;available"</title></head><body data-page-id="182"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">"decoder jpeg not&nbsp;available"</h1></div><div class="yui-ge"><div class="yui-u first"><div class="note"><p>This applies to PIL 1.1.4 and earlier.  In PIL 1.1.5,
+the setup.py file has been rewritten.  If you&#8217;re get this error under
+1.1.5 or later, change the setup.py file so that JPEG_ROOT points to
+the directory where the libjpeg library is installed.  See comments
+in the file for details.</p><p>If you&#8217;ve already done that, check that your program really is picking
+up the <b>_imaging</b> module that you&#8217;ve built, and not some older version.  Try running:</p><pre>
+$ python -vv -c "import _imaging"
+</pre><p>and check the import log messages carefully.</p></div><h3>I cannot seem to get PIL to find my JPEG library</h3><p>PIL&#8217;s build process doesn&#8217;t always find the JPEG library, unless
+everything is installed in the right system-wide directory (a directory
+where both the build scripts and the compiler/linker is able to find it,
+that is).</p><p>This note contains instructions on how to force PIL to link with a
+given JPEG library.  Note that the approach described here is usually
+overkill; you can often leave out some of the steps.  But to be on
+the safe side, it&#8217;s a good idea to do everything mentioned here:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><dl class="wide"><dt><b>1. Configure the libImaging core library</b></dt><dd><p>
+
+When configuring the library, pass in &#8212;with-jpeg, pointing to the
+directory where the libjpeg library is installed.  You may also want
+to do the same thing for the zlib (libz) library.
+
+<pre class="wide">
+$ <b>cd libImaging</b>
+$ <b>./configure --with-jpeg=/somelib/lib --with-zlib=/somelib/lib</b>
+</pre></p><p>Check that the configuration script runs to completion; it may
+fail to find the support libraries, but we&#8217;ll fix that shortly.
+
+<pre class="wide">
+checking for jpeg_destroy_compress in -ljpeg... no
+checking for deflate in -lz... yes
+</pre></p></dd>
+<dt><b>2. Edit the libImaging configuration file</b></dt><dd><p>
+
+In case the configuration failed to locate either the jpeg library
+(-ljpeg) or the zlib library (-lz), you have to manually edit the
+<b>libImaging/ImConfig.h</b> file.  Towards the end of that file,
+make sure the following defines are present:
+
+<pre class="wide">
+<b>#define HAVE_LIBJPEG</b>
+<b>#define HAVE_LIBZ</b>
+</pre></p><p>Make sure you don&#8217;t leave any #undef HAVE_LIBJPEG or #undef HAVE_LIBZ
+statements in there.
+
+</p></dd>
+<dt><b>3. Edit the libImaging makefile</b></dt><dd><p>
+
+To be on the safe side, edit the <b>libImaging/Makefile.in</b> file to
+point to the jpeg include directory.  Change the JPEGINCLUDE definition
+to:
+
+<pre class="wide">
+JPEGINCLUDE=/somelib/include
+</pre></p><p>(where /somelib is the path to your JPEG installation directory)
+
+</p></dd>
+<dt><b>4. Build the core library</b></dt><dd><p>
+
+When you&#8217;ve changed the configuration and make file, build the core
+library.
+
+<pre class="wide">
+$ cd libImaging
+$ make
+</pre></p><p>When the build has finished, make sure that the <b>JpegEncode.o</b><b>
+and </b><b>JpegDecode.o</b> files are present, and that they are not empty.
+You can compare their size to the <b>Dib.o</b> file, which doesn&#8217;t
+contain any code on non-Windows platforms.</p><p>For ZLIB, the corresponding files are <b>ZipEncode.o</b> and
+<b>ZipDecode.o</b>.</p><p>If things don&#8217;t look right, remove all object files and rebuild,
+before proceeding.
+
+</p><p>On some platforms, the build may fail, complaining about a missing
+header file:</p><pre class="wide">
+cc -O -I./. -I/usr/local/include -DHAVE_CONFIG_H -c -o JpegDecode.o 
+ JpegDecode.c
+   In file included from JpegDecode.c:37:
+   Jpeg.h:11:21: jpeglib.h: No such file or directory
+   make: *** [JpegDecode.o] Error 1
+</pre><p>To fix this, install the jpeg developer kit for your platform (usually
+a <b>libjpeg-devel</b> RPM, or something similar).  Or build the JPEG
+library from <a href="http://www.ijg.org/files/">source</a>.  When you&#8217;ve
+done this, repeat this step.
+
+</p></dd>
+<dt><b>5. Edit the Python interface build files</b></dt><dd><p>
+
+Finally, it&#8217;s time to build the Python interface library (_imaging).
+If you&#8217;re using the <b>Makefile.pre.in</b> approach, edit the
+<b>Setup.in</b> file, and make sure that the JPEG and ZLIB lines
+point to the right directory:
+
+<pre class="wide">
+...
+
+_imaging  _imaging.c decode.c encode.c map.c display.c outline.c path.c \
+        -IlibImaging libImaging/libImaging.a \
+#
+# *** IJG JPEG library (libjpeg) location
+        <b>-I/somelib/include -L/somelib/lib -ljpeg</b> \
+#
+# *** ZLIB (libz) location
+        <b>-I/somelib/include -L/somelib/lib -lz</b>
+
+...
+</pre></p><p>If you&#8217;re using the <b>setup.py</b> script (Python 2.1 and later),
+edit the <b>setup.py</b> script and add the JPEG and ZLIB libraries
+to the INCLUDE_DIRS and LIBRARY_DIRS variables:
+
+<pre class="wide">
+INCLUDE_DIRS = ["libImaging"]
+LIBRARY_DIRS = ["libImaging"]
+
+<b># add jpeg directories
+INCLUDE_DIRS.append("/somelib/include")
+LIBRARY_DIRS.append("/somelib/lib")
+
+# add zlib directories
+INCLUDE_DIRS.append("/somelib/include")
+LIBRARY_DIRS.append("/somelib/lib")</b>
+
+</pre></p><p>All that&#8217;s left is to (re)build the interface module.  Make sure you
+recompile at least the <b>_imaging</b>, <b>encode</b>, and <b>decode</b>
+modules (to be on the safe side, remove all object files before building).
+
+</p></dd>
+</dl></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

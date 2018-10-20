@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Speeding up&nbsp;Initialization</title></head><body data-page-id="197"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Speeding up&nbsp;Initialization</h1></div><div class="yui-ge"><div class="yui-u first"><p class="mark">Fredrik Lundh | Updated April 10, 1997</p><p>Importing the <i>Image</i> module is usually a pretty fast
+operation, but the first time you try to <i>open</i> or <i>save</i>
+a file (whatever comes first), you may have to wait 1-5 seconds
+for PIL to pull in all its file format plugins.</p><p>If you create simple scripts that only loads a single image,
+and processes it in some simple fashion, this may account for
+most of the execution time. However, if you know for sure that
+you will only handle a few file formats, you can use the
+following trick to speed things up:</p><ol><li>Import the <i>Image</i> module</li><li>Explicitly import the plugins you need. For example, to
+        enable GIF support, include <i>GifImagePlugin</i>.
+        You&#8217;ll find the available plugins in the <i>Lib</i>
+        directory.</li><li>Set the <i>Image._initialized</i> flag to 1.</li></ol><h3>Example</h3><p>The following script explicitly imports handlers for GIF,
+JPEG, and PNG, which are the major file formats used on the World
+Wide Web.</p><pre>
+# Example: enabling only web-related file format handlers
+
+import Image
+
+# import web-related file formats
+import GifImagePlugin
+import JpegImagePlugin
+import PngImagePlugin
+
+# don't look for more plugins
+Image._initialized = 1
+
+# open using one the explicitly imported plugins
+im = Image.open("python.gif")
+</pre><h2>Changes in 0.3 and later</h2><p>Starting with version 0.3, PIL automatically preinstalls handlers
+for the most common file formats, including BMP, GIF, JPEG, PNG,
+and PPM. Only if a file cannot be opened by any of these, the rest
+of the plugins will be loaded. To force loading, call the <i>Image.init</i>
+function.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

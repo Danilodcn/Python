@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The Python getattr&nbsp;Function</title></head><body data-page-id="216"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The Python getattr&nbsp;Function</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">December 7, 2005 | Fredrik Lundh</p><p>Python&#8217;s <a href="/pyref/getattr"><b>getattr</b> function</a> is
+used to fetch an attribute from an object, using a string object instead
+of an identifier to identify the attribute.  In other words, the following
+two statements are equivalent:</p><pre class="python">
+value = obj.attribute
+value = getattr(obj, <span class="pystring">"attribute"</span>)</pre><p>If the attribute exists, the corresponding value is returned.  If
+the attribute does not exist, you get an <b>AttributeError</b> exception
+instead.</p><p>The <b>getattr</b> function can be used on any object that supports
+dotted notation (by implementing the <b>__getattr__</b> method).  This
+includes class objects, modules, and even function objects.</p><pre class="python">
+path = getattr(sys, <span class="pystring">"path"</span>)
+doc = getattr(len, <span class="pystring">"__doc__"</span>)</pre><p>The <b>getattr</b> function uses the same lookup rules as ordinary
+attribute access, and you can use it both with ordinary attributes and
+methods:</p><pre class="python">
+result = obj.method(args)
+
+func = getattr(obj, <span class="pystring">"method"</span>)
+result = func(args)</pre><p>or, in one line:</p><pre class="python">
+result = getattr(obj, <span class="pystring">"method"</span>)(args)</pre><p>Calling both <b>getattr</b> and the method on the same line can
+make it hard to handle exceptions properly.  To avoid confusing
+AttributeError exceptions raised by <b>getattr</b> with similar
+exceptions raised inside the method, you can use the following
+pattern:</p><pre class="python">
+<span class="pykeyword">try</span>:
+    func = getattr(obj, <span class="pystring">"method"</span>)
+<span class="pykeyword">except</span> AttributeError:
+    ... deal <span class="pykeyword">with</span> missing method ...
+<span class="pykeyword">else</span>:
+    result = func(args)</pre><p>The function takes an optional default value, which is used if the
+attribute doesn&#8217;t exist.  The following example only calls the method
+if it exists:</p><pre class="python">
+func = getattr(obj, <span class="pystring">"method"</span>, None)
+<span class="pykeyword">if</span> func:
+    func(args)</pre><p>Here&#8217;s a variation, which checks that the attribute is indeed
+a callable object before calling it.</p><pre class="python">
+func = getattr(obj, <span class="pystring">"method"</span>, None)
+<span class="pykeyword">if</span> callable(func):
+    func(args)</pre></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

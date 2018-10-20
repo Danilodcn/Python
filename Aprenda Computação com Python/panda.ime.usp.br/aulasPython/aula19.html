@@ -1,0 +1,525 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Exercícios &mdash; Aulas de Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Aulas de Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Modularização, testes e reuso" href="aula20.html" />
+    <link rel="prev" title="Exercícios com objetos" href="aula18.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'aulasPython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="aula20.html" title="Modularização, testes e reuso"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="aula18.html" title="Exercícios com objetos"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="exercicios">
+<h1>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="objetivo">
+<h2>Objetivo<a class="headerlink" href="#objetivo" title="Permalink to this headline">¶</a></h2>
+<p>Ao final dessa aula você vai saber como escrever um programa em Python
+utilizando funções e classes.
+.. , e importar classes usando <cite>import</cite>. No futuro...</p>
+</div>
+<div class="section" id="topicos">
+<h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>Exercício com programação orientada a objetos;</li>
+<li>Classe com um objeto como atributo;</li>
+<li>Uso de módulos e <cite>import</cite>.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="uso-de-objetos-na-pratica">
+<h2>Uso de objetos na prática<a class="headerlink" href="#uso-de-objetos-na-pratica" title="Permalink to this headline">¶</a></h2>
+<p>Para problemas simples, as vantagens do uso de Programação Orientada à
+Objetos (POO)
+talvez não fiquem tão claras. Para sistemas complexos, com vários
+componentes, suas vantagens ficam mais evidentes. Portanto vamos tentar
+evidenciar essas vantagens com problemas um pouco mais complexos.</p>
+<p>Uma vantagem da orientação à objetos é que ela nos permite pensar de
+forma mais concreta e próxima do comportamento real de componentes
+de um sistema (ao contrário, por exemplo, de um modelo puramente
+abstrato).</p>
+<p>Uma forma de tratar um problema utilizando objetos é por meio da
+definição do comportamento dos objetos, antes de
+implementá-los. Modelar objetos não é uma tarefa simples e, na
+prática, podem existir vários modelamentos possíveis, cada um com
+suas vantagens e desvantagens.</p>
+<p>Uma forma possível de modelamento é dividir o problema em componentes
+na forma que você achar mais &#8220;natural&#8221; (e podem haver várias formas
+&#8220;naturais&#8221;!), definindo como cada componente deve se comportar e
+interagir com os demais componentes, e então criar classes para
+representar cada componente.</p>
+<p>Vamos resolver um exercício mais complexo para ilustrar esse processo.</p>
+</div>
+<div class="section" id="exercicio-comentado">
+<h2>Exercício Comentado<a class="headerlink" href="#exercicio-comentado" title="Permalink to this headline">¶</a></h2>
+<p>Vamos pensar por exemplo em como poderíamos resolver o
+exercício programa <a class="reference external" href="http://www.ime.usp.br/~mac2166/ep1Py/">Encha de água</a>
+usando objetos.</p>
+<p>Basicamente,
+o jogo é uma simulação, onde o usuário deve encher um balde
+com o máximo volume possível de água. A capacidade do balde
+no entanto é inicialmente desconhecida, e pode variar entre 10 e 50 unidades.</p>
+<p>A cada jogada, o jogo sorteia uma quantidade de água,
+mostra essa quantidade ao usuário e pergunta
+se o usuário deseja ou não utilizá-la.
+o jogo (simulação) termina quando o balde estiver cheio
+ou o usuário desistir de colocar mais água no balde.
+Para facilitar, o jogo avisa quando o volume armazenado
+chega ou ultrapassa a metade
+da capacidade do balde.</p>
+<p><strong>Parte A - Modelamento inicial</strong></p>
+<p>O programa abaixo descreve, em Python, esse comportamento.</p>
+
+<div id="comportamento_do_EP1" >
+<textarea cols="50" rows="12" id="comportamento_do_EP1_code" class="active_code">
+def main():
+    semente = int(input("Digite a semente para gerar numeros pseudo-aleatorios: "))
+    jogo    = Simulador(semente)
+
+    fim = False
+    while not fim:
+        jogo.sorteia()
+        opcao = input("Deseja utilizar o volume sorteado? (s/n): ")
+        if opcao == 's':
+            fim = jogo.deposita()  # retorna True caso o balde fique cheio
+        else:
+            fim = True
+    jogo.finaliza()
+
+class Simulador:
+    def __init__(self, semente):
+        print("construtor do Simulador")
+
+    def sorteia(self):
+        print("metodo sorteia do Simulador")
+
+    def deposita(self):
+        print("metodo deposita do Simulador")
+
+    def finaliza(self):
+        print("metodo finaliza do Simulador")
+
+class Balde:
+    def __init__(self):
+        print("metodo construtor de Balde")
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (comportamento_do_EP1)</span> </p>
+<button onclick="runit('comportamento_do_EP1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('comportamento_do_EP1');">Save</button>
+<button class="ac_opt" onclick="requestCode('comportamento_do_EP1');">Load</button>
+<br />
+
+<canvas id="comportamento_do_EP1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="comportamento_do_EP1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>O objetivo dessa primeira parte foi &#8220;modelar&#8221; o simulador e
+definir as ações desse objeto. Se essa classe existisse,
+o nosso programa estaria pronto. Nos parece também que
+a classe <cite>Simulador</cite> vai precisar trabalhar com objetos do
+tipo <cite>Balde</cite>.</p>
+<p>Para chegar nesse programa inicial, como o jogo precisa sortear
+quantidades de água de forma pseudo-aleatória, &#8220;delegamos&#8221;
+as funções para gerenciar esses sorteios a classe <cite>Simulador</cite>
+e imaginamos então que a classe precisa receber uma semente
+ao ser construída. Os demais métodos, <cite>deposita()</cite> e <cite>finaliza()</cite>,
+correspondem às demais ações de um jogo.</p>
+<p><strong>Parte B</strong></p>
+<p>O próximo passo seria definir a classe <cite>Simulador</cite>, mas como ela
+depende de uma outra  classe, a <cite>Balde</cite>, que nos parece mais
+simples de definir, vamos começar pela definição de <cite>Balde</cite>.</p>
+<p>Para ser utilizado em um jogo,
+um objeto balde deve precisar dos atributos:</p>
+<blockquote>
+<div><ul class="simple">
+<li>capacidade : <cite>int</cite> que indica capacidade máxima do balde</li>
+<li>volume     : <cite>int</cite> volume atual de água no balde</li>
+<li>derramado  : <cite>água</cite> derramada</li>
+<li>cheio      : <cite>booleano</cite> indica se o balde está cheio</li>
+</ul>
+</div></blockquote>
+<div class="admonition-observacao admonition">
+<p class="first admonition-title">Observação</p>
+<p class="last">O processo de definição de classes e seus atributos e método é
+iterativo. Uma vez definido alguns atributos e métodos básicos, a
+definição de uma classe deve evoluir a medida que as demais
+classes são definidas. Um outro aspecto que pode ser explorado
+é criar classes que sejam <strong>genéricas</strong>, para que possam ser
+utilizadas em outros problemas. Vamos tentar reutilizar a
+classe <cite>Balde</cite> no próximo exercício, e apenas estender a
+classe <cite>Simulador</cite>.</p>
+</div>
+<p>Ao criar um  <cite>Balde</cite>, é necessário definir o valor do atributo
+<cite>capacidade</cite>, e podemos zerar os atributos <cite>volume</cite> e <cite>derramado</cite>.</p>
+<p>Ao imprimir um <cite>Balde</cite>, por exemplo contendo 12 unidades de
+volume, ele deve corresponder ao texto <cite>*12*</cite> caso esteja cheio e
+<cite>[12]</cite> caso ainda possua volume livre.</p>
+<p>A classe deve ter o método <cite>deposita(self, v)</cite>, que recebe uma
+quantidade de água <cite>vol</cite> e atualiza o estado do objeto <cite>Balde</cite>.</p>
+
+<div id="ex19_1b_tentativa" >
+<textarea cols="50" rows="12" id="ex19_1b_tentativa_code" class="active_code">
+def main():
+    # programa de teste da classe Balde
+    balde = Balde(10)
+    d1 = balde.deposita(3)
+    d2 = balde.deposita(4)
+    print(balde)
+    d3 = balde.deposita(5)
+    print(balde)
+    print(d1, d2, d3)
+
+class Balde:
+    def __init__(self, cap):
+        self.capacidade = cap
+        self.volume     = 0
+        self.derramado  = 0
+        self.cheio      = False
+
+    def __str__(self):
+        # remova a linha abaixo e escreva o seu codigo para esse metodo
+        return "__str__ do Balde"
+
+    def deposita(self, vol):
+        # remova a linha abaixo e escreva o seu codigo para esse metodo
+        print("deposita de Balde", vol)
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ex19_1b_tentativa)</span> </p>
+<button onclick="runit('ex19_1b_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ex19_1b_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('ex19_1b_tentativa');">Load</button>
+<br />
+
+<canvas id="ex19_1b_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ex19_1b_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>Parte C</strong></p>
+<p>Vamos definir agora a classe <cite>Simulador</cite>.
+A idea de se criar essa classe é agrupar o estado e operações
+específicas do simulador (jogo).
+Vamos incluir também no <cite>Simulador</cite> todas as operação com
+<cite>random</cite> e, para isso, o construtor dessa classe deve receber
+a semente para o gerador de números pseudo-aleatórios.
+O construtor deve também inicializar os seguintes atributos:</p>
+<blockquote>
+<div><ul class="simple">
+<li><cite>balde</cite>     : objeto <cite>Balde</cite></li>
+<li><cite>vol</cite>     : volume sorteado</li>
+<li><cite>avisou</cite>  : indica se uma mensagem avisando se o balde
+atingiu ou passou da metade já foi dada.</li>
+</ul>
+</div></blockquote>
+<p>Os demais métodos da classe são:</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><cite>sorteia(self)</cite>: que sorteia um volume de água de 1 a 10 unidades atualizando o atributo <cite>vol</cite>, e imprime esse volume.</p>
+</li>
+<li><p class="first"><cite>deposita(self)</cite>: que adiciona o volume <cite>vol</cite>  ao
+balde. Observe que a função <cite>main</cite> usa o método <cite>deposita</cite>
+do <cite>Simulador</cite>, mas esse volume deve ser passado do <cite>Simulador</cite>
+ao <cite>Balde</cite>, simplificando as ações necessárias na <cite>main</cite>.</p>
+<p>O método <cite>deposita</cite> retorna <cite>True</cite> se o balde ficar cheio
+após a operação, e imprime uma mensagem da primeira vez que o
+volume atingir ou passar da metade da capacidade.</p>
+</li>
+<li><p class="first"><cite>finaliza(self)</cite>: imprime as seguintes mensagens:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Fim da simulação</li>
+<li>Capacidade do balde: ___</li>
+<li>Volume final: ___</li>
+<li>Balde está (ou não) cheio</li>
+<li>Volume derramado:</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+
+<div id="ex19_1c_tentativa" >
+<textarea cols="50" rows="12" id="ex19_1c_tentativa_code" class="active_code">
+import random
+
+# definicao de constantes
+CAP_MIN = 10
+CAP_MAX = 51 # ja ajustado ao random
+VOL_MIN = 1
+VOL_MAX = 11 # ja ajustado ao random
+
+def main():  # funcao para teste do simulador
+    sim = Simulador(123)
+    sort = sim.sorteia()
+    # escreva outros testes
+
+classe Balde:
+    # copie a sua classe balde
+
+class Simulador:
+    def __init__(self, semente):
+        random.seed(semente)
+        capacidade = random.randrange(CAP_MIN, CAP_MAX)
+        self.bal = Balde(capacidade)
+        self.vol = 0
+        self.avisou = False
+
+    def sorteia(self):
+        self.vol = random.randrange(VOL_MIN, VOL_MAX)
+        print("Volume sorteado: ", self.vol)
+        return self.vol
+
+    def deposita(self):
+        # escreva esse metodo abaixo
+
+    def finaliza(self):
+        # escreva esse metodo abaixo
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ex19_1c_tentativa)</span> </p>
+<button onclick="runit('ex19_1c_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ex19_1c_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('ex19_1c_tentativa');">Load</button>
+<br />
+
+<canvas id="ex19_1c_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ex19_1c_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><strong>Parte D</strong></p>
+<p>Junte as partes anteriores para ter o programa completo. O programa
+principal (função <cite>main</cite>) controla a entrada e a saída (usando <cite>input</cite>
+e <cite>print</cite>) com o usuário e o <cite>Simulador</cite> mantém o estado da simulação
+e controla o &#8220;jogo&#8221;.</p>
+
+<div id="aula19_ex191d_tentativa" >
+<textarea cols="50" rows="12" id="aula19_ex191d_tentativa_code" class="active_code">
+def main():
+    print("Vixe, ainda nao fiz essa parte do exercicio!")
+
+# copie aqui a definicao das funcoes e classes dos itens A, B e C
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula19_ex191d_tentativa)</span> </p>
+<button onclick="runit('aula19_ex191d_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula19_ex191d_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula19_ex191d_tentativa');">Load</button>
+<br />
+
+<canvas id="aula19_ex191d_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula19_ex191d_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><a class="reference external" href="exercicios/ex19.1.html">Solução completa</a>.</p>
+</div>
+<div class="section" id="exercicio-19-2">
+<h2>Exercício 19.2<a class="headerlink" href="#exercicio-19-2" title="Permalink to this headline">¶</a></h2>
+<p>Usando a mesma classe <cite>Balde</cite> do Exercício 19.1, modifique a
+função <cite>main</cite> e a classe <cite>Simulador</cite> para implementar o exercício programa
+<a class="reference external" href="http://www.ime.usp.br/~mac2166/ep2Py/">Encha de água mais ainda</a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Exercícios</a><ul>
+<li><a class="reference internal" href="#objetivo">Objetivo</a></li>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#uso-de-objetos-na-pratica">Uso de objetos na prática</a></li>
+<li><a class="reference internal" href="#exercicio-comentado">Exercício Comentado</a></li>
+<li><a class="reference internal" href="#exercicio-19-2">Exercício 19.2</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="aula18.html"
+                        title="previous chapter">Exercícios com objetos</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="aula20.html"
+                        title="next chapter">Modularização, testes e reuso</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="aula20.html" title="Modularização, testes e reuso"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="aula18.html" title="Exercícios com objetos"
+             >previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Mar 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

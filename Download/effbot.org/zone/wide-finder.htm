@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Some Notes on Tim Bray's Wide Finder&nbsp;Benchmark</title></head><body data-page-id="2011"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Some Notes on Tim Bray's Wide Finder&nbsp;Benchmark</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | Updated October 12, 2007 | Originally posted October 6, 2007</p><h2 id="the-problem">The Problem&#160;<a class="nav" href="#the-problem" title="bookmark!">#</a></h2><p>Tim Bray recently posted about his experiences from using Erlang to do some <a href="http://www.tbray.org/ongoing/When/200x/2007/09/20/Wide-Finder">straightforward parsing of a large log file</a>, inspired by a chapter he wrote for the book <em>Beautiful Code</em>.  As it turned out, Erlang isn&#8217;t exactly optimized for tasks like this.  After trying to parse a 1,000,000-line log file, Tim notes:</p><blockquote><p>&#8220;<em>My first cut in Erlang, based on the per-process dictionary, took around eight minutes of CPU, and kept one of my MacBook&#8217;s Core Duo processors pegged at 97% while it was running. Ouch!</em>&#8221;</p></blockquote><p>That&#8217;s less than a half megabyte per second.  Not very impressive.  Let&#8217;s see if we can come up with something better in Python.</p><h2 id="a-single-threaded-python-solution">A Single-Threaded Python Solution&#160;<a class="nav" href="#a-single-threaded-python-solution" title="bookmark!">#</a></h2><p>Santiago Gala followed up on Tim&#8217;s original post with a nice map/reduce-based implementation in Python:</p><blockquote><p><a href="http://memojo.com/~sgala/blog/2007/09/29/Python-Erlang-Map-Reduce">http://memojo.com/~sgala/blog/2007/09/29/Python-Erlang-Map-Reduce</a></p></blockquote><p>Santiago&#8217;s script uses a series of nested generators to do filtering and mapping, and then uses a <strong>for-in</strong>-loop to
+reduce the mapped stream into a dictionary.</p><p>To benchmark the script, I created a sample by concatenating 100 copies of Tim&#8217;s original 10,000-line sample file.  With that file, Santiago&#8217;s script needs about 6.7 seconds wall-time to parse 200 megabytes of log data on my Core Duo laptop (using Windows XP, warmed-up disk caches, and the final print statement replaced with a <strong>pass</strong>).</p></div><div class="yui-u">&#160;</div></div><div class="yui-ge"><div class="yui-u first"><p>Tim&#8217;s 1.67 GHz Core Duo L2400 MacBook should match my 1.66 GHz Core Duo T2300 HP notebook pretty well, so that&#8217;s about 70 times faster than his Erlang program, and about twice as fast as his Ruby version.  Not too shabby.</p><p>But we can speed things up a bit more, of course.</p><h3 id="compiling-the-re">Compiling the RE&#160;<a class="nav" href="#compiling-the-re" title="bookmark!">#</a></h3><p>Python&#8217;s RE engine caches compiled expressions, but it&#8217;s usually a good idea to move the cache lookup out of the inner loop anyway.  And while we&#8217;re at it, we can move the method lookup out of the loop as well:</p></div><div class="yui-u"><p class="sidebar small">(HP and Intel says 1.66 GHz, Apple&#8217;s marketing department says 1.67 GHz.)</p></div></div><div class="yui-g"><pre class="python wide wide">pat = <span class="pystring">r"GET /ongoing/When/\d\d\dx/(\d\d\d\d/\d\d/\d\d/[^ .]+) "</span>
+search = re.compile(pat).search
+
+matches = (search(line) <span class="pykeyword">for</span> line <span class="pykeyword">in</span> file(<span class="pystring">"o10k.ap"</span>))</pre></div><div class="yui-ge"><div class="yui-u first"><p>With these changes, the script finishes in 4.1 seconds.</p><h3 id="skipping-lines-that-cannot-match">Skipping lines that cannot match&#160;<a class="nav" href="#skipping-lines-that-cannot-match" title="bookmark!">#</a></h3><p>Somewhat less obvious is the fact that we can use Python&#8217;s <strong>in</strong> operator to filter out lines that cannot match:</p><pre class="python">matches = (search(line) <span class="pykeyword">for</span> line <span class="pykeyword">in</span> file(<span class="pystring">"o10k.ap"</span>)
+    <span class="pykeyword">if</span> <span class="pystring">"GET /ongoing/When"</span> <span class="pykeyword">in</span> line)</pre></div><div class="yui-u">&#160;</div></div><div class="yui-ge"><div class="yui-u first"><p>The RE engine does indeed use special code for literal prefixes, but <a href="stringlib.htm">the sublinear substring search algorithm</a> that was introduced in 2.5 is a lot faster in cases like this, so this simple change gives a noticable speedup; the script
+now runs in 2.9 seconds.</p><h3 id="reading-files-in-binary-mode-windows">Reading files in binary mode (Windows)&#160;<a class="nav" href="#reading-files-in-binary-mode-windows" title="bookmark!">#</a></h3><p>On Windows (and in theory, on other platforms that distinguish between text files and binary files), data read via the standard file object are scanned for Windows-style line endings (&#8220;\r\n&#8221;).  Any such character combination is then translated to a single
+newline, for consistency.</p><p>This is of course very convenient, since it allows you to treat text files in the same way no matter what platform you&#8217;re on, but on files this large, the performance penality is starting to get noticable.</p><p>We can turn this off simply by passing in the &#8220;rb&#8221; flag (read binary) to the <strong>open</strong> function.</p><pre class="python">matches = (search(line) <span class="pykeyword">for</span> line <span class="pykeyword">in</span> file(<span class="pystring">"o10k.ap"</span>, <span class="pystring">"rb"</span>)
+    <span class="pykeyword">if</span> <span class="pystring">"GET /ongoing/When"</span> <span class="pykeyword">in</span> line)</pre><p>The file object will still break things up in lines, and our code doesn&#8217;t look at the line endings, so we still get the same result.  Just a bit quicker.</p><h3 id="the-code">The Code&#160;<a class="nav" href="#the-code" title="bookmark!">#</a></h3><p>Here&#8217;s the final version of Santiago&#8217;s script:</p></div><div class="yui-u"><p class="sidebar small">(For some reason, &#8220;faster than linear&#8221; is called sublinear when you&#8217;re doing searches, and superlinear when you&#8217;re doing parallel processing.)</p></div></div><div class="yui-g"><pre class="python wide wide"><span class="pykeyword">import</span> re
+<span class="pykeyword">from</span> collections <span class="pykeyword">import</span> defaultdict
+
+FILE = <span class="pystring">"o1000k.ap"</span>
+
+pat = re.compile(<span class="pystring">r"GET /ongoing/When/\d\d\dx/(\d\d\d\d/\d\d/\d\d/[^ .]+) "</span>)
+
+search = pat.search
+
+<span class="pycomment"># map</span>
+matches = (search(line) <span class="pykeyword">for</span> line <span class="pykeyword">in</span> file(FILE, <span class="pystring">"rb"</span>) <span class="pykeyword">if</span> <span class="pystring">"GET /ongoing/When"</span> <span class="pykeyword">in</span> line)
+mapp    = (match.group(1) <span class="pykeyword">for</span> match <span class="pykeyword">in</span> matches <span class="pykeyword">if</span> match)
+
+<span class="pycomment"># reduce</span>
+count = defaultdict(int)
+<span class="pykeyword">for</span> page <span class="pykeyword">in</span> mapp:
+    count[page] +=1
+
+<span class="pykeyword">for</span> key <span class="pykeyword">in</span> sorted(count, key=count.get)[:10]:
+    <span class="pykeyword">print</span> <span class="pystring">"%40s = %s"</span> % (key, count[key])</pre></div><div class="yui-ge"><div class="yui-u first"><p>To get a version that&#8217;s set up for benchmarking, get the <strong>wf-2.py</strong> file from this directory:</p><blockquote><p><a href="http://svn.effbot.org/public/stuff/sandbox/wide-finder/">http://svn.effbot.org/public/stuff/sandbox/wide-finder/</a></p></blockquote><p>This version of the script finishes in 1.9 seconds.  This is a 3.5x speedup over Santiago&#8217;s version, and over 250x faster than Tim&#8217;s Erlang version.  Pretty good for a short single-threaded script, don&#8217;t you think?</p><p>But I&#8217;m running this on a Core Duo machine.  Two CPU cores, that is.  What about using them both for this task?</p><h2 id="a-multi-threaded-python-solution">A Multi-Threaded Python Solution&#160;<a class="nav" href="#a-multi-threaded-python-solution" title="bookmark!">#</a></h2><p>To run multiple subtasks in parallel, we need to split the task up in some way.  Since the program reads a single text file, the easiest way to do that is to split the file into multiple pieces on the way in.  Here&#8217;s a simple function that rushes through the file, splitting it up in 1 megabyte chunks, and returns chunk offsets and sizes:</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">getchunks</span>(file, size=1024*1024):
+    f = open(file)
+    <span class="pykeyword">while</span> 1:
+        start = f.tell()
+        f.seek(size, 1)
+        s = f.readline()
+        <span class="pykeyword">yield</span> start, f.tell() - start
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> s:
+            <span class="pykeyword">break</span></pre><p>By default, this splits the file in megabyte-sized chunks:</p><pre><code>&gt;&gt;&gt; for chunk in getchunks("o1000k.ap"):
+...     print chunk
+(0L, 1048637L)
+(1048637L, 1048810L)
+(2097447L, 1048793L)
+(3146240L, 1048603L)
+</code></pre><p>Note the use of <strong>readline</strong> to make sure that each chunk ends at a newline character.  (Without this, there&#8217;s a small chance that we&#8217;ll miss some entries here and there.  This is probably not much of a problem in practice, but let&#8217;s stick to the exact solution for now.)</p><p>So, given a list of chunks, we need something that takes a chunk, and produces a partial result.  Here&#8217;s a first attempt, where the map and reduce steps are combined into a single loop:</p><pre><code>pat = re.compile(...)
+
+def process(file, chunk):
+    f = open(file)
+    f.seek(chunk[0])
+    d = defaultdict(int)
+    search = pat.search
+    for line in f.read(chunk[1]).splitlines():
+        if "GET /ongoing/When" in line:
+            m = search(line)
+            if m:
+                d[m.group(1)] += 1
+    return d
+</code></pre><p>Note that we cannot loop over the file itself, since we need to stop when we reach the end of it.  The above version solves this by reading the entire chunk, and then splitting it into lines.</p><p>To test this code, we can loop over the chunks and feed them to the <strong>process</strong> function, one by one, and combine the result:</p><pre class="python">count = defaultdict(int)
+<span class="pykeyword">for</span> chunk <span class="pykeyword">in</span> getchunks(file):
+    <span class="pykeyword">for</span> key, value <span class="pykeyword">in</span> process(file, chunk).items():
+        count[key] += value</pre><p>This version is a bit slower than the non-chunked version on my machine; one pass over the 200 megabyte file takes about 2.6 seconds.</p><p>However, since a chunk is guaranteed to contain a full set of lines, we can speed things up a bit more by looking for matches in the chunk itself instead of splitting it into lines:</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">process</span>(file, chunk):
+    f = open(file)
+    f.seek(chunk[0])
+    d = defaultdict(int)
+    <span class="pykeyword">for</span> page <span class="pykeyword">in</span> pat.findall(f.read(chunk[1])):
+        d[page] += 1
+    <span class="pykeyword">return</span> d</pre><p>With this change, the time drops to 1.8 seconds (3.7x faster than the original version).</p><p>The next step is to set things up so we can do the processing in parallel.  First, we&#8217;ll call the <strong>process</strong> function from a standard &#8220;worker thread&#8221; wrapper:</p><pre class="python"><span class="pykeyword">import</span> threading, Queue
+
+<span class="pycomment"># job queue</span>
+queue = Queue.Queue()
+
+<span class="pycomment"># result queue</span>
+result = []
+
+<span class="pykeyword">class</span> <span class="pyclass">Worker</span>(threading.Thread):
+    <span class="pykeyword">def</span> <span class="pyfunction">run</span>(self):
+        <span class="pykeyword">while</span> 1:
+            args = queue.get()
+            <span class="pykeyword">if</span> args <span class="pykeyword">is</span> None:
+                <span class="pykeyword">break</span>
+            result.append(process(*args))
+            queue.task_done()</pre><p>This uses the standard &#8220;worker thread&#8221; pattern, with a thread-safe <strong>Queue</strong> for pending jobs, and a plain list object to collect the results (<strong>list.append</strong> is an atomic operation in CPython).</p><p>To finish the script, just create a bunch of workers, give them something to do (via the queue), and collect the results into a single dictionary:</p><pre class="python"><span class="pykeyword">for</span> i <span class="pykeyword">in</span> range(4):
+    w = Worker()
+    w.setDaemon(1)
+    w.start()
+
+<span class="pykeyword">for</span> chunk <span class="pykeyword">in</span> getchunks(file):
+    queue.put((file, chunk))
+
+queue.join()
+
+count = defaultdict(int)
+<span class="pykeyword">for</span> item <span class="pykeyword">in</span> result:
+    <span class="pykeyword">for</span> key, value <span class="pykeyword">in</span> item.items():
+        count[key] += value</pre><p>With a single thread, this runs in about 1.8 seconds (same as the non-threaded version).  When we increase the number of threads, things are improved:</p><ul><li>Two threads: 1.9 seconds</li><li>Three: 1.7 seconds</li><li>Four to eight: 1.6 seconds</li></ul><p>For this specific test, the ideal number appears to be three threads per CPU.  With fewer threads, the CPU:s will occasionally get stuck waiting for I/O.</p><p>Or perhaps they&#8217;re waiting for the interpreter itself; Python uses a global interpreter lock to protect the interpreter internals from simultaneous access, so there&#8217;s probably some fighting over the interpreter going on as well.  To get even more performance out of this, we need to get around the lock in some way.</p><p>Luckily, for this kind of problem, the solution is straightforward.</p><h2 id="a-multi-processor-python-solution">A Multi-Processor Python Solution&#160;<a class="nav" href="#a-multi-processor-python-solution" title="bookmark!">#</a></h2><p>To fully get around the interpreter lock, we need to run each subtask in a separate process.  An easy way to do that is to let each worker thread start an associated process, send it a chunk, and read back the result.  To make things really simple, and also portable, we&#8217;ll use the script itself as the subprocess, and use a special option to enter &#8220;subprocess&#8221; mode.</p><p>Here&#8217;s the updated worker thread:</p><pre class="python"><span class="pykeyword">import</span> subprocess, sys
+
+executable = [sys.executable]
+<span class="pykeyword">if</span> sys.platform == <span class="pystring">"win32"</span>:
+    executable.append(<span class="pystring">"-u"</span>) <span class="pycomment"># use raw mode on windows</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">Worker</span>(threading.Thread):
+    <span class="pykeyword">def</span> <span class="pyfunction">run</span>(self):
+        process = subprocess.Popen(
+            executable + [sys.argv[0], <span class="pystring">"--process"</span>],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE
+            )
+        stdin = process.stdin
+        stdout = process.stdout
+        <span class="pykeyword">while</span> 1:
+            cmd = queue.get()
+            <span class="pykeyword">if</span> cmd <span class="pykeyword">is</span> None:
+                putobject(stdin, None)
+                <span class="pykeyword">break</span>
+            putobject(stdin, cmd)
+            result.append(getobject(stdout))
+            queue.task_done()</pre><p>where the <strong>getobject</strong> and <strong>putobject</strong> helpers are defined as:</p><pre class="python"><span class="pykeyword">import</span> marshal, struct
+
+<span class="pykeyword">def</span> <span class="pyfunction">putobject</span>(file, object):
+    data = marshal.dumps(object)
+    file.write(struct.pack(<span class="pystring">"I"</span>, len(data)))
+    file.write(data)
+    file.flush()
+
+<span class="pykeyword">def</span> <span class="pyfunction">getobject</span>(file):
+    <span class="pykeyword">try</span>:
+        n = struct.unpack(<span class="pystring">"I"</span>, file.read(4))[0]
+    <span class="pykeyword">except</span> struct.error:
+        <span class="pykeyword">return</span> None
+    <span class="pykeyword">return</span> marshal.loads(file.read(n))</pre><p>The worker thread runs a copy of the script itself, and passes in the &#8220;&#8212;process&#8221; option.  To enter subprocess mode, we need to look for that before we do anything else:</p><pre class="python"><span class="pykeyword">if</span> <span class="pystring">"--process"</span> <span class="pykeyword">in</span> sys.argv:
+    stdin = sys.stdin
+    stdout = sys.stdout
+    <span class="pykeyword">while</span> 1:
+        args = getobject(stdin)
+        <span class="pykeyword">if</span> args <span class="pykeyword">is</span> None:
+            sys.exit(0) <span class="pycomment"># done</span>
+        result = process(*args)
+        putobject(stdout, result)
+<span class="pykeyword">else</span>:
+    ... create worker threads ...</pre><p>With this approach, the processing time drops to 1.2 seconds, when using two threads/processes (one per CPU).  But that&#8217;s about as good as it gets; adding more processes doesn&#8217;t really improve things on this machine.</p><h3 id="memory-mapping">Memory Mapping&#160;<a class="nav" href="#memory-mapping" title="bookmark!">#</a></h3><p>So, is this the best we can get?  Not quite.  We can speed up the file access as well, by switching to memory mapping:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide"><span class="pykeyword">import</span> mmap
+
+filemap = None
+
+<span class="pykeyword">def</span> <span class="pyfunction">process</span>(file, chunk):
+    <span class="pykeyword">global</span> filemap, fileobj
+    <span class="pykeyword">if</span> filemap <span class="pykeyword">is</span> None <span class="pykeyword">or</span> fileobj.name != file:
+        fileobj = open(file)
+        filemap = mmap.mmap(
+            fileobj.fileno(),
+            os.path.getsize(file),
+            access=mmap.ACCESS_READ
+        )
+    d = defaultdict(int)
+    <span class="pykeyword">for</span> file <span class="pykeyword">in</span> pat.findall(filemap, chunk[0], chunk[0]+chunk[1]):
+        d[file] += 1
+    <span class="pykeyword">return</span> d</pre></div><div class="yui-ge"><div class="yui-u first"><p>Note that <strong>findall</strong> can be applied directly to the mapped region, thanks to Python&#8217;s internal memory <s><a href="http://docs.python.org/api/bufferObjects.html">buffer interface</a></s> (dead link).  Also note that the <strong>mmap</strong> module doesn&#8217;t support windowing, so the code needs to map the entire file in each subprocess.  This can result in overly excessive use of virtual memory on some platforms (running this on your own log files if you&#8217;re on a shared web server is not necessarily a good idea. Yes, I&#8217;ve tried ;-).</p><p>Anyway, this gets the job done in 0.9 seconds, with the original chunk size.  But since we&#8217;re mapping the entire file anyway in each subprocess, we can increase the chunk size to reduce the process communication overhead.  With 50 megabyte chunks, the script runs in just under 0.8 seconds.</p><h2 id="summary">Summary&#160;<a class="nav" href="#summary" title="bookmark!">#</a></h2><p>In this article, we took a relatively fast Python implementation and optimized it, using a number of tricks:</p><ul><li>Pre-compiled RE patterns</li><li><a href="stringlib.htm">Fast filtering</a> of candidate lines</li><li>Chunked reading</li><li>Multiple processes</li><li>Memory mapping, combined with support for RE operations on mapped buffers</li></ul><p>This reduced the time needed to parse 200 megabytes of log data from 6.7 seconds to 0.8 seconds on the test machine.  Or in other words, the final version is over 8 times faster than the original Python version, and (potentially) 600 times faster than Tim&#8217;s original Erlang version.</p><p>However, it should be noticed that the benchmark I&#8217;ve been using focuses on processing speed, not disk speed.  The code will most likely behave differently on cold caches (and will definitely take longer to run), on machines with different disk systems, and of course also on machines with additional cores.</p><p>If you have some time to spare and some interesting hardware to run it on, feel free to grab the code and take it on a ride:</p><blockquote><p><a href="http://svn.effbot.org/public/stuff/sandbox/wide-finder/">http://svn.effbot.org/public/stuff/sandbox/wide-finder/</a></p></blockquote><p>(see the README.txt file for details.)</p><h2 id="addenda">Addenda&#160;<a class="nav" href="#addenda" title="bookmark!">#</a></h2><p><strong>2007-10-07:</strong> Stanley Seibert has adapted the code to use <a href="http://cheeseshop.python.org/pypi/processing">the <strong>processing</strong> library</a>, which provides multiprocess functionality with a lot less (user) code; see <em><s><a href="http://mtrr.org/blog/?p=91">Parallel Processing in Python with processing</a></s> (dead link)</em> for details.</p><p><strong>2007-10-07:</strong> Bioinformatics veteran and fellow Python string-type hacker <a href="http://www.dalkescientific.com/writings/diary/">Andrew Dalke</a> points out, via mail, that it&#8217;s possible to shave off a few more cycles by extracting all URL:s that start with &#8220;/ongoing/When/&#8221; (which we&#8217;re looking for anyway), and then removing bogus URL:s during post-processing.  Andrew has also written a custom parser based on <a href="http://www.egenix.com/products/python/mxBase/mxTextTools/">mxTextTools</a>, which is a quite a bit faster than the RE solution.  <s>Hopefully, he&#8217;ll turn his findings into a blog post, so I can link to his work ;-)</s> See <em><a href="http://www.dalkescientific.com/writings/diary/archive/2007/10/07/wide_finder.html">More notes on Wide Finder</a></em> for the full story (which is more about fast &#8220;narrow finding&#8221; than &#8220;wide finding&#8221;, though).</p><p><strong>2007-10-07:</strong> Bill de h&#211;ra has <a href="http://www.dehora.net/journal/2007/10/wfinder_serialpy.html">some code too</a>.</p><p><strong>2007-10-07:</strong> And <a href="http://steve.vinoski.net/blog/2007/10/07/wide-finder-in-python/">Steve Vinoski</a> has tried the code from this article on some big iron: &#8220;<em>I ran his wf-6.py on an 8-core 2.33 GHz Intel Xeon Linux box with 8GB of RAM, and it ran best at 5 processes, clocking in at 0.336 sec. Another process-based approach, wf-5.py, executed best with 8 processes, presumably one per core, in 0.358 sec. The multithreaded approach, wf-4.py,  ran best with 5 threads, at 1.402 sec (but also got the same result with 19 threads, go figure). Using the same dataset, I get 11.8 sec from my best Erlang effort, which is obviously considerably slower.</em>&#8221;</p><p><strong>2007-10-08:</strong> Paul Boddie provides <s><a href="http://mtrr.org/blog/?p=91#comment-9470">code and results</a></s> (dead link) using a different parallelization library, <a href="http://pypi.python.org/pypi/pprocess">pprocess</a>.</p><p><strong>2007-10-08:</strong> Tim Bray <a href="http://www.tbray.org/ongoing/When/200x/2007/10/07/WF-Roundup">summarizes recent developments</a>.</p><p><strong>2007-10-12:</strong> Updated the article to use binary mode on Windows.  This makes the chunk calculations a bit more reliable (<strong>tell</strong> can misbehave on text files), and speeds things up quite a bit, since the I/O layer no longer needs to convert line endings.</p><p><strong>2007-10-31:</strong> Tim Bray <a href="http://www.tbray.org/ongoing/When/200x/2007/10/30/WF-Results">has tested a bunch of implementations on a multicore Solaris box</a>.    When I write this, Python&#8217;s in the lead ;-)</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#the-problem">The Problem</a></li><li><a href="#a-single-threaded-python-solution">A Single-Threaded Python Solution</a></li><li><ul><li><a href="#compiling-the-re">Compiling the RE</a></li><li><a href="#skipping-lines-that-cannot-match">Skipping lines that cannot match</a></li><li><a href="#reading-files-in-binary-mode-windows">Reading files in binary mode (Windows)</a></li><li><a href="#the-code">The Code</a></li></ul></li><li><a href="#a-multi-threaded-python-solution">A Multi-Threaded Python Solution</a></li><li><a href="#a-multi-processor-python-solution">A Multi-Processor Python Solution</a></li><li><ul><li><a href="#memory-mapping">Memory Mapping</a></li></ul></li><li><a href="#summary">Summary</a></li><li><a href="#addenda">Addenda</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

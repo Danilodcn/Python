@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="author" content="Colin Hughes" />
+<meta name="description" content="A website dedicated to the fascinating world of mathematics and programming" />
+<meta name="keywords" content="programming,mathematics,problems,puzzles" />
+<title>News - Project Euler</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="themes/default/style_default.css" />
+</head>
+
+<body>
+<div id="container">
+<div id="header" class="noprint">
+<div id="nav" class="noprint">
+<ul>
+<li><a href="about" title="About" accesskey="h">About</a></li>
+<li><a href="archives" title="Archives" accesskey="1">Archives</a></li>
+<li><a href="recent" title="Recent" accesskey="2">Recent</a></li>
+<li id="current"><a href="news" title="News" accesskey="3">News</a></li>
+<li><a href="register" title="Register" accesskey="4">Register</a></li>
+<li><a href="sign_in" title="Sign In" accesskey="5">Sign In</a></li>
+</ul>
+</div>
+
+<div id="logo" class="noprint">
+   <div>Project Euler<span>.net</span></div>
+</div>
+
+</div>
+
+<div id="info_panel"><a href="search"><img src="images/icon_search.png" alt="Search Problems" title="Search Problems" /></a><a href="rss2_euler.xml"><img src="images/icon_rss.png" alt="RSS Feed" title="RSS Feed" /></a></div>
+<div id="content">
+
+<div id="news_page">
+<div id="cache_info">Cache update: 1 hour</div><h2>Proposed Release Schedule for New Problems</h2><ul style="padding-left:10px;"><li><span class="small_notice">Problem 616 is scheduled for Saturday, 16th December 2017, 01:00 pm</span></li><li><span class="small_notice">Problem 617 is scheduled for Saturday, 30th December 2017, 04:00 pm</span></li><li><span class="small_notice">Problem 618 is scheduled for Saturday, 13th January 2018, 07:00 pm</span></li><li><span class="small_notice">Problem 619 is scheduled for Saturday, 27th January 2018, 10:00 pm</span></li><li><span class="small_notice">Problem 620 is scheduled for Sunday, 11th February 2018, 01:00 am</span></li></ul><h2>Recent News</h2><div class="news"><h4>2 September 2017: Start of the new season</h4><div><p>The new season will start Saturday, September 9th, 2017, 16:00 server time.</p>
+<p>
+Last year it became challenging for the team to continue with the weekly publication scheme. Now that we have over 600 problems published, finding new and interesting problems is becoming increasingly difficult.</p>
+<p>
+As long as we have a sufficient number of problems that are ready for publication then we are able to maintain a weekly release of new problems. However, we currently <b>do not,</b> so we have made a decision to reduce the release of new problems to one problem every two weeks. If we can re-establish enough ready-to-publish problems, then we will return to weekly publication.
+</p>
+<p>
+As you are aware, many of the excellent problems that we have learned to enjoy have come about through the contributions of our members. If you have any interesting ideas for new problems, then please consider making a problem proposal. See <a href="https://projecteuler.chat/viewtopic.php?f=26&amp;t=510">Suggesting New Problems</a> for more information on the process.
+</p></div></div><div class="news"><h4>10 August 2017: Summer 2017 Website Update</h4><div><p>A major rewrite of the main website back end has been taking place on my local machine for some time and on 10 August 2017 the updated scripts were uploaded. It is hoped that the changes made will provide a little more fluidity and robustness to the functionality of the website. Sadly, very little has been done in terms of cosmetics, so you are unlikely to notice much on the surface, but I can assure you that significant changes have been made to the way the website handles data.</p>
+
+<p>With any update there is only so much testing that can be done locally before the changes are made to the production website. So it would be very helpful if the thread: <a href="https://projecteuler.chat/viewtopic.php?f=5&amp;t=6597">Summer 2017 Website Update</a> at the Project Euler forum is used to report any bugs that you might identify. I would ask for your patience if any bugs or issues come to light as I hope the necessary changes will benefit all of us in the long term.</p></div></div><div class="news"><h4>14 June 2017: Summer break</h4><div><p>
+Problem #608 (Saturday, 17th June 2017, 04:00 pm servertime) will be the last problem before the summer break.<br />
+We will be back Saturday, September 9th, 2017.
+</p>
+</div></div><div class="news"><h4>12 November 2016: Status update II</h4><div>Currently everything seems to work properly. So problem 577 will be published on Saturday, 12th November 2016, 07:00 pm.<br />
+We do not believe that any information was lost, although the site might produce weird views, so even if the MySQL server goes berserk again we will not take the problem offline.
+
+</div></div><div class="news"><h4>10 November 2016: Problem returned</h4><div>Frustratingly enough the problem seems to have returned.
+Please wait for further developments.</div></div></div></div>
+
+<div id="footer" class="noprint">
+Project Euler: <a href="copyright">Copyright Information</a> | <a href="privacy">Privacy Policy</a>
+<!--/Creative Commons License--><!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+   <Work rdf:about="">
+      <license rdf:resource="http://creativecommons.org/licenses/by-nc-sa/2.0/uk/" />
+   <dc:type rdf:resource="http://purl.org/dc/dcmitype/Text" />
+   </Work>
+   <License rdf:about="http://creativecommons.org/licenses/by-nc-sa/2.0/uk/"><permits rdf:resource="http://web.resource.org/cc/Reproduction"/><permits rdf:resource="http://web.resource.org/cc/Distribution"/><requires rdf:resource="http://web.resource.org/cc/Notice"/><requires rdf:resource="http://web.resource.org/cc/Attribution"/><prohibits rdf:resource="http://web.resource.org/cc/CommercialUse"/><permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/><requires rdf:resource="http://web.resource.org/cc/ShareAlike"/></License></rdf:RDF> -->
+</div>
+</div>
+</body>
+</html>

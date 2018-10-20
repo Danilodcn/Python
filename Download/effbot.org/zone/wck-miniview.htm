@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>In Progress: Tkinter 3000 WCK&nbsp;MiniViews</title></head><body data-page-id="358"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">In Progress: Tkinter 3000 WCK&nbsp;MiniViews</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Updated August 19, 2003 | Fredrik Lundh</p><p>Some <a href="wck.htm">WCK</a> widgets support pluggable subviews,
+called  &#8220;miniviews&#8221;.</p><p>Other widgets can display a number of miniviews in a single master
+widget; for example, the <b>BlockList</b> widget displays a list of
+flowing, variable-height miniviews in a scrollable list.</p><p>A typical miniview implements the following methods:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">MyView</span>:
+
+    <span class="pykeyword">def</span> <span class="pyfunction">config</span>(self, view):
+        <span class="pycomment"># ... parent view was reconfigured ...</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">resize</span>(self, view, size):
+        <span class="pycomment"># ... parent view was resized ...</span>
+        self.size = size
+
+    <span class="pykeyword">def</span> <span class="pyfunction">reflow</span>(self, view, width):
+        <span class="pycomment"># ... alternative resize for flowing containers ...</span>
+        self.size = size
+        <span class="pykeyword">return</span> height
+
+    <span class="pykeyword">def</span> <span class="pyfunction">repair</span>(self, view, bbox, draw):
+        <span class="pycomment"># ... parent view needs updating ...</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">destroy</span>(self, view):
+        <span class="pycomment"># ... the miniview is about to be destroyed ...</span></pre><p>Here&#8217;s a sample view wrapper (untested):</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">View</span>(Widget):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, master, view, **options):
+        self.view = view
+        self.ui_init(master, options)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_config</span>(self):
+        self.view.config(self)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_resize</span>(self, width, height):
+        self.view.resize(self, (width, height))
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        self.view.repair(self, (x0, y0, x1, y1), draw)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_destroy</span>(self):
+        self.view.destroy(self)</pre></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

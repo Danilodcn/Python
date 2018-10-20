@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Using PIL with&nbsp;Django</title></head><body data-page-id="44"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Using PIL with&nbsp;Django</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | February 2006 | Originally posted to <a href="http://online.effbot.org">online.effbot.org</a></p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">Here&#8217;s a simple django view which creates a PIL image on the fly,
+and returns it as a PNG image:
+
+<pre class="python wide">
+<span class="pykeyword">from</span> django.utils.httpwrappers <span class="pykeyword">import</span> HttpResponse
+<span class="pykeyword">from</span> PIL <span class="pykeyword">import</span> Image
+
+<span class="pykeyword">import</span> random
+INK = <span class="pystring">"red"</span>, <span class="pystring">"blue"</span>, <span class="pystring">"green"</span>, <span class="pystring">"yellow"</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">image</span>(request):
+
+    <span class="pycomment"># ... create/load image here ...</span>
+    image = Image.new(<span class="pystring">"RGB"</span>, (800, 600), random.choice(INK))
+
+    <span class="pycomment"># serialize to HTTP response</span>
+    response = HttpResponse(mimetype=<span class="pystring">"image/png"</span>)
+    image.save(response, <span class="pystring">"PNG"</span>)
+    <span class="pykeyword">return</span> response</pre></p></div><div class="yui-g"><p class="wide">To draw things on the fly, you can use either PIL&#8217;s ImageDraw module,
+or the <a href="aggdraw-index.htm">aggdraw</a> module:
+
+<pre class="python wide">
+<span class="pykeyword">from</span> django.utils.httpwrappers <span class="pykeyword">import</span> HttpResponse
+<span class="pykeyword">from</span> PIL <span class="pykeyword">import</span> Image
+<span class="pykeyword">from</span> aggdraw <span class="pykeyword">import</span> Draw, Pen, Brush, Font
+
+<span class="pykeyword">import</span> random
+
+<span class="pykeyword">def</span> <span class="pyfunction">graphics</span>(request):
+
+    image = Image.new(<span class="pystring">"RGB"</span>, (800, 600), <span class="pystring">"white"</span>)
+    draw = Draw(image)
+
+    <span class="pycomment"># ... draw graphics here ...</span>
+    <span class="pykeyword">for</span> i <span class="pykeyword">in</span> range(20):
+        x0 = random.randint(0, image.size[0])
+        y0 = random.randint(0, image.size[1])
+        x1 = random.randint(0, image.size[0])
+        y1 = random.randint(0, image.size[1])
+        draw.rectangle((x0, y0, x1, y1), Pen(random.choice(INK), 5))
+
+    draw.flush()
+
+    response = HttpResponse(mimetype=<span class="pystring">"image/png"</span>)
+    image.save(response, <span class="pystring">"PNG"</span>)
+    <span class="pykeyword">return</span> response</pre></p></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

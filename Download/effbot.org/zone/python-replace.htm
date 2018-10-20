@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Searching and&nbsp;Replacing</title></head><body data-page-id="223"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Searching and&nbsp;Replacing</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">July 13, 2002</p><h3 id="string-replace">The string replace method&#160;<a class="nav" href="#string-replace" title="bookmark!">#</a></h3><p><i>Describe string.replace here.</i>.</p><h3 id="re-sub">Using regular expression substitutions&#160;<a class="nav" href="#re-sub" title="bookmark!">#</a></h3><p><i>Describe re.sub here.  Move stuff from <a href="re-sub.htm">
+this page</a>.</i></p><h3 id="string-translate">Mapping strings through translation tables&#160;<a class="nav" href="#string-translate" title="bookmark!">#</a></h3><p><i>Describe string.translate here.</i></p><h3 id="multiple">Replacing multiple strings&#160;<a class="nav" href="#multiple" title="bookmark!">#</a></h3></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Replace multiple string pairs in one go (File: MultiReplace.py)</b>
+<pre class="python wide">
+<span class="pykeyword">import</span> re, string
+
+<span class="pykeyword">class</span> <span class="pyclass">MultiReplace</span>:
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, repl_dict):
+        <span class="pycomment"># "compile" replacement dictionary</span>
+
+        <span class="pycomment"># assume char to char mapping</span>
+        charmap = map(chr, range(256))
+        <span class="pykeyword">for</span> k, v <span class="pykeyword">in</span> repl_dict.items():
+            <span class="pykeyword">if</span> len(k) != 1 <span class="pykeyword">or</span> len(v) != 1:
+                self.charmap = None
+                <span class="pykeyword">break</span>
+            charmap[ord(k)] = v
+        <span class="pykeyword">else</span>:
+            self.charmap = string.join(charmap, <span class="pystring">""</span>)
+            <span class="pykeyword">return</span>
+
+        <span class="pycomment"># string to string mapping; use a regular expression</span>
+        keys = repl_dict.keys()
+        keys.sort() <span class="pycomment"># lexical order</span>
+        keys.reverse() <span class="pycomment"># use longest match first</span>
+        pattern = string.join(map(re.escape, keys), <span class="pystring">"|"</span>)
+        self.pattern = re.compile(pattern)
+        self.dict = repl_dict
+
+    <span class="pykeyword">def</span> <span class="pyfunction">replace</span>(self, str):
+        <span class="pycomment"># apply replacement dictionary to string</span>
+        <span class="pykeyword">if</span> self.charmap:
+            <span class="pykeyword">return</span> string.translate(str, self.charmap)
+        <span class="pykeyword">def</span> <span class="pyfunction">repl</span>(match, get=self.dict.get):
+            item = match.group(0)
+            <span class="pykeyword">return</span> get(item, item)
+        <span class="pykeyword">return</span> self.pattern.sub(repl, str)
+
+r = MultiReplace({<span class="pystring">"spam"</span>: <span class="pystring">"eggs"</span>, <span class="pystring">"eggs"</span>: <span class="pystring">"spam"</span>})
+<span class="pykeyword">print</span> r.replace(<span class="pystring">"spam&amp;eggs"</span>) <span class="pycomment"># prints "eggs&amp;spam"</span>
+
+r = MultiReplace({<span class="pystring">"a"</span>: <span class="pystring">"b"</span>, <span class="pystring">"b"</span>: <span class="pystring">"a"</span>})
+<span class="pykeyword">print</span> r.replace(<span class="pystring">"keaba"</span>) <span class="pycomment"># "kebab"</span>
+
+r = MultiReplace({<span class="pystring">". "</span>: <span class="pystring">"\n"</span>, <span class="pystring">"!"</span>: <span class="pystring">"exclamation"</span>, <span class="pystring">"?"</span>: <span class="pystring">"question"</span>})
+<span class="pykeyword">print</span> repr(r.replace(<span class="pystring">"look. an albatross !"</span>)) <span class="pycomment"># 'look\nan albatross exclamation'</span></pre></div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><ul><li><a href="#string-replace">The string replace method</a></li><li><a href="#re-sub">Using regular expression substitutions</a></li><li><a href="#string-translate">Mapping strings through translation tables</a></li><li><a href="#multiple">Replacing multiple strings</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

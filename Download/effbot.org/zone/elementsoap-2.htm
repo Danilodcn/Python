@@ -1,0 +1,258 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Using the ElementTree Module to Generate SOAP Messages, Part 2: Talking to&nbsp;Google</title></head><body data-page-id="102"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><p><a href="elementsoap-1.htm">back</a>&#160;<a href="elementsoap-3.htm">next</a></p><h1 class="maintitle">Using the ElementTree Module to Generate SOAP Messages, Part 2: Talking to&nbsp;Google</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">November 17, 2003 | Fredrik Lundh</p><p class="note"><b>Note:</b>
+A distribution kit containing the source code for this article is
+available from <a href="http://effbot.org/downloads#elementsoap">the
+effbot.org downloads site</a> (look for ElementSOAP 0.1 or later).</p><h2 id="talking-to-google">Talking to Google&#160;<a class="nav" href="#talking-to-google" title="bookmark!">#</a></h2><p>The <a href="http://www.google.com/apis/">Google Web API</a> is a SOAP
+interface to Google&#8217;s search service, and a few other services.</p><p class="note">
+<b>Note:</b> To run the examples in this article, you need <a href="http://effbot.org/downloads#elementtree">ElementTree 1.2a5</a>
+or later.  Earlier versions may create invalid XML for request structures
+that contain more than one typed value.
+</p>
+
+The search service is implemented by the <b>doGoogleSearch</b> SOAP
+request.  The request takes a structure containing the query, the
+number of results, filter settings, and a few more options, and
+returns a list of hits.  Here&#8217;s a typical request:
+
+<pre class="xml">
+&lt;<span class="pyfunction">soap:Envelope</span>&gt;
+  &lt;<span class="pyfunction">soap:Body</span>&gt;
+    &lt;<span class="pyfunction">google:doGoogleSearch</span> soap:encodingStyle="..."&gt;
+      &lt;<span class="pyfunction">key</span> xsd:type="xsi:string"&gt;... license key ...&lt;/<span class="pyfunction">key</span>&gt;
+      &lt;<span class="pyfunction">q</span> xsd:type="xsi:string"&gt;query&lt;/<span class="pyfunction">q</span>&gt;
+      &lt;<span class="pyfunction">start</span> xsd:type="xsi:int"&gt;0&lt;/<span class="pyfunction">start</span>&gt;
+      &lt;<span class="pyfunction">maxResults</span> xsd:type="xsi:int"&gt;10&lt;/<span class="pyfunction">maxResults</span>&gt;
+      ... more fields ...
+    &lt;/<span class="pyfunction">google:doGoogleSearch</span>&gt;
+  &lt;/<span class="pyfunction">soap:Body</span>&gt;
+&lt;/<span class="pyfunction">soap:Envelope</span>&gt;</pre><b>key</b> field is a personal Google license key.  You can get
+your own key <a href="https://www.google.com/accounts/NewAccount">from
+Google</a>.
+<p>
+The <b>q</b> field contains the query.  You can download up to ten
+results per request; to get more results, you have to issue the same
+request again, with a different <b>start</b> setting.
+</p><p>
+The request structure must contain a few more mandatory fields; see
+the sample code below for a list.
+</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">
+We can use the <b>SoapService</b> class to create a simple service wrapper
+for the Google API; here&#8217;s a first version:
+
+<pre class="python wide">
+<span class="pykeyword">from</span> ElementSOAP <span class="pykeyword">import</span> SoapService, SoapRequest, SoapElement
+
+<span class="pykeyword">class</span> <span class="pyclass">GoogleService</span>(SoapService):
+    url = <span class="pystring">"http://api.google.com/search/beta2"</span>
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, key, url=None):
+        self.__key = key
+        SoapService.__init__(self, url)
+    <span class="pykeyword">def</span> <span class="pyfunction">doGoogleSearch</span>(self, query, start=0, maxResults=10):
+        action = <span class="pystring">"urn:GoogleSearchAction"</span>
+        request = SoapRequest(<span class="pystring">"{urn:GoogleSearch}doGoogleSearch"</span>)
+        SoapElement(request, <span class="pystring">"key"</span>, <span class="pystring">"string"</span>, self.__key)
+        SoapElement(request, <span class="pystring">"q"</span>, <span class="pystring">"string"</span>, query)
+        SoapElement(request, <span class="pystring">"start"</span>, <span class="pystring">"int"</span>, str(start))
+        SoapElement(request, <span class="pystring">"maxResults"</span>, <span class="pystring">"int"</span>, str(maxResults))
+        SoapElement(request, <span class="pystring">"filter"</span>, <span class="pystring">"boolean"</span>, <span class="pystring">"true"</span>)
+        SoapElement(request, <span class="pystring">"restrict"</span>, <span class="pystring">"string"</span>, <span class="pystring">""</span>)
+        SoapElement(request, <span class="pystring">"safeSearch"</span>, <span class="pystring">"boolean"</span>, <span class="pystring">"false"</span>)
+        SoapElement(request, <span class="pystring">"lr"</span>, <span class="pystring">"string"</span>, <span class="pystring">""</span>)
+        SoapElement(request, <span class="pystring">"ie"</span>, <span class="pystring">"string"</span>, <span class="pystring">"utf-8"</span>)
+        SoapElement(request, <span class="pystring">"oe"</span>, <span class="pystring">"string"</span>, <span class="pystring">"utf-8"</span>)
+        <span class="pykeyword">return</span> self.call(action, request).find(<span class="pystring">"return"</span>)</pre></p></div><div class="yui-ge"><div class="yui-u first"><p>The <b>doGoogleSearch</b> method takes a query string, and optional
+start and count arguments.  It returns a complete response structure,
+which contains information about the search, as well as elements
+describing each individual hit.  To get a list of hit descriptors, use
+<b>findall(&#8220;.//item&#8221;)</b>.
+</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">
+Here&#8217;s an example:
+
+<pre class="python wide">
+g = GoogleService(<span class="pystring">"... license key ..."</span>)
+
+response = g.doGoogleSearch(<span class="pystring">"... query ..."</span>)
+
+<span class="pykeyword">print</span> response.findtext(<span class="pystring">"estimatedTotalResultsCount"</span>)
+
+<span class="pykeyword">for</span> item <span class="pykeyword">in</span> response.findall(<span class="pystring">".//item"</span>):
+    <span class="pykeyword">print</span> item.findtext(<span class="pystring">"URL"</span>), repr(item.findtext(<span class="pystring">"title"</span>))</pre><b>cachedSize</b>, <b>hostName</b>,
+<b>snippet</b> (an HTML fragment), and <b>summary</b>.
+</p></div><div class="yui-ge"><div class="yui-u first"><p>
+Response subelements include <b>estimatedTotalResultsCount</b>,
+<b>searchTime</b>, <b>startIndex</b>, <b>endIndex</b>, and
+<b>searchQuery</b> (the original query string).
+
+<h2 id="handling-server-errors">Handling Server Errors&#160;<a class="nav" href="#handling-server-errors" title="bookmark!">#</a></h2>
+
+If you pass in invalid argument values to the Google search service,
+you&#8217;re likely to get server errors from the HTTP client layer.  For
+example, let&#8217;s play with the <b>maxResults</b> setting:
+
+<pre>
+&gt;&gt;&gt; g = GoogleService("<i>... license key ...</i>")
+
+&gt;&gt;&gt; g.doGoogleSearch("hello", maxResults=10)
+&lt;Element return at 9dd83c&gt;
+</pre>
+
+Getting 10 results in one operation worked just fine.  What about 10
+times as many?
+
+<pre>
+&gt;&gt;&gt; g.doGoogleSearch("hello", maxResults=100)
+Traceback (most recent call last):
+  File "myprogram.py", line 24, in doGoogleSearch
+  File "ElementSOAP.py", line 64, in call
+    extra_headers=[("SOAPAction", action)]
+  File "HTTPClient.py", line 114, in do_request
+    raise HTTPError(errcode, errmsg, headers, h.getfile())
+HTTPClient.HTTPError: (500, 'Internal Server Error')
+</pre></p><p>Oops.  Looks like someone didn&#8217;t like that request.
+
+</p><p>This error isn&#8217;t really an HTTP server error in the usual sense;
+rather, it&#8217;s the error code used by SOAP 1.1 to signal that a request
+couldn&#8217;t be processed.  When this happens, the HTTP response body
+<i>may</i> contain a SOAP response with a special SOAP Fault element.</p><p>If you disable the <b>errcode</b> check in HTTPClient, and print
+out the response structure, you&#8217;ll get something like:
+
+<pre class="xml">
+&lt;<span class="pyfunction">soap:Envelope</span>&gt;
+  &lt;<span class="pyfunction">soap:Body</span>&gt;
+    &lt;<span class="pyfunction">soap:Fault</span>&gt;
+      &lt;<span class="pyfunction">faultcode</span>&gt;SOAP-ENV:Server&lt;/<span class="pyfunction">faultcode</span>&gt;
+      &lt;<span class="pyfunction">faultstring</span>&gt;Exception from service object:
+      maxResults must be 10 or less.&lt;/<span class="pyfunction">faultstring</span>&gt;
+      &lt;<span class="pyfunction">faultactor</span>&gt;/search/beta2&lt;/<span class="pyfunction">faultactor</span>&gt;
+      &lt;<span class="pyfunction">detail</span>&gt;
+         ... additional elements ...
+      &lt;/<span class="pyfunction">detail</span>&gt;
+      ...
+    &lt;/<span class="pyfunction">soap:Fault</span>&gt;
+  &lt;/<span class="pyfunction">soap:Body</span>&gt;
+&lt;/<span class="pyfunction">soap:Envelope</span>&gt;</pre></p><p>This looks like an ordinary response, but instead of the <b>return</b>
+element, it contains a <b>soap:Fault</b> element, with more information
+about what really happened.  
+
+</p><p>It would be nice if our SOAP code raised some kind of SOAP-specific exception, instead of hiding the error message down in the HTTP client
+layer.</p><p>To deal with this, I&#8217;ve modified the HTTPClient slightly; if the
+status code isn&#8217;t 200, the client will still raise an exception, but
+the exception object contains not only the HTTP status code, but also
+the HTTP header dictionary and the file handle.  This allows the exception
+handler to look at the header, and if necessary, parse the response body.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">class</span> <span class="pyclass">HTTPError</span>(Exception):
+    <span class="pykeyword">pass</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">HTTPClient</span>:
+
+    <span class="pykeyword">def</span> <span class="pyfunction">do_request</span>(...):
+
+        ...
+
+        <span class="pykeyword">if</span> errcode != 200:
+            <span class="pykeyword">raise</span> HTTPError(errcode, errmsg, headers, h.getfile())
+
+        ...</pre></div><div class="yui-ge"><div class="yui-u first"><p>With this in place, it&#8217;s time to teach the <b>SoapService</b> class
+to look for SOAP fault responses.  Here&#8217;s the updated server class:
+
+<pre class="python">
+<span class="pykeyword">from</span> HTTPClient <span class="pykeyword">import</span> HTTPClient, HTTPError
+
+<span class="pykeyword">class</span> <span class="pyclass">SoapService</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, url=None):
+        self.__client = HTTPClient(url <span class="pykeyword">or</span> self.url)
+    <span class="pykeyword">def</span> <span class="pyfunction">call</span>(self, action, request):
+        <span class="pycomment"># build SOAP envelope</span>
+        envelope = Element(NS_SOAP_ENV + <span class="pystring">"Envelope"</span>)
+        body = SubElement(envelope, NS_SOAP_ENV + <span class="pystring">"Body"</span>)
+        body.append(request)
+        <span class="pycomment"># call the server</span>
+        <span class="pykeyword">try</span>:
+            response = self.__client.do_request(
+                tostring(envelope),
+                extra_headers=[(<span class="pystring">"SOAPAction"</span>, action)]
+                )
+        <span class="pykeyword">except</span> HTTPError, v:
+            <span class="pykeyword">if</span> v[0] == 500:
+                <span class="pycomment"># might be a SOAP fault</span>
+                response = ElementTree.parse(v[3])
+        response = response.getroot().find(body.tag)[0]
+        <span class="pykeyword">if</span> response.tag == NS_SOAP_ENV + <span class="pystring">"Fault"</span>:
+            <span class="pykeyword">raise</span> SoapFault(
+                response.findtext(<span class="pystring">"faultcode"</span>),
+                response.findtext(<span class="pystring">"faultstring"</span>),
+                response.findtext(<span class="pystring">"faultactor"</span>),
+                response.find(<span class="pystring">"detail"</span>)
+                )
+        <span class="pykeyword">return</span> response</pre></p><p>And here&#8217;s the exception class used for SOAP fault responses:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">class</span> <span class="pyclass">SoapFault</span>(Exception):
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, faultcode, faultstring, faultactor, detail):
+        Exception.__init__(self, faultcode, faultstring, faultactor, detail)
+        self.faultcode = faultcode
+        self.faultstring = faultstring
+        self.faultactor = faultactor
+        self.detail = detail</pre></div><div class="yui-g"><p class="wide">After these modifications, the error message is a bit more informative:
+
+<pre class="wide">
+&gt;&gt;&gt; g.doGoogleSearch("hello", maxResults=100)
+
+Traceback (most recent call last):
+  File "myprogram.py", line 24, in doGoogleSearch
+  File "ElementSOAP.py", line 77, in call
+    response.find("detail")
+ElementSOAP.SoapFault: ('SOAP-ENV:Server', 'Exception from service object:
+maxResults must be 10 or less.', '/search/beta2', &lt;Element detail at
+9dd6e4&gt;)
+</pre>
+
+(if you know your SOAP, you&#8217;ll notice a slight problem hidden in that error message.  I&#8217;ll get back to that later on).
+
+<h2 id="more-google-services">More Google Services&#160;<a class="nav" href="#more-google-services" title="bookmark!">#</a></h2>
+
+By the way, the current version of the Google service provides two more
+methods.  The <b>doGetCachedPage</b> method returns the cached version
+of a given document, if available:
+
+<pre class="python wide">
+<span class="pykeyword">class</span> <span class="pyclass">GoogleService</span>:
+
+    ...
+
+    <span class="pykeyword">def</span> <span class="pyfunction">doGetCachedPage</span>(self, url):
+        action = <span class="pystring">"urn:GoogleSearchAction"</span>
+        request = SoapRequest(<span class="pystring">"{urn:GoogleSearch}doGetCachedPage"</span>)
+        SoapElement(request, <span class="pystring">"key"</span>, <span class="pystring">"string"</span>, self.__key)
+        SoapElement(request, <span class="pystring">"url"</span>, <span class="pystring">"string"</span>, url)
+        response = self.call(action, request).findtext(<span class="pystring">"return"</span>)
+        <span class="pykeyword">if</span> response:
+            <span class="pykeyword">import</span> base64
+            response = base64.decodestring(response)
+        <span class="pykeyword">return</span> response</pre><pre class="wide">
+&gt;&gt;&gt; g = GoogleService(key)
+&gt;&gt;&gt; g.doGetCachedPage("online.effbot.org")[:40]
+'&lt;meta http-equiv="Content-Type" content= ...'
+&gt;&gt;&gt; len(g.doGetCachedPage("online.effbot.org"))
+10154
+</pre>
+
+The <b>doSpellingSuggestion</b> method suggests an alternative spelling
+for a given phrase:
+
+<pre class="python wide">
+<span class="pykeyword">class</span> <span class="pyclass">GoogleService</span>:
+
+    ...
+
+    <span class="pykeyword">def</span> <span class="pyfunction">doSpellingSuggestion</span>(self, phrase):
+        action = <span class="pystring">"urn:GoogleSearchAction"</span>
+        request = SoapRequest(<span class="pystring">"{urn:GoogleSearch}doSpellingSuggestion"</span>)
+        SoapElement(request, <span class="pystring">"key"</span>, <span class="pystring">"string"</span>, self.__key)
+        SoapElement(request, <span class="pystring">"phrase"</span>, <span class="pystring">"string"</span>, phrase)
+        <span class="pykeyword">return</span> self.call(action, request).findtext(<span class="pystring">"return"</span>)</pre><pre class="wide">
+&gt;&gt;&gt; g = GoogleService(key)
+&gt;&gt;&gt; g.doSpellingSuggestion("pyhton")
+'python'
+</pre>
+
+(you&#8217;re beginning to see a pattern here, right?)</p></div><div class="yui-g"><p><a href="elementsoap-1.htm">back</a>&#160;<a href="elementsoap-3.htm">next</a></p></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#talking-to-google">Talking to Google</a></li><li><a href="#handling-server-errors">Handling Server Errors</a></li><li><a href="#more-google-services">More Google Services</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

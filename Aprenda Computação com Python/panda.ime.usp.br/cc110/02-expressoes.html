@@ -1,0 +1,483 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Variáveis, expressões e funções de entrada e saída &#8212; Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Expressões lógicas e operadores relacionais" href="02-booleanos.html" />
+    <link rel="prev" title="Introdução" href="01-intro.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulas',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'cc110',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulas/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="02-booleanos.html" title="Expressões lógicas e operadores relacionais"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="01-intro.html" title="Introdução"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="variaveis-expressoes-e-funcoes-de-entrada-e-saida">
+<h1>Variáveis, expressões e funções de entrada e saída<a class="headerlink" href="#variaveis-expressoes-e-funcoes-de-entrada-e-saida" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="index-0"></span><div class="section" id="topicos-e-objetivos">
+<span id="index-1"></span><h2>Tópicos e Objetivos<a class="headerlink" href="#topicos-e-objetivos" title="Permalink to this headline">¶</a></h2>
+<p>Ao final dessa aula você deverá ser capaz de:</p>
+<blockquote>
+<div><ul class="simple">
+<li>identificar as variáveis de um programa em Python;</li>
+<li>calcular o resultado de expressões aritméticas;</li>
+<li>usar o operador de atribuição <cite>=</cite>, com variáveis e expressões;</li>
+<li>usar a função input();</li>
+<li>usar a função print();</li>
+<li>usar strings na função print();</li>
+<li>usar as função de conversão de tipo int().</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="livro">
+<h2>Livro<a class="headerlink" href="#livro" title="Permalink to this headline">¶</a></h2>
+<p>Sugerimos a leitura do <a class="reference external" href="https://panda.ime.usp.br/pensepy/static/pensepy/02-Conceitos/conceitos.html">Capítulo 2: Variáveis, expressões e comandos</a> do livro Como Pensar Como um Cientista da Computação.</p>
+</div>
+<div class="section" id="videos">
+<h2>Vídeos<a class="headerlink" href="#videos" title="Permalink to this headline">¶</a></h2>
+<p>Recomendamos que sejam assistidos os vídeos:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://www.youtube.com/watch?v=tqF0MjcOqcI&amp;list=PLcoJJSvnDgcKpOi_UeneTNTIVOigRQwcn&amp;index=5">Variáveis e scripts (programas) em Python</a>;</li>
+<li><a class="reference external" href="https://www.youtube.com/watch?v=UZ7_oudJ150&amp;index=6&amp;list=PLcoJJSvnDgcKpOi_UeneTNTIVOigRQwcn">Valores e tipos em Python</a>;</li>
+<li><a class="reference external" href="https://www.youtube.com/watch?v=ECFj-bWzU8I&amp;list=PLcoJJSvnDgcKpOi_UeneTNTIVOigRQwcn&amp;index=8">Entrada de dados</a>;</li>
+<li><a class="reference external" href="https://www.youtube.com/watch?v=9srd0tYvqv8">Idle no modo de edição e variáveis (int, str) [Zumbis]</a>;</li>
+<li><a class="reference external" href="https://www.youtube.com/watch?v=dhtEDVw5EFM">Escrita na tela (print) [Zumbis]</a>;</li>
+<li><a class="reference external" href="https://www.youtube.com/watch?v=mubJU5dHyP8">Leitura via teclado (input) [Zumbis]</a>.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="introducao">
+<h2>Introdução<a class="headerlink" href="#introducao" title="Permalink to this headline">¶</a></h2>
+<p>Uma dificuldade inicial para se aprender uma língua desconhecida
+é perceber e diferenciar os sons, para depois perceber as palavras,
+antes de finalmente conseguir entender as frases.
+Em geral também o entendimento da leitura e escuta de uma língua
+ocorre antes do domínio da escrita e da fala.
+Acreditamos que o aprendizado de uma linguagem de programação
+não seja muito diferente e, embora mais simples que uma linguagem
+natural, como o português, é necessário praticar muito para
+que consigamos desenvolver a habilidade de nos comunicarmos nessa nova língua.</p>
+<p>Muitos programadores experientes conseguem escrever um programa
+diretamente em uma linguagem de programação. Ao final desse curso
+gostaríamos que você fosse capaz de escrever alguns programas
+simples em Python. Entretanto, diferente de aprender a se comunicar em uma
+outra língua, um programa mais difícil precisa ser <em>pensado</em> antes de
+ser escrito. Isso porque um programa, em geral, resolve um
+determinado problema. Como cada problema pode ter várias soluções
+possíveis, é sempre recomendado que pensemos em algumas
+soluções antes de escolhermos uma para ser implementada.</p>
+<p>Mais que programar, a Ciência da Computação se preocupa em definir
+que problemas podem ser resolvidos por meio de computadores, como
+eles podem ser modelados, executados, avaliados etc. Assim, mais que
+programar, esse curso visa desenvolver <em>boas práticas</em> de programação
+que levam a construção de bons programas.</p>
+<p>Nessa aula, vamos tentar explorar um pouco mais o Python Shell
+para começar a <strong>perceber</strong> e <strong>entender</strong> como o Python se comporta
+e dessa forma você vai rapidamente aprender a <strong>ler</strong> programas em Python
+e começar a escrever alguns programas simples. Antes de prosseguir, sugerimos
+a leitura do <a class="reference external" href="https://panda.ime.usp.br/pensepy/static/pensepy/02-Conceitos/conceitos.html">Capítulo 2: Variáveis, expressões e comandos</a>.</p>
+<div class="section" id="problema">
+<h3>Problema<a class="headerlink" href="#problema" title="Permalink to this headline">¶</a></h3>
+<p>Dados dois inteiros <code class="docutils literal"><span class="pre">a</span></code> e <code class="docutils literal"><span class="pre">b</span></code>, calcular a sua soma.</p>
+<div class="admonition-nome-de-variaveis admonition">
+<p class="first admonition-title"><strong>Nome de variáveis</strong></p>
+<p>Nesse curso o nome de uma variável será sempre iniciada por uma letra
+minuscula e poderá ser seguida por outras letras mínuscular e números, como
+em: <code class="docutils literal"><span class="pre">contador</span></code>, <code class="docutils literal"><span class="pre">ind</span></code>, <code class="docutils literal"><span class="pre">i</span></code>, <code class="docutils literal"><span class="pre">j</span></code>, <code class="docutils literal"><span class="pre">a1</span></code>, <code class="docutils literal"><span class="pre">r2d2</span></code>, <code class="docutils literal"><span class="pre">bb8</span></code>, etc.</p>
+<p>Escolha sempre um nome significativo ou comum, para facilitar o
+entendimento sobre o que variável representa ou realiza. Por exemplo, <code class="docutils literal"><span class="pre">i</span></code>
+e <code class="docutils literal"><span class="pre">j</span></code> são nomes comuns para contar o número de iterações em um laço, mas
+podemos utilizar o nome <code class="docutils literal"><span class="pre">contador</span></code> e as vezes algumas abreviações como
+<code class="docutils literal"><span class="pre">cont</span></code> e <code class="docutils literal"><span class="pre">aux</span></code>. Para melhorar a clareza de seus programas, sugerimos
+também o uso de nomes compostos separados pelo caractere <cite>_</cite>, como em
+<code class="docutils literal"><span class="pre">conta_pares</span></code> e <code class="docutils literal"><span class="pre">conta_impares</span></code>. Evitaremos também o uso de caracteres
+acentuados para facilitar a compatibilidade com a ferramenta online
+utilizada no curso.</p>
+<p>Vamos chamar de <strong>constantes</strong> variáveis inicializadas uma única vez e que
+nunca mudam de valor. Para indicar uma constante utilizaremos nomes
+formados por todas as letras em maiúscula, como por exemplo
+<code class="docutils literal"><span class="pre">MAXIMO_TAMANHO</span> <span class="pre">=</span> <span class="pre">100</span></code>.</p>
+<dl class="last docutils">
+<dt><strong>Palavras reservadas</strong> como o nome de comandos e funções nativas do Python</dt>
+<dd>(<code class="docutils literal"><span class="pre">if</span></code>, <code class="docutils literal"><span class="pre">while</span></code>, <code class="docutils literal"><span class="pre">print()</span></code>, etc) também não podem ser utilizadas como nome de
+variáveis.</dd>
+</dl>
+</div>
+<p>Tentativa 0: execute o programa abaixo e veja o que acontece.</p>
+
+<div id="aula02_ex1_1" >
+<textarea cols="50" rows="12" id="aula02_ex1_1_code" class="active_code">
+def main():
+   a = 3
+   b = 4
+   soma = a + b
+   print("A soma de a + b eh igual a soma")
+
+#-----
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula02_ex1_1)</span> </p>
+<button onclick="runit('aula02_ex1_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula02_ex1_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula02_ex1_1');">Load</button>
+<br />
+
+<pre id="aula02_ex1_1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Observe que tudo entre aspas (&#8221;) define um texto ou <em>string</em>. Mas queremos
+imprimir o <strong>valor</strong> das variáveis e não o <strong>nome</strong> delas.</p>
+<p>Tentativa 1: execute o programa abaixo e veja o que acontece.</p>
+
+<div id="aula02_ex1_2" >
+<textarea cols="50" rows="12" id="aula02_ex1_2_code" class="active_code">
+def main():
+    a = 3
+    b = 4
+    soma = a + b
+    print("A soma de a + b eh igual a", soma)
+
+#-----
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula02_ex1_2)</span> </p>
+<button onclick="runit('aula02_ex1_2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula02_ex1_2');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula02_ex1_2');">Load</button>
+<br />
+
+<pre id="aula02_ex1_2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<dl class="docutils">
+<dt>Observe que o print recebeu dois <strong>valores</strong> separados por vírgula:</dt>
+<dd><ul class="first last simple">
+<li>um string (entre aspas) e</li>
+<li>o nome de uma variável</li>
+</ul>
+</dd>
+</dl>
+<p>O texto é impresso diretamente (pois esse é o seu <strong>valor</strong>) e, ao invés de imprimir o nome da
+variável soma, o print imprime o seu <strong>valor</strong>.</p>
+<p>Mas e como imprimir os valores de <code class="docutils literal"><span class="pre">a</span></code> e <code class="docutils literal"><span class="pre">b</span></code> ao invés de seus nomes?</p>
+<p>Tentativa 2: execute o programa abaixo e veja o que acontece.</p>
+
+<div id="aula02_ex1_3" >
+<textarea cols="50" rows="12" id="aula02_ex1_3_code" class="active_code">
+def main():
+    a = 3
+    b = 4
+    soma = a + b
+    print("A soma de", a, "+", b, "eh igual a", soma)
+
+#-----
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula02_ex1_3)</span> </p>
+<button onclick="runit('aula02_ex1_3',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula02_ex1_3');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula02_ex1_3');">Load</button>
+<br />
+
+<pre id="aula02_ex1_3_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Agora sim, a mensagem ficou bem mais clara.
+Mas como fazer com que os valores a serem somados sejam definidos por um
+usuário?</p>
+<p>Tentativa 3: execute o programa abaixo e veja o que acontece.</p>
+
+<div id="aula02_ex1_4" >
+<textarea cols="50" rows="12" id="aula02_ex1_4_code" class="active_code">
+PROMPT_1 = "Digite o primeiro numero: "  # PROMPT_1 é uma constante
+PROMPT_2 = "Digite o segundo numero: "   # PROMPT_2 é outra constante
+
+def main():
+    a = input(PROMPT_1) # veja o texto de PROMPT_1
+    b = input(PROMPT_2)
+
+    soma = a + b
+    print("A soma de", a, "+", b, "eh igual a", soma)
+
+#-----
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula02_ex1_4)</span> </p>
+<button onclick="runit('aula02_ex1_4',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula02_ex1_4');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula02_ex1_4');">Load</button>
+<br />
+
+<canvas id="aula02_ex1_4_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula02_ex1_4_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Utilizamos a função <code class="docutils literal"><span class="pre">input()</span></code> para receber a resposta do usuário
+à mensagem que colocamos como string passado à função <code class="docutils literal"><span class="pre">input()</span></code>.
+Como a resposta do usuário também é um string (e não um <strong>número</strong>)
+a operação <code class="docutils literal"><span class="pre">+</span></code> é realizada com strings, ou seja, eles são &#8220;grudados&#8221;
+(concatenados)
+em vez de adicionados. Não faz sentido adicionar dois strings, mas é
+muito útil <em>concatenar</em> dois strings usando o símbolo <cite>+</cite>.</p>
+<p>Precisamos, portanto, de um maneira para converter um string em um
+número, para que o Python obtenha a soma desses números.</p>
+<p>Tentativa 4:  execute o programa abaixo e veja o que acontece.</p>
+
+<div id="aula02_ex1_5" >
+<textarea cols="50" rows="12" id="aula02_ex1_5_code" class="active_code">
+def main():
+    a_str = input("Digite o primeiro numero: ")
+    b_str = input("Digite o segundo numero: ")
+    a_int = int(a_str) # converte string/texto para inteiro
+    b_int = int(b_str) # converte string/texto para inteiro
+    soma = a_int + b_int
+    print("A soma de", a_int, "+", b_int, "eh igual a", soma)
+
+#-----
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula02_ex1_5)</span> </p>
+<button onclick="runit('aula02_ex1_5',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula02_ex1_5');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula02_ex1_5');">Load</button>
+<br />
+
+<canvas id="aula02_ex1_5_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula02_ex1_5_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>A função <code class="docutils literal"><span class="pre">int()</span></code> converte um dado string para um número inteiro.
+Como não precisamos guardar as respostas na forma de texto,
+podemos simplificar o programa combinando as funções <code class="docutils literal"><span class="pre">int()</span></code>
+e <code class="docutils literal"><span class="pre">input()</span></code> da seguinte forma:</p>
+<p>Tentativa 5:</p>
+
+<div id="aula02_ex1_6" >
+<textarea cols="50" rows="12" id="aula02_ex1_6_code" class="active_code">
+def main():
+    a = int(input("Digite o primeiro numero: "))
+    b = int(input("Digite o segundo numero: "))
+    soma = a + b
+    print("A soma de", a, "+", b, "eh igual a", soma)
+
+#-----
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula02_ex1_6)</span> </p>
+<button onclick="runit('aula02_ex1_6',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula02_ex1_6');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula02_ex1_6');">Load</button>
+<br />
+
+<canvas id="aula02_ex1_6_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula02_ex1_6_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Variáveis, expressões e funções de entrada e saída</a><ul>
+<li><a class="reference internal" href="#topicos-e-objetivos">Tópicos e Objetivos</a></li>
+<li><a class="reference internal" href="#livro">Livro</a></li>
+<li><a class="reference internal" href="#videos">Vídeos</a></li>
+<li><a class="reference internal" href="#introducao">Introdução</a><ul>
+<li><a class="reference internal" href="#problema">Problema</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="01-intro.html"
+                        title="previous chapter">Introdução</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="02-booleanos.html"
+                        title="next chapter">Expressões lógicas e operadores relacionais</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="02-booleanos.html" title="Expressões lógicas e operadores relacionais"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="01-intro.html" title="Introdução"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Jun 12, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

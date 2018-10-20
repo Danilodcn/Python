@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Your First Widget (Writing Widgets in Python, Part&nbsp;1)</title></head><body data-page-id="345"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><p><a href="wck.htm">back</a>&#160;<a href="wck-2.htm">next</a></p><h1 class="maintitle">Your First Widget (Writing Widgets in Python, Part&nbsp;1)</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Updated May 31, 2003 | February 2003 | Fredrik Lundh</p><p>The <b>Widget Construction Kit</b> (WCK) is a simple programming
+interface that you can use to create new widgets in Python.</p><p>The WCK is currently available for the Tkinter library, but
+implementations for other environments are perfectly possible.</p><p>This <a href="http://effbot.org">effbot.org</a> article introduces
+the library, and shows how to create a very simple widget.  Future
+articles will teach you more about the art of widget making.</p><p>In this article:</p><dl><dt><a href="#installing-the-library">Installing the Library</a></dt><dt><a href="#testing-the-library">Testing the Library</a></dt><dt><a href="#writing-your-first-widget">Writing Your First Widget</a></dt><dt><a href="#precomputing-graphics-objects">Precomputing Graphics Objects</a></dt><dt><a href="#widget-options">Widget Options</a></dt></dl><h2 id="installing-the-library">Installing the Library&#160;<a class="nav" href="#installing-the-library" title="bookmark!">#</a></h2><p>For the examples in this article series, I will use the <a href="tkinter-index.htm">Tkinter 3000</a> implementation of the WCK.</p><p>Here&#8217;s how to install the Tkinter 3000 WCK on your computer:</p><ol><li><p>Make sure you have a working installation of <s><a href="http://www.python.org/topics/tkinter/">Tkinter</a></s> (dead link).</p></li><li><p>Download the Tkinter 3000 source code.  The most current
+version is available from <a href="http://effbot.org/downloads/#tkinter3000">the
+effbot.org downloads site</a>.  For this article series, I&#8217;m using
+the <b>1.0</b> release (but any 1.0 beta should work, unless
+otherwise noted).</p></li><li><p>Unpack it into a temporary build directory.</p></li><li><p>Build the library, in <s><a href="http://www.python.org/doc/current/inst/inst.html">the usual
+way</a></s> (dead link).</p></li></ol><p>If your system has <a href="http://www.gnu.org/software/wget/wget.html"><b>wget</b></a>, <a href="http://www.info-zip.org/pub/infozip/UnZip.html"><b>unzip</b></a>,
+and a working C compiler, you can use the following commands to
+download, build and install the library:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+$ <b>wget http://effbot.org/downloads/tkinter3000-1.0-20031212.zip</b>
+$ <b>unzip tkinter3000-1.0-20031212.zip</b>
+$ <b>cd tkinter3000-1.0-20031212</b>
+$ <b>python setup.py install</b>
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>You can of course use other tools to download and unpack the
+library (e.g. your favourite browser, and unzipping tools like
+<b>winzip</b>).  If you&#8217;re on Windows, you may find prebuilt versions
+at <a href="http://effbot.org/downloads/#tkinter3000">the
+effbot.org downloads site</a>.</p><h2 id="testing-the-library">Testing the Library&#160;<a class="nav" href="#testing-the-library" title="bookmark!">#</a></h2><p>The Tkinter 3000 WCK ships with a number of demo scripts (in files
+named <b>demo</b>Something<b>.py</b>.  Before you start writing your
+own widget, it&#8217;s a good idea to try one or more of the demos, to make
+sure everything is properly installed.</p><p>Some examples:</p><pre>
+$ python demoScrolledText.py
+$ python demoLissajou.py
+</pre><h2 id="writing-your-first-widget">Writing Your First Widget&#160;<a class="nav" href="#writing-your-first-widget" title="bookmark!">#</a></h2><p>The Tkinter 3000 implementation of the WCK consists of a single
+public module, called <b>WCK</b>.  This module provides a number of
+base classes and helper functions, including the <b>Widget</b> base
+class.</p><p class="note">
+<b>Note (May 2003):</b> In releases before 1.0b4, the WCK code was
+located in a module named <b>tk3</b>.  In newer releases, the code
+has been moved to a package, and should be accessed via the <b>WCK</b>
+module.  Just replace <b>tk3</b> with <b>WCK</b> in your programs (or
+use <b>import WCK as tk3</b>).  The <b>tk3</b> module is still
+available, but will most likely be removed in a future release.
+</p><p>(Other implementations should provide the same WCK components, but
+via a different module or namespace.)</p><p>The <b>Widget</b> base class implements a generic WCK widget.  By
+default, the widget behaves pretty much like a Tkinter <b>Frame</b>
+widget; it has a configurable background color and a border style, but
+has no other behavior.</p><p>To create a more expressive widget, you have to create a subclass
+of the <b>Widget</b> base class, and implement necessary drawing and
+event handling methods.  The framework will call methods in your
+subclass when the widget needs to be redrawn, when the widget is
+resized, when the widget is reconfigured, and so on.</p><p>For example, the <b>ui_handle_repair</b> method is called every
+time the widget needs to be redrawn:</p><pre class="python">
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget
+
+<span class="pykeyword">class</span> <span class="pyclass">SomeWidget</span>(Widget):
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        ...</pre><p>This method is called when the widget is first displayed, and later
+on when the window manager decides that the widget contents have been
+&#8220;damaged&#8221; (for example, when the window becomes visible after having
+been covered by another window).</p><p>The method takes five arguments:</p><blockquote>
+<b>ui_handle_repair(draw, x0, y0, x1, y1)</b>
+</blockquote><p>The first argument, <b>draw</b>, provides an interface to the
+underlying graphics library.  All WCK implementations allow you to
+draw text, lines, rectangles, and other 2D graphic elements via this
+interface.  (Some implementations offer more functionality, including
+image support and 3D graphics.  More on this in a later article.)</p><p>The rest of the arguments are coordinates (in pixel units) for the
+upper-left and lower-right coordinates of the widget&#8217;s drawing
+area.</p><p>Here&#8217;s a simple widget implementation:</p><div class="example">
+<b>Example: Drawing text in a widget</b>
+<pre class="python">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> Tk
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget
+
+<span class="pykeyword">class</span> <span class="pyclass">MyTextWidget</span>(Widget):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        font = self.ui_font(<span class="pystring">"black"</span>, <span class="pystring">"times"</span>)
+        draw.text((0, 0), <span class="pystring">"hello!"</span>, font)
+
+root = Tk()
+
+widget = MyTextWidget(root)
+widget.pack()
+
+root.mainloop()</pre></div><p>In this example, the <b>ui_handle_repair</b> method calls the WCK&#8217;s
+<b>ui_font</b> method to obtain a font object for the
+&#8220;times&#8221; font, and passes the string &#8220;hello!&#8221; and
+the font object to the <b>text</b> method of the drawing object.</p><p>Running this example produces a window looking something like:</p><blockquote>
+<img alt="" height="127" src="data:image/png;base64,&#10;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&#10;AAAASUVORK5CYII=&#10;" width="112" />
+</blockquote><p>Starting with release 1.0b4, the Tkinter WCK supports Unicode
+strings.  In earlier versions, you can pass in text as standard 8-bit
+strings, encoded in ASCII or UTF-8.</p><p>The Tkinter implementation also handles strings encoded in
+ISO-8859-1 (Latin-1).</p><h2 id="precomputing-graphics-objects">Precomputing Graphics Objects&#160;<a class="nav" href="#precomputing-graphics-objects" title="bookmark!">#</a></h2><p>In the first example, a <b>font</b> object is created for each call
+to <b>ui_handle_repair</b>.  For a simple widget like this, creating
+new objects every time the widget needs to be redrawn is usually not
+much of a problem; the object factory is reasonably fast, and Python&#8217;s
+garbage collector will make sure we&#8217;re not leaking objects.</p><p>However, if you need to use lots of fonts in your widget, a more
+efficient approach would be to create all font objects at once, and
+reuse the same objects every time the widget is redrawn.</p><p>One way to do this is to add a custom constructor (an
+<b>__init__</b> method), and create the font object when the widget
+itself is created.  Adding a constructor also allows you to pass in
+the text and the font as arguments:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Example: Precomputing drawing objects</b>
+<pre class="python wide">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> Tk
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget
+
+<span class="pykeyword">class</span> <span class="pyclass">MyTextWidget</span>(Widget):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, master, text=<span class="pystring">""</span>, font=<span class="pystring">"times"</span>, color=<span class="pystring">"black"</span>):
+        Widget.__init__(self, master)
+        self.font = self.ui_font(color, font)
+        self.text = text
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        draw.text((0, 0), self.text, self.font)
+
+root = Tk()
+
+widget = MyTextWidget(root, text=<span class="pystring">"hello!"</span>)
+widget.pack()
+
+root.mainloop()</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>Note that the base class constructor must be called before calling
+any other WCK methods.  If you don&#8217;t do this, <b>ui_font</b> will most
+likely raise an exception.</p><h2 id="widget-options">Widget Options&#160;<a class="nav" href="#widget-options" title="bookmark!">#</a></h2><p>The previous example has a possibly serious problem; once you&#8217;ve
+created an instance of the widget, there&#8217;s no way to change the text
+or the font.  You could solve this by adding configuration methods
+(e.g. <b>settext</b>, <b>setfont</b>), but that can quickly become
+unwieldy.  A simpler approach is to use the WCK&#8217;s Tkinter-style
+<i>option database</i> interface.</p><p>Widgets that use the option database behave like standard Tkinter
+widgets.  You can pass in options when you create the widget, and you
+can use the <b>config</b> method to change the configuration later on,
+if you need.  You can also use <b>cget</b> to fetch the current value
+of an option.</p><p>To make a your widget support a given option, all you have to do is
+to add a class attribute to your widget subclass.  The class attribute
+should have a name of the form <b>ui_option_name</b>, where
+<i>name</i> is the name of the option, and the value should be the
+default value for the corresponding widget option.</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">MyWidget</span>(Widget):
+    ui_option_name = <span class="pystring">"default"</span></pre><p>When an instance of this widget is created, the framework creates
+an instance attribute with the same name as the class attribute.  For
+example, if you call the widget constructor with a value for the
+<b>name</b> option, the value will be assigned to the
+<b>ui_option_name</b> instance attribute:</p><pre class="python">
+widget = MyWidget(root, name=<span class="pystring">"a better name"</span>)
+
+<span class="pycomment"># peek inside the widget</span>
+<span class="pykeyword">print</span> widget.ui_option_name</pre><p>The <b>ui_option</b> attributes should be treated as &#8220;protected&#8221;
+attributes.  Don&#8217;t access them from outside the widget
+implementation.</p><p>To get the current value for an option, use the standard
+Tkinter-style interface:</p><pre class="python">
+widget = MyWidget(root, name=<span class="pystring">"a better name"</span>)
+
+<span class="pycomment"># use the official tkinter-style api</span>
+<span class="pykeyword">print</span> widget.cget(<span class="pystring">"name"</span>)</pre><p>Inside the widget implementation, you should always access the
+option value via the <b>self</b> instance variable:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">MyWidget</span>(Widget):
+    <span class="pykeyword">def</span> <span class="pyfunction">getname</span>(self):
+        <span class="pykeyword">return</span> self.ui_option_name</pre><p>It&#8217;s important that you always use Python&#8217;s standard mechanims for
+attribute access.  The reason for this is that a WCK implementation
+may choose to save some space by falling back on the the class
+attribute for options that are not set, and also for options that are
+explicitly set to their default value.  If you access the attributes
+via <b>self</b>, Python will automatically do the right thing in those
+cases.</p><p align="center" class="mark">:::</p><p>To allow the user to change the option value at any time, you need
+to make sure that your widget is always using the current value for
+each option.</p><p>One way to do this is to revert to the approach used in the first
+example; simply create new graphics objects every time you need
+them.</p><pre class="python">
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        font = self.ui_font(
+            self.ui_option_color, self.ui_option_font
+            )
+        draw.text((0, 0), self.ui_option_text, font)</pre><p>A better approach is to track changes to the options, and recompute
+the graphics objects every time the configuration changes, instead of
+doing it every time the widget needs to be updated.  The framework
+provides a special method for this purpose, called
+<b>ui_handle_config</b>.  This method is called when the widget is
+first created, and every time the configuration is changed.</p><blockquote>
+<b>ui_handle_config()</b>
+</blockquote><p>Note that the <b>ui_handle_config</b> method does not take any
+arguments; if you need to check if a given option has changed, you may
+need to store the current value somewhere yourself, and compare it
+with the new value inside the config method.</p><p>The following example uses option attributes for the <b>text</b>,
+<b>font</b>, and <b>color</b> options, and a <b>ui_handle_config</b>
+method that is used to to update the font object when necessary:</p><div class="example">
+<b>Example: Adding widget options</b>
+<pre class="python">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> Tk
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget
+
+<span class="pykeyword">class</span> <span class="pyclass">MyTextWidget</span>(Widget):
+
+    ui_option_text = <span class="pystring">""</span>
+    ui_option_font = <span class="pystring">"times"</span>
+    ui_option_color = <span class="pystring">"black"</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_config</span>(self):
+        self.font = self.ui_font(
+            self.ui_option_color, self.ui_option_font
+            )
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        draw.text((0, 0), self.ui_option_text, self.font)
+
+root = Tk()
+
+widget = MyTextWidget(root, text=<span class="pystring">"hello!"</span>)
+widget.pack()
+
+widget.config(color=<span class="pystring">"blue"</span>, background=<span class="pystring">"white"</span>)
+
+root.mainloop()</pre></div><p>The <b>background</b> option used in the config example is a
+standard option, inherited from the <b>Widget</b> base class.  The
+base class provides the following standard options:</p><dl><dt><b>background</b></dt><dd><p>The widget&#8217;s background color.  By default, the background is
+drawn in the system&#8217;s standard background color.</p></dd>
+<dt><b>relief</b></dt><dt><b>borderwidth</b></dt><dt><b>highlightthickness</b></dt><dd><p>Controls the appearance of the widget border.  (the default is
+no border and no focus highlight).</p></dd>
+<dt><b>cursor</b></dt><dd><p>What mouse cursor to show when the mouse pointer is moved over the
+widget.  If not set, the widget will use the system&#8217;s default cursor
+(usually an arrow).</p></dd>
+</dl></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p><a href="wck.htm">back</a>&#160;<a href="wck-2.htm">next</a></p></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#installing-the-library">Installing the Library</a></li><li><a href="#testing-the-library">Testing the Library</a></li><li><a href="#writing-your-first-widget">Writing Your First Widget</a></li><li><a href="#precomputing-graphics-objects">Precomputing Graphics Objects</a></li><li><a href="#widget-options">Widget Options</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

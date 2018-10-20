@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Idea: Switch&nbsp;Statement</title></head><body data-page-id="129"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Idea: Switch&nbsp;Statement</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | June 2006</p><p>The <b>switch/case</b> statement is a variant of <b>if/elif</b>,
+which evaluates the controlling expression once, and provides a more
+convenient syntax for the subtests.
+
+<blockquote>
+<b>switch</b> <i><s><a href="http://pyref.infogami.com/syntax-expression">expression</a></s> (dead link)</i> [<b>as</b> <i><s><a href="http://pyref.infogami.com/syntax-target">target</a></s> (dead link)</i>] <b>:</b> <br />
+<b>case</b> [<b>in</b>] <i><s><a href="http://pyref.infogami.com/syntax-expression">expression</a></s> (dead link)</i>: <br />
+  &#160;&#160;&#160;&#160;<em><s><a href="http://pyref.infogami.com/syntax-suite">suite</a></s> (dead link)</em> <br />
+  &#8230; <br />
+  [<strong>else:</strong> <br />
+  &#160;&#160;&#160;&#160;<em><s><a href="http://pyref.infogami.com/syntax-suite">suite</a></s> (dead link)</em> ]
+</blockquote></p><p>The <b>case</b> expressions are evaluated in order, until a matching
+expression is found.  The <b>case</b> form corresponds to an == test.
+The <b>case in</b> form corresponds to an <b>in</b> test.
+
+</p><p>The <b>switch</b> statement has the same behaviour as a corresponding
+<b>if</b> statement.  In other words:
+
+<pre>
+     switch EXPR as VAR:
+     case E1:
+         ...
+     case in E2:
+         ...
+     else:
+         ...
+</pre></p><p>is the same thing as:
+
+<pre>
+     VAR = EXPR
+     if VAR == E1:
+         ...
+     elif VAR in E2:
+         ...
+     else:
+         ...
+</pre></p><p>If the <b>as</b> clause is omitted, an internal variable is used instead.
+
+<h3 id="examples">Examples&#160;<a class="nav" href="#examples" title="bookmark!">#</a></h3></p><p>In its simplest form, the <b>switch</b> statement is just
+<a href="http://en.wikipedia.org/wiki/Syntactic_sugar">sugar</a>
+for a standard <b>if/elif</b> statement:
+
+<pre>
+    def func(value):
+        switch value:
+        case 1:
+            ...
+        case 2:
+            ...
+</pre></p><p>is the same thing as:
+
+<pre>
+    def func(value):
+        if value == 1:
+            ...
+        elif value == 2:
+            ...
+</pre></p><p>However, if you replace <i>value</i> with an arbitrary expression, the
+<b>switch</b> form will only evaluate the expression once.</p><p>The <b>as</b> clause can be used to capture the result of the expression,
+for later use (either in cases or in suites):
+
+<pre>
+    def func(value):
+        switch expression as var:
+        case 2:
+            print "bike"
+        case 4:
+            print "car"
+        else:
+            print var, "was unexpected"
+</pre></p><p>The <b>static</b> expression form (see <a href="idea-static.htm">this page</a>) can be used to provide hints to the compiler:</p><pre>
+    def func(value):
+        switch value:
+        case static foo.bar:
+            ...
+        case static foo.fie:
+            ...
+        case static foo.fum:
+            ...
+</pre><p>Here, the runtime may replace the repeated tests with a single table
+(or dictionary) lookup.
+
+<h3 id="references">References&#160;<a class="nav" href="#references" title="bookmark!">#</a></h3></p><p>See the current python-dev thread titled <i>Switch statement</i>.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><ul><li><a href="#examples">Examples</a></li><li><a href="#references">References</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

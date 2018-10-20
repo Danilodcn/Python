@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Using ElementTrees to Generate XML-RPC&nbsp;Messages</title></head><body data-page-id="99"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Using ElementTrees to Generate XML-RPC&nbsp;Messages</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">July 11, 2002 | Fredrik Lundh</p><i>This is a work in progress.</i>
+<p>The <a href="http://www.xmlrpc.com/">XML-RPC protocol</a> provides
+a simple way to call remote services across a network.  The protocol
+is based on well-known and widely used standards like HTTP and XML,
+and it simply adds a standard way to format requests and response
+packages, and to convert parameter values to XML and back again.</p><p>To call a remote service, create an XML document describing your
+request according to the instructions in the XML-RPC specification,
+and use HTTP to post it to the server.  If everything goes well, the
+server will return an XML document containing the response.</p><p>Here&#8217;s a simple request example (right out of the XML-RPC
+specification):</p><pre>
+&lt;?xml version="1.0"?&gt;
+&lt;methodCall&gt;
+  &lt;methodName&gt;examples.getStateName&lt;/methodName&gt;
+  &lt;params&gt;
+    &lt;param&gt;
+      &lt;value&gt;&lt;i4&gt;41&lt;/i4&gt;&lt;/value&gt;
+    &lt;/param&gt;
+  &lt;/params&gt;
+&lt;/methodCall&gt;
+</pre><p>The request consists of a toplevel <b>methodCall</b> element, which
+contains two subelements, <b>methodName</b> and <b>params</b>.</p><p>As the name implies, the <b>methodName</b> element contains the
+name of the remote procedure to invoke.  In this case, the name is
+<b>examples.getStateName</b>, which can be interpreted as a
+<b>getStateName</b> method provided by the <b>examples</b>
+service.</p><p>The <b>params</b> element, finally, contains parameters to pass to
+the procedure.  It should contain a number of <b>param</b> subelements,
+each containing a <b>value</b>.  The <b>params</b> element is optional;
+if the procedure takes no arguments, you can leave it out.</p><p>The following script uses the <b>httplib</b> module to send
+this request to a userland.com server:</p><div class="example">
+<b>Example: Sending a pre-defined XML-RPC request</b>
+<pre class="python">
+host = <span class="pystring">"betty.userland.com"</span>
+
+handler = <span class="pystring">"/RPC2"</span>
+
+body = <span class="pystring">"""\</span>
+&lt;?xml version="1.0"?&gt;
+&lt;methodCall&gt;
+  &lt;methodName&gt;examples.getStateName&lt;/methodName&gt;
+  &lt;params&gt;
+    &lt;param&gt;
+      &lt;value&gt;&lt;i4&gt;41&lt;/i4&gt;&lt;/value&gt;
+    &lt;/param&gt;
+  &lt;/params&gt;
+&lt;/methodCall&gt;
+"""
+
+<span class="pykeyword">def</span> <span class="pyfunction">do_request</span>(host, handler, body):
+
+    <span class="pykeyword">from</span> httplib <span class="pykeyword">import</span> HTTP
+
+    <span class="pycomment"># send xml-rpc request</span>
+    h = HTTP(host)
+    h.putrequest(<span class="pystring">"POST"</span>, handler)
+    h.putheader(<span class="pystring">"User-Agent"</span>, <span class="pystring">"element-xmlrpc"</span>)
+    h.putheader(<span class="pystring">"Host"</span>, host)
+    h.putheader(<span class="pystring">"Content-Type"</span>, <span class="pystring">"text/xml"</span>)
+    h.putheader(<span class="pystring">"Content-Length"</span>, str(len(body)))
+    h.endheaders()
+    h.send(body)
+
+    <span class="pycomment"># fetch the reply</span>
+    errcode, errmsg, headers = h.getreply()
+
+    <span class="pykeyword">if</span> errcode != 200:
+        <span class="pykeyword">raise</span> Exception(errcode, errmsg)
+
+    <span class="pykeyword">return</span> h.getfile()
+
+
+<span class="pykeyword">print</span> do_request(host, handler, body).read()</pre></div><p>Assuming that <b>betty.userland.com</b> is up and running,
+the above script produces the following output (or something
+very similar):</p><pre>
+&lt;?xml version="1.0"?&gt;
+&lt;methodResponse&gt;
+  &lt;params&gt;
+    &lt;param&gt;
+      &lt;value&gt;South Dakota&lt;/value&gt;
+    &lt;/param&gt;
+  &lt;/params&gt;
+&lt;/methodResponse&gt;
+</pre><p>The response is similar in structure.  The toplevel element
+tells us that this is <b>methodResponse</b>, and the return values
+are stored in a <b>params</b> element.</p><h3>Parsing the Response</h3><p>Instead of printing the response, we can parse the it into an
+<b>ElementTree</b>, and use standard element methods to access
+the response contents:</p><pre class="python">
+file = do_request(host, handler, body)
+
+<span class="pykeyword">import</span> ElementTree
+tree = ElementTree.parse(file)
+
+methodResponse = tree.getroot()
+
+<span class="pykeyword">for</span> param <span class="pykeyword">in</span> methodResponse.find(<span class="pystring">"params"</span>):
+    <span class="pykeyword">print</span> repr(param[0].text)</pre><p>If you run this script, it&#8217;ll print <b>&#8216;South Dakota&#8217;</b>
+(unless someone&#8217;s moved things around, of course).</p><h3>Encoding Parameters and Return Values</h3><p>Both parameters and return values are always stored in
+<b>value</b> elements, using a subelement to specify both
+the type (in the tag field) and the value (as text).  For
+strings, you can leave out the subelement and store the
+string value in the value element itself.</p><p>XML-RPC supports the following type elements:</p><dl><dt><b>i4</b> or <b>int</b></dt><dd><p>A 32-bit signed integer.</p></dd>
+<dt><b>boolean</b></dt><dd><p>A boolean value, or flag: 0 for false, 1 for true.</p></dd>
+<dt><b>string</b></dt><dd><p>An string of XML characters (also see
+<a href="xmlrpc-ascii.htm"><cite>XML-RPC and the ASCII Limitation</cite></a>).</p></dd>
+<dt><b>double</b></dt><dd><p>A double-precision (64-bit) signed floating
+point number.</p></dd>
+<dt><b>dateTime.iso8601</b></dt><dd><p>Date/time given as a 17-character ISO 8601 string:
+&#8220;yyyymmddThh:mm:dd&#8221;.  Note that the value is a given as a
+&#8220;naive time&#8221;; it does not include a time zone.</p></dd>
+<dt><b>base64</b></dt><dd><p>Binary data, stored as base64-encoded text</p></dd>
+<dt><b>array</b></dt><dd><p>An ordered collection of values (similar to a Python
+list).  The <b>array</b> element should have a subelement
+named <b>data</b>, which can contain any number of <b>value</b>
+subelements.  Arrays can be nested.</p></dd>
+<dt><b>struct</b></dt><dd><p>An unordered collection of string/value pairs (similar
+to a Python dictionary).  The <b>struct</b> element can contain
+any number of <b>member</b> subelements, each containing a
+<b>name</b> element with the key string, and a <b>value</b>
+element containing the value.  Structs can be nested.</p></dd>
+</dl><p><i>To be continued&#8230;</i></p><hr /></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="small wide"><p><b class="mark">Notes:</b></p><p>The <a href="http-xml.htm">http_xml module</a> contains code
+to send and receive element trees over HTTP.</p><p>The following piece of code decodes a value argument, recursively:</p><pre class="python wide">
+<span class="pykeyword">from</span> base64 <span class="pykeyword">import</span> decodestring
+
+unmarshallers = {
+    <span class="pystring">"int"</span>: <span class="pykeyword">lambda</span> x: int(x.text), <span class="pystring">"i4"</span>: <span class="pykeyword">lambda</span> x: int(x.text),
+    <span class="pystring">"boolean"</span>: <span class="pykeyword">lambda</span> x: bool(int(x.text)),
+    <span class="pystring">"string"</span>: <span class="pykeyword">lambda</span> x: x.text <span class="pykeyword">or</span> <span class="pystring">""</span>,
+    <span class="pystring">"double"</span>: <span class="pykeyword">lambda</span> x: float(x.text),
+    <span class="pystring">"dateTime.iso8601"</span>: <span class="pykeyword">lambda</span> x: datetime(x.text),
+    <span class="pystring">"array"</span>: <span class="pykeyword">lambda</span> x: [unmarshal(v) <span class="pykeyword">for</span> v <span class="pykeyword">in</span> x[0]],
+    <span class="pystring">"struct"</span>: <span class="pykeyword">lambda</span> x: dict([(k.text <span class="pykeyword">or</span> <span class="pystring">""</span>, unmarshal(v)) <span class="pykeyword">for</span> k, v <span class="pykeyword">in</span> x]),
+    <span class="pystring">"base64"</span>: <span class="pykeyword">lambda</span> x: decodestring(x.text <span class="pykeyword">or</span> <span class="pystring">""</span>)
+}
+
+<span class="pykeyword">def</span> <span class="pyfunction">unmarshal</span>(elem):
+    <span class="pykeyword">if</span> elem:
+        value = elem[0]
+        <span class="pykeyword">return</span> unmarshallers[value.tag](value)
+    <span class="pykeyword">return</span> elem.text <span class="pykeyword">or</span> <span class="pystring">""</span></pre><p>Here&#8217;s an alternative version of the struct line, which works also
+under Python 2.1:</p><pre class="python wide">
+    <span class="pystring">"struct"</span>: <span class="pykeyword">lambda</span> x: ([d <span class="pykeyword">for</span> d <span class="pykeyword">in</span> [{}]],
+        [d.setdefault(k.text <span class="pykeyword">or</span> <span class="pystring">""</span>, unmarshal(v)) <span class="pykeyword">for</span> (k, v) <span class="pykeyword">in</span> x], d)[2],</pre><p><i>Hmm.  Maybe I should start with a slightly more readable version,
+using separate arrayfixup and structfixup functions&#8230;</i></p><p>Here&#8217;s a snippet that builds an XML-RPC request, with
+parameters given as a sequence:</p><pre class="python wide">
+<span class="pykeyword">def</span> <span class="pyfunction">marshal_method_call</span>(method_name, params):
+    method_call_elem = Element(<span class="pystring">"methodCall"</span>)
+    SubElement(method_call_elem, <span class="pystring">"methodName"</span>).text = method_name
+    <span class="pykeyword">if</span> params:
+        params_elem = SubElement(method_call_elem, <span class="pystring">"params"</span>)
+        <span class="pykeyword">for</span> value <span class="pykeyword">in</span> params:
+            elem = SubElement(params_elem, <span class="pystring">"param"</span>)
+            elem.append(marshal(value))
+    <span class="pykeyword">return</span> method_call_elem</pre><p>And here&#8217;s a snippet that builds an XML-RPC response.
+Note that a method can only return a single value; to return
+multiple values, put them in a tuple.</p><pre class="python wide">
+<span class="pykeyword">def</span> <span class="pyfunction">marshal_method_response</span>(params):
+    method_response_elem = Element(<span class="pystring">"methodResponse"</span>)
+    param_elem = SubElement(
+        SubElement(method_response_elem, <span class="pystring">"params"</span>),
+        <span class="pystring">"param"</span>
+        )
+    param_elem.append(marshal(params))
+    <span class="pykeyword">return</span> method_response_elem</pre><p>Here&#8217;s a stub version of marshal.  This version only supports
+a few data types:</p><pre class="python wide">
+marshallers = {
+    type(0): <span class="pykeyword">lambda</span> x, v: (SubElement(x, <span class="pystring">"i4"</span>), str(v)),
+    type(0.0): <span class="pykeyword">lambda</span> x, v: (SubElement(x, <span class="pystring">"double"</span>), str(v)),
+    type(<span class="pystring">""</span>): <span class="pykeyword">lambda</span> x, v: (SubElement(x, <span class="pystring">"string"</span>), v)
+}
+
+<span class="pykeyword">def</span> <span class="pyfunction">marshal</span>(value):
+    value_elem = Element(<span class="pystring">"value"</span>)
+    elem, elem.text = marshallers[type(value)](value_elem, value)
+    <span class="pykeyword">return</span> value_elem</pre></div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

@@ -1,0 +1,239 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Creating a Button Widget (Writing Widgets in Python, Part&nbsp;2)</title></head><body data-page-id="346"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><p><a href="wck-1.htm">back</a>&#160;<a href="wck-3.htm">next</a></p><h1 class="maintitle">Creating a Button Widget (Writing Widgets in Python, Part&nbsp;2)</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Updated May 31, 2003 | February 2003 | Fredrik Lundh</p><p>The <b>Widget Construction Kit</b> (WCK) is a programming interface
+that you can use to create new widgets for Tkinter and other toolkits,
+in pure Python.</p><p>In <a href="wck-1.htm">the first article</a> in this series, I
+showed how to create a very simple widget, how to draw the widget on
+the screen, and how to keep the widget updated when option values are
+changed.</p><p>In this article, we&#8217;ll look at widget geometry issues, and briefly
+discuss how to handle mouse and keyboard events.</p><p>In this article:</p><dl><dt><a href="#widget-geometry">Widget Geometry</a></dt><dt><a href="#handling-user-events">Handling User Events</a></dt></dl><h2 id="widget-geometry">Widget Geometry&#160;<a class="nav" href="#widget-geometry" title="bookmark!">#</a></h2><p>The simple widget we used in <a href="wck-1.htm">the first
+article</a> didn&#8217;t contain any code to set the widget&#8217;s size.  That
+doesn&#8217;t stop the WCK from giving it a size, though; if you don&#8217;t say
+anything, the framework will set the size to 100x100 pixels.</p><p>To request another size, you can calculate the size in the
+<b>ui_handle_config</b> method, and return a tuple containing the
+requested width and height.</p><p>In the following example, I&#8217;ve added two options that can be used
+to set the widget size, in pixels.  I&#8217;ve also added code to the
+<b>ui_handle_config</b> method:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Example: Setting the widget size</b>
+<pre class="python wide">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> Tk
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget
+
+<span class="pykeyword">class</span> <span class="pyclass">MyTextWidget</span>(Widget):
+
+    ui_option_text = <span class="pystring">""</span>
+    ui_option_font = <span class="pystring">"times"</span>
+    ui_option_color = <span class="pystring">"black"</span>
+
+    ui_option_width = 100
+    ui_option_height = 100
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_config</span>(self):
+        self.font = self.ui_font(self.ui_option_color, self.ui_option_font)
+        <span class="pykeyword">return</span> int(self.ui_option_width), int(self.ui_option_height)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        draw.text((0, 0), self.ui_option_text, self.font)
+
+root = Tk()
+
+widget = MyTextWidget(root, text=<span class="pystring">"hello!"</span>, width=200)
+widget.pack()
+
+root.mainloop()</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>Note the use of <b>int</b> to make sure the options are integer
+objects.  This allows the user to pass in option values as strings,
+just like when using Tkinter. </p><p>Also note that the framework will interpret the return value from
+<b>ui_handle_config</b> as a <i>request</i>, rather than an absolute
+requirement.  The geometry manager will assign an actual size, basing
+its decision on the available space, the requested sizes of all other
+widgets managed by the same manager, and the manager configuration
+settings.</p><p>To figure out the current size of the widget from within the widget
+implementation, you can use the coordinates passed to the
+<b>ui_handle_repair</b> method.</p><p>Another approach is to implement the <b>ui_handle_resize</b>
+method.  This method is called every time the widget size is changed,
+and can be used to recalculate parameters related to the widget&#8217;s
+actual geometry.</p><p>Here&#8217;s a more extensive example.  The <b>ui_handle_config</b>
+method now calculates the actual size of the text (determined by a
+call to the font object&#8217;s <b>measure</b> method), and uses it to
+request a suitable size for the widget.  The <b>ui_handle_resize</b>
+method uses the text size and the current widget size to calculate
+where to draw the text:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Example: Centering the text</b>
+<pre class="python wide">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> Tk
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget
+
+<span class="pykeyword">class</span> <span class="pyclass">MyTextWidget</span>(Widget):
+
+    ui_option_text = <span class="pystring">""</span>
+    ui_option_font = <span class="pystring">"times"</span>
+    ui_option_color = <span class="pystring">"black"</span>
+
+    ui_option_width = 0
+    ui_option_height = 0
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_config</span>(self):
+        self.font = self.ui_font(
+            self.ui_option_color, self.ui_option_font
+            )
+        <span class="pycomment"># calculate text size</span>
+        width, height = self.font.measure(self.ui_option_text)
+        self.textsize = width, height
+        <span class="pycomment"># calculate widget size</span>
+        width = max(width, int(self.ui_option_width))
+        height = max(height, int(self.ui_option_height))
+        <span class="pykeyword">return</span> width, height
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_resize</span>(self, width, height):
+        <span class="pycomment"># center the text</span>
+        w, h = self.textsize
+        self.pos = (width - w) / 2, (height - h) / 2
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        draw.text(self.pos, self.ui_option_text, self.font)
+
+root = Tk()
+
+widget = MyTextWidget(root, text=<span class="pystring">"hello!"</span>)
+widget.pack(expand=1, fill=<span class="pystring">"both"</span>)
+
+root.mainloop()</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>If you run this example and resize the window, the widget will be
+resized by the geometry manager (based on the <b>expand</b> and
+<b>fill</b> settings), but the text will stay centered.</p><blockquote>
+<img alt="" height="119" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAKUAAAB3CAIAAADtvxepAAAHjklEQVR4nGK8cuEEwygYGSCnoAIA AAD//2JhYGDQ1jcfaJeMApqDxsZGBgYGAAAAAP//YoFwrl48OaCOGQV0AgAAAAD//2IaaAeMAroC AAAAAP//YkHmmIUsIs8URkZGJiYmJiYEyYjKZWKCqkBVAxdDVgMTRFPDhFsNiu1oahhh6nCrYcSq hlhfMDEN9jyjx3YDzgYAAAD//xrsbh0F1AUAAAAA//9iIaxkFBABIk35iVfs6Oi4f/9+ktSndW0g wxaILmQAAAAA//8ajW+qASLbvGs27CBPPSW64AAAAAD//8IZ31/vTMMU5FbJQlODJgIHL891MTAw SJtVEuO4kQx0DCxwSdFiaAQAAAD//8Jef2ONbDRxNDWfbkz6cG0iFV02CvADHQMLtLSCKYIJAAAA AP//IlCeY2ZoZAauzD0KSAJY8zHBmLty4QQkgiHaIeoJFgkAAAAA///CGd+YcQkvvfFE9rsr/QwM DGIGJciCD4+1MDAwKNnV43fKKCAVwKMcziWoBQAAAP//wl6ec6tkoRXXaFU1RAFmsS+kUyiiV4Qs 8vhEGwMDg6JNLRHuHwUkA3gcE1nZAwAAAP//wtn/Ro5dtGobEtnEFOZPT7UzMDDIW9UQ45RRQAaA Z26C5T8EAAAAAP//Ina8BS36iY/yUUA7AK+zkatw/AAAAAD//yIc31jb5PAox68X0h+D1N8jB0Dq VGREI1sYMMpzgnYBAAAA//8iaryFmHzMp5H36cYkzPaarEXV4xNt9480j7bXcAHyEgRmhU1MFQ4A AAD//yIQ35g5GN5ExyzPBbTy4bMI4kZlEAYDA4O8VQ1kpoGga4YHIGmchM7rTQAAAAD//yKcv9Ga 5ZiCowACcA1hUks9JbrgAAAAAP//Im28ZRTgAo6OjjRVT4kuZAAAAAD//xqdL6EOwJyJGpy2AAAA AP//Gil16iiAAAAAAAD//0LJ36fWxA2UOwYC/GNgYGBg+DvArqAvAAAAAP//Gs3fIwsAAAAA//8a je+RBQAAAAD//xqN75EFAAAAAP//Go3vkQUAAAAA//8aje+RBQAAAAD//xqN75EFAAAAAP//Go3v kQUAAAAA//8aje+RBQAAAAD//xqN75EFAAAAAP//Go3vkQUAAAAA//8aje+RBQAAAAD//xqN75EF AAAAAP//Go3vkQUAAAAA//8aje+RBQAAAAD//xqN75EFAAAAAP//Go3vkQUAAAAA//8aje+RBQAA AAD//xqN75EFAAAAAP//Go3vkQUAAAAA//8aje+RBQAAAAD//xqN75EFAAAAAP//Go3vkQUAAAAA //8aje+RBQAAAAD//xqN75EFAAAAAP//Go3vkQUAAAAA//8aje+RBQAAAAD//xqN75EFAAAAAP// Go3vkQUAAAAA//8aje+RBQAAAAD//xqN75EFAAAAAP//Go3vkQUAAAAA//8aje+RBQAAAAD//xqN 75EFAAAAAP//Go3vkQUAAAAA//8aje+RBQAAAAD//xqN75EFAAAAAP//Go3vkQUAAAAA//8aje+R BQAAAAD//xqN75EFAAAAAP//Go3vkQUAAAAA//8aPvFN/KnSJN0JQKPTywcKAAAAAP//GibxTaPI Hn4AAAAA//8aJvFN/CnipF7wMswAAAAA//8aJvE9CogEAAAAAP//Gm7nYWNeu0b89VxEXtk2pAEA AAD//xpW8Y182R4aA41NjN5hCQAAAAD//xpW8U3exYwMqHEMubRvuEY5AAAA//8aVvGNFQzXmCMP AAAAAP//Gm2vjSwAAAAA//8aQfGN/6Zt5H45cpEwzIoHAAAAAP//Yrxy4YS2vjmRt8YPWoDcCEdr kOPiwgFyg44BI4KHTV2+ZsOOAwcOAAAAAP//GibxPQoIAkh8AwAAAP//GkHl+ShgYGAAAAAA//8a je+RBQAAAAD//xqN75EFAAAAAP//Go3vkQUAAAAA//8aje+RBQAAAAD//xqN75EFAAAAAP//Go3v kQUAAAAA//8aje+RBQAAAAD//xqN75EFAAAAAP//Go3vkQUAAAAA//8aje+RBQAAAAD//xqN75EF AAAAAP//Go3vkQUAAAAA//8aje+RBQAAAAD//xqN75EFAAAAAP//Go3vkQUAAAAA//8aje+RBQAA AAD//xqN75EFAAAAAP//Go3vkQUAAAAA//8aje+RBQAAAAD//xqN75EFAAAAAP//Go3vkQUAAAAA //8aje+RBQAAAAD//xqN75EFAAAAAP//Go3vkQUAAAAA//8aje+RBQAAAAD//xqN75EFAAAAAP// Go3vkQUAAAAA//8aje+RBQAAAAD//xqN75EFAAAAAP//Go3vkQUAAAAA//8aje+RBQAAAAD//xqN 75EFAAAAAP//Go3vkQUAAAAA//8aje+RBQAAAAD//xqN75EFAAAAAP//Go3vkQUAAAAA//8aje+R BQAAAAD//xqN75EFAAAAAP//Go3vkQUAAAAA//8aje+RBQAAAAD//xqN75EFAAAAAP//YmFgYGhs bBxoZ4wCOgEAAAAA//9idHBwGGg3jAL6AQAAAAD//wMAFzlAktBund8AAAAASUVORK5CYII= " width="165" />
+</blockquote><h2 id="handling-user-events">Handling User Events&#160;<a class="nav" href="#handling-user-events" title="bookmark!">#</a></h2><p class="note">
+<b>Note (May 2003):</b> This section has been modified to use only
+standard controllers (EventMixin, ButtonMixin).  Information on how to
+create your own controllers will appear in a later article.
+</p><p>The WCK provides <b>ui_handle</b> methods for most events generated
+by the windowing system (e.g. redraw requests), but keyboard and mouse
+events are handled via separate <i>widget controller</i> classes.</p><p>For simple widgets, WCK provides a standard controller that maps
+incoming events to DOM/DHTML-style method calls.  The standard
+controller supports the following events:</p><dl><dt><b>onkey(event)</b></dt><dd><p>A key was pressed.  The <b>event</b> object contains more
+information about the key (see below).</p></dd>
+<dt><b>onclick(event)</b></dt><dd><p>A mouse button was pressed and released.  The <b>event</b>
+object contains more information about the mouse button (see
+below).</p></dd>
+<dt><b>onmousedown(event)</b></dt><dd><p>A mouse button was pressed.</p></dd>
+<dt><b>onmouseup(event)</b></dt><dd><p>A mouse button was released.</p></dd>
+<dt><b>onmouseover(event)</b></dt><dd><p>The mouse pointer was moved into the widget.</p></dd>
+<dt><b>onmousemove(event)</b></dt><dd><p>The mouse pointer was moved when inside the widget.</p></dd>
+<dt><b>onmouseout(event)</b></dt><dd><p>The mouse pointer was moved out of the widget.</p></dd>
+</dl><p>To use the standard controller, modify your widget so it inherits
+both the <b>EventMixin</b> mix-in class and the <b>Widget</b> class.
+An example:</p><pre class="python">
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> EventMixin, Widget
+
+<span class="pykeyword">class</span> <span class="pyclass">MyWidget</span>(EventMixin, Widget):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">onclick</span>(self, event):
+        <span class="pykeyword">print</span> <span class="pystring">"click!"</span></pre><p>The event structure contains information about the event, including
+the following attributes:</p><dl><dt><b>widget</b></dt><dd><p>The target widget.  For keyboard events, this is the widget
+that has the keyboard focus.  For mouse events, this is where the
+mouse pointer is.</p></dd>
+<dt><b>x, y</b></dt><dd><p>For mouse events, where in the widget the mouse pointer was
+when the event was generated (relative to the upper left corner of the
+widget).</p></dd>
+<dt><b>num</b></dt><dd><p>For mouse events, the button number.</p></dd>
+<dt><b>char</b></dt><dd><p>For keyboard events, the character(s) generated by the key
+press.  For special keys (function keys, shift, etc), this attribute
+is set to an empty string.  Use the <b>keysym</b> attribute
+instead.</p></dd>
+<dt><b>keysym</b></dt><dd><p>For keyboard events, the key symbol (the name of the
+key).</p></dd>
+</dl><h3>A Simple Button Widget</h3><p>Here&#8217;s a somewhat larger example, which shows how to use a
+controller to provide behavior for a simple button-like widget.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Example: Implementing Button-like Behavior</b>
+<pre class="python wide">
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget, EventMixin
+
+<span class="pykeyword">class</span> <span class="pyclass">MyTextWidget</span>(Widget):
+    ... see above ...
+
+<span class="pykeyword">class</span> <span class="pyclass">MyButtonWidget</span>(EventMixin, MyTextWidget):
+
+    ui_option_relief = <span class="pystring">"raised"</span>
+    ui_option_borderwidth = 2
+
+    ui_option_command = None
+
+    <span class="pykeyword">def</span> <span class="pyfunction">onclick</span>(self, event):
+        <span class="pykeyword">if</span> callable(self.ui_option_command):
+            self.ui_option_command()
+
+root = Tk()
+
+<span class="pykeyword">def</span> <span class="pyfunction">callback</span>():
+    <span class="pykeyword">print</span> <span class="pystring">"Click!"</span>
+
+widget = MyButtonWidget(root, text=<span class="pystring">" click me "</span>, command=callback)
+widget.pack()
+
+root.mainloop()</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>Note that the <b>MyButtonWidget</b> class reuses the text widget
+from above, but overrides the relief and borderwidth options to give
+it a more &#8220;button-like&#8221; appearance.</p><blockquote>
+<img alt="" height="50" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAHAAAAAyCAIAAAALEsh7AAAEjklEQVR4nGK8cuEEwyigEsgpqAAA AAD//2JhYGDQ1jcfaJcMB9DY2MjAwAAAAAD//2KBcK5ePDmgjhk+AAAAAP//YhpoBww3AAAAAP// YkHmmIUsItMUVhZWZMTGCmGwoHLhsqSqp4ZPaQj02G7A2QAAAAD//xpNoVQGAAAAAP//YiGsZHCA SFN+4hU7Ojru37+fJPVpXRvIsAWiCxkAAAAA//8aMgHKQHTNuWbDDvLUU6ILDgAAAAD//8IZoF/v TMMU5FbJQlODJgIHl7dXMDAwmAVPIMZxNAU6Bha4pGjRBgcAAAD//8JehmINTTRxNDVvLvY+P9NJ RZcNONAxsECLDEwRTAAAAAD//yKQ5TGTJDIDV/IcbABrSiQYNFcunICEIEQ7RD3BRA0AAAD//8IZ oJiBBc/geELz0fFWBgYGDZcWZMEDi9IZGBi8Mhbid8ogBPAwhXMJagEAAAD//8Ke5blVstByNFpx CVGAWTLIWVYr29UjixxdkcPAwOCaPJcI9w9GAA9EIgtcAAAAAP//wtkORQ4+tKITEprE5PdTawsY GBgc4mYS45TBCeDJk2ARAQEAAAAA//8itmGPFr7Eh+mQBvByE7kYxQ8AAAAA//8iHKBYa3Z4mOLX C2k2QcpQKgJIuYaMqGs+3BYGjCxP0C4AAAAA//8iqmFPTEoU0S9+c7EXs1KyjphydEXO7rnJA1gp kRfimIUmMcUoAAAA//8iEKCYaRBe0WNmeUmTcvhwhq5nB2Swg4GBwSFuJkScoGuIBCQ1yOk8gg4A AAD//yLsSbTKHVOQbgBXb49a6inRBQcAAAAA//8irWE/gMDR0ZGm6inRhQwAAAAA//8aMoMjmOM6 g9MWAAAAAP//Gh0PpTIAAAAA//9CSaGn1sQNlDsYGP4xMPxiYPg1cA6gDgAAAAD//6Jmlh+is6eM jIxUbAkAAAAA//+ichk65GZPV6/dQF0DAQAAAP//Gi1DqQwAAAAA//8aDVAqAwAAAAD//xoNUCoD AAAAAP//Gg1QKgMAAAAA//8amAAlcpCRRsNINAUAAAAA//8agABFDiY87ZWhGJoMDAwAAAAA//8a gAAlstE3RNdZAgAAAP//Gi1DqQwAAAAA//+ix+AInllD+CQtQWX4TUAeXcec7yVp2pJCAAAAAP// onmAogUZVn/iVwYBeObWsU6dIwviN5m6AAAAAP//omuWR/MMLr+hieMJBYg4siyucKfd1BMaAAAA AP//GuzjoVQJBXrWbwAAAAD//xrslRJkCncINaEAAAAA//+ia4ASGS60Cz46RAwAAAD//6J5lkdO X8hVB3JnCS0ZoinDKgvXy4Ba0WOycemlEQAAAAD//6JHGUpeXUSMLlzVEZE20gIAAAAA//8a7GXo kAMAAAAA//8aDVAqAwAAAAD//xoNUCoDAAAAAP//onIZSvUpmiEHAAAAAP//omaAMjIyUtG0IQoA AAAA//+iZoAO0QE36gIAAAAA//8aLUOpDAAAAAD//2JhgO1LHgVUAQAAAAD//2J0cHAYaDcMKwAA AAD//wMALaOH7qYpXd4AAAAASUVORK5CYII= " width="112" />
+</blockquote><h3>Adding Visual Feedback</h3><p>A problem with the previous example is that it registers button
+clicks, but it doesn&#8217;t provide any kind of visual feedback to the
+user.  No matter how much she clicks, the button just appears to sit
+there.</p><p>The following example uses additional controller methods to deal
+with this.  When the mouse button is pressed, the <b>onmousedown</b>
+method changes the border style (the <b>relief</b> option) to indicate
+that the button is &#8216;armed&#8217;.  When the button is released, the
+<b>onmouseup</b> method restores the border.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Example: Adding Visual Feedback</b>
+<pre class="python wide">
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget, EventMixin
+
+<span class="pykeyword">class</span> <span class="pyclass">MyTextWidget</span>(Widget):
+    ... see above ...
+
+<span class="pykeyword">class</span> <span class="pyclass">MyButtonWidget</span>(EventMixin, MyTextWidget):
+
+    ui_option_relief = <span class="pystring">"raised"</span>
+    ui_option_borderwidth = 2
+
+    ui_option_command = None
+
+    <span class="pykeyword">def</span> <span class="pyfunction">onmousedown</span>(self, event):
+        self.__relief = self.ui_option_relief
+        self.config(relief=<span class="pystring">"sunken"</span>)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">onmouseup</span>(self, event):
+        self.config(relief=self.__relief)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">onclick</span>(self, event):
+        <span class="pykeyword">if</span> callable(self.ui_option_command):
+            self.ui_option_command()
+
+root = Tk()
+
+<span class="pykeyword">def</span> <span class="pyfunction">callback</span>():
+    <span class="pykeyword">print</span> <span class="pystring">"Click!"</span>
+
+widget = MyButtonWidget(root, text=<span class="pystring">" click me "</span>, command=callback)
+widget.pack()
+
+root.mainloop()</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>Native buttons tend to use a slightly more sophisticated
+controller; the button is still &#8216;armed&#8217; when you press the mouse
+button over the widget, but you can &#8216;disarm&#8217; the button by moving the
+pointer out of the widget before you release the mouse button.</p><p>To get this behavior, you can replace your controller with the
+standard button controller provided by the WCK.  The controller is
+similar to the one used in the <b>EventMixin</b> class, but it calls
+different methods:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">MyButtonWidget</span>(ButtonMixin, Widget):
+
+    ...
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_button_arm</span>(self):
+        self.__relief = self.ui_option_relief
+        self.config(relief=<span class="pystring">"sunken"</span>)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_button_disarm</span>(self):
+        self.config(relief=self.__relief)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">invoke</span>(self):
+        <span class="pykeyword">if</span> callable(self.ui_option_command):
+            self.ui_option_command()</pre><p>The standard button controller also provides <b>ui_button_enter</b>
+and <b>ui_button_leave</b> methods, which are called when the mouse
+pointer enters and leaves the button.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p><a href="wck-1.htm">back</a>&#160;<a href="wck-3.htm">next</a></p></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#widget-geometry">Widget Geometry</a></li><li><a href="#handling-user-events">Handling User Events</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

@@ -1,0 +1,483 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Algoritmos Elementares de Ordenação &#8212; Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Como instalar Python 3.x em seu computador" href="instalacao.html" />
+    <link rel="prev" title="Algoritmos de Busca" href="13-busca.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulas',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'cc110',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulas/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="instalacao.html" title="Como instalar Python 3.x em seu computador"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="13-busca.html" title="Algoritmos de Busca"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="algoritmos-elementares-de-ordenacao">
+<h1>Algoritmos Elementares de Ordenação<a class="headerlink" href="#algoritmos-elementares-de-ordenacao" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="objetivo">
+<h2>Objetivo<a class="headerlink" href="#objetivo" title="Permalink to this headline">¶</a></h2>
+<p>Ao final dessa aula você vai saber escrever algoritmos elementares
+de ordenação.</p>
+</div>
+<div class="section" id="topicos">
+<h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://www.ime.usp.br/~pf/algoritmos/aulas/ordena.html">Ordenação: algoritmos elementares</a>;</li>
+<li><a class="reference external" href="http://interactivepython.org/runestone/static/pythonds/SortSearch/TheSelectionSort.html">Selection Sort</a></li>
+<li><a class="reference external" href="http://interactivepython.org/runestone/static/pythonds/SortSearch/TheInsertionSort.html">Insertion Sort</a></li>
+<li><a class="reference external" href="http://interactivepython.org/runestone/static/pythonds/SortSearch/TheBubbleSort.html">Buble Sort</a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="links-interessantes">
+<h2>Links Interessantes<a class="headerlink" href="#links-interessantes" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://nicholasandre.com.br/sorting/">Animação de algoritmos de ordenação</a> de Nicholas André Pinho de Oliveira.</li>
+<li><a class="reference external" href="http://www.sorting-algorithms.com/">Sorting Algorithms Animation</a> por David R. Martin.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="algoritmos-de-elementares-de-ordenacao">
+<h2>Algoritmos de Elementares de Ordenação:<a class="headerlink" href="#algoritmos-de-elementares-de-ordenacao" title="Permalink to this headline">¶</a></h2>
+<p>A ordenação de elementos em uma lista ou vetor é uma atividade
+fundamental em vários problemas computacionais. De forma geral, o problema pode ser definido como:</p>
+<blockquote>
+<div>Dado uma lista <cite>seq</cite> com <cite>N</cite> elementos, rearranjar os elementos de <cite>seq</cite> de tal modo que eles
+fiquem em <strong>ordem crescente</strong>, ou seja, de tal forma que <cite>seq[0] &lt;= seq[1] &lt;= ... &lt;= seq[N-1]</cite>.</div></blockquote>
+<div class="section" id="exercicio-1">
+<h3>Exercício 1<a class="headerlink" href="#exercicio-1" title="Permalink to this headline">¶</a></h3>
+<p>Escreva uma função <cite>crescente</cite> que recebe uma lista <cite>seq</cite> e retorna <cite>True</cite> caso <cite>seq</cite> esteja em ordem crescente, e <cite>False</cite> caso contrário.
+Copie essa função nos demais exercícios para testar os seus próprios algoritmos de ordenação.</p>
+
+<div id="ex_ordenacao1_tentativa" >
+<textarea cols="50" rows="12" id="ex_ordenacao1_tentativa_code" class="active_code">
+def main():
+    seq1 = [2, 4, 5, 8, 9, 11, 17, 21]
+    print(seq1)
+    if crescente(seq1):
+        print("eh crescente")
+    else:
+        print("nao eh crescente")
+
+def crescente(seq):
+    ''' (list) -> bool
+        retorna True se seq está em ordem crescente
+        e False caso contrário
+        '''
+
+    print("Vixe! ainda nao escrevi a funcao")
+    return False
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ex_ordenacao1_tentativa)</span> </p>
+<button onclick="runit('ex_ordenacao1_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ex_ordenacao1_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('ex_ordenacao1_tentativa');">Load</button>
+<br />
+
+<canvas id="ex_ordenacao1_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ex_ordenacao1_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-2-algoritmo-de-insercao">
+<h3>Exercício 2 - Algoritmo de inserção<a class="headerlink" href="#exercicio-2-algoritmo-de-insercao" title="Permalink to this headline">¶</a></h3>
+<p>O algoritmo de inserção é usado, por exemplo, para ordenar um baralho de cartas. A ideia é a seguinte:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Assuma que a primeira posição da lista <cite>seq</cite> (1a carta do baralho) está ordenada;</li>
+<li><cite>novo = 2</cite></li>
+<li>sabemos que todos os elementos anteriores ao elemento <cite>novo</cite> estão ordenados</li>
+<li>insira o elemento <cite>novo</cite> (<cite>seq[novo]</cite>) na posição adequada na sub lista <cite>seq[0:novo]</cite>, e desloque os demais elementos, para obter a lista ordenada até o elemento <cite>novo</cite>.</li>
+<li>incremente <cite>novo</cite> e repita a partir do passo 3 até o último elemento da lista</li>
+</ol>
+</div></blockquote>
+<p>Para entender esse algoritmo assista a animação desse método com <a class="reference external" href="https://www.youtube.com/watch?v=ROalU379l3U&amp;feature=related">dança folclórica romena</a> ou o vídeo <a class="reference external" href="https://www.youtube.com/watch?v=DFG-XuyPYUQ">Insertion Sort</a>.</p>
+<p>Escreva abaixo a função <cite>insercao</cite> que implementa esse algoritmo. Uma característica importante para a eficiência de um algoritmo de ordenação é a capacidade de utilizar <strong>a mesma lista de entrada</strong>, rearranjando os elementos ao invés de criar uma nova lista ordenada. Faça isso na sua função.</p>
+
+<div id="ex_ordenacao2_algoritmo_insercao" >
+<textarea cols="50" rows="12" id="ex_ordenacao2_algoritmo_insercao_code" class="active_code">
+def main():
+    seq1 = [54, 2, 11, 4, 17, 7, 21, 1]
+    print(seq1)
+    insercao(seq1)
+    print(seq1)
+    if not crescente(seq1):
+        print("nao ", end='')
+    print("eh crescente")
+
+def insercao( seq ):
+    ''' (list) -> list
+        ordena a lista seq usando o algoritmo de insercao
+        '''
+
+    # escreva a funcao
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ex_ordenacao2_algoritmo_insercao)</span> </p>
+<button onclick="runit('ex_ordenacao2_algoritmo_insercao',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ex_ordenacao2_algoritmo_insercao');">Save</button>
+<button class="ac_opt" onclick="requestCode('ex_ordenacao2_algoritmo_insercao');">Load</button>
+<br />
+
+<canvas id="ex_ordenacao2_algoritmo_insercao_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ex_ordenacao2_algoritmo_insercao_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-3-algoritmo-de-selecao">
+<h3>Exercício 3 - Algoritmo de seleção<a class="headerlink" href="#exercicio-3-algoritmo-de-selecao" title="Permalink to this headline">¶</a></h3>
+<p>O algoritmo de seleção utiliza a seguinte estratégia para ordenar uma lista <cite>seq</cite> com <cite>N</cite> elementos:</p>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt>Repita com <cite>pos</cite> variando de <cite>0</cite> até <cite>N-1</cite>:</dt>
+<dd><ul class="first last simple">
+<li>acha o índice <cite>k</cite> do menor elemento na sub lista <cite>seq[pos:]</cite></li>
+<li>troca o elemento <cite>seq[k]</cite> com <cite>seq[pos]</cite></li>
+<li>nesse instante temos que a sub lista <cite>seq[0:pos+1]</cite> está ordenada.</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>Para entender esse algoritmo assista a animação desse método com <a class="reference external" href="https://www.youtube.com/watch?v=Ns4TPTC8whw&amp;feature=related">dança cigana</a>
+ou o vídeo <a class="reference external" href="https://www.youtube.com/watch?v=f8hXR_Hvybo">Selection Sort</a>.</p>
+<p>Escreva a função <cite>selecao</cite> que implementa esse algoritmo. Uma característica importante para a eficiência de um algoritmo de ordenação é a capacidade de utilizar a mesma lista de entrada, rearranjando os elementos ao invés de criar uma nova lista ordenada. Faça isso na sua função.</p>
+
+<div id="ex_ordenacao3_algoritmo_selecao" >
+<textarea cols="50" rows="12" id="ex_ordenacao3_algoritmo_selecao_code" class="active_code">
+def main():
+    seq1 = [54, 2, 11, 4, 17, 7, 21, 1]
+    print(seq1)
+    selecao(seq1)
+    print(seq1)
+    if not crescente(seq1):
+        print("nao ", end='')
+    print("eh crescente")
+
+def selecao( seq ):
+    ''' (list) -> list
+        ordena a lista seq usando o algoritmo de selecao
+        '''
+
+    # escreva a funcao
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ex_ordenacao3_algoritmo_selecao)</span> </p>
+<button onclick="runit('ex_ordenacao3_algoritmo_selecao',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ex_ordenacao3_algoritmo_selecao');">Save</button>
+<button class="ac_opt" onclick="requestCode('ex_ordenacao3_algoritmo_selecao');">Load</button>
+<br />
+
+<canvas id="ex_ordenacao3_algoritmo_selecao_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ex_ordenacao3_algoritmo_selecao_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-4-algoritmo-da-bolha">
+<h3>Exercício 4 - Algoritmo da bolha<a class="headerlink" href="#exercicio-4-algoritmo-da-bolha" title="Permalink to this headline">¶</a></h3>
+<p>O algoritmo da bolha utiliza a seguinte estratégia para ordenar uma lista <cite>seq</cite> com <cite>N</cite> elementos:</p>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt>Repita <cite>N-1</cite> vezes:</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>varra a lista com <cite>pos</cite> variando de <cite>1</cite> até <cite>N-1</cite>:</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>se <cite>seq[pos]</cite> for menor que o elemento anterior então:</dt>
+<dd><ul class="first last simple">
+<li>troca o elemento em <cite>pos</cite> com o seu anterior</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>A ideia é que, a cada varrida, elementos &#8220;grandes&#8221; são arrastados para a direita e elementos &#8220;pequenos&#8221; são arrastados para a esquerda da lista.
+Repetindo-se essas trocas por um número suficiente de vezes, obtemos a lista ordenado. No entanto, em muitos casos, é possível que a lista fique ordenada
+após algumas poucas trocas. Nesse caso, é possível melhorar esse algoritmo para que pare assim que se descubra que ele se tornou ordenado.</p>
+<blockquote>
+<div><ul>
+<li><p class="first">houve_troca = True</p>
+</li>
+<li><dl class="first docutils">
+<dt>enquanto houve_troca:</dt>
+<dd><ul class="first last">
+<li><p class="first">houve_troca = False</p>
+</li>
+<li><dl class="first docutils">
+<dt>varra a lista com <cite>pos</cite> variando de <cite>1</cite> até <cite>N-1</cite>:</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>se <cite>seq[pos]</cite> for menor que o elemento anterior então:</dt>
+<dd><ul class="first last simple">
+<li>troca o elemento em <cite>pos</cite> com o seu anterior</li>
+<li>houve_troca = True</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>Para entender esse algoritmo assista a animação desse método com <a class="reference external" href="https://www.youtube.com/watch?v=lyZQPjUT5B4">dança folclórica húngara</a>
+ou o vídeo <a class="reference external" href="https://www.youtube.com/watch?v=8Kp-8OGwphY">Bubble Sort</a>.</p>
+<p>Escreva a função <cite>bolha</cite> que implementa esse algoritmo. Uma característica importante para a eficiência de um algoritmo de ordenação é a capacidade de utilizar a mesma lista de entrada, rearranjando os elementos ao invés de criar uma nova lista ordenada. Faça isso na sua função.</p>
+
+<div id="ex_ordenacao4_algoritmo_bolha" >
+<textarea cols="50" rows="12" id="ex_ordenacao4_algoritmo_bolha_code" class="active_code">
+def main():
+    seq1 = [54, 2, 11, 4, 17, 7, 21, 1]
+    print(seq1)
+    bolha(seq1)
+    print(seq1)
+    if not crescente(seq1):
+        print("nao ", end='')
+    print("eh crescente")
+
+def bolha( seq ):
+    ''' (list) -> list
+        ordena a lista seq usando o algoritmo de bolha
+        '''
+
+    # escreva a funcao
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ex_ordenacao4_algoritmo_bolha)</span> </p>
+<button onclick="runit('ex_ordenacao4_algoritmo_bolha',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ex_ordenacao4_algoritmo_bolha');">Save</button>
+<button class="ac_opt" onclick="requestCode('ex_ordenacao4_algoritmo_bolha');">Load</button>
+<br />
+
+<canvas id="ex_ordenacao4_algoritmo_bolha_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ex_ordenacao4_algoritmo_bolha_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Algoritmos Elementares de Ordenação</a><ul>
+<li><a class="reference internal" href="#objetivo">Objetivo</a></li>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#links-interessantes">Links Interessantes</a></li>
+<li><a class="reference internal" href="#algoritmos-de-elementares-de-ordenacao">Algoritmos de Elementares de Ordenação:</a><ul>
+<li><a class="reference internal" href="#exercicio-1">Exercício 1</a></li>
+<li><a class="reference internal" href="#exercicio-2-algoritmo-de-insercao">Exercício 2 - Algoritmo de inserção</a></li>
+<li><a class="reference internal" href="#exercicio-3-algoritmo-de-selecao">Exercício 3 - Algoritmo de seleção</a></li>
+<li><a class="reference internal" href="#exercicio-4-algoritmo-da-bolha">Exercício 4 - Algoritmo da bolha</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="13-busca.html"
+                        title="previous chapter">Algoritmos de Busca</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="instalacao.html"
+                        title="next chapter">Como instalar Python 3.x em seu computador</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="instalacao.html" title="Como instalar Python 3.x em seu computador"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="13-busca.html" title="Algoritmos de Busca"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Jun 12, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

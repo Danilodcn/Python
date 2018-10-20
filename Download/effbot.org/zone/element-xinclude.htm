@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>XInclude support in ElementTree&nbsp;1.2</title></head><body data-page-id="98"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">XInclude support in ElementTree&nbsp;1.2</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Aug 15, 2003 | Fredrik Lundh</p><p>ElementTree 1.2 provides limited support for
+<a href="http://www.w3.org/TR/xinclude/">XInclude directives</a>,
+via the <b>ElementInclude</b> helper module.  This module can be
+used to insert subtrees and text strings into element trees, based
+on information in the tree.</p><p>The XInclude extension defines two special elements:</p><dl><dt><b>{http://www.w3.org/2001/XInclude}include</b></dt><dd><p>This element is used to specify where data from another
+document should be included.  You can include XML data (element
+hierarchies), or plain text.</p></dd>
+<dt><b>{http://www.w3.org/2001/XInclude}fallback</b></dt><dd><p>This element is used to provide fallback data, in case
+an include operation fails.</p></dd>
+</dl><h3>Examples</h3><p>To include a XML document in the current document, use the
+<b>{http://www.w3.org/2001/XInclude}include</b> element and
+set the <b>parse</b> attribute to &#8220;xml&#8221;, and use the <b>href</b>
+attribute to specify the document to include.</p><pre class="xml">
+&lt;<span class="pyfunction">document</span> xmlns:xi="http://www.w3.org/2001/XInclude"&gt;
+&lt;<span class="pyfunction">xi:include</span> href="source.xml" parse="xml" /&gt;
+&lt;/<span class="pyfunction">document</span>&gt;</pre><p>By default, the <b>href</b> attribute is treated as a file name.
+You can use custom loaders to override this behaviour.  Also note
+that the standard helper does not support XPointer syntax.</p><p>To process this file, load it as usual, and pass the root element
+to the <b>ElementTree</b> module:</p><pre class="python">
+<span class="pykeyword">from</span> elementtree <span class="pykeyword">import</span> ElementTree, ElementInclude
+
+tree = ElementTree.parse(<span class="pystring">"document.xml"</span>)
+root = tree.getroot()
+
+ElementInclude.include(root)</pre><p>The ElementInclude module replaces the <b>{http://www.w3.org/2001/XInclude}include</b> element with the root element from the <b>source.xml</b> document.
+The result might look something like this:</p><pre class="xml">
+&lt;<span class="pyfunction">document</span> xmlns:xi="http://www.w3.org/2001/XInclude"&gt;
+&lt;<span class="pyfunction">para</span>&gt;This is a paragraph.&lt;/<span class="pyfunction">para</span>&gt;
+&lt;/<span class="pyfunction">document</span>&gt;</pre><p>If the <b>parse</b> attribute is omitted, it defaults to &#8220;xml&#8221;.
+The <b>href</b> attribute is required.</p><p>To include a text document, use the <b>{http://www.w3.org/2001/XInclude}include</b> element, and set the <b>parse</b> attribute to &#8220;text&#8221;:
+
+<pre class="xml">
+&lt;<span class="pyfunction">document</span> xmlns:xi="http://www.w3.org/2001/XInclude"&gt;
+Copyright (c) &lt;<span class="pyfunction">xi:include</span> href="year.txt" parse="text" /&gt;.
+&lt;/<span class="pyfunction">document</span>&gt;</pre></p><p>The result might look something like:</p><pre class="xml">
+&lt;<span class="pyfunction">document</span> xmlns:xi="http://www.w3.org/2001/XInclude"&gt;
+Copyright (c) 2003.
+&lt;/<span class="pyfunction">document</span>&gt;</pre><h3>Downloads</h3><p>Include support is available in
+<a href="/downloads/#elementtree">elementtree 1.2 alpha 3</a>
+and later.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Using Metaclasses to Create Self-Registering&nbsp;Plugins</title></head><body data-page-id="2026"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Using Metaclasses to Create Self-Registering&nbsp;Plugins</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | July 2008 | Based on a comp.lang.python post</p><p><em>Background: This was posted to a thread about how to best
+register plugin classes.  The original approach was to scan
+all plugin modules for Plugin subclasses; this note describes
+an alternative solution that uses a self-registering base class.  I have no opinion on what&#8217;s best here; this is just another way to do it.</em></p><p>A metaclass is a something that&#8217;s responsible for creating a class, much like an ordinary class is responsible for creating an object.  When Python executes the following statement,</p><pre><code>class Spam:
+    attrib = 1
+    def func(self):
+        pass
+    # &lt;-- end of class statement
+</code></pre><p>it will create a new scope for the class content, execute the class body, and then, when it reaches the end, call the &#8220;metaclass&#8221; to create the actual class object.  The metaclass is given the requested name (&#8220;Spam&#8221; in this case), any base classes, and a dictionary containing everything from the class scope (&#8220;attrib&#8221; and &#8220;func&#8221;, in this case). The thing that&#8217;s returned is assigned to the &#8220;Spam&#8221; variable.</p><p>The default metaclass (the &#8220;type&#8221; built-in, actually) just creates an ordinary class object, but if you replace that with your own metaclass, you can completely override that behaviour, or just extend it (e.g. by registering the subclasses in a common registry).  Like, say, this:</p><pre><code>registry = [] # list of subclasses
+
+class Plugin(object):
+    class __metaclass__(type):
+        def __init__(cls, name, bases, dict):
+            type.__init__(name, bases, dict)
+            registry.append((name, cls))
+
+# in your plugin modules
+class SpamPlugin(Plugin):
+    pass
+
+class BaconPlugin(Plugin):
+    pass
+
+# in your plugin loader
+# import all plugin modules
+
+# loop over registered plugins
+for name, cls in registry:
+    if cls is not Plugin:
+    print name, cls
+</code></pre><p>Here, the presence of an inner __metaclass__ class (which is a subclass of &#8220;type&#8221;) causes Python&#8217;s class machinery to use that class instead of &#8220;type&#8221; when creating class objects for Plugin or any subclass thereof. The extra code in the __init__ method just adds all plugin classes to a list.</p><p>For more on this, see e.g.</p><blockquote><p><a href="http://www.python.org/download/releases/2.2/descrintro/#metaclasses">http://www.python.org/download/releases/2.2/descrintro/#metaclasses</a></p></blockquote></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

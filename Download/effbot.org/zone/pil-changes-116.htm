@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Changes in Python Imaging Library&nbsp;1.1.6</title></head><body data-page-id="180"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Changes in Python Imaging Library&nbsp;1.1.6</h1></div><div class="yui-ge"><div class="yui-u first"><p>Welcome to <a href="/">effbot.org</a>!</p><p>The 1.1.6 release is available from 
+<a href="http://www.pythonware.com/products/pil/#pil116">PythonWare</a>,
+as well as from the
+<a href="/downloads#Imaging">effbot.org downloads section</a>.</p><h3>Changes from release 1.1.5 to 1.1.6</h3><p>(<i>1.1.6 released</i>)</p><ul><li>Fixed some 64-bit compatibility warnings for Python 2.5.
+
+</li><li>Added threading support for the Sane driver (from Abel Deuring).
+
+</li></ul><p>(<i>1.1.6b2 released</i>)</p><ul><li>Added experimental &#8220;floodfill&#8221; function to the <a href="/imagingbook/imagedraw.htm">ImageDraw</a> module
+(based on code by Eric Raymond).
+
+</li><li>The default arguments for &#8220;frombuffer&#8221; doesn&#8217;t match &#8220;fromstring&#8221;
+  and the documentation (reported by Dan Torop); this is a bug, and will
+  most likely be fixed in a future version.  In this release, PIL prints a
+  warning message instead.  To silence the warning, change any calls
+  of the form &#8220;frombuffer(mode, size, data)&#8221; to
+<pre class="python">
+frombuffer(mode, size, data, <span class="pystring">"raw"</span>, mode, 0, 1)</pre></li><li>Added &#8220;fromarray&#8221; function, which takes an object implementing the
+  NumPy array interface and creates a PIL Image from it. (from Travis
+  Oliphant).
+
+</li><li>Added NumPy array interface support (__array_interface__) to the
+  Image class (based on code by Travis Oliphant).
+
+  This allows you to easily convert between PIL image memories and
+  NumPy arrays:
+
+<pre class="python">
+<span class="pykeyword">import</span> numpy, Image
+
+i = Image.open(<span class="pystring">'lena.jpg'</span>)
+a = numpy.asarray(i) <span class="pycomment"># a is readonly</span>
+i = Image.fromarray(a)</pre></li><li>Fixed CMYK polarity for JPEG images, by treating all images as
+  &#8220;Adobe CMYK&#8221; images. (thanks to Cesare Leonardi and Kevin Cazabon
+  for samples, debugging, and patches).
+
+</li></ul><p>(<i>1.1.6b1 released</i>)</p><ul><li>Added &#8216;expand&#8217; option to the Image &#8216;rotate&#8217; method.  If true, the
+  output image is made large enough to hold the entire rotated image.
+
+</li><li>Changed the ImageDraw &#8216;line&#8217; method to always draw the last pixel in
+  a polyline, independent of line angle.
+
+</li><li>Fixed bearing calculation and clipping in the ImageFont truetype
+  renderer; this could lead to clipped text, or crashes in the low-level _imagingft module.  (based on input from Adam Twardoch and
+  others).
+
+</li><li>Added <a href="http://effbot.org/imagingbook/imageqt.htm">ImageQt</a>
+  wrapper module, for converting PIL Image objects to QImage objects in an
+  efficient way.
+
+</li><li>Fixed &#8216;getmodebands&#8217; to return the number of bands also for &#8220;PA&#8221;
+  and &#8220;LA&#8221; modes.  Added &#8216;getmodebandnames&#8217; helper that return the
+  band names.
+</li></ul><p>(<i>1.1.6a2 released</i>)</p><ul><li>Added float/double support to the TIFF loader (from Russell
+  Nelson).
+
+</li><li>Fixed broken use of realloc() in path.c (from Jan Matejek)
+
+</li><li>Added save support for Spider images (from William Baxter).
+
+</li><li>Fixed broken &#8216;paste&#8217; and &#8216;resize&#8217; operations in pildriver
+  (from Bill Janssen).
+
+</li><li>Added support for duplex scanning to the Sane interface (Abel
+  Deuring).
+
+</li></ul><p>(<i>1.1.6a1 released</i>)</p><ul><li>Fixed a memory leak in &#8220;convert(mode)&#8221;, when converting from
+  L to P.
+
+</li><li>Added pixel access object.  The &#8220;load&#8221; method now returns an
+  access object that can be used to directly get and set pixel
+  values, using ordinary [x, y] notation:
+
+<pre class="python">
+pixel = im.load()
+v = pixel[x, y]
+pixel[x, y] = v</pre></li><li>Fixed building on Cygwin (from Miki Tebeka).</li><li>Fixed &#8220;point(callable)&#8221; on unloaded images (reported by H&#229;kan
+Karlsson).</li><li>Fixed ImageMath float() and int() operations for Python 2.4
+(reported by Don Rozenberg).</li><li>Fixed &#8220;RuntimeError: encoder error -8 in tostring&#8221; problem for
+wide &#8220;RGB&#8221;, &#8220;I&#8221;, and &#8220;F&#8221; images.</li><li>Fixed line width calculation.</li></ul><p>(<i>1.1.6a0 released</i>)</p><ul><li>Fixed byte order issue in Image.paste(ink) (from Ka-Ping Yee).
+
+</li><li>Fixed off-by-0.5 errors in the ANTIALIAS code (based on input
+  from Douglas Bagnall).
+
+</li><li>Added buffer interface support to the Path constructor.  If
+  a buffer is provided, it is assumed to contain a flat array
+  of float coordinates (e.g. array.array(&#8216;f&#8217;, seq)).
+
+</li><li>Added new <a href="http://effbot.org/imagingbook/imagemath.htm">ImageMath</a> module.
+
+</li><li>Fixed ImageOps.equalize problems when used with a small number of
+  distinct values (reported by David Kirtley).
+
+</li><li>Fixed potential integer division in PSDraw.image (from Eric Etheridge).
+
+</li></ul></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

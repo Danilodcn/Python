@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Subversion</title></head><body data-page-id="283"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Subversion</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Updated September 28, 2004 | March 2004 | Fredrik Lundh</p>
+
+A pretty good version control system, by Greg Stein and others.
+See <a href="http://subversion.tigris.org">subversion.tigris.org</a>.
+
+<h2>Observations</h2><p>Subversion rules!</p><p>However&#8230;</p><h3>Migration Issues</h3><p>The <b>p42svn</b> tool sometimes destroys binary files.  This is
+either a bug in the tool, or a bug in <b>svnadmin load</b> (probably
+the tool; it looks as if it either fails to set the mime-type based
+on the perforce types, or doesn&#8217;t try at all).</p><p>Remember that <b>svnadmin</b> may create files in the repository
+which are owned by the user running <b>svnadmin</b>.  If you&#8217;re not
+careful, you can end up with a repository that cannot be accessed by
+the Subversion server.  If you&#8217;re unlucky, a user can crash the
+repository simply by browsing the repository, if you&#8217;re running
+<b>svnadmin</b> at the same time (but <b>svnadmin recover</b> and
+<b>chmod</b> can help you).  If you&#8217;re really unlucky, the poor user
+browsing the repository can cause a <b>svnadmin load</b> to crash.
+And when you&#8217;ve repaired the repository, you&#8217;ll find that you cannot
+finish the load, since the first N revisions has already been checked
+in, which means that old versions of most of the files already exist
+in the repository.</p><h3>Usage Issues</h3><p>Properties are nice, but having to use three different commands to
+check in a text file from Windows is pretty annoying.  Perforce&#8217;s
+&#8220;p4 add -t text+k&#8221; is a lot easier to get right than
+&#8220;svn add&#8221; followed by &#8220;svn propset svn:eol-style
+native&#8221; followed by &#8220;svn propset svn:keywords Id&#8221;.</p><p><i>(Suggestion: add a &#8220;-t type&#8221; option where
+&#8220;type&#8221; is mapped to a set of properties, according to some
+configuration file somewhere (like auto-props, but less auto).</i></p><p><i>(Suggestion: add a &#8220;-b&#8221; option to &#8220;force binary mode&#8221;
+(implies a propset svn:mime-type application/octet-stream).  this would
+save me lots of time and trouble).</i></p><p>Make sure your hook scripts are executable, and that they&#8217;re
+designed to run from any directory.  If you put helper tools in the
+hook directory itself, make sure the hook changes to the right
+directory before it calls the helper tool.</p><p>The error messages could need some work.  When Subversion refuses
+to do something, telling the user that something&#8217;s &#8220;locked&#8221;,
+something&#8217;s &#8220;not locked&#8221;, something&#8217;s &#8220;not part of the
+workspace&#8221;, or something&#8217;s &#8220;not up to date&#8221; isn&#8217;t very
+helpful, when it&#8217;s obvious that nobody&#8217;s ever touched that something
+since the last checkout.  And when Subversion refuses to proceed because
+it needs to copy a file that was deleted from the repository several
+days earlier, it would be nice if it could, sort of, <i>motivate</i>
+its decision.</p><p>And yes, the Subversion server shouldn&#8217;t generate invalid XML.  Or
+if it has to, the Subversion client should be equipped with a tolerant
+parser.
+
+</p><p><i>(Suggestion: Change the &#8212;xml option so it simply displays whatever XML
+it gets from the server, rather than trying to parse it before printing
+it out.</i>)</p><p>A recursive <b>svn update</b> may hang if the repository contains
+files that map to the same filename on a case-insensitive file system
+(e.g. Area.py and area.py).  If you run the same command in the directory
+where the files are, you get an error message.  If you delete one of the
+files from the repository (using <b>svn delete</b>), the command ignores
+the case you specify, and picks on the files by chance (i.e. <b>svn delete
+Area.py</b> deletes either area.py or Area.py).</p><p><i>(Suggestion: Trust the user.  Don&#8217;t mangle the filename before you&#8217;ve
+looked in the repository.)</i></p><p>(to be continued)</p><h3>Build Issues</h3><p>Building ViewCVS is painful.  Actually, finding ViewCVS is painful.
+The Subversion documentation links to the ViewCVS homepage, which
+contains pointers to ViewCVS 0.9.2.  Which, of course, doesn&#8217;t support
+Subversion at all.  To get Subversion support, you need to get the
+latest code from CVS.  CVS, not Subversion.  And when you&#8217;ve done
+that, you have to make sure that you have the right version of SWIG
+(old ones thinks Subversion is written in C++), the right version of
+libtool (old ones gets confused by certains options), and probably a
+few other right versions (since the build process cannot find Python.h
+anywhere).  Nearly two hours later, I gave up.</p><p>RPM is a bad joke.  We installed Subversion on a Windows XP box and
+had a server running in a couple of minutes (without ever having installed
+Subversion before).  We built Subversion from source on an old RedHat
+server in less than 30 minutes (20 of which was spent on figuring out
+how to get Subversion to understand that we really had the right
+version of Berkeley DB in /usr/local/lib).  We spent nearly four hours
+to make Subversion run on Fedora Core, using prebuilt RPM packages for
+that very platform.</p><p>What exactly is it that causes the APR configure script to need
+several hours to finish on a Tru64 4.0 machine?  And the resulting
+build files don&#8217;t work, either.  Portable, my ass.
+
+</p><p>Works better on Tru64 5.X.  Better, but not good enough: I get a
+<b>svn</b> command, but as soon as you try to do something with it,
+it crashes, with a runtime linking error.  Fixes:</p><ol><li><a href="http://www.contactor.se/~dast/svn/archive-2003-11/0209.shtml">Add -lpthreads to LIBS</a>.  This made the help crash go
+away, but now all invocations crash with &#8220;symbol iconv_open unresolved&#8221;</li><li>Add -liconv to LIBS: didn&#8217;t help.  (Bloody APR crap.  what&#8217;s wrong
+with plain ANSI C and POSIX?)</li><li>Fix the include paths.  Turned out that the build used tru64&#8217;s own
+<b>iconv.h</b>, but <b>-liconv</b> picked up the GNU version installed
+under /usr/local/lib.  I simply hacked <b>apr-util/xlate/xlate.c</b>
+to include <b>/usr/local/include/iconv.h</b> instead of plain <b>iconv.h</b>.
+Other solutions can be found <a href="http://gcc.gnu.org/ml/gcc-bugs/2003-07/msg02150.html">here</a>.</li></ol><h3>Silly Subversion Error Messages</h3><p>From time to time, subversion surprises me with yet another incomprehensible error message.  If you know what they mean, and
+know how to avoid them, <s><a href="http://effbot.org/discuss">let me know</a></s> (dead link).</p><p><b>$ svn up<br />
+Invalid editor anchoring; at least one of the input paths is not a directory and there was no source entry.
+</b></p><p>(Solution: unknown)</p><p><b>$ svn co http://&#8230;/foo<br />
+svn: Working copy &#8216;foo&#8217; not locked<br />
+$ cd foo<br />
+$ ls<br />
+$ svn up<br />
+A  fie<br />
+A  fum<br />
+&#8230;</b></p><p>(Solution: unknown)</p><p><b>$ ls font<br />
+ls: font: No such file or directory<br />
+$ svn up font<br />
+svn: &#8216;font&#8217; is not under version control<br />
+$ cp -R ~/somewhere/font .<br />
+$ svn add font<br />
+svn: warning: &#8216;font&#8217; is already under version control</b></p><p>(Solution: somewhere/font was also under version control.  To check
+in the copy, remove the extra .svn subdirectory: &#8220;rm -rf font/.svn&#8221;)</p><p><b>$ svn cleanup<br />
+svn: In directory &#8216;tcl8.0.5/doc&#8217;<br />
+svn: Can&#8217;t copy &#8216;tcl8.0.5/doc/.svn/tmp/text-base/LinkVar.3.svn-base&#8217; 
+to &#8216;tcl8.0.5/doc/LinkVar.3.2.tmp&#8217;: No such file or directory</b></p><p>(Solution: unknown.  well, removing the directory and doing another
+&#8220;svn cleanup&#8221; followed by &#8220;svn up&#8221; helps, of course.)</p><p>A reader writes:</p><blockquote>A possible cause can be an svn client running on a case insensitive system (for example Mac OS X, which is only case preserving). If the .svn/entries contains at the same time lowercase and uppercase versions of the same file name, only one of them will be honored by the system, hence the Missing File Warning. A solution is to svn remove the file present on the system (properly spelled with respect to the case) then svn commit the directory to validate the change.)</blockquote><p>(to be continued)</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

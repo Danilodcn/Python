@@ -1,0 +1,610 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Indicadores de passagem &#8212; Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Repetições encaixadas" href="06-repeticoes.html" />
+    <link rel="prev" title="Execução condicional e alternativas: if, if-else e if-elif-else" href="04-if.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulas',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'cc110',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulas/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="06-repeticoes.html" title="Repetições encaixadas"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="04-if.html" title="Execução condicional e alternativas: if, if-else e if-elif-else"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="indicadores-de-passagem">
+<h1>Indicadores de passagem<a class="headerlink" href="#indicadores-de-passagem" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="topicos">
+<span id="index-0"></span><h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>indicadores de passagem</li>
+</ul>
+</div></blockquote>
+<p>Ao final dessa aula você deverá saber:</p>
+<blockquote>
+<div><ul class="simple">
+<li>entender o funcionamento de indicadores de passagem;</li>
+<li>identificar situações onde indicadores de passagem são úteis;</li>
+<li>utilizar indicadores de passagem.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="videos">
+<h2>Vídeos<a class="headerlink" href="#videos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://www.youtube.com/watch?v=RBjrLgdMaMI&amp;list=PLcoJJSvnDgcKpOi_UeneTNTIVOigRQwcn&amp;index=13">Indicadores de passagem</a>.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="introducao">
+<h2>Introdução<a class="headerlink" href="#introducao" title="Permalink to this headline">¶</a></h2>
+<p>Um indicador de passagem é um padrão bastante comum que auxilia
+no controle de um programa.</p>
+<p>Essencialmente, um <strong>indicador de passagem</strong> (= <em>flags</em>) é uma variável utilizada
+para indicar a ocorrência de um evento específico.
+Esse evento  é definido através da <em>passagem</em> do fluxo de execução em algum determinado
+ponto do código.
+O valor de variáveis utilizadas como indicadores indicam se algo <em>ocorreu</em> ou <em>não ocorreu</em>,
+<em>é</em> ou <em>não é</em>, <em>verdadeiro</em> ou <em>falso</em>. Por essa razão, em Python, essas variáveis são do
+tipo booleano (<cite>bool</cite>).</p>
+<p>A utilização de um indicador de passagem é bastante simples.
+Inicialmente a variável deve ser inicializada com um valor
+<cite>True</cite> ou <cite>False</cite> adequado. Em seguida, durante a execução do programa, quando o evento for detectado,
+o valor da variável é alterado para o seu <em>valor definitivo</em>.</p>
+<div class="section" id="exemplo">
+<h3>Exemplo<a class="headerlink" href="#exemplo" title="Permalink to this headline">¶</a></h3>
+<p>Dado um número inteiro <code class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">0</span></code> e uma sequência com <code class="docutils literal"><span class="pre">n</span></code> números inteiros,
+verifique se a sequência está em ordem crescente.</p>
+<p><strong>Primeira tentativa de solução</strong></p>
+
+<div id="crescente_tentativa_1" >
+<textarea cols="50" rows="12" id="crescente_tentativa_1_code" class="active_code">
+def main():
+    n = int(input("Digite o valor de n: "))
+    anterior = int(input("Digite um numero da sequencia: "))
+    i = 1   # i é contador de número lidos e já lemos o 1o número da sequência
+    while i < n:
+        x = int(input("Digite um numero da sequencia: "))
+        if x <= anterior:
+            print("A sequencia nao esta ordenada")
+        else:
+            print("A sequencia esta ordenada")
+        anterior = x
+        i = i + 1
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (crescente_tentativa_1)</span> </p>
+<button onclick="runit('crescente_tentativa_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('crescente_tentativa_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('crescente_tentativa_1');">Load</button>
+<br />
+
+<canvas id="crescente_tentativa_1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="crescente_tentativa_1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Antes de prosseguirmos, leia a tentativa de solução com atenção e entenda o
+que o programa faz. Em seguida, simule e  teste o programa com algumas sequências diferentes,
+crescentes e não crescentes, para identificar
+possíveis problemas.</p>
+<div class="admonition-o-que-esse-programa-faz admonition">
+<p class="first admonition-title"><strong>O que esse programa faz?</strong></p>
+<ul class="last simple">
+<li>O tamanho da sequência é armazenado na variável <code class="docutils literal"><span class="pre">n</span></code>.</li>
+<li>A variável <code class="docutils literal"><span class="pre">i</span></code> é utilizada para controlar o final do <code class="docutils literal"><span class="pre">while</span></code>, para
+que o <code class="docutils literal"><span class="pre">while</span></code> pare após ler os <code class="docutils literal"><span class="pre">n</span></code> elementos da sequência. Observe
+que <code class="docutils literal"><span class="pre">i</span></code> é incrementada ao final do bloco dentro do <code class="docutils literal"><span class="pre">while</span></code>.</li>
+<li>A variável <code class="docutils literal"><span class="pre">anterior</span></code> armazena o valor usado previamente e <code class="docutils literal"><span class="pre">x</span></code> a
+variável atual. A ideia dessa tentativa é comparar <code class="docutils literal"><span class="pre">x</span></code> e <code class="docutils literal"><span class="pre">anterior</span></code> verificando
+se o par está ordenado e imprimindo as mensagens supostamente apropriadas em
+cada caso.</li>
+<li>Observe que a variável <code class="docutils literal"><span class="pre">anterior</span></code> recebe o valor de <code class="docutils literal"><span class="pre">x</span></code> no final de cada iteração,
+já que o valor representado por <code class="docutils literal"><span class="pre">x</span></code> assumirá o papel de <code class="docutils literal"><span class="pre">anterior</span></code> na próxima iteração.</li>
+</ul>
+</div>
+<p>Essa primeira tentativa alguns problemas:</p>
+<blockquote>
+<div><ul class="simple">
+<li>imprime uma mensagem em cada iteração, quando apenas uma mensagem deveria ser impressa pelo programa;</li>
+<li>as mensagens podem ser inconsistentes, sequência <em>ordenada</em> e <em>não ordenada</em>;</li>
+<li>imprime uma mensagem após verificar cada par, mas a resposta ao problema depende de toda a sequência.</li>
+</ul>
+</div></blockquote>
+<p><strong>Segunda tentativa</strong></p>
+<p>Para evitar a impressão de várias mensagens, a impressão deve ocorrer
+fora do while. Para isso vamos
+criar uma variável para indicar se a sequencia está ou não
+em ordem crescente, como abaixo.</p>
+
+<div id="crescente_tentativa_2" >
+<textarea cols="50" rows="12" id="crescente_tentativa_2_code" class="active_code">
+def main():
+    n = int(input("Digite o valor de n: "))
+    anterior = int(input("Digite um número da sequência: "))
+    i = 1   # já lemos o 1o número da sequência
+
+    crescente = True
+
+    while i < n:
+        x = int(input("Digite um número da sequência: "))
+        if x <= anterior:
+            crescente = False
+        else:
+            crescente = True
+        anterior = x
+        i = i + 1
+
+    if crescente:
+        print("A sequencia este ordenada")
+    else:
+        print("A sequencia nao este ordenada")
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (crescente_tentativa_2)</span> </p>
+<button onclick="runit('crescente_tentativa_2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('crescente_tentativa_2');">Save</button>
+<button class="ac_opt" onclick="requestCode('crescente_tentativa_2');">Load</button>
+<br />
+
+<canvas id="crescente_tentativa_2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="crescente_tentativa_2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>O uso da variável <em>crescente</em> melhora o controle do programa.
+Inicialmente, o programa inicializa crescente com True para indicar
+que a sequência com um elemento é considerada crescente. A seguir,
+todos os pares consecutivos são testados.</p>
+<p>Com isso, apenas uma mensagem é fornecida ao final, ao invés das várias mensagens
+inconsistentes da primeira tentativa.</p>
+<p>Antes de prosseguir, simule e teste essa versão para identificar os
+problemas dessa solução.</p>
+<p>Essa segunda tentativa apresenta o seguinte problema:</p>
+<blockquote>
+<div><ul class="simple">
+<li>a mensagem é definida apenas pelo último par da
+sequência. Assim, se a sequência for não decrescente mas o
+último par estiver em ordem crescente, a mensagem dada será que
+a sequência está ordenada.</li>
+</ul>
+</div></blockquote>
+<p>Você consegue corrigir esse problema?</p>
+<p><strong>Terceira tentativa de solução</strong></p>
+
+<div id="crescente_tentativa_3" >
+<textarea cols="50" rows="12" id="crescente_tentativa_3_code" class="active_code">
+def main():
+    n = int(input("Digite o valor de n: "))
+    anterior = int(input("Digite um número da sequência: "))
+    i = 1   # já lemos o 1o número da sequência
+
+    crescente = True
+
+    while i < n:
+        x = int(input("Digite um número da sequência: "))
+        if x <= anterior:
+            crescente = False
+        anterior = x
+        i = i + 1
+
+    if crescente:
+        print("A sequencia este ordenada")
+    else:
+        print("A sequencia nao este ordenada")
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (crescente_tentativa_3)</span> </p>
+<button onclick="runit('crescente_tentativa_3',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('crescente_tentativa_3');">Save</button>
+<button class="ac_opt" onclick="requestCode('crescente_tentativa_3');">Load</button>
+<br />
+
+<canvas id="crescente_tentativa_3_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="crescente_tentativa_3_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Observe que nessa terceira tentativa retiramos o <code class="docutils literal"><span class="pre">else</span></code>. Dessa
+forma, quando o programa encontra um par fora de ordem, esse evento é
+marcado na variável crescente. Ao comparar outros pares da sequência,
+mesmo que eles estiverem em ordem, a variável mantém o seu estado até
+o final da sequência. Dessa forma, a mensagem correta, que considera o
+resultado entre todos os pares, é impressa.</p>
+<p>Nesse caso, podemos chamar a variável crescente como um indicador de
+passagem, pois ela muda de valor ao encontrar um par fora de ordem, e
+não mais retorna ao seu valor inicial, embora outros pares também fora
+de ordem podem marcar novamente a variável como <code class="docutils literal"><span class="pre">False</span></code>.</p>
+<div class="admonition-boa-pratica-de-programacao admonition">
+<p class="first admonition-title"><strong>Boa prática de programação</strong></p>
+<p>Um programa que calcula o mesmo valor várias vezes sem necessidade
+ou que continua calculando quando o resultado já é conhecido é
+ineficiente e, portanto, esses trechos devem ser evitados.</p>
+<p class="last">No caso da terceira tentativa, não há mais razão para continuar
+processando a sequência após o indicador de passagem mudar de
+estado. Veja a próxima tentativa para ver um código um pouco
+melhor.</p>
+</div>
+<p><strong>Quarta tentativa de solução</strong></p>
+
+<div id="crescente_tentativa_4" >
+<textarea cols="50" rows="12" id="crescente_tentativa_4_code" class="active_code">
+def main():
+    n = int(input("Digite o valor de n: "))
+    anterior = int(input("Digite um número da sequência: "))
+    i = 1   # já lemos o 1o número da sequência
+
+    crescente = True
+
+    while i < n and crescente:
+        x = int(input("Digite um número da sequência: "))
+        if x <= anterior:
+            crescente = False
+        anterior = x
+        i = i + 1
+
+    if crescente:
+        print("A sequencia este ordenada")
+    else:
+        print("A sequencia nao este ordenada")
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (crescente_tentativa_4)</span> </p>
+<button onclick="runit('crescente_tentativa_4',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('crescente_tentativa_4');">Save</button>
+<button class="ac_opt" onclick="requestCode('crescente_tentativa_4');">Load</button>
+<br />
+
+<canvas id="crescente_tentativa_4_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="crescente_tentativa_4_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Observe a condição do <code class="docutils literal"><span class="pre">while</span></code>. Agora o while é interrompido assim que a
+variável crescente se tornar <code class="docutils literal"><span class="pre">False</span></code>, ou seja, assim que o programa
+identifica que a sequencia não é crescente é portanto não há mais
+razão de continuar verificando.</p>
+</div>
+</div>
+<div class="section" id="problemas">
+<h2>Problemas<a class="headerlink" href="#problemas" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="problema-1">
+<h3>Problema 1<a class="headerlink" href="#problema-1" title="Permalink to this headline">¶</a></h3>
+<p>Dado um número inteiro <code class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">1</span></code> e uma sequência com <code class="docutils literal"><span class="pre">n</span></code> números inteiros, verificar se
+todos os elementos da sequência são pares</p>
+<p>Exemplos:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Para <code class="docutils literal"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">5</span></code> e a sequencia <code class="docutils literal"><span class="pre">24</span> <span class="pre">10</span> <span class="pre">6</span> <span class="pre">14</span> <span class="pre">74</span></code> a resposta é sim</li>
+<li>Para <code class="docutils literal"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">4</span></code> e a sequencia <code class="docutils literal"><span class="pre">2</span> <span class="pre">4</span> <span class="pre">5</span> <span class="pre">6</span></code> a resposta é não</li>
+</ul>
+</div></blockquote>
+<p>Utilize o padrão de indicador de passagem na sua solução.</p>
+
+<div id="indicador_de_passagem_ex1_tentativa" >
+<textarea cols="50" rows="12" id="indicador_de_passagem_ex1_tentativa_code" class="active_code">
+def main():
+# Escreva o seu programa
+
+#-------------------------------------------------
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (indicador_de_passagem_ex1_tentativa)</span> </p>
+<button onclick="runit('indicador_de_passagem_ex1_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('indicador_de_passagem_ex1_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('indicador_de_passagem_ex1_tentativa');">Load</button>
+<br />
+
+<canvas id="indicador_de_passagem_ex1_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="indicador_de_passagem_ex1_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="problema-2">
+<h3>Problema 2<a class="headerlink" href="#problema-2" title="Permalink to this headline">¶</a></h3>
+<p>Dado um número inteiro <code class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">1</span></code>, verificar se <code class="docutils literal"><span class="pre">n</span></code> é primo.</p>
+<p>Utilize o padrão de indicador de passagem na sua solução.</p>
+
+<div id="indicador_de_passagem_ex2_tentativa" >
+<textarea cols="50" rows="12" id="indicador_de_passagem_ex2_tentativa_code" class="active_code">
+def main():
+# Escreva o seu programa
+
+#-------------------------------------------------
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (indicador_de_passagem_ex2_tentativa)</span> </p>
+<button onclick="runit('indicador_de_passagem_ex2_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('indicador_de_passagem_ex2_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('indicador_de_passagem_ex2_tentativa');">Load</button>
+<br />
+
+<canvas id="indicador_de_passagem_ex2_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="indicador_de_passagem_ex2_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="problema-3">
+<h3>Problema 3<a class="headerlink" href="#problema-3" title="Permalink to this headline">¶</a></h3>
+<p>Dado um número inteiro <code class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">1</span></code>, verificar se <code class="docutils literal"><span class="pre">n</span></code> tem dois dígitos adjacentes
+iguais.</p>
+<p>Exemplos:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Para <code class="docutils literal"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">21212</span></code> a resposta é não</li>
+<li>Para <code class="docutils literal"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">212212</span></code> a resposta é sim</li>
+</ul>
+</div></blockquote>
+<p>Utilize o padrão de indicador de passagem na sua solução.</p>
+
+<div id="indicador_de_passagem_ex3_tentativa" >
+<textarea cols="50" rows="12" id="indicador_de_passagem_ex3_tentativa_code" class="active_code">
+def main():
+# Escreva o seu programa
+
+#-------------------------------------------------
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (indicador_de_passagem_ex3_tentativa)</span> </p>
+<button onclick="runit('indicador_de_passagem_ex3_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('indicador_de_passagem_ex3_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('indicador_de_passagem_ex3_tentativa');">Load</button>
+<br />
+
+<canvas id="indicador_de_passagem_ex3_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="indicador_de_passagem_ex3_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="problema-4">
+<h3>Problema 4<a class="headerlink" href="#problema-4" title="Permalink to this headline">¶</a></h3>
+<p>Dados um número inteiro <code class="docutils literal"><span class="pre">n</span></code>, <code class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>,
+e uma sequência com <code class="docutils literal"><span class="pre">n</span></code> números inteiros,
+verificar se a sequência é uma progressão aritmética.</p>
+
+<div id="indicador_de_passagem_ex4_tentativa" >
+<textarea cols="50" rows="12" id="indicador_de_passagem_ex4_tentativa_code" class="active_code">
+def main():
+# Escreva o seu programa
+
+#-------------------------------------------------
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (indicador_de_passagem_ex4_tentativa)</span> </p>
+<button onclick="runit('indicador_de_passagem_ex4_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('indicador_de_passagem_ex4_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('indicador_de_passagem_ex4_tentativa');">Load</button>
+<br />
+
+<canvas id="indicador_de_passagem_ex4_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="indicador_de_passagem_ex4_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Indicadores de passagem</a><ul>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#videos">Vídeos</a></li>
+<li><a class="reference internal" href="#introducao">Introdução</a><ul>
+<li><a class="reference internal" href="#exemplo">Exemplo</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#problemas">Problemas</a><ul>
+<li><a class="reference internal" href="#problema-1">Problema 1</a></li>
+<li><a class="reference internal" href="#problema-2">Problema 2</a></li>
+<li><a class="reference internal" href="#problema-3">Problema 3</a></li>
+<li><a class="reference internal" href="#problema-4">Problema 4</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="04-if.html"
+                        title="previous chapter">Execução condicional e alternativas: <code class="docutils literal"><span class="pre">if</span></code>, <code class="docutils literal"><span class="pre">if-else</span></code> e <code class="docutils literal"><span class="pre">if-elif-else</span></code></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="06-repeticoes.html"
+                        title="next chapter">Repetições encaixadas</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="06-repeticoes.html" title="Repetições encaixadas"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="04-if.html" title="Execução condicional e alternativas: if, if-else e if-elif-else"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Introdução à Computação com Python</a> &#187;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Jun 12, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

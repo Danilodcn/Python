@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Sorting XML Records with&nbsp;ElementTree</title></head><body data-page-id="2012"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Sorting XML Records with&nbsp;ElementTree</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | December 2007</p><p>The <a href="element-index.htm">ElementTree</a> library makes it really easy to sort records in record-oriented XML files.  Just locate the record container element, extract the record elements and the sort keys into a list, sort the list based on the keys, and then use <em>slice assignment</em> to update the tree.</p><p>Let&#8217;s look at an example.  First, we need an XML file that has a record structure.  Here&#8217;s a simple phonebook, which contains a number of name/number pairs inside <strong>entry</strong> elements.</p><pre><code>&lt;phonebook&gt;
+  &lt;entries&gt;
+    &lt;entry&gt;
+      &lt;name&gt;Ned&lt;/name&gt;
+      &lt;number&gt;555-8904&lt;/number&gt;
+    &lt;/entry&gt;
+    &lt;entry&gt;
+      &lt;name&gt;John&lt;/name&gt;
+      &lt;number&gt;555-5782&lt;/number&gt;
+    &lt;/entry&gt;
+    &lt;entry&gt;
+      &lt;name&gt;Julius&lt;/name&gt;
+      &lt;number&gt;555-3642&lt;/number&gt;
+    &lt;/entry&gt;
+  &lt;/entries&gt;
+&lt;/phonebook&gt;
+</code></pre><p>Here&#8217;s how to sort this file on phone numbers:</p><pre class="python"><span class="pykeyword">import</span> xml.etree.ElementTree <span class="pykeyword">as</span> ET
+
+tree = ET.parse(<span class="pystring">"data.xml"</span>)
+
+<span class="pycomment"># this element holds the phonebook entries</span>
+container = tree.find(<span class="pystring">"entries"</span>)
+
+data = []
+<span class="pykeyword">for</span> elem <span class="pykeyword">in</span> container:
+    key = elem.findtext(<span class="pystring">"number"</span>)
+    data.append((key, elem))
+
+data.sort()
+
+<span class="pycomment"># insert the last item from each tuple</span>
+container[:] = [item[-1] <span class="pykeyword">for</span> item <span class="pykeyword">in</span> data]
+
+tree.write(<span class="pystring">"new-data.xml"</span>)</pre><p>This is very efficient, since all you&#8217;re doing is moving references around.  For normal files, the slowest part is
+reading and writing the files; sorting takes &#8220;no
+time at all&#8221; (and you can parse in no time at all too, by
+using <strong>cElementTree</strong> instead of <strong>ElementTree</strong>).</p><p>To sort on multiple keys (e.g. first on number, and then on name), you can use the fact that Python compares tuples item by item:</p><pre class="python"><span class="pykeyword">for</span> elem <span class="pykeyword">in</span> container:
+    number = elem.findtext(<span class="pystring">"number"</span>)
+    name = elem.findtext(<span class="pystring">"name"</span>)
+    data.append((number, name, elem))</pre><p>The above code uses the exact values in the file, falling back to None if a field is not present.  In practice, you probably want to process the fields somewhat to get them sorted in the right way; e.g.</p><pre class="python"><span class="pykeyword">import</span> re
+
+<span class="pykeyword">for</span> elem <span class="pykeyword">in</span> container:
+
+    <span class="pycomment"># sort numbers by digit runs</span>
+    number = elem.findtext(<span class="pystring">"number"</span>, <span class="pystring">"999-99999"</span>)
+    number = tuple(map(int, re.findall(<span class="pystring">"\d+"</span>, number)))
+
+    <span class="pycomment"># sort names by lower case</span>
+    name = elem.findtext(<span class="pystring">"name"</span>, <span class="pystring">""</span>).lower()
+
+    data.append((number, name, elem))</pre><p>To round off, let&#8217;s look at a first script again.  In that script, we used an explicit for-in loop to extract the keys and the elements from the phonebook container element:</p><pre class="python">data = []
+<span class="pykeyword">for</span> elem <span class="pykeyword">in</span> container:
+    key = elem.findtext(<span class="pystring">"number"</span>)
+    data.append((key, elem))
+
+data.sort()
+
+container[:] = [item[-1] <span class="pykeyword">for</span> item <span class="pykeyword">in</span> data]</pre><p>In recent versions of Python, you can replace the for-in loop with a call to the <strong>sorted</strong> function.  To extract the keys, pass in a <strong>key</strong> callback:</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">getkey</span>(elem):
+    <span class="pykeyword">return</span> elem.findtext(<span class="pystring">"number"</span>)
+
+container[:] = sorted(container, key=getkey)</pre><p>The <strong>sorted</strong> function calls the <strong>getkey</strong> helper once for each item in the container, then sorts the elements according to the key value, and finally returns the sorted elements as a list object.  Here&#8217;s the resulting script:</p><pre class="python"><span class="pykeyword">import</span> xml.etree.ElementTree <span class="pykeyword">as</span> ET
+
+tree = ET.parse(<span class="pystring">"data.xml"</span>)
+
+<span class="pykeyword">def</span> <span class="pyfunction">getkey</span>(elem):
+    <span class="pykeyword">return</span> elem.findtext(<span class="pystring">"number"</span>)
+
+container = tree.find(<span class="pystring">"entries"</span>)
+
+container[:] = sorted(container, key=getkey)
+
+tree.write(<span class="pystring">"new-data.xml"</span>)</pre><p>To sort on multiple keys, simply return a tuple from the helper function.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

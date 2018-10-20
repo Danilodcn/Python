@@ -1,0 +1,465 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capitulo 16: Herança &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Capítulo 17: Listas encadeadas" href="capitulo_17.html" />
+    <link rel="prev" title="Capítulo 15: Conjuntos de objetos" href="capitulo_15.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="capitulo_17.html" title="Capítulo 17: Listas encadeadas"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_15.html" title="Capítulo 15: Conjuntos de objetos"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="capitulo-16-heranca">
+<h1><a class="toc-backref" href="#id1">Capitulo 16: Herança</a><a class="headerlink" href="#capitulo-16-heranca" title="Link permanente para este título">¶</a></h1>
+<div class="contents topic" id="topicos">
+<p class="topic-title first">Tópicos</p>
+<ul class="simple">
+<li><a class="reference external" href="#capitulo-16-heranca" id="id1">Capitulo 16: Herança</a><ul>
+<li><a class="reference external" href="#heranca" id="id2">16.1 Herança</a></li>
+<li><a class="reference external" href="#uma-mao-de-cartas" id="id3">16.2 Uma mão de cartas</a></li>
+<li><a class="reference external" href="#dando-as-cartas" id="id4">16.3 Dando as cartas</a></li>
+<li><a class="reference external" href="#exibindo-a-mao" id="id5">16.4 Exibindo a mao</a></li>
+<li><a class="reference external" href="#a-classe-jogodecartas" id="id6">16.5 A classe <tt class="docutils literal"><span class="pre">JogoDeCartas</span></tt></a></li>
+<li><a class="reference external" href="#classe-maodemico" id="id7">16.6 Classe <tt class="docutils literal"><span class="pre">MaoDeMico</span></tt></a></li>
+<li><a class="reference external" href="#classe-mico" id="id8">16.7 Classe <tt class="docutils literal"><span class="pre">Mico</span></tt></a></li>
+<li><a class="reference external" href="#glossario" id="id9">16.8 Glossário</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="heranca">
+<h2><a class="toc-backref" href="#id2">16.1 Herança</a><a class="headerlink" href="#heranca" title="Link permanente para este título">¶</a></h2>
+<p>Uma das características mais marcantes das linguagens orientadas a objetos é a <strong>herança</strong>. Herança é a habilidade de definir uma nova classe que é uma versão modificada de uma classe existente.</p>
+<p>A principal vantagem dessa característica é que você pode adicionar novos métodos a uma classe sem ter que modificar a classe existente. Chama-se &#8220;herança&#8221; porque a nova classe herda todos os métodos da classe existente. Ampliando a metáfora, podemos dizer que a classe existente é às vezes chamada de classe <strong>mãe</strong> (<em>parent</em>). A nova classe pode ser chamada de classe <strong>filha</strong> ou, simplesmente, &#8220;subclasse&#8221;.</p>
+<p>A herança é uma característica poderosa. Alguns programas que seriam complicados sem herança podem ser escritos de forma simples e concisa graças a ela. E a herança também pode facilitar o reuso do código, uma vez que você pode adaptar o comportamento de classes existentes sem ter que modificá-las. Em alguns casos, a estrutura da herança reflete a natureza real do problema, tornando o programa mais fácil de entender.</p>
+<p>Por outro lado, a herança pode tornar um programa seja difícil de ler. Quando um método é invocado, às vezes não está claro onde procurar sua definição. A parte relevante do código pode ser espalhada em vários módulos. E, também, muitas das coisas que podem ser feitas utilizando herança também podem ser feitas de forma igualmente elegante (ou até mais) sem ela. Se a estrutura natural do problema não se presta a utilizar herança, esse estilo de programação pode trazer mais problemas que vantagens.</p>
+<p>Nesse capítulo, vamos demonstrar o uso de herança como parte de um programa que joga uma variante de Mico. Um dos nossos objetivos é escrever um código que possa ser reutilizado para implementar outros jogos de cartas.</p>
+</div>
+<div class="section" id="uma-mao-de-cartas">
+<h2><a class="toc-backref" href="#id3">16.2 Uma mão de cartas</a><a class="headerlink" href="#uma-mao-de-cartas" title="Link permanente para este título">¶</a></h2>
+<p>Para quase todos os jogos de baralho, é preciso representar uma mão de cartas. Uma mão de cartas é similar a um maço de baralho. Porque ambos são formados por uma série de cartas e ambos requerem operações, como, adicionar e remover cartas. Fora isso, a habilidade de embaralhar a mão e o baralho também são úteis.</p>
+<p>Mas, ao mesmo tempo, a mão é também diferente do baralho. Dependendo do jogo que está sendo jogado, precisamos realizar algumas operações nas mãos de cartas que não fazem sentido para o baralho inteiro. Por exemplo, no pôquer, podemos classificar uma mão (trinca, flush, etc.) ou compará-la com outra mão. No jogo de bridge, podemos querer computar a quantidade de pontos que há numa mão, a fim de fazer um lance.</p>
+<p>Essa situação sugere o uso de herança. Se <tt class="docutils literal"><span class="pre">Mao</span></tt> é uma subclasse de <tt class="docutils literal"><span class="pre">Baralho</span></tt>, terá todos os métodos de <tt class="docutils literal"><span class="pre">Baralho</span></tt>, e novos métodos podem ser adicionados.</p>
+<p>Na definição de classe, o nome da classe pai aparece entre parênteses:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Mao</span><span class="p">(</span><span class="n">Baralho</span><span class="p">):</span>
+  <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Esse comando indica que a nova classe <tt class="docutils literal"><span class="pre">Mao</span></tt> herda da classe existente <tt class="docutils literal"><span class="pre">Baralho</span></tt>.</p>
+<p>O construtor de <tt class="docutils literal"><span class="pre">Mao</span></tt> inicializa os atributos da mão, que são <tt class="docutils literal"><span class="pre">nome</span></tt> e <tt class="docutils literal"><span class="pre">cartas</span></tt>. A string <tt class="docutils literal"><span class="pre">nome</span></tt> identifica essa mão, provavelmente pelo nome do jogador que está segurando as cartas. O nome é um parâmetro opcional com a string vazia como valor default. <tt class="docutils literal"><span class="pre">cartas</span></tt> é a lista de cartas da mão, inicializada com uma lista vazia</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Mao</span><span class="p">(</span><span class="n">Baralho</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nome</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">cartas</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">nome</span> <span class="o">=</span> <span class="n">nome</span>
+</pre></div>
+</div>
+<p>Em praticamente todos os jogos de cartas, é necessario adicionar e remover cartas do baralho. Remover cartas já está resolvido, uma vez que <tt class="docutils literal"><span class="pre">Mao</span></tt> herda <tt class="docutils literal"><span class="pre">removerCarta</span></tt> de <tt class="docutils literal"><span class="pre">Baralho</span></tt>. Mas precisamos escrever <tt class="docutils literal"><span class="pre">adicionarCarta</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Mao</span><span class="p">(</span><span class="n">Baralho</span><span class="p">):</span>
+  <span class="c">#...</span>
+  <span class="k">def</span> <span class="nf">adicionarCarta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">carta</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">cartas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">carta</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>De novo, a elipse indica que omitimos outros métodos. O método de listas <tt class="docutils literal"><span class="pre">append</span></tt> adiciona a nova carta no final da lista de cartas.</p>
+</div>
+<div class="section" id="dando-as-cartas">
+<h2><a class="toc-backref" href="#id4">16.3 Dando as cartas</a><a class="headerlink" href="#dando-as-cartas" title="Link permanente para este título">¶</a></h2>
+<p>Agora que temos uma classe <tt class="docutils literal"><span class="pre">Mao</span></tt>, queremos distribuir cartas de <tt class="docutils literal"><span class="pre">Baralho</span></tt> para mãos de cartas. Não é imediatamente óbvio se esse método deve ir na classe <tt class="docutils literal"><span class="pre">Mao</span></tt> ou na classe <tt class="docutils literal"><span class="pre">Baralho</span></tt>, mas como ele opera num único baralho e (possivelmente) em várias mãos de cartas, é mais natural colocá-lo em <tt class="docutils literal"><span class="pre">Baralho</span></tt>.</p>
+<p>O método <tt class="docutils literal"><span class="pre">distribuir</span></tt> deve ser bem geral, já que diferentes jogos terão diferentes requerimentos. Podemos querer distribuir o baralho inteiro de uma vez só ou adicionar uma carta a cada mão.</p>
+<p><tt class="docutils literal"><span class="pre">distribuir</span></tt> recebe dois argumentos, uma lista (ou tupla) de mãos e o numero total de cartas a serem dadas. Se não houver cartas suficientes no baralho, o método dá todas as cartas e pára:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Baralho</span><span class="p">:</span>
+  <span class="c">#...</span>
+  <span class="k">def</span> <span class="nf">distribuir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maos</span><span class="p">,</span> <span class="n">nCartas</span><span class="o">=</span><span class="mi">999</span><span class="p">):</span>
+    <span class="n">nMaos</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">maos</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nCartas</span><span class="p">):</span>
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">estahVazia</span><span class="p">():</span> <span class="k">break</span>    <span class="c"># interromper se acabaram as cartas</span>
+      <span class="n">carta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pegarCarta</span><span class="p">()</span>      <span class="c"># pegar a carta do topo</span>
+      <span class="n">mao</span> <span class="o">=</span> <span class="n">maos</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="n">nMaos</span><span class="p">]</span>       <span class="c"># quem deve receber agora?</span>
+      <span class="n">mao</span><span class="o">.</span><span class="n">adicionarCarta</span><span class="p">(</span><span class="n">carta</span><span class="p">)</span>   <span class="c"># adicionar a carta à mao</span>
+</pre></div>
+</div>
+<p>O segundo parâmetro, <tt class="docutils literal"><span class="pre">nCartas</span></tt>, é opcional; o default é um número grande, o que na prática significa que todas as cartas do baralho serão dadas se este parâmetro for omitido.</p>
+<p>A variável do laço <tt class="docutils literal"><span class="pre">i</span></tt> vai de 0 a <tt class="docutils literal"><span class="pre">nCartas-1</span></tt>. A cada volta do laço, uma carta é removida do baralho, usando o método de lista <tt class="docutils literal"><span class="pre">pop</span></tt>, que remove e retorna o último item na lista.</p>
+<p>O operador módulo (%) permite dar cartas em ao redor da mesa (uma carta de cada vez para cada mão). Quando <tt class="docutils literal"><span class="pre">i</span></tt> é igual ao numero de mãos na lista, a expressão <tt class="docutils literal"><span class="pre">i</span> <span class="pre">%</span> <span class="pre">nMaos</span></tt> volta para o começo da lista (índice 0).</p>
+</div>
+<div class="section" id="exibindo-a-mao">
+<h2><a class="toc-backref" href="#id5">16.4 Exibindo a mao</a><a class="headerlink" href="#exibindo-a-mao" title="Link permanente para este título">¶</a></h2>
+<p>Para exibir o conteúdo de uma mão, podemos tirar vantagem dos métodos <tt class="docutils literal"><span class="pre">exibirBaralho</span></tt> e <tt class="docutils literal"><span class="pre">__str__</span></tt> herdados de <tt class="docutils literal"><span class="pre">Baralho</span></tt>. Por exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">baralho</span> <span class="o">=</span> <span class="n">Baralho</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">baralho</span><span class="o">.</span><span class="n">embaralhar</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mao</span> <span class="o">=</span> <span class="n">Mao</span><span class="p">(</span><span class="s">&quot;fabio&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">baralho</span><span class="o">.</span><span class="n">distribuir</span><span class="p">([</span><span class="n">mao</span><span class="p">],</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">mao</span>
+<span class="go">Mão fabio contém</span>
+<span class="go">2 de espadas</span>
+<span class="go"> 3 de espadas</span>
+<span class="go">  4 de espadas</span>
+<span class="go">   Ás de copas</span>
+<span class="go">    9 de paus</span>
+</pre></div>
+</div>
+<p>Nao é lá uma grande mão, mas tem potencial para um <em>straight flush</em>.</p>
+<p>Embora seja conveniente herdar os métodos existentes, há outras informacoes num objeto <tt class="docutils literal"><span class="pre">Mao</span></tt> que podemos querer incluir quando ao exibí-lo. Para fazer isso, podemos fornecer um método <tt class="docutils literal"><span class="pre">__str__</span></tt> para a classe <tt class="docutils literal"><span class="pre">Mao</span></tt> que sobrescreva o da classe <tt class="docutils literal"><span class="pre">Baralho</span></tt>:</p>
+<div class="highlight-python"><pre>class Mao(Baralho)
+  #...
+  def __str__(self):
+    s = "Mao " + self.nome
+    if self.estahVazia():
+      return s + " está vazia\n"
+    else:
+      return s + " contém\n" + Baralho.__str__(self)</pre>
+</div>
+<p>Inicialmente, <tt class="docutils literal"><span class="pre">s</span></tt> é uma string que identifica a mão. Se a mão estiver vazia, o programa acrescenta as palavras <tt class="docutils literal"><span class="pre">está</span> <span class="pre">vazia</span></tt> e retorna o resultado.</p>
+<p>Se não, o programa acrescenta a palavra <tt class="docutils literal"><span class="pre">contém</span></tt> e a representação de string do <tt class="docutils literal"><span class="pre">Baralho</span></tt>, computada pela invocação do método <tt class="docutils literal"><span class="pre">__str__</span></tt> na classe <tt class="docutils literal"><span class="pre">Baralho</span></tt> em <tt class="docutils literal"><span class="pre">self</span></tt>.</p>
+<p>Pode parecer estranho enviar <tt class="docutils literal"><span class="pre">self</span></tt>, que se refere à <tt class="docutils literal"><span class="pre">Mao</span></tt> corrente, para um método <tt class="docutils literal"><span class="pre">Baralho</span></tt>, mas isso só até voce se lembrar que um <tt class="docutils literal"><span class="pre">Mao</span></tt> é um tipo de <tt class="docutils literal"><span class="pre">Baralho</span></tt>. Objetos <tt class="docutils literal"><span class="pre">Mao</span></tt> podem fazer tudo que os objetos <tt class="docutils literal"><span class="pre">Baralho</span></tt> fazem, entao, é permitido passar uma instância de <tt class="docutils literal"><span class="pre">Mao</span></tt> para um método <tt class="docutils literal"><span class="pre">Baralho</span></tt>.</p>
+<p>Em geral, sempre é permitido usar uma instância de uma subclasse no lugar de uma instância de uma classe mãe.</p>
+</div>
+<div class="section" id="a-classe-jogodecartas">
+<h2><a class="toc-backref" href="#id6">16.5 A classe <tt class="docutils literal"><span class="pre">JogoDeCartas</span></tt></a><a class="headerlink" href="#a-classe-jogodecartas" title="Link permanente para este título">¶</a></h2>
+<p>A classe <tt class="docutils literal"><span class="pre">JogoDeCartas</span></tt> toma conta de algumas tarefas básicas comuns a todos os jogos, como, criar o baralho e embaralhá-lo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">JogoDeCartas</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">baralho</span> <span class="o">=</span> <span class="n">Baralho</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">baralho</span><span class="o">.</span><span class="n">embaralhar</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Este é o primeiro dos casos que vimos até agora em que o método de inicialização realiza uma computação significativa, para além de inicializar atributos.</p>
+<p>Para implementar jogos específicos, podemos herdar de <tt class="docutils literal"><span class="pre">JogoDeCartas</span></tt> e adicionar caracteristicas para o novo jogo. Como exemplo, vamos escrever uma simulação de Mico.</p>
+<p>O objetivo do jogo é livrar-se das cartas que estiverem na mão. Para fazer isso, é preciso combinar cartas formando pares ou casais que tenham a mesma cor e o mesmo número ou figura. Por exemplo, o 4 de paus casa com o 4 de espadas porque os dois naipes são pretos. O Valete de copas combina com o Valete de ouros porque ambos são vermelhos.</p>
+<p>Antes de mais nada, a Dama de paus é removida do baralho, para que a Dama de espadas fique sem par. A Dama de espadas então faz o papel do mico. As 51 cartas que sobram são distribuidas aos jogadores em ao redor da mesa (uma carta de cada vez para cada mão). Depois que as cartas foram dadas, os jogadores devem fazer todos os casais possíveis que tiverem na mão, e em seguida descartá-los na mesa.</p>
+<p>Quando ninguém mais tiver nenhum par para descartar, o jogo começa. Na sua vez de jogar, o jogador pega uma carta (sem olhar) do vizinho mais proximo à esquerda, que ainda tiver cartas. Se a carta escolhida casar com uma carta que ele tem na mão, ele descarta esse par. Quando todos os casais possíveis tiverem sido feitos, o jogador que tiver sobrado com a Dama de espadas na mão perde o jogo.</p>
+<p>Em nossa simulação computacional do jogo, o computador joga todas as mãos. Infelizmente, algumas nuances do jogo presencial se perdem. Num jogo presencial, o jogador que está com o mico na mão pode usar uns truques para induzir o vizinho a pegar a carta, por exemplo, segurando-a mais alto que as outras, ou mais baixo, ou se esforçando para que ela não fique em destaque. Já o computador simplesmente pega a carta do vizinho aleatoriamente...</p>
+</div>
+<div class="section" id="classe-maodemico">
+<h2><a class="toc-backref" href="#id7">16.6 Classe <tt class="docutils literal"><span class="pre">MaoDeMico</span></tt></a><a class="headerlink" href="#classe-maodemico" title="Link permanente para este título">¶</a></h2>
+<p>Uma mão para jogar Mico requer algumas habilidades para alem das habilidades gerais de uma <tt class="docutils literal"><span class="pre">Mao</span></tt>. Vamos definir uma nova classe, <tt class="docutils literal"><span class="pre">MaoDeMico</span></tt>, que herda de <tt class="docutils literal"><span class="pre">Mao</span></tt> e provê um método adicional chamado <tt class="docutils literal"><span class="pre">descartarCasais</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MaoDeMico</span><span class="p">(</span><span class="n">Mao</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">descartarCasais</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">conta</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">cartasIniciais</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cartas</span><span class="p">[:]</span>
+    <span class="k">for</span> <span class="n">carta</span> <span class="ow">in</span> <span class="n">cartasIniciais</span><span class="p">:</span>
+      <span class="n">casal</span> <span class="o">=</span> <span class="n">Carta</span><span class="p">(</span><span class="mi">3</span> <span class="o">-</span> <span class="n">carta</span><span class="o">.</span><span class="n">naipe</span><span class="p">,</span> <span class="n">carta</span><span class="o">.</span><span class="n">valor</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">casal</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cartas</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cartas</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">carta</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cartas</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">casal</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&quot;Mao </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s"> casais </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nome</span><span class="p">,</span><span class="n">carta</span><span class="p">,</span><span class="n">casal</span><span class="p">)</span>
+        <span class="n">conta</span> <span class="o">=</span> <span class="n">conta</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">conta</span>
+</pre></div>
+</div>
+<p>Começamos fazendo uma cópia da lista de cartas, para poder percorrer a cópia enquanto removemos cartas do original. Uma vez que <tt class="docutils literal"><span class="pre">self.cartas</span></tt> é modificada no laço, não queremos usá-la para controlar o percurso. Python pode ficar bem confuso se estiver percorrendo uma lista que está mudando!</p>
+<p>Para cada carta na mão, verificamos qual é a carta que faz par com ela e vamos procurá-la. O par da carta tem o mesmo <tt class="docutils literal"><span class="pre">valor</span></tt> (número ou figura) e <tt class="docutils literal"><span class="pre">naipe</span></tt> da mesma cor. A expressão <tt class="docutils literal"><span class="pre">3</span> <span class="pre">-</span> <span class="pre">carta.naipe</span></tt> transforma um paus (naipe 0) numa espadas (naipe 3) e um ouros (naipe 1) numa copas (naipe 2). Você deve analisar a fórmula até se convencer de que as operações opostas também funcionam. Se o par da carta tambem estiver na mão, ambas as cartas são removidas.</p>
+<p>O exemplo a seguir demonstra como usar <tt class="docutils literal"><span class="pre">descartarCasais</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">jogo</span> <span class="o">=</span> <span class="n">JogoDeCartas</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mao</span> <span class="o">=</span> <span class="n">MaoDeMico</span><span class="p">(</span><span class="s">&quot;fabio&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">jogo</span><span class="o">.</span><span class="n">baralho</span><span class="o">.</span><span class="n">distribuir</span><span class="p">([</span><span class="n">mao</span><span class="p">],</span> <span class="mi">13</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">mao</span>
+<span class="go">mão fabio contém</span>
+<span class="go">Ás de espadas</span>
+<span class="go"> 2 de ouros</span>
+<span class="go">  7 de espadas</span>
+<span class="go">   8 de paus</span>
+<span class="go">    6 de copas</span>
+<span class="go">     8 de espadas</span>
+<span class="go">      7 de paus</span>
+<span class="go">       Rainha de paus</span>
+<span class="go">        7 de ouros</span>
+<span class="go">         5 de paus</span>
+<span class="go">          Valete de ouros</span>
+<span class="go">           10 de ouros</span>
+<span class="go">            10 de copas</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mao</span><span class="o">.</span><span class="n">descartarCasais</span><span class="p">()</span>
+<span class="go">Mão fabio: 7 de espadas faz par com 7 de paus</span>
+<span class="go">Mão fabio: 8 de espadas faz par com 8 de paus</span>
+<span class="go">Mão fabio: 10 de ouros faz par com 10 de copas</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">mao</span>
+<span class="go">Mão fabio contém</span>
+<span class="go">Ás de espadas</span>
+<span class="go"> 2 de ouros</span>
+<span class="go">  6 de copas</span>
+<span class="go">   Rainha de paus</span>
+<span class="go">    7 de ouros</span>
+<span class="go">     5 de paus</span>
+<span class="go">      Valete de ouros</span>
+</pre></div>
+</div>
+<p>Observe que não existe um método <tt class="docutils literal"><span class="pre">__init__</span></tt> para a classe <tt class="docutils literal"><span class="pre">MaoDeMico</span></tt>. Ele é herdado de <tt class="docutils literal"><span class="pre">Mao</span></tt>.</p>
+</div>
+<div class="section" id="classe-mico">
+<h2><a class="toc-backref" href="#id8">16.7 Classe <tt class="docutils literal"><span class="pre">Mico</span></tt></a><a class="headerlink" href="#classe-mico" title="Link permanente para este título">¶</a></h2>
+<p>Agora podemos focar nossa atenção no jogo em si. <tt class="docutils literal"><span class="pre">Mico</span></tt> é uma subclasse de <tt class="docutils literal"><span class="pre">JogoDeCartas</span></tt> com um novo método chamado <tt class="docutils literal"><span class="pre">jogar</span></tt> que recebe uma lista de jogadores como argumento.</p>
+<p>Já que <tt class="docutils literal"><span class="pre">__init__</span></tt> é herdado de <tt class="docutils literal"><span class="pre">JogoDeCartas</span></tt>, um novo objeto <tt class="docutils literal"><span class="pre">Mico</span></tt> contém um novo baralho embaralhado:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Mico</span><span class="p">(</span><span class="n">JogoDeCartas</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">jogar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nomes</span><span class="p">):</span>
+    <span class="c"># remover a Dama de paus</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">baralho</span><span class="o">.</span><span class="n">removerCarta</span><span class="p">(</span><span class="n">Carta</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
+
+    <span class="c"># fazer uma mão para cada jogador</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">maos</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">nome</span> <span class="ow">in</span> <span class="n">nomes</span> <span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">maos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MaoDeMico</span><span class="p">(</span><span class="n">nome</span><span class="p">))</span>
+
+    <span class="c"># distribuir as cartas</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">baralho</span><span class="o">.</span><span class="n">distribuir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maos</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&quot;---------- As cartas foram dadas&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">exibirMaos</span><span class="p">()</span>
+
+    <span class="c"># remover casais iniciais</span>
+    <span class="n">casais</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">removerTodosOsCasais</span><span class="p">()</span>
+    <span class="k">print</span> <span class="s">&quot;---------- Os pares foram descartados, o jogo começa&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">exibirMaos</span><span class="p">()</span>
+
+    <span class="c"># jogar até que 25 casais se formem</span>
+    <span class="n">vez</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">numMaos</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maos</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">casais</span> <span class="o">&lt;</span> <span class="mi">25</span><span class="p">:</span>
+      <span class="n">casais</span> <span class="o">=</span> <span class="n">casais</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">jogarVez</span><span class="p">(</span><span class="n">vez</span><span class="p">)</span>
+      <span class="n">vez</span> <span class="o">=</span> <span class="p">(</span><span class="n">vez</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">numMaos</span>
+
+    <span class="k">print</span> <span class="s">&quot;---------- Fim do jogo&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">exibirMaos</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Algumas etapas do jogo foram separadas em métodos. <tt class="docutils literal"><span class="pre">removerTodosOsCasais</span></tt> percorre a lista de mãos e invoca <tt class="docutils literal"><span class="pre">descartarCasais</span></tt> em cada uma:</p>
+<div class="highlight-python"><pre>class Mico(JogoDeCartas):
+  #...
+  def removerTodosOsCasais(self):
+    conta = 0
+    for mao in self.maos:
+      conta = conta + mao.descartarCasais()
+    return conta
+
+   Como exercício, escreva ``exibirMaos`` que percorre ``self.maos`` e exibe cada mão.</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">conta</span></tt> é uma acumulador que soma o número de pares em cada mão e retorna o total.</p>
+<p>Quando o número total de pares alcança 25, 50 cartas foram removidas das mãos, o que significa que sobrou só uma carta e o jogo chegou ao fim.</p>
+<p>A variável <tt class="docutils literal"><span class="pre">vez</span></tt> mantém controle sobre de quem é a vez de jogar. Começa em 0 e incrementa de um em um; quando atinge <tt class="docutils literal"><span class="pre">numMaos</span></tt>, o operador módulo faz ela retornar para 0.</p>
+<p>O método <tt class="docutils literal"><span class="pre">jogarVez</span></tt> recebe um argumento que indica de quem é a vez de jogar. O valor de retorno é o número de pares feitos durante essa rodada:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Mico</span><span class="p">(</span><span class="n">JogoDeCartas</span><span class="p">):</span>
+  <span class="c">#...</span>
+  <span class="k">def</span> <span class="nf">jogarVez</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">maos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">estahVazia</span><span class="p">():</span>
+      <span class="k">return</span> <span class="mi">0</span>
+    <span class="n">vizinho</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buscarVizinho</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">novaCarta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maos</span><span class="p">[</span><span class="n">vizinho</span><span class="p">]</span><span class="o">.</span><span class="n">pegarCarta</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">maos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">adicionarCarta</span><span class="p">(</span><span class="n">novaCarta</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&quot;Mao&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">maos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">nome</span><span class="p">,</span> <span class="s">&quot;pegou&quot;</span><span class="p">,</span> <span class="n">novaCarta</span>
+    <span class="n">conta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">descartarCasais</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">maos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">embaralhar</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">conta</span>
+</pre></div>
+</div>
+<p>Se a mão de um jogador estiver vazia, ele está fora do jogo, então, ele não faz nada e retorna 0.</p>
+<p>Do contrário, uma jogada consiste em achar o primeiro jogador à esquerda que tenha cartas, pegar uma carta dele, e tentar fazer pares. Antes de retornar, as cartas na mão são embaralhadas, para que a escolha do próximo jogador seja aleatória.</p>
+<p>O método <tt class="docutils literal"><span class="pre">buscarVizinho</span></tt> começa com o jogador imediatamente à esquerda e continua ao redor da mesa até encontrar um jogador que ainda tenha cartas:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Mico</span><span class="p">(</span><span class="n">JogoDeCartas</span><span class="p">):</span>
+  <span class="c">#...</span>
+  <span class="k">def</span> <span class="nf">buscarVizinho</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="n">numMaos</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maos</span><span class="p">)</span>
+    <span class="k">for</span> <span class="nb">next</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">numMaos</span><span class="p">):</span>
+      <span class="n">vizinho</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="nb">next</span><span class="p">)</span> <span class="o">%</span> <span class="n">numMaos</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">maos</span><span class="p">[</span><span class="n">vizinho</span><span class="p">]</span><span class="o">.</span><span class="n">estahVazia</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">vizinho</span>
+</pre></div>
+</div>
+<p>Se <tt class="docutils literal"><span class="pre">buscarVizinho</span></tt> alguma vez circulasse pela mesa sem encontrar cartas, retornaria <tt class="xref docutils literal"><span class="pre">None</span></tt> e causaria um erro em outra parte do programa. Felizmente, podemos provar que isso nunca vai acontecer (desde que o fim do jogo seja detectado corretamente).</p>
+<p>Não mencionamos o método <tt class="docutils literal"><span class="pre">exibirBaralhos</span></tt>. Esse você mesmo pode escrever.</p>
+<p>A saída a seguir é produto de uma forma reduzida do jogo, onde apenas as 15 cartas mais altas do baralho (do 10 para cima) foram dadas, para três jogadores. Com esse baralho reduzido, a jogada pára depois que 7 combinações foram feitas, ao invés de 25:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">cartas</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">jogo</span> <span class="o">=</span> <span class="n">cartas</span><span class="o">.</span><span class="n">Mico</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">jogo</span><span class="o">.</span><span class="n">jogar</span><span class="p">([</span><span class="s">&quot;Alice&quot;</span><span class="p">,</span><span class="s">&quot;Jair&quot;</span><span class="p">,</span><span class="s">&quot;Clara&quot;</span><span class="p">])</span>
+<span class="go">---------- As cartas foram dadas</span>
+<span class="go">Mão Alice contém</span>
+<span class="go">Rei de copas</span>
+<span class="go"> Valete de paus</span>
+<span class="go">  Rainha de espadas</span>
+<span class="go">   Rei de espadas</span>
+<span class="go">    10 de ouros</span>
+
+<span class="go">Mão Jair contém</span>
+<span class="go">Rainha de copas</span>
+<span class="go"> Valete de espadas</span>
+<span class="go">  Valete de copas</span>
+<span class="go">   Rei de ouros</span>
+<span class="go">    Rainha de ouros</span>
+
+<span class="go">Mão Clara contém</span>
+<span class="go">Valete of ouros</span>
+<span class="go"> Rei de paus</span>
+<span class="go">  10 de espadas</span>
+<span class="go">   10 de copas</span>
+<span class="go">    10 de paus</span>
+
+<span class="go">Mão Jair: Dama de copas faz par com Dama de ouros</span>
+<span class="go">Mão Clara: 10 de espadas faz par com 10 de paus</span>
+<span class="go">---------- Os pares foram descartados, o jogo começa</span>
+<span class="go">Mão Alice contém</span>
+<span class="go">Rei de copas</span>
+<span class="go"> Valete de paus</span>
+<span class="go">  Rainha de espadas</span>
+<span class="go">   Rei de espadas</span>
+<span class="go">    10 de ouros</span>
+
+<span class="go">Mão Jair contém</span>
+<span class="go">Valete de espadas</span>
+<span class="go"> Valete de copas</span>
+<span class="go">  Rei de ouros</span>
+
+<span class="go">Mão Clara contém</span>
+<span class="go">Valete de ouros</span>
+<span class="go"> Rei de paus</span>
+<span class="go">  10 de copas</span>
+
+<span class="go">Mão Alice pegou o Rei de ouros</span>
+<span class="go">Mão Alice: Rei de copas faz par com Rei de ouros</span>
+<span class="go">Mão Jair pegou 10 de copas</span>
+<span class="go">Mão Clara pegou Valete de paus</span>
+<span class="go">Mão Alice pegou Valete de copas</span>
+<span class="go">Mão Jair pegou Valete de ouros</span>
+<span class="go">Mão Clara pegou Dama de espadas</span>
+<span class="go">Mão Alice pegou Valete de ouros</span>
+<span class="go">Mão Alice: Valete de copas faz par com Valete de ouros</span>
+<span class="go">Mão Jair pegou Rei de paus</span>
+<span class="go">Mão Clara pegou Rei de espadas</span>
+<span class="go">Mão Alice pegou 10 de copas</span>
+<span class="go">Mão Alice: 10 de ouros faz par com 10 de copas</span>
+<span class="go">Mão Jair pegou Dama de espadas</span>
+<span class="go">Mão Clara pegou Valete de espadas</span>
+<span class="go">Mão Clara: Valete de paus faz par com Valete de espadas</span>
+<span class="go">Mão Jair pegou Rei de espadas</span>
+<span class="go">Mão Jeff: Rei de paus faz par com Rei de espadas</span>
+<span class="go">---------- Fim do jogo</span>
+<span class="go">Mão Alice está vazia</span>
+
+<span class="go">Mão Jair contém</span>
+<span class="go">Rainha de espadas</span>
+
+<span class="go">Mão Clara está vazia</span>
+</pre></div>
+</div>
+<p>Então, o Jair perdeu.</p>
+</div>
+<div class="section" id="glossario">
+<h2><a class="toc-backref" href="#id9">16.8 Glossário</a><a class="headerlink" href="#glossario" title="Link permanente para este título">¶</a></h2>
+<dl class="docutils">
+<dt>herança (<em>inheritance</em>)</dt>
+<dd>Habilidade de definir uma nova classe que é a versão modificada de uma classe definida anteriormente.</dd>
+<dt>classe mãe (<em>parent class</em>)</dt>
+<dd>A classe de quem a classe filha herda.</dd>
+<dt>classe filho (<em>child class</em>)</dt>
+<dd>Um nova classe criada herdando de uma classe existente; também chamada de &#8220;subclasse&#8221;.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Capitulo 16: Herança</a><ul>
+<li><a class="reference internal" href="#heranca">16.1 Herança</a></li>
+<li><a class="reference internal" href="#uma-mao-de-cartas">16.2 Uma mão de cartas</a></li>
+<li><a class="reference internal" href="#dando-as-cartas">16.3 Dando as cartas</a></li>
+<li><a class="reference internal" href="#exibindo-a-mao">16.4 Exibindo a mao</a></li>
+<li><a class="reference internal" href="#a-classe-jogodecartas">16.5 A classe <tt class="docutils literal"><span class="pre">JogoDeCartas</span></tt></a></li>
+<li><a class="reference internal" href="#classe-maodemico">16.6 Classe <tt class="docutils literal"><span class="pre">MaoDeMico</span></tt></a></li>
+<li><a class="reference internal" href="#classe-mico">16.7 Classe <tt class="docutils literal"><span class="pre">Mico</span></tt></a></li>
+<li><a class="reference internal" href="#glossario">16.8 Glossário</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="capitulo_15.html"
+                        title="capítulo anterior">Capítulo 15: Conjuntos de objetos</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="capitulo_17.html"
+                        title="próximo capítulo">Capítulo 17: Listas encadeadas</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/capitulo_16.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="capitulo_17.html" title="Capítulo 17: Listas encadeadas"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_15.html" title="Capítulo 15: Conjuntos de objetos"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

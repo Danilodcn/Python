@@ -1,0 +1,790 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>3. Uma introdução informal a Python &mdash; Python v2.7.2 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.7.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Python v2.7.2 documentation"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="top" title="Python v2.7.2 documentation" href="../index.html" />
+    <link rel="up" title="O tutorial de Python" href="index.html" />
+    <link rel="next" title="4. Mais ferramentas de controle de fluxo" href="controlflow.html" />
+    <link rel="prev" title="2. Usando o interpretador Python" href="interpreter.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+ 
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="controlflow.html" title="4. Mais ferramentas de controle de fluxo"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="interpreter.html" title="2. Usando o interpretador Python"
+             accesskey="P">previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">Python v2.7.2 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">O tutorial de Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="uma-introducao-informal-a-python">
+<span id="tut-informal"></span><h1>3. Uma introdução informal a Python<a class="headerlink" href="#uma-introducao-informal-a-python" title="Permalink to this headline">¶</a></h1>
+<p>Nos exemplos seguintes, pode-se distinguir a entrada da saída pela presença ou
+ausência dos prompts (<tt class="docutils literal"><span class="pre">&gt;&gt;&gt;</span></tt> e <tt class="docutils literal"><span class="pre">...</span></tt>): para repetir o exemplo, você deve
+digitar tudo após o prompt, quando o mesmo aparece; linhas que não começarem
+com um prompt são na verdade as saídas geradas pelo interpretador. Observe que
+quando aparece uma linha contendo apenas o prompt secundário <tt class="docutils literal"><span class="pre">...</span></tt> você
+deve digitar uma linha em branco; é assim que se encerra um comando de
+múltiplas linhas.</p>
+<p>Muitos dos exemplos neste manual, até mesmo aqueles digitados interativamente,
+incluem comentários. Comentários em Python são iniciados pelo caractere <tt class="docutils literal"><span class="pre">#</span></tt>,
+e se estendem até o final da linha física. Um comentário pode aparecer no
+início da linha, depois de um espaço em branco ou código, mas nunca dentro de
+uma string literal. O caractere <tt class="docutils literal"><span class="pre">#</span></tt> em uma string literal não passa de um
+caractere <tt class="docutils literal"><span class="pre">#</span></tt>. Uma vez que os comentários são usados apenas para explicar o
+código e não são interpretados pelo Python, eles podem ser omitidos ao digitar
+os exemplos.</p>
+<p>Alguns exemplos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># este é o primeiro comentário</span>
+<span class="n">SPAM</span> <span class="o">=</span> <span class="mi">1</span>                 <span class="c"># e este é o segundo comentário</span>
+                         <span class="c"># ... e agora um terceiro!</span>
+<span class="n">STRING</span> <span class="o">=</span> <span class="s">&quot;# Isto não é um comentário.&quot;</span>
+</pre></div>
+</div>
+<div class="section" id="usando-python-como-uma-calculadora">
+<span id="tut-calculator"></span><h2>3.1. Usando Python como uma calculadora<a class="headerlink" href="#usando-python-como-uma-calculadora" title="Permalink to this headline">¶</a></h2>
+<p>Vamos experimentar alguns comandos simples em Python. Inicie o interpretador e
+aguarde o prompt primário, <tt class="docutils literal"><span class="pre">&gt;&gt;&gt;</span></tt>. (Não deve demorar muito.)</p>
+<div class="section" id="numeros">
+<span id="tut-numbers"></span><h3>3.1.1. Números<a class="headerlink" href="#numeros" title="Permalink to this headline">¶</a></h3>
+<p>O interpretador funciona como uma calculadora bem simples: você pode digitar
+uma expressão e o  resultado será apresentado. A sintaxe de expressões é a
+usual: operadores <tt class="docutils literal"><span class="pre">+</span></tt>, <tt class="docutils literal"><span class="pre">-</span></tt>, <tt class="docutils literal"><span class="pre">*</span></tt> e <tt class="docutils literal"><span class="pre">/</span></tt> funcionam da mesma forma que em
+outras linguagens tradicionais (por exemplo, Pascal ou C); parênteses podem
+ser usados para agrupar expressões. Por exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="mi">2</span><span class="o">+</span><span class="mi">2</span>
+<span class="go">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Isto é um comentário</span>
+<span class="gp">... </span><span class="mi">2</span><span class="o">+</span><span class="mi">2</span>
+<span class="go">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">2</span><span class="o">+</span><span class="mi">2</span>  <span class="c"># em um comentário na mesma linha do código</span>
+<span class="go">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">50</span><span class="o">-</span><span class="mi">5</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span><span class="o">/</span><span class="mi">4</span>
+<span class="go">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># A divisão entre inteiros arredonda para baixo:</span>
+<span class="gp">... </span><span class="mi">7</span><span class="o">/</span><span class="mi">3</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">7</span><span class="o">/-</span><span class="mi">3</span>
+<span class="go">-3</span>
+</pre></div>
+</div>
+<p>O sinal de igual (<tt class="docutils literal"><span class="pre">'='</span></tt>) é usado para atribuir um valor a uma variável.
+Depois de uma atribuição, nenhum resultado é exibido antes do próximo prompt:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">largura</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">algura</span> <span class="o">=</span> <span class="mi">5</span><span class="o">*</span><span class="mi">9</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">largura</span> <span class="o">*</span> <span class="n">altura</span>
+<span class="go">900</span>
+</pre></div>
+</div>
+<p>Um valor pode ser atribuído a diversas variáveis simultaneamente:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">=</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c"># Zerar x, y, z</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">z</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+<p>Variáveis precisam ser &#8220;definidas&#8221; (atribuídas um valor) antes que possam ser
+usadas, se não acontece um erro:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># tentar acessar variável não definida</span>
+<span class="gp">... </span><span class="n">n</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n-Identifier">&lt;module&gt;</span>
+<span class="nc">NameError</span>: <span class="n-Identifier">name &#39;n&#39; is not defined</span>
+</pre></div>
+</div>
+<p>Há suporte completo para ponto flutuante (<em>float</em>); operadores com operandos
+de diferentes tipos convertem o inteiro para ponto flutuante:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="mi">3</span> <span class="o">*</span> <span class="mf">3.75</span> <span class="o">/</span> <span class="mf">1.5</span>
+<span class="go">7.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mf">7.0</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="go">3.5</span>
+</pre></div>
+</div>
+<p>Números complexos também são suportados; números imaginários são escritos com
+o sufixo <tt class="docutils literal"><span class="pre">j</span></tt> ou <tt class="docutils literal"><span class="pre">J</span></tt>. Números complexos com parte real não nula são
+escritos como <tt class="docutils literal"><span class="pre">(real+imagJ)</span></tt>, ou podem ser criados pela chamada de função
+<tt class="docutils literal"><span class="pre">complex(real,</span> <span class="pre">imag)</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="mi">1</span><span class="n">J</span>
+<span class="go">(-1+0j)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="nb">complex</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">(-1+0j)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">3</span><span class="o">+</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">3</span>
+<span class="go">(3+3j)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">3</span><span class="o">+</span><span class="mi">1</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span>
+<span class="go">(9+3j)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="n">j</span><span class="p">)</span>
+<span class="go">(1.5+0.5j)</span>
+</pre></div>
+</div>
+<p>Números complexos são sempre representados por dois floats, a parte real e a
+parte imaginária. Para extrair as partes de um número complexo <em>z</em>, utilize
+<tt class="docutils literal"><span class="pre">z.real</span></tt> e <tt class="docutils literal"><span class="pre">z.imag</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="mf">1.5</span><span class="o">+</span><span class="mf">0.5</span><span class="n">j</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">real</span>
+<span class="go">1.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">imag</span>
+<span class="go">0.5</span>
+</pre></div>
+</div>
+<p>As funções de conversão para float e inteiro (<a class="reference internal" href="../library/functions.html#float" title="float"><tt class="xref py py-func docutils literal"><span class="pre">float()</span></tt></a>, <a class="reference internal" href="../library/functions.html#int" title="int"><tt class="xref py py-func docutils literal"><span class="pre">int()</span></tt></a> e
+<a class="reference internal" href="../library/functions.html#long" title="long"><tt class="xref py py-func docutils literal"><span class="pre">long()</span></tt></a>) não funcionam para números complexos &#8212; não existe apenas uma
+maneira de converter um número complexo para um número real. Use <tt class="docutils literal"><span class="pre">abs(z)</span></tt>
+para obter sua magnitude (como um float) ou <tt class="docutils literal"><span class="pre">z.real</span></tt> para obter sua parte
+real.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="mf">3.0</span><span class="o">+</span><span class="mf">4.0</span><span class="n">j</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">float</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n-Identifier">?</span>
+<span class="nc">TypeError</span>: <span class="n-Identifier">can&#39;t convert complex to float; use abs(z)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">real</span>
+<span class="go">3.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">imag</span>
+<span class="go">4.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>  <span class="c"># sqrt(a.real**2 + a.imag**2)</span>
+<span class="go">5.0</span>
+</pre></div>
+</div>
+<p>No modo interativo, o valor da última expressão exibida é atribuída a variável
+<tt class="docutils literal"><span class="pre">_</span></tt>. Assim, ao utilizar Python como uma calculadora, fica mais fácil
+prosseguir com os cálculos, por exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">taxa</span> <span class="o">=</span> <span class="mf">12.5</span> <span class="o">/</span> <span class="mi">100</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">preco</span> <span class="o">=</span> <span class="mf">100.50</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">preco</span> <span class="o">*</span> <span class="n">taxa</span>
+<span class="go">12.5625</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">preco</span> <span class="o">+</span> <span class="n">_</span>
+<span class="go">113.0625</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">113.06</span>
+</pre></div>
+</div>
+<p>Essa variável especial deve ser tratada como <em>somente para leitura</em> pelo
+usuário. Nunca lhe atribua explicitamente um valor &#8212; do contrário, estaria
+criando uma outra variável (homônima) independente, que mascararia a variável
+especial com seu comportamento mágico.</p>
+</div>
+<div class="section" id="strings">
+<span id="tut-strings"></span><h3>3.1.2. Strings<a class="headerlink" href="#strings" title="Permalink to this headline">¶</a></h3>
+<p>Além de números, Python também pode manipular strings (sequências de
+caracteres), que podem ser expressas de diversas formas. Elas podem ser
+delimitadas por aspas simples ou duplas:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;spam eggs&#39;</span>
+<span class="go">&#39;spam eggs&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;doesn</span><span class="se">\&#39;</span><span class="s">t&#39;</span>
+<span class="go">&quot;doesn&#39;t&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s">&quot;doesn&#39;t&quot;</span>
+<span class="go">&quot;doesn&#39;t&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;&quot;Yes,&quot; he said.&#39;</span>
+<span class="go">&#39;&quot;Yes,&quot; he said.&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">Yes,</span><span class="se">\&quot;</span><span class="s"> he said.&quot;</span>
+<span class="go">&#39;&quot;Yes,&quot; he said.&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;&quot;Isn</span><span class="se">\&#39;</span><span class="s">t,&quot; she said.&#39;</span>
+<span class="go">&#39;&quot;Isn\&#39;t,&quot; she said.&#39;</span>
+</pre></div>
+</div>
+<p>O interpretador exibe o resultado de operações com strings da mesma forma como
+elas são digitadas na entrada: dentro de aspas, e com aspas, caracteres
+acentuados e outros caracteres especiais representados por sequências de
+escape com barras invertidas (como <tt class="docutils literal"><span class="pre">'\t'</span></tt>, <tt class="docutils literal"><span class="pre">'\xc3\xa9'</span></tt> etc.), para
+mostrar o valor preciso. A string é delimitada entre aspas simples, exceto
+quando ela contém uma aspa simples e nenhuma aspa dupla. O comando
+<a class="reference internal" href="../reference/simple_stmts.html#print"><tt class="xref std std-keyword docutils literal"><span class="pre">print</span></tt></a> produz uma saída mais legível para tais strings com
+caracteres especiais.</p>
+<p>Strings que contém mais de uma linha podem ser construídas de diversas
+maneiras. Linhas de continuação podem ser usadas, com uma barra invertida
+colocada na última posição para indicar que a próxima linha física é a
+continuação de uma linha lógica:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">oi</span> <span class="o">=</span> <span class="s">&quot;Eis uma string longa contendo</span><span class="se">\n\</span>
+<span class="s">diversas linhas de texto assim como se faria em C.</span><span class="se">\n\</span>
+<span class="s">     Observe que os espaços em branco no inicio da linha são</span><span class="se">\</span>
+<span class="s"> significativos.&quot;</span>
+
+<span class="k">print</span> <span class="n">oi</span>
+</pre></div>
+</div>
+<p>Observe que quebras de linha ainda precisam ser embutidos na string usando
+<tt class="docutils literal"><span class="pre">\n</span></tt> &#8212; a quebra de linha física após a última barra de escape é anulada.
+Este exemplo exibiria o seguinte resultado:</p>
+<div class="highlight-text"><div class="highlight"><pre>Eis uma string longa contendo
+diversas linhas de texto assim como se faria em C.
+     Observe que os espaços em branco no inicio da linha são significativos.
+</pre></div>
+</div>
+<p>Ou, strings podem ser delimitadas por pares de aspas triplas combinando:
+<tt class="docutils literal"><span class="pre">&quot;&quot;&quot;</span></tt> ou <tt class="docutils literal"><span class="pre">'''</span></tt>. Neste caso não é necessário escapar o final das linhas
+físicas com <tt class="docutils literal"><span class="pre">\</span></tt>, mas as quebras de linha serão incluídas na string:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">Uso: treco [OPCOES]</span>
+<span class="s">     -h                        Exibir esta mensagem de uso</span>
+<span class="s">     -H hostname               Host a conectar</span>
+<span class="s">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>produz a seguinte saída:</p>
+<div class="highlight-text"><div class="highlight"><pre>Uso: treco [OPCOES]
+     -h                        Exibir esta mensagem de uso
+     -H hostname               Host a conectar
+</pre></div>
+</div>
+<p>Se fazemos uma string <em>raw</em> (N.d.T: “crua” ou sem processamento de caracteres
+escape) com o prefixo <tt class="docutils literal"><span class="pre">r</span></tt>, as sequências <tt class="docutils literal"><span class="pre">\n</span></tt> não são convertidas em
+quebras de linha. Tanto as barras invertidas quanto a quebra de linha física
+no código-fonte são incluídos na string como dados. Portanto, o exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">oi</span> <span class="o">=</span> <span class="s">r&quot;Eis uma string longa contendo\n</span><span class="se">\</span>
+<span class="s">diversas linhas de texto assim como se faria em C.&quot;</span>
+
+<span class="k">print</span> <span class="n">oi</span>
+</pre></div>
+</div>
+<p>Exibe:</p>
+<div class="highlight-text"><div class="highlight"><pre>Eis uma string longa contendo\n\
+diversas linhas de texto assim como se faria em C.
+</pre></div>
+</div>
+<p>Strings podem ser concatenadas (coladas) com o operador <tt class="docutils literal"><span class="pre">+</span></tt>, e repetidas com <tt class="docutils literal"><span class="pre">*</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">palavra</span> <span class="o">=</span> <span class="s">&#39;Ajuda&#39;</span> <span class="o">+</span> <span class="s">&#39;Z&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">palavra</span>
+<span class="go">&#39;AjudaZ&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;&lt;&#39;</span> <span class="o">+</span> <span class="n">palavra</span><span class="o">*</span><span class="mi">5</span> <span class="o">+</span> <span class="s">&#39;&gt;&#39;</span>
+<span class="go">&#39;&lt;AjudaZAjudaZAjudaZAjudaZAjudaZ&gt;&#39;</span>
+</pre></div>
+</div>
+<p>Duas strings literais adjacentes são automaticamente concatenadas; a primeira
+linha do exemplo anterior poderia ter sido escrita como
+<tt class="docutils literal"><span class="pre">palavra</span> <span class="pre">=</span> <span class="pre">'Ajuda'</span> <span class="pre">'Z'</span></tt>; isso funciona somente com strings literais, não com
+expressões que produzem strings:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;str&#39;</span> <span class="s">&#39;ing&#39;</span>             <span class="c">#  &lt;-  Isto funciona</span>
+<span class="go">&#39;string&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;str&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">+</span> <span class="s">&#39;ing&#39;</span>   <span class="c">#  &lt;-  Isto funciona</span>
+<span class="go">&#39;string&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;str&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="s">&#39;ing&#39;</span>     <span class="c">#  &lt;-  Isto é inválido</span>
+<span class="go">  File &quot;&lt;stdin&gt;&quot;, line 1, in ?</span>
+<span class="go">    &#39;str&#39;.strip() &#39;ing&#39;</span>
+<span class="go">                      ^</span>
+<span class="go">SyntaxError: invalid syntax</span>
+</pre></div>
+</div>
+<p>Strings podem ser indexadas; como em C, o primeiro caractere da string tem
+índice 0 (zero). Não existe um tipo específico para caracteres; um caractere é
+simplesmente uma string de tamanho 1. Assim como na linguagem Icon, substrings
+podem ser especificadas através da notação de <em>slice</em> (fatiamento ou
+intervalo): dois índices separados por dois pontos.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">palavra</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+<span class="go">&#39;a&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">palavra</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">&#39;Aj&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">palavra</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+<span class="go">&#39;ud&#39;</span>
+</pre></div>
+</div>
+<p>Índices de fatias têm defaults úteis; a omissão do primeiro índice equivale a
+zero, a omissão do segundo índice equivale ao tamanho da string sendo
+fatiada.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">palavra</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>     <span class="c"># Os dois primeiros caracteres</span>
+<span class="go">&#39;Aj&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">palavra</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>     <span class="c"># Tudo menos os dois primeiros caracteres</span>
+<span class="go">&#39;udaZ&#39;</span>
+</pre></div>
+</div>
+<p>Diferentemente de C, strings em Python não podem ser alteradas. Tentar
+atribuir valor a uma posição (índice ou fatia) dentro de uma string resulta em
+erro:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">palavra</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;x&#39;</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n-Identifier">&lt;module&gt;</span>
+<span class="nc">TypeError</span>: <span class="n-Identifier">&#39;str&#39; object does not support item assignment</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">palavra</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;Splat&#39;</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n-Identifier">&lt;module&gt;</span>
+<span class="nc">TypeError</span>: <span class="n-Identifier">&#39;str&#39; object does not support item assignment</span>
+</pre></div>
+</div>
+<p>Entretanto, criar uma nova string combinando conteúdos é fácil e eficiente:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;x&#39;</span> <span class="o">+</span> <span class="n">palavra</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+<span class="go">&#39;xjudaZ&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;Splat&#39;</span> <span class="o">+</span> <span class="n">palavra</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+<span class="go">&#39;SplatZ&#39;</span>
+</pre></div>
+</div>
+<p>Eis uma invariante interessante das operações de fatiamento:
+<tt class="docutils literal"><span class="pre">s[:i]</span> <span class="pre">+</span> <span class="pre">s[i:]</span></tt> é igual a <tt class="docutils literal"><span class="pre">s</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">palavra</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">palavra</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+<span class="go">&#39;AjudaZ&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">palavra</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">palavra</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+<span class="go">&#39;AjudaZ&#39;</span>
+</pre></div>
+</div>
+<p>Intervalos fora de limites são tratados “graciosamente” (N.d.T: o termo
+original “gracefully” indica robustez no tratamento de erros): um índice maior
+que o comprimento é trocado pelo comprimento, um limite superior menor que o
+limite inferior produz uma string vazia.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">palavra</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">100</span><span class="p">]</span>
+<span class="go">&#39;judaZ&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">palavra</span><span class="p">[</span><span class="mi">10</span><span class="p">:]</span>
+<span class="go">&#39;&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">palavra</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">&#39;&#39;</span>
+</pre></div>
+</div>
+<p>Índices podem ser números negativos, para iniciar a contagem pela direita. Por
+exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">palavra</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>   <span class="c"># O último caractere</span>
+<span class="go">&#39;Z&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">palavra</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>   <span class="c"># O penúltimo caractere</span>
+<span class="go">&#39;a&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">palavra</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>  <span class="c"># Os dois últimos caracteres</span>
+<span class="go">&#39;aZ&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">palavra</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>  <span class="c"># Tudo menos os dois últimos caracteres</span>
+<span class="go">&#39;Ajud&#39;</span>
+</pre></div>
+</div>
+<p>Observe que -0 é o mesmo que 0, logo neste caso não se conta a partir da direita!</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">palavra</span><span class="p">[</span><span class="o">-</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">&#39;A&#39;</span>
+</pre></div>
+</div>
+<p>Intervalos fora dos limites da string são truncados, mas não tente isso com
+índices simples (que não sejam fatias):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">palavra</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">:]</span>
+<span class="go">&#39;AjudaZ&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">palavra</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">]</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n-Identifier">&lt;module&gt;</span>
+<span class="nc">IndexError</span>: <span class="n-Identifier">string index out of range</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>Uma maneira de lembrar como slices funcionam é pensar que os índices indicam
+posições <em>entre</em> caracteres, onde a borda esquerda do primeiro caractere é 0.
+Assim, a borda direita do último caractere de uma string de comprimento <em>n</em>
+tem índice <em>n</em>, por exemplo:</p>
+<div class="highlight-python"><pre> 0   1   2   3   4   5   6
+ +---+---+---+---+---+---+
+ | A | j | u | d | a | z |
+ +---+---+---+---+---+---+
+-6  -5  -4  -3  -2  -1</pre>
+</div>
+<p>A primeira fileira de números indica a posição dos índices 0...6 na string; a
+segunda fileira indica a posição dos respectivos índices negativos. Uma fatia
+de <em>i</em> a <em>j</em> consiste em todos os caracteres entre as bordas <em>i</em> e <em>j</em>,
+respectivamente.</p>
+<p>Para índices positivos, o comprimento da fatia é a diferença entre os índices,
+se ambos estão dentro dos limites da string. Por exemplo, comprimento de
+<tt class="docutils literal"><span class="pre">palavra[1:3]</span></tt> é 2.</p>
+<p>A função built-in (embutida) <a class="reference internal" href="../library/functions.html#len" title="len"><tt class="xref py py-func docutils literal"><span class="pre">len()</span></tt></a> devolve o comprimento de uma string:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s">&#39;anticonstitucionalissimamente&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="go">29</span>
+</pre></div>
+</div>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="../library/stdtypes.html#typesseq"><em>Sequence Types &#8212; str, unicode, list, tuple, bytearray, buffer, xrange</em></a></dt>
+<dd>Strings, e as strings Unicode descritas na próxima seção, são exemplos
+de <em>sequências</em> e implementam as operações comuns associadas com esses
+objetos.</dd>
+<dt><a class="reference internal" href="../library/stdtypes.html#string-methods"><em>String Methods</em></a></dt>
+<dd>Tanto strings comuns quanto Unicode oferecem um grande número de métodos
+para busca e transformações básicas.</dd>
+<dt><a class="reference internal" href="../library/string.html#new-string-formatting"><em>String Formatting</em></a></dt>
+<dd>Informações sobre formatação de strings com <a class="reference internal" href="../library/stdtypes.html#str.format" title="str.format"><tt class="xref py py-meth docutils literal"><span class="pre">str.format()</span></tt></a> são
+descritas nesta seção.</dd>
+<dt><a class="reference internal" href="../library/stdtypes.html#string-formatting"><em>String Formatting Operations</em></a></dt>
+<dd>As operações de formatação de strings antigas, que acontecem quando
+strings simples e Unicode aparecem à direita do operador <tt class="docutils literal"><span class="pre">%</span></tt> são
+descritas dom mais detalhes nesta seção.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="strings-unicode">
+<span id="tut-unicodestrings"></span><h3>3.1.3. Strings Unicode<a class="headerlink" href="#strings-unicode" title="Permalink to this headline">¶</a></h3>
+<p>A partir de Python 2.0 um novo tipo para armazenar textos foi introduzido: o
+tipo <tt class="docutils literal"><span class="pre">unicode</span></tt>. Ele pode ser usado para armazenar e manipular dados no
+padrão Unicode (veja <a class="reference external" href="http://www.unicode.org/">http://www.unicode.org/</a>) e se integra bem aos objetos
+string pré-existentes, realizando conversões automáticas quando necessário.</p>
+<p>Unicode tem a vantagem de associar um único número ordinal a cada caractere,
+para todas as formas de escrita usadas em textos modernos ou antigos.
+Anteriormente, havia somente 256 números ordinais possíveis para identificar
+caracteres. Cada texto era tipicamente limitado a uma &#8220;code page&#8221; (uma tabela
+de códigos) que associava ordinais aos caracteres. Isso levou a muita confusão
+especialmente no âmbito da internacionalização de software (comumente escrito
+como <tt class="docutils literal"><span class="pre">i18n</span></tt> porque <tt class="docutils literal"><span class="pre">internationalization</span></tt> é <tt class="docutils literal"><span class="pre">'i'</span></tt> + 18 letras +
+<tt class="docutils literal"><span class="pre">'n'</span></tt>). Unicode resolve esses problemas ao definir uma única tabela de
+códigos para todos os conjuntos de caracteres.</p>
+<p>Criar strings Unicode em Python é tão simples quanto criar strings normais:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="s">u&#39;Hello World !&#39;</span>
+<span class="go">u&#39;Hello World !&#39;</span>
+</pre></div>
+</div>
+<p>O <tt class="docutils literal"><span class="pre">u</span></tt> antes das aspas indica a criação de uma string Unicode. Se você
+desejar incluir caracteres especiais na string, você pode fazê-lo através da
+codificação <em>Unicode-Escape</em> de Python. O exemplo a seguir mostra como:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="s">u&#39;Hello</span><span class="se">\u0020</span><span class="s">World !&#39;</span>
+<span class="go">u&#39;Hello World !&#39;</span>
+</pre></div>
+</div>
+<p>O código de escape <tt class="docutils literal"><span class="pre">\u0020</span></tt> insere um caractere Unicode com valor ordinal
+0x0020 (o espaço em branco) naquela posição.</p>
+<p>Os outros caracteres são interpretados usando seus valores ordinais como
+valores ordinais em Unicode. Se você possui strings literais na codificação
+padrão Latin-1 que é usada na maioria dos países ocidentais, achará
+conveniente que os 256 caracteres inferiores do Unicode coincidem com os 256
+caracteres do Latin-1.</p>
+<p>Para os experts, existe ainda um modo <em>raw</em> da mesma forma que existe para
+strings normais. Basta prefixar a string com &#8216;ur&#8217; para usar a codificação
+<em>Raw-Unicode-Escape</em>. A conversão <tt class="docutils literal"><span class="pre">\uXXXX</span></tt> descrita acima será aplicada
+somente se houver um número ímpar de barras invertidas antes do escape &#8216;u&#8217;.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="s">ur&#39;Hello\u0020World !&#39;</span>
+<span class="go">u&#39;Hello World !&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s">ur&#39;Hello</span><span class="se">\\</span><span class="s">u0020World !&#39;</span>
+<span class="go">u&#39;Hello\\\\u0020World !&#39;</span>
+</pre></div>
+</div>
+<p>O modo raw (cru) é muito útil para evitar o excesso de barras invertidas, por
+exemplo, em expressões regulares.</p>
+<p>Além dessas codificações padrão, Python oferece todo um conjunto de maneiras
+de se criar strings Unicode a partir de alguma codificação conhecida.</p>
+<p id="index-0">A função embutida <a class="reference internal" href="../library/functions.html#unicode" title="unicode"><tt class="xref py py-func docutils literal"><span class="pre">unicode()</span></tt></a> dá acesso a todos os codecs Unicode
+registrados (COders e DECoders). Alguns dos codecs mais conhecidos são:
+<em>Latin-1</em>, <em>ASCII</em>, <em>UTF-8</em>, e <em>UTF-16</em>. Os dois últimos são codificações de
+tamanho variável para armazenar cada caractere Unicode em um ou mais bytes.
+(N.d.T: no Brasil, é muito útil o codec <em>cp1252</em>, variante estendida do
+<em>Latin-1</em> usada na maioria das versões do MS Windows distribuídas no país,
+contendo caracteres comuns em textos, como aspas assimétricas <tt class="docutils literal"><span class="pre">“x”</span></tt> e
+<tt class="docutils literal"><span class="pre">‘y’</span></tt>, travessão <tt class="docutils literal"><span class="pre">—</span></tt>, bullet <tt class="docutils literal"><span class="pre">•</span></tt> etc.).</p>
+<p>A codificação default é ASCII, que trata normalmente caracteres no intervalo
+de 0 a 127 mas rejeita qualquer outro com um erro. Quando uma string Unicode é
+exibida, escrita em arquivo ou convertida por <a class="reference internal" href="../library/functions.html#str" title="str"><tt class="xref py py-func docutils literal"><span class="pre">str()</span></tt></a>, esta codificação
+padrão é utilizada.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="s">u&quot;abc&quot;</span>
+<span class="go">u&#39;abc&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="s">u&quot;abc&quot;</span><span class="p">)</span>
+<span class="go">&#39;abc&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s">u&quot;äöü&quot;</span>
+<span class="go">u&#39;\xe4\xf6\xfc&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="s">u&quot;äöü&quot;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n-Identifier">?</span>
+<span class="nc">UnicodeEncodeError: &#39;ascii&#39; codec can&#39;t encode characters in position 0-2</span>: <span class="n-Identifier">ordinal not in range(128)</span>
+</pre></div>
+</div>
+<p>Para converter uma string Unicode em uma string de 8-bits usando uma
+codificação específica, basta invocar o método <tt class="xref py py-func docutils literal"><span class="pre">encode()</span></tt> de objetos
+Unicode passando como parâmetro o nome da codificação destino. É preferível
+escrever nomes de codificação em letras minúsculas.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="s">u&quot;äöü&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
+<span class="go">&#39;\xc3\xa4\xc3\xb6\xc3\xbc&#39;</span>
+</pre></div>
+</div>
+<p>Se você tem um texto em uma codificação específica, e deseja produzir uma
+string Unicode a partir dele, pode usar a função <a class="reference internal" href="../library/functions.html#unicode" title="unicode"><tt class="xref py py-func docutils literal"><span class="pre">unicode()</span></tt></a>, passando o
+nome da codificação de origem como segundo argumento.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">unicode</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\xc3\xa4\xc3\xb6\xc3\xbc</span><span class="s">&#39;</span><span class="p">,</span> <span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
+<span class="go">u&#39;\xe4\xf6\xfc&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="listas">
+<span id="tut-lists"></span><h3>3.1.4. Listas<a class="headerlink" href="#listas" title="Permalink to this headline">¶</a></h3>
+<p>Python inclui diversas estruturas de dados <em>compostas</em>, usadas para agrupar
+outros valores. A mais versátil é <em>list</em> (lista), que pode ser escrita como
+uma lista de valores (itens) separados por vírgula, entre colchetes. Os
+valores contidos na lista não precisam ser todos do mesmo tipo.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;spam&#39;</span><span class="p">,</span> <span class="s">&#39;eggs&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1234</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">[&#39;spam&#39;, &#39;eggs&#39;, 100, 1234]</span>
+</pre></div>
+</div>
+<p>Da mesma forma que índices de string, índices de lista começam em 0, listas
+também podem ser concatenadas, fatiadas e multiplicadas:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">&#39;spam&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="go">1234</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">100</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">[&#39;eggs&#39;, 100]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s">&#39;bacon&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">[&#39;spam&#39;, &#39;eggs&#39;, &#39;bacon&#39;, 4]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mi">3</span><span class="o">*</span><span class="n">a</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s">&#39;Boo!&#39;</span><span class="p">]</span>
+<span class="go">[&#39;spam&#39;, &#39;eggs&#39;, 100, &#39;spam&#39;, &#39;eggs&#39;, 100, &#39;spam&#39;, &#39;eggs&#39;, 100, &#39;Boo!&#39;]</span>
+</pre></div>
+</div>
+<p>Todas as operações de fatiamento devolvem uma nova lista contendo os elementos
+solicitados. Isto significa que o fatiamento a seguir retorna uma cópia rasa
+(<em>shallow copy</em>) da lista:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[:]</span>
+<span class="go">[&#39;spam&#39;, &#39;eggs&#39;, 100, 1234]</span>
+</pre></div>
+</div>
+<p>Diferentemente de strings, que são <em>imutáveis</em>, é possível alterar elementos
+individuais de uma lista:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">[&#39;spam&#39;, &#39;eggs&#39;, 100, 1234]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mi">23</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">[&#39;spam&#39;, &#39;eggs&#39;, 123, 1234]</span>
+</pre></div>
+</div>
+<p>Atribuição à fatias também é possível, e isso pode até alterar o tamanho da
+lista ou remover todos os itens dela:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Substituir alguns itens:</span>
+<span class="gp">... </span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">[1, 12, 123, 1234]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Remover alguns:</span>
+<span class="gp">... </span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">[123, 1234]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Inserir alguns:</span>
+<span class="gp">... </span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;bletch&#39;</span><span class="p">,</span> <span class="s">&#39;xyzzy&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">[123, &#39;bletch&#39;, &#39;xyzzy&#39;, 1234]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Inserir uma cópia da própria lista no início</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[:</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">[123, &#39;bletch&#39;, &#39;xyzzy&#39;, 1234, 123, &#39;bletch&#39;, &#39;xyzzy&#39;, 1234]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Limpar a lista: substituir todos os items por uma lista vazia</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">[]</span>
+</pre></div>
+</div>
+<p>A função embutida <a class="reference internal" href="../library/functions.html#len" title="len"><tt class="xref py py-func docutils literal"><span class="pre">len()</span></tt></a> também se aplica a listas:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">,</span> <span class="s">&#39;d&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+<p>É possível aninhar listas (criar listas contendo outras listas), por exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">[2, 3]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;xtra&#39;</span><span class="p">)</span>     <span class="c"># Veja a seção 5.1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span>
+<span class="go">[1, [2, 3, &#39;xtra&#39;], 4]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span>
+<span class="go">[2, 3, &#39;xtra&#39;]</span>
+</pre></div>
+</div>
+<p>Observe que no último exemplo, <tt class="docutils literal"><span class="pre">p[1]</span></tt> e <tt class="docutils literal"><span class="pre">q</span></tt> na verdade se referem ao mesmo
+objeto! Mais tarde retornaremos a <em>semântica dos objetos</em>.</p>
+</div>
+</div>
+<div class="section" id="primeiros-passos-rumo-a-programacao">
+<span id="tut-firststeps"></span><h2>3.2. Primeiros passos rumo à programação<a class="headerlink" href="#primeiros-passos-rumo-a-programacao" title="Permalink to this headline">¶</a></h2>
+<p>Naturalmente, podemos utilizar Python para tarefas mais complicadas do que
+somar 2+2. Por exemplo, podemos escrever o início da <em>sequência de Fibonacci</em>
+assim:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Sequência de Fibonacci:</span>
+<span class="gp">... </span><span class="c"># a soma de dois elementos define o próximo</span>
+<span class="gp">... </span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">while</span> <span class="n">b</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">b</span>
+<span class="gp">... </span>    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span>
+<span class="gp">...</span>
+<span class="go">1</span>
+<span class="go">1</span>
+<span class="go">2</span>
+<span class="go">3</span>
+<span class="go">5</span>
+<span class="go">8</span>
+</pre></div>
+</div>
+<p>Este exemplo introduz diversas características ainda não mencionadas.</p>
+<ul>
+<li><p class="first">A primeira linha contém uma atribuição múltipla: as variáveis <tt class="docutils literal"><span class="pre">a</span></tt> e <tt class="docutils literal"><span class="pre">b</span></tt>
+recebem simultaneamente os novos valores 0 e 1. Na última linha há outro
+exemplo de atribuição múltipla demonstrando que expressões do lado direito são
+sempre avaliadas primeiro, antes da atribuição. As expressões do lado direito
+são avaliadas da esquerda para a direita.</p>
+</li>
+<li><p class="first">O laço <a class="reference internal" href="../reference/compound_stmts.html#while"><tt class="xref std std-keyword docutils literal"><span class="pre">while</span></tt></a> executa enquanto a condição (aqui: <tt class="docutils literal"><span class="pre">b</span> <span class="pre">&lt;</span> <span class="pre">10</span></tt>)
+permanecer verdadeira. Em Python, como em C, qualquer valor não-zero é
+considerado verdadeiro, zero é considerado falso. A condição pode ser ainda
+uma lista ou string, na verdade qualquer sequência; qualquer coisa com
+comprimento maior que zero tem valor verdadeiro e sequências vazias são
+falsas. O teste utilizado no exemplo é uma comparação simples. Os operadores
+padrão para comparação são os mesmos de C: <tt class="docutils literal"><span class="pre">&lt;</span></tt> (menor que), <tt class="docutils literal"><span class="pre">&gt;</span></tt> (maior
+que), <tt class="docutils literal"><span class="pre">==</span></tt> (igual), <tt class="docutils literal"><span class="pre">&lt;=</span></tt> (menor ou igual), <tt class="docutils literal"><span class="pre">&gt;=</span></tt> (maior ou igual) e
+<tt class="docutils literal"><span class="pre">!=</span></tt> (diferente).</p>
+</li>
+<li><p class="first">O <em>corpo</em> do laço é <em>indentado</em>: indentação em Python é a maneira de agrupar
+comandos em blocos. No console interativo padrão você terá que digitar tab ou
+espaços para indentar cada linha. Na prática você vai preparar scripts Python
+mais complicados em um editor de texto; a maioria dos editores de texto tem
+facilidades de indentação automática. Quando um comando composto é digitado
+interativamente, deve ser finalizado por uma linha em branco (já que o
+parser não tem como adivinhar qual é a última linha do comando). Observe que
+toda linha de um mesmo bloco de comandos deve ter a mesma indentação</p>
+</li>
+<li><p class="first">O comando <a class="reference internal" href="../reference/simple_stmts.html#print"><tt class="xref std std-keyword docutils literal"><span class="pre">print</span></tt></a> escreve o valor da expressão ou expressões
+fornecidas. É diferente de apenas escrever a expressão no interpretador
+(como fizemos nos exemplos da calculadora) pela forma como lida com múltiplas
+expressões e strings. Strings são exibidas sem aspas, e um espaço é inserido
+entre os itens para formatar o resultado assim:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">i</span> <span class="o">=</span> <span class="mi">256</span><span class="o">*</span><span class="mi">256</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="s">&#39;O valor de i é&#39;</span><span class="p">,</span> <span class="n">i</span>
+<span class="go">O valor de i é 65536</span>
+</pre></div>
+</div>
+<p>Uma vírgula ao final evita a quebra de linha:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">while</span> <span class="n">b</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">b</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span>
+<span class="gp">...</span>
+<span class="go">1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987</span>
+</pre></div>
+</div>
+<p>Note que o interpretador insere uma quebra de linha antes de imprimir o
+próximo prompt se a última linha não foi completada.</p>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">3. Uma introdução informal a Python</a><ul>
+<li><a class="reference internal" href="#usando-python-como-uma-calculadora">3.1. Usando Python como uma calculadora</a><ul>
+<li><a class="reference internal" href="#numeros">3.1.1. Números</a></li>
+<li><a class="reference internal" href="#strings">3.1.2. Strings</a></li>
+<li><a class="reference internal" href="#strings-unicode">3.1.3. Strings Unicode</a></li>
+<li><a class="reference internal" href="#listas">3.1.4. Listas</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#primeiros-passos-rumo-a-programacao">3.2. Primeiros passos rumo à programação</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="interpreter.html"
+                        title="previous chapter">2. Usando o interpretador Python</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="controlflow.html"
+                        title="next chapter">4. Mais ferramentas de controle de fluxo</a></p>
+<h3>This Page</h3>
+<ul class="this-page-menu">
+  <li><a href="../bugs.html">Report a Bug</a></li>
+  <li><a href="../_sources/tutorial/introduction.txt"
+         rel="nofollow">Show Source</a></li>
+</ul>
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="controlflow.html" title="4. Mais ferramentas de controle de fluxo"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="interpreter.html" title="2. Usando o interpretador Python"
+             >previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">Python v2.7.2 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >O tutorial de Python</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+    &copy; <a href="../copyright.html">Copyright</a> 1990-2012, Python Software Foundation.
+    <br />
+    The Python Software Foundation is a non-profit corporation.  
+    <a href="http://www.python.org/psf/donations/">Please donate.</a>
+    <br />
+    Last updated on Apr 03, 2012.
+    <a href="../bugs.html">Found a bug</a>?
+    <br />
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+
+  </body>
+</html>

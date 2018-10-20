@@ -1,0 +1,333 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Execuções condicionais e alternativas &mdash; Aulas de Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Aulas de Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Classes float e str e execuções condicionais em cadeia" href="aula04.html" />
+    <link rel="prev" title="Variáveis, expressões e comandos" href="aula02.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'aulasPython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="aula04.html" title="Classes float e str e execuções condicionais em cadeia"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="aula02.html" title="Variáveis, expressões e comandos"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="execucoes-condicionais-e-alternativas">
+<h1>Execuções condicionais e alternativas<a class="headerlink" href="#execucoes-condicionais-e-alternativas" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="index-0"></span><div class="section" id="topicos">
+<span id="index-1"></span><h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/06-Selecao/selecao.html">Valores booleanos e expressões booleanas</a>;</li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/06-Selecao/selecao.html#execucao-condicional-selecao-binaria">Execução condicional: seleção binária</a>;</li>
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/06-Selecao/selecao.html#selecao-unaria-omissao-do-else">Seleção unária: omissão do else</a>;</li>
+<li>divisão inteira <tt class="docutils literal"><span class="pre">//</span></tt></li>
+<li>resto de divisão <tt class="docutils literal"><span class="pre">%</span></tt></li>
+</ul>
+</div></blockquote>
+<div class="section" id="exercicio-3-1">
+<h3>Exercício 3.1<a class="headerlink" href="#exercicio-3-1" title="Permalink to this headline">¶</a></h3>
+<p>Dados um número inteiro <tt class="docutils literal"><span class="pre">n</span></tt>, <tt class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">0</span></tt>, e uma sequência com <tt class="docutils literal"><span class="pre">n</span></tt>
+números inteiros, determinar quantos números da sequência são pares e
+quantos são ímpares.  Por exemplo, para a sequência</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">6</span>   <span class="o">-</span><span class="mi">2</span>   <span class="mi">7</span>   <span class="mi">0</span>  <span class="o">-</span><span class="mi">5</span>   <span class="mi">8</span>  <span class="mi">4</span>
+</pre></div>
+</div>
+<p>o seu programa deve escrever o número <tt class="docutils literal"><span class="pre">4</span></tt> para o número de
+pares e <tt class="docutils literal"><span class="pre">2</span></tt> para o de ímpares.</p>
+<p>Dica: para resolver esse exercício utilize o operador &#8220;%&#8221;, que retorna
+o resto da divisão. Assim:</p>
+<div class="highlight-python"><div class="highlight"><pre>1 % 3 é 1
+2 % 3 é 2
+3 % 3 é 0
+4 % 3 é 1
+</pre></div>
+</div>
+<p>Tente escrever a sua solução abaixo primeiro e, depois,
+clique <a class="reference external" href="exercicios/ex31.html">aqui</a> para ver algumas soluções.</p>
+
+<div id="aula03_ex1_tentativa" >
+<textarea cols="50" rows="12" id="aula03_ex1_tentativa_code" class="active_code">
+# escreva o seu programa
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula03_ex1_tentativa)</span> </p>
+<button onclick="runit('aula03_ex1_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula03_ex1_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula03_ex1_tentativa');">Load</button>
+<br />
+
+<canvas id="aula03_ex1_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula03_ex1_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-3-2">
+<h3>Exercício 3.2<a class="headerlink" href="#exercicio-3-2" title="Permalink to this headline">¶</a></h3>
+<p>Dados um número inteiro <tt class="docutils literal"><span class="pre">n</span></tt>, <tt class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">0</span></tt>, e um dígito
+<tt class="docutils literal"><span class="pre">d</span></tt>. <tt class="docutils literal"><span class="pre">0</span> <span class="pre">&lt;=</span> <span class="pre">d</span> <span class="pre">&lt;=</span> <span class="pre">9</span></tt>, determinar quantas vezes <tt class="docutils literal"><span class="pre">d</span></tt> ocorre em <tt class="docutils literal"><span class="pre">n</span></tt>.</p>
+<p>Exemplo 1:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Digite</span> <span class="n">o</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">n</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="mi">63543</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Digite</span> <span class="n">o</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">d</span> <span class="p">(</span><span class="mi">0</span><span class="o">&lt;=</span><span class="n">d</span><span class="o">&lt;=</span><span class="mi">9</span><span class="p">):</span> <span class="mi">3</span>
+<span class="go">O dígito 3 ocorre 2 vezes em  63543</span>
+</pre></div>
+</div>
+<p>Exemplo 2:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Digite</span> <span class="n">o</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">n</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Digite</span> <span class="n">o</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">d</span> <span class="p">(</span><span class="mi">0</span><span class="o">&lt;=</span><span class="n">d</span><span class="o">&lt;=</span><span class="mi">9</span><span class="p">):</span> <span class="mi">0</span>
+<span class="go">O dígito 0 ocorre 0 vezes em  0</span>
+</pre></div>
+</div>
+<p>Exemplo 3:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Digite</span> <span class="n">o</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">n</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="mo">0110</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Digite</span> <span class="n">o</span> <span class="n">valor</span> <span class="n">de</span> <span class="n">d</span> <span class="p">(</span><span class="mi">0</span><span class="o">&lt;=</span><span class="n">d</span><span class="o">&lt;=</span><span class="mi">9</span><span class="p">):</span> <span class="mi">0</span>
+<span class="go">O dígito 0 ocorre 1 vezes em  110</span>
+</pre></div>
+</div>
+<p>Dica: para resolver esse exercício utilize o operador &#8220;//&#8221;, que
+realiza a divisão inteira. Assim:</p>
+<div class="highlight-python"><div class="highlight"><pre>1 // 3 é 0
+5 // 3 é 1
+8 // 3 é 2
+19 // 10 é 1
+</pre></div>
+</div>
+<p>Tente escrever a sua solução abaixo primeiro e, depois,
+clique <a class="reference external" href="exercicios/ex32.html">aqui</a> para ver uma solução.</p>
+
+<div id="aula03_ex2_tentativa" >
+<textarea cols="50" rows="12" id="aula03_ex2_tentativa_code" class="active_code">
+# escreva o seu programa
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula03_ex2_tentativa)</span> </p>
+<button onclick="runit('aula03_ex2_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula03_ex2_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula03_ex2_tentativa');">Load</button>
+<br />
+
+<canvas id="aula03_ex2_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula03_ex2_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+<div class="section" id="exercicio-3-3">
+<h3>Exercício 3.3<a class="headerlink" href="#exercicio-3-3" title="Permalink to this headline">¶</a></h3>
+<p>Nota: Exercício 10 da <a class="reference external" href="http://www.ime.usp.br/~macmulti/exercicios/inteiros/index.html&quot;">lista sobre inteiros</a>.</p>
+<p>Dizemos que um número inteiro positivo é triangular se ele
+é o produto de três numeros inteiros consecutivos.
+Por exemplo, <tt class="docutils literal"><span class="pre">120</span></tt> é triangular, pois</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="mi">4</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">6</span>
+<span class="go">120</span>
+</pre></div>
+</div>
+<p>Dado um número inteiro positivo <tt class="docutils literal"><span class="pre">n</span></tt>, verificar se <tt class="docutils literal"><span class="pre">n</span></tt> é triangular.</p>
+<p>Tente escrever a sua solução abaixo primeiro e, depois, clique <a class="reference external" href="exercicios/ex33.html">aqui</a> para ver uma solução.</p>
+
+<div id="aula03_ex3_tentativa" >
+<textarea cols="50" rows="12" id="aula03_ex3_tentativa_code" class="active_code">
+# escreva o seu programa
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula03_ex3_tentativa)</span> </p>
+<button onclick="runit('aula03_ex3_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula03_ex3_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula03_ex3_tentativa');">Load</button>
+<br />
+
+<canvas id="aula03_ex3_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula03_ex3_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Execuções condicionais e alternativas</a><ul>
+<li><a class="reference internal" href="#topicos">Tópicos</a><ul>
+<li><a class="reference internal" href="#exercicio-3-1">Exercício 3.1</a></li>
+<li><a class="reference internal" href="#exercicio-3-2">Exercício 3.2</a></li>
+<li><a class="reference internal" href="#exercicio-3-3">Exercício 3.3</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="aula02.html"
+                        title="previous chapter">Variáveis, expressões e comandos</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="aula04.html"
+                        title="next chapter">Classes float e str e execuções condicionais em cadeia</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="aula04.html" title="Classes float e str e execuções condicionais em cadeia"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="aula02.html" title="Variáveis, expressões e comandos"
+             >previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Mar 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,1515 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Decisões e Seleção &mdash; Como pensar como um Cientista da Computação: Edição Interativa em Python</title>
+    
+    <link rel="stylesheet" href="../_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="../_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="../_static/codemirror.js"></script>
+    <script type="text/javascript" src="../_static/python.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="../_static/assess.js"></script>
+    <script type="text/javascript" src="../_static/animationbase.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="../_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Como pensar como um Cientista da Computação: Edição Interativa em Python" href="../index.html" />
+    <link rel="next" title="Approximating the Value of Pi" href="../Labs/montepi.html" />
+    <link rel="prev" title="Functions Revisited" href="../05-Funcoes/maisfuncoes.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/pensePython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'pensePython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/pensePython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../Labs/montepi.html" title="Approximating the Value of Pi"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../05-Funcoes/maisfuncoes.html" title="Functions Revisited"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="decisoes-e-selecao">
+<h1>Decisões e Seleção<a class="headerlink" href="#decisoes-e-selecao" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="index-0"></span><div class="section" id="valores-booleanos-e-expressoes-booleanas">
+<span id="index-1"></span><h2>Valores booleanos e expressões booleanas<a class="headerlink" href="#valores-booleanos-e-expressoes-booleanas" title="Permalink to this headline">¶</a></h2>
+<a id="booleanexpressions_thumb" > <img src="../_static/booleanexpressions.png" /></a>
+<div id="booleanexpressions" class="video_popup" >
+<video controls  >
+    <source src="http://media.interactivepython.org/thinkcsVideos/booleanexpressions.mov" type="video/mp4"></source>
+    <source src="http://media.interactivepython.org/thinkcsVideos/booleanexpressions.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#booleanexpressions_thumb').click(function(e) {
+         $('#booleanexpressions').show();
+         $('#booleanexpressions_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'booleanexpressions'});
+         // Log the run event
+      });
+   });
+</script>
+<p>O tipo em Python para armazenar os valores verdadeiro e falso é
+chamado de <code class="docutils literal"><span class="pre">bool</span></code>, em homenagem ao matemático britânico George
+Boole. George Boole criou a <em>Álgebra Booleana</em>, que é a base de toda a
+aritmética computacional moderna.</p>
+<p>Existem apenas dois <strong>valores booleanos</strong>. Eles são <code class="docutils literal"><span class="pre">True</span></code> e
+<code class="docutils literal"><span class="pre">False</span></code>. As iniciais maiúsculas são importantes, uma vez que
+<code class="docutils literal"><span class="pre">true</span></code> e <code class="docutils literal"><span class="pre">false</span></code> não são valores booleanos (lembre-se de que
+maiúsculas e minúsculas fazem diferença para o Python).</p>
+
+<div id="ch05_1" >
+<textarea cols="50" rows="12" id="ch05_1_code" class="active_code">
+print(True)
+print(type(True))
+print(type(False))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch05_1)</span> </p>
+<button onclick="runit('ch05_1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch05_1');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch05_1');">Load</button>
+<br />
+
+<canvas id="ch05_1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch05_1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Valores booleanos não são strings!</p>
+<p class="last">É extremamente importante perceber que True e False não são
+strings.   Eles não estão entre aspas. Eles são somente dois
+valores do tipo de dados <code class="docutils literal"><span class="pre">bool</span></code>. Olhe atentamente os tipos
+mostrados abaixo.</p>
+</div>
+
+<div id="ch05_1a" >
+<textarea cols="50" rows="12" id="ch05_1a_code" class="active_code">
+print(type(True))
+print(type("True"))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch05_1a)</span> </p>
+<button onclick="runit('ch05_1a',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch05_1a');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch05_1a');">Load</button>
+<br />
+
+<canvas id="ch05_1a_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch05_1a_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Uma <strong>expressão booleana</strong> é uma expressão que resulta em um valor
+booleano. O operador de igualdade, <code class="docutils literal"><span class="pre">==</span></code>, compara dois valores e
+produz um valor booleano correspondente aos dois valores serem ou não
+iguais entre si.</p>
+
+<div id="ch05_2" >
+<textarea cols="50" rows="12" id="ch05_2_code" class="active_code">
+print(5 == 5)
+print(5 == 6)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch05_2)</span> </p>
+<button onclick="runit('ch05_2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch05_2');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch05_2');">Load</button>
+<br />
+
+<canvas id="ch05_2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch05_2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>No primeiro comando, os dois operandos são iguais, de forma que a
+expressão tem valor <code class="docutils literal"><span class="pre">True</span></code>.  No segundo comando, 5 não é igual a
+6, de forma que obtemos <code class="docutils literal"><span class="pre">False</span></code>.</p>
+<p>O operador <code class="docutils literal"><span class="pre">==</span></code> é um dos seis <strong>operadores de comparação</strong> comuns;
+os outros são:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">x</span> <span class="o">!=</span> <span class="n">y</span>               <span class="c1"># x não é igual a y</span>
+<span class="n">x</span> <span class="o">&gt;</span> <span class="n">y</span>                <span class="c1"># x é maior do que y</span>
+<span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span>                <span class="c1"># x é menor do que y</span>
+<span class="n">x</span> <span class="o">&gt;=</span> <span class="n">y</span>               <span class="c1"># x é maior ou igual a y</span>
+<span class="n">x</span> <span class="o">&lt;=</span> <span class="n">y</span>               <span class="c1"># x é menor ou igual a y</span>
+</pre></div>
+</div>
+<p>Embora essas operações sejam provavelmente familiares a você, os
+símbolos em Python são diferentes dos símbolos matemáticos.
+Um erro comum é usar somente um símbolo de igual (<code class="docutils literal"><span class="pre">=</span></code>) em vez de
+dois sinais iguais (<code class="docutils literal"><span class="pre">==</span></code>). Lembre-se de que <code class="docutils literal"><span class="pre">=</span></code> é um operador de
+atribuição e o <code class="docutils literal"><span class="pre">==</span></code> é um operador de comparação. Também, os operadores
+<code class="docutils literal"><span class="pre">=&lt;</span></code> ou <code class="docutils literal"><span class="pre">=&gt;</span></code> não existem.</p>
+<p>Note também que um teste de igualdade é simétrico, mas atribuição não
+é. Por exemplo, se <code class="docutils literal"><span class="pre">a</span> <span class="pre">==</span> <span class="pre">7</span></code> então <code class="docutils literal"><span class="pre">7</span> <span class="pre">==</span> <span class="pre">a</span></code>.  Mas, em Python, a expressão <code class="docutils literal"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">7</span></code>
+é válida e <code class="docutils literal"><span class="pre">7</span> <span class="pre">=</span> <span class="pre">a</span></code> não é. (Você pode explicar por que?)</p>
+<div class="admonition-rascunho admonition">
+<p class="first admonition-title">Rascunho</p>
+<div class="last">
+<button id="butt_scratch_6_1" onclick="createActiveCode('scratch_6_1',''); $('#butt_scratch_6_1').hide();">Open Editor</button>
+<div id="scratch_6_1"></div>
+<br />
+</div></div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question6_1_1">
+    <p>6.1.1: Quais das seguintes é uma expressão booleana?  Selecione todos que são.</p>
+    <form name="test_question6_1_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="checkbox" name="group1" value="a" id="test_question6_1_1_opt_a" />
+    <label for= "test_question6_1_1_opt_a">  a) True</label><br />
+    
+    <input type="checkbox" name="group1" value="b" id="test_question6_1_1_opt_b" />
+    <label for= "test_question6_1_1_opt_b">  b) 3 == 4</label><br />
+    
+    <input type="checkbox" name="group1" value="c" id="test_question6_1_1_opt_c" />
+    <label for= "test_question6_1_1_opt_c">  c) 3 + 4</label><br />
+    
+    <input type="checkbox" name="group1" value="d" id="test_question6_1_1_opt_d" />
+    <label for= "test_question6_1_1_opt_d">  d) 3 + 4 == 7</label><br />
+    
+    <input type="checkbox" name="group1" value="e" id="test_question6_1_1_opt_e" />
+    <label for= "test_question6_1_1_opt_e">  e) &quot;False&quot;</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMA('test_question6_1_1','a,b,d',['True e False são ambas  literais booleanas.', 'A comparação entre dois números usando == resulta em True ou False (neste caso False), ambos valores booleanos.', '3+4 resulta em 7, que é um número, não um valor booleano.', '3+4 resulta em 7.  7 == 7 então resulta em True, que é um valor booleano.', 'Entre aspas, False é interpretado como um string, não como um valor booleano.  Se as aspas não fossem incluídas, False sozinho seria de fato um valor booleano'])"/> 
+    </form>
+    <div id="test_question6_1_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="operadores-logicos">
+<span id="index-2"></span><h2>Operadores lógicos<a class="headerlink" href="#operadores-logicos" title="Permalink to this headline">¶</a></h2>
+<p>Existem três <strong>operadores lógicos</strong>: <code class="docutils literal"><span class="pre">and</span></code>, <code class="docutils literal"><span class="pre">or</span></code> e <code class="docutils literal"><span class="pre">not</span></code>. A
+semântica (significado) desses operadores é similar ao significado
+deles em português.
+Por exemplo, <code class="docutils literal"><span class="pre">x</span> <span class="pre">&gt;</span> <span class="pre">0</span> <span class="pre">and</span> <span class="pre">x</span> <span class="pre">&lt;</span> <span class="pre">10</span></code> é verdadeiro somente se <code class="docutils literal"><span class="pre">x</span></code> é
+maior do que 0  <em>e</em> ao mesmo tempo, x é menor do que 10.  Como você
+descreveria isso em palavras?  Você diria que x está entre 0 e 10, não
+incluindo as extremidades.</p>
+<p><code class="docutils literal"><span class="pre">n</span> <span class="pre">%</span> <span class="pre">2</span> <span class="pre">==</span> <span class="pre">0</span> <span class="pre">or</span> <span class="pre">n</span> <span class="pre">%</span> <span class="pre">3</span> <span class="pre">==</span> <span class="pre">0</span></code> é verdadeiro se <em>uma</em> das condições é verdadeira,
+isto é, se o número é divisível por  2 <em>ou</em> divisível por 3.  Neste
+caso, uma, ou a outra, ou ambos as partes tem que ser verdadeira para o
+resultado ser verdadeiro.</p>
+<p>Finalmente, o operador <code class="docutils literal"><span class="pre">not</span></code> nega uma expressão booleana, de forma
+que <code class="docutils literal"><span class="pre">not</span>&nbsp; <span class="pre">x</span> <span class="pre">&gt;</span> <span class="pre">y</span></code> é verdadeiro se <code class="docutils literal"><span class="pre">x</span> <span class="pre">&gt;</span> <span class="pre">y</span></code> é falso, isto é, se <code class="docutils literal"><span class="pre">x</span></code>
+é menor ou igual a <code class="docutils literal"><span class="pre">y</span></code>.</p>
+
+<div id="chp05_3" >
+<textarea cols="50" rows="12" id="chp05_3_code" class="active_code">
+x = 5
+print(x>0 and x<10)
+
+n = 25
+print(n%2 == 0 or n%3 == 0)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp05_3)</span> </p>
+<button onclick="runit('chp05_3',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp05_3');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp05_3');">Load</button>
+<br />
+
+<canvas id="chp05_3_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp05_3_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="admonition-erro-comum admonition">
+<p class="first admonition-title">Erro comum!</p>
+<p class="last">Existe um erro muito comum que ocorre quando programadores tentam escrever expressões booleanas. Por exemplo, suponha que queremos verificar se uma variável <code class="docutils literal"><span class="pre">número</span></code> tem valor 5, 6, or 7.  Em palavras, podemos dizer: &#8220;número é igual a 5 ou 6 ou 7&#8221;.  Entretanto, se traduzimos isto em Python, <code class="docutils literal"><span class="pre">número</span> <span class="pre">==</span> <span class="pre">5</span> <span class="pre">or</span> <span class="pre">6</span> <span class="pre">or</span> <span class="pre">7</span></code>, isso não será correto.  O operador <code class="docutils literal"><span class="pre">or</span></code> precisa juntar a verificação das três igualdades.  A forma correta de escrever isto é <code class="docutils literal"><span class="pre">número</span> <span class="pre">==</span> <span class="pre">5</span> <span class="pre">or</span> <span class="pre">número</span> <span class="pre">==</span> <span class="pre">6</span> <span class="pre">or</span> <span class="pre">número</span> <span class="pre">==</span> <span class="pre">7</span></code>. Isto pode parecer como um monte de digitação mas é absolutamente necessário.  Não dá para fazer de forma mais compacta.</p>
+</div>
+<div class="admonition-rascunho admonition">
+<p class="first admonition-title">Rascunho</p>
+<div class="last">
+<button id="butt_scratch_6_2" onclick="createActiveCode('scratch_6_2',''); $('#butt_scratch_6_2').hide();">Open Editor</button>
+<div id="scratch_6_2"></div>
+<br />
+</div></div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question6_2_1">
+    <p>6.2.1: Qual é a expressão correta em Python para verificar se um número armazenado na variável x está entre 0 e 5.</p>
+    <form name="test_question6_2_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question6_2_1_opt_a" />
+    <label for= "test_question6_2_1_opt_a">  a) x &gt; 0 and &lt; 5</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question6_2_1_opt_b" />
+    <label for= "test_question6_2_1_opt_b">  b) 0 &lt; x &lt; 5</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question6_2_1_opt_c" />
+    <label for= "test_question6_2_1_opt_c">  c) x &gt; 0 or x &lt; 5</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question6_2_1_opt_d" />
+    <label for= "test_question6_2_1_opt_d">  d) x &gt; 0 and x &lt; 5</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question6_2_1','d',['Cada comparação deve ser exatamente entre dois valores. Neste caso, na comparação da direita falta um valor do lado esquerdo da expressão &lt; 5.', 'Esta é sutil.  Embora a maior parte das linguagens de programação não permite esta sintaxe, em Python, esta sintaxe é permitida.  Entretanto, você não deveria usá-la.  Em vez disso, faça comparações múltiplas usando and ou or.', 'Embora esta sintaxe seja legal em Python,a expressão está incorreta.  Ela terá valor verdadeiro para todos os números que são ou maiores do que zero ou menores do que 5.  Como todos os números são ou maiores do que zero ou menores do que 5, esta expressão será sempre verdadeira.', 'Sim, com o operador and ambas as expressões devem ser verdadeiras de forma que para a expressão ser verdadeira, o número deve ser maior do que 0 e menor do que 5.'])"/> 
+    </form>
+    <div id="test_question6_2_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="precedencia-de-operadores">
+<h2>Precedência de operadores<a class="headerlink" href="#precedencia-de-operadores" title="Permalink to this headline">¶</a></h2>
+<p>Adicionamos um certo número de operadores àqueles que aprendemos nos capítulos anteriores. É importante entender como os operadores se relacionam entre si em relação à precedência. Python sempre usará os operadores aritméticos primeiro (exponenciação primeiro, depois multiplicação/divisão e depois adição/subtração). Depois vêm os operadores relacionais. Finalmente, os operadores lógicos vêm por último. Isto quer dizer que o valor da expressão <code class="docutils literal"><span class="pre">x*5</span> <span class="pre">&gt;=</span> <span class="pre">10</span> <span class="pre">and</span> <span class="pre">y-6</span> <span class="pre">&lt;=</span> <span class="pre">20</span></code> será determinado de forma que as operações aritméticas são feitas e depois as relações. O <code class="docutils literal"><span class="pre">and</span></code> será deixado por último. Embora muitos programadores poderiam colocar parentêses nas expressões relacionais, isto não é necessário.</p>
+<p>A tabela seguinte resume a precedência dos operadores em Python do maior ao menor. A tabela completa da linguagem pode ser encontrada em <a class="reference external" href="http://docs.python.org/py3k/reference/expressions.html#expression-lists">Python Documentation</a>.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="38%" />
+<col width="41%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Nível</th>
+<th class="head">Categoria</th>
+<th class="head">Operadores</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>7(alto)</td>
+<td>exponenciação</td>
+<td>**</td>
+</tr>
+<tr class="row-odd"><td>6</td>
+<td>multiplicação</td>
+<td>*,/,//,%</td>
+</tr>
+<tr class="row-even"><td>5</td>
+<td>adição</td>
+<td>+,-</td>
+</tr>
+<tr class="row-odd"><td>4</td>
+<td>relacional</td>
+<td>==,!=,&lt;=,&gt;=,&gt;,&lt;</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>lógico</td>
+<td>not</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>lógico</td>
+<td>and</td>
+</tr>
+<tr class="row-even"><td>1(baixo)</td>
+<td>lógico</td>
+<td>or</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-rascunho admonition">
+<p class="first admonition-title">Rascunho</p>
+<div class="last">
+<button id="butt_scratch_6_3" onclick="createActiveCode('scratch_6_3',''); $('#butt_scratch_6_3').hide();">Open Editor</button>
+<div id="scratch_6_3"></div>
+<br />
+</div></div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question6_3_1">
+    <p>6.3.1: Quais das seguintes expressões corresponde, usando parênteses, à seguinte expressão: 5*3 > 10 and 4+6==11</p>
+    <form name="test_question6_3_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question6_3_1_opt_a" />
+    <label for= "test_question6_3_1_opt_a">  a) ((5*3) &gt; 10) and ((4+6) == 11)</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question6_3_1_opt_b" />
+    <label for= "test_question6_3_1_opt_b">  b) (5*(3 &gt; 10)) and (4 + (6 == 11))</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question6_3_1_opt_c" />
+    <label for= "test_question6_3_1_opt_c">  c) ((((5*3) &gt; 10) and 4)+6) == 11</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question6_3_1_opt_d" />
+    <label for= "test_question6_3_1_opt_d">  d) ((5*3) &gt; (10 and (4+6))) == 11</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question6_3_1','a',['Sim, * e + têm as maiores precedências, seguidos por &gt; e == e então o operador &quot;and&quot;', 'Operadores aritméticos (*, +) têm maior precedência do que os operadores de comparação (&gt;, ==)', 'Este agrupamento assume que Python simplesmente prioriza da esquerda para a direita, o que é incorreto. O agrupamento correto segue a precedência listada na tabela nesta seção.', 'Este agrupamento assume que &quot;and&quot; tem uma precedência maior que que ==, o que não é verdadeiro.'])"/> 
+    </form>
+    <div id="test_question6_3_1_feedback">
+    </div>
+    </div>
+    <span class="target" id="index-3"></span></div>
+<div class="section" id="execucao-condicional-selecao-binaria">
+<span id="index-4"></span><h2>Execução condicional: seleção binária<a class="headerlink" href="#execucao-condicional-selecao-binaria" title="Permalink to this headline">¶</a></h2>
+<a id="binaryselection_thumb" > <img src="../_static/binaryselection.png" /></a>
+<div id="binaryselection" class="video_popup" >
+<video controls  >
+    <source src="http://media.interactivepython.org/thinkcsVideos/binaryselection.mov" type="video/mp4"></source>
+    <source src="http://media.interactivepython.org/thinkcsVideos/binaryselection.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#binaryselection_thumb').click(function(e) {
+         $('#binaryselection').show();
+         $('#binaryselection_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'binaryselection'});
+         // Log the run event
+      });
+   });
+</script>
+<p>Com a finalidade de escrever programas úteis, quase sempre temos a
+necessidade de verificar condições e alterar o comportamento do
+programa de acordo com os resultados das condições.  <strong>Comandos de
+seleção</strong>, algumas vezes também denominados de  <strong>comandos
+condicionais</strong> nos dá essa habilidade. A forma mais simples de seleção
+é o comando <strong>if</strong>.  Ele é algumas vezes denominado de <strong>seleção binária</strong> uma vez que admite dois possíveis caminhos de execução.</p>
+
+<div id="ch05_4" >
+<textarea cols="50" rows="12" id="ch05_4_code" class="active_code">
+x = 15
+
+if x % 2 == 0:
+    print(x, "e' par")
+else:
+    print(x, "e' impar")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch05_4)</span> </p>
+<button onclick="runit('ch05_4',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch05_4');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch05_4');">Load</button>
+<br />
+
+<canvas id="ch05_4_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch05_4_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>A sintaxe de um comando <code class="docutils literal"><span class="pre">if</span></code> se parece com:</p>
+<div class="highlight-python"><div class="highlight"><pre>if EXPRESSÃO BOOLEANA:
+    COMANDOS_1        # executados se condição tem valor True
+else:
+    COMANDOS_2        # executados se condição tem valor False
+</pre></div>
+</div>
+<p>A expressão booleana depois do <code class="docutils literal"><span class="pre">if</span></code> é chamada de <strong>condição</strong>.
+Se é verdadeira, então os comandos tabulados (COMANDOS_1) são executados. Se não,
+então os comandos tabulados depois do <cite>else</cite> são executados.</p>
+<div class="sidebar">
+<p class="first sidebar-title">Fluxograma de um comando  <strong>if</strong> com um  <strong>else</strong></p>
+<img alt="../_images/fluxograma_if_else.png" class="last" src="../_images/fluxograma_if_else.png" />
+</div>
+<p>Assim como a definição de função do último capítulo e outros comandos
+compostos como <code class="docutils literal"><span class="pre">for</span></code>, o comando <code class="docutils literal"><span class="pre">if</span></code> consiste de uma linha de
+cabeçalho e um corpo. A linha de cabeçalho começa com a palavra
+<code class="docutils literal"><span class="pre">if</span></code> seguida por uma <em>expressão booleana</em> e termina com dois pontos (:).</p>
+<p>Os comandos tabulados que seguem é chamado de <strong>bloco</strong>. O primeiro
+comando com tabulação diferente marca o fim do bloco.</p>
+<p>Cada comando dentro do primeiro bloco de comandos é executado em ordem
+se a expressão booleana tem valor <code class="docutils literal"><span class="pre">True</span></code>. Todo o primeiro bloco de
+comandos é pulado se a expressão booleana tem valor <code class="docutils literal"><span class="pre">False</span></code> e todos
+os comandos sob o <code class="docutils literal"><span class="pre">else</span></code> são executados.</p>
+<p>Não há limite no número de comandos que podem aparecer nos dois blocos
+de um comando <code class="docutils literal"><span class="pre">if</span></code>, mas tem que haver pelo menos um comando em cada
+bloco.</p>
+<div class="admonition-lab admonition">
+<p class="first admonition-title">Lab</p>
+<ul class="last simple">
+<li><a class="reference external" href="../Labs/montepi.html">Simulação para Approximar Pi</a> Neste
+exercício de laboratório trabalhamos um problema de
+aproximar o valor de pi usando números aleatórios.</li>
+</ul>
+</div>
+<div class="admonition-rascunho admonition">
+<p class="first admonition-title">Rascunho</p>
+<div class="last">
+<button id="butt_scratch_6_4" onclick="createActiveCode('scratch_6_4',''); $('#butt_scratch_6_4').hide();">Open Editor</button>
+<div id="scratch_6_4"></div>
+<br />
+</div></div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question6_4_1">
+    <p>6.4.1: Quantos comandos podem aparecer em cada bloco (o do if e o do else) em um comando condicional?</p>
+    <form name="test_question6_4_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question6_4_1_opt_a" />
+    <label for= "test_question6_4_1_opt_a">  a) Exatamente um.</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question6_4_1_opt_b" />
+    <label for= "test_question6_4_1_opt_b">  b) Zero ou mais.</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question6_4_1_opt_c" />
+    <label for= "test_question6_4_1_opt_c">  c) Um ou mais.</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question6_4_1_opt_d" />
+    <label for= "test_question6_4_1_opt_d">  d) Um ou mais e cada um precisa conter o mesmo número.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question6_4_1','c',['Cada bloco pode também conter mais do que um.', 'Cada bloco deve conter pelo menos um comando.', 'Sim, um bloco deve conter pelo menos um comando e pode ter vários comandos.', 'Os blocos podem conter números diferentes de comandos.'])"/> 
+    </form>
+    <div id="test_question6_4_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question6_4_2">
+    <p>6.4.2: O que o seguinte código imprime (escolha entre as saídas a, b, c ou nada).
+<pre>
+if (4 + 5 == 10):
+    print("VERDADEIRO")
+else:
+    print("FALSO")
+</pre>
+a.
+<pre>
+VERDADEIRO
+</pre>
+b.
+<pre>
+FALSO
+</pre>
+c.
+<pre>
+VERDADEIRO
+FALSO
+</pre></p>
+    <form name="test_question6_4_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question6_4_2_opt_a" />
+    <label for= "test_question6_4_2_opt_a">  a) Saída a</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question6_4_2_opt_b" />
+    <label for= "test_question6_4_2_opt_b">  b) Saída b</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question6_4_2_opt_c" />
+    <label for= "test_question6_4_2_opt_c">  c) Saída c</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question6_4_2_opt_d" />
+    <label for= "test_question6_4_2_opt_d">  d) Nada será impresso</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question6_4_2','b',['VERDADEIRO é impresso pelo bloco do if, o qual é executado somente se o condicional (neste caso, 4+5 == 10) é verdadeiro. Neste caso, 5+4 não é igual a 10.', 'Como 4+5==10 tem valor False, Python pulará o bloco do if e executará o comando do bloco do else.', 'Python nunca imprimirá ambos VERDADEIRO e FALSO porque ele executará ou o bloco do if ou o bloco do else, mas nunca ambos.', 'Python sempre executará ou o bloco do if (se a condição é verdadeira) ou o bloco do else (se a condição é falsa).  Ele nunca pulará os dois blocos.'])"/> 
+    </form>
+    <div id="test_question6_4_2_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question6_4_3">
+    <p>6.4.3: O que o seguinte código imprime?
+<pre>
+if (4 + 5 == 10):
+    print("VERDADEIRO")
+else:
+    print("FALSO")
+print("VERDADEIRO")
+</pre>
+ a.
+<pre>
+VERDADEIRO
+</pre>
+b.
+<pre>
+VERDADEIRO
+FALSO
+</pre>
+c.
+<pre>
+FALSO
+VERDADEIRO
+</pre>
+d.
+<pre>
+VERDADEIRO
+FALSO
+VERDADEIRO
+</pre></p>
+    <form name="test_question6_4_3_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question6_4_3_opt_a" />
+    <label for= "test_question6_4_3_opt_a">  a) Saída a</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question6_4_3_opt_b" />
+    <label for= "test_question6_4_3_opt_b">  b) Saída b</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question6_4_3_opt_c" />
+    <label for= "test_question6_4_3_opt_c">  c) Saída c</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question6_4_3_opt_d" />
+    <label for= "test_question6_4_3_opt_d">  d) Saída d</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question6_4_3','c',['Embora VERDADEIRO seja impresso depois que o comando if-else termina, cada bloco dentro do comando if-else imprime algo também.  Neste caso, Python teria que ter pulado ambos os blocos do comando if-else, o que ele nunca faria.', 'Como há um VERDADEIRO impresso depois que o comando if-else termina, Python sempre imprimirá VERDADEIRO por último.', 'Python imprimirá FALSO dentro do bloco do else (porque 5+4 não é igual a 10), e então imprimirá VERDADEIRO depois de completar o comando  if-else.', 'Para imprimir estas três linhas, Python teria que executar ambos os blocos do comando  if-else, o que ele nunca fará.'])"/> 
+    </form>
+    <div id="test_question6_4_3_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="selecao-unaria-omissao-do-else">
+<span id="index-5"></span><h2>Seleção unária: omissão do <code class="docutils literal"><span class="pre">else</span></code><a class="headerlink" href="#selecao-unaria-omissao-do-else" title="Permalink to this headline">¶</a></h2>
+<a id="unaryselection_thumb" > <img src="../_static/unaryselection.png" /></a>
+<div id="unaryselection" class="video_popup" >
+<video controls  >
+    <source src="http://media.interactivepython.org/thinkcsVideos/unaryselection.mov" type="video/mp4"></source>
+    <source src="http://media.interactivepython.org/thinkcsVideos/unaryselection.webm" type="video/webm"></source>
+    No supported video types
+</video>
+</div>
+<script>
+   jQuery(function($) {
+      $('#unaryselection_thumb').click(function(e) {
+         $('#unaryselection').show();
+         $('#unaryselection_thumb').hide();
+         logBookEvent({'event':'video','act':'play','div_id': 'unaryselection'});
+         // Log the run event
+      });
+   });
+</script>
+<div class="sidebar">
+<p class="first sidebar-title">Fluxograma de um <strong>if</strong> sem <strong>else</strong></p>
+<img alt="../_images/fluxograma_if_apenas.png" class="last" src="../_images/fluxograma_if_apenas.png" />
+</div>
+<p>Outra forma do comando  <code class="docutils literal"><span class="pre">if</span></code> é um no qual o <code class="docutils literal"><span class="pre">else</span></code> é totalmente omitido.
+Isso cria um mecanismo chamado <strong>seleção unária</strong>.
+Neste caso, quando a condição tem valor <code class="docutils literal"><span class="pre">True</span></code>, os comando são executados.
+Caso contrário, o fluxo de execução continua no comando depois do <code class="docutils literal"><span class="pre">if</span></code>.</p>
+
+<div id="ch05_unaryselection" >
+<textarea cols="50" rows="12" id="ch05_unaryselection_code" class="active_code">
+x = 10
+if x < 0:
+    print("O numero negativo ",  x, " nao e' valido aqui.")
+print("Isto e' sempre impresso.")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch05_unaryselection)</span> </p>
+<button onclick="runit('ch05_unaryselection',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch05_unaryselection');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch05_unaryselection');">Load</button>
+<br />
+
+<canvas id="ch05_unaryselection_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch05_unaryselection_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>O que é impresso quando o valor de `` x`` é  negativo?  Tente isso.</p>
+<div class="admonition-rascunho admonition">
+<p class="first admonition-title">Rascunho</p>
+<div class="last">
+<button id="butt_scratch_6_5" onclick="createActiveCode('scratch_6_5',''); $('#butt_scratch_6_5').hide();">Open Editor</button>
+<div id="scratch_6_5"></div>
+<br />
+</div></div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question6_5_1">
+    <p>6.5.1: O que o seguinte código imprime?
+<pre>
+x = -10
+if x < 0:
+    print("O número negativo ",  x, " não é válido aqui.")
+print("Isto é sempre impresso.")
+</pre>
+a.
+<pre>
+Isto é sempre impresso.
+</pre>
+b.
+<pre>
+O número negativo -10 não é válido aqui.
+Isto é sempre impresso.
+</pre>
+c.
+<pre>
+O número negativo -10 não é válido aqui.
+</pre></p>
+    <form name="test_question6_5_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question6_5_1_opt_a" />
+    <label for= "test_question6_5_1_opt_a">  a) Saída a</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question6_5_1_opt_b" />
+    <label for= "test_question6_5_1_opt_b">  b) Saída b</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question6_5_1_opt_c" />
+    <label for= "test_question6_5_1_opt_c">  c) Saída c</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question6_5_1_opt_d" />
+    <label for= "test_question6_5_1_opt_d">  d) Causará um erro porque todo if deve ter um else.</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question6_5_1','b',['Porque -10 é menor do que 0, Python executará o corpo do comando if aqui.', 'Python executa o corpo do bloco do if bem como o comando que segue o bloco do if.', 'Python executará o comando que segue o bloco if (porque ele está no bloco do else, mas como um comando normal).', 'É válido ter um bloco do if sem um bloco do else correspondente (embora você não possa ter um bloco do else sem um bloco do if correspondente).'])"/> 
+    </form>
+    <div id="test_question6_5_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question6_5_2">
+    <p>6.5.2: O seguinte código causará um erro?
+<pre>
+x = -10
+if x < 0:
+    print("O número negativo ",  x, " não é válido aqui.")
+else:
+    print(x, " é um número positivo.")
+else:
+    print("Isto é sempre impresso.")
+</pre></p>
+    <form name="test_question6_5_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question6_5_2_opt_a" />
+    <label for= "test_question6_5_2_opt_a">  a) Não</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question6_5_2_opt_b" />
+    <label for= "test_question6_5_2_opt_b">  b) Sim</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question6_5_2','b',['Cada bloco de else precisa ter exatamente um bloco de if correspondente.  Se você quer encadear comandos if-else juntos, você precisa usar a construção else, descrita na seção 6.7.', 'Isto causará um erro porque o segundo bloco de else não está relacionado com nenhum bloco de if.'])"/> 
+    </form>
+    <div id="test_question6_5_2_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="condicionais-aninhados">
+<span id="index-6"></span><h2>Condicionais aninhados<a class="headerlink" href="#condicionais-aninhados" title="Permalink to this headline">¶</a></h2>
+<p>Um condicional pode também ser <strong>aninhado</strong> dentro de outro. Por exemplo, assuma que temos duas variáveis inteiras <code class="docutils literal"><span class="pre">x</span></code> e <code class="docutils literal"><span class="pre">y</span></code>.
+O seguinte padrão de seleção mostra como podemos decidir como eles são relacionados entre si.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;x e&#39; menor do que y.&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">y</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;x e&#39; maior do que y.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;x e y devem ser iguais.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>O condicional externo tem duas ramificações.
+A segunda ramificação (o else externo) contém outro comando <code class="docutils literal"><span class="pre">if</span></code>, o qual
+tem outras duas ramificações. Aquelas duas ramificações podem também
+conter comandos condicionais.</p>
+<p>O fluxo de controle pode ser visto nesta ilustração do fluxograma.</p>
+<img alt="../_images/fluxograma_condicional_aninhado.png" src="../_images/fluxograma_condicional_aninhado.png" />
+<p>Abaixo você encontra um programa completo que define valores para <code class="docutils literal"><span class="pre">x</span></code> and <code class="docutils literal"><span class="pre">y</span></code>. Execute o programa e veja o resultado. Então mude os valores das variáveis para mudar o fluxo de controle.</p>
+
+<div id="sel2" >
+<textarea cols="50" rows="12" id="sel2_code" class="active_code">
+x = 10
+y = 10
+
+if x < y:
+    print("x e' menor do que y.")
+else:
+    if x > y:
+        print("x e' maior do que y.")
+    else:
+        print("x e y devem ser iguais.")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (sel2)</span> </p>
+<button onclick="runit('sel2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('sel2');">Save</button>
+<button class="ac_opt" onclick="requestCode('sel2');">Load</button>
+<br />
+
+<canvas id="sel2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="sel2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Em algumas linguagens de programação, encontrar o if
+correspondente a um else pode ser um problema.  Entretanto, em Python isto não é o caso.
+O padrão de tabulação nos diz exatamente qual else corresponde a qual if.</p>
+</div>
+<p>Se você está ainda inseguro, aqui vai a mesma seleção do exemplo codelens.  Simule passo-a-passo para ver como o <code class="docutils literal"><span class="pre">print</span></code> correto é escolhido.</p>
+
+<div id="sel1"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (sel1)</span> </p>
+<script type="text/javascript">
+var sel1_trace = {"code": "x = 10\ny = 10\n\nif x < y:\n    print(\"x e' menor do que y.\")\nelse:\n    if x > y:\n        print(\"x e' maior do que y.\")\n    else:\n        print(\"x e y devem ser iguais.\")", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["x"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"x": 10}, "heap": {}, "line": 2, "event": "step_line"}, {"ordered_globals": ["x", "y"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"y": 10, "x": 10}, "heap": {}, "line": 4, "event": "step_line"}, {"ordered_globals": ["x", "y"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"y": 10, "x": 10}, "heap": {}, "line": 7, "event": "step_line"}, {"ordered_globals": ["x", "y"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"y": 10, "x": 10}, "heap": {}, "line": 10, "event": "step_line"}, {"ordered_globals": ["x", "y"], "stdout": "x e y devem ser iguais.\n", "func_name": "<module>", "stack_to_render": [], "globals": {"y": 10, "x": 10}, "heap": {}, "line": 10, "event": "return"}]};
+var sel1_vis;
+
+$(document).ready(function() {
+    sel1_vis = new ExecutionVisualizer('sel1',sel1_trace,
+                                {embeddedMode: false,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(sel1_vis,'sel1');
+    allVisualizers.push(sel1_vis);
+});
+
+$(document).ready(function() {
+    $("#sel1_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'sel1'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    sel1_vis.redrawConnectors();
+});
+</script>
+<div class="admonition-rascunho admonition">
+<p class="first admonition-title">Rascunho</p>
+<div class="last">
+<button id="butt_scratch_6_6" onclick="createActiveCode('scratch_6_6',''); $('#butt_scratch_6_6').hide();">Open Editor</button>
+<div id="scratch_6_6"></div>
+<br />
+</div></div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question6_6_1">
+    <p>6.6.1: O seguinte código causará um erro?
+<pre>
+x = -10
+if x < 0:
+    print("O número negativo ",  x, " não é válido aqui.")
+else:
+    if x > 0:
+        print(x, " é um número positivo.")
+    else:
+        print(x," é 0.")
+</pre></p>
+    <form name="test_question6_6_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question6_6_1_opt_a" />
+    <label for= "test_question6_6_1_opt_a">  a) Não</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question6_6_1_opt_b" />
+    <label for= "test_question6_6_1_opt_b">  b) Sim</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question6_6_1','a',['Este é um comando if-else aninhado legítimo.  O comando if-else interno está completamente contido no corpo do bloco do else externo.', 'Este é um comando if-else aninhado legítimo.  O comando if-else interno está completamente contido no corpo do bloco do else externo.'])"/> 
+    </form>
+    <div id="test_question6_6_1_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="condicionais-encadeados">
+<span id="index-7"></span><h2>Condicionais encadeados<a class="headerlink" href="#condicionais-encadeados" title="Permalink to this headline">¶</a></h2>
+<p>Python provê uma forma alternativa de escrever seleções aninhadas como as mostradas na seção anterior.
+Isto é chamado algumas vezes como  <strong>condicionais encadeadas</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;x e&#39; menor do que y.&quot;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">y</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;x e&#39; maior do que y.&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;x e y devem ser iguais.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>O fluxo de controle pode ser desenhado com uma orientação diferente mas o padrão resultante é idêntico ao mostrado acima.</p>
+<img alt="../_images/fluxograma_condicional_encadeado.png" src="../_images/fluxograma_condicional_encadeado.png" />
+<p><code class="docutils literal"><span class="pre">elif</span></code> é uma abreviação de <code class="docutils literal"><span class="pre">else</span> <span class="pre">if</span></code>. Novamente, exatamente uma ramificação será
+executada. Não há limites no número de <code class="docutils literal"><span class="pre">elif</span></code> mas apenas um simples (e opcional)
+<code class="docutils literal"><span class="pre">else</span></code> final é permitido e precisa ser a última ramificação do comando.</p>
+<p>Cada condição é verificada em ordem. Se a primeira é falsa, a próxima é então verificada ,
+e assim por dianta. Se uma delas é verdadeira, a ramificação correspondente é executada e
+o comando termina. Mesmo que mais do que uma condição seja verdadeira, apenas a ramificação
+da primeira verdadeira é executada.</p>
+<p>Aqui vai o mesmo programa usando <code class="docutils literal"><span class="pre">elif</span></code>.</p>
+
+<div id="sel4" >
+<textarea cols="50" rows="12" id="sel4_code" class="active_code">
+x = 10
+y = 10
+
+if x < y:
+    print("x e' menor do que y.")
+elif x > y:
+    print("x e' maior do que y.")
+else:
+    print("x e y devem ser iguais.")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (sel4)</span> </p>
+<button onclick="runit('sel4',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('sel4');">Save</button>
+<button class="ac_opt" onclick="requestCode('sel4');">Load</button>
+<br />
+
+<canvas id="sel4_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="sel4_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="admonition-rascunho admonition">
+<p class="first admonition-title">Rascunho</p>
+<div class="last">
+<button id="butt_scratch_6_7" onclick="createActiveCode('scratch_6_7',''); $('#butt_scratch_6_7').hide();">Open Editor</button>
+<div id="scratch_6_7"></div>
+<br />
+</div></div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question6_7_1">
+    <p>6.7.1: Quais dentre I, II e III abaixo dá o mesmo resultado que o seguinte if aninhado?
+<pre>
+# comando if-else aninhado
+x = -10
+if x < 0:
+    print("O número negativo ",  x, " não é válido aqui.")
+else:
+    if x > 0:
+        print(x, " é um número positivo.")
+    else:
+        print(x, " é 0.")
+</pre>
+I.
+<pre>
+if x < 0:
+    print("O número negativo ",  x, " não é válido aqui.")
+else (x > 0):
+    print(x, " é um número positivo.")
+else:
+    print(x, " é 0.")
+</pre>
+II.
+  <pre>
+if x < 0:
+    print("O número negativo ",  x, " não é válido aqui.")
+elif (x > 0):
+    print(x, " é um número positivo.")
+else:
+    print(x, " é 0.")
+</pre>
+III.
+  <pre>
+if x < 0:
+    print("O número negativo ",  x, " não é válido aqui.")
+if (x > 0):
+    print(x, " é um número positivo.")
+else:
+    print(x, " é 0.")
+</pre></p>
+    <form name="test_question6_7_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question6_7_1_opt_a" />
+    <label for= "test_question6_7_1_opt_a">  a) I somente</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question6_7_1_opt_b" />
+    <label for= "test_question6_7_1_opt_b">  b) II somente</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question6_7_1_opt_c" />
+    <label for= "test_question6_7_1_opt_c">  c) III somente</label><br />
+    
+    <input type="radio" name="group1" value="d" id="test_question6_7_1_opt_d" />
+    <label for= "test_question6_7_1_opt_d">  d) II e III</label><br />
+    
+    <input type="radio" name="group1" value="e" id="test_question6_7_1_opt_e" />
+    <label for= "test_question6_7_1_opt_e">  e) I, II e III</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question6_7_1','b',['Você não pode usar uma expressão booleana depois de um else.', 'Sim, II dará o mesmo resultado.', 'Não, III não dará o mesmo resultado.  O primeiro comando if será verdadeiro, mas o segundo será falso, de forma que os comandos do bloco do else serão executados.', 'Não, embora II seja correta, III não dará o mesmo resultado.  Teste isso.', 'Não, em I você não pode ter uma expressão booleana depois de um else.'])"/> 
+    </form>
+    <div id="test_question6_7_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question6_7_2">
+    <p>6.7.2: O que o seguinte código imprimirá se x = 3, y = 5 e z = 2?
+<pre>
+if x < y and x < z:
+    print ("a")
+elif y < x and y < z:
+    print ("b")
+else:
+    print ("c")
+</pre></p>
+    <form name="test_question6_7_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question6_7_2_opt_a" />
+    <label for= "test_question6_7_2_opt_a">  a) a</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question6_7_2_opt_b" />
+    <label for= "test_question6_7_2_opt_b">  b) b</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question6_7_2_opt_c" />
+    <label for= "test_question6_7_2_opt_c">  c) c</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question6_7_2','c',['Enquanto o valor de x é menor do que o valor de y (3 é menor do que 5) ele não é menor do que o valor de z (3 não é menor do que 2).', 'O valor de y não é menor do que o valor de x (5 não é menor do que 3).', 'Como as duas primeiras expressões booleanas são falsas, o else será executado.'])"/> 
+    </form>
+    <div id="test_question6_7_2_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="funcoes-booleanas">
+<h2>Funções booleanas<a class="headerlink" href="#funcoes-booleanas" title="Permalink to this headline">¶</a></h2>
+<p>Funções podem retornar valores booleanos, o que é frequentemente conveniente para esconder dentro de
+funções testes complidados. Por exemplo:</p>
+
+<div id="ch06_boolfun1" >
+<textarea cols="50" rows="12" id="ch06_boolfun1_code" class="active_code">
+def eDivisivel(x, y):
+    if x % y == 0:
+        result = True
+    else:
+        result = False
+
+    return result
+
+print(eDivisivel(10,5))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch06_boolfun1)</span> </p>
+<button onclick="runit('ch06_boolfun1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch06_boolfun1');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch06_boolfun1');">Load</button>
+<br />
+
+<canvas id="ch06_boolfun1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch06_boolfun1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>O nome desta função é <code class="docutils literal"><span class="pre">eDivisivel</span></code>. É comum dar nomes a
+<strong>funções booleanas</strong> que lembrem questões sim/não.  <code class="docutils literal"><span class="pre">eDivisivel</span></code> retorna
+ou <code class="docutils literal"><span class="pre">True</span></code> ou <code class="docutils literal"><span class="pre">False</span></code> para indicar se <code class="docutils literal"><span class="pre">x</span></code> é ou não divisível por
+<code class="docutils literal"><span class="pre">y</span></code>.</p>
+<p>Podemos fazer a função mais compacta tirando vantagem do fato que a
+condição do comando if é ele próprio uma expressão booleana. Podemos
+retorná-lo diretamente, evitando todo o comando <code class="docutils literal"><span class="pre">if</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">eDivisivel</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">%</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>Funções booleanas são usadas frequentemente em comandos condicionais:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">eDivisivel</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="o">...</span> <span class="c1"># faça alguma coisa ...</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="o">...</span> <span class="c1"># faça outra coisa ...</span>
+</pre></div>
+</div>
+<p>Pode ser tentador escrever algo como
+<code class="docutils literal"><span class="pre">if</span> <span class="pre">eDivisivel(x,</span> <span class="pre">y)</span> <span class="pre">==</span> <span class="pre">True:</span></code>
+mas a comparação extra não é necessária.  O seguinte exemplo mostra uma aplicação da função <code class="docutils literal"><span class="pre">eDivisivel</span></code>.
+Teste isto com uns alguns outros argumentos para ver o que é impresso.</p>
+
+<div id="ch06_boolfun2" >
+<textarea cols="50" rows="12" id="ch06_boolfun2_code" class="active_code">
+def eDivisivel(x, y):
+    if x % y == 0:
+        result = True
+    else:
+        result = False
+
+    return result
+
+if eDivisivel(10,5):
+    print("Funciona")
+else:
+    print("Esses valores nao sao bons")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ch06_boolfun2)</span> </p>
+<button onclick="runit('ch06_boolfun2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ch06_boolfun2');">Save</button>
+<button class="ac_opt" onclick="requestCode('ch06_boolfun2');">Load</button>
+<br />
+
+<canvas id="ch06_boolfun2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ch06_boolfun2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Abaixo você encontra mesmo programa em codelens.</p>
+
+<div id="ch06_boolcodelens"></div>
+<p class="cl_caption"><span class="cl_caption_text"> (ch06_boolcodelens)</span> </p>
+<script type="text/javascript">
+var ch06_boolcodelens_trace = {"code": "def eDivisivel(x, y):\n    if x % y == 0:\n        result = True\n    else:\n        result = False\n\n    return result\n\nif eDivisivel(10,5):\n    print(\"Funciona\")\nelse:\n    print(\"Esses valores nao sao bons\")", "trace": [{"ordered_globals": [], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {}, "heap": {}, "line": 1, "event": "step_line"}, {"ordered_globals": ["eDivisivel"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"eDivisivel": ["REF", 1]}, "heap": {"1": ["FUNCTION", "eDivisivel(x, y)", null]}, "line": 9, "event": "step_line"}, {"ordered_globals": ["eDivisivel"], "stdout": "", "func_name": "eDivisivel", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 5, "x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "eDivisivel", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "eDivisivel_f1", "ordered_varnames": ["x", "y"]}], "globals": {"eDivisivel": ["REF", 1]}, "heap": {"1": ["FUNCTION", "eDivisivel(x, y)", null]}, "line": 1, "event": "call"}, {"ordered_globals": ["eDivisivel"], "stdout": "", "func_name": "eDivisivel", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 5, "x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "eDivisivel", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "eDivisivel_f1", "ordered_varnames": ["x", "y"]}], "globals": {"eDivisivel": ["REF", 1]}, "heap": {"1": ["FUNCTION", "eDivisivel(x, y)", null]}, "line": 2, "event": "step_line"}, {"ordered_globals": ["eDivisivel"], "stdout": "", "func_name": "eDivisivel", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 5, "x": 10}, "is_highlighted": true, "is_parent": false, "func_name": "eDivisivel", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "eDivisivel_f1", "ordered_varnames": ["x", "y"]}], "globals": {"eDivisivel": ["REF", 1]}, "heap": {"1": ["FUNCTION", "eDivisivel(x, y)", null]}, "line": 3, "event": "step_line"}, {"ordered_globals": ["eDivisivel"], "stdout": "", "func_name": "eDivisivel", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 5, "x": 10, "result": true}, "is_highlighted": true, "is_parent": false, "func_name": "eDivisivel", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "eDivisivel_f1", "ordered_varnames": ["x", "y", "result"]}], "globals": {"eDivisivel": ["REF", 1]}, "heap": {"1": ["FUNCTION", "eDivisivel(x, y)", null]}, "line": 7, "event": "step_line"}, {"ordered_globals": ["eDivisivel"], "stdout": "", "func_name": "eDivisivel", "stack_to_render": [{"frame_id": 1, "encoded_locals": {"y": 5, "x": 10, "__return__": true, "result": true}, "is_highlighted": true, "is_parent": false, "func_name": "eDivisivel", "is_zombie": false, "parent_frame_id_list": [], "unique_hash": "eDivisivel_f1", "ordered_varnames": ["x", "y", "result", "__return__"]}], "globals": {"eDivisivel": ["REF", 1]}, "heap": {"1": ["FUNCTION", "eDivisivel(x, y)", null]}, "line": 7, "event": "return"}, {"ordered_globals": ["eDivisivel"], "stdout": "", "func_name": "<module>", "stack_to_render": [], "globals": {"eDivisivel": ["REF", 1]}, "heap": {"1": ["FUNCTION", "eDivisivel(x, y)", null]}, "line": 10, "event": "step_line"}, {"ordered_globals": ["eDivisivel"], "stdout": "Funciona\n", "func_name": "<module>", "stack_to_render": [], "globals": {"eDivisivel": ["REF", 1]}, "heap": {"1": ["FUNCTION", "eDivisivel(x, y)", null]}, "line": 10, "event": "return"}]};
+var ch06_boolcodelens_vis;
+
+$(document).ready(function() {
+    ch06_boolcodelens_vis = new ExecutionVisualizer('ch06_boolcodelens',ch06_boolcodelens_trace,
+                                {embeddedMode: false,
+                                verticalStack: true,
+                                heightChangeCallback: redrawAllVisualizerArrows,
+                                codeDivWidth: 500
+                                });
+    attachLoggers(ch06_boolcodelens_vis,'ch06_boolcodelens');
+    allVisualizers.push(ch06_boolcodelens_vis);
+});
+
+$(document).ready(function() {
+    $("#ch06_boolcodelens_tracecheck").click(function() {
+        logBookEvent({'event':'codelens', 'act': 'check', 'div_id':'ch06_boolcodelens'});
+        });
+});
+
+if (allVisualizers === undefined) {
+   var allVisualizers = [];
+}
+
+
+$(window).resize(function() {
+    ch06_boolcodelens_vis.redrawConnectors();
+});
+</script>
+<div class="admonition-rascunho admonition">
+<p class="first admonition-title">Rascunho</p>
+<div class="last">
+<button id="butt_scratch_6_8" onclick="createActiveCode('scratch_6_8',''); $('#butt_scratch_6_8').hide();">Open Editor</button>
+<div id="scratch_6_8"></div>
+<br />
+</div></div>
+<p><strong>Teste seu entendimento</strong></p>
+
+    <div id="test_question6_8_1">
+    <p>6.8.1: O que é uma função booleana?</p>
+    <form name="test_question6_8_1_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question6_8_1_opt_a" />
+    <label for= "test_question6_8_1_opt_a">  a) Uma função que retorna True ou False</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question6_8_1_opt_b" />
+    <label for= "test_question6_8_1_opt_b">  b) Uma função que usa True ou False como argument</label><br />
+    
+    <input type="radio" name="group1" value="c" id="test_question6_8_1_opt_c" />
+    <label for= "test_question6_8_1_opt_c">  c) O mesmo que uma expressão booleana</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question6_8_1','a',['Uma função booleana é como outra função qualquer, mas ela sempre retorna True ou False.', 'Uma função booleana pode ter qualquer número de argumentos (incluindo 0, embora seja raro), de qualquer tipo.', 'Uma expressão booleana é um comando com valor True ou False, e.g. 5+3==8.  Uma função é uma série de comandos agrupados com um nome que somente são executados quando você chama a função.'])"/> 
+    </form>
+    <div id="test_question6_8_1_feedback">
+    </div>
+    </div>
+    
+    <div id="test_question6_8_2">
+    <p>6.8.2: O seguinte comando é legal em Python (assumindo que x, y e z são definidos como números)?
+<pre>
+return x + y < z
+</pre></p>
+    <form name="test_question6_8_2_form" method="get" action="" onsubmit="return false;">
+    
+    <input type="radio" name="group1" value="a" id="test_question6_8_2_opt_a" />
+    <label for= "test_question6_8_2_opt_a">  a) Sim</label><br />
+    
+    <input type="radio" name="group1" value="b" id="test_question6_8_2_opt_b" />
+    <label for= "test_question6_8_2_opt_b">  b) Não</label><br />
+    
+    <input type="button" name="do answer" 
+           value="Check Me" onclick="checkMCMF('test_question6_8_2','a',['É perfeitamente válido retornar o resultado calculado por uma expressão booleana.', 'x + y < z é uma expressão booleana válida, a qual terá valor True ou False.  É perfeitamente legal uma função retornar True ou False e ter uma expressão calculada na mesma linha do return.'])"/> 
+    </form>
+    <div id="test_question6_8_2_feedback">
+    </div>
+    </div>
+    </div>
+<div class="section" id="glossario">
+<h2>Glossário<a class="headerlink" href="#glossario" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-aninhamento">aninhamento</dt>
+<dd>Uma estrutura de programa dentro de outra, tal como um comando
+condicional dentro de uma ramificação de um outro comando
+condicional.</dd>
+<dt id="term-bloco">bloco</dt>
+<dd>Um grupo de comandos consecutivos com a mesma tabulação.</dd>
+<dt id="term-comando-condicional">comando condicional</dt>
+<dd>Um comando que controla o fluxo de execução dependendo de
+alguma condição. Em Python, <code class="docutils literal"><span class="pre">if</span></code>, <code class="docutils literal"><span class="pre">elif</span></code> e <code class="docutils literal"><span class="pre">else</span></code> são
+usados para comandos condicionais.</dd>
+<dt id="term-condicao">condição</dt>
+<dd>Uma expressão booleana em um comando condicional que determina
+a ramificação a ser executada.</dd>
+<dt id="term-condicional-encadeada">condicional encadeada</dt>
+<dd>Uma ramificação condicional com mais do que dois fluxos de
+execução possíveis. Em Python, condicionais encadeadas são
+escritas com comandos <code class="docutils literal"><span class="pre">if</span> <span class="pre">...</span> <span class="pre">elif</span> <span class="pre">...</span> <span class="pre">else</span></code>.</dd>
+<dt id="term-corpo">corpo</dt>
+<dd>Um bloco de comandos em um comando composto que segue o cabeçalho.</dd>
+<dt id="term-expressao-booleana">expressão booleana</dt>
+<dd>Uma expressão que é ou verdadeira ou falsa.</dd>
+<dt id="term-funcao-booleana">função booleana</dt>
+<dd>Uma função que retorna um valor booleano.  O valores possíveis
+do tipo <code class="docutils literal"><span class="pre">bool</span></code> são <code class="docutils literal"><span class="pre">False</span></code> e <code class="docutils literal"><span class="pre">True</span></code>.</dd>
+<dt id="term-operador-de-comparacao">operador de comparação</dt>
+<dd>Um dos operadores que compara dois valores: <code class="docutils literal"><span class="pre">==</span></code>, <code class="docutils literal"><span class="pre">!=</span></code>, <code class="docutils literal"><span class="pre">&gt;</span></code>,
+<code class="docutils literal"><span class="pre">&lt;</span></code>, <code class="docutils literal"><span class="pre">&gt;=</span></code>, and <code class="docutils literal"><span class="pre">&lt;=</span></code>.</dd>
+<dt id="term-operador-logico">operador lógico</dt>
+<dd>Um dos operadores que combinam expressões booleanas: <code class="docutils literal"><span class="pre">and</span></code>,
+<code class="docutils literal"><span class="pre">or</span></code> e <code class="docutils literal"><span class="pre">not</span></code>.</dd>
+<dt id="term-operador-modulo">operador módulo</dt>
+<dd>Um operador, denotado por um sinal de porcentagem ( <code class="docutils literal"><span class="pre">%</span></code>),
+que calcula o resto da divisão de um número por outro,
+considerando que o valor da divisão é um número inteiro.</dd>
+<dt id="term-ramificacao">ramificação</dt>
+<dd>Um dos possíveis caminhos do fluxo de execução determinado por uma
+execução condicional.</dd>
+<dt id="term-valor-booleano">valor booleano</dt>
+<dd>Existem exatamente dois valores booleanos: <code class="docutils literal"><span class="pre">True</span></code> e <code class="docutils literal"><span class="pre">False</span></code>. Valores
+booleanos são resultados de cálculos de expressões booleanas.
+Eles são do tipo <code class="docutils literal"><span class="pre">bool</span></code>.</dd>
+</dl>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercicíos<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Qual o valor de cada uma das expressões?</p>
+<ol class="arabic">
+<li><p class="first"><code class="docutils literal"><span class="pre">3</span> <span class="pre">==</span> <span class="pre">3</span></code></p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">3</span> <span class="pre">!=</span> <span class="pre">3</span></code></p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">3</span> <span class="pre">&gt;=</span> <span class="pre">4</span></code></p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">not</span> <span class="pre">(3</span> <span class="pre">&lt;</span> <span class="pre">4)</span></code></p>
+
+<button id="butt_ex_6_1" onclick="createActiveCode('ex_6_1',''); $('#butt_ex_6_1').hide();">Open Editor</button>
+<div id="ex_6_1"></div>
+<br />
+</li>
+</ol>
+</li>
+<li><p class="first">Descreva os <strong>opostos lógicos</strong> de cada uma das condições. Não é permitido usar o operador <code class="docutils literal"><span class="pre">not</span></code>.</p>
+<ol class="arabic">
+<li><p class="first"><code class="docutils literal"><span class="pre">a</span> <span class="pre">&gt;</span> <span class="pre">b</span></code></p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">a</span> <span class="pre">&gt;=</span> <span class="pre">b</span></code></p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">a</span> <span class="pre">&gt;=</span> <span class="pre">18</span>&nbsp; <span class="pre">and</span>&nbsp; <span class="pre">dia</span> <span class="pre">==</span> <span class="pre">3</span></code></p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">a</span> <span class="pre">&gt;=</span> <span class="pre">18</span>&nbsp; <span class="pre">and</span>&nbsp; <span class="pre">dia</span> <span class="pre">!=</span> <span class="pre">3</span></code></p>
+
+<button id="butt_ex_6_2" onclick="createActiveCode('ex_6_2',''); $('#butt_ex_6_2').hide();">Open Editor</button>
+<div id="ex_6_2"></div>
+<br />
+</li>
+</ol>
+</li>
+<li><p class="first">Escreva uma função que, dada uma nota, retorna um string &#8212; o grau da nota de acordo com o esquema:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="58%" />
+<col width="42%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Nota</th>
+<th class="head">Grau</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>&gt;= 90</td>
+<td>A</td>
+</tr>
+<tr class="row-odd"><td>[80-90)</td>
+<td>B</td>
+</tr>
+<tr class="row-even"><td>[70-80)</td>
+<td>C</td>
+</tr>
+<tr class="row-odd"><td>[60-70)</td>
+<td>D</td>
+</tr>
+<tr class="row-even"><td>&lt; 60</td>
+<td>F</td>
+</tr>
+</tbody>
+</table>
+<p>Os colchetes e os parênteses denotam intervalos fechados e abertos.
+Um intervalo fechado inclui o número enquanto um intervalo aberto
+o exclui.  Logo,  79.99999 corresponde a grau C, mas 80 corresponde a grau B.</p>
+<p>Seja <code class="docutils literal"><span class="pre">xs</span> <span class="pre">=</span> <span class="pre">[83,</span> <span class="pre">75,</span> <span class="pre">74.9,</span> <span class="pre">70,</span> <span class="pre">69.9,</span> <span class="pre">65,</span> <span class="pre">60,</span> <span class="pre">59.9,</span> <span class="pre">55,</span> <span class="pre">50,</span> <span class="pre">49.9,</span> <span class="pre">45,</span> <span class="pre">44.9,</span> <span class="pre">40,</span> <span class="pre">39.9,</span> <span class="pre">2,</span> <span class="pre">0]</span></code></p>
+<p>Teste sua função imprimindo o grau para cada elemento da lista.</p>
+
+<button id="butt_ex_6_3" onclick="createActiveCode('ex_6_3',''); $('#butt_ex_6_3').hide();">Open Editor</button>
+<div id="ex_6_3"></div>
+<br />
+</li>
+<li><p class="first">Modifique o programa de diagrama de barras da tartaruga para que
+as barras, para qualquer valor de 200 ou mais, sejam preenchida com
+vermelho; para valores entre [100 e 200) sejam preenchidas com
+amarelo e barras representando valores menores do que 100 sejam
+preenchidas com verde.</p>
+
+<button id="butt_ex_6_4" onclick="createActiveCode('ex_6_4',''); $('#butt_ex_6_4').hide();">Open Editor</button>
+<div id="ex_6_4"></div>
+<br />
+</li>
+<li><p class="first">No programa do diagrama de barras da tartaruga, o que você espera
+acontecer se um ou mais dos valores dados na lista é negativo?
+Teste isto. Mude o programa de forma que quando ele imprime um texto
+para barras negativas, esse texto apareça embaixo da barra.</p>
+
+<button id="butt_ex_6_5" onclick="createActiveCode('ex_6_5',''); $('#butt_ex_6_5').hide();">Open Editor</button>
+<div id="ex_6_5"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função <code class="docutils literal"><span class="pre">acheHipot</span></code> que, dados os comprimento de dois
+lados de um triângulo retângulo, retorna o comprimento da hipotenusa.
+(Dica:  o valor de <code class="docutils literal"><span class="pre">x</span> <span class="pre">**</span> <span class="pre">0.5</span></code> é a raiz quadrada, ou use <code class="docutils literal"><span class="pre">sqrt</span></code> do
+módulo matemático)</p>
+
+<button id="butt_ex_6_6" onclick="createActiveCode('ex_6_6','from test import testEqual\n\ndef acheHipot(a,b):\n    # your code here\n\ntestEqual(acheHipot(12.0,5.0), 13.0)\ntestEqual(acheHipot(14.0,48.0), 50.0)\ntestEqual(acheHipot(21.0,72.0), 75.0)\ntestEqual(acheHipot(1,1.73205), 1.999999)'); $('#butt_ex_6_6').hide();">Open Editor</button>
+<div id="ex_6_6"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função chamada <code class="docutils literal"><span class="pre">é_par(n)</span></code> que recebe como argumento
+um inteiro e retorna <code class="docutils literal"><span class="pre">True</span></code> se o argumento é um <strong>número par</strong> e
+<code class="docutils literal"><span class="pre">False</span></code> se ele é <strong>ímpar</strong>.</p>
+
+<button id="butt_ex_6_7" onclick="createActiveCode('ex_6_7','from test import testEqual\n\ndef é_par(n):\n    # your code here\n\ntestEqual(é_par(10), True)\ntestEqual(é_par(5), False)\ntestEqual(é_par(1), False)\ntestEqual(é_par(0), True)'); $('#butt_ex_6_7').hide();">Open Editor</button>
+<div id="ex_6_7"></div>
+<br />
+</li>
+<li><p class="first">Agora escreva a função <code class="docutils literal"><span class="pre">é_ímpar(n)</span></code> que retorna <code class="docutils literal"><span class="pre">True</span></code> quando
+<code class="docutils literal"><span class="pre">n</span></code> é ímpar e <code class="docutils literal"><span class="pre">False</span></code> caso contrário.</p>
+
+<button id="butt_ex_6_8" onclick="createActiveCode('ex_6_8','from test import testEqual\n\ndef é_ímpar(n):\n    # your code here\n\ntestEqual(é_ímpar(10), False)\ntestEqual(é_ímpar(5), True)\ntestEqual(é_ímpar(1), True)\ntestEqual(é_ímpar(0), False)'); $('#butt_ex_6_8').hide();">Open Editor</button>
+<div id="ex_6_8"></div>
+<br />
+</li>
+<li><p class="first">Modifique <code class="docutils literal"><span class="pre">é_ímpar</span></code> de forma que ela use uma chamada para
+<code class="docutils literal"><span class="pre">é_par</span></code> para determinar se o argumento é um inteiro par ou ímpar.</p>
+
+<button id="butt_ex_6_9" onclick="createActiveCode('ex_6_9','from test import testEqual\n\ndef é_ímpar(n):\n    # your code here\n\ntestEqual(é_ímpar(10), False)\ntestEqual(é_ímpar(5), True)\ntestEqual(é_ímpar(1), True)\ntestEqual(é_ímpar(0), False)'); $('#butt_ex_6_9').hide();">Open Editor</button>
+<div id="ex_6_9"></div>
+<br />
+</li>
+<li><p class="first">Escreva uma função <code class="docutils literal"><span class="pre">é_ânguloreto</span></code> que, dado o comprimento de
+três lados de um triângulo, determina se o triângulo é
+retângulo. Asssuma que o terceiro argumento é sempre o lado
+maior. Ela retorna <code class="docutils literal"><span class="pre">True</span></code> se é um triângulo retângulo, ou
+<code class="docutils literal"><span class="pre">False</span></code> caso contrário.</p>
+<p>Dica: aritimética de ponto flutuante não é sempre exatamente
+precisa, de forma que não é seguro testar números em ponto
+flutuante para igualdade. Se um bom programador deseja saber se
+<code class="docutils literal"><span class="pre">x</span></code> é igual ou suficientemente perto de <code class="docutils literal"><span class="pre">y</span></code>, ele provavelmente
+usaria em seu código</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span>  <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.000001</span><span class="p">:</span>      <span class="c1"># se x é aproximadamente igual a  y</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+
+<button id="butt_ex_6_10" onclick="createActiveCode('ex_6_10','from test import testEqual\n\ndef é_ânguloreto(a,b,c):\n    # your code here\n\ntestEqual(é_ânguloreto(1.5,2.0,2.5), True)\ntestEqual(é_ânguloreto(4.0,8.0,16.0), False)\ntestEqual(é_ânguloreto(4.1,8.2,9.1678787077), True)\ntestEqual(é_ânguloreto(4.1,8.2,9.16787), True)\ntestEqual(é_ânguloreto(4.1,8.2,9.168), False)\ntestEqual(é_ânguloreto(0.5,0.4,0.64031), True)'); $('#butt_ex_6_10').hide();">Open Editor</button>
+<div id="ex_6_10"></div>
+<br />
+</li>
+<li><p class="first">Estenda o programa acima de forma que os lados possam ser dados à função em qualquer ordem.</p>
+
+<button id="butt_ex_6_11" onclick="createActiveCode('ex_6_11','from test import testEqual\n\ndef é_ânguloreto(a,b,c):\n    # your code here\n\ntestEqual(é_ânguloreto(1.5,2.0,2.5), True)\ntestEqual(é_ânguloreto(16.0,4.0,8.0, False)\ntestEqual(é_ânguloreto(4.1,9.1678787077,8.2), True)\ntestEqual(é_ânguloreto(9.16787,4.1,8.2), True)\ntestEqual(é_ânguloreto(4.1,8.2,9.168), False)\ntestEqual(é_ânguloreto(0.5,0.64031,0.4), True)'); $('#butt_ex_6_11').hide();">Open Editor</button>
+<div id="ex_6_11"></div>
+<br />
+</li>
+<li><p class="first">Um ano é <strong>bissexto</strong> se ele é divisível por 4 a menos que seja um século que não é divisível por 400.
+Escreva uma função que receba um ano como argumento e retorna <code class="docutils literal"><span class="pre">True</span></code> se o ano é bissexto e <code class="docutils literal"><span class="pre">False</span></code> caso contrário.</p>
+
+<button id="butt_ex_6_12" onclick="createActiveCode('ex_6_12','from test import testEqual\n\ndef éBissexto(year):\n    # your code here\n\ntestEqual(éBissexto(1944), True)\ntestEqual(éBissexto(2011), False)\ntestEqual(éBissexto(1986), False)\ntestEqual(éBissexto(1800), False)\ntestEqual(éBissexto(1900), False)\ntestEqual(éBissexto(2000), True)\ntestEqual(éBissexto(2056), True)'); $('#butt_ex_6_12').hide();">Open Editor</button>
+<div id="ex_6_12"></div>
+<br />
+</li>
+<li><p class="first">Implemente o programa da data da Páscoa descrito em classe.</p>
+
+<button id="butt_ex_6_13" onclick="createActiveCode('ex_6_13',''); $('#butt_ex_6_13').hide();">Open Editor</button>
+<div id="ex_6_13"></div>
+<br />
+</li>
+</ol>
+<div class="admonition-rascunho admonition">
+<p class="first admonition-title">Rascunho</p>
+<div class="last">
+<button id="butt_scratch_6_9" onclick="createActiveCode('scratch_6_9',''); $('#butt_scratch_6_9').hide();">Open Editor</button>
+<div id="scratch_6_9"></div>
+<br />
+</div></div>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Decisões e Seleção</a><ul>
+<li><a class="reference internal" href="#valores-booleanos-e-expressoes-booleanas">Valores booleanos e expressões booleanas</a></li>
+<li><a class="reference internal" href="#operadores-logicos">Operadores lógicos</a></li>
+<li><a class="reference internal" href="#precedencia-de-operadores">Precedência de operadores</a></li>
+<li><a class="reference internal" href="#execucao-condicional-selecao-binaria">Execução condicional: seleção binária</a></li>
+<li><a class="reference internal" href="#selecao-unaria-omissao-do-else">Seleção unária: omissão do <code class="docutils literal"><span class="pre">else</span></code></a></li>
+<li><a class="reference internal" href="#condicionais-aninhados">Condicionais aninhados</a></li>
+<li><a class="reference internal" href="#condicionais-encadeados">Condicionais encadeados</a></li>
+<li><a class="reference internal" href="#funcoes-booleanas">Funções booleanas</a></li>
+<li><a class="reference internal" href="#glossario">Glossário</a></li>
+<li><a class="reference internal" href="#exercicios">Exercicíos</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../05-Funcoes/maisfuncoes.html"
+                        title="previous chapter">Functions Revisited</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../Labs/montepi.html"
+                        title="next chapter">Approximating the Value of Pi</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../Labs/montepi.html" title="Approximating the Value of Pi"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../05-Funcoes/maisfuncoes.html" title="Functions Revisited"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2012, Brad Miller, David Ranum.
+      Last updated on May 24, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

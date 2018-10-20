@@ -1,0 +1,426 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>10. Um breve passeio pela biblioteca padrão &mdash; Python v2.7.2 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.7.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Python v2.7.2 documentation"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="copyright" title="Copyright" href="../copyright.html" />
+    <link rel="top" title="Python v2.7.2 documentation" href="../index.html" />
+    <link rel="up" title="O tutorial de Python" href="index.html" />
+    <link rel="next" title="11. Um breve passeio pela biblioteca padrão — parte II" href="stdlib2.html" />
+    <link rel="prev" title="9. Classes" href="classes.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+ 
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="stdlib2.html" title="11. Um breve passeio pela biblioteca padrão — parte II"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="classes.html" title="9. Classes"
+             accesskey="P">previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">Python v2.7.2 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" accesskey="U">O tutorial de Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="um-breve-passeio-pela-biblioteca-padrao">
+<span id="tut-brieftour"></span><h1>10. Um breve passeio pela biblioteca padrão<a class="headerlink" href="#um-breve-passeio-pela-biblioteca-padrao" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="interface-com-o-sistema-operacional">
+<span id="tut-os-interface"></span><h2>10.1. Interface com o sistema operacional<a class="headerlink" href="#interface-com-o-sistema-operacional" title="Permalink to this headline">¶</a></h2>
+<p>O módulo <a class="reference internal" href="../library/os.html#module-os" title="os: Miscellaneous operating system interfaces."><tt class="xref py py-mod docutils literal"><span class="pre">os</span></tt></a> fornece dúzias de funções para interagir com o sistema
+operacional:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>      <span class="c"># Devolve o diretório de trabalho atual</span>
+<span class="go">&#39;C:\\Python26&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s">&#39;/server/accesslogs&#39;</span><span class="p">)</span>   <span class="c"># Altera o diretório de trabalho atual</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s">&#39;mkdir today&#39;</span><span class="p">)</span>   <span class="c"># Executa o comando mkdir no shell do sistema</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+<p>Tome cuidado para usar a forma <tt class="docutils literal"><span class="pre">import</span> <span class="pre">os</span></tt> ao invés de <tt class="docutils literal"><span class="pre">from</span> <span class="pre">os</span> <span class="pre">import</span> <span class="pre">*</span></tt>.
+Isso evitará que <a class="reference internal" href="../library/os.html#os.open" title="os.open"><tt class="xref py py-func docutils literal"><span class="pre">os.open()</span></tt></a> oculte a função <a class="reference internal" href="../library/functions.html#open" title="open"><tt class="xref py py-func docutils literal"><span class="pre">open()</span></tt></a> que opera de
+forma muito diferente.</p>
+<p id="index-0">As funções embutidas <a class="reference internal" href="../library/functions.html#dir" title="dir"><tt class="xref py py-func docutils literal"><span class="pre">dir()</span></tt></a> e <a class="reference internal" href="../library/functions.html#help" title="help"><tt class="xref py py-func docutils literal"><span class="pre">help()</span></tt></a> são úteis como um sistema de
+ajuda interativa pra lidar com módulos grandes como <a class="reference internal" href="../library/os.html#module-os" title="os: Miscellaneous operating system interfaces."><tt class="xref py py-mod docutils literal"><span class="pre">os</span></tt></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">dir</span><span class="p">(</span><span class="n">os</span><span class="p">)</span>
+<span class="go">&lt;devolve uma lista com todas as funções do módulo&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">help</span><span class="p">(</span><span class="n">os</span><span class="p">)</span>
+<span class="go">&lt;devolve uma extensa página de manual criada a partir das docstrings do módulo&gt;</span>
+</pre></div>
+</div>
+<p>Para tarefas de gerenciamento cotidiano de arquivos e diretórios, o módulo
+<a class="reference internal" href="../library/shutil.html#module-shutil" title="shutil: High-level file operations, including copying."><tt class="xref py py-mod docutils literal"><span class="pre">shutil</span></tt></a> fornece uma interface de alto nível que é mais simples de usar:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">shutil</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span><span class="s">&#39;data.db&#39;</span><span class="p">,</span> <span class="s">&#39;archive.db&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="s">&#39;/build/executables&#39;</span><span class="p">,</span> <span class="s">&#39;installdir&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="caracteres-curinga">
+<span id="tut-file-wildcards"></span><h2>10.2. Caracteres curinga<a class="headerlink" href="#caracteres-curinga" title="Permalink to this headline">¶</a></h2>
+<p>O módulo <a class="reference internal" href="../library/glob.html#module-glob" title="glob: Unix shell style pathname pattern expansion."><tt class="xref py py-mod docutils literal"><span class="pre">glob</span></tt></a> fornece uma função para criar listas de arquivos a partir
+de buscas em diretórios usando caracteres curinga:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">glob</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s">&#39;*.py&#39;</span><span class="p">)</span>
+<span class="go">[&#39;primes.py&#39;, &#39;random.py&#39;, &#39;quote.py&#39;]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="argumentos-de-linha-de-comando">
+<span id="tut-command-line-arguments"></span><h2>10.3. Argumentos de linha de comando<a class="headerlink" href="#argumentos-de-linha-de-comando" title="Permalink to this headline">¶</a></h2>
+<p>Scripts geralmente precisam processar argumentos passados na linha de comando.
+Esses argumentos são armazenados como uma lista no atributo <em>argv</em> do módulo
+<a class="reference internal" href="../library/sys.html#module-sys" title="sys: Access system-specific parameters and functions."><tt class="xref py py-mod docutils literal"><span class="pre">sys</span></tt></a>. Por exemplo, teríamos a seguinte saída executando <tt class="docutils literal"><span class="pre">python</span> <span class="pre">demo.py</span>
+<span class="pre">one</span> <span class="pre">two</span> <span class="pre">three</span></tt> na linha de comando:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span>
+<span class="go">[&#39;demo.py&#39;, &#39;one&#39;, &#39;two&#39;, &#39;three&#39;]</span>
+</pre></div>
+</div>
+<p>O módulo <a class="reference internal" href="../library/getopt.html#module-getopt" title="getopt: Portable parser for command line options; support both short and long option names."><tt class="xref py py-mod docutils literal"><span class="pre">getopt</span></tt></a> processa os argumentos passados em <em>sys.argv</em> usando as
+convenções da função Unix <a class="reference internal" href="../library/getopt.html#module-getopt" title="getopt: Portable parser for command line options; support both short and long option names."><tt class="xref py py-mod docutils literal"><span class="pre">getopt</span></tt></a>. Um processamento mais poderoso e
+flexível é fornecido pelo módulo <a class="reference internal" href="../library/argparse.html#module-argparse" title="argparse: Command-line option and argument parsing library."><tt class="xref py py-mod docutils literal"><span class="pre">argparse</span></tt></a>.</p>
+</div>
+<div class="section" id="redirecionamento-de-erros-e-encerramento-do-programa">
+<span id="tut-stderr"></span><h2>10.4. Redirecionamento de erros e encerramento do programa<a class="headerlink" href="#redirecionamento-de-erros-e-encerramento-do-programa" title="Permalink to this headline">¶</a></h2>
+<p>O módulo <a class="reference internal" href="../library/sys.html#module-sys" title="sys: Access system-specific parameters and functions."><tt class="xref py py-mod docutils literal"><span class="pre">sys</span></tt></a> também possui atributos para <em>stdin</em>, <em>stdout</em> e <em>stderr</em>.
+O último é usado para emitir avisos e mensagens de erros visíveis mesmo quando
+<em>stdout</em> foi redirecionado:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;Aviso: iniciando novo arquivo de log</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+<span class="go">Aviso: iniciando novo arquivo de log</span>
+</pre></div>
+</div>
+<p>A forma mais direta de encerrar um script é usando <tt class="docutils literal"><span class="pre">sys.exit()</span></tt>.</p>
+</div>
+<div class="section" id="reconhecimento-de-padroes-em-strings">
+<span id="tut-string-pattern-matching"></span><h2>10.5. Reconhecimento de padrões em strings<a class="headerlink" href="#reconhecimento-de-padroes-em-strings" title="Permalink to this headline">¶</a></h2>
+<p>O módulo <a class="reference internal" href="../library/re.html#module-re" title="re: Regular expression operations."><tt class="xref py py-mod docutils literal"><span class="pre">re</span></tt></a> fornece ferramentas para lidar com processamento de strings
+através de expressões regulares. Para reconhecimento de padrões complexos,
+expressões regulares oferecem uma solução sucinta e eficiente:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">re</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">r&#39;\bf[a-z]*&#39;</span><span class="p">,</span> <span class="s">&#39;which foot or hand fell fastest&#39;</span><span class="p">)</span>
+<span class="go">[&#39;foot&#39;, &#39;fell&#39;, &#39;fastest&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&#39;(\b[a-z]+) \1&#39;</span><span class="p">,</span> <span class="s">r&#39;\1&#39;</span><span class="p">,</span> <span class="s">&#39;cat in the the hat&#39;</span><span class="p">)</span>
+<span class="go">&#39;cat in the hat&#39;</span>
+</pre></div>
+</div>
+<p>Quando as exigências são simples, métodos de strings são preferíveis por serem
+mais fáceis de ler e depurar:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;tea for too&#39;</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;too&#39;</span><span class="p">,</span> <span class="s">&#39;two&#39;</span><span class="p">)</span>
+<span class="go">&#39;tea for two&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="matematica">
+<span id="tut-mathematics"></span><h2>10.6. Matemática<a class="headerlink" href="#matematica" title="Permalink to this headline">¶</a></h2>
+<p>O módulo <a class="reference internal" href="../library/math.html#module-math" title="math: Mathematical functions (sin() etc.)."><tt class="xref py py-mod docutils literal"><span class="pre">math</span></tt></a> oferece acesso as funções da biblioteca C para matemática
+de ponto flutuante:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">math</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">4.0</span><span class="p">)</span>
+<span class="go">0.70710678118654757</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">10.0</span>
+</pre></div>
+</div>
+<p>O módulo <a class="reference internal" href="../library/random.html#module-random" title="random: Generate pseudo-random numbers with various common distributions."><tt class="xref py py-mod docutils literal"><span class="pre">random</span></tt></a> fornece ferramentas para gerar seleções aleatórias:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">random</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s">&#39;apple&#39;</span><span class="p">,</span> <span class="s">&#39;pear&#39;</span><span class="p">,</span> <span class="s">&#39;banana&#39;</span><span class="p">])</span>
+<span class="go">&#39;apple&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">xrange</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="mi">10</span><span class="p">)</span>   <span class="c"># sampling without replacement</span>
+<span class="go">[30, 83, 16, 4, 8, 81, 41, 50, 18, 33]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>      <span class="c"># float aleatório entre 0 e 1 exclusive</span>
+<span class="go">0.17970987693706186</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>  <span class="c"># inteiro aleatório escolhido entre range(6)</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="acesso-a-internet">
+<span id="tut-internet-access"></span><h2>10.7. Acesso à internet<a class="headerlink" href="#acesso-a-internet" title="Permalink to this headline">¶</a></h2>
+<p>Há diversos módulos para acesso e processamento de protocolos da internet.
+Dois dos mais simples são <a class="reference internal" href="../library/urllib2.html#module-urllib2" title="urllib2: Next generation URL opening library."><tt class="xref py py-mod docutils literal"><span class="pre">urllib2</span></tt></a> para efetuar download de dados a
+partir de urls e <a class="reference internal" href="../library/smtplib.html#module-smtplib" title="smtplib: SMTP protocol client (requires sockets)."><tt class="xref py py-mod docutils literal"><span class="pre">smtplib</span></tt></a> para enviar mensagens de correio eletrônico:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">urllib2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&#39;http://tycho.usno.navy.mil/cgi-bin/timer.pl&#39;</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="s">&#39;EST&#39;</span> <span class="ow">in</span> <span class="n">line</span> <span class="ow">or</span> <span class="s">&#39;EDT&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>  <span class="c"># procurar pela hora do leste</span>
+<span class="gp">... </span>        <span class="k">print</span> <span class="n">line</span>
+
+<span class="go">&lt;BR&gt;Nov. 25, 09:43:32 PM EST</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">smtplib</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">server</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="s">&#39;localhost&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">server</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="s">&#39;soothsayer@example.org&#39;</span><span class="p">,</span> <span class="s">&#39;jcaesar@example.org&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="sd">&quot;&quot;&quot;To: jcaesar@example.org</span>
+<span class="gp">... </span><span class="sd">From: soothsayer@example.org</span>
+<span class="gp">...</span><span class="sd"></span>
+<span class="gp">... </span><span class="sd">Beware the Ides of March.</span>
+<span class="gp">... </span><span class="sd">&quot;&quot;&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">server</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(Note que o segundo exemplo precisa de um servidor de email rodando em
+localhost.)</p>
+</div>
+<div class="section" id="data-e-hora">
+<span id="tut-dates-and-times"></span><h2>10.8. Data e Hora<a class="headerlink" href="#data-e-hora" title="Permalink to this headline">¶</a></h2>
+<p>O módulo <a class="reference internal" href="../library/datetime.html#module-datetime" title="datetime: Basic date and time types."><tt class="xref py py-mod docutils literal"><span class="pre">datetime</span></tt></a> fornece classes para manipulação de datas e horas nas
+mais variadas formas. Apesar da disponibilidade de aritmética com data e hora,
+o foco da implementação é na extração eficiente dos membros para formatação e
+manipulação. O módulo também oferece objetos que levam os fusos horários em
+consideração.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># é fácil construir e formatar datas</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">now</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">now</span>
+<span class="go">datetime.date(2003, 12, 2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%m-</span><span class="si">%d</span><span class="s">-%y. </span><span class="si">%d</span><span class="s"> %b %Y is a %A on the </span><span class="si">%d</span><span class="s"> day of %B.&quot;</span><span class="p">)</span>
+<span class="go">&#39;12-02-03. 02 Dec 2003 is a Tuesday on the 02 day of December.&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># datas implementam operações aritméticas</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">birthday</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="mi">1964</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">age</span> <span class="o">=</span> <span class="n">now</span> <span class="o">-</span> <span class="n">birthday</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">age</span><span class="o">.</span><span class="n">days</span>
+<span class="go">14368</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="compressao-de-dados">
+<span id="tut-data-compression"></span><h2>10.9. Compressão de dados<a class="headerlink" href="#compressao-de-dados" title="Permalink to this headline">¶</a></h2>
+<p>Formatos comuns de arquivamento e compressão de dados estão disponíveis
+diretamente através de alguns módulos, entre eles: <a class="reference internal" href="../library/zlib.html#module-zlib" title="zlib: Low-level interface to compression and decompression routines compatible with gzip."><tt class="xref py py-mod docutils literal"><span class="pre">zlib</span></tt></a>, <a class="reference internal" href="../library/gzip.html#module-gzip" title="gzip: Interfaces for gzip compression and decompression using file objects."><tt class="xref py py-mod docutils literal"><span class="pre">gzip</span></tt></a>,
+<a class="reference internal" href="../library/bz2.html#module-bz2" title="bz2: Interface to compression and decompression routines compatible with bzip2."><tt class="xref py py-mod docutils literal"><span class="pre">bz2</span></tt></a>, <a class="reference internal" href="../library/zipfile.html#module-zipfile" title="zipfile: Read and write ZIP-format archive files."><tt class="xref py py-mod docutils literal"><span class="pre">zipfile</span></tt></a> e <a class="reference internal" href="../library/tarfile.html#module-tarfile" title="tarfile: Read and write tar-format archive files."><tt class="xref py py-mod docutils literal"><span class="pre">tarfile</span></tt></a>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">zlib</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s">&#39;witch which has which witches wrist watch&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="go">41</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">zlib</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="go">37</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zlib</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="go">&#39;witch which has which witches wrist watch&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">zlib</span><span class="o">.</span><span class="n">crc32</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="go">226805979</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="medicao-de-desempenho">
+<span id="tut-performance-measurement"></span><h2>10.10. Medição de desempenho<a class="headerlink" href="#medicao-de-desempenho" title="Permalink to this headline">¶</a></h2>
+<p>Alguns usuários de Python desenvolvem um interesse profundo pelo desempenho
+relativo de diferentes abordagens para o mesmo problema. Python oferece uma
+ferramenta de medição que esclarece essas dúvidas rapidamente.</p>
+<p>Por exemplo, pode ser tentador usar o empacotamento e desempacotamento de
+tuplas ao invés da abordagem tradicional de permutar os argumentos. O módulo
+<a class="reference internal" href="../library/timeit.html#module-timeit" title="timeit: Measure the execution time of small code snippets."><tt class="xref py py-mod docutils literal"><span class="pre">timeit</span></tt></a> rapidamente mostra uma modesta vantagem de desempenho:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">timeit</span> <span class="kn">import</span> <span class="n">Timer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Timer</span><span class="p">(</span><span class="s">&#39;t=a; a=b; b=t&#39;</span><span class="p">,</span> <span class="s">&#39;a=1; b=2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">timeit</span><span class="p">()</span>
+<span class="go">0.57535828626024577</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Timer</span><span class="p">(</span><span class="s">&#39;a,b = b,a&#39;</span><span class="p">,</span> <span class="s">&#39;a=1; b=2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">timeit</span><span class="p">()</span>
+<span class="go">0.54962537085770791</span>
+</pre></div>
+</div>
+<p>Em contraste com granulidade fina do módulo <a class="reference internal" href="../library/timeit.html#module-timeit" title="timeit: Measure the execution time of small code snippets."><tt class="xref py py-mod docutils literal"><span class="pre">timeit</span></tt></a>,
+os módulos <a class="reference internal" href="../library/profile.html#module-profile" title="profile: Python source profiler."><tt class="xref py py-mod docutils literal"><span class="pre">profile</span></tt></a> e <a class="reference internal" href="../library/profile.html#module-pstats" title="pstats: Statistics object for use with the profiler."><tt class="xref py py-mod docutils literal"><span class="pre">pstats</span></tt></a> oferecem ferramentas para
+identificar os trechos mais críticos em grandes blocos de código.</p>
+</div>
+<div class="section" id="controle-de-qualidade">
+<span id="tut-quality-control"></span><h2>10.11. Controle de qualidade<a class="headerlink" href="#controle-de-qualidade" title="Permalink to this headline">¶</a></h2>
+<p>Uma das abordagens usadas no desenvolvimento de software de alta qualidade é
+escrever testes para cada função à medida que é desenvolvida e executar esses
+testes frequentemente durante o processo de desenvolvimento.</p>
+<p>O módulo <a class="reference internal" href="../library/doctest.html#module-doctest" title="doctest: Test pieces of code within docstrings."><tt class="xref py py-mod docutils literal"><span class="pre">doctest</span></tt></a> oferece uma ferramenta para realizar um trabalho de
+varredura e validação de testes escritos nas strings de documentação
+(docstrings) de um programa. A construção dos testes é tão simples quanto
+copiar uma chamada típica juntamente com seus resultados e colá-los na
+docstring. Isto aprimora a documentação, fornecendo ao usuário um exemplo
+real, e permite que o módulo doctest verifique se o código continua fiel à
+documentação:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">media</span><span class="p">(</span><span class="n">valores</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calcula a média aritmética de uma lista de números.</span>
+
+<span class="sd">    &gt;&gt;&gt; print media([20, 30, 70])</span>
+<span class="sd">    40.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">valores</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">valores</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">doctest</span>
+<span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>   <span class="c"># Automaticamente valida os testes embutidos</span>
+</pre></div>
+</div>
+<p>O módulo <a class="reference internal" href="../library/unittest.html#module-unittest" title="unittest: Unit testing framework for Python."><tt class="xref py py-mod docutils literal"><span class="pre">unittest</span></tt></a> não é tão simples de usar quanto o módulo
+<a class="reference internal" href="../library/doctest.html#module-doctest" title="doctest: Test pieces of code within docstrings."><tt class="xref py py-mod docutils literal"><span class="pre">doctest</span></tt></a>, mas permite que um conjunto muito maior de testes seja mantido
+em um arquivo separado:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="k">class</span> <span class="nc">TestStatisticalFunctions</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">test_average</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">average</span><span class="p">([</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">70</span><span class="p">]),</span> <span class="mf">40.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">average</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]),</span> <span class="mi">1</span><span class="p">),</span> <span class="mf">4.3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ZeroDivisionError</span><span class="p">,</span> <span class="n">average</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="n">average</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">70</span><span class="p">)</span>
+
+<span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span> <span class="c"># Chamando da linha de comando, executa todos os testes</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="baterias-incluidas">
+<span id="tut-batteries-included"></span><h2>10.12. Baterias incluídas<a class="headerlink" href="#baterias-incluidas" title="Permalink to this headline">¶</a></h2>
+<p>Python tem uma filosofia de &#8220;baterias incluídas&#8221;. Isso fica mais evidente
+através da sofisticação e robustez dos seus maiores pacotes. Por exemplo:</p>
+<ul class="simple">
+<li>Os módulos <a class="reference internal" href="../library/xmlrpclib.html#module-xmlrpclib" title="xmlrpclib: XML-RPC client access."><tt class="xref py py-mod docutils literal"><span class="pre">xmlrpclib</span></tt></a> e <a class="reference internal" href="../library/simplexmlrpcserver.html#module-SimpleXMLRPCServer" title="SimpleXMLRPCServer: Basic XML-RPC server implementation."><tt class="xref py py-mod docutils literal"><span class="pre">SimpleXMLRPCServer</span></tt></a> tornam a
+implementação de chamadas remotas (remote procedure calls) uma tarefa quase
+trivial. Apesar dos nomes dos módulos, nenhum conhecimento ou manipulação
+de xml é necessário.</li>
+<li>O pacote <a class="reference internal" href="../library/email.html#module-email" title="email: Package supporting the parsing, manipulating, and generating email messages, including MIME documents."><tt class="xref py py-mod docutils literal"><span class="pre">email</span></tt></a> é uma biblioteca para gerenciamento de mensagens de
+correio eletrônico, incluindo MIME e outros baseados no RFC 2822.
+Diferente dos módulos <a class="reference internal" href="../library/smtplib.html#module-smtplib" title="smtplib: SMTP protocol client (requires sockets)."><tt class="xref py py-mod docutils literal"><span class="pre">smtplib</span></tt></a> e <a class="reference internal" href="../library/poplib.html#module-poplib" title="poplib: POP3 protocol client (requires sockets)."><tt class="xref py py-mod docutils literal"><span class="pre">poplib</span></tt></a> que apenas enviam
+e recebem mensagens, o pacote <a class="reference internal" href="../library/email.html#module-email" title="email: Package supporting the parsing, manipulating, and generating email messages, including MIME documents."><tt class="xref py py-mod docutils literal"><span class="pre">email</span></tt></a> tem um conjunto completo de
+ferramentas para construir ou decodificar a estrutura de mensagens
+complexas  (incluindo anexos) e para implementação de protocolos de
+codificação e cabeçalhos.</li>
+<li>Os pacotes <a class="reference internal" href="../library/xml.dom.html#module-xml.dom" title="xml.dom: Document Object Model API for Python."><tt class="xref py py-mod docutils literal"><span class="pre">xml.dom</span></tt></a> e <a class="reference internal" href="../library/xml.sax.html#module-xml.sax" title="xml.sax: Package containing SAX2 base classes and convenience functions."><tt class="xref py py-mod docutils literal"><span class="pre">xml.sax</span></tt></a> oferecem uma implementação
+robusta deste popular formato de intercâmbio de dados. De modo similar,
+o módulo <a class="reference internal" href="../library/csv.html#module-csv" title="csv: Write and read tabular data to and from delimited files."><tt class="xref py py-mod docutils literal"><span class="pre">csv</span></tt></a> permite ler e escrever diretamente num formato comum
+de bancos de dados. Juntos esses módulos e pacotes simplificam muito a
+troca de dados entre aplicações em Python e outras ferramentas.</li>
+<li>Internacionalização está disponível através de diversos módulos, como
+<a class="reference internal" href="../library/gettext.html#module-gettext" title="gettext: Multilingual internationalization services."><tt class="xref py py-mod docutils literal"><span class="pre">gettext</span></tt></a>, <a class="reference internal" href="../library/locale.html#module-locale" title="locale: Internationalization services."><tt class="xref py py-mod docutils literal"><span class="pre">locale</span></tt></a>, e o pacote <a class="reference internal" href="../library/codecs.html#module-codecs" title="codecs: Encode and decode data and streams."><tt class="xref py py-mod docutils literal"><span class="pre">codecs</span></tt></a>.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">10. Um breve passeio pela biblioteca padrão</a><ul>
+<li><a class="reference internal" href="#interface-com-o-sistema-operacional">10.1. Interface com o sistema operacional</a></li>
+<li><a class="reference internal" href="#caracteres-curinga">10.2. Caracteres curinga</a></li>
+<li><a class="reference internal" href="#argumentos-de-linha-de-comando">10.3. Argumentos de linha de comando</a></li>
+<li><a class="reference internal" href="#redirecionamento-de-erros-e-encerramento-do-programa">10.4. Redirecionamento de erros e encerramento do programa</a></li>
+<li><a class="reference internal" href="#reconhecimento-de-padroes-em-strings">10.5. Reconhecimento de padrões em strings</a></li>
+<li><a class="reference internal" href="#matematica">10.6. Matemática</a></li>
+<li><a class="reference internal" href="#acesso-a-internet">10.7. Acesso à internet</a></li>
+<li><a class="reference internal" href="#data-e-hora">10.8. Data e Hora</a></li>
+<li><a class="reference internal" href="#compressao-de-dados">10.9. Compressão de dados</a></li>
+<li><a class="reference internal" href="#medicao-de-desempenho">10.10. Medição de desempenho</a></li>
+<li><a class="reference internal" href="#controle-de-qualidade">10.11. Controle de qualidade</a></li>
+<li><a class="reference internal" href="#baterias-incluidas">10.12. Baterias incluídas</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="classes.html"
+                        title="previous chapter">9. Classes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="stdlib2.html"
+                        title="next chapter">11. Um breve passeio pela biblioteca padrão &#8212; parte II</a></p>
+<h3>This Page</h3>
+<ul class="this-page-menu">
+  <li><a href="../bugs.html">Report a Bug</a></li>
+  <li><a href="../_sources/tutorial/stdlib.txt"
+         rel="nofollow">Show Source</a></li>
+</ul>
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="stdlib2.html" title="11. Um breve passeio pela biblioteca padrão — parte II"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="classes.html" title="9. Classes"
+             >previous</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="../index.html">Python v2.7.2 documentation</a> &raquo;</li>
+
+          <li><a href="index.html" >O tutorial de Python</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+    &copy; <a href="../copyright.html">Copyright</a> 1990-2012, Python Software Foundation.
+    <br />
+    The Python Software Foundation is a non-profit corporation.  
+    <a href="http://www.python.org/psf/donations/">Please donate.</a>
+    <br />
+    Last updated on Apr 03, 2012.
+    <a href="../bugs.html">Found a bug</a>?
+    <br />
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+
+  </body>
+</html>

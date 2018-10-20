@@ -1,0 +1,566 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Simple Top-Down Parsing in&nbsp;Python</title></head><body data-page-id="2021"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Simple Top-Down Parsing in&nbsp;Python</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | July 2008</p><p>In <a href="http://effbot.org/zone/simple-iterator-parser.htm"><em>Simple Iterator-based Parsing</em></a>, I described a way to write simple recursive-descent parsers in Python, by passing around the current token and a token generator function.</p><p>A recursive-descent parser consists of a series of functions, usually one for each grammar rule.  Such parsers are easy to write, and are reasonably efficient, as long as the grammar is &#8220;prefix-heavy&#8221;; that is, that it&#8217;s usually sufficient to look at a token at the beginning of a construct to figure out what parser function to call.  For example, if you&#8217;re parsing Python code, you can identify most statements simply by looking at the first token.</p><p>However, recursive-descent is less efficient for expression syntaxes, especially for languages with lots of operators at different precedence levels.  With one function per rule, you can easily end up with lots of calls even for short, trivial expressions, just to get to the right level in the grammar.</p><p>For example, here&#8217;s an excerpt from Python&#8217;s expression grammar.  The &#8220;test&#8221; rule is a basic expression element:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide"><code>test: or_test ['if' or_test 'else' test] | lambdef
+or_test: and_test ('or' and_test)*
+and_test: not_test ('and' not_test)*
+not_test: 'not' not_test | comparison
+comparison: expr (comp_op expr)*
+expr: xor_expr ('|' xor_expr)*
+xor_expr: and_expr ('^' and_expr)*
+and_expr: shift_expr ('&amp;' shift_expr)*
+shift_expr: arith_expr (('&lt;&lt;'|'&gt;&gt;') arith_expr)*
+arith_expr: term (('+'|'-') term)*
+term: factor (('*'|'/'|'%'|'//') factor)*
+factor: ('+'|'-'|'~') factor | power
+power: atom trailer* ['**' factor]
+trailer: '(' [arglist] ')' | '[' subscriptlist ']' | '.' NAME
+</code></pre></div><div class="yui-ge"><div class="yui-u first"><p>With a naive recursive-descent implementation of this grammar, 
+the parser would have to recurse all the way from &#8220;test&#8221; down to &#8220;trailer&#8221; in order to parse a simple function call (of the form &#8220;expression(arglist)&#8221;).</p><p>In the early seventies, Vaughan Pratt published an elegant improvement to recursive-descent in his paper <a href="http://doi.acm.org/10.1145/512927.512931"><em>Top-down Operator Precedence</em></a>.  Pratt&#8217;s algorithm associates semantics with tokens instead of grammar rules, and uses a simple &#8220;binding power&#8221; mechanism to handle precedence levels.  Traditional recursive-descent parsing is then used to handle odd or irregular portions of the syntax.</p><p>In an <a href="http://javascript.crockford.com/tdop/tdop.html">article</a> (and <a href="http://oreilly.com/catalog/9780596510046/">book chapter</a>) with the same name, Douglas Crockford shows how to implement the algorithm in a subset of JavaScript, and uses it to develop a parser that can parse itself in the process.</p><p>In this article, I&#8217;ll be a bit more modest: I&#8217;ll briefly explain how the algorithm works, discuss different ways to implement interpreters and translators with it in Python, and finally use it to implement a parser for Python&#8217;s expression syntax.  And yes, there will be benchmarks too.</p><h2 id="introducing-the-algorithm">Introducing The Algorithm&#160;<a class="nav" href="#introducing-the-algorithm" title="bookmark!">#</a></h2><p>Like most other parsers, a topdown parser operates on a stream of distinct syntax elements, or tokens.  For example, the expression &#8220;1 + 2&#8221; could correspond to the following tokens:</p><pre><code>literal with value 1
+add operator
+literal with value 2
+end of program
+</code></pre><p>In the topdown algorithm, each token has two associated functions, called &#8220;nud&#8221; and &#8220;led&#8221;, and an integer value called &#8220;lbp&#8221;.</p><p>The &#8220;nud&#8221; function (for null denotation) is used when a token appears at the beginning of a language construct, and the &#8220;led&#8221; function (left denotation) when it appears inside the construct (to the left of the rest of the construct, that is).</p><p>The &#8220;lbp&#8221; value is a binding power, and it controls operator precedence; the higher the value, the tighter a token binds to the tokens that follow.</p><p>Given this brief introduction, we&#8217;re ready to look at the core of Pratt&#8217;s algorithm, the expression parser:</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">expression</span>(rbp=0):
+    <span class="pykeyword">global</span> token
+    t = token
+    token = next()
+    left = t.nud()
+    <span class="pykeyword">while</span> rbp &lt; token.lbp:
+        t = token
+        token = next()
+        left = t.led(left)
+    <span class="pykeyword">return</span> left</pre><p>(Pratt calls this function &#8220;parse&#8221;, but we&#8217;ll use the name from Crockford&#8217;s article instead.)</p><p>Here, &#8220;token&#8221; is a global variable that contains the current token, and &#8220;next&#8221; is a global helper that fetches the next token.  The &#8220;nud&#8221; and &#8220;led&#8221; functions are represented as methods, and the &#8220;lbp&#8221; is an attribute.  The &#8220;left&#8221; variable, finally, is used to pass some value that represents the &#8220;left&#8221; part of the expression through to the &#8220;led&#8221; method; this can be any object, such as an intermediate result (for an interpreter) or a portion of a parse tree (for a compiler).</p><p>If applied to the simple expression shown earlier, the parser will start by calling the &#8220;nud&#8221; method on the first token.  In our example, that&#8217;s a literal token, which can be represented by something like the following class:</p><pre class="python"><span class="pykeyword">class</span> <span class="pyclass">literal_token</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, value):
+        self.value = int(value)
+    <span class="pykeyword">def</span> <span class="pyfunction">nud</span>(self):
+        <span class="pykeyword">return</span> self.value</pre><p>Next, the parser checks if the binding power of the next token is at least as large as the given binding power (the &#8220;rbp&#8221; argument, for &#8220;right binding power&#8221;).  If it is, it calls the &#8220;led&#8221; method for that token.  Here, the right binding power is zero, and the next token is an operator, the implementation of which could look like:</p><pre class="python"><span class="pykeyword">class</span> <span class="pyclass">operator_add_token</span>:
+    lbp = 10
+    <span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+        right = expression(10)
+        <span class="pykeyword">return</span> left + right</pre><p>The operator has a binding power of 10, and a &#8220;led&#8221; method that calls the expression parser again, passing in a right binding power that&#8217;s the same as the operator&#8217;s own power.  This causes the expression parser to treat everything with a higher power as a subexpression, and return its result.  The method then adds the left value (from the literal, in this case) to the return value from the expression parser, and returns the result.</p><p>The end of the program is indicated by a special marker token, with binding power zero (lower than any other token).  This makes sure that the expression parser stops when it reaches the end of the program.</p><pre class="python"><span class="pykeyword">class</span> <span class="pyclass">end_token</span>:
+    lbp = 0</pre><p>And that&#8217;s the entire parser.  To use it, we need a tokenizer that can generate the right kind of token objects for a given source program.  Here&#8217;s a simple regular expression-based version that handles the minimal language we&#8217;ve used this far:</p><pre class="python"><span class="pykeyword">import</span> re
+
+token_pat = re.compile(<span class="pystring">"\s*(?:(\d+)|(.))"</span>)
+
+<span class="pykeyword">def</span> <span class="pyfunction">tokenize</span>(program):
+    <span class="pykeyword">for</span> number, operator <span class="pykeyword">in</span> token_pat.findall(program):
+        <span class="pykeyword">if</span> number:
+            <span class="pykeyword">yield</span> literal_token(number)
+        <span class="pykeyword">elif</span> operator == <span class="pystring">"+"</span>:
+            <span class="pykeyword">yield</span> operator_add_token()
+        <span class="pykeyword">else</span>:
+            <span class="pykeyword">raise</span> SyntaxError(<span class="pystring">"unknown operator"</span>)
+    <span class="pykeyword">yield</span> end_token()</pre><p>Now, let&#8217;s wire this up and try it out:</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">parse</span>(program):
+    <span class="pykeyword">global</span> token, next
+    next = tokenize(program).next
+    token = next()
+    <span class="pykeyword">return</span> expression()
+
+&gt;&gt;&gt; parse(<span class="pystring">"1 + 2"</span>)
+3</pre><p>Not counting the calls to the tokenizer, the parser algorithm will make a total of four calls to parse this expression; one for each token, and one extra for the recursive call to the expression parser in the &#8220;led&#8221; method.</p><h3 id="extending-the-parser">Extending the Parser&#160;<a class="nav" href="#extending-the-parser" title="bookmark!">#</a></h3><p>To see how this scales, let&#8217;s add support for a few more math operations.  We need a few more token classes:</p><pre class="python"><span class="pykeyword">class</span> <span class="pyclass">operator_sub_token</span>:
+    lbp = 10
+    <span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+        <span class="pykeyword">return</span> left - expression(10)
+
+<span class="pykeyword">class</span> <span class="pyclass">operator_mul_token</span>:
+    lbp = 20
+    <span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+        <span class="pykeyword">return</span> left * expression(20)
+
+<span class="pykeyword">class</span> <span class="pyclass">operator_div_token</span>:
+    lbp = 20
+    <span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+        <span class="pykeyword">return</span> left / expression(20)</pre><p>Note that &#8220;mul&#8221; and &#8220;div&#8221; uses a higher binding power than the other operators; this guarantees that when the &#8220;mul&#8221; operator is invoked in the expression &#8220;1 * 2 + 3&#8221;, it only gets the literal &#8220;2&#8221;, instead of treating &#8220;2 + 3&#8221; as a subexpression.</p><p>We also need to add the classes to the tokenizer:</p><pre><code>def tokenize(program):
+    for number, operator in token_pat.findall(program):
+        if number:
+            yield literal_token(number)
+        elif operator == "+":
+            yield operator_add_token()
+        elif operator == "-":
+            yield operator_sub_token()
+        elif operator == "*":
+            yield operator_mul_token()
+        elif operator == "/":
+            yield operator_div_token()
+        else:
+            raise SyntaxError("unknown operator)
+    yield end_token()
+</code></pre><p>but that&#8217;s it.  The parser now understands the four basic math operators, and handles their precedence correctly.</p><pre class="python">&gt;&gt;&gt; parse(<span class="pystring">"1+2"</span>)
+3
+&gt;&gt;&gt; parse(<span class="pystring">"1+2*3"</span>)
+7
+&gt;&gt;&gt; parse(<span class="pystring">"1+2-3*4/5"</span>)
+1</pre><p>Despite the fact that we&#8217;ve added more grammar rules, the parser still makes the same number of calls as before; the expression &#8220;1+2&#8221; is still handled by four calls inside the parser.</p><p>However, codewise, this isn&#8217;t that different from a recursive-descent parser.  We still need to write code for each token class, and while we&#8217;ve moved most of the dispatching from individual rules to the expression parser, most of that ended up in a big if/else statement in the tokenizer.</p><p>Before we look at ways to get rid of some of that code, let&#8217;s add two more features to the parser: unary plus and minus operators, and a Python-style exponentiation operator (**).</p><p>To support the unary operators, all we need to do is to add &#8220;nud&#8221; implementations to the relevant tokens:</p><pre class="python"><span class="pykeyword">class</span> <span class="pyclass">operator_add_token</span>:
+    lbp = 10
+    <span class="pykeyword">def</span> <span class="pyfunction">nud</span>(self):
+        <span class="pykeyword">return</span> expression(100)
+    <span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+        <span class="pykeyword">return</span> left + expression(10)
+
+<span class="pykeyword">class</span> <span class="pyclass">operator_sub_token</span>:
+    lbp = 10
+    <span class="pykeyword">def</span> <span class="pyfunction">nud</span>(self):
+        <span class="pykeyword">return</span> -expression(100)
+    <span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+        <span class="pykeyword">return</span> left - expression(10)</pre><p>Note that the recursive call to expression uses a high binding power, to make sure that the unary operator binds to the token immediately to the right, instead of to the rest of the expression (&#8220;(-1)-2&#8221; and &#8220;-(1-2)&#8221; are two different things).</p><p>Adding exponentiation is a bit trickier; first, we need to tweak the tokenizer to identify the two-character operator:</p><pre><code>token_pat = re.compile("\s*(?:(\d+)|(\*\*|.))")
+
+...
+
+elif operator == "**":
+    yield operator_pow_token()
+
+...
+</code></pre><p>A bigger problem is that the operator is right-associative (that it, it binds to the right).  If you type &#8220;2**3**4&#8221; into a Python prompt, Python will evaluate the &#8220;3**4&#8221; part first:</p><pre class="python">&gt;&gt;&gt; 2**3**4
+2417851639229258349412352L
+&gt;&gt;&gt; (2**3)**4
+4096
+&gt;&gt;&gt; 2**(3**4)
+2417851639229258349412352L
+&gt;&gt;&gt;</pre><p>Luckily, the binding power mechanism makes it easy to implement this; to get right associativity, just subtract one from the operator&#8217;s binding power when doing the recursive call:</p><pre class="python"><span class="pykeyword">class</span> <span class="pyclass">operator_pow_token</span>:
+    lbp = 30
+    <span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+        <span class="pykeyword">return</span> left ** expression(30-1)</pre><p>In this way, the parser will treat subsequent exponentiation  operators (with binding power 30) as subexpressions to the current one, which is exactly what we want.</p><h2 id="building-parse-trees">Building Parse Trees&#160;<a class="nav" href="#building-parse-trees" title="bookmark!">#</a></h2><p>A nice side-effect of the top-down approach is that it&#8217;s easy to build parse trees, without much extra overhead; since the tokenizer is creating a new object for each token anyway, we can reuse these objects as nodes in the parse tree.</p><p>To do this, the &#8220;nud&#8221; and &#8220;led&#8221; methods have to add syntax tree information to the objects, and then return the objects themselves.  In the following example, the literal leaf nodes has a &#8220;value&#8221; attribute, and the operator nodes have &#8220;first&#8221; and &#8220;second&#8221; attributes.  The classes also have __repr__ methods to make it easier to look at the resulting tree:</p><pre class="python"><span class="pykeyword">class</span> <span class="pyclass">literal_token</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, value):
+        self.value = value
+    <span class="pykeyword">def</span> <span class="pyfunction">nud</span>(self):
+        <span class="pykeyword">return</span> self
+    <span class="pykeyword">def</span> <span class="pyfunction">__repr__</span>(self):
+        <span class="pykeyword">return</span> <span class="pystring">"(literal %s)"</span> % self.value
+
+<span class="pykeyword">class</span> <span class="pyclass">operator_add_token</span>:
+    lbp = 10
+    <span class="pykeyword">def</span> <span class="pyfunction">nud</span>(self):
+        self.first = expression(100)
+        self.second = None
+        <span class="pykeyword">return</span> self
+    <span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+        self.first = left
+        self.second = expression(10)
+        <span class="pykeyword">return</span> self
+    <span class="pykeyword">def</span> <span class="pyfunction">__repr__</span>(self):
+        <span class="pykeyword">return</span> <span class="pystring">"(add %s %s)"</span> % (self.first, self.second)
+
+<span class="pykeyword">class</span> <span class="pyclass">operator_mul_token</span>:
+    lbp = 20
+    <span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+        self.first = left
+        self.second = expression(20)
+        <span class="pykeyword">return</span> self
+    <span class="pykeyword">def</span> <span class="pyfunction">__repr__</span>(self):
+        <span class="pykeyword">return</span> <span class="pystring">"(mul %s %s)"</span> % (self.first, self.second)</pre><p>(implementing &#8220;sub&#8221;, &#8220;div&#8221;, and &#8220;pow&#8221; is left as an exercise.)</p><p>With the new token implementations, the parser will return parse trees:</p><pre class="python">&gt;&gt;&gt; parse(<span class="pystring">"1"</span>)
+(literal 1)
+&gt;&gt;&gt; parse(<span class="pystring">"+1"</span>)
+(add (literal 1) None)
+&gt;&gt;&gt; parse(<span class="pystring">"1+2+3"</span>)
+(add (add (literal 1) (literal 2)) (literal 3))
+&gt;&gt;&gt; parse(<span class="pystring">"1+2*3"</span>)
+(add (literal 1) (mul (literal 2) (literal 3)))
+&gt;&gt;&gt; parse(<span class="pystring">"1*2+3"</span>)
+(add (mul (literal 1) (literal 2)) (literal 3))</pre><p>The unary plus inserts a &#8220;unary add&#8221; node in the tree (with the &#8220;second&#8221; attribute set to None).  If you prefer, you can skip the extra node, simply by returning the inner expression from &#8220;nud&#8221;:</p><pre class="python"><span class="pykeyword">class</span> <span class="pyclass">operator_add_token</span>:
+    lbp = 10
+    <span class="pykeyword">def</span> <span class="pyfunction">nud</span>(self):
+        <span class="pykeyword">return</span> expression(100)
+
+    ...
+
+&gt;&gt;&gt; parse(<span class="pystring">"1"</span>)
+(literal 1)
+&gt;&gt;&gt; parse(<span class="pystring">"+1"</span>)
+(literal 1)</pre><p>Whether this is a good idea or not depends on your language definition (Python, for one, won&#8217;t optimize them away in the general case, in case you&#8217;re using unary plus on something that&#8217;s not a number.)</p><h2 id="streamlining-token-class-generation">Streamlining Token Class Generation&#160;<a class="nav" href="#streamlining-token-class-generation" title="bookmark!">#</a></h2><p>The simple parsers we&#8217;ve used this far all consist of a number of classes, one for each token type, and a tokenizer that knows about them all.  Pratt uses associative arrays instead, and associates the operations with their tokens.  In Python, it could look something like:</p><pre class="python">nud = {}; led = {}; lbp = {}
+
+nud[<span class="pystring">"+"</span>] = <span class="pykeyword">lambda</span>: +expression(100)
+led[<span class="pystring">"+"</span>] = <span class="pykeyword">lambda</span> left: left + expression(10)
+lbp[<span class="pystring">"+"</span>] = 10</pre><p>This is a bit unwieldy, and feels somewhat backwards from a Python perspective.  Crockford&#8217;s JavaScript implementation uses a different approach; he uses a single &#8220;token class registry&#8221; (which he calls &#8220;symbol table&#8221;), with a factory function that creates new classes on the fly.  JavaScript&#8217;s prototype model makes that ludicrously simple, but it&#8217;s not that hard to generate classes on the fly in Python either.</p><p>First, let&#8217;s introduce a base class for token types, to get a place to stuff all common behaviour.  I&#8217;ve added default attributes for storing the token type name (the &#8220;id&#8221; attribute) and the token value (for literal and name tokens), as well as a few attributes for the syntax tree.  This class is also a convenient place to provide default implementations of the &#8220;nud&#8221; and &#8220;led&#8221; methods.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide"><span class="pykeyword">class</span> <span class="pyclass">symbol_base</span>(object):
+
+    id = None <span class="pycomment"># node/token type name</span>
+    value = None <span class="pycomment"># used by literals</span>
+    first = second = third = None <span class="pycomment"># used by tree nodes</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">nud</span>(self):
+        <span class="pykeyword">raise</span> SyntaxError(
+            <span class="pystring">"Syntax error (%r)."</span> % self.id
+        )
+
+    <span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+        <span class="pykeyword">raise</span> SyntaxError(
+            <span class="pystring">"Unknown operator (%r)."</span> % self.id
+        )
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__repr__</span>(self):
+        <span class="pykeyword">if</span> self.id == <span class="pystring">"(name)"</span> <span class="pykeyword">or</span> self.id == <span class="pystring">"(literal)"</span>:
+            <span class="pykeyword">return</span> <span class="pystring">"(%s %s)"</span> % (self.id[1:-1], self.value)
+        out = [self.id, self.first, self.second, self.third]
+        out = map(str, filter(None, out))
+        <span class="pykeyword">return</span> <span class="pystring">"("</span> + <span class="pystring">" "</span>.join(out) + <span class="pystring">")"</span></pre></div><div class="yui-ge"><div class="yui-u first"><p>Next, we need a token type factory:</p><pre class="python">symbol_table = {}
+
+<span class="pykeyword">def</span> <span class="pyfunction">symbol</span>(id, bp=0):
+    <span class="pykeyword">try</span>:
+        s = symbol_table[id]
+    <span class="pykeyword">except</span> KeyError:
+        <span class="pykeyword">class</span> <span class="pyclass">s</span>(symbol_base):
+            <span class="pykeyword">pass</span>
+        s.__name__ = <span class="pystring">"symbol-"</span> + id <span class="pycomment"># for debugging</span>
+        s.id = id
+        s.lbp = bp
+        symbol_table[id] = s
+    <span class="pykeyword">else</span>:
+        s.lbp = max(bp, s.lbp)
+    <span class="pykeyword">return</span> s</pre><p>This function takes a token identifier and an optional binding power, and creates a new class if necessary.  The identifier and the binding power are inserted as class attributes, and will thus be available in all instances of that class.  If the function is called for a symbol that&#8217;s already registered, it just updates the binding power; this allows us to define different parts of the symbol&#8217;s behaviour in different places, as we&#8217;ll see later.</p><p>We can now populate the registry with the symbols we&#8217;re going to use:</p><pre class="python">symbol(<span class="pystring">"(literal)"</span>)
+symbol(<span class="pystring">"+"</span>, 10); symbol(<span class="pystring">"-"</span>, 10)
+symbol(<span class="pystring">"*"</span>, 20); symbol(<span class="pystring">"/"</span>, 20)
+symbol(<span class="pystring">"**"</span>, 30)
+symbol(<span class="pystring">"(end)"</span>)</pre><p>To simplify dispatching, we&#8217;re using the token strings as identifiers; the identifiers for the &#8220;(literal)&#8221; and &#8220;(end)&#8221; symbols (which replaces the literal_token and end_token classes used earlier) are strings that won&#8217;t appear as ordinary tokens.</p><p>We also need to update the tokenizer, to make it use classes from the registry:</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">tokenize</span>(program):
+    <span class="pykeyword">for</span> number, operator <span class="pykeyword">in</span> token_pat.findall(program):
+        <span class="pykeyword">if</span> number:
+            symbol = symbol_table[<span class="pystring">"(literal)"</span>]
+            s = symbol()
+            s.value = number
+            <span class="pykeyword">yield</span> s
+        <span class="pykeyword">else</span>:
+            symbol = symbol_table.get(operator)
+            <span class="pykeyword">if</span> <span class="pykeyword">not</span> symbol:
+                <span class="pykeyword">raise</span> SyntaxError(<span class="pystring">"Unknown operator"</span>)
+            <span class="pykeyword">yield</span> symbol()
+    symbol = symbol_table[<span class="pystring">"(end)"</span>]
+    <span class="pykeyword">yield</span> symbol()</pre><p>Like before, the literal class is used as a common class for all literal values.  All other tokens have their own classes.</p><p>Now, all that&#8217;s left is to define &#8220;nud&#8221; and &#8220;led&#8221; methods for the symbols that need additional behavior.  To do that, we can define them as ordinary functions, and then simply plug them into the symbol classes, one by one.  For example, here&#8217;s the &#8220;led&#8221; method for addition:</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+    self.first = left
+    self.second = expression(10)
+    <span class="pykeyword">return</span> self
+symbol(<span class="pystring">"+"</span>).led = led</pre><p>That last line fetches the class from the symbol registry, and adds the function to it.  Here are a few more &#8220;led&#8221; methods:</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+    self.first = left
+    self.second = expression(10)
+    <span class="pykeyword">return</span> self
+symbol(<span class="pystring">"-"</span>).led = led
+
+<span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+    self.first = left
+    self.second = expression(20)
+    <span class="pykeyword">return</span> self
+symbol(<span class="pystring">"*"</span>).led = led
+
+<span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+    self.first = left
+    self.second = expression(20)
+    <span class="pykeyword">return</span> self
+symbol(<span class="pystring">"/"</span>).led = led</pre><p>They do look pretty similar, don&#8217;t they?  The only thing that differs is the binding power, so we can simplify things quite a bit by moving the repeated code into a helper function:</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">infix</span>(id, bp):
+    <span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+        self.first = left
+        self.second = expression(bp)
+        <span class="pykeyword">return</span> self
+    symbol(id, bp).led = led</pre><p>Given this helper, we can now replace the &#8220;led&#8221; functions above with four simple calls:</p><pre class="python">infix(<span class="pystring">"+"</span>, 10); infix(<span class="pystring">"-"</span>, 10)
+infix(<span class="pystring">"*"</span>, 20); infix(<span class="pystring">"/"</span>, 20)</pre><p>Likewise, we can provide helper functions for the &#8220;nud&#8221; methods, and for operators with right associativity:</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">prefix</span>(id, bp):
+    <span class="pykeyword">def</span> <span class="pyfunction">nud</span>(self):
+        self.first = expression(bp)
+        self.second = None
+        <span class="pykeyword">return</span> self
+    symbol(id).nud = nud
+
+prefix(<span class="pystring">"+"</span>, 100); prefix(<span class="pystring">"-"</span>, 100)
+
+<span class="pykeyword">def</span> <span class="pyfunction">infix_r</span>(id, bp):
+    <span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+        self.first = left
+        self.second = expression(bp-1)
+        <span class="pykeyword">return</span> self
+    symbol(id, bp).led = led
+
+infix_r(<span class="pystring">"**"</span>, 30)</pre><p>Finally, the literal symbol must be fitted with a &#8220;nud&#8221; method that returns the symbol itself.  We can use a plain lambda for this:</p><pre class="python">symbol(<span class="pystring">"(literal)"</span>).nud = <span class="pykeyword">lambda</span> self: self</pre><p>Note that most of the above is general-purpose plumbing; given the helper functions, the actual parser definition boils down to the following six lines:</p><pre class="python">infix(<span class="pystring">"+"</span>, 10); infix(<span class="pystring">"-"</span>, 10)
+infix(<span class="pystring">"*"</span>, 20); infix(<span class="pystring">"/"</span>, 20)
+infix_r(<span class="pystring">"**"</span>, 30)
+prefix(<span class="pystring">"+"</span>, 100); prefix(<span class="pystring">"-"</span>, 100)
+
+symbol(<span class="pystring">"(literal)"</span>).nud = <span class="pykeyword">lambda</span> self: self
+symbol(<span class="pystring">"(end)"</span>)</pre><p>Running this produces the same result as before:</p><pre class="python">&gt;&gt;&gt; parse(<span class="pystring">"1"</span>)
+(literal 1)
+&gt;&gt;&gt; parse(<span class="pystring">"+1"</span>)
+(+ (literal 1))
+&gt;&gt;&gt; parse(<span class="pystring">"1+2"</span>)
+(+ (literal 1) (literal 2))
+&gt;&gt;&gt; parse(<span class="pystring">"1+2+3"</span>)
+(+ (+ (literal 1) (literal 2)) (literal 3))
+&gt;&gt;&gt; parse(<span class="pystring">"1+2*3"</span>)
+(+ (literal 1) (* (literal 2) (literal 3)))
+&gt;&gt;&gt; parse(<span class="pystring">"1*2+3"</span>)
+(+ (* (literal 1) (literal 2)) (literal 3))</pre><h2 id="parsing-python-expressions">Parsing Python Expressions&#160;<a class="nav" href="#parsing-python-expressions" title="bookmark!">#</a></h2><p>To get a somewhat larger example, let&#8217;s tweak the parser so it can parse a subset of the Python expression syntax, similar to the syntax shown in the grammar snippet at the start of this article.</p><p>To do this, we first need a fancier tokenizer.  The obvious choice is to build on Python&#8217;s <strong>tokenize</strong> module:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide"><span class="pykeyword">def</span> <span class="pyfunction">tokenize_python</span>(program):
+    <span class="pykeyword">import</span> tokenize
+    <span class="pykeyword">from</span> cStringIO <span class="pykeyword">import</span> StringIO
+    type_map = {
+        tokenize.NUMBER: <span class="pystring">"(literal)"</span>,
+        tokenize.STRING: <span class="pystring">"(literal)"</span>,
+        tokenize.OP: <span class="pystring">"(operator)"</span>,
+        tokenize.NAME: <span class="pystring">"(name)"</span>,
+        }
+    <span class="pykeyword">for</span> t <span class="pykeyword">in</span> tokenize.generate_tokens(StringIO(program).next):
+        <span class="pykeyword">try</span>:
+            <span class="pykeyword">yield</span> type_map[t[0]], t[1]
+        <span class="pykeyword">except</span> KeyError:
+            <span class="pykeyword">if</span> t[0] == tokenize.ENDMARKER:
+                <span class="pykeyword">break</span>
+            <span class="pykeyword">else</span>:
+                <span class="pykeyword">raise</span> SyntaxError(<span class="pystring">"Syntax error"</span>)
+    <span class="pykeyword">yield</span> <span class="pystring">"(end)"</span>, <span class="pystring">"(end)"</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">tokenize</span>(program):
+    <span class="pykeyword">for</span> id, value <span class="pykeyword">in</span> tokenize_python(program):
+        <span class="pykeyword">if</span> id == <span class="pystring">"(literal)"</span>:
+            symbol = symbol_table[id]
+            s = symbol()
+            s.value = value
+        <span class="pykeyword">else</span>:
+            <span class="pycomment"># name or operator</span>
+            symbol = symbol_table.get(value)
+            <span class="pykeyword">if</span> symbol:
+                s = symbol()
+            <span class="pykeyword">elif</span> id == <span class="pystring">"(name)"</span>:
+                symbol = symbol_table[id]
+                s = symbol()
+                s.value = value
+            <span class="pykeyword">else</span>:
+                <span class="pykeyword">raise</span> SyntaxError(<span class="pystring">"Unknown operator (%r)"</span> % id)
+        <span class="pykeyword">yield</span> s</pre></div><div class="yui-ge"><div class="yui-u first"><p>This tokenizer is split into two parts; one language-specific parser that turns the source program into a stream of literals, names, and operators, and a second part that turns those into a token instances.  The latter checks both operators and names against the symbol table (to handle keyword operators), and uses a psuedo-symbol (&#8220;(name)&#8221;) for all other names.</p><p>You could combine the two tasks into a single function, but the separation makes it a bit easier to test the parser, and also makes it possible to reuse the second part for other syntaxes.</p><p>We can test the new tokenizer with the old parser definition:</p><pre><code>&gt;&gt;&gt; parse("1+2")
+(+ (literal 1) (literal 2))
+&gt;&gt;&gt; parse(1+2+3")
+(+ (+ (literal 1) (literal 2)) (literal 3))
+&gt;&gt;&gt; parse(1+2*3")
+(+ (literal 1) (* (literal 2) (literal 3)))
+&gt;&gt;&gt; parse(1.0*2+3")
+(+ (* (literal 1.0) (literal 2)) (literal 3))
+&gt;&gt;&gt; parse("'hello'+'world'")
+(+ (literal 'hello') (literal 'world'))
+</code></pre><p>The new tokenizer supports more literals, so our parser does that too, without any extra work.  And we&#8217;re still using the 10-line <strong>expression</strong> implementation we introduced at the beginning of this article.</p><h3 id="the-python-expression-grammar">The Python Expression Grammar&#160;<a class="nav" href="#the-python-expression-grammar" title="bookmark!">#</a></h3><p>So, let&#8217;s do something about the grammar.  We could figure out the correct expression grammar from the grammar snippet shown earlier, but there&#8217;s a more practical description in the section &#8220;Evaluation order&#8221; in Python&#8217;s language reference.  The table in that section lists all expression operators in precedence order, from lowest to highest.  Here are the corresponding definitions (starting at binding power 20):</p><pre class="python">symbol(<span class="pystring">"lambda"</span>, 20)
+symbol(<span class="pystring">"if"</span>, 20) <span class="pycomment"># ternary form</span>
+
+infix_r(<span class="pystring">"or"</span>, 30); infix_r(<span class="pystring">"and"</span>, 40); prefix(<span class="pystring">"not"</span>, 50)
+
+infix(<span class="pystring">"in"</span>, 60); infix(<span class="pystring">"not"</span>, 60) <span class="pycomment"># in, not in</span>
+infix(<span class="pystring">"is"</span>, 60) <span class="pycomment"># is, is not</span>
+infix(<span class="pystring">"&lt;"</span>, 60); infix(<span class="pystring">"&lt;="</span>, 60)
+infix(<span class="pystring">"&gt;"</span>, 60); infix(<span class="pystring">"&gt;="</span>, 60)
+infix(<span class="pystring">"&lt;&gt;"</span>, 60); infix(<span class="pystring">"!="</span>, 60); infix(<span class="pystring">"=="</span>, 60)
+
+infix(<span class="pystring">"|"</span>, 70); infix(<span class="pystring">"^"</span>, 80); infix(<span class="pystring">"&amp;"</span>, 90)
+
+infix(<span class="pystring">"&lt;&lt;"</span>, 100); infix(<span class="pystring">"&gt;&gt;"</span>, 100)
+
+infix(<span class="pystring">"+"</span>, 110); infix(<span class="pystring">"-"</span>, 110)
+
+infix(<span class="pystring">"*"</span>, 120); infix(<span class="pystring">"/"</span>, 120); infix(<span class="pystring">"//"</span>, 120)
+infix(<span class="pystring">"%"</span>, 120)
+
+prefix(<span class="pystring">"-"</span>, 130); prefix(<span class="pystring">"+"</span>, 130); prefix(<span class="pystring">"~"</span>, 130)
+
+infix_r(<span class="pystring">"**"</span>, 140)
+
+symbol(<span class="pystring">"."</span>, 150); symbol(<span class="pystring">"["</span>, 150); symbol(<span class="pystring">"("</span>, 150)</pre><p>These 16 lines define the syntax for 35 operators, and also provide behaviour for most of them.</p><p>However, tokens defined by the <strong>symbol</strong> helper have no intrinsic behaviour; to make them work, additional code is needed.  There are also some intricacies caused by limitations in Python&#8217;s tokenizer; more about those later.</p><p>But before we start working on those symbols, we need to add behaviour to the pseudo-tokens too:</p><pre class="python">symbol(<span class="pystring">"(literal)"</span>).nud = <span class="pykeyword">lambda</span> self: self
+symbol(<span class="pystring">"(name)"</span>).nud = <span class="pykeyword">lambda</span> self: self
+symbol(<span class="pystring">"(end)"</span>)</pre><p>We can now do a quick sanity check:</p><pre class="python">&gt;&gt;&gt; parse(<span class="pystring">"1+2"</span>)
+(+ (literal 1) (literal 2))
+&gt;&gt;&gt; parse(<span class="pystring">"2&lt;&lt;3"</span>)
+(&lt;&lt; (literal 2) (literal 3))</pre><h3 id="parenthesized-expressions">Parenthesized Expressions&#160;<a class="nav" href="#parenthesized-expressions" title="bookmark!">#</a></h3><p>Let&#8217;s turn our focus to the remaining symbols, and start with something simple: parenthesized expressions.  They can be implemented by a &#8220;nud&#8221; method on the &#8220;(&#8221; token:</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">nud</span>(self):
+    expr = expression()
+    advance(<span class="pystring">")"</span>)
+    <span class="pykeyword">return</span> expr
+symbol(<span class="pystring">"("</span>).nud = nud</pre><p>The &#8220;advance&#8221; function used here is a helper function that checks that the current token has a given value, before fetching the next token.</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">advance</span>(id=None):
+    <span class="pykeyword">global</span> token
+    <span class="pykeyword">if</span> id <span class="pykeyword">and</span> token.id != id:
+        <span class="pykeyword">raise</span> SyntaxError(<span class="pystring">"Expected %r"</span> % id)
+    token = next()</pre><p>The &#8220;)&#8221; token must be registered; if not, the tokenizer will report it as an invalid token.  To register it, just call the symbol function:</p><pre class="python">symbol(<span class="pystring">")"</span>)</pre><p>Let&#8217;s try it out:</p><pre class="python">&gt;&gt;&gt; 1+2*3
+(+ (literal 1) (* (literal 2) (literal 3)))
+&gt;&gt;&gt; (1+2)*3
+(* (+ (literal 1) (literal 2)) (literal 3))</pre><p>Note that the &#8220;nud&#8221; method returns the inner expression, so the &#8220;(&#8221; node won&#8217;t appear in the resulting syntax tree.</p><p>Also note that we&#8217;re cheating here, for a moment: the &#8220;(&#8221; prefix has two meanings in Python; it can either be used for grouping, as above, or to create tuples.  We&#8217;ll fix this below.</p><h3 id="ternary-operators">Ternary Operators&#160;<a class="nav" href="#ternary-operators" title="bookmark!">#</a></h3><p>Most custom methods look more or less exactly like their recursive-descent counterparts, and the code for inline if-else is no different:</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+    self.first = left
+    self.second = expression()
+    advance(<span class="pystring">"else"</span>)
+    self.third = expression()
+    <span class="pykeyword">return</span> self
+symbol(<span class="pystring">"if"</span>).led = led</pre><p>Again, we need to register the extra token before we can try it out:</p><pre class="python">symbol(<span class="pystring">"else"</span>)
+
+&gt;&gt;&gt; parse(<span class="pystring">"1 if 2 else 3"</span>)
+(<span class="pykeyword">if</span> (literal 1) (literal 2) (literal 3))</pre><h3 id="attribute-and-item-lookups">Attribute and Item Lookups&#160;<a class="nav" href="#attribute-and-item-lookups" title="bookmark!">#</a></h3><p>To handle attribute lookups, the &#8220;.&#8221; operator needs a &#8220;led&#8221; method.  For convenience, this version verifies that the period is followed by a proper name token (this check could be made at a later stage as well):</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+    <span class="pykeyword">if</span> token.id != <span class="pystring">"(name)"</span>:
+        SyntaxError(<span class="pystring">"Expected an attribute name."</span>)
+    self.first = left
+    self.second = token
+    advance()
+    <span class="pykeyword">return</span> self
+symbol(<span class="pystring">"."</span>).led = led
+
+&gt;&gt;&gt; parse(<span class="pystring">"foo.bar"</span>)
+(. (name foo) (name bar))</pre><p>Item access is similar; just add a &#8220;led&#8221; method to the &#8220;[&#8221; operator.  And since &#8220;]&#8221; is part of the syntax, we need to register that symbol as well.</p><pre class="python"><code>symbol("]")
+
+def led(self, left):
+    self.first = left
+    self.second = expression()
+    advance("]")
+    return self
+symbol("[").led = led
+
+&gt;&gt;&gt; parse("'hello'[0]")
+([ (literal 'hello') (literal 0))
+</code></pre><p>Note that we&#8217;re ending up with lots of code of the form:</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+    ...
+symbol(id).led = led</pre><p>which is a bit inconvenient, if not else because it violates the &#8220;don&#8217;t repeat yourself&#8221; rule (the name of the method appears three times).  A simple decorator solves this:</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">method</span>(s):
+    <span class="pykeyword">assert</span> issubclass(s, symbol_base)
+    <span class="pykeyword">def</span> <span class="pyfunction">bind</span>(fn):
+        setattr(s, fn.__name__, fn)
+    <span class="pykeyword">return</span> bind</pre><p>This decorator picks up the function name, and attaches that to the given symbol.  This puts the symbol name before the method definition, and only requires you to write the method name once.</p><pre class="python">@<span class="pydecorator">method</span>(symbol(id))
+<span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+    ...</pre><p>We&#8217;ll use this in the following examples.  The other approach isn&#8217;t much longer, so you can still use it if you need to target Python 2.3 or older.  Just watch out for typos.</p><h3 id="function-calls">Function Calls&#160;<a class="nav" href="#function-calls" title="bookmark!">#</a></h3><p>A function call consists of an expression followed by a comma-separated expression list, in parentheses.  By treating the left parentesis as a binary operator, parsing this is straight-forward:</p><pre class="python"><code>symbol(")"); symbol(",")
+
+@method(symbol("("))
+def led(self, left):
+    self.first = left
+    self.second = []
+    if token.id != ")":
+        while 1:
+            self.second.append(expression())
+            if token.id != ",":
+                break
+            advance(",")
+    advance(")")
+    return self
+
+&gt;&gt;&gt; parse("hello(1,2,3)")
+(( (name hello) [(literal 1), (literal 2), (literal 3)])
+</code></pre><p>This is a bit simplified; keyword arguments and the &#8220;*&#8221; and &#8220;**&#8221; forms are not supported by this version.  To handle keyword arguments, look for an &#8220;=&#8221; after the first expression, and if that&#8217;s found, check that the subtree is a plain name, and then call expression again to get the default value.  The other forms could be handled by &#8220;nud&#8221; methods on the corresponding operators, but it&#8217;s probably easier to handle these too in this method.</p><h3 id="lambdas">Lambdas&#160;<a class="nav" href="#lambdas" title="bookmark!">#</a></h3><p>Lambdas are also quite simple.  Since the &#8220;lambda&#8221; keyword is a prefix operator, we&#8217;ll implement it using a &#8220;nud&#8221; method:</p><pre class="python">symbol(<span class="pystring">":"</span>)
+
+@<span class="pydecorator">method</span>(symbol(<span class="pystring">"lambda"</span>))
+<span class="pykeyword">def</span> <span class="pyfunction">nud</span>(self):
+    self.first = []
+    <span class="pykeyword">if</span> token.id != <span class="pystring">":"</span>:
+        argument_list(self.first)
+    advance(<span class="pystring">":"</span>)
+    self.second = expression()
+    <span class="pykeyword">return</span> self
+
+<span class="pykeyword">def</span> <span class="pyfunction">argument_list</span>(list):
+    <span class="pykeyword">while</span> 1:
+        <span class="pykeyword">if</span> token.id != <span class="pystring">"(name)"</span>:
+            SyntaxError(<span class="pystring">"Expected an argument name."</span>)
+        list.append(token)
+        advance()
+        <span class="pykeyword">if</span> token.id != <span class="pystring">","</span>:
+            <span class="pykeyword">break</span>
+        advance(<span class="pystring">","</span>)
+
+&gt;&gt;&gt; parse(<span class="pystring">"lambda a, b, c: a+b+c"</span>)
+(<span class="pykeyword">lambda</span> [(name a), (name b), (name c)]
+    (+ (+ (name a) (name b)) (name c)))</pre><p>Again, the argument list parsing is a bit simplified; it doesn&#8217;t handle default values and the &#8220;*&#8221; and &#8220;**&#8221; forms.  See above for implementation hints.  Also note that there&#8217;s no scope handling at the parser level in this implementation.  See Crockford&#8217;s article for more on that topic.</p><h3 id="constants">Constants&#160;<a class="nav" href="#constants" title="bookmark!">#</a></h3><p>Constants can be handled as literals; the following &#8220;nud&#8221; method changes the token instance to a literal node, and inserts the token itself as the literal value:</p><pre class="python"><span class="pykeyword">def</span> <span class="pyfunction">constant</span>(id):
+    @<span class="pydecorator">method</span>(symbol(id))
+    <span class="pykeyword">def</span> <span class="pyfunction">nud</span>(self):
+        self.id = <span class="pystring">"(literal)"</span>
+        self.value = id
+        <span class="pykeyword">return</span> self
+
+constant(<span class="pystring">"None"</span>)
+constant(<span class="pystring">"True"</span>)
+constant(<span class="pystring">"False"</span>)
+
+&gt;&gt;&gt; parse(<span class="pystring">"1 is None"</span>)
+(<span class="pykeyword">is</span> (literal 1) (literal None))
+&gt;&gt;&gt; parse(<span class="pystring">"True or False"</span>)
+(<span class="pykeyword">or</span> (literal True) (literal False))</pre><h3 id="multi-token-operators">Multi-Token Operators&#160;<a class="nav" href="#multi-token-operators" title="bookmark!">#</a></h3><p>Python has two multi-token operators, &#8220;is not&#8221; and &#8220;not in&#8221;, but our parser doesn&#8217;t quite treat them correctly:</p><pre class="python">&gt;&gt;&gt; parse(<span class="pystring">"1 is not 2"</span>)
+(<span class="pykeyword">is</span> (literal 1) (<span class="pykeyword">not</span> (literal 2)))</pre><p>The problem is that the standard <strong>tokenize</strong> module doesn&#8217;t understand this syntax, so it happily returns these operators as two separate tokens:</p><pre class="python">&gt;&gt;&gt; list(tokenize(<span class="pystring">"1 is not 2"</span>))
+[(literal 1), (<span class="pykeyword">is</span>), (<span class="pykeyword">not</span>), (literal 2), ((end))]</pre><p>In other words, &#8220;1 is not 2&#8221; is handled as &#8220;1 is (not 2)&#8221;, which isn&#8217;t the same thing:</p><pre class="python">&gt;&gt;&gt; 1 <span class="pykeyword">is</span> <span class="pykeyword">not</span> 2
+True
+&gt;&gt;&gt; 1 <span class="pykeyword">is</span> (<span class="pykeyword">not</span> 2)
+False</pre><p>One way to fix this is to tweak the tokenizer (e.g. by inserting a combining filter between the raw Python parser and the token instance factory), but it&#8217;s probably easier to fix this with custom &#8220;led&#8221; methods on the &#8220;is&#8221; and &#8220;not&#8221; operators:</p><pre class="python">@<span class="pydecorator">method</span>(symbol(<span class="pystring">"not"</span>))
+<span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+    <span class="pykeyword">if</span> token.id != <span class="pystring">"in"</span>:
+        <span class="pykeyword">raise</span> SyntaxError(<span class="pystring">"Invalid syntax"</span>)
+    advance()
+    self.id = <span class="pystring">"not in"</span>
+    self.first = left
+    self.second = expression(60)
+    <span class="pykeyword">return</span> self
+
+@<span class="pydecorator">method</span>(symbol(<span class="pystring">"is"</span>))
+<span class="pykeyword">def</span> <span class="pyfunction">led</span>(self, left):
+    <span class="pykeyword">if</span> token.id == <span class="pystring">"not"</span>:
+        advance()
+        self.id = <span class="pystring">"is not"</span>
+    self.first = left
+    self.second = expression(60)
+    <span class="pykeyword">return</span> self
+
+&gt;&gt;&gt; parse(<span class="pystring">"1 in 2"</span>)
+(<span class="pykeyword">in</span> (literal 1) (literal 2))
+&gt;&gt;&gt; parse(<span class="pystring">"1 not in 2"</span>)
+(<span class="pykeyword">not</span> <span class="pykeyword">in</span> (literal 1) (literal 2))
+&gt;&gt;&gt; parse(<span class="pystring">"1 is 2"</span>)
+(<span class="pykeyword">is</span> (literal 1) (literal 2))
+&gt;&gt;&gt; parse(<span class="pystring">"1 is not 2"</span>)
+(<span class="pykeyword">is</span> <span class="pykeyword">not</span> (literal 1) (literal 2))</pre><p>This means that the &#8220;not&#8221; operator handles both unary &#8220;not&#8221; and binary &#8220;not in&#8221;.</p><h3 id="tuples-lists-and-dictionary-displays">Tuples, Lists, and Dictionary Displays&#160;<a class="nav" href="#tuples-lists-and-dictionary-displays" title="bookmark!">#</a></h3><p>As noted above, the &#8220;(&#8221; prefix serves two purposes in Python; it&#8217;s used for grouping, and to create tuples (it&#8217;s also used as a binary operator, for function calls).  To handle tuples, we need to replace the &#8220;nud&#8221; method with a version that can distinguish between tuples and a plain parenthesized expression.</p><p>Python&#8217;s tuple-forming rules are simple; if a pair of parenteses are empty, or contain at least one comma, it&#8217;s a tuple.  Otherwise, it&#8217;s an expression.  Or in other words:</p><ul><li>() is a tuple</li><li>(1) is a parenthesized expression</li><li>(1,) is a tuple</li><li>(1, 2) is a tuple</li></ul><p>Here&#8217;s a &#8220;nud&#8221; replacement that implements these rules:</p><pre class="python"><code>@method(symbol("("))
+def nud(self):
+    self.first = []
+    comma = False
+    if token.id != ")":
+        while 1:
+            if token.id == ")":
+                break
+            self.first.append(expression())
+            if token.id != ",":
+                break
+            comma = True
+            advance(",")
+    advance(")")
+    if not self.first or comma:
+        return self # tuple
+    else:
+        return self.first[0]
+
+&gt;&gt;&gt; parse("()")
+(()
+&gt;&gt;&gt; parse("(1)")
+(literal 1)
+&gt;&gt;&gt; parse("(1,)")
+(( [(literal 1)])
+&gt;&gt;&gt; parse("(1, 2)")
+(( [(literal 1), (literal 2)])
+</code></pre><p>Lists and dictionaries are a bit simpler; they&#8217;re just plain lists of expressions or expression pairs.  Don&#8217;t forget to register the extra tokens.</p><pre class="python"><code>symbol("]")
+
+@method(symbol("["))
+def nud(self):
+    self.first = []
+    if token.id != "]":
+        while 1:
+            if token.id == "]":
+                break
+            self.first.append(expression())
+            if token.id != ",":
+                break
+            advance(",")
+    advance("]")
+    return self
+
+&gt;&gt;&gt; parse("[1, 2, 3]")
+([ [(literal 1), (literal 2), (literal 3)])
+
+symbol("}"); symbol(":")
+
+@method(symbol("{"))
+def nud(self):
+    self.first = []
+    if token.id != "}":
+        while 1:
+            if token.id == "}":
+                break
+            self.first.append(expression())
+            advance(":")
+            self.first.append(expression())
+            if token.id != ",":
+                break
+            advance(",")
+    advance("}")
+    return self
+
+&gt;&gt;&gt; {1: 'one', 2: 'two'}
+({ [(literal 1), (literal 'one'),
+    (literal 2), (literal 'two')])
+</code></pre><p>Note that Python allows you to use optional trailing commas when creating lists, tuples, and dictionaries; an extra if-statement at the beginning of the collection loop takes care of that case.</p><h2 id="summary">Summary&#160;<a class="nav" href="#summary" title="bookmark!">#</a></h2><p>At roughly 250 lines of code (including the entire parser machinery), there are still a few things left to add before we can claim to fully support the Python 2.5 expression syntax, but we&#8217;ve covered a remarkably large part of the syntax with very little work.</p><p>And as we&#8217;ve seen thoughout this article, parsers using this algorithm and implementation approach are readable, easy to extend, and, as we&#8217;ll see in a moment, surprisingly fast.  While this article has focussed on expressions, the algorithm can be easily extended for statement-oriented syntaxes.  See Crockford&#8217;s article for one way to do that.</p><p>All in all, Pratt&#8217;s parsing algorithm is a great addition to the Python parsing toolbox, and the implementation strategy outlined in this article is a simple way to quickly implement such parsers.</p><h2 id="performance">Performance&#160;<a class="nav" href="#performance" title="bookmark!">#</a></h2><p>As we&#8217;ve seen, the parser makes only a few Python calls per token, which means that it should be pretty efficient (or as Pratt put it, &#8220;efficient in practice if not in theory&#8221;).</p><p>To test practical performance, I picked a 456 character long Python expression (about 300 tokens) from the Python FAQ, and parsed it with a number of different tools.  Here are some typical results under Python 2.5:</p><ul><li>topdown parse (to abstract syntax tree): 4.0 ms</li><li>built-in parse (to tuple tree): 0.60 ms</li><li>built-in compile (to code object): 0.68 ms</li><li>compiler parse (to abtract syntax tree): 4.8 ms</li><li>compiler compile (to code object): 18 ms</li></ul><p>If we tweak the parser to work on a precomputed list of tokens (obtained by running &#8220;list(tokenize_python(program))&#8221;), the parsing time drops to just under 0.9 ms.  In other words, only about one fourth of the time for the full parse is spent on token instance creation, parsing, and tree building.  The rest is almost entirely spent in Python&#8217;s <strong>tokenize</strong> module.  With a faster tokenizer, this algorithm would get within 2x or so from Python&#8217;s built-in tokenizer/parser.</p><p>The built-in parse test is in itself quite interesting; it uses Python&#8217;s internal tokenizer and parser module (both of which are written in C), and uses the <strong>parser</strong> module (also written in C) to convert the internal syntax tree object to a tuple tree.  This is fast, but results in a remarkably undecipherable low-level tree:</p><pre class="python">&gt;&gt;&gt; parser.st2tuple(parser.expr(<span class="pystring">"1+2"</span>))
+(258, (326, (303, (304, (305, (306, (307, (309,
+(310, (311, (312, (313, (314, (315, (316, (317,
+(2, <span class="pystring">'1'</span>))))), (14, <span class="pystring">'+'</span>), (314, (315, (316, (317,
+(2, <span class="pystring">'2'</span>)))))))))))))))), (4, <span class="pystring">''</span>), (0, <span class="pystring">''</span>))</pre><p>(In this example, 2 means number, 14 means plus, 4 is newline, and 0 is end of program.  The 3-digit numbers represent intermediate rules in the Python grammar.)</p><p>The compiler parse test uses the parse function from the <strong>compiler</strong> package instead; this function uses Python&#8217;s internal tokenizer and parser, and then turns the resulting low-level structure into a much nicer abstract tree:</p><pre class="python">&gt;&gt;&gt; <span class="pykeyword">import</span> compiler
+&gt;&gt;&gt; compiler.parse(<span class="pystring">"1+2"</span>, <span class="pystring">"eval"</span>)
+Expression(Add((Const(1), Const(2))))</pre><p>This conversion (done in Python) turns out to be more work than parsing the expression with the topdown parser; with the code in this article, we get an abstract tree in about 85% of the time, despite using a really slow tokenizer.</p><h2 id="code-notes">Code Notes&#160;<a class="nav" href="#code-notes" title="bookmark!">#</a></h2><p>The code in this article uses global variables to hold parser state (the &#8220;token&#8221; variable and the &#8220;next&#8221; helper).  If you need a thread-safe parser, these should be moved to a context object.  This will result in a slight performance hit, but there are some surprising ways to compensate for that, by trading a little memory for performance.  More on that in a later article.</p><p>All code for the interpreters and translators shown in this
+article is included in the article itself.  Assorted code samples are also available from:</p><blockquote><p><a href="http://svn.effbot.org/public/stuff/sandbox/topdown">http://svn.effbot.org/public/stuff/sandbox/topdown</a></p></blockquote></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#introducing-the-algorithm">Introducing The Algorithm</a></li><li><ul><li><a href="#extending-the-parser">Extending the Parser</a></li></ul></li><li><a href="#building-parse-trees">Building Parse Trees</a></li><li><a href="#streamlining-token-class-generation">Streamlining Token Class Generation</a></li><li><a href="#parsing-python-expressions">Parsing Python Expressions</a></li><li><ul><li><a href="#the-python-expression-grammar">The Python Expression Grammar</a></li><li><a href="#parenthesized-expressions">Parenthesized Expressions</a></li><li><a href="#ternary-operators">Ternary Operators</a></li><li><a href="#attribute-and-item-lookups">Attribute and Item Lookups</a></li><li><a href="#function-calls">Function Calls</a></li><li><a href="#lambdas">Lambdas</a></li><li><a href="#constants">Constants</a></li><li><a href="#multi-token-operators">Multi-Token Operators</a></li><li><a href="#tuples-lists-and-dictionary-displays">Tuples, Lists, and Dictionary Displays</a></li></ul></li><li><a href="#summary">Summary</a></li><li><a href="#performance">Performance</a></li><li><a href="#code-notes">Code Notes</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

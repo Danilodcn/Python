@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The Standard Python Library: New Modules in Python&nbsp;2.2</title></head><body data-page-id="163"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The Standard Python Library: New Modules in Python&nbsp;2.2</h1></div><div class="yui-ge"><div class="yui-u first"><p>
+[<a href="librarybook-index.htm">book home</a>]
+[<a href="librarybook-py21.htm">python 2.1</a>]
+[python 2.2]
+[<a href="librarybook-py23.htm">python 2.3</a>]
+[<a href="librarybook-py24.htm">python 2.4</a>]
+[<a href="librarybook-py25.htm">python 2.5</a>]
+</p><div class="zone:include"><p><img alt="" height="105" src="data:image/jpeg;base64, /9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCABpAFADASIA AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3 ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3 uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3CfSr DUdPW2u7SKaFgpKMvBx0rO/4Qfwz/wBAW1/75rdi/wBQn+6P5V5j46+M+n+F7lrHTrYaherw3zYR T6ccmgDrJPA2gFj5ek2Krt4BiJOfXOf0ph8C6PjA0zTc+ptj/wDFV5U3xr8SX2mM0VhY2s7SFBtD EgAfMfmPatj4d+ONYF/ZQa1dS31lqJ8pLtlOI58nCg45B6cd8UAd2fAmjlgRp2nAdx9nPr2+b6U8 +BtFKkf2Xp2T3EBGP/Hq6eigDl28C6MXyum6eF4ODbn/ABp6+BtA3gvpViVx8yrCRn9eK6WigDn/ APhB/DP/AEBbX/vmtG00fTtMs3t7Kzhhi5baq8ZIq/TZP9W30NAGbrMssHhm8lhbbItsxU+nFfIN 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 bPqRSU2T/Vv9DQB//9k= " style="border: 1px solid black;" width="80" /></p></div></div><div class="yui-u">&#160;</div></div><div class="yui-g"><dl class="wide"><dt><b>cgitb</b></dt><dd><p>CGI wrapper.  This module traps exceptions in the CGI script,
+and generates extended traceback messages in HTML.</p><pre class="python wide">
+<span class="pykeyword">import</span> cgitb, cgi
+cgitb.enable()</pre></dd>
+<dt><b>compiler (package)</b></dt><dd><p>The compiler package is a implementation of CPython&#8217;s compiler
+in 100% Python.  The compiler package reads Python source code, and
+builds an object structure representing the abstract syntax
+tree.  This structure can be manipulated, and compiled into CPython
+byte code.</p></dd>
+<dt><b>compiler.ast</b></dt><dt><b>compiler.consts</b></dt><dt><b>compiler.future</b></dt><dt><b>compiler.misc</b></dt><dt><b>compiler.pyassem</b></dt><dt><b>compiler.pycodegen</b></dt><dt><b>compiler.symbols</b></dt><dt><b>compiler.syntax</b></dt><dt><b>compiler.transformer</b></dt><dt><b>compiler.visitor</b></dt><dd>&#160;</dd>
+<dt><b>email (package)</b></dt><dd><p>Tools for manipulation of all sorts of email messages.</p></dd>
+<dt><b>email.base64MIME</b></dt><dt><b>email.Charset</b></dt><dt><b>email.Encoders</b></dt><dt><b>email.Errors</b></dt><dt><b>email.Generator</b></dt><dt><b>email.Header</b></dt><dt><b>email.Iterators</b></dt><dt><b>email.Message</b></dt><dt><b>email.MIMEAudio</b></dt><dt><b>email.MIMEBase</b></dt><dt><b>email.MIMEImage</b></dt><dt><b>email.MIMEMessage</b></dt><dt><b>email.MIMEMultipart</b></dt><dt><b>email.MIMENonMultipart</b></dt><dt><b>email.MIMEText</b></dt><dt><b>email.Parser</b></dt><dt><b>email.quopriMIME</b></dt><dt><b>email.Utils</b></dt><dd>&#160;</dd>
+<dt><b>encodings.base64_codec</b></dt><dd><p>BASE64 codec.  Let&#8217;s you use the <b>encode</b> and <b>decode</b>
+string methods, instead of importing the <b>base64</b> module.</p><pre class="python wide">
+encoded_data = data.encode(<span class="pystring">"base64"</span>)
+decoded_data = encoded_data.decode(<span class="pystring">"base64"</span>)</pre></dd>
+<dt><b>encodings.cp1140</b></dt><dd><p>CP 1140 (EBCDIC 8-bot Western Europe, with Euro sign) codec.
+This codec is used to convert to and from Unicode strings.</p></dd>
+<dt><b>encodings.hex_codec</b></dt><dd><p>HEX codec.</p><pre class="python wide">
+encoded_data = data.encode(<span class="pystring">"hex"</span>)
+decoded_data = encoded_data.decode(<span class="pystring">"hex"</span>)</pre></dd>
+<dt><b>encodings.quopri_codec</b></dt><dd><p>Quoted printable codec.</p><pre class="python wide">
+encoded_data = data.encode(<span class="pystring">"quopri"</span>)
+decoded_data = encoded_data.decode(<span class="pystring">"quopri"</span>)</pre></dd>
+<dt><b>encodings.rot_13</b></dt><dd><p>ROT-13 codec.</p></dd>
+<dt><b>encodings.utf_7</b></dt><dd><p>UTF-7 codec for Unicode.</p></dd>
+<dt><b>encodings.uu_codec</b></dt><dd><p>UU codec.</p><pre class="python wide">
+encoded_data = data.encode(<span class="pystring">"uu"</span>)
+decoded_data = encoded_data.decode(<span class="pystring">"uu"</span>)</pre></dd>
+<dt><b>encodings.zlib_codec</b></dt><dd><p>ZIP codec.  Let&#8217;s you use the <b>encode</b> and <b>decode</b>
+string methods to compress and decompress data, instead of importing
+the <b>zlib</b> module (but note that the module lets you set more
+parameters, especially when compressing data).</p><pre class="python wide">
+compressed_data = data.encode(<span class="pystring">"zlib"</span>)
+decompressed_data = compressed_data.decode(<span class="pystring">"zlib"</span>)</pre></dd>
+<dt><b>hmac</b></dt><dd><p>Calculate HMAC signatures (Keyed-Hashing for Message
+Authentication, RFC 2104)</p><pre class="python wide">
+<span class="pykeyword">import</span> hmac
+h = hmac.new(key, text)
+h.update(moretext)
+<span class="pykeyword">print</span> h.hexdigest()</pre></dd>
+<dt><b>hotshot (package)</b></dt><dd><p>Tools to measure where a Python program spends must of its time
+(profiling).</p></dd>
+<dt><b>hotshot.log</b></dt><dt><b>hotshot.stats</b></dt><dd>&#160;</dd>
+<dt><b>HTMLParser</b></dt><dd><p>An improved HTML parser.  Can be used to replace
+<b>sgmllib</b>, in many cases.</p></dd>
+<dt><b>markupbase</b></dt><dd><p>Common support code for <b>HTMLParser</b> and
+<b>sgmllib</b>.</p></dd>
+<dt><b>SimpleXMLRPCServer</b></dt><dd><p>Tools to build XML-RPC servers.  Also see
+<b>xmlrpclib</b>.</p></dd>
+<dt><b>this</b></dt><dd><pre class="python wide"><span class="pykeyword">import</span> this <span class="pycomment"># enough said</span></pre></dd>
+<dt><b>xmlrpclib</b></dt><dd><p>XML-RPC client library.  Also contains tools to marshal and
+unmarshal XML-RPC requests.</p><pre class="python wide">
+<span class="pykeyword">import</span> xmlrpclib
+server = xmlrpclib.ServerProxy(<span class="pystring">"http://effbot.org/rpc/echo.cgi"</span>)
+result = server.method(<span class="pystring">"hello"</span>)</pre></dd>
+</dl></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

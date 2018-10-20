@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>A Simple YENC Decoder&nbsp;Module</title></head><body data-page-id="382"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">A Simple YENC Decoder&nbsp;Module</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">April 2, 2002 | Fredrik Lundh</p><p class="note"><b>Note:</b>
+The code below is a yEnc decoder module for the
+<a href="http://www.python.org">Python</a> programming language.
+If you&#8217;re looking for something that you can use right away,
+chances are that you will found what you&#8217;re looking for
+<a href="http://www.yenc32.com/">here</a> or
+<a href="http://www.yenc.org/">here</a>, or via one of the
+links to the left.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Decode a YENC-encoded message (Python 1.5.2 and later)</b>
+<pre class="python wide">
+<span class="pykeyword">import</span> string
+
+yenc42 = string.join(map(<span class="pykeyword">lambda</span> x: chr((x-42) &amp; 255), range(256)), <span class="pystring">""</span>)
+yenc64 = string.join(map(<span class="pykeyword">lambda</span> x: chr((x-64) &amp; 255), range(256)), <span class="pystring">""</span>)
+
+<span class="pycomment">##</span>
+<span class="pycomment"># Decode a YENC-encoded message into a list of string fragments.</span>
+<span class="pycomment"># Returns None if no YENC body was found.</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">yenc_decode</span>(file):
+    <span class="pycomment"># find body</span>
+    <span class="pykeyword">while</span> 1:
+        line = file.readline()
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> line:
+            <span class="pykeyword">return</span> None
+        <span class="pykeyword">if</span> line[:7] == <span class="pystring">"=ybegin"</span>:
+            <span class="pykeyword">break</span>
+    <span class="pycomment"># extract data</span>
+    buffer = []
+    <span class="pykeyword">while</span> 1:
+        line = file.readline()
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> line <span class="pykeyword">or</span> line[:5] == <span class="pystring">"=yend"</span>:
+            <span class="pykeyword">break</span>
+        <span class="pykeyword">if</span> line[-2:] == <span class="pystring">"\r\n"</span>:
+            line = line[:-2]
+        <span class="pykeyword">elif</span> line[-1:] <span class="pykeyword">in</span> <span class="pystring">"\r\n"</span>:
+            line = line[:-1]
+        data = string.split(line, <span class="pystring">"="</span>)
+        buffer.append(string.translate(data[0], yenc42))
+        <span class="pykeyword">for</span> data <span class="pykeyword">in</span> data[1:]:
+            data = string.translate(data, yenc42)
+            buffer.append(string.translate(data[0], yenc64))
+            buffer.append(data[1:])
+    <span class="pykeyword">return</span> buffer</pre></div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

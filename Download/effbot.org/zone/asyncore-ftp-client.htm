@@ -1,0 +1,475 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Building An Asynchronous FTP&nbsp;Client</title></head><body data-page-id="8"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Building An Asynchronous FTP&nbsp;Client</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">October 17, 2002 | Fredrik Lundh</p><p>This article describes how to use Python&#8217;s standard <b>asynchat</b>
+and <b>asyncore</b> modules to implement an asynchronous FTP client.
+In the first part, we&#8217;ll look at the FTP protocol itself, and how to
+use the <b>asynchat</b> library to talk to an FTP server.</p><p>Contents:</p><ul><li>Part #1: <a href="#part1">Reading Directory Listings</a></li><li>Part #2: Transferring Files</li></ul></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">The scripts and modules used in this article are available from <a href="http://svn.effbot.org/public/stuff/zone/asyncore-ftp">the
+effbot.org subversion repository</a>:
+
+<pre class="wide">
+$ svn co http://svn.effbot.python-hosting.com/stuff/zone/asyncore-ftp
+</pre><h1 id="part1">Part #1: Reading Directory Listings&#160;<a class="nav" href="#part1" title="bookmark!">#</a></h1><h2 id="the-file-transfer-protocol">The File Transfer Protocol&#160;<a class="nav" href="#the-file-transfer-protocol" title="bookmark!">#</a></h2></p></div><div class="yui-ge"><div class="yui-u first"><p>The <b>File Transfer Protocol</b> (FTP) has been around for ages;
+<a href="http://www.faqs.org/rfcs/rfc354.html">it&#8217;s even older than
+the Internet</a>.  Despite its age, FTP is still commonly used to
+download data from remote servers, and it&#8217;s by far the most common
+protocol for uploading data to servers.</p><p>Unlike <a href="asyncore-http-client.htm">HTTP</a>, the FTP is
+a &#8220;chat-style&#8221; protocol.  The client sends a command, waits for a
+response, sends another command, reads the response, etc.  A typical
+interchange might look something like (C=client, S=server):</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+C: <i>connects</i>
+S: 220 FTP server ready.
+C: <b>USER mulder</b>
+S: 331 Password required for mulder
+C: <b>PASS trustno1</b>
+S: 230 User mulder logged in.
+C: <b>PASV</b>
+S: 227 Entering Passive Mode (195,100,36,198,219,28)
+C: <b>RETR sculley.zip</b>
+S: 150 Opening BINARY mode data connection for sculley.zip (271165 bytes).
+S: 226 Transfer complete.
+C: <b>PASV</b>
+S: 227 Entering Passive Mode (195,100,36,198,219,29)
+C: <b>LIST</b>
+S: 150 Opening ASCII mode data connection for directory listing.
+S: 226 Transfer complete.
+C: <b>QUIT</b>
+S: 221-You have transferred 271165 bytes in 1 files.
+S: 221-Total traffic for this session was 271859 bytes in 1 transfers.
+S: 221 Thank you for using the FTP service on server.example.com.
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>The client lines all consists of a command name (e.g. <b>USER</b>)
+followed by an optional argument.  The server response lines consist
+of a 3-digit code, followed by either a space or a dash (-), followed
+by a text message.  The lines using a dash are belong to a multi-line
+response; the client should keep reading response lines until it gets
+a line without the dash.</p><p>Lines are separated by CR and LF (chr(10)+chr(13)), but some
+clients and servers use only LF (chr(10)).</p><h3>Common FTP Commands</h3><p>The above example uses the following FTP commands:</p><p><b>USER</b>.  Provide user name.  The server should respond with
+<b>230</b> if the user is accepted as is, <b>530</b> if the login
+attempt was rejected, or <b>331</b> or <b>332</b> if the client must
+provide a password (using the <b>PASS</b> command).</p><p><b>PASS</b>.  Provide password.  The server should respond with
+<b>230</b> if the user is accepted, <b>530</b> if the login failed, or
+<b>332</b> if further login information is required (the details of
+which is outside the scope of this article).</p><p><b>PASV</b>.  Tell the server to prepare a data transfer channel.
+The server will return <b>227</b> and the response message will also
+contain six integers, separated by commas.  The numbers specify an IP
+address and a port number to which the client should connect to
+transfer the data.  The client should ignore the first four digits,
+and use the server address instead.  To get the port number, multiply
+the fifth integer by 256 and add the sixth integer.</p><p><b>RETR</b>.  Initialize a data transfer from the server to the
+client, using the port number specified by the <b>PASV</b> command.
+The client should connect to the data port <i>before</i> issuing this
+command.  When the transfer is initialized, the server will return a
+<b>150</b> response and start sending data over the transfer port.
+When the transfer is completed (whether all data was sent or not), the
+server follows up with a <b>226</b> response.</p><p><b>LIST</b>.  This is similar to <b>RETR</b>, but it returns a
+directory listing for the current directory.  As with <b>RETR</b>, you
+must use <b>PASV</b> to prepare the data channel before issuing this
+command.</p><p><b>QUIT</b>.  Shutdown the connection.  The server usually returns
+a multiline summary message.  If you&#8217;re not interested in the message,
+you can just shut down the socket connection.</p><p>For more information on the FTP protocol, see Dan Bernstein&#8217;s <a href="http://cr.yp.to/ftp.html">extensive FTP protocol reference</a>,
+which is written with an emphasis on how FTP works in practice.</p><h2 id="introducing-the-asynchat-module">Introducing the asynchat Module&#160;<a class="nav" href="#introducing-the-asynchat-module" title="bookmark!">#</a></h2><p>The <b>asyncore</b> library comes with a support module for
+chat-style protocols, called <b>asynchat</b>.  This module provides a
+<b>asyncore.dispatcher</b> subclass called <b>async_chat</b>, which
+adds an input parser and output buffering to the basic dispatcher.</p><p>The input parser feeds data to the <b>collect_incoming_data</b>
+method.  When the parser sees a predefined <b>terminator string</b>,
+it calls the <b>found_terminator</b> method.  The following example
+prints incoming lines to standard output, one line at a time:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">channel</span>(asynchat.async_chat):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self):
+        asynchat.async_chat.__init__(self)
+        self.buffer = <span class="pystring">""</span>
+        self.set_terminator(<span class="pystring">"\r\n"</span>)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">collect_incoming_data</span>(self, data):
+        self.buffer = self.buffer + data
+
+    <span class="pykeyword">def</span> <span class="pyfunction">found_terminator</span>(self):
+        <span class="pykeyword">print</span> <span class="pystring">"got"</span>, self.buffer
+        self.buffer = <span class="pystring">""</span></pre><p>The <b>async_chat</b> class also provides output buffering, via the
+<b>push</b> method:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">channel</span>(asynchat.async_chat):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">found_terminator</span>(self):
+        <span class="pycomment"># echo string back to sender</span>
+        self.push(<span class="pystring">"echo %s\n"</span> % self.buffer)
+        self.buffer = <span class="pystring">""</span></pre><p>There&#8217;s also a <b>push_with_producer</b> method that takes a
+<b>producer object</b>, which can be used to generate data on the fly.
+Producer objects are outside the scope of this article.</p><p>The <b>push</b> and <b>push_with_producer</b> methods add data to
+an output queue, and the framework automatically sends data whenever
+the receiving end is ready.</p><h3>Using asynchat for FTP</h3><p>But let&#8217;s get back to the topic for this article: doing
+asynchronous FTP.</p><p>The FTP server expects the client to read a response, send a
+command, read the next response, etc.  The <b>found_terminator</b>
+method is where you end up after each response, so it makes a certain
+sense to put the protocol logic in that method.  Here&#8217;s a first
+attempt:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Example: talking to an FTP server</b>
+<pre class="python wide">
+<span class="pykeyword">import</span> asyncore, asynchat
+<span class="pykeyword">import</span> re, socket
+
+<span class="pykeyword">class</span> <span class="pyclass">anon_ftp</span>(asynchat.async_chat):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, host):
+        asynchat.async_chat.__init__(self)
+
+        self.commands = [
+            <span class="pystring">"USER anonymous"</span>,
+            <span class="pystring">"PASS anonymous@"</span>,
+            <span class="pystring">"PWD"</span>,
+            <span class="pystring">"QUIT"</span>
+            ]
+
+        self.set_terminator(<span class="pystring">"\n"</span>)
+
+        self.data = <span class="pystring">""</span>
+
+        <span class="pycomment"># connect to ftp server</span>
+        self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.connect((host, 21))
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_connect</span>(self):
+        <span class="pycomment"># connection succeeded</span>
+        <span class="pykeyword">pass</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_expt</span>(self):
+        <span class="pycomment"># connection failed</span>
+        self.close()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">collect_incoming_data</span>(self, data):
+        <span class="pycomment"># received a chunk of incoming data</span>
+        self.data = self.data + data
+
+    <span class="pykeyword">def</span> <span class="pyfunction">found_terminator</span>(self):
+        <span class="pycomment"># got a response line</span>
+        data = self.data
+        <span class="pykeyword">if</span> data.endswith(<span class="pystring">"\r"</span>):
+            data = data[:-1]
+        self.data = <span class="pystring">""</span>
+
+        <span class="pykeyword">print</span> <span class="pystring">"S:"</span>, data
+
+        <span class="pykeyword">if</span> re.match(<span class="pystring">"\d\d\d "</span>, data):
+            <span class="pycomment"># this was the last line in this response</span>
+            <span class="pycomment"># send the next command to the server</span>
+            <span class="pykeyword">try</span>:
+                command = self.commands.pop(0)
+            <span class="pykeyword">except</span> IndexError:
+                <span class="pykeyword">pass</span> <span class="pycomment"># no more commands</span>
+            <span class="pykeyword">else</span>:
+                <span class="pykeyword">print</span> <span class="pystring">"C:"</span>, command
+                self.push(command + <span class="pystring">"\r\n"</span>)
+
+anon_ftp(<span class="pystring">"ftp.python.org"</span>)
+
+asyncore.loop()</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>This class uses a predefined command list (in the <b>commands</b>
+attribute), which logs in to an FTP server as an <b>anonymous</b>
+user, fetches the name of the current directory using the <b>PWD</b>
+command, and finally logs off.</p><p>The <b>re.match</b> function uses a regular expression to look for
+a string that starts with three digits followed by a space; as we saw
+earlier, the server may send multiline responses, but only the last
+line in such a response may use a space as the fourth character.</p><p>If you run this script, it should print something like this:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+S: 220 ProFTPD 1.2.4 Server (ftp.python.org)
+C: USER anonymous
+S: 331 Anonymous login ok, send your complete email address as your password.
+C: PASS anonymous@
+S: 230 Anonymous access granted, restrictions apply.
+C: PWD
+S: 257 "/" is current directory.
+C: QUIT
+S: 221 Goodbye.
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>A problem here is of course that the client doesn&#8217;t really look at
+the server response; we&#8217;ll keep sending commands even if the server
+doesn&#8217;t allow us to log in.  And even if it&#8217;s not very common, an FTP
+server does not have to require a password.  If the <b>USER</b>
+command results in a <b>220</b> response code, the client shouldn&#8217;t
+send a <b>PASS</b> command.</p><p>In other words, you need to look at each response before you decide
+what to do next.  One way to do this is to add explicit tests to the
+<b>found_terminator</b> code; something like this could work:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+    last_command = None
+
+    <span class="pykeyword">def</span> <span class="pyfunction">found_terminator</span>(self):
+        <span class="pycomment"># got a response line</span>
+        data = self.data
+        <span class="pykeyword">if</span> data.endswith(<span class="pystring">"\r"</span>):
+            data = data[:-1]
+        self.data = <span class="pystring">""</span>
+
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> re.match(<span class="pystring">"\d\d\d "</span>, data):
+            <span class="pykeyword">return</span>
+
+        <span class="pycomment"># this was the last line in this response</span>
+        <span class="pycomment"># check if last command needs special treatment</span>
+
+        <span class="pykeyword">if</span> self.last_command == None:
+            <span class="pycomment"># handle connection</span>
+            <span class="pykeyword">if</span> data.startswith(<span class="pystring">"220"</span>):
+                self.last_command = <span class="pystring">"USER"</span>
+                self.push(<span class="pystring">"USER anonymous\r\n"</span>)
+                <span class="pykeyword">return</span>
+            <span class="pykeyword">else</span>:
+                <span class="pykeyword">raise</span> Exception(<span class="pystring">"ftp login failed"</span>)
+
+        <span class="pykeyword">elif</span> self.last_command == <span class="pystring">"USER"</span>:
+            <span class="pycomment"># handle user response</span>
+            <span class="pykeyword">if</span> data.startswith(<span class="pystring">"230"</span>):
+                <span class="pykeyword">pass</span> <span class="pycomment"># user accepted</span>
+            <span class="pykeyword">elif</span> data.startswith(<span class="pystring">"331"</span>) <span class="pykeyword">or</span> data.startswith(<span class="pystring">"333"</span>):
+                self.last_command = <span class="pystring">"PASS"</span>
+                self.push(<span class="pystring">"PASS "</span> + self.password + <span class="pystring">"\r\n"</span>)
+                <span class="pykeyword">return</span>
+            <span class="pykeyword">else</span>:
+                <span class="pykeyword">raise</span> Exception(<span class="pystring">"ftp login failed"</span>)
+
+        <span class="pykeyword">elif</span> self.last_command == <span class="pystring">"PASS"</span>:
+            <span class="pykeyword">if</span> code == <span class="pystring">"230"</span>:
+                <span class="pykeyword">pass</span> <span class="pycomment"># user and password accepted</span>
+            <span class="pykeyword">else</span>:
+                <span class="pykeyword">raise</span> Exception(<span class="pystring">"ftp login failed"</span>)
+
+        <span class="pycomment"># send the next command to the server</span>
+        <span class="pykeyword">try</span>:
+            self.push(self.commands.pop(0) + <span class="pystring">"\r\n"</span>)
+        <span class="pykeyword">except</span> IndexError:
+            <span class="pykeyword">pass</span> <span class="pycomment"># no more commands</span></pre></div><div class="yui-ge"><div class="yui-u first"><p>A more flexible (and scalable) approach is to use pluggable
+response handlers.  The following version adds a <b>handle</b>
+attribute which, if not None, points to a piece of code that&#8217;s
+prepared to look at the response from the previous command.</p><p>The <b>ftp_handle_connect</b>, <b>ftp_handle_user_response</b>,
+and <b>ftp_handle_pass_response</b> handlers take care of the login
+sequence.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Example: using response handlers to check FTP responses</b>
+<pre class="python wide">
+<span class="pykeyword">import</span> asyncore, asynchat
+<span class="pykeyword">import</span> re, socket
+
+<span class="pykeyword">class</span> <span class="pyclass">anon_ftp</span>(asynchat.async_chat):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, host):
+        asynchat.async_chat.__init__(self)
+
+        self.host = host
+
+        self.user = <span class="pystring">"anonymous"</span>
+        self.password = <span class="pystring">"anonymous@"</span>
+
+        self.set_terminator(<span class="pystring">"\n"</span>)
+
+        self.data = <span class="pystring">""</span>
+
+        self.response = []
+
+        self.commands = [<span class="pystring">"PWD"</span>, <span class="pystring">"QUIT"</span>]
+
+        self.handler = self.ftp_handle_connect
+
+        <span class="pycomment"># connect to ftp server</span>
+        self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.connect((host, 21))
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_connect</span>(self):
+        <span class="pycomment"># connection succeeded</span>
+        <span class="pykeyword">pass</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_expt</span>(self):
+        <span class="pycomment"># connection failed</span>
+        self.close()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">collect_incoming_data</span>(self, data):
+        self.data = self.data + data
+
+    <span class="pykeyword">def</span> <span class="pyfunction">found_terminator</span>(self):
+
+        <span class="pycomment"># collect response</span>
+        data = self.data
+        <span class="pykeyword">if</span> data.endswith(<span class="pystring">"\r"</span>):
+            data = data[:-1]
+        self.data = <span class="pystring">""</span>
+        self.response.append(data)
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> re.match(<span class="pystring">"\d\d\d "</span>, data):
+            <span class="pykeyword">return</span>
+
+        response = self.response
+        self.response = []
+
+        <span class="pykeyword">for</span> line <span class="pykeyword">in</span> response:
+            <span class="pykeyword">print</span> <span class="pystring">"S:"</span>, line
+
+        <span class="pycomment"># process response</span>
+        <span class="pykeyword">if</span> self.handler:
+            <span class="pycomment"># call the response handler</span>
+            handler = self.handler
+            self.handler = None
+
+            handler(response)
+
+            <span class="pykeyword">if</span> self.handler:
+                <span class="pykeyword">return</span> <span class="pycomment"># follow-up command in progress</span>
+
+        <span class="pycomment"># send next command from queue</span>
+        <span class="pykeyword">try</span>:
+            <span class="pykeyword">print</span> <span class="pystring">"C:"</span>, self.commands[0]
+            self.push(self.commands.pop(0) + <span class="pystring">"\r\n"</span>)
+        <span class="pykeyword">except</span> IndexError:
+            <span class="pykeyword">pass</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ftp_handle_connect</span>(self, response):
+        code = response[-1][:3] <span class="pycomment"># get response code</span>
+        <span class="pykeyword">if</span> code == <span class="pystring">"220"</span>:
+            self.push(<span class="pystring">"USER "</span> + self.user + <span class="pystring">"\r\n"</span>)
+            self.handler = self.ftp_handle_user_response
+        <span class="pykeyword">else</span>:
+            <span class="pykeyword">raise</span> Exception(<span class="pystring">"ftp login failed"</span>)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ftp_handle_user_response</span>(self, response):
+        code = response[-1][:3]
+        <span class="pykeyword">if</span> code == <span class="pystring">"230"</span>:
+            <span class="pykeyword">return</span> <span class="pycomment"># user accepted</span>
+        <span class="pykeyword">elif</span> code == <span class="pystring">"331"</span> <span class="pykeyword">or</span> code == <span class="pystring">"332"</span>:
+            self.push(<span class="pystring">"PASS "</span> + self.password + <span class="pystring">"\r\n"</span>)
+            self.handler = self.ftp_handle_pass_response
+        <span class="pykeyword">else</span>:
+            <span class="pykeyword">raise</span> Exception(<span class="pystring">"ftp login failed: user name not accepted"</span>)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ftp_handle_pass_response</span>(self, response):
+        code = response[-1][:3]
+        <span class="pykeyword">if</span> code == <span class="pystring">"230"</span>:
+            <span class="pykeyword">return</span> <span class="pycomment"># user and password accepted</span>
+        <span class="pykeyword">else</span>:
+            <span class="pykeyword">raise</span> Exception(<span class="pystring">"ftp login failed: user/password not accepted"</span>)
+
+anon_ftp(<span class="pystring">"ftp.python.org"</span>)
+
+asyncore.loop()</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>Running this, you&#8217;ll get output similar to this (note that commands
+sent by the response handlers are not logged):</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+S: 220 ProFTPD 1.2.4 Server (ftp.python.org)
+S: 331 Anonymous login ok, send your complete email address as your password.
+S: 230 Anonymous access granted, restrictions apply.
+C: PWD
+S: 257 "/" is current directory.
+C: QUIT
+S: 221 Goodbye.
+</pre></div><div class="yui-ge"><div class="yui-u first"><h3>Downloading Directory Listings</h3><p>As mentioned earlier, the FTP server uses separate data channels to
+transfer data.  The main channel is only used to issue commands, and
+to return responses from the server.</p><p>Let&#8217;s use the <b>LIST</b> command as an example.  Before you can
+send this command, you must use <b>PASV</b> to set up a data channel.
+The server will respond with the port number to connect to, and wait
+for the <b>LIST</b> command (or any other data transfer command).</p><p>The command/response exchange might look something like:</p><pre>
+C: PASV
+S: 227 Entering Passive Mode (194,109,137,227,8,11).
+C: LIST
+S: 150 Opening ASCII mode data connection for file list
+<i>...download listing from port 8*256+11=2059...</i>
+S: 226 Transfer complete.
+</pre><p>To parse the <b>PASV</b> response, you can use a response handler
+looking something like:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">import</span> re
+
+<span class="pycomment"># get port number from pasv response</span>
+pasv_pattern = re.compile(<span class="pystring">"[-\d]+,[-\d]+,[-\d]+,[-\d]+,([-\d]+),([-\d]+)"</span>)
+
+<span class="pykeyword">class</span> <span class="pyclass">anon_ftp</span>(asynchat.async_chat):
+
+    ...
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ftp_handle_pasv_response</span>(self, response):
+        code = response[-1][:3]
+        <span class="pykeyword">if</span> code != <span class="pystring">"227"</span>:
+            <span class="pykeyword">return</span> <span class="pycomment"># pasv failed</span>
+        match = pasv_pattern.search(response[-1])
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> match:
+            <span class="pykeyword">return</span> <span class="pycomment"># bad port</span>
+        p1, p2 = match.groups()
+        <span class="pykeyword">try</span>:
+            port = (int(p1) &amp; 255) * 256 + (int(p2) &amp; 255)
+        <span class="pykeyword">except</span> ValueError:
+            <span class="pykeyword">return</span> <span class="pycomment"># bad port</span>
+        <span class="pycomment"># establish data connection</span>
+        async_ftp_download(self.host, port)</pre></div><div class="yui-ge"><div class="yui-u first"><p>Note that to be on the safe side, the regular expression accepts
+negative integers, and the port number calculation only uses eight
+bits from each integer.</p><p>The <b>async_ftp_download</b> class is another asynchronous socket
+class.  Here&#8217;s a simple implementation that simple prints all incoming
+data to standard output:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">import</span> asyncore, socket, sys
+
+<span class="pykeyword">class</span> <span class="pyclass">async_ftp_download</span>(asyncore.dispatcher):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, host, port):
+        asyncore.dispatcher.__init__(self)
+        self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.connect((host, port))
+
+    <span class="pykeyword">def</span> <span class="pyfunction">writable</span>(self):
+        <span class="pykeyword">return</span> 0
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_connect</span>(self):
+        <span class="pykeyword">pass</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_expt</span>(self):
+        self.close()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_read</span>(self):
+        sys.stdout.write(self.recv(8192))
+
+    <span class="pykeyword">def</span> <span class="pyfunction">handle_close</span>(self):
+        self.close()</pre></div><div class="yui-ge"><div class="yui-u first"><p>The last piece of the puzzle is to make sure that the
+<b>ftp_handle_pasv_response</b> method is called at the right time.
+The first step is to change the command list, to make sure we send
+<b>PASV</b> followed by a <b>LIST</b> command:</p><pre class="python">
+        self.commands = [<span class="pystring">"PASV"</span>, <span class="pystring">"LIST"</span>, <span class="pystring">"QUIT"</span>]</pre><p>If you run this, the client will hang after the <b>LIST</b>
+command.  Or rather, it&#8217;s the server that hangs, waiting for the
+client to connect to the given port.</p><p>To fix this, let&#8217;s add an optional handler to the command list, and
+change the send code to look for an optional response handler:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">class</span> <span class="pyclass">anon_ftp</span>(asynchat.async_chat):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, host):
+
+        ...
+
+        self.commands = [
+            <span class="pystring">"PASV"</span>, self.ftp_handle_pasv_response,
+            <span class="pystring">"LIST"</span>,
+            <span class="pystring">"QUIT"</span>
+        ]
+
+        ...
+
+    <span class="pykeyword">def</span> <span class="pyfunction">found_terminator</span>(self):
+
+        ...
+
+        <span class="pycomment"># send next command from queue</span>
+        <span class="pykeyword">try</span>:
+            command = self.commands.pop(0)
+            <span class="pykeyword">if</span> self.commands <span class="pykeyword">and</span> callable(self.commands[0]):
+                self.handler = self.commands.pop(0)
+            <span class="pykeyword">print</span> <span class="pystring">"C:"</span>, command
+            self.push(command + <span class="pystring">"\r\n"</span>)
+        <span class="pykeyword">except</span> IndexError:
+            <span class="pykeyword">pass</span></pre></div><div class="yui-ge"><div class="yui-u first"><p>If you put all the pieces together and run the script, you&#8217;ll get
+something like:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+S: 220 ProFTPD 1.2.4 Server (ftp.python.org)
+S: 331 Anonymous login ok, send your complete email address as your password.
+S: 230 Anonymous access granted, restrictions apply.
+C: PASV
+S: 227 Entering Passive Mode (194,109,137,227,8,20).
+C: LIST
+S: 150 Opening ASCII mode data connection for file list
+C: QUIT
+drwxrwxr-x   4 webmaster webmaster      512 Oct 12  2001 pub
+S: 226 Transfer complete.
+S: 221 Goodbye.
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>In this case, the directory listing contains a single directory,
+called <b>pub</b>.</p><p>Note that this directly listing looks like the output from Unix&#8217;
+<b>ls</b> command.  Unfortunately, the FTP standard doesn&#8217;t specify
+what format to use; the servers can use any format they want, hoping
+that a human reader will be able to figure something out.  But in
+practice, most contemporary servers use the Unix format.</p><p>The following snippet can be used to &#8220;parse&#8221; the output line.
+It&#8217;s far from bulletproof (e.g. what happens if a filename contains
+a space?), but it&#8217;s better than nothing:</p><pre class="python">
+parts = line.split()
+<span class="pykeyword">if</span> len(parts) &gt; 2:
+    directory = parts[0].startswith(<span class="pystring">"d"</span>)
+    size = int(parts[5])
+    filename = parts[-1]</pre><p><i>To be continued&#8230;</i></p><hr /><p>In the next article, we&#8217;ll look at how to move around between
+directories on the server, and how to download data from the server.
+Stay tuned.</p><p>Send questions and comments to
+<a href="mailto:fredrik@pythonware.com?subject=Re: Asynchronous FTP">fredrik@pythonware.com</a>.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><a href="#part1">Part #1: Reading Directory Listings</a></li><li><ul><li><a href="#the-file-transfer-protocol">The File Transfer Protocol</a></li><li><a href="#introducing-the-asynchat-module">Introducing the asynchat Module</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

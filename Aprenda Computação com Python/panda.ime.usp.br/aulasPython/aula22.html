@@ -1,0 +1,600 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Dicionários &mdash; Aulas de Introdução à Computação com Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Aulas de Introdução à Computação com Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Busca sequencial e binária" href="aula23.html" />
+    <link rel="prev" title="Tipos abstratos de dados" href="aula21.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'aulasPython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="aula23.html" title="Busca sequencial e binária"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="aula21.html" title="Tipos abstratos de dados"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="dicionarios">
+<h1>Dicionários<a class="headerlink" href="#dicionarios" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="objetivo">
+<h2>Objetivo<a class="headerlink" href="#objetivo" title="Permalink to this headline">¶</a></h2>
+<p>Ao final dessa aula você vai saber o que são dicionários e como
+utilizá-los na resolução de problemas computacionais.</p>
+</div>
+<div class="section" id="topicos">
+<h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://python.ime.usp.br/pensepy/static/pensepy/11-Dicionarios/dicionarios.html">Dicionários</a></li>
+<li>Tipo <cite>dict</cite> em Python</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id1">
+<h2>Dicionários<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Vimos que as listas em Python são estruturas sequenciais indexadas,
+onde cada elemento da lista pode ser acessado por um índice (um número
+inteiro).</p>
+<p>Em algumas situações, ao invés de utilizar um número inteiro como
+índice, desejamos utilizar alguma informação, como por exemplo, o
+nome de um objeto.</p>
+<p>Vamos definir um <strong>dicionário</strong> como sendo um tipo abstrato de dados que
+associa uma <strong>chave</strong>  a um <strong>valor</strong>. A chave precisa ser única, ou
+seja, não pode haver chaves repetidas e também deve ser imutável, ou
+seja, uma vez criada, ela permanece a mesma.</p>
+<p>Um dicionário pode ser utilizado, por exemplo, para representar um
+inventório. Considere por exemplo, o seguinte programa:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">dic</span> <span class="o">=</span> <span class="n">Dicionario</span><span class="p">()</span>
+
+    <span class="n">dic</span><span class="o">.</span><span class="n">insere</span><span class="p">(</span><span class="s">&quot;banana&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="n">dic</span><span class="o">.</span><span class="n">insere</span><span class="p">(</span><span class="s">&quot;abacaxi&quot;</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+    <span class="n">dic</span><span class="o">.</span><span class="n">insere</span><span class="p">(</span><span class="s">&quot;melancia&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Eu tenho&quot;</span><span class="p">,</span> <span class="n">dic</span><span class="o">.</span><span class="n">pega_valor</span><span class="p">(</span><span class="s">&quot;banana&quot;</span><span class="p">),</span> <span class="s">&quot; bananas.&quot;</span><span class="p">)</span>
+
+    <span class="n">dic</span><span class="o">.</span><span class="n">insere</span><span class="p">(</span><span class="s">&quot;banana&quot;</span><span class="p">,</span> <span class="n">dic</span><span class="o">.</span><span class="n">pega_valor</span><span class="p">(</span><span class="s">&quot;banana&quot;</span><span class="p">)</span><span class="o">+</span><span class="mi">10</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Agora tenho &quot;</span><span class="p">,</span> <span class="n">dic</span><span class="o">.</span><span class="n">pega_valor</span><span class="p">(</span><span class="s">&quot;banana&quot;</span><span class="p">),</span> <span class="s">&quot; bananas.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Esse programa ilustra que um dicionário precisa de um método <cite>insere</cite>
+e outro método <cite>pega_valor</cite> (entre outros).</p>
+<div class="section" id="exercicio-22-1">
+<h3>Exercício 22.1<a class="headerlink" href="#exercicio-22-1" title="Permalink to this headline">¶</a></h3>
+<p>Baseado na função <cite>main</cite> dada anteriormente, implemente uma classe
+<cite>Dicionario</cite> que tenha o comportamento (os métodos) definidos pela
+<cite>main</cite>, usando 2 listas. Teste a sua classe usando a própria função
+<cite>main</cite>.</p>
+
+<div id="aula22_classe_Dicionario_tentativa" >
+<textarea cols="50" rows="12" id="aula22_classe_Dicionario_tentativa_code" class="active_code">
+def main():
+    # copie abaixo a funcao main dada anteriormente
+
+class Dicionario:
+    def __init__(self):
+        self.chave = []
+        self.valor = []
+
+    def __str__(self):
+        tam = len(self.chave)
+        if tam == 0:
+            return '{}'
+
+        dic = '{%s:%s'%(str(self.chave[0]),str(self.valor[0]))
+        for i in range(1, len(self.chave)):
+            dic += ',%s:%s'%(str(self.chave[i]),str(self.valor[i]))
+        dic += '}'
+        return dic
+
+    def procura(self, c):
+        ''' (chave) -> int
+            Recebe uma chave e devolve o indice da chave, caso
+            exista e None caso contrario '''
+        for i in range(len(self.chave)):
+            if c == self.chave[i]:
+                return i
+        return None
+
+    def insere(self, c, v):
+        ''' (chave, valor) -> None
+            altera o valor do par chave:valor para chave:v no
+            dicionario caso a chave exista ou cria o par chave:v
+            caso a chave ainda nao esteja no dicionario. '''
+        # escreva abaixo o codigo para esse metodo
+
+    def pega_valor(self, c):
+        ''' (chave) -> valor
+            Retorna o valor de uma chave, caso exista, ou None '''
+
+        # escreva abaixo o codigo para esse metodo
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula22_classe_Dicionario_tentativa)</span> </p>
+<button onclick="runit('aula22_classe_Dicionario_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula22_classe_Dicionario_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula22_classe_Dicionario_tentativa');">Load</button>
+<br />
+
+<canvas id="aula22_classe_Dicionario_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula22_classe_Dicionario_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Clique <a class="reference external" href="exercicios/ex221.html">aqui</a> para ver uma solução.</p>
+</div>
+<div class="section" id="melhorando-a-classe-dicionario">
+<h3>Melhorando a classe <cite>Dicionario</cite><a class="headerlink" href="#melhorando-a-classe-dicionario" title="Permalink to this headline">¶</a></h3>
+<p>Assim como podemos mudar o comportamento dos símbolos usados em
+operadores usando métodos especiais como <cite>__add__</cite> (<cite>+</cite>),
+<cite>__sub__`(</cite>-<cite>) e `__mul__`(`*</cite>) (veja a <a class="reference external" href="aula18.html">aula 18</a>),
+a seguinte notação pode ser mais apropriada para o nosso dicionário:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">dic</span> <span class="o">=</span> <span class="n">Dicionario</span><span class="p">()</span>
+
+    <span class="n">dic</span><span class="p">[</span><span class="s">&quot;banana&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="n">dic</span><span class="p">[</span><span class="s">&quot;abacaxi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">dic</span><span class="p">[</span><span class="s">&quot;melancia&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Bananas: &quot;</span><span class="p">,</span> <span class="n">dic</span><span class="p">[</span><span class="s">&quot;banana&quot;</span><span class="p">])</span>
+
+    <span class="n">dic</span><span class="p">[</span><span class="s">&quot;banana&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dic</span><span class="p">[</span><span class="s">&quot;banana&quot;</span><span class="p">]</span><span class="o">+</span><span class="mi">10</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Bananas: &quot;</span><span class="p">,</span> <span class="n">dic</span><span class="p">[</span><span class="s">&quot;banana&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Nessa notação, os nomes das frutas usadas como chave no dicionário
+aparecem como se fossem índices de uma lista. O Python permite
+redefinir o comportamento dos colchetes usando os métodos especiais
+<cite>__getitem__</cite> e <cite>__setitem__</cite>.</p>
+<p>O método especial <cite>__getitem__</cite> é chamado automaticamente quando um
+objeto dessa classe é chamado com colchetes para obter o valor
+associado a um &#8220;índice&#8221;. Assim, <cite>dic[&#8216;melancia&#8217;]</cite> é
+equivalente à chamada:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Dicionario</span><span class="o">.</span><span class="n">__getitem__</span><span class="p">(</span><span class="n">dic</span><span class="p">,</span> <span class="s">&#39;melancia&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>e, em nosso caso, deve devolver uma referência ao valor correspondente
+em <cite>dic.valor[i]</cite>, onde <cite>i</cite> e o índice da chave <cite>melancia</cite> na lista
+<cite>dic.chave</cite>.</p>
+<p>O método especial <cite>__setitem__</cite> é chamado automaticamente em atribuições como:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">dic</span><span class="p">[</span><span class="s">&#39;banana&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50</span>
+</pre></div>
+</div>
+<p>Esse comando é equivalente a:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Dicionario</span><span class="o">.</span><span class="n">__setitem__</span><span class="p">(</span><span class="n">dic</span><span class="p">,</span> <span class="s">&#39;banana&#39;</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="exercicio-22-2">
+<h3>Exercício 22.2<a class="headerlink" href="#exercicio-22-2" title="Permalink to this headline">¶</a></h3>
+<p>Modifique a classe <cite>Dicionario</cite> para utilizar os métodos especiais
+<cite>__setitem__</cite> e <cite>__getitem__</cite>.</p>
+<div class="admonition-observacao admonition">
+<p class="first admonition-title">Observação</p>
+<p class="last">Os métodos especiais <cite>__setitem__</cite> e <cite>__getitem__</cite>
+ainda não foram implementados no <cite>activecode</cite>. Por isso, você vai
+precisar fazer os testes desse método em seu computador.</p>
+</div>
+</div>
+</div>
+<div class="section" id="tipo-dict-dicionario-nativo-do-python">
+<h2>Tipo dict (dicionário) nativo do Python<a class="headerlink" href="#tipo-dict-dicionario-nativo-do-python" title="Permalink to this headline">¶</a></h2>
+<p>O Python possui o tipo nativo <cite>dict</cite> que permite a criação e
+manipulação de dicionários. Para se criar um dicionário vazio,
+utilize:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">dic</span> <span class="o">=</span> <span class="p">{}</span>
+</pre></div>
+</div>
+<p>ou seja, use chaves ao invés de colchetes usados na criação de listas.</p>
+<p>Você também pode criar dicionários com elementos, separando a chave do
+valor usando <cite>:</cite> (dois pontos) como:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;banana&#39;</span><span class="p">:</span><span class="mi">50</span><span class="p">,</span> <span class="s">&#39;abacaxi&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+<span class="go">{&#39;banana&#39;: 50, &#39;abacaxi&#39;: 10}</span>
+</pre></div>
+</div>
+<p>E você pode usar as chaves entre colchetes para criar ou modificar um
+elemento do dicionário como:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">dic</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;banana&#39;</span><span class="p">:</span><span class="mi">50</span><span class="p">,</span> <span class="s">&#39;abacaxi&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+<span class="go">{&#39;banana&#39;: 50, &#39;abacaxi&#39;: 10}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dic</span><span class="p">[</span><span class="s">&quot;melancia&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+<span class="go">{&#39;banana&#39;: 50, &#39;abacaxi&#39;: 10, &#39;melancia&#39;: 7}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dic</span><span class="p">[</span><span class="s">&#39;banana&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">15</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+<span class="go">{&#39;banana&#39;: 65, &#39;abacaxi&#39;: 10, &#39;melancia&#39;: 7}</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<div class="section" id="acesso-aos-elementos-do-dicionario">
+<h3>Acesso aos elementos do dicionário<a class="headerlink" href="#acesso-aos-elementos-do-dicionario" title="Permalink to this headline">¶</a></h3>
+<p>É tão comum iterar sobre as chaves de um dicionário que podemos
+utilizar o comando <cite>for</cite> para imprimir (ou fazer outras operações com)
+os valores associados a cada item do inventório da seguinte forma:</p>
+
+<div id="exemplo_iteracao_sobre_chaves_de_um_dicionario" >
+<textarea cols="50" rows="12" id="exemplo_iteracao_sobre_chaves_de_um_dicionario_code" class="active_code">
+inventario = {'banana': 50, 'laranja': 12, 'melancia': 7, 'kiwi': 23}
+
+for fruta in inventario:
+    chave = fruta
+    valor = inventario[fruta]
+    print("Temos %d items do elemento %s no inventario."%(valor, chave))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exemplo_iteracao_sobre_chaves_de_um_dicionario)</span> </p>
+<button onclick="runit('exemplo_iteracao_sobre_chaves_de_um_dicionario',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exemplo_iteracao_sobre_chaves_de_um_dicionario');">Save</button>
+<button class="ac_opt" onclick="requestCode('exemplo_iteracao_sobre_chaves_de_um_dicionario');">Load</button>
+<br />
+
+<canvas id="exemplo_iteracao_sobre_chaves_de_um_dicionario_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exemplo_iteracao_sobre_chaves_de_um_dicionario_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Essa é uma forma compacta para se iterar sobre as chaves de um
+dicionário, que pode ser feita de forma explícita utilizando o método
+<cite>keys()</cite> da forma:</p>
+
+<div id="exemplo_iteracao_sobre_chaves_de_um_dicionario_usando_keys" >
+<textarea cols="50" rows="12" id="exemplo_iteracao_sobre_chaves_de_um_dicionario_usando_keys_code" class="active_code">
+inventario = {'banana': 50, 'laranja': 12, 'melancia': 7, 'kiwi': 23}
+
+for fruta in inventario.keys():
+    chave = fruta
+    valor = inventario[fruta]
+    print("Temos %d items do elemento %s no inventario."%(valor, chave))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exemplo_iteracao_sobre_chaves_de_um_dicionario_usando_keys)</span> </p>
+<button onclick="runit('exemplo_iteracao_sobre_chaves_de_um_dicionario_usando_keys',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exemplo_iteracao_sobre_chaves_de_um_dicionario_usando_keys');">Save</button>
+<button class="ac_opt" onclick="requestCode('exemplo_iteracao_sobre_chaves_de_um_dicionario_usando_keys');">Load</button>
+<br />
+
+<canvas id="exemplo_iteracao_sobre_chaves_de_um_dicionario_usando_keys_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exemplo_iteracao_sobre_chaves_de_um_dicionario_usando_keys_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>É possível também iterar sobre os valores de um dicionário utilizando
+o método <cite>values()</cite>. Assim, para saber quantas frutas há no inventário
+podemos escrever:</p>
+
+<div id="exemplo_iteracao_sobre_valores_de_um_dicionario" >
+<textarea cols="50" rows="12" id="exemplo_iteracao_sobre_valores_de_um_dicionario_code" class="active_code">
+inventario = {'banana': 50, 'laranja': 12, 'melancia': 7, 'kiwi': 23}
+
+total = 0
+for valor in inventario.values():
+    total += valor
+
+print("Temos %d frutas no inventario."%(total))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exemplo_iteracao_sobre_valores_de_um_dicionario)</span> </p>
+<button onclick="runit('exemplo_iteracao_sobre_valores_de_um_dicionario',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exemplo_iteracao_sobre_valores_de_um_dicionario');">Save</button>
+<button class="ac_opt" onclick="requestCode('exemplo_iteracao_sobre_valores_de_um_dicionario');">Load</button>
+<br />
+
+<canvas id="exemplo_iteracao_sobre_valores_de_um_dicionario_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exemplo_iteracao_sobre_valores_de_um_dicionario_pre" class="active_out">
+
+</pre>
+
+</div>
+
+</div>
+</div>
+<div class="section" id="exercicio-22-3">
+<h2>Exercício 22.3<a class="headerlink" href="#exercicio-22-3" title="Permalink to this headline">¶</a></h2>
+<p>Matrizes esparsas tipicamente possuem zero
+em quase todas as posições, e valores diferentes de zero em apenas
+algumas posições.</p>
+<p>Uma matriz esparsa pode ser representada como um dicionário,
+utilizando as coordenadas como chave.</p>
+<p>Seja a seguinte matriz esparsa representando um campo de batalha
+naval, com um submarino valendo 100 pontos, um cruzador valendo 30
+pontos (cada pedaço), e um porta-aviões valendo 20 pontos (cada
+pedaço). O &#8220;mar&#8221;, onde estão as embarcações,
+tem coordenadas de 0 a 99, tanto em <cite>x</cite> quanto em
+<cite>y</cite>.</p>
+<p>Escreva um programa que carrega um mapa usando a função dada
+<cite>carrega_mapa</cite> e leia coordenadas do usuário até que ele
+desista, imprimindo os pontos que ganhou, ou até que afunde todas as
+embarcações (ganhe o máximo número de pontos possível no mapa).</p>
+<p>Uma estratégia possível é contar inicialmente quantos pontos são
+possíveis fazer no jogo e modificar o valor associado a uma posição
+definida no dicionário para zero, toda vez que o usuário acertar uma
+embarcação. O jogo acaba quando não restarem mais pontos para serem ganhos.
+Para isso, implemente uma função <cite>total_pontos</cite> que retorna o número
+de pontos ainda disponível no dicionário.</p>
+
+<div id="ex22_3_batalha_naval_tentativa" >
+<textarea cols="50" rows="12" id="ex22_3_batalha_naval_tentativa_code" class="active_code">
+def main():
+    # edite o codigo abaixo para resolver esse exercicio
+    mapa = carrega_mapa()
+    print(mapa)
+
+def total_pontos( dic ):
+    ''' (dict) -> int '''
+    # escreva a funcao
+
+def carrega_mapa():
+    ''' retorna um dicionario contendo as coordenadas das
+    embarcacoes. O mapa poderia ser lido, por exemplo, de um
+    arquivo, ou as posicoes das embarcacoes poderiam ser
+    sorteadas.
+    '''
+    return {"(2,5)":100, # submarino
+            "(20,60)":30, "(21,60)":30, # cruzador
+            "(42,71)":20, "(43,71)":20, "(44,71)":20, "(45,71)":20 # porta-aviões
+            }
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (ex22_3_batalha_naval_tentativa)</span> </p>
+<button onclick="runit('ex22_3_batalha_naval_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('ex22_3_batalha_naval_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('ex22_3_batalha_naval_tentativa');">Load</button>
+<br />
+
+<canvas id="ex22_3_batalha_naval_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="ex22_3_batalha_naval_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<div class="admonition-observacao admonition">
+<p class="first admonition-title">Observação</p>
+<p>Na função <cite>carrega_mapa()</cite> estamos utilizando o string <cite>&#8220;(2,5)&#8221;</cite> ao
+invés de uma tupla <cite>(2,5)</cite> por limitações do <cite>activecode</cite>. O
+Python aceita como chave qualquer objeto imutável como <cite>(2,5)</cite>
+(experimente escrever sua solução no Python em seu computador).</p>
+<p class="last">Clique <a class="reference external" href="exercicios/ex22.3.html">aqui</a> para ver uma solução para
+rodar em seu computdor.</p>
+</div>
+</div>
+<div class="section" id="exercicio-22-4">
+<h2>Exercício 22.4<a class="headerlink" href="#exercicio-22-4" title="Permalink to this headline">¶</a></h2>
+<p>Escreva um programa que leia uma frase e
+calcula a frequência relativa de cada letra em
+uma frase, usando dicionários. Ignore caracteres brancos e pontuação.</p>
+
+<div id="aula22_4_freq_letras_tentativa" >
+<textarea cols="50" rows="12" id="aula22_4_freq_letras_tentativa_code" class="active_code">
+def main():
+    # apague a linha abaixo e digite a sua solucao
+    print("Vixe! ainda nao fiz esse exercicio")
+
+main()
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (aula22_4_freq_letras_tentativa)</span> </p>
+<button onclick="runit('aula22_4_freq_letras_tentativa',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('aula22_4_freq_letras_tentativa');">Save</button>
+<button class="ac_opt" onclick="requestCode('aula22_4_freq_letras_tentativa');">Load</button>
+<br />
+
+<canvas id="aula22_4_freq_letras_tentativa_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="aula22_4_freq_letras_tentativa_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Clique <a class="reference external" href="exercicios/ex22.4.html">aqui</a> para ver uma solução.</p>
+</div>
+<div class="section" id="exercicio-22-5">
+<h2>Exercício 22.5<a class="headerlink" href="#exercicio-22-5" title="Permalink to this headline">¶</a></h2>
+<p>Escreva um programa que leia um arquivo texto e
+calcula a frequência relativa de cada palavra no
+texto, usando dicionários.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Dicionários</a><ul>
+<li><a class="reference internal" href="#objetivo">Objetivo</a></li>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#id1">Dicionários</a><ul>
+<li><a class="reference internal" href="#exercicio-22-1">Exercício 22.1</a></li>
+<li><a class="reference internal" href="#melhorando-a-classe-dicionario">Melhorando a classe <cite>Dicionario</cite></a></li>
+<li><a class="reference internal" href="#exercicio-22-2">Exercício 22.2</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tipo-dict-dicionario-nativo-do-python">Tipo dict (dicionário) nativo do Python</a><ul>
+<li><a class="reference internal" href="#acesso-aos-elementos-do-dicionario">Acesso aos elementos do dicionário</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercicio-22-3">Exercício 22.3</a></li>
+<li><a class="reference internal" href="#exercicio-22-4">Exercício 22.4</a></li>
+<li><a class="reference internal" href="#exercicio-22-5">Exercício 22.5</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="aula21.html"
+                        title="previous chapter">Tipos abstratos de dados</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="aula23.html"
+                        title="next chapter">Busca sequencial e binária</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="aula23.html" title="Busca sequencial e binária"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="aula21.html" title="Tipos abstratos de dados"
+             >previous</a> |</li>
+        <li><a href="index.html">Aulas de Introdução à Computação com Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on Mar 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

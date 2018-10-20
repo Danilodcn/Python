@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Storing BLOB Data in&nbsp;SQLITE</title></head><body data-page-id="277"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Storing BLOB Data in&nbsp;SQLITE</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Design Note | March 10, 2003 | Fredrik Lundh</p><p>The <a href="sqlite.htm">SQLITE</a> database has limited support
+for large binary objects (BLOBS).  There&#8217;s a limitation of 1 megabyte
+for each row of data, and the database uses NUL bytes to separate
+columns in the storage.</p><p class="note"><b>Note:</b>
+This limitation has been removed in SQLITE 3.0.
+</p><p>For best operation in large tables, the SQLITE author recommends
+keeping the row size around 250 bytes or below.</p><p>In the StorageManager component, we&#8217;re using a simple approach to
+be able to store binary data in the database, or on disk.
+
+</p><p>For each blob, the table contains a type field and a data field:
+
+<pre class="sql">
+create table mytable (..., blobtype, blobdata)
+</pre></p><p>The blob columns have the following meaning:</p><table class="simpletable">
+<tr><th>blobtype</th><th>blobdata</th></tr>
+<tr>
+<td>text</td>
+<td>Contains plain text, without NUL bytes.</td>
+</tr>
+<tr>
+<td>data</td>
+<td>Contains encoded binary data, using %00 to represent
+NUL bytes, and %25 to represent a percent sign.</td>
+</tr>
+<tr>
+<td>file</td>
+<td>Contains a file name, pointing to a file on disk.</td>
+</tr>
+<tr>
+<td>blob</td>
+<td>Contains a reference to a separate blob table.</td>
+</tr>
+</table><p>The &#8216;blobtable&#8217; has the following columns:
+
+<pre class="sql">
+create table blobtable (key, serial, type, data)
+</pre></p><p>where &#8216;key&#8217; is the reference field used with the &#8220;blob&#8221; blobtype, and
+the &#8216;serial&#8217; column is used to order blob fragments.  Each row contains
+a limited amount of data (the exact size depends on the application, but
+is usually 64k or so).</p><p>To get all blob fragments, use the following search:</p><pre class="python">
+execute(
+ <span class="pystring">"select type, data where key=%s order by serial"</span>, key
+)</pre><p>The &#8216;type&#8217; can be &#8220;text&#8221; (plain text) or &#8220;data&#8221; (encoded binary data).</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The Zone Intermediate&nbsp;Format</title></head><body data-page-id="386"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The Zone Intermediate&nbsp;Format</h1></div><div class="yui-ge"><div class="yui-u first"><p>The Zone system uses a two-stage rendering pipeline.  The source
+document can be written <a href="zone-source.htm">in a variety of formats</a>, but is converted to an intermediate format when imported into the document
+archive.  The final renderer then converts from the intermediate format to
+presentation HTML, on the fly.
+
+</p><p>The intermediate format is basically a stripped-down HTML page,
+stored as XML, and with a minimum of site-specific styling.  Extended
+semantic information is provided via a mix of classes, conventions,
+and a few custom tags.
+
+<h2 id="structure">Structure&#160;<a class="nav" href="#structure" title="bookmark!">#</a></h2><pre class="xml">
+&lt;<span class="pyfunction">zone:document</span> xmlns:zone="http://effbot.org/zone"&gt;
+ &lt;<span class="pyfunction">head</span>&gt;
+  &lt;<span class="pyfunction">title</span>&gt;...&lt;/<span class="pyfunction">title</span>&gt;
+  &lt;<span class="pyfunction">link...</span>&gt;
+ &lt;/<span class="pyfunction">head</span>&gt;
+ &lt;<span class="pyfunction">body</span>&gt;
+  ...
+ &lt;/<span class="pyfunction">body</span>&gt;
+&lt;/<span class="pyfunction">zone:document</span>&gt;</pre></p><p>The outermost element can be either &#8220;zone&#8221; or &#8220;zone:document&#8221;.
+
+<h2 id="tags">Tags&#160;<a class="nav" href="#tags" title="bookmark!">#</a></h2></p><p>&#8220;link&#8221; (in the &#8220;head&#8221; section) is a related document.  The renderer
+usually understands the following &#8220;rel&#8221; values: &#8220;contents&#8221;, &#8220;next&#8221;,
+&#8220;prev&#8221;, &#8220;alternate&#8221; (links to translations), and &#8220;copyright&#8221;.
+
+</p><p>&#8220;a&#8221;, where &#8220;href&#8221; is a <b>link</b> URI, is a smart link.  See
+below.
+
+</p><p>&#8220;zone:image&#8221;, with <b>src</b> and <b>md5</b> attributes, where <b>src</b> is a <b>data</b> URI with an embedded image, and <b>md5</b> contains the MD5 digest of the image data.  See below.
+
+</p><p>&#8220;zone:link&#8221; (where zone: points to http://effbot.org/zone) is a
+smart link.
+
+</p><p>&#8220;zone:title&#8221; expands to the title of the target document, when used
+inside a &#8220;link&#8221; or &#8220;a&#8221; element.
+
+<h3>Image Tags</h3></p><p>For convenience, images are usually embedded in the source
+documents, using data URI:s.  The renderer extracts these and stores
+them in a cache directory.  It then replaces the element with a
+pointer to the cached image, with proper <b>width</b> and
+<b>height</b> settings.
+
+</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">For this to work, the data URI must have the following format:
+
+<pre class="wide">
+&lt;zone:image src="data:image/format;base64,data" md5="digest" /&gt;
+</pre></p></div><div class="yui-ge"><div class="yui-u first"><p>where <i>format</i> is one of jpeg, gif, or png, <i>data</i> is
+base64-encoded data, and <i>digest</i> is the MD5 digest of the image
+data.
+
+</p><p>The Zone loader automatically converts <b>img</b> tags with data
+URI:s to <b>zone:image</b> elements.
+
+<h3>Smart Links</h3></p><p>To be added.  For now, see <a href="pyref-targets.htm"><cite>An Alternative Python Reference: Targets</cite></a>.
+
+<h2 id="classes">Classes&#160;<a class="nav" href="#classes" title="bookmark!">#</a></h2></p><p>The following classes have semantic meaning:
+
+</p><p>When used with P:</p><p>
+</p><p>&#8220;info&#8221; denotes an author/date paragraph, in the zone standard style
+(fields separated by vertical bars).
+
+</p><p>&#8220;note&#8221; denotes a note to the reader.  The first phrase in the
+paragraph should be the note type, in bold (usually one of
+<b>Note:</b> or <b>Warning:</b>).
+
+</p><p>&#8220;fixme&#8221; denotes a note to the author or reviewer.  This is usually
+removed in publication-level rendering.  Use sparingly.
+
+</p><p>When used with DIV:</p><p>&#8220;example&#8221; denotes an example section.
+
+</p><p>&#8220;figure&#8221; denotes an illustration of some kind.
+
+</p><p>&#8220;sidebar&#8221; denotes a sidebar.  It may be rendered inline (but with a
+border or other visual separation), so it should make sense also if
+appearing in context.
+
+</p><p>&#8220;note&#8221; and &#8220;fixme&#8221; can also be used on DIV, to mark larger sections
+of text.  See above.
+
+</p><p>When used with PRE:</p><p>&#8220;python&#8221; denotes a Python code sample, or an interpreter session.
+
+</p><p>&#8220;xml&#8221; denotes an XML or HTML sample.
+
+</p><p>&#8220;c&#8221; denotes a C or C++ sample.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#structure">Structure</a></li><li><a href="#tags">Tags</a></li><li><a href="#classes">Classes</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

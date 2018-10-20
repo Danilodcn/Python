@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Tkinter Text Widget Hyperlink&nbsp;Manager</title></head><body data-page-id="319"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Tkinter Text Widget Hyperlink&nbsp;Manager</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">October 25, 2000 | Fredrik Lundh</p><p>The <b>tkHyperlinkManager</b> module is a simple container for
+<b>Text</b> widget hyperlinks.  Just create a manager for your text
+widget, and use the <b>add</b> method to register actions.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+    text = Text(...)
+    hyperlink = HyperlinkManager(text)
+    text.insert(INSERT, <span class="pystring">"this is a link"</span>, hyperlink.add(callback))</pre></div><div class="yui-ge"><div class="yui-u first"><p>Here&#8217;s the code:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Support module for Text hyperlinks (File: tkHyperlinkManager.py)</b>
+<pre class="python wide">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+<span class="pykeyword">class</span> <span class="pyclass">HyperlinkManager</span>:
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, text):
+
+        self.text = text
+
+        self.text.tag_config(<span class="pystring">"hyper"</span>, foreground=<span class="pystring">"blue"</span>, underline=1)
+
+        self.text.tag_bind(<span class="pystring">"hyper"</span>, <span class="pystring">"&lt;Enter&gt;"</span>, self._enter)
+        self.text.tag_bind(<span class="pystring">"hyper"</span>, <span class="pystring">"&lt;Leave&gt;"</span>, self._leave)
+        self.text.tag_bind(<span class="pystring">"hyper"</span>, <span class="pystring">"&lt;Button-1&gt;"</span>, self._click)
+
+        self.reset()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">reset</span>(self):
+        self.links = {}
+
+    <span class="pykeyword">def</span> <span class="pyfunction">add</span>(self, action):
+        <span class="pycomment"># add an action to the manager.  returns tags to use in</span>
+        <span class="pycomment"># associated text widget</span>
+        tag = <span class="pystring">"hyper-%d"</span> % len(self.links)
+        self.links[tag] = action
+        <span class="pykeyword">return</span> <span class="pystring">"hyper"</span>, tag
+
+    <span class="pykeyword">def</span> <span class="pyfunction">_enter</span>(self, event):
+        self.text.config(cursor=<span class="pystring">"hand2"</span>)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">_leave</span>(self, event):
+        self.text.config(cursor=<span class="pystring">""</span>)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">_click</span>(self, event):
+        <span class="pykeyword">for</span> tag <span class="pykeyword">in</span> self.text.tag_names(CURRENT):
+            <span class="pykeyword">if</span> tag[:6] == <span class="pystring">"hyper-"</span>:
+                self.links[tag]()
+                <span class="pykeyword">return</span></pre></div></div><div class="yui-ge"><div class="yui-u first"><p>And here&#8217;s an example:</p><pre class="python">
+<span class="pycomment"># File: hyperlink-1.py</span>
+
+<span class="pykeyword">import</span> tkHyperlinkManager
+
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+root = Tk()
+root.title(<span class="pystring">"hyperlink-1"</span>)
+
+text = Text(root)
+text.pack()
+
+hyperlink = tkHyperlinkManager.HyperlinkManager(text)
+
+<span class="pykeyword">def</span> <span class="pyfunction">click1</span>():
+    <span class="pykeyword">print</span> <span class="pystring">"click 1"</span>
+
+text.insert(INSERT, <span class="pystring">"this is a "</span>)
+text.insert(INSERT, <span class="pystring">"link"</span>, hyperlink.add(click1))
+text.insert(INSERT, <span class="pystring">"\n\n"</span>)
+
+<span class="pykeyword">def</span> <span class="pyfunction">click2</span>():
+    <span class="pykeyword">print</span> <span class="pystring">"click 2"</span>
+
+text.insert(INSERT, <span class="pystring">"this is another "</span>)
+text.insert(INSERT, <span class="pystring">"link"</span>, hyperlink.add(click2))
+text.insert(INSERT, <span class="pystring">"\n\n"</span>)
+
+mainloop()</pre><pre>
+<img alt="" height="128" src="/media/cache/a354b1f2b0e4d083afb0f585328c783a.png" width="494" />
+</pre></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

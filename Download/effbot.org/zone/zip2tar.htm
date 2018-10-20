@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Converting ZIP archives to TAR&nbsp;archives</title></head><body data-page-id="383"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Converting ZIP archives to TAR&nbsp;archives</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">March 2005 | Fredrik Lundh</p><p>Here&#8217;s a small snippet that converts a ZIP archive to a matching TAR.GZ
+archive.  I use a variation of this script to create TAR.GZ source archives
+on Windows (asking <b>distutils</b> to create a TAR archive doesn&#8217;t really
+work on Windows, at least not in 2.4).</p><div class="example">
+<b>Convert ZIP archive to TAR archive on the fly</b>
+<pre class="python">
+<span class="pycomment"># File: zip2tar.py</span>
+<span class="pycomment">#</span>
+<span class="pycomment"># Convert ZIP archive to TAR.GZ archive.</span>
+<span class="pycomment">#</span>
+<span class="pycomment"># Written by Fredrik Lundh, March 2005.</span>
+
+<span class="pycomment"># helpers (tweak as necessary)</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">getuser</span>():
+    <span class="pycomment"># return user name and user id</span>
+    <span class="pykeyword">return</span> <span class="pystring">"anonymous"</span>, 1000
+
+<span class="pykeyword">def</span> <span class="pyfunction">getmode</span>(name, data):
+    <span class="pycomment"># return mode ("b" or "t") for the given file.</span>
+    <span class="pycomment"># you can do this either by inspecting the name, or</span>
+    <span class="pycomment"># the actual data (e.g. by looking for non-ascii, non-</span>
+    <span class="pycomment"># line-feed data).</span>
+    <span class="pykeyword">return</span> <span class="pystring">"t"</span> <span class="pycomment"># assume everything's text, for now</span>
+
+<span class="pycomment">#</span>
+<span class="pycomment"># main</span>
+
+<span class="pykeyword">import</span> tarfile
+<span class="pykeyword">import</span> zipfile
+
+<span class="pykeyword">import</span> glob, os, StringIO, sys, time
+
+now = time.time()
+
+user = getuser()
+
+<span class="pykeyword">def</span> <span class="pyfunction">fixup</span>(infile):
+
+    file, ext = os.path.splitext(infile)
+
+    outfile = file + <span class="pystring">".tar.gz"</span>
+    dirname = os.path.basename(file)
+
+    <span class="pykeyword">print</span> outfile
+
+    zip = zipfile.ZipFile(infile, <span class="pystring">"r"</span>)
+
+    tar = tarfile.open(outfile, <span class="pystring">"w:gz"</span>)
+    tar.posix = 1
+
+    <span class="pykeyword">for</span> name <span class="pykeyword">in</span> zip.namelist():
+
+        <span class="pykeyword">if</span> name.endswith(<span class="pystring">"/"</span>):
+            <span class="pykeyword">continue</span>
+
+        data = zip.read(name)
+        <span class="pykeyword">if</span> getmode(name, data) == <span class="pystring">"t"</span>:
+            data = data.replace(<span class="pystring">"\r\n"</span>, <span class="pystring">"\n"</span>)
+
+        tarinfo = tarfile.TarInfo()
+        tarinfo.name = name
+        tarinfo.size = len(data)
+        tarinfo.mtime = now
+        tarinfo.uname = tarinfo.gname = user[0]
+        tarinfo.uid = tarinfo.gid = user[1]
+        tar.addfile(tarinfo, StringIO.StringIO(data))
+
+    tar.close()
+    zip.close()
+
+<span class="pycomment"># convert all ZIP files in the current directory</span>
+<span class="pykeyword">for</span> file <span class="pykeyword">in</span> glob.glob(<span class="pystring">"*.zip"</span>):
+    fixup(file)</pre></div></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

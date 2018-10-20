@@ -1,0 +1,354 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capítulo 19: Filas &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Capítulo 20: Árvores" href="capitulo_20.html" />
+    <link rel="prev" title="Capítulo 18: Pilhas" href="capitulo_18.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="capitulo_20.html" title="Capítulo 20: Árvores"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_18.html" title="Capítulo 18: Pilhas"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="capitulo-19-filas">
+<h1>Capítulo 19: Filas<a class="headerlink" href="#capitulo-19-filas" title="Link permanente para este título">¶</a></h1>
+<p>Este capítulo apresenta dois TDAs: Fila e Fila por Prioridade. Na nossa vida diária, fila é um alinhamento de consumidores aguardando algum tipo de serviço. Na maioria dos casos, o primeiro da fila é o primeiro a ser atendido. Mas há exceções. No aeroporto, passageiros cujo vôo vai decolar logo, às vezes são chamados primeiro ao balcão do check-in, mesmo que estejam no meio da fila. No supermercado, é comum na fila do caixa alguém deixar passar na frente uma pessoa que chega à fila só com um ou dois produtos na mão.</p>
+<p>A regra que determina quem é o próximo da fila chama-se política de enfileiramento. A política de enfileiramento mais simples chama-se FIFO, sigla de <em>first-in-first-out</em>: primeiro a entrar, primeiro a sair. A política de enfileiramento mais geral é o enfileiramento por prioridade, em que se atribui uma prioridade a cada pessoa da fila e a que tiver maior prioridade vai primeiro, independente da sua ordem de chegada. Dizemos que essa é a política mais geral de todas, porque a prioridade pode ser baseada em qualquer coisa: hora de partida do vôo; quantos produtos a pessoa vai passar pelo caixa; o grau de prestígio da pessoa. É claro que nem todas as políticas de enfileiramento são &#8220;justas&#8221;, mas o que é justo depende do ponto de vista.</p>
+<p>O TDA Fila e o TDA Fila por Prioridade têm o mesmo conjunto de operações. A diferença está na semântica das operações: a fila usa a política FIFO; e a fila por prioridade (como o próprio nome sugere) usa a política de enfileiramento por prioridade.</p>
+<div class="section" id="um-tda-fila">
+<h2>19.1 Um TDA Fila<a class="headerlink" href="#um-tda-fila" title="Link permanente para este título">¶</a></h2>
+<p>O TDA Fila é definido pelas seguintes operações:</p>
+<dl class="docutils">
+<dt>__init__</dt>
+<dd>Inicializar uma nova fila vazia.</dd>
+<dt>insert</dt>
+<dd>Adicionar um novo item à fila.</dd>
+<dt>remove</dt>
+<dd>Remover e retornar um item da fila. O item retornado é o que foi adicionado primeiro.</dd>
+<dt>isEmpty</dt>
+<dd>Checar se a fila está vazia.</dd>
+</dl>
+</div>
+<div class="section" id="fila-encadeada">
+<h2>19.2 Fila encadeada<a class="headerlink" href="#fila-encadeada" title="Link permanente para este título">¶</a></h2>
+<p>A primeira implementação que vamos ver de um TDA Fila chama-se <strong>fila encadeada</strong> porque é feita de objetos <tt class="docutils literal"><span class="pre">Nós</span></tt> encadeados. A definição da classe é a seguinte:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Queue</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="bp">None</span>
+
+  <span class="k">def</span> <span class="nf">isEmpty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cargo</span><span class="p">):</span>
+    <span class="n">node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">cargo</span><span class="p">)</span>
+    <span class="n">node</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+      <span class="c"># if list is empty the new node goes first</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="n">node</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="c"># find the last node in the list</span>
+      <span class="n">last</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span>
+      <span class="k">while</span> <span class="n">last</span><span class="o">.</span><span class="n">next</span><span class="p">:</span> <span class="n">last</span> <span class="o">=</span> <span class="n">last</span><span class="o">.</span><span class="n">next</span>
+      <span class="c"># append the new node</span>
+      <span class="n">last</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">node</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">+</span> <span class="mi">1</span>
+
+  <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">cargo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">cargo</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">next</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">cargo</span>
+</pre></div>
+</div>
+<p>Os métodos <tt class="docutils literal"><span class="pre">isEmpty</span></tt> e <tt class="docutils literal"><span class="pre">remove</span></tt> são idênticos aos métodos  <tt class="docutils literal"><span class="pre">isEmpty</span></tt> e <tt class="docutils literal"><span class="pre">removeFirst</span></tt> de <tt class="docutils literal"><span class="pre">LinkedList</span></tt>. O método <tt class="docutils literal"><span class="pre">insert</span></tt> é novo e um pouco mais complicado.</p>
+<p>Queremos inserir novos itens no fim da lista. Se a fila estiver vazia, basta fazer <tt class="docutils literal"><span class="pre">head</span></tt> apontar ao novo nó. Se não, percorremos a lista até o último nó e lá penduramos o novo nó. É possível identificar o último nó porque o seu atributo <tt class="docutils literal"><span class="pre">next</span></tt> é <tt class="xref docutils literal"><span class="pre">None</span></tt>.</p>
+<p>Existem duas invariantes para um objeto <tt class="docutils literal"><span class="pre">Fila</span></tt> bem formado: o atributo length deve ser o número de nós na fila, e o último nó deve ter seu atributo <tt class="docutils literal"><span class="pre">next</span></tt> igual a <tt class="xref docutils literal"><span class="pre">None</span></tt>. Estude o método até ficar convencido de que ele preserva ambas invariantes.</p>
+</div>
+<div class="section" id="caracteristicas-de-performance">
+<h2>19.3 Características de performance<a class="headerlink" href="#caracteristicas-de-performance" title="Link permanente para este título">¶</a></h2>
+<p>Quando invocamos um método, normalmente não estamos preocupados com os detalhes da sua implementação. Porém, há um certo &#8220;detalhe&#8221; que pode ser bom conhecer: as características de performance do método. Quanto tempo leva, e como o tempo de execução muda à medida em que aumenta o número de itens da coleção?</p>
+<p>Primeiro, olhe para <tt class="docutils literal"><span class="pre">remove</span></tt>. Não há laços ou chamadas de função aqui, o que sugere que o tempo de execução desse método é sempre o mesmo, toda vez. Um método assim é chamado de operação de <strong>tempo constante</strong>. Na verdade, o método pode ser ligeiramente mais rápido quando a lista está vazia, uma vez que ele pula o corpo da condicional, mas essa diferença não é significativa. XXX: o condicional só aparece na re-implementação do método na classe ImprovedQueue, p.200; essa inconsistência pode ser conferida também nas páginas 198-199 do livro original (PDF e impresso).</p>
+<p>A performance de <tt class="docutils literal"><span class="pre">insert</span></tt> é muito diferente. No caso geral, temos de percorrer a lista para achar o último elemento.</p>
+<p>Este percurso leva um tempo proporcional à extensão da lista. Uma vez que o tempo de execução é uma função linear da extensão, dizemos que este método opera em <strong>tempo linear</strong>. Isso é bem ruim, se comparado com o tempo constante.</p>
+</div>
+<div class="section" id="fila-encadeada-aprimorada">
+<h2>19.4 Fila encadeada aprimorada<a class="headerlink" href="#fila-encadeada-aprimorada" title="Link permanente para este título">¶</a></h2>
+<p>Queremos uma implementação do TDA Fila que possa realizar todas as operações em tempo constante. Uma maneira de fazer isso é modificar a classe Fila, de modo que ela mantenha a referência tanto ao primeiro quanto ao último nó, como mostra a figura:</p>
+<img alt="_images/19_01_queue1.png" src="_images/19_01_queue1.png" />
+<p>A implementação de <tt class="docutils literal"><span class="pre">ImprovedQueue</span></tt> tem essa cara:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">ImprovedQueue</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">head</span>   <span class="o">=</span> <span class="bp">None</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">last</span>   <span class="o">=</span> <span class="bp">None</span>
+
+  <span class="k">def</span> <span class="nf">isEmpty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Até agora, a única mudança é o atributo <tt class="docutils literal"><span class="pre">last</span></tt>. Ele é usado nos métodos <tt class="docutils literal"><span class="pre">insert</span></tt> e <tt class="docutils literal"><span class="pre">remove</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">ImprovedQueue</span><span class="p">:</span>
+  <span class="c"># ...</span>
+  <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cargo</span><span class="p">):</span>
+    <span class="n">node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">cargo</span><span class="p">)</span>
+    <span class="n">node</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="c"># if list is empty, the new node is head and last</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last</span> <span class="o">=</span> <span class="n">node</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="c"># find the last node</span>
+      <span class="n">last</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last</span>
+      <span class="c"># append the new node</span>
+      <span class="n">last</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">node</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">last</span> <span class="o">=</span> <span class="n">node</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Uma vez que <tt class="docutils literal"><span class="pre">last</span></tt> não perde de vista o ultimo nó, não é necessário buscá-lo. Como resultado, esse método tem tempo constante.</p>
+<p>Mas essa rapidez tem preço. É preciso adicionar um caso especial a <tt class="docutils literal"><span class="pre">remove</span></tt>, para configurar <tt class="docutils literal"><span class="pre">last</span></tt> para <tt class="xref docutils literal"><span class="pre">None</span></tt> quando o ultimo nó é removido:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">ImprovedQueue</span><span class="p">:</span>
+  <span class="c">#...</span>
+  <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">cargo</span>     <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">cargo</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">next</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">last</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">return</span> <span class="n">cargo</span>
+</pre></div>
+</div>
+<p>Essa implementação é mais complicada que a primeira, e mais difícil de se demonstrar que está correta. A vantagem é que o objetivo foi atingido &#8211; tanto <tt class="docutils literal"><span class="pre">insert</span></tt> quanto <tt class="docutils literal"><span class="pre">remove`</span></tt> são operações de tempo constante.</p>
+<blockquote>
+Como exercício, escreva uma implementação do TDA Fila usando uma lista nativa do Python. Compare a performance dessa implementação com a de <tt class="docutils literal"><span class="pre">ImprovedQueue</span></tt>, para filas de diversos comprimentos.</blockquote>
+</div>
+<div class="section" id="fila-por-prioridade">
+<h2>19.5 Fila por prioridade<a class="headerlink" href="#fila-por-prioridade" title="Link permanente para este título">¶</a></h2>
+<p>O TDA Fila por Prioridade tem a mesma interface que o TDA Fila, mas semântica diferente. Mais uma vez, a interface é a seguinte:</p>
+<dl class="docutils">
+<dt>__init__</dt>
+<dd>Inicializar uma nova fila vazia.</dd>
+<dt>insert</dt>
+<dd>Adicionar um novo item à fila.</dd>
+<dt>remove</dt>
+<dd>Remover e retornar um item da fila. O item retornado é aquele que tiver maior prioridade.</dd>
+<dt>isEmpty</dt>
+<dd>Checar se a fila está vazia.</dd>
+</dl>
+<p>A diferença semântica é que o item removido da fila não é necessariamente o que foi incluído primeiro e, sim, o que tem maior prioridade. Que prioridades são essas e como elas se comparam umas com as outras não é especificado pela implementação Fila por Prioridade. Isso depende de quais itens estão na fila.</p>
+<p>Por exemplo, se os itens da fila tiverem nome, podemos escolhê-los por ordem alfabética. Se for a pontuação de um jogo de boliche, podemos ir da maior para a menor, mas se for pontuação de golfe, teríamos que ir da menor para a maior. Se é possível comparar os itens da fila, é possível achar e remover o que tem maior prioridade. Essa implementação da Fila por Prioridade tem como atributo uma lista Python chamada <tt class="docutils literal"><span class="pre">items</span></tt>, que contém os itens da fila.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">PriorityQueue</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+
+  <span class="k">def</span> <span class="nf">isEmpty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="o">==</span> <span class="p">[]</span>
+
+  <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>O método de inicialização, <tt class="docutils literal"><span class="pre">isEmpty</span></tt>, e <tt class="docutils literal"><span class="pre">insert</span></tt> são apenas uma fachada para operações básicas de lista. O único método interessante é <tt class="docutils literal"><span class="pre">remove</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">PriorityQueue</span><span class="p">:</span>
+  <span class="c"># ...</span>
+  <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">maxi</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">)):</span>
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="n">maxi</span><span class="p">]:</span>
+        <span class="n">maxi</span> <span class="o">=</span> <span class="n">i</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="n">maxi</span><span class="p">]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="n">maxi</span><span class="p">:</span><span class="n">maxi</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="n">item</span>
+</pre></div>
+</div>
+<p>No início de cada iteração, <tt class="docutils literal"><span class="pre">maxi</span></tt> armazena o índice do maior item (a prioridade mais alta de todas) que vimos <em>até agora</em>. A cada volta do laço, o programa compara o <tt class="docutils literal"><span class="pre">i</span></tt>-ésimo item ao campeão. Se o novo item for maior, <tt class="docutils literal"><span class="pre">maxi</span></tt> recebe o valor de <tt class="docutils literal"><span class="pre">i</span></tt>.</p>
+<p>Quando o comando <tt class="docutils literal"><span class="pre">for</span></tt> se completa, <tt class="docutils literal"><span class="pre">maxi</span></tt> é o índice do maior item. Esse item é removido da lista e retornado.</p>
+<p>Vamos testar a implementação:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">PriorityQueue</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">while</span> <span class="ow">not</span> <span class="n">q</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">():</span> <span class="k">print</span> <span class="n">q</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+<span class="go">14</span>
+<span class="go">13</span>
+<span class="go">12</span>
+<span class="go">11</span>
+</pre></div>
+</div>
+<p>Se a fila contém números ou strings simples, eles são removidas em ordem numérica decrescente ou alfabética invertida (de Z até A). Pyhton consegue achar o maior inteiro ou string porque consegue compará-los usando os operadores de comparação nativos.</p>
+<p>Se a fila contém objetos de outro tipo, os objetos têm que prover um método <tt class="docutils literal"><span class="pre">__cmp__</span></tt>. Quando <tt class="docutils literal"><span class="pre">remove</span></tt> usa o operador <tt class="docutils literal"><span class="pre">&gt;</span></tt> para comparar dois itens, o método <tt class="docutils literal"><span class="pre">__cmp__</span></tt> de um dos itens é invocado,  recebendo o segundo item como argumento. Desde que o método <tt class="docutils literal"><span class="pre">__cmp__</span></tt> funcione de forma consistente, a Fila por Prioridade vai funcionar.</p>
+</div>
+<div class="section" id="a-classe-golfer">
+<h2>19.6 A classe <tt class="docutils literal"><span class="pre">Golfer</span></tt><a class="headerlink" href="#a-classe-golfer" title="Link permanente para este título">¶</a></h2>
+<p>Como exemplo de um objeto com uma definição não-usual de prioridade, vamos implementar uma classe chamada <tt class="docutils literal"><span class="pre">Golfer</span></tt> (golfista), que mantém registro dos nomes e da pontuação de golfistas. Como sempre, começamos definindo <tt class="docutils literal"><span class="pre">__init__</span></tt> e <tt class="docutils literal"><span class="pre">__str__</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Golfer</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">score</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">score</span><span class="o">=</span> <span class="n">score</span>
+
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&quot;</span><span class="si">%-16s</span><span class="s">: </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>O método <tt class="docutils literal"><span class="pre">__str__</span></tt> usa o operador de formato para colocar nomes e pontuações em colunas arrumadas.</p>
+<p>Em seguida, definimos uma versão de <tt class="docutils literal"><span class="pre">__cmp__</span></tt>, ma qual a pontuação mais baixa fica com prioridade máxima. Como sempre, <tt class="docutils literal"><span class="pre">__cmp__</span></tt> retorna 1 se <tt class="docutils literal"><span class="pre">self</span></tt> é &#8220;maior que&#8221; <tt class="docutils literal"><span class="pre">other</span></tt>, -1 se <tt class="docutils literal"><span class="pre">self</span></tt> é &#8220;menor que&#8221; <tt class="docutils literal"><span class="pre">other</span></tt>, e 0 se eles são iguais.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Golfer</span><span class="p">:</span>
+  <span class="c">#...</span>
+  <span class="k">def</span> <span class="nf">__cmp__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">score</span><span class="p">:</span> <span class="k">return</span>  <span class="mi">1</span>   <span class="c"># less is more</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">score</span><span class="p">:</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">return</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>Agora estamos prontos para testar a fila por prioridade com a classe <tt class="docutils literal"><span class="pre">Golfer</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tiger</span> <span class="o">=</span> <span class="n">Golfer</span><span class="p">(</span><span class="s">&quot;Tiger Woods&quot;</span><span class="p">,</span>    <span class="mi">61</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phil</span>  <span class="o">=</span> <span class="n">Golfer</span><span class="p">(</span><span class="s">&quot;Phil Mickelson&quot;</span><span class="p">,</span> <span class="mi">72</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hal</span>   <span class="o">=</span> <span class="n">Golfer</span><span class="p">(</span><span class="s">&quot;Hal Sutton&quot;</span><span class="p">,</span>     <span class="mi">69</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pq</span> <span class="o">=</span> <span class="n">PriorityQueue</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pq</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">tiger</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pq</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">phil</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pq</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">hal</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">while</span> <span class="ow">not</span> <span class="n">pq</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">():</span> <span class="k">print</span> <span class="n">pq</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+<span class="go">Tiger Woods    : 61</span>
+<span class="go">Hal Sutton     : 69</span>
+<span class="go">Phil Mickelson : 72</span>
+</pre></div>
+</div>
+<blockquote>
+Como exercício, escreva uma implementação do TDA Fila por Prioridade usando uma lista encadeada. Mantenha a lista em ordem para que a remoção seja uma operação de tempo constante. Compare a performance dessa implementação com a implementação usando uma lista nativa do Python.</blockquote>
+</div>
+<div class="section" id="glossario">
+<h2>19.7 Glossário<a class="headerlink" href="#glossario" title="Link permanente para este título">¶</a></h2>
+<dl class="docutils">
+<dt>fila (<em>queue</em>)</dt>
+<dd>Conjunto de objetos ordenados esperando algum tipo de serviço.</dd>
+<dt>Fila (<em>Queue</em>)</dt>
+<dd>TAD (Tipo Abstrato de Dado) que realiza operações comuns de acontecerem em uma fila.</dd>
+<dt>política de enfileiramento (<em>queueing policy</em>)</dt>
+<dd>As regras que determinam qual membro de uma fila é o próximo a ser removido.</dd>
+<dt><em>FIFO</em></dt>
+<dd>&#8220;First In, First Out,&#8221; (primeiro a entrar, primeiro a sair) política de enfileiramento em que o primeiro membro a chegar é o primeiro a ser removido.</dd>
+<dt>fila por prioridade (<em>priority queue</em>)</dt>
+<dd>Política de enfileiramento em que cada membro tem uma prioridade, determinada por fatores externos. O membro com a maior prioridade é o primeiro a ser removido.</dd>
+<dt>Fila por Prioridade (<em>Priority Queue</em>)</dt>
+<dd>TAD que define as operações comuns de acontecerem em uma fila por prioridade.</dd>
+<dt>fila encadeada (<em>linked queue</em>)</dt>
+<dd>Implementação de uma fila usando uma lista encadeada.</dd>
+<dt>tempo constante (<em>constant time</em>)</dt>
+<dd>Operação cujo tempo de execução não depende do tamanho da estrutura de dados.</dd>
+<dt>tempo linear (<em>linear time</em>)</dt>
+<dd>Operação cujo tempo de execução é uma função linear do tamanho da estrutura de dados.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Capítulo 19: Filas</a><ul>
+<li><a class="reference internal" href="#um-tda-fila">19.1 Um TDA Fila</a></li>
+<li><a class="reference internal" href="#fila-encadeada">19.2 Fila encadeada</a></li>
+<li><a class="reference internal" href="#caracteristicas-de-performance">19.3 Características de performance</a></li>
+<li><a class="reference internal" href="#fila-encadeada-aprimorada">19.4 Fila encadeada aprimorada</a></li>
+<li><a class="reference internal" href="#fila-por-prioridade">19.5 Fila por prioridade</a></li>
+<li><a class="reference internal" href="#a-classe-golfer">19.6 A classe <tt class="docutils literal"><span class="pre">Golfer</span></tt></a></li>
+<li><a class="reference internal" href="#glossario">19.7 Glossário</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="capitulo_18.html"
+                        title="capítulo anterior">Capítulo 18: Pilhas</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="capitulo_20.html"
+                        title="próximo capítulo">Capítulo 20: Árvores</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/capitulo_19.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="capitulo_20.html" title="Capítulo 20: Árvores"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_18.html" title="Capítulo 18: Pilhas"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

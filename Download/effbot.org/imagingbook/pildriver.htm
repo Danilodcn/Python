@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The pildriver&nbsp;Utility</title></head><body data-page-id="459"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><p><a href="imagemath.htm">back</a>&#160;<a href="pilconvert.htm">next</a></p><h1 class="maintitle">The pildriver&nbsp;Utility</h1></div><div class="yui-ge"><div class="yui-u first"><p>The <b>pildriver</b> tool gives access to most PIL functions from
+your operating system&#8217;s command-line interface.</p><pre>
+$ pildriver program
+</pre><p>When called as a script, the command-line arguments are passed to a
+<b>PILDriver</b> instance (see below).  If there are no command-line
+arguments, the module runs an interactive interpreter, each line of
+which is split into space-separated tokens and passed to the execute
+method.</p><p>The <b>pildriver</b> tool was contributed by Eric S. Raymond.</p><h3 id="examples">Examples&#160;<a class="nav" href="#examples" title="bookmark!">#</a></h3><p>The following example loads <b>test.png</b>, crops out a portion of
+its upper-left-hand corner and displays the cropped portion:</p><pre>
+$ pildriver show crop 0 0 200 300 open test.png
+</pre><p>The following example loads <b>test.tiff</b>, rotates it 30
+degrees, and saves the result as <b>rotated.png</b> (in PNG
+format):</p><pre>
+$ pildriver save rotated.png rotate 30 open test.tiff
+</pre><h3 id="the-pildriver-class">The PILDriver Class&#160;<a class="nav" href="#the-pildriver-class" title="bookmark!">#</a></h3><p>The <b>pildriver</b> module provides a single class called
+<b>PILDriver</b>.</p><p>An instance of the <b>PILDriver</b> class is essentially a software
+stack machine (Polish-notation interpreter) for sequencing PIL image
+transformations. The state of the instance is the interpreter
+stack.</p><p>The only method one will normally invoke after initialization is
+the <b>execute</b> method.  This takes an argument list of tokens,
+pushes them onto the instance&#8217;s stack, and then tries to clear the
+stack by successive evaluation of PILdriver operators.  Any part of
+the stack not cleaned off persists and is part of the evaluation
+context for the next call of the execute method.</p><p>PILDriver doesn&#8217;t catch any exceptions, on the theory that these
+are actually diagnostic information that should be interpreted by the
+calling code.</p><h3 id="methods">Methods&#160;<a class="nav" href="#methods" title="bookmark!">#</a></h3><p>In the method descriptions below, each line lists a command token,
+followed by &lt;&gt;-enclosed arguments which describe how the method
+interprets the entries on the stack.  Each argument specification
+begins with a type specification: either <b>int</b>, <b>float</b>,
+<b>string</b>, or <b>image</b>.</p><p>All operations consume their arguments off the stack (use
+<b>dup</b> to keep copies around).  Use <b>verbose 1</b> to see the
+stack state displayed before each operation.</p><dl><dt>add &lt;image:pic1&gt; &lt;image:pic2&gt; &lt;int:offset&gt; &lt;float:scale&gt;</dt><dd>Pop the two top images, produce the scaled sum with offset.</dd>
+<dt>blend &lt;image:pic1&gt; &lt;image:pic2&gt; &lt;float:alpha&gt;</dt><dd>Replace two images and an alpha with the blended image.</dd>
+<dt>brightness &lt;image:pic1&gt;</dt><dd>Enhance brightness in the top image.</dd>
+<dt>clear</dt><dd>Clear the stack.</dd>
+<dt>color &lt;image:pic1&gt;</dt><dd>Enhance colour in the top image.</dd>
+<dt>composite &lt;image:pic1&gt; &lt;image:pic2&gt; &lt;image:mask&gt;</dt><dd>Replace two images and a mask with their composite.</dd>
+<dt>contrast &lt;image:pic1&gt;</dt><dd>Enhance contrast in the top image.</dd>
+<dt>convert &lt;string:mode&gt; &lt;image:pic1&gt;</dt><dd>Convert the top image to the given mode.</dd>
+<dt>copy &lt;image:pic1&gt;</dt><dd>Make and push a true copy of the top image.</dd>
+<dt>crop &lt;int:left&gt; &lt;int:upper&gt; &lt;int:right&gt; &lt;int:lower&gt; &lt;image:pic1&gt;</dt><dd>Crop and push a rectangular region from the current image.</dd>
+<dt>darker &lt;image:pic1&gt; &lt;image:pic2&gt;</dt><dd>Pop the two top images, push an image of the darker pixels of both.</dd>
+<dt>difference &lt;image:pic1&gt; &lt;image:pic2&gt;</dt><dd>Pop the two top images, push the difference image</dd>
+<dt>draft &lt;string:mode&gt; &lt;int:xsize&gt; &lt;int:ysize&gt;</dt><dd>Configure the loader for a given mode and size.</dd>
+<dt>dup</dt><dd>Duplicate the top-of-stack item.</dd>
+<dt>filter &lt;string:filtername&gt; &lt;image:pic1&gt;</dt><dd>Process the top image with the given filter.</dd>
+<dt>format &lt;image:pic1&gt;</dt><dd>Push the format of the top image onto the stack.</dd>
+<dt>getbbox</dt><dd>Push left, upper, right, and lower pixel coordinates of the top image.</dd>
+<dt>extrema</dt><dd>Push minimum and maximum pixel values of the top image.</dd>
+<dt>invert &lt;image:pic1&gt;</dt><dd>Invert the top image.</dd>
+<dt>lighter &lt;image:pic1&gt; &lt;image:pic2&gt;</dt><dd>Pop the two top images, push an image of the lighter pixels of both.</dd>
+<dt>merge &lt;string:mode&gt; &lt;image:pic1&gt; [&lt;image:pic2&gt; [&lt;image:pic3&gt; [&lt;image:pic4&gt;]]]</dt><dd>Merge top-of stack images in a way described by the mode.</dd>
+<dt>mode &lt;image:pic1&gt;</dt><dd>Push the mode of the top image onto the stack.</dd>
+<dt>multiply &lt;image:pic1&gt; &lt;image:pic2&gt;</dt><dd>Pop the two top images, push the multiplication image.</dd>
+<dt>new &lt;int:xsize&gt; &lt;int:ysize&gt; &lt;int:color&gt;:</dt><dd>Create and push a greyscale image of given size and colour.</dd>
+<dt>offset &lt;int:xoffset&gt; &lt;int:yoffset&gt; &lt;image:pic1&gt;</dt><dd>Offset the pixels in the top image.</dd>
+<dt>open &lt;string:filename&gt;</dt><dd>Open the indicated image, read it, push the image on the stack.</dd>
+<dt>paste &lt;image:figure&gt; &lt;int:xoffset&gt; &lt;int:yoffset&gt; &lt;image:ground&gt;</dt><dd>Paste figure image into ground with upper left at given offsets.</dd>
+<dt>pop</dt><dd>Discard the top element on the stack.</dd>
+<dt>resize &lt;int:xsize&gt; &lt;int:ysize&gt; &lt;image:pic1&gt;</dt><dd>Resize the top image.</dd>
+<dt>rotate &lt;int:angle&gt; &lt;image:pic1&gt;</dt><dd>Rotate image through a given angle</dd>
+<dt>save &lt;string:filename&gt; &lt;image:pic1&gt;</dt><dd>Save image with default options.</dd>
+<dt>save2 &lt;string:filename&gt; &lt;string:options&gt; &lt;image:pic1&gt;</dt><dd>Save image with specified options.</dd>
+<dt>screen &lt;image:pic1&gt; &lt;image:pic2&gt;</dt><dd>Pop the two top images, superimpose their inverted versions.</dd>
+<dt>sharpness &lt;image:pic1&gt;</dt><dd>Enhance sharpness in the top image.</dd>
+<dt>show &lt;image:pic1&gt;</dt><dd>Display and pop the top image.</dd>
+<dt>size &lt;image:pic1&gt;</dt><dd>Push the image size on the stack as (y, x).</dd>
+<dt>subtract &lt;image:pic1&gt; &lt;image:pic2&gt; &lt;int:offset&gt; &lt;float:scale&gt;</dt><dd>Pop the two top images, produce the scaled difference with offset.</dd>
+<dt>swap</dt><dd>Swap the top-of-stack item with the next one down.</dd>
+<dt>thumbnail &lt;int:xsize&gt; &lt;int:ysize&gt; &lt;image:pic1&gt;</dt><dd>Modify the top image in the stack to contain a thumbnail of itself.</dd>
+<dt>transpose &lt;string:operator&gt; &lt;image:pic1&gt;</dt><dd>Transpose the top image.</dd>
+<dt>verbose &lt;int:num&gt;</dt><dd>Set verbosity flag from top of stack.</dd>
+</dl></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p><a href="imagemath.htm">back</a>&#160;<a href="pilconvert.htm">next</a></p></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to imagingbook index page.">::: imagingbook :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><ul><li><a href="#examples">Examples</a></li><li><a href="#the-pildriver-class">The PILDriver Class</a></li><li><a href="#methods">Methods</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

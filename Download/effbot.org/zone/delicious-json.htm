@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Grabbing del.icio.us posts with&nbsp;Python</title></head><body data-page-id="37"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Grabbing del.icio.us posts with&nbsp;Python</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | September 24, 2006 | Originally posted to <a href="http://online.effbot.org">online.effbot.org</a></p><p>The
+<a href="http://del.icio.us/">del.icio.us link management site</a>
+offers a convenient
+<a href="http://del.icio.us/help/json/">JSON interface</a>
+for fetching the last few posts as
+<a href="http://www.json.org/">a JSON object</a>.  While JSON
+is designed for use in JavaScript environments, it turns out
+that the JSON produced by del.icio.us is really easy to use
+from Python.</p><p>For example, fetching <b>http://del.icio.us/feeds/json/effbot?raw</b>
+URL gives you the 15 most recent additions to my del.icio.us feed as a
+single JSON object.  With some extra linefeeds added for clarity, the
+object might look something like this:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+[{"u":"http://faassen.n--tree.net/blog/view/weblog/2006/02/24/0",
+  "d":"Martijn Faassen: lxml and (c)ElementTree",
+  "t":["python","xml","elementtree","effbot:link","date:20060224"]},
+ {"u":"http://article.gmane.org/gmane.comp.python.tutor/24986",
+  "d":"Danny Yoo: elementtree mini-tutorial",
+  "t":["python","xml","elementtree","effbot:link","date:20050524"]},
+  ...
+</pre></div><div class="yui-g"><p class="wide">This looks a lot like Python, of course.  In fact, it&#8217;s perfectly
+compatible with Python&#8217;s syntax for dictionaries, lists, and ordinary
+strings.  To convert it into a Python object, you can simply pass it
+to <b>eval</b>:
+
+<pre class="python wide">
+&gt;&gt;&gt; <span class="pykeyword">import</span> urllib, pprint
+&gt;&gt;&gt; url = <span class="pystring">"http://del.icio.us/feeds/json/effbot?raw"</span>
+&gt;&gt;&gt; pprint.pprint(eval(urllib.urlopen(url).read()))
+[{<span class="pystring">'d'</span>: <span class="pystring">'Martijn Faassen: lxml and (c)ElementTree'</span>,
+  <span class="pystring">'t'</span>: [<span class="pystring">'python'</span>, <span class="pystring">'xml'</span>, <span class="pystring">'elementtree'</span>, <span class="pystring">'effbot:link'</span>, <span class="pystring">'date:20060224'</span>],
+  <span class="pystring">'u'</span>: <span class="pystring">'http://faassen.n--tree.net/blog/view/weblog/2006/02/24/0'</span>},
+ {<span class="pystring">'d'</span>: <span class="pystring">'Danny Yoo: elementtree mini-tutorial'</span>,
+  <span class="pystring">'t'</span>: [<span class="pystring">'python'</span>, <span class="pystring">'xml'</span>, <span class="pystring">'elementtree'</span>, <span class="pystring">'effbot:link'</span>, <span class="pystring">'date:20050524'</span>],
+  <span class="pystring">'u'</span>: <span class="pystring">'http://article.gmane.org/gmane.comp.python.tutor/24986'</span>},
+  ...
+]</pre></p></div><div class="yui-ge"><div class="yui-u first"><p>Not bad.  A complete del.icio.us post grabber in what&#8217;s basically
+one line of Python.</p><p>Well, almost complete, at least.  The JSON object uses UTF-8 encoding
+for non-ASCII text, so to be on the safe side, you should decode the strings
+before using them.  To deal with this, and make the data a little easier
+to use, you can use a wrapper to represent the individual posts:</p><pre class="python">
+<span class="pykeyword">import</span> urllib
+
+<span class="pykeyword">def</span> <span class="pyfunction">utf8</span>(s):
+    <span class="pykeyword">return</span> unicode(s, <span class="pystring">"utf-8"</span>)
+
+<span class="pykeyword">class</span> <span class="pyclass">Post</span>(object):
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, item):
+        self.link = utf8(item[<span class="pystring">"u"</span>])
+        self.title = utf8(item[<span class="pystring">"d"</span>])
+        self.description = utf8(item.get(<span class="pystring">"n"</span>, <span class="pystring">""</span>))
+        self.tags = map(utf8, item[<span class="pystring">"t"</span>])
+
+<span class="pykeyword">def</span> <span class="pyfunction">getposts</span>(user):
+    url = <span class="pystring">"http://del.icio.us/feeds/json/%s/?raw"</span> % user
+    <span class="pykeyword">return</span> map(Post, eval(urllib.urlopen(url).read()))
+
+<span class="pykeyword">for</span> post <span class="pykeyword">in</span> getposts(<span class="pystring">"effbot"</span>):
+    <span class="pykeyword">print</span> post.link, post.tags</pre><p>The del.icio.us JSON interface provides two additional features; you
+can fetch up to 100 posts in each requests, and you can filter on
+individual tags or tag combinations.  Here&#8217;s an enhanced version of
+the <b>getposts</b> function that takes optional tag and count
+arguments:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">def</span> <span class="pyfunction">getposts</span>(user, tag=<span class="pystring">""</span>, count=15):
+    <span class="pykeyword">if</span> isinstance(tag, tuple):
+        tag = <span class="pystring">"+"</span>.join(tag)
+    url = <span class="pystring">"http://del.icio.us/feeds/json/%s/%s?raw&amp;count=%d"</span> % (
+        user, tag, count
+        )
+    <span class="pykeyword">return</span> map(Post, eval(urllib.urlopen(url).read()))</pre></div><div class="yui-ge"><div class="yui-u first"><p>The tag argument can be either a single string or a tuple of strings.
+For example, to get all my <b>pil</b>-related links, you can use:</p><pre class="python">
+&gt;&gt;&gt; <span class="pykeyword">for</span> post <span class="pykeyword">in</span> getposts(<span class="pystring">"effbot"</span>, <span class="pystring">"pil"</span>):
+&gt;&gt;&gt;     <span class="pykeyword">print</span> post.link</pre><pre>
+http://louhi.kempele.fi/~skyostil/uv/fretsonfire/
+http://effbot.python-hosting.com/milestone/pil-1.1.6-beta
+...
+</pre></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">To get an &#8220;official&#8221; elementtree bibliography, you can specify
+both <b>effbot:link</b> (which I&#8217;m using for bibliographic entries)
+and <b>elementtree</b>:
+
+<pre class="python wide">
+&gt;&gt;&gt; <span class="pykeyword">for</span> post <span class="pykeyword">in</span> getposts(<span class="pystring">"effbot"</span>, (<span class="pystring">"effbot:link"</span>, <span class="pystring">"elementtree"</span>), 100):
+&gt;&gt;&gt;     <span class="pykeyword">print</span> post.link</pre><pre class="wide">
+http://faassen.n--tree.net/blog/view/weblog/2006/02/24/0
+http://article.gmane.org/gmane.comp.python.tutor/24986
+...
+</pre></p></div><div class="yui-g"><p class="wide">As can be seen in the raw dumps above, bibliography links also
+include <b>date:</b> tags.  The following snippet sorts the list by
+publication date:
+
+
+<pre class="python wide">
+posts = getposts(<span class="pystring">"effbot"</span>, (<span class="pystring">"effbot:link"</span>, <span class="pystring">"elementtree"</span>), 100)
+
+<span class="pykeyword">def</span> <span class="pyfunction">getdate</span>(post):
+    <span class="pykeyword">for</span> tag <span class="pykeyword">in</span> post.tags:
+        <span class="pykeyword">if</span> tag.startswith(<span class="pystring">"date:"</span>):
+            <span class="pykeyword">return</span> tag[5:]
+    <span class="pykeyword">return</span> None
+
+posts.sort(key=getdate)
+
+<span class="pykeyword">for</span> post <span class="pykeyword">in</span> posts:
+    <span class="pykeyword">print</span> post.link</pre></p></div><div class="yui-ge"><div class="yui-u first"><p>Running this gives us:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+http://www.xml.com/pub/a/2003/02/12/py-xml.html
+http://www-128.ibm.com/developerworks/library/x-matters28/
+http://www.idealliance.org/papers/dx_xml03/papers/06-02-03/06-02-03.html
+http://www.xml.com/pub/a/2004/06/30/py-xml.html
+...
+</pre></div><div class="yui-g"><p class="wide">Generating HTML instead is straight-forward; running:
+
+<pre class="python wide">
+<span class="pykeyword">import</span> cgi
+
+<span class="pykeyword">print</span> <span class="pystring">"&lt;ul&gt;"</span>
+<span class="pykeyword">for</span> post <span class="pykeyword">in</span> posts:
+    <span class="pykeyword">print</span> <span class="pystring">"&lt;li&gt;&lt;a href='%s'&gt;%s&lt;/a&gt;"</span> % (post.link, cgi.escape(post.title))
+<span class="pykeyword">print</span> <span class="pystring">"&lt;/ul&gt;"</span></pre></p></div><div class="yui-ge"><div class="yui-u first"><p>gives us:</p><ul><li><a href="http://www.xml.com/pub/a/2003/02/12/py-xml.html">Uche Ogbuji: Simple XML Processing With elementtree</a>
+</li><li><a href="http://www-128.ibm.com/developerworks/library/x-matters28/">David Mertz: Process XML in Python with ElementTree</a>
+</li><li><s><a href="http://www.idealliance.org/papers/dx_xml03/papers/06-02-03/06-02-03.html">Uche Ogbuji: Python Paradigms for XML</a></s> (dead link)
+</li><li><a href="http://www.xml.com/pub/a/2004/06/30/py-xml.html">Uche Ogbuji: XML Namespaces Support in Python Tools, Part Three</a>
+</li><li><a href="http://www.xml.com/pub/a/2004/08/11/py-xml.html">Uche Ogbuji: Practical SAX Notes</a>
+</li><li><a href="http://reagle.org/joseph/blog/technology/python/elementtree-model">Joseph Reagle: XML ElementTree Data Model</a>
+</li><li><a href="http://article.gmane.org/gmane.comp.python.tutor/24986">Danny Yoo:
+elementtree mini-tutorial</a>
+</li><li><a href="http://faassen.n--tree.net/blog/view/weblog/2006/02/24/0">Martijn Faassen: lxml and (c)ElementTree</a>
+</li><li><a href="http://www.dalkescientific.com/writings/diary/archive/2006/08/22/py protocols_for_output_generation.html">Andrew Dalke: PyProtocols for output generation</a>
+</li></ul></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">To simplify even more, you can move the HTML anchor code into the
+<b>Post</b> class; by adding a <b>__str__</b> method, you can simply
+print the post object to get a link:
+
+<pre class="python wide">
+<span class="pykeyword">class</span> <span class="pyclass">Post</span>(object):
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, item):
+        self.link = utf8(item[<span class="pystring">"u"</span>])
+        self.title = utf8(item[<span class="pystring">"d"</span>])
+        self.description = utf8(item.get(<span class="pystring">"n"</span>, <span class="pystring">""</span>))
+        self.tags = map(utf8, item[<span class="pystring">"t"</span>])
+    <span class="pykeyword">def</span> <span class="pyfunction">__str__</span>(self):
+         <span class="pykeyword">return</span> <span class="pystring">"&lt;a href='%s'&gt;%s&lt;/a&gt;"</span> % (self.link, cgi.escape(self.title))
+
+...
+
+<span class="pykeyword">print</span> <span class="pystring">"&lt;ul&gt;"</span>
+<span class="pykeyword">for</span> post <span class="pykeyword">in</span> posts:
+    <span class="pykeyword">print</span> <span class="pystring">"&lt;li&gt;"</span>, post
+<span class="pykeyword">print</span> <span class="pystring">"&lt;/ul&gt;"</span></pre></p></div><div class="yui-ge"><div class="yui-u first"><p>More on this later.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

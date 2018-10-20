@@ -1,0 +1,256 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Using the ElementTree Module to Generate SOAP Messages, Part 4: Automatically Decoding&nbsp;Responses</title></head><body data-page-id="104"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><p><a href="elementsoap-3.htm">back</a>&#160;<a href="elementsoap-5.htm">next</a></p><h1 class="maintitle">Using the ElementTree Module to Generate SOAP Messages, Part 4: Automatically Decoding&nbsp;Responses</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">November 23, 2003 | Fredrik Lundh</p><p class="note"><b>Note:</b>
+A distribution kit containing the source code for this article is
+available from <a href="http://effbot.org/downloads#elementsoap">the
+effbot.org downloads site</a> (look for ElementSOAP 0.3 or later).</p><h2 id="automatically-decoding-responses">Automatically Decoding Responses&#160;<a class="nav" href="#automatically-decoding-responses" title="bookmark!">#</a></h2><p>The method wrappers we&#8217;ve used this far either returns the response
+element as is, or explicitly converts the response to a Python object.
+For example, the <i>Delayed Stock Quote</i> example used <b>float</b> to
+convert the return value to a Python float, and the <b>doGetCachedpage</b>
+method in the Google wrapper used the <b>base64</b> module to decode
+the response string.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">However, if you look at the XML structures returned by the servers,
+you&#8217;ll notice that they contain type annotations that can be used by the
+SOAP layer.  For example, here&#8217;s a typical <b>doSpellingSuggestion</b>
+response envelope (somewhat simplified, namespace declarations not shown):
+
+<pre class="xml wide">
+&lt;<span class="pyfunction">soap:Envelope</span>&gt;
+  &lt;<span class="pyfunction">soap:Body</span>&gt;
+    &lt;<span class="pyfunction">google:doSpellingSuggestionResponse</span> soap:encodingStyle="..."&gt;
+      &lt;<span class="pyfunction">return</span> xsi:type="xsd:string"&gt;python&lt;/<span class="pyfunction">return</span>&gt;
+    &lt;/<span class="pyfunction">google:doSpellingSuggestionResponse</span>&gt;
+  &lt;/<span class="pyfunction">soap:Body</span>&gt;
+&lt;/<span class="pyfunction">soap:Envelope</span>&gt;</pre></p></div><div class="yui-ge"><div class="yui-u first"><p>And here&#8217;s a <b>doGetCachedPage</b> response:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="xml wide wide">
+&lt;<span class="pyfunction">soap:Envelope</span>&gt;
+  &lt;<span class="pyfunction">soap:Body</span>&gt;
+    &lt;<span class="pyfunction">google:doGetCachedPageResponse</span> soap:encodingStyle="..."&gt;
+      &lt;<span class="pyfunction">return</span> xsi:type="soap-encoding:base64"&gt;PG1l....Cg==&lt;/<span class="pyfunction">return</span>&gt;
+    &lt;/<span class="pyfunction">google:doGetCachedPageResponse</span>&gt;
+  &lt;/<span class="pyfunction">soap:Body</span>&gt;
+&lt;/<span class="pyfunction">soap:Envelope</span>&gt;</pre></div><div class="yui-ge"><div class="yui-u first"><p>In both cases, the <b>return</b> element contains an <b>xsi:type</b>
+attribute, which tells you how the server expects you to handle the data.
+The <b>xsd:string</b> type is a plain string, while <b>soap-encoding:base64</b> indicates that the response contains BASE64-encoded binary data.</p><p>You can use these annotations to automatically decode the return
+structures, without having to write method-specific code in the
+wrapper class.  First, you have to do something about
+<a href="#element-qnames">the QName issue</a>;
+the contents of the <b>xsi:type</b> attribute has to be converted from
+the prefix/name encoding to a true universal name.  In this case, xsd:string
+should actually be &#8220;<b>{http://www.w3.org/1999/XMLSchema}string</b>&#8220;, and
+soap-encoding:base64 should be &#8220;<b>{http://schemas.xmlsoap.org/soap/encoding/}base64</b>&#8220;.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">You can do this conversion in the decoder, but it&#8217;s probably easier to do
+it once and for all in the <b>SoapService</b> wrapper.  Here&#8217;s a version of
+that class that processes all <b>xsi:type</b> attributes:
+
+<pre class="python wide">
+<span class="pykeyword">class</span> <span class="pyclass">SoapService</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, url=None):
+        self.__client = HTTPClient(url <span class="pykeyword">or</span> self.url)
+    <span class="pykeyword">def</span> <span class="pyfunction">call</span>(self, action, request):
+        <span class="pycomment"># build SOAP envelope</span>
+        envelope = Element(NS_SOAP_ENV + <span class="pystring">"Envelope"</span>)
+        body = SubElement(envelope, NS_SOAP_ENV + <span class="pystring">"Body"</span>)
+        body.append(request)
+        <span class="pycomment"># call the server</span>
+        <span class="pykeyword">try</span>:
+            parser = NamespaceParser()
+            response = self.__client.do_request(
+                tostring(envelope),
+                extra_headers=[(<span class="pystring">"SOAPAction"</span>, action)],
+                parser=parser
+                )
+        <span class="pykeyword">except</span> HTTPError, v:
+            <span class="pykeyword">if</span> v[0] == 500:
+                <span class="pycomment"># might be a SOAP fault</span>
+                response = ElementTree.parse(v[3], parser)
+        response = response.find(body.tag)[0]
+        <span class="pycomment"># fix XSI type attributes</span>
+        <span class="pykeyword">for</span> elem <span class="pykeyword">in</span> response.getiterator():
+            type = elem.get(NS_XSI + <span class="pystring">"type"</span>)
+            <span class="pykeyword">if</span> type:
+                elem.set(NS_XSI + <span class="pystring">"type"</span>, fixqname(elem, type))
+        <span class="pycomment"># look for fault descriptors</span>
+        <span class="pykeyword">if</span> response.tag == NS_SOAP_ENV + <span class="pystring">"Fault"</span>:
+            faultcode = response.find(<span class="pystring">"faultcode"</span>)
+            <span class="pykeyword">raise</span> SoapFault(
+                fixqname(faultcode, faultcode.text),
+                response.findtext(<span class="pystring">"faultstring"</span>),
+                response.findtext(<span class="pystring">"faultactor"</span>),
+                response.find(<span class="pystring">"detail"</span>)
+                )
+        <span class="pykeyword">return</span> response</pre></p></div><div class="yui-g"><p class="wide">The next step is to update the service wrapper; in the following
+snippet, the explicit calls to <b>findtext</b> and the <b>base64</b>
+module have been replaced with calls to a <b>decode_element</b>
+helper function:
+
+<pre class="python wide">
+<span class="pykeyword">class</span> <span class="pyclass">GoogleService</span>(SoapService):
+
+    ...
+
+    <span class="pykeyword">def</span> <span class="pyfunction">doGetCachedPage</span>(self, url):
+        action = <span class="pystring">"urn:GoogleSearchAction"</span>
+        request = SoapRequest(<span class="pystring">"{urn:GoogleSearch}doGetCachedPage"</span>)
+        SoapElement(request, <span class="pystring">"key"</span>, <span class="pystring">"string"</span>, self.__key)
+        SoapElement(request, <span class="pystring">"url"</span>, <span class="pystring">"string"</span>, url)
+        <span class="pykeyword">return</span> decode_element(self.call(action, request).find(<span class="pystring">"return"</span>))
+
+    <span class="pykeyword">def</span> <span class="pyfunction">doSpellingSuggestion</span>(self, phrase):
+        action = <span class="pystring">"urn:GoogleSearchAction"</span>
+        request = SoapRequest(<span class="pystring">"{urn:GoogleSearch}doSpellingSuggestion"</span>)
+        SoapElement(request, <span class="pystring">"key"</span>, <span class="pystring">"string"</span>, self.__key)
+        SoapElement(request, <span class="pystring">"phrase"</span>, <span class="pystring">"string"</span>, phrase)
+        <span class="pykeyword">return</span> decode_element(self.call(action, request).find(<span class="pystring">"return"</span>))</pre></p></div><div class="yui-ge"><div class="yui-u first"><p>And here&#8217;s a first version of the <b>decode_element</b> helper:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">def</span> <span class="pyfunction">decode_element</span>(element):
+    <span class="pykeyword">if</span> element <span class="pykeyword">is</span> None:
+        <span class="pykeyword">return</span> None
+    type = element.get(NS_XSI + <span class="pystring">"type"</span>)
+    <span class="pykeyword">if</span> type == NS_XSD + <span class="pystring">"string"</span>:
+        <span class="pykeyword">return</span> element.text <span class="pykeyword">or</span> <span class="pystring">""</span>
+    <span class="pykeyword">if</span> type == NS_XSD + <span class="pystring">"integer"</span>:
+        <span class="pykeyword">return</span> int(element.text)
+    <span class="pykeyword">if</span> type == NS_XSD + <span class="pystring">"float"</span> <span class="pykeyword">or</span> type == NS_XSD + <span class="pystring">"double"</span>:
+        <span class="pykeyword">return</span> float(element.text)
+    <span class="pykeyword">if</span> type == NS_SOAP_ENC + <span class="pystring">"base64"</span>:
+        <span class="pykeyword">import</span> base64
+        <span class="pykeyword">return</span> base64.decodestring(element.text)
+    <span class="pykeyword">raise</span> ValueError(<span class="pystring">"type %s not supported"</span> % type)</pre></div><div class="yui-ge"><div class="yui-u first"><p>When you call the new methods, you&#8217;ll find that they return the same
+kind of objects as they did before:</p><pre class="python">
+&gt;&gt;&gt; g = GoogleService(key)
+&gt;&gt;&gt; g.doGetCachedPage(<span class="pystring">"online.effbot.org"</span>)[:40]
+<span class="pystring">'&lt;meta http-equiv="Content-Type" content='</span>
+&gt;&gt;&gt; len(g.doGetCachedPage(<span class="pystring">"online.effbot.org"</span>))
+11467
+&gt;&gt;&gt; g.doSpellingSuggestion(<span class="pystring">"pyhton"</span>)
+<span class="pystring">'python'</span></pre><h2 id="decoding-nested-structures">Decoding Nested Structures&#160;<a class="nav" href="#decoding-nested-structures" title="bookmark!">#</a></h2><p>But what about the <b>doGoogleSearch</b> method?  The current wrapper
+returns an element structure, and leaves it to the application to extract
+the information it needs.  Let&#8217;s take a look at a typical search
+response envelope:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="xml wide wide">
+&lt;<span class="pyfunction">soap:Envelope</span>&gt;
+  &lt;<span class="pyfunction">soap:Body</span>&gt;
+    &lt;<span class="pyfunction">google:doGoogleSearchResponse"</span> soap:encodingStyle="..."&gt;
+      &lt;<span class="pyfunction">return</span> xsi:type="google:GoogleSearchResult"&gt;
+        &lt;<span class="pyfunction">documentFiltering</span> xsi:type="xsd:boolean"&gt;true&lt;/<span class="pyfunction">documentFiltering</span>&gt;
+        &lt;<span class="pyfunction">estimatedTotalResultsCount</span> xsi:type="xsd:int"&gt;22&lt;/<span class="pyfunction">estimatedTotalResultsCount</span>&gt;
+        &lt;<span class="pyfunction">directoryCategories</span> xsi:type="soap-encoding:Array"&gt;
+        &lt;/<span class="pyfunction">directoryCategories</span>&gt;
+        &lt;<span class="pyfunction">searchTime</span> xsi:type="xsd:double"&gt;0.206521&lt;/<span class="pyfunction">searchTime</span>&gt;
+        &lt;<span class="pyfunction">resultElements</span> xsi:type="soap-encoding:Array"&gt;
+          &lt;<span class="pyfunction">item</span> xsi:type="google:ResultElement"&gt;
+            &lt;<span class="pyfunction">cachedSize</span> xsi:type="xsd:string"&gt;5k&lt;/<span class="pyfunction">cachedSize</span>&gt;
+            &lt;<span class="pyfunction">hostName</span> xsi:type="xsd:string"&gt;&lt;/<span class="pyfunction">hostName</span>&gt;
+            &lt;<span class="pyfunction">snippet</span> xsi:type="xsd:string"&gt;&lt;<span class="pyfunction">b</span>&gt;...&lt;/<span class="pyfunction">b</span>&gt;&lt;/<span class="pyfunction">snippet</span>&gt;
+            &lt;<span class="pyfunction">directoryCategory</span> xsi:type="google:DirectoryCategory"&gt;
+              &lt;<span class="pyfunction">specialEncoding</span> xsi:type="xsd:string"&gt;&lt;/<span class="pyfunction">specialEncoding</span>&gt;
+              &lt;<span class="pyfunction">fullViewableName</span> xsi:type="xsd:string"&gt;&lt;/<span class="pyfunction">fullViewableName</span>&gt;
+            &lt;/<span class="pyfunction">directoryCategory</span>&gt;
+            &lt;<span class="pyfunction">relatedInformationPresent</span> xsi:type="xsd:boolean"&gt;true&lt;/<span class="pyfunction">relatedInformationPresent</span>&gt;
+            &lt;<span class="pyfunction">directoryTitle</span> xsi:type="xsd:string"&gt;&lt;/<span class="pyfunction">directoryTitle</span>&gt;
+            &lt;<span class="pyfunction">summary</span> xsi:type="xsd:string"&gt;&lt;/<span class="pyfunction">summary</span>&gt;
+            &lt;<span class="pyfunction">URL</span> xsi:type="xsd:string"&gt;http://effbot.org/...&lt;/<span class="pyfunction">URL</span>&gt;
+            &lt;<span class="pyfunction">title</span> xsi:type="xsd:string"&gt;downloads.effbot.org&lt;/<span class="pyfunction">title</span>&gt;
+          &lt;/<span class="pyfunction">item</span>&gt;
+          &lt;<span class="pyfunction">item</span> xsi:type="google:ResultElement"&gt;
+             ...
+          &lt;/<span class="pyfunction">item</span>&gt;
+          ...
+        &lt;/<span class="pyfunction">resultElements</span>&gt;
+        &lt;<span class="pyfunction">endIndex</span> xsi:type="xsd:int"&gt;10&lt;/<span class="pyfunction">endIndex</span>&gt;
+        &lt;<span class="pyfunction">searchTips</span> xsi:type="xsd:string"&gt;&lt;/<span class="pyfunction">searchTips</span>&gt;
+        &lt;<span class="pyfunction">searchComments</span> xsi:type="xsd:string"&gt;&lt;/<span class="pyfunction">searchComments</span>&gt;
+        &lt;<span class="pyfunction">startIndex</span> xsi:type="xsd:int"&gt;1&lt;/<span class="pyfunction">startIndex</span>&gt;
+        &lt;<span class="pyfunction">estimateIsExact</span> xsi:type="xsd:boolean"&gt;false&lt;/<span class="pyfunction">estimateIsExact</span>&gt;
+        &lt;<span class="pyfunction">searchQuery</span> xsi:type="xsd:string"&gt;elementsoap&lt;/<span class="pyfunction">searchQuery</span>&gt;
+      &lt;/<span class="pyfunction">return</span>&gt;
+    &lt;/<span class="pyfunction">google:doGoogleSearchResponse</span>&gt;
+  &lt;/<span class="pyfunction">soap:Body</span>&gt;
+&lt;/<span class="pyfunction">soap:Envelope</span>&gt;</pre></div><div class="yui-ge"><div class="yui-u first"><p>Ouch.  There&#8217;s lots of stuff in there, including a number of custom
+data types (google:GoogleSearchResult, google:ResultElement, etc).</p><p>The new types fall in three categories:</p><ol><li>New xsd types, including <b>xsd:int</b> and <b>xsd:boolean</b>.  To
+handle these, you can simply add more cases to the <b>decode_element</b>
+helper.
+</li><li>The <b>soap-encoding:Array</b> type.  This type specifier indicates
+that the child elements can be treated as a elements of an array (e.g. a
+Python list).
+</li><li>The <b>google:GoogleSearchResult</b>, <b>google:ResultElement</b>,
+and <b>google:DirectoryCategory</b> types.  These are custom record
+types, and can be mapped to Python classes (or dictionaries).
+</li></ol></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">Here&#8217;s an enhanced decoder, which handles arrays and simple types
+(via an updated version of <b>decode_element</b>), and treats everything
+else as a custom record type.  To simplify things, custom record types
+are returned as dictionaries.
+
+<pre class="python wide">
+<span class="pykeyword">def</span> <span class="pyfunction">decode</span>(element):
+    type = element.get(NS_XSI + <span class="pystring">"type"</span>)
+    <span class="pycomment"># is it an array?</span>
+    <span class="pykeyword">if</span> type == NS_SOAP_ENC + <span class="pystring">"Array"</span>:
+        value = []
+        <span class="pykeyword">for</span> elem <span class="pykeyword">in</span> element:
+            value.append(decode(elem))
+        <span class="pykeyword">return</span> value
+    <span class="pycomment"># is it a primitive type?</span>
+    <span class="pykeyword">try</span>:
+        <span class="pykeyword">return</span> decode_element(element)
+    <span class="pykeyword">except</span> ValueError:
+        <span class="pykeyword">if</span> type <span class="pykeyword">and</span> type.startswith(NS_XSD):
+            <span class="pykeyword">raise</span> <span class="pycomment"># unknown primitive type</span>
+    <span class="pycomment"># assume it's a structure</span>
+    value = {}
+    <span class="pykeyword">for</span> elem <span class="pykeyword">in</span> element:
+        value[elem.tag] = decode(elem)
+    <span class="pykeyword">return</span> value
+
+<span class="pykeyword">def</span> <span class="pyfunction">decode_element</span>(element):
+    <span class="pykeyword">if</span> element <span class="pykeyword">is</span> None:
+        <span class="pykeyword">return</span> None
+    type = element.get(NS_XSI + <span class="pystring">"type"</span>)
+    <span class="pykeyword">if</span> type == NS_XSD + <span class="pystring">"string"</span>:
+        <span class="pykeyword">return</span> element.text <span class="pykeyword">or</span> <span class="pystring">""</span>
+    <span class="pykeyword">if</span> type == NS_XSD + <span class="pystring">"integer"</span> <span class="pykeyword">or</span> type == NS_XSD + <span class="pystring">"int"</span>:
+        <span class="pykeyword">return</span> int(element.text)
+    <span class="pykeyword">if</span> type == NS_XSD + <span class="pystring">"float"</span> <span class="pykeyword">or</span> type == NS_XSD + <span class="pystring">"double"</span>:
+        <span class="pykeyword">return</span> float(element.text)
+    <span class="pykeyword">if</span> type == NS_XSD + <span class="pystring">"boolean"</span>:
+        <span class="pykeyword">return</span> element.text == <span class="pystring">"true"</span>
+    <span class="pykeyword">if</span> type == NS_SOAP_ENC + <span class="pystring">"base64"</span>:
+        <span class="pykeyword">import</span> base64
+        <span class="pykeyword">return</span> base64.decodestring(element.text)
+    <span class="pykeyword">raise</span> ValueError(<span class="pystring">"type %s not supported"</span> % type)</pre><b>pprint</b> module to print a
+nicely rendered version of the resulting Python object structure:
+
+<pre class="python wide">
+&gt;&gt;&gt; g = GoogleService(key)
+&gt;&gt;&gt; <span class="pykeyword">from</span> pprint <span class="pykeyword">import</span> pprint
+&gt;&gt;&gt; r = g.doGoogleSearch(<span class="pystring">"elementsoap"</span>)
+&gt;&gt;&gt; pprint(decode(r))
+{<span class="pystring">'directoryCategories'</span>: [],
+ <span class="pystring">'documentFiltering'</span>: True,
+ <span class="pystring">'endIndex'</span>: 10,
+ <span class="pystring">'estimateIsExact'</span>: False,
+ <span class="pystring">'estimatedTotalResultsCount'</span>: 22,
+ <span class="pystring">'resultElements'</span>: [
+   {<span class="pystring">'URL'</span>: <span class="pystring">'http://effbot.org/downloads/...'</span>,
+    <span class="pystring">'cachedSize'</span>: <span class="pystring">'5k'</span>,
+    <span class="pystring">'directoryCategory'</span>: {<span class="pystring">'fullViewableName'</span>: <span class="pystring">''</span>,
+                          <span class="pystring">'specialEncoding'</span>: <span class="pystring">''</span>},
+    <span class="pystring">'directoryTitle'</span>: <span class="pystring">''</span>,
+    <span class="pystring">'hostName'</span>: <span class="pystring">''</span>,
+    <span class="pystring">'relatedInformationPresent'</span>: True,
+    <span class="pystring">'snippet'</span>: <span class="pystring">'&lt;b&gt;...&lt;/b&gt; Contents of &lt;b&gt;...&lt;/b&gt;'</span>,
+    <span class="pystring">'summary'</span>: <span class="pystring">''</span>,
+    <span class="pystring">'title'</span>: <span class="pystring">'downloads.effbot.org'</span>},
+   {...},
+   ...
+ ],
+ <span class="pystring">'searchComments'</span>: <span class="pystring">''</span>,
+ <span class="pystring">'searchQuery'</span>: <span class="pystring">'elementsoap'</span>,
+ <span class="pystring">'searchTime'</span>: 0.051152999999999997,
+ <span class="pystring">'searchTips'</span>: <span class="pystring">''</span>,
+ <span class="pystring">'startIndex'</span>: 1}</pre></p></div><div class="yui-ge"><div class="yui-u first"><p>Note that the doGoogleSearch method is left intact; it&#8217;s probably not
+a good idea to change the return type for a method in a library that
+has already been released.  We can solve this by adding a more Pythonic
+search method:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">GoogleService</span>(SoapService):
+
+    ...
+
+    <span class="pykeyword">def</span> <span class="pyfunction">pyGoogleSearch</span>(self, *args, **opts):
+        <span class="pykeyword">return</span> decode(self.doGoogleSearch(*args, **opts))</pre></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p><a href="elementsoap-3.htm">back</a>&#160;<a href="elementsoap-5.htm">next</a></p></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#automatically-decoding-responses">Automatically Decoding Responses</a></li><li><a href="#decoding-nested-structures">Decoding Nested Structures</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

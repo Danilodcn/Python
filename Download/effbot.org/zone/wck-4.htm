@@ -1,0 +1,423 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Displaying Large Amounts of Data (Writing Widgets in Python, Part&nbsp;4)</title></head><body data-page-id="348"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><p><a href="wck-3.htm">back</a>&#160;<a href="wck-5.htm">next</a></p><h1 class="maintitle">Displaying Large Amounts of Data (Writing Widgets in Python, Part&nbsp;4)</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">May 31, 2003 | Fredrik Lundh</p><p>The <b>Widget Construction Kit</b> (WCK) is a programming interface
+that you can use to create new widgets for Tkinter and other toolkits,
+in pure Python.</p><p>This is the fourth article in <a href="wck.htm">a series</a>.  In
+this article, we&#8217;ll look at how to implement scrollable widgets.</p><p>In this article:</p><dl><dt><a href="#the-scrollbar-interface">The Scrollbar Interface</a></dt><dt><a href="#creating-a-scrollable-widget">Creating a Scrollable Widget</a></dt><dt><a href="#displaying-huge-data-sets">Displaying Huge Data Sets</a></dt></dl><p align="center" class="mark">:::</p><h2 id="the-scrollbar-interface">The Scrollbar Interface&#160;<a class="nav" href="#the-scrollbar-interface" title="bookmark!">#</a></h2><p>The WCK uses Tkinter&#8217;s scrollbar model, where the scrollbar is
+a separate widget that can be attached to any widget that supports
+scrolling.</p><p>To bind a scrollbar to the scrolled widget, you set the scrollbar&#8217;s
+<b>command</b> option to point to a method that will be called when the
+scrollbar is changed, and the <b>yscrollcommand</b> option on the
+scrollable widget is set to to a method that is called when the view
+is changed (for example, when new items are added, or the widget is
+resized).</p><p>In the following example, a listbox containing 100 integers is
+equipped with a scrollbar:</p><div class="example">
+<b>Example: A listbox with a scrollbar</b>
+<pre class="python">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+root = Tk()
+
+scrollbar = Scrollbar(root)
+scrollbar.pack(side=RIGHT, fill=Y)
+
+listbox = Listbox(root)
+listbox.pack()
+
+<span class="pykeyword">for</span> i <span class="pykeyword">in</span> range(100):
+    listbox.insert(END, i)
+
+<span class="pycomment"># bind listbox to scrollbar</span>
+listbox.config(yscrollcommand=scrollbar.set)
+scrollbar.config(command=listbox.yview)
+
+mainloop()</pre></div><blockquote>
+<img alt="" height="193" src="data:image/png;base64, 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 " width="152" />
+</blockquote><p>To watch the traffic between the listbox and the scrollbar, you can
+replace the <b>Scrollbar</b> and <b>Listbox</b> classes with versions
+that log the relevant method calls:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">DebugScrollbar</span>(Scrollbar):
+    <span class="pykeyword">def</span> <span class="pyfunction">set</span>(self, *args):
+        <span class="pykeyword">print</span> <span class="pystring">"SCROLLBAR SET"</span>, args
+        Scrollbar.set(self, *args)
+
+<span class="pykeyword">class</span> <span class="pyclass">DebugListbox</span>(Listbox):
+    <span class="pykeyword">def</span> <span class="pyfunction">yview</span>(self, *args):
+        <span class="pykeyword">print</span> <span class="pystring">"LISTBOX YVIEW"</span>, args
+        Listbox.yview(self, *args)
+
+scrollbar = DebugScrollbar()
+scrollbar.pack(side=RIGHT, fill=Y)
+
+listbox = DebugListbox(yscrollcommand=scrollbar.set)
+listbox.pack()
+
+scrollbar.config(command=listbox.yview)</pre><p>When you run the example using these widgets, you&#8217;ll get a stream
+of SCROLLBAR and LISTBOX messages in the console window.</p><p>When the listbox is first displayed, the listbox calls the
+scrollbar to inform it about the current view (in this example, 10 out
+of 100 lines are displayed).  The scrollbar calls back, informing the
+listbox that the scrollbar is in its topmost position:</p><pre>
+SCROLLBAR SET ('0', '0.1')
+LISTBOX YVIEW ('moveto', '0')
+</pre><p>Note that all arguments are strings, and that the values are
+normalized to fit in the 0.0 to 1.0 range.</p><p>When you move the scrollbar thumb, the scrollbar sends
+<b>moveto</b> messages to the listbox.  The listbox updates the view,
+and calls the scrollbar&#8217;s <b>set</b> method with the resulting
+values:</p><pre>
+LISTBOX YVIEW ('moveto', '0.1041')
+SCROLLBAR SET ('0.1', '0.2')
+LISTBOX YVIEW ('moveto', '0.186')
+SCROLLBAR SET ('0.19', '0.29')
+LISTBOX YVIEW ('moveto', '0.3124')
+SCROLLBAR SET ('0.31', '0.41')
+LISTBOX YVIEW ('moveto', '0.4166')
+SCROLLBAR SET ('0.42', '0.52')
+</pre><p>Note that the listbox rounds the scrollbar value to the nearest
+full line.</p><p>If you click outside the scrollbar thumb, the scrollbar generates
+<b>scroll</b> events.</p><pre>
+LISTBOX YVIEW ('scroll', '1', 'pages')
+SCROLLBAR SET ('0.5', '0.6')
+LISTBOX YVIEW ('scroll', '1', 'pages')
+SCROLLBAR SET ('0.58', '0.68')
+LISTBOX YVIEW ('scroll', '1', 'units')
+SCROLLBAR SET ('0.59', '0.69')
+LISTBOX YVIEW ('scroll', '1', 'units')
+SCROLLBAR SET ('0.6', '0.7')
+</pre><p>For <b>scroll</b> events, the scrollbar provides both a value and a
+unit, and it&#8217;s up to the listbox to interpret the units in a way that
+makes sense to the user.  The value is usually -1 (scroll up/left) or
+1 (scroll down/right), and the unit is either <b>pages</b> or
+<b>units</b>.</p><p>In a listbox, the basic <b>unit</b> is usually a single item, and
+a <b>page</b> is as many items that fit into the widget&#8217;s window.</p><h2 id="creating-a-scrollable-widget">Creating a Scrollable Widget&#160;<a class="nav" href="#creating-a-scrollable-widget" title="bookmark!">#</a></h2><p>To create your own scrollable widget, you need to deal with two
+separate issues:</p><ol><li>write code that displays a suitable subset of the source data</li><li>write code that interacts with the scrollbar, using a Tkinter-style
+Scrollbar interface</li></ol><p>The following example is a list widget that displays a number of
+strings (stored in a list variable), and allows you to select which
+one to display at the top of the widget.  Use the <b>setfirst</b>
+method to change the view; use <b>setdata</b> to update the
+contents.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Example: A scrollable list view</b>
+<pre class="python wide">
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget, FONT
+
+<span class="pykeyword">class</span> <span class="pyclass">ListView</span>(Widget):
+
+    ui_option_width = 20 <span class="pycomment"># in character units</span>
+    ui_option_height = 10
+
+    ui_option_font = FONT
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, master, **options):
+        self.items = []
+        self.first_item = 0 <span class="pycomment"># first visible item</span>
+        self.ui_init(master, options)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_config</span>(self):
+        self.font = self.ui_font(<span class="pystring">"black"</span>, self.ui_option_font)
+        width, self.item_height = self.font.measure()
+        <span class="pykeyword">return</span> (
+            width * int(self.ui_option_width),
+            self.item_height * int(self.ui_option_height)
+            )
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        y = 0
+        i = self.first_item
+        <span class="pykeyword">while</span> i &lt; len(self.items) <span class="pykeyword">and</span> y &lt; y1:
+            draw.text((0, y), self.items[i], self.font)
+            y = y + self.item_height
+            i = i + 1
+
+    <span class="pykeyword">def</span> <span class="pyfunction">setfirst</span>(self, first_item):
+        self.first_item = first_item
+        self.ui_damage()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">getdata</span>(self):
+        <span class="pykeyword">return</span> self.items
+
+    <span class="pykeyword">def</span> <span class="pyfunction">setdata</span>(self, items):
+        self.items = items
+        self.ui_damage()
+
+<span class="pycomment">#</span>
+<span class="pycomment"># try it out</span>
+
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+root = Tk()
+
+listbox = ListView(root)
+listbox.setdata(map(str, range(100)))
+listbox.pack()
+
+listbox.setfirst(10)
+
+mainloop()</pre></div></div><div class="yui-ge"><div class="yui-u first"><blockquote>
+<img alt="" height="157" src="data:image/png;base64, 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 AAAAAElFTkSuQmCC " width="128" />
+</blockquote><p>To add scrollbar support, you need to add code that calls the
+scrollbar&#8217;s <b>set</b> method (via the <b>yscrollcommand</b> option)
+whenever the widget&#8217;s view is changed.  You also need to implement the
+<b>yview</b> method in a suitable fashion.</p><p>The following example adds an <b>update_geometry</b> method which
+is called whenever the geometry changes.  This method notifies the
+scrollbar, and schedules a widget update.</p><p>The <b>setfirst</b> method from the previous example has been
+extended to make sure that the user cannot move the contents outside
+the view; without that code, if you scroll to the end, and keep
+clicking the scollbar arrow, the contents will scroll out of view.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Example: A scrollable list view, with scrollbar support</b>
+<pre class="python wide">
+<span class="pykeyword">from</span> WCK <span class="pykeyword">import</span> Widget, FONT
+
+<span class="pykeyword">class</span> <span class="pyclass">ListView</span>(Widget):
+
+    ui_option_width = 20 <span class="pycomment"># in character units</span>
+    ui_option_height = 10
+
+    ui_option_font = FONT
+
+    ui_option_yscrollcommand = None
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, master, **options):
+        self.height = 0
+        self.items = []
+        self.first_item = 0 <span class="pycomment"># first visible item</span>
+        self.ui_init(master, options)
+        self.update_geometry()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_config</span>(self):
+        self.font = self.ui_font(<span class="pystring">"black"</span>, self.ui_option_font)
+        width, self.item_height = self.font.measure()
+        self.update_geometry()
+        <span class="pykeyword">return</span> (
+            width * int(self.ui_option_width),
+            self.item_height * int(self.ui_option_height)
+            )
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_resize</span>(self, width, height):
+        self.height = height
+        self.update_geometry()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        y = 0
+        i = self.first_item
+        <span class="pykeyword">while</span> i &lt; len(self.items) <span class="pykeyword">and</span> y &lt; y1:
+            draw.text((0, y), self.items[i], self.font)
+            y = y + self.item_height
+            i = i + 1
+
+    <span class="pykeyword">def</span> <span class="pyfunction">update_geometry</span>(self):
+        <span class="pykeyword">if</span> callable(self.ui_option_yscrollcommand):
+            <span class="pykeyword">if</span> self.items <span class="pykeyword">and</span> self.height:
+                <span class="pycomment"># calculate visible region, in percent</span>
+                page_size = self.height / self.item_height
+                start = float(self.first_item) / len(self.items)
+                end = float(self.first_item + page_size) / len(self.items)
+                self.ui_option_yscrollcommand(start, end)
+            <span class="pykeyword">else</span>:
+                self.ui_option_yscrollcommand(0.0, 1.0)
+        self.ui_damage()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">setfirst</span>(self, first):
+        <span class="pycomment"># clamp first index</span>
+        page_size = self.height / self.item_height
+        <span class="pykeyword">if</span> first &lt; 0 <span class="pykeyword">or</span> len(self.items) &lt;= page_size:
+            first = 0
+        <span class="pykeyword">elif</span> first &gt;= len(self.items) - page_size:
+            first = len(self.items)-page_size
+        <span class="pykeyword">if</span> first != self.first_item:
+            <span class="pycomment"># redraw widget</span>
+            self.first_item = first
+            self.update_geometry()
+
+    <span class="pykeyword">def</span> <span class="pyfunction">yview</span>(self, event, value, unit=None):
+        <span class="pycomment"># adjust top index</span>
+        <span class="pykeyword">if</span> event == <span class="pystring">"moveto"</span>:
+            self.setfirst(int(len(self.items) * float(value) + 0.5))
+        <span class="pykeyword">elif</span> event == <span class="pystring">"scroll"</span>:
+            <span class="pykeyword">if</span> unit == <span class="pystring">"units"</span>:
+                self.setfirst(self.first_item + int(value))
+            <span class="pykeyword">elif</span> unit == <span class="pystring">"pages"</span>:
+                page_size = self.height / self.item_height
+                self.setfirst(self.first_item + int(value) * page_size)
+
+    <span class="pycomment">#</span>
+    <span class="pycomment"># list item interface</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">getdata</span>(self):
+        <span class="pykeyword">return</span> self.items
+
+    <span class="pykeyword">def</span> <span class="pyfunction">setdata</span>(self, items):
+        self.items = items
+        self.update_geometry()
+
+<span class="pycomment">#</span>
+<span class="pycomment"># try it out</span>
+
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+root = Tk()
+
+scrollbar = Scrollbar(root)
+scrollbar.pack(side=RIGHT, fill=Y)
+
+listbox = ListView(root, yscrollcommand=scrollbar.set)
+listbox.setdata(map(str, range(100)))
+listbox.pack()
+
+scrollbar.config(command=listbox.yview)
+
+mainloop()</pre><h2 id="displaying-huge-data-sets">Displaying Huge Data Sets&#160;<a class="nav" href="#displaying-huge-data-sets" title="bookmark!">#</a></h2><p>The list view implementation offers a great advantage over the
+standard Tkinter Listbox, in that it uses a standard Python list, and
+fetches strings from the list only when it needs them.</p><p>If you need to modify the list, all you have to do is to call
+<b>getdata</b>, modify the object (or replace it), and put it back
+using <b>setdata</b>:</p><pre class="python wide">
+data = listbox.getdata()
+data.sort()
+listbox.setdata(data) <span class="pycomment"># triggers a redraw</span></pre><p>In contrast, the Tkinter Listbox requires you to transfer data from
+Python to Tk, and if you want to modify the contents, you have to use
+Tkinter-specific methods (<b>insert</b>, <b>delete</b>, etc).  If you
+have hundreds or thousands of items, the overhead can be quite
+noticable.</p><p>And if we&#8217;re talking millions of items, the Tkinter Listbox will
+easily gobble up all the memory you have.  In contrast, with the
+list view class, all it takes to display a few million items is a
+list-like object that responds to the <b>len()</b> function and
+the <b>[]</b> operator, in the usual way.</p><p>Consider this example:</p><pre class="python wide">
+<span class="pykeyword">import</span> sys
+
+<span class="pykeyword">class</span> <span class="pyclass">huge_list</span>:
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__len__</span>(self):
+        <span class="pykeyword">return</span> sys.maxint
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__getitem__</span>(self, index):
+        <span class="pykeyword">return</span> str(index)
+
+...
+
+listbox = ListView(root)
+listbox.setdata(huge_list())
+
+...</pre><p>When used with the list view, instances of the <b>huge_list</b>
+class will behave like a list containing 2147483647 strings (or more,
+if you&#8217;re running it on a 64-bit platform).  If you had to create all
+those strings before displaying any of them, you&#8217;d run out of memory
+on most contemporary platforms, but the list view widget has no
+problems displaying the entire list:</p><blockquote>
+<img alt="" height="157" src="data:image/png;base64, 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 AP//AwDGTl9BWIrbPQAAAABJRU5ErkJggg== " width="144" />
+</blockquote><p>Note that the <b>huge_list</b> class works pretty much like the
+built-in <b>xrange</b> method, except that it returns strings instead
+of integers.</p><p>What if we want to use something like <b>xrange</b> right away?
+The widget expects the list to contain strings, but <b>xrange</b>
+returns integers.  An obvious way to solve this is change the widget
+so it uses the <b>str</b> function on each item:</p><pre class="python wide">
+<span class="pykeyword">class</span> <span class="pyclass">ListView</span>(Widget):
+
+    ...
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        y = 0
+        i = self.first_item
+        <span class="pykeyword">while</span> i &lt; len(self.items) <span class="pykeyword">and</span> y &lt; y1:
+            draw.text((0, y), str(self.items[i]), self.font)
+            y = y + self.item_height
+            i = i + 1</pre><p>A more flexible solution is to refactor the repair method just
+slightly, and delegate the drawing to a separate method.</p><pre class="python wide">
+<span class="pykeyword">class</span> <span class="pyclass">ListView</span>(Widget):
+
+    ...
+
+    <span class="pykeyword">def</span> <span class="pyfunction">ui_handle_repair</span>(self, draw, x0, y0, x1, y1):
+        y = 0
+        i = self.first_item
+        <span class="pykeyword">while</span> i &lt; len(self.items) <span class="pykeyword">and</span> y &lt; y1:
+            self.repair_item(draw, (0, y), self.items[i])
+            y = y + self.item_height
+            i = i + 1
+
+    <span class="pykeyword">def</span> <span class="pyfunction">repair_item</span>(self, draw, xy, item):
+        draw.text(xy, str(item), self.font)</pre><p>The new <b>repair_item</b> method is called once for each visible
+item.  The default implementation calls <b>str</b> on each item; if
+you don&#8217;t want that, for some reason, you can easily override the
+method and add your own drawing code.</p><p>With this code in place, you can get rid of the <b>huge_list</b>
+code in the earlier example.  Just pass <b>xrange(sys.maxint)</b> to
+the <b>setdata</b> method, and let the widget take care of the
+rest.</p><pre class="wide">
+listbox = ListView(root, yscrollcommand=scrollbar.set)
+listbox.setdata(xrange(sys.maxint))
+listbox.pack()
+</pre><h3>Displaying Virtual Data Sets</h3><p>Displaying insane amounts of integers in a listbox might be a nice
+way to impress your friends and family at the next user interface
+toolkit reunion, but it&#8217;s probably not something that you will end up
+doing in a real application. However, you can use the same approach to
+display more interesting data sets.</p><p>In the following example, a simple wrapper class is used as an
+interface to the result set from a database search.  The list view
+will only fetch enough results to keep the widget up to date:</p><pre class="python wide">
+<span class="pykeyword">class</span> <span class="pyclass">SearchResult</span>:
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, database, search_context, number_of_results):
+        self.database = database
+        self.search_context = search_context
+        self.number_of_results = number_of_results
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__len__</span>(self):
+        <span class="pykeyword">return</span> self.number_of_results
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__getitem__</span>(self, index):
+        <span class="pykeyword">return</span> self.database.getresult(self.search_context, index)
+
+listbox = ListView(root)
+
+context, number_of_results = database.search(query)
+listbox.setdata(SearchResult(database, context, number_of_results))</pre><p>In production code, you should probably add some kind of cache on
+the way from the database to the display, to avoid fetching the same
+items over and over again.</p><h3>Non-Standard Rendering</h3><p>Since the <b>repair_item</b> hook does all the drawing, it can be
+also be used to modify the appearance of the list items.  Here&#8217;s a
+subclass that takes a list containing (color name, color value)
+tuples, and draws each name in the corresponding color:</p><pre class="python wide">
+<span class="pykeyword">class</span> <span class="pyclass">ColorListView</span>(ListView):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">repair_item</span>(self, draw, xy, item):
+        draw.text(xy, item[0], self.ui_font(item[1], self.ui_option_font))
+
+...
+
+DATA = [
+    <span class="pycomment"># CSS1 standard colors</span>
+    (<span class="pystring">"Aqua"</span>, <span class="pystring">"#00ffff"</span>),
+    (<span class="pystring">"Black"</span>, <span class="pystring">"#000000"</span>),
+    (<span class="pystring">"Blue"</span>, <span class="pystring">"#0000ff"</span>),
+    (<span class="pystring">"Fuchsia"</span>, <span class="pystring">"#ff00ff"</span>),
+    (<span class="pystring">"Gray"</span>, <span class="pystring">"#808080"</span>),
+    (<span class="pystring">"Green"</span>, <span class="pystring">"#008000"</span>),
+    (<span class="pystring">"Lime"</span>, <span class="pystring">"#00ff00"</span>),
+    (<span class="pystring">"Maroon"</span>, <span class="pystring">"#800000"</span>),
+    (<span class="pystring">"Navy"</span>, <span class="pystring">"#000080"</span>),
+    (<span class="pystring">"Olive"</span>, <span class="pystring">"#808000"</span>),
+    (<span class="pystring">"Purple"</span>, <span class="pystring">"#800080"</span>),
+    (<span class="pystring">"Red"</span>, <span class="pystring">"#ff0000"</span>),
+    (<span class="pystring">"Silver"</span>, <span class="pystring">"#c0c0c0"</span>),
+    (<span class="pystring">"Teal"</span>, <span class="pystring">"#008080"</span>),
+    (<span class="pystring">"White"</span>, <span class="pystring">"#ffffff"</span>),
+    (<span class="pystring">"Yellow"</span>, <span class="pystring">"#ffff00"</span>),
+    ]
+
+...
+
+listbox = ColorListView(root, yscrollcommand=scrollbar.set)
+listbox.setdata(DATA)
+listbox.pack()
+
+...</pre><blockquote>
+<img alt="" height="157" src="data:image/png;base64, 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 " width="144" />
+</blockquote><p>And here&#8217;s a variant that draws a colored rectangle to the left,
+and the color name (in black) to the right:</p><pre class="python wide">
+<span class="pykeyword">class</span> <span class="pyclass">ColorListView</span>(ListView):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">repair_item</span>(self, draw, xy, item):
+        x0, y0 = xy
+        x1 = x0 + self.item_height * 4
+        y1 = y0 + self.item_height
+        draw.rectangle((x0, y0+2, x1-2, y1-2), self.ui_brush(item[1]))
+        draw.text((x1, y0), item[0], self.font)</pre><blockquote>
+<img alt="" height="157" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAJAAAACdCAIAAADUumYxAAANCUlEQVR4nGK8cuEEwygYIiCnoAIA AAD//2JhYGDQ1jcfaJeMAsKgsbGRgYEBAAAA//9igXCuXjw5oI4ZBcQCAAAAAP//YhpoB4wC0gAA AAD//2JB5piFLCLPFCYmJiZmJmZkkpkJSZAZwkWQ6FxmiC64LKpRzLQ2nxohSUOgx3YDzgYAAAD/ /xrNYUMMAAAAAP//YiGsZGSASFN+4hU7Ojru37+fJPVpXRvIsAWiCxkAAAAA//8ajTAEILLltWbD DvLUU6ILDgAAAAD//8IZYV/vTMMU5FbJQlODJjICgY6BBS4pWvRxAQAAAP//wh5hWGOLATWG0NR8 vDaRgYFBRL+YgYHh+ZlOBgYGOctqBgaGu4caGRgYNFxaGBgYLm+vQNZiGTbp6IocBgYGh7iZDAwM u+cmMzAweGUspMA7QwlAYho5UjFFMAEAAAD//yJQJGJmKWQGSdnr2q4qBgYGfe8u5FYcXHbvglQG Bgb31PnIgkMFYA1iPDkPrkvHwELHwAKinZjYYmBgAAAAAP//whlhmJEBz15kxBZ+cGBROgMDg2vy XCamoRdblAB4nMG5BLUAAAAA///CHkDcKlloJR5adQVRgKyGXyufgYHhzcVeZF0PjjQzMDCoOjYR dIdzwmyCaoYlgEcSkRUeAAAA///CmaKRowc5YiAxh6e58fJ8N4Tx6HgrMS4Y4QCevQgWoRAAAAAA //8itghCiz/8cSZpUi5jXkmkyRAAqcNGGoDXW8jVGH4AAAAA//8iHGFo2QvOwCw2hXQKMbUr29UT tAK5lTgYAKReQUY0soUBo0gkaBcAAAD//yKq40yV9oWWW9u1XVUXt5bBRSzDJsHZzgmz9y5I3Tk7 cSg268mLUcxKi5hqDAAAAP//IhBhmB0yeEMRa5Eool8MGVFlYGCQs6yGDLDCZXU9O9AGZ60jpkAG ZxlgrcTB0KwnqcNL5xlgAAAAAP//IpzD0BqHmILDBuAaDaKWekp0wQEAAAD//yKt4zyMgaOjI03V U6ILGQAAAAD//xod/IUCzHHxwWkLAAAA//8a+ApjFJAEAAAAAP//Qslhp9bEDZQ7qAT+MTD8G2g3 0BYAAAAA//8azWGDHeQUoExxAAAAAP//Gq3DBgYQubQQsrQNGQAAAAD//0KJMApbnDQCIQEecDZy F3WoL4Elb2khAAAA//8aSjkMPnWElTtCAAAAAP//GsJ12AiMLQYGBgAAAAD//xrCEQYHyOOzaMO1 pE5eDH4AAAAA//8aSkUiHGBO0WIyhlyBSaSDAQAAAP//GpIRhmcmYojmJIiziYkzAAAAAP//Gg5F IhxAPAyfDxwqADmREUxwAAAAAP//GqoRRmROQluZNAgBpkfwew0AAAD//xpKRSIk9DHZWBWgidPc ceQCUt0GAAAA//9CiTDkLurgBMjew7reaDDHDVUAAAAA//8aSjmMVEDk0syhBQAAAAD//xrOETbM ogoCAAAAAP//Gs4RNpgB5qgukQAAAAD//0KJMJ0Ng7ETcyUAfbsAVHwoZyDimwsHDhxA5gIAAAD/ /xpKzXrkbhauBuFQAZDpFWJItJ2DAAAAAP//GkoRhgaGbg7T1je/evEk8SSyXgAAAAD//xoOdRhy axBzmBFNBJJNB7YBSVJsocUZAAAA//8akhGGa/AXeUQDHjGYw8GYDDoDSnIYAAAA//8akhFG0uAv 1gERGjmMSEBJDgMAAAD//xqSEYYHkLdgnc6AkhwGAAAA//8aqo0Ogk1EUgdV6QlIzWHIegEAAAD/ /xpKOYykwV9IxsIUGQyAkhwGAAAA//9ivHLhBKboKKA1ICPO1mzYceDAAQAAAAD//xqqReKQBpTk MAAAAAD//xqNsAEAlNRhAAAAAP//Go2wAQCU5DAAAAAA//9CHfzVHyztKGRw5SLOhVCDee4fD6Ck HwYAAAD//xraOWwoxhYDZTkMAAAA//8a2hE2RAEldRgAAAD//xpK/TBMgDySy4DU68I18jtIACU5 DAAAAP//GtoRBgdYR3WxjvwOBkBJHQYAAAD//xomEYYLDJ7hKGRASQ4DAAAA//8a5hE2eHIVMqAk hwEAAAD//xopjY5BldUoyWEAAAAA//8aYjmMpEU4g3Pkl4GyHAYAAAD//xod/B0AQF5sQQZ/AQAA AP//GilF4qAClPTDAAAAAP//Go2wAQCU1GEAAAAA//8ajbABAJTkMAAAAAD//0Kpw9YMpqYUHITg 7vwOqu4wjUBOQcWUCR0MsDoMAAAA//8aYq3EYQO0yT1YBQAAAP//GmIRhjbaNLCOoRCQ1zIHAAAA //8aYhGGB2Cu8GUYUsuBiQQAAAAA//8aYhEGH9JFG6dnwHbgw9BaDkwkAAAAAP//GmIRhgdQWEIO 5khCBgAAAAD//xp6EYaWRSBgONVt+AEAAAD//xrthw0xAAAAAP//Gno5jAHHAnpcGWuoLAcmEgAA AAD//0I99mFwux7/Rgc0WfxnQZCkeFABAAAAAP//Gi0ShxgAAAAA//8ajbAhBgAAAAD//xqNsCEG AAAAAP//Ql35a7BjoNyBB1y5AD0hYfQIWQYGBgAAAAD//xpiOWx497GIAQAAAAD//xpiETYKAAAA AP//GmIRhqu/heuoXzh72Bz+CwAAAP//GpIdZ0wwOFf40gIAAAAA//8aYjmMAUcmQ8thcDXDL/4A AAAA//8akjkMLc5GzsgvAwMDAAAA//8akhFGDEAb1B8q85MEAQAAAP//GqoRRvAICFy6aOkoegAA AAAA//9CiTB4F3VwAlJHbIdB9GACAAAAAP//Gqo5jCQwPApDCAAAAAD//xoRETY8ogoCAAAAAP// GnrN+hEOAAAAAP//QrvwbTC2iUMInfmLuRZqGAMAAAAA//8aSkUi/tH6kRBbDAwMAAAAAP//Gi0S hxgAAAAA//8aPhGGNsjLgDrgizxwNaQBAAAA//8aSkUieWDQHv5AHgAAAAD//xpuEYa2lhsiODzy FgQAAAAA//8abhGGFQz1XIUMAAAAAP//Gj51GBzgaeIPg6wGAAAA//8aSjkM13YV4nUNg6wGAAAA //9Cu/BtsPsHzyAvkauAhzoAAAAA//8ahkXi8AYAAAAA//8ajbAhBgAAAAD//xqNsCEGAAAAAP// Qh38HZQrf0OQVv4ii5NRMw2DjjMAAAD//xpKrUQG1EgaBqFPBgAAAAD//xotEocYAAAAAP//GmI5 DBNgPSSAgVCnbej2zAAAAAD//xpiEUZkxxl5dRtcI0H2kAAAAAAA//8aYhFGrcAdumNUAAAAAP// GmIRRi0wtHIVMgAAAAD//xo+jQ7yMs2Qy2oAAAAA//8a8jkMVysDArA2Lob0cDAAAAD//0I79mEo rfzFFCd+FHjIxRMcAAAAAP//Gj5F4ggBAAAAAP//Gs4RNnSzER4AAAAA//8azhE2LAEAAAD//0Kp w7QHZZPpKo61NERmoCHXNcYPAAAAAP//GmKtxNHBXwAAAAD//xotEocYAAAAAP//GmI5DBfAc6rv MAMAAAAA//8aYhGG/5BfBmw7WYZZzAEAAAD//xpiEYarDhtmsYIHAAAAAP//GmIRhguMnNYHAAAA //8aJhEGB0Ol6Yh55QORAAAAAP//Gg4Rhv9U30EIcgoqyNYLAAAA//8avfBtYAAZN1JBLssBAAAA //8a7YcNAKDk/jAAAAAA//8ajbABAJTcHwYAAAD//xqNsAEAlOQwAAAAAP//Qml0vPnwg74uJwqI CHDA2VhHNIbcmQ+U3DILAAAA//8aSq1ErMvThlA8wQElOQwAAAD//xqqReJQjCc4oKQOAwAAAP// GqoRBgdYz3lAZmMeBzzgXTRKchgAAAD//xpKRSIZq50GZylKSR0GAAAA//8aShHGQOgw5qFy5gMl OQwAAAD//xpiEUYGGPD8hAkoyWEAAAAA//8aSnUYMXllSJz5QEkOAwAAAP//Gko5jIw6bHAu8oXE AZEk/OJtCAAAAAD//0KJMOQu6uAEuK5uI/7Mh0ESbWRfvA0AAAD//xpKOWyYAfJmSAAAAAD//xpK ddgoYGBgAAAAAP//Go2wIQYAAAAA//9CvfBtw2A89uFKAKXHPgytoWH8AAAAAP//Gkp12JWhcPU8 qQBrZwOPBwEAAAD//xotEgcY4Gr34gIAAAAA//8aSjkMF8Cz7HdI5EWSOosAAAAA//8a8hGGf3h3 qJSfxM/BAgAAAP//GvIRxoCtGhg8o1DEAyITFgAAAP//Gg4RhnnKzWAeqqcQAAAAAP//GlaNjuEX PZgAAAAA//8a8jlsyC37pRAAAAAA//9CvfAN1kUdzICYdvDgHPBFBmSvrQcAAAD//xryOWwoAkrW 1gMAAAD//xqNsAEAyPNbpAIAAAAA//8aVo2OkQAAAAAA//9iYaCgPB0F9AcAAAAA//9idHBwGGg3 jAISAAAAAP//AwA85+/Zu7acOwAAAABJRU5ErkJggg== " width="144" />
+</blockquote><p class="fixme">Ideas for future articles: creating a simple log console,
+optimizing updates (dirty flags), using the scroll helper mixin, dealing
+with selections)</p></div></div><div class="yui-g"><p><a href="wck-3.htm">back</a>&#160;<a href="wck-5.htm">next</a></p></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#the-scrollbar-interface">The Scrollbar Interface</a></li><li><a href="#creating-a-scrollable-widget">Creating a Scrollable Widget</a></li><li><a href="#displaying-huge-data-sets">Displaying Huge Data Sets</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

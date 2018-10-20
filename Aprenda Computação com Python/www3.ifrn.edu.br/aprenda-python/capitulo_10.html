@@ -1,0 +1,394 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capítulo 10: Dicionários &mdash; Aprenda Computação com Python v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="Aprenda Computação com Python v1.1 documentation" href="index.html" />
+    <link rel="next" title="Capítulo 11: Arquivos e exceções" href="capitulo_11.html" />
+    <link rel="prev" title="Capítulo 9: Tuplas" href="capitulo_09.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="capitulo_11.html" title="Capítulo 11: Arquivos e exceções"
+             accesskey="N">próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_09.html" title="Capítulo 9: Tuplas"
+             accesskey="P">anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="capitulo-10-dicionarios">
+<h1><a class="toc-backref" href="#id3">Capítulo 10: Dicionários</a><a class="headerlink" href="#capitulo-10-dicionarios" title="Link permanente para este título">¶</a></h1>
+<div class="contents topic" id="topicos">
+<p class="topic-title first">Tópicos</p>
+<ul class="simple">
+<li><a class="reference external" href="#capitulo-10-dicionarios" id="id3">Capítulo 10: Dicionários</a><ul>
+<li><a class="reference external" href="#operacoes-dos-dicionarios" id="id4">10.1 Operações dos Dicionários</a></li>
+<li><a class="reference external" href="#metodos-dos-dicionarios" id="id5">10.2 Métodos dos Dicionários</a></li>
+<li><a class="reference external" href="#aliasing-xxx-e-copiar" id="id6">10.3 Aliasing (XXX) e Copiar</a></li>
+<li><a class="reference external" href="#matrizes-esparsas" id="id7">10.4 Matrizes Esparsas</a></li>
+<li><a class="reference external" href="#hint-xxx" id="id8">10.5 Hint XXX</a></li>
+<li><a class="reference external" href="#inteiros-longos" id="id9">10.6 Inteiros Longos</a></li>
+<li><a class="reference external" href="#contando-letras" id="id10">10.7 Contando Letras</a></li>
+<li><a class="reference external" href="#glossario" id="id11">10.8 Glossário</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Os tipos compostos que voce aprendeu - strings, listas e tuplas - utilizam inteiros como indices. Se voce tentar utilizar qualquer outro tipo como indice, voce receberá um erro.</p>
+<p>Dicionários sao similiares a outros tipos compostos exceto por eles poderem user qualquer tipo imutavel de dados como indice. Como  exemplo, nos criaremos um dicionário para traduzir palavras em Inglês para Espanhol. Para esse dicionário, os indices serão strings.</p>
+<p>Uma maneira de criar um dicionario é comecando com um dicionário vazio e depois adiconando elementos. Um dicionário vazio é denotado assim <cite>{}</cite>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ing2esp</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ing2esp</span><span class="p">[</span><span class="s">&#39;one&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;uno&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ing2esp</span><span class="p">[</span><span class="s">&#39;two&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;dos&#39;</span>
+</pre></div>
+</div>
+<p>A primeira atribuição cria um dicionario chamado <tt class="docutils literal"><span class="pre">ing2esp</span></tt>; as outras
+atribuições adicionam novos elementos para o dicionário. Nos podemos
+imprimir o valor corrente de um dicionario da maneira usual:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">ing2esp</span>
+<span class="go">{&#39;one&#39;: &#39;uno&#39;, &#39;two&#39;: &#39;dos&#39;}</span>
+</pre></div>
+</div>
+<p>Os elementos de um dicionário aparecem em uma lista separada por vírgulas. Cada entrada contêm um indice e um valor separado por dois-pontos. Em um dicionário, os índices sao chamados de <em>chaves</em>, entao os elementos são chamados de <em>pares chave-valor</em>.</p>
+<p>Outra maneira de criar dicionários é fornecendo uma lista de pares chaves-valor utilizando a mesma sintaxe da última saída.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ing2esp</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;one&#39;</span><span class="p">:</span> <span class="s">&#39;uno&#39;</span><span class="p">,</span> <span class="s">&#39;two&#39;</span><span class="p">:</span> <span class="s">&#39;dos&#39;</span><span class="p">,</span> <span class="s">&#39;three&#39;</span><span class="p">:</span> <span class="s">&#39;tres&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Se nos imprimirmos o valor de <em>ing2esp</em> novamente, nos teremos uma surpresa:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">ing2esp</span>
+<span class="go">{&#39;one&#39;: &#39;uno&#39;, &#39;three&#39;: &#39;tres&#39;, &#39;two&#39;: &#39;dos&#39;}</span>
+</pre></div>
+</div>
+<p>Os pares chave-valor não estão em ordem! Felizmente, não a motivos para se preocupar com a ordem, desde que os elementos do dicionário nunca sejam indexados com indices inteiros. Podemos usar as chaves para buscar os valores correspondentes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">ing2esp</span><span class="p">[</span><span class="s">&#39;two&#39;</span><span class="p">]</span>
+<span class="go">&#39;dos&#39;</span>
+</pre></div>
+</div>
+<p>A chave &#8216;two&#8217; retornou o valor &#8216;dos&#8217; mesmo pensando que retornaria o terceiro par chave-valor.</p>
+<div class="section" id="operacoes-dos-dicionarios">
+<h2><a class="toc-backref" href="#id4">10.1 Operações dos Dicionários</a><a class="headerlink" href="#operacoes-dos-dicionarios" title="Link permanente para este título">¶</a></h2>
+<p>O comando <em>del</em> remove um par chave-valor de um dicionário. Por exemplo, o dicionário abaixo contem os nomes de varias frutas e o numero de cada fruta em no estoque:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">inventario</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;abacaxis&#39;</span><span class="p">:</span> <span class="mi">430</span><span class="p">,</span> <span class="s">&#39;bananas&#39;</span><span class="p">:</span> <span class="mi">312</span><span class="p">,</span> <span class="s">&#39;laranjas&#39;</span><span class="p">:</span> <span class="mi">525</span><span class="p">,</span> <span class="s">&#39;peras&#39;</span><span class="p">:</span> <span class="mi">217</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">inventario</span>
+<span class="go">{&#39;laranjas&#39;: 525, &#39;abacaxis&#39;: 430, &#39;peras&#39;: 217, &#39;bananas&#39;: 312}</span>
+</pre></div>
+</div>
+<p>Se alguem comprar todas as peras, podemos remover a entrada do dicionário:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">inventario</span><span class="p">[</span><span class="s">&#39;peras&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">inventario</span>
+<span class="go">{&#39;laranjas&#39;: 525, &#39;abacaxis&#39;: 430, &#39;bananas&#39;: 312}</span>
+</pre></div>
+</div>
+<p>Ou se nós esperamos por mais peras em breve, nos podemos simplesmente trocar o valor associoado as peras:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">inventario</span><span class="p">[</span><span class="s">&#39;peras&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">inventario</span>
+<span class="go">{&#39;laranjas&#39;: 525, &#39;abacaxis&#39;: 430, &#39;peras&#39;: 0, &#39;bananas&#39;: 312}</span>
+</pre></div>
+</div>
+<p>A função <em>len</em> também funciona com dicionários; retornando o número de pares chave-valor:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">inventario</span><span class="p">)</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="metodos-dos-dicionarios">
+<h2><a class="toc-backref" href="#id5">10.2 Métodos dos Dicionários</a><a class="headerlink" href="#metodos-dos-dicionarios" title="Link permanente para este título">¶</a></h2>
+<p>Um <em>método</em> é parecido com uma função - possui parametros e retorna valores - mas a sintaxe é diferente. Por exemplo, o metodo <tt class="docutils literal"><span class="pre">keys</span></tt> recebe um dicionário e retorna uma lista com as chaves, mas em vez de usarmos a sintaxe de função <tt class="docutils literal"><span class="pre">keys(ing2esp)</span></tt>, nos usamos a sintaxe de método <tt class="docutils literal"><span class="pre">ing2esp.keys()</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ing2esp</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">[&#39;one&#39;, &#39;three&#39;, &#39;two&#39;]</span>
+</pre></div>
+</div>
+<p>Dessa forma o ponto especifica o nome da função, <tt class="docutils literal"><span class="pre">keys</span></tt>, e o nome do objeto em que deve ser aplicada a função, <tt class="docutils literal"><span class="pre">ing2esp</span></tt>. Os parenteses indicam que esse método não possui parameteros.</p>
+<p>Ao invés de chamarmos um método, dizemos que ele é <em>invocado</em>, nesse caso, nós podemos dizer que nós estamos invocando <tt class="docutils literal"><span class="pre">keys</span></tt> do objeto <tt class="docutils literal"><span class="pre">ing2esp</span></tt>.</p>
+<p>O método <tt class="docutils literal"><span class="pre">values</span></tt> é parecido; retorna a lista de valores de um dicionário:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ing2esp</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+<span class="go">[&#39;uno&#39;, &#39;tres&#39;, &#39;dos&#39;]</span>
+</pre></div>
+</div>
+<p>O método <tt class="docutils literal"><span class="pre">items</span></tt> retorna os dois, na forma de uma lista de tuplas - cada tupla com um par chave-valor:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ing2esp</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+<span class="go">[(&#39;one&#39;,&#39;uno&#39;), (&#39;three&#39;,&#39;tres&#39;), (&#39;two&#39;,&#39;dos&#39;)]</span>
+</pre></div>
+</div>
+<p>A sintaxe fornece uma informação util. Os colchetes indicam que isso é uma lista. Os parentêses indicam que os elementos da lista são tuplas.</p>
+<p>Se o método recebe de algum parâmetro, se utiliza a mesma sintaxe das funções. Por exemplo, o método <tt class="docutils literal"><span class="pre">has_key</span></tt> recebe uma chave e retorna verdadeiro (1) se a chave existe no dicionário:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ing2esp</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;one&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ing2esp</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;deux&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>Se voce tentar chamar um método sem especificar em qual objeto, voce obterá um erro. Nesse caso, a mensagem de erro não é muito útil:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;one&#39;</span><span class="p">)</span>
+<span class="go">NameError: has_key</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="aliasing-xxx-e-copiar">
+<h2><a class="toc-backref" href="#id6">10.3 Aliasing (XXX) e Copiar</a><a class="headerlink" href="#aliasing-xxx-e-copiar" title="Link permanente para este título">¶</a></h2>
+<p>Uma vez que os dicionários são mutáveis, voce precisa saber sobre <strong>Aliasing</strong>. Sempre que duas variáveis referenciarem o mesmo objeto, quando uma é alterada, afeta a outra.</p>
+<p>Se você quer modificar um dicionário e continuar com uma copia original, utilize o método <strong>copy</strong>. Por exemplo, <strong>opposites</strong> é um dicionário que contêm pares de antônimos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">opposites</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;up&#39;</span><span class="p">:</span> <span class="s">&#39;down&#39;</span><span class="p">,</span> <span class="s">&#39;right&#39;</span><span class="p">:</span> <span class="s">&#39;wrong&#39;</span><span class="p">,</span> <span class="s">&#39;true&#39;</span><span class="p">:</span> <span class="s">&#39;false&#39;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">alias</span> <span class="o">=</span> <span class="n">opposities</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copy</span> <span class="o">=</span> <span class="n">opposities</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>alias</strong> e <strong>opposites</strong> se referem ao mesmo objeto; <strong>copy</strong> se refere a um novo objeto igual ao dicionário <strong>opposites</strong>. Se você modificar o <strong>alias</strong>, <strong>opposites</strong> também será alterado.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">alias</span><span class="p">[</span><span class="s">&#39;right&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;left&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opossites</span><span class="p">[</span><span class="s">&#39;right&#39;</span><span class="p">]</span>
+<span class="go">&#39;left&#39;</span>
+</pre></div>
+</div>
+<p>Se modificarmos <strong>copy</strong>, <strong>opposites</strong> não será modificado:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">copy</span><span class="p">[</span><span class="s">&#39;right&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;privilege&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opposites</span><span class="p">[</span><span class="s">&#39;right&#39;</span><span class="p">]</span>
+<span class="go">&#39;left&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="matrizes-esparsas">
+<h2><a class="toc-backref" href="#id7">10.4 Matrizes Esparsas</a><a class="headerlink" href="#matrizes-esparsas" title="Link permanente para este título">¶</a></h2>
+<p>Na seção 8.14, nós usamos uma lista de listas para representar uma matriz. Essa é uma boa escolha se a matriz for principalmente de valores diferentes de zero, mas considerando uma matriz esparsa como essa:</p>
+<img alt="_images/10_01_esparsa.png" src="_images/10_01_esparsa.png" />
+<p>Uma representação usando uma lista contem muitos zeros:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">matriz</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+<span class="go">               [0,0,0,0,0],</span>
+<span class="go">               [0,2,0,0,0],</span>
+<span class="go">               [0,0,0,0,0],</span>
+<span class="go">               [0,0,0,3,0] ]</span>
+</pre></div>
+</div>
+<p>Uma alternativa é usarmos um dicionário. Para as chaves, nós podemos usar tuplas que contêm os números da linha e a coluna. Abaixo uma representação em um diciónario da mesma matriz:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">matriz</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span> <span class="mi">3</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Nós precisamos apenas de três pares chave-valor, cada um sendo um elemento diferente de zero da matriz. Cada chave é uma tupla, e cada valor é um número inteiro.</p>
+<p>Para acessarmos um elemento da matriz, nos utilizamos o operador []:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">matriz</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>Note que a sintaxe da representação de um dicionário não é a mesma que a sintaxe usada pela representação pelas listas. Em vez de usarmos dois índices inteiros, nós usamos apenas um índice, que é uma tupla de inteiros.</p>
+<p>Mas existe um problema. Se tentarmos buscar um elemento zero, obteremos um erro, pois não existe uma entrada no dicionário para a chave especificada:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">matriz</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="go">KeyError: (1,3)</span>
+</pre></div>
+</div>
+<p>O método <strong>get</strong> resolve esse problema:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">matriz</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>O primeiro parâmetro é a chave; o segundo é o valor que <strong>get</strong> retornará caso não existe a chave no dicionário:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">matriz</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+<p><strong>get</strong> definitivamente melhora a semântica e a sintaxe do acesso a matrizes esparsas.</p>
+</div>
+<div class="section" id="hint-xxx">
+<h2><a class="toc-backref" href="#id8">10.5 Hint XXX</a><a class="headerlink" href="#hint-xxx" title="Link permanente para este título">¶</a></h2>
+<p>Se você brincou com a função <strong>fibonacci</strong> da seção 5.7, é provável que você notou que quanto maior o número passado para a função, mais tempo a função demora para executar. Além disso, o tempo da execução aumenta rapidamente. Em uma das nossas máquinas, <strong>fibonacci(20)</strong> executa instantaneamente, <strong>fibonacci(30)</strong> demora cerca de um segundo, e <strong>fibonacci(40)</strong> demora uma eternidade.</p>
+<p>Para entender o porque, considere o gráfico de chamadas para <strong>fibonacci</strong> com n=4:</p>
+<img alt="_images/10_02_fibonacci.png" src="_images/10_02_fibonacci.png" />
+<p>O gráfico mostra a estrutura da função, com linhas conectando cada execução com a execução que a chamou. No topo do gráfico, <strong>fibonacci</strong> tem <strong>n=4</strong>, que chama <strong>fibonacci</strong> com <strong>n=3</strong> e <strong>n=2</strong>. Em seguida, <strong>fibonacci</strong> com <strong>n=3</strong> chama <strong>fibonacci</strong> com <strong>n=2</strong> e <strong>n=1</strong>. E assim por diante.</p>
+<p>Conte quantas vezes <strong>fibonacci(0)</strong> e <strong>fibonacci(1)</strong> são chamadas. Essa é uma solução ineficiente para o problema, e torna-se pior quando o parâmetro recebido é um número maior.</p>
+<p>Uma boa solução é guardar os valores que já foram calculados armazenando-os em um dicionário. Um valor previamente calculado que é guardado para ser utilizado mais tarde é chamado de <strong>hint</strong>. Abaixo uma implementação de <strong>fibonacci</strong> usando <strong>hints</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">previous</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="go">        if previous.has_key(n):</span>
+<span class="go">                return previous[n]</span>
+<span class="go">        else:</span>
+<span class="go">                newValue = fibonacci(n-1) + fibonacci(n-2)</span>
+<span class="go">                previous[n] = newValue</span>
+<span class="go">                return newValue</span>
+</pre></div>
+</div>
+<p>O dicionário chamado <strong>previous</strong> guarda os números de Fibonacci que nós ja conhecemos. Ele começa com apenas dois pares: 0 possui 1; e 1 possui 1.</p>
+<p>Sempre que <strong>fibonacci</strong> é chamada, ela verifica o dicionário para determinar se ele já possui o resultado. Se o resultado estiver ali, a função pode retornar imediatamente sempre precisar fazer mais chamadas recursivas. Se o resultado não estiver ali, ele é calculado no <strong>newValue</strong>. O valor de <strong>newValue</strong> é adicionado no dicionário antes da função retornar.</p>
+<p>Usando essa versão de <strong>fibonacci</strong>, nossa máquina consegue calcular <strong>fibonacci(40)</strong> em um piscar de olhos. Mas quando tentamos calcular <strong>fibonacci(50)</strong>, nós veremos um problema diferente:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fibonacci</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="go">OverflowError: integer addition</span>
+</pre></div>
+</div>
+<p>A resposta, que você verá em um minuto, é 20.365.011.074. O problema é que esse número é muito grande para guardarmos como um inteiro do Python <a class="footnote-reference" href="#id2" id="id1">[1]</a>. Isso é <strong>overflow</strong>. Felizmente, esse problema tem uma solução simples.</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>N.T. A partir do Python 2. XXX este erro não ocorre mais, pois em caso de sobrecarga o valor inteiro é automaticamente promovido para o tipo long.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="inteiros-longos">
+<h2><a class="toc-backref" href="#id9">10.6 Inteiros Longos</a><a class="headerlink" href="#inteiros-longos" title="Link permanente para este título">¶</a></h2>
+<p>Python possui um tipo chamado <strong>long int</strong> que permite trabalharmos com qualquer tamanho de inteiros. Existem duas maneiras de criarmos um valor <strong>long int</strong>. A primeira é escrever um inteiro seguido de um L no final:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="il">1L</span><span class="p">)</span>
+<span class="go">&lt;type &#39;long int&#39;&gt;</span>
+</pre></div>
+</div>
+<p>A outra maneira é usarmos a função <strong>long</strong> que converte um valor para um <strong>long int</strong>. <strong>long</strong> pode receber qualquer valor númerico e até mesmo uma string de digitos:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">long</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">1L</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">long</span><span class="p">(</span><span class="mf">3.9</span><span class="p">)</span>
+<span class="go">3L</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">long</span><span class="p">(</span><span class="s">&#39;57&#39;</span><span class="p">)</span>
+<span class="go">57L</span>
+</pre></div>
+</div>
+<p>Todas as operações matemáticas funcionam com <strong>long int</strong> s, então não precisamos modificar muito para adaptar <strong>fibonacci</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">previous</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="il">1L</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="il">1L</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fibonacci</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="go">20365011074L</span>
+</pre></div>
+</div>
+<p>Somente trocando os valores iniciais de <strong>previous</strong>, conseguimos mudar o comportamento da <strong>fibonacci</strong>. Os dois primeiros numeros da sequência são <strong>long ints</strong>, então todos os números subsequentes da sequência também serão.</p>
+<blockquote>
+Como exercício, converta <tt class="docutils literal"><span class="pre">fatorial</span></tt> para produzir um inteiro longo como resultado.</blockquote>
+</div>
+<div class="section" id="contando-letras">
+<h2><a class="toc-backref" href="#id10">10.7 Contando Letras</a><a class="headerlink" href="#contando-letras" title="Link permanente para este título">¶</a></h2>
+<p>No capítulo 7, escrevemos uma função que contava o número de ocorrências de uma letra em uma string. A versão mais comum desse problema é fazer um histograma das letras da string, ou seja, quantas vezes cada letra aparece na string.</p>
+<p>Um histograma pode ser util para comprimir um arquivo de texto. Pois diferentes letras aparecem com diferentes frequências, podemos comprimir um arquivo usando pequenos códigos para letras comuns e longos códigos para letras que aparecem em menor frequência.</p>
+<p>Dicionários fornecem uma maneira elegante de gerar um histograma:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">letterCounts</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="s">&quot;Mississippi&quot;</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">letterCounts</span><span class="p">[</span><span class="n">letter</span><span class="p">]</span> <span class="o">=</span> <span class="n">letterCounts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">letter</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">letterCounts</span>
+<span class="go">{&#39;M&#39;: 1, &#39;s&#39;: 4, &#39;p&#39;: 2, &#39;i&#39;: 4}</span>
+</pre></div>
+</div>
+<p>Começamos com um dicionário vazio. Para cada letra da string, achamos o contador (possivelmente zero) e o incrementamos. No final, o dicionário contem pares de letras e as suas frequências.</p>
+<p>É mais atraente mostrarmos o histograma na ordem alfabética. Podemos fazer isso com os métodos <strong>items</strong> e <strong>sort</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">letterItems</span> <span class="o">=</span> <span class="n">letterCounts</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">letterItems</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">letterItems</span>
+<span class="go">[(&#39;M&#39;, 1), (&#39;i&#39;, 4), (&#39;p&#39;, 2), (&#39;s&#39;, 4)]</span>
+</pre></div>
+</div>
+<p>Você ja tinha visto o método <strong>items</strong> antes, mas <strong>sort</strong> é o primeiro método que você se depara para aplicar em listas. Existem muitos outros métodos de listas, incluindo <strong>append</strong>, <strong>extend</strong>, e <strong>reverse</strong>. Consulte a documentação do Python para maiores detalhes.</p>
+</div>
+<div class="section" id="glossario">
+<h2><a class="toc-backref" href="#id11">10.8 Glossário</a><a class="headerlink" href="#glossario" title="Link permanente para este título">¶</a></h2>
+<dl class="docutils">
+<dt>dicionário (<em>dictionary</em>)</dt>
+<dd>Uma coleção de pares de chaves-valores que são mapeados pelas chaves, para se obter os valores. As chaves podem ser qualquer tipo de dados imutavel, e os valores podem ser de qualquer tipo.</dd>
+<dt>chave (<em>key</em>)</dt>
+<dd>Um valor que é usado para buscar uma entrada em um dicionário.</dd>
+<dt>par chave-valor (<em>key-value pair</em>)</dt>
+<dd>Um dos itens de um dicionário.</dd>
+<dt>método (<em>method</em>)</dt>
+<dd>Um tipo de função que é chamada com uma sintaxe diferente e invocada no contexto de um objeto.</dd>
+<dt>invocar (<em>invoke</em>)</dt>
+<dd>Chamar um método.</dd>
+<dt><em>hint</em></dt>
+<dd>O armazenamento temporário de um valor pré-computado para evitar a computação redundante.</dd>
+<dt><em>overflow</em></dt>
+<dd>Um resultado numérico que é muito grande para ser representado no formato numérico.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabela de Conteúdo</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Capítulo 10: Dicionários</a><ul>
+<li><a class="reference internal" href="#operacoes-dos-dicionarios">10.1 Operações dos Dicionários</a></li>
+<li><a class="reference internal" href="#metodos-dos-dicionarios">10.2 Métodos dos Dicionários</a></li>
+<li><a class="reference internal" href="#aliasing-xxx-e-copiar">10.3 Aliasing (XXX) e Copiar</a></li>
+<li><a class="reference internal" href="#matrizes-esparsas">10.4 Matrizes Esparsas</a></li>
+<li><a class="reference internal" href="#hint-xxx">10.5 Hint XXX</a></li>
+<li><a class="reference internal" href="#inteiros-longos">10.6 Inteiros Longos</a></li>
+<li><a class="reference internal" href="#contando-letras">10.7 Contando Letras</a></li>
+<li><a class="reference internal" href="#glossario">10.8 Glossário</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tópico anterior</h4>
+  <p class="topless"><a href="capitulo_09.html"
+                        title="capítulo anterior">Capítulo 9: Tuplas</a></p>
+  <h4>Próximo tópico</h4>
+  <p class="topless"><a href="capitulo_11.html"
+                        title="próximo capítulo">Capítulo 11: Arquivos e exceções</a></p>
+  <h3>Esta Página</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/capitulo_10.txt"
+           rel="nofollow">Exibir Fonte</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Pesquisa rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Ir" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Digite os termos da busca ou o nome de um módulo, classe ou função.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navegação</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice Geral"
+             >índice</a></li>
+        <li class="right" >
+          <a href="capitulo_11.html" title="Capítulo 11: Arquivos e exceções"
+             >próximo</a> |</li>
+        <li class="right" >
+          <a href="capitulo_09.html" title="Capítulo 9: Tuplas"
+             >anterior</a> |</li>
+        <li><a href="index.html">Aprenda Computação com Python v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2009, Allen Downey, Jeff Elkner and Chris Meyers.
+      Criado com <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

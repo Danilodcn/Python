@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>XML-RPC and the ASCII&nbsp;limitation</title></head><body data-page-id="376"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">XML-RPC and the ASCII&nbsp;limitation</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Updated June 30, 2003 | June 29, 2003 | Fredrik Lundh</p><p>[<a href="/">home</a>] [<a href="/zone/">zone</a>] [<a href="http://online.effbot.org/">weblog</a>]</p><p>The <a href="http://www.xmlrpc.com/spec" title="XML-RPC Specification at xmlrpc.com">original XML-RPC specification</a> isn&#8217;t
+exactly clear on what characters you can put in an XML-RPC string; it
+starts out by saying that the body is XML (which supports the full
+Unicode character space), then talks about ASCII strings, and later
+clarifies that &#8220;any characters are allowed&#8221; and that you can use
+strings to encode binary data.</p><p>The last comment is a direct response to a question asked by me,
+when I was working on the first Python implementation.  Since I asked
+the question, I also remember the context: it&#8217;s a direct reference to
+the &#8220;ASCII string&#8221; item in the &#8220;scalar&#8221; list. Did &#8220;ASCII&#8221; really refer
+to the 7-bit US-ASCII standard (ISO 646, ANSI something), or was it
+just a sloppy way for an American to say &#8220;text string&#8221;?  (as non-US
+programmers know, it&#8217;s not the first time that has ever happened
+;-)</p><p>Dave&#8217;s answer was clear: <b>XML-RPC <i>is</i> XML, and you can use
+any character XML allows you to use</b>.</p><p>(Unfortunately, Dave added the comments towards the end, instead of
+reworking the relevant parts of the specification.  The result is that
+people looking for clues get to the ASCII part, and then tunes
+out.)</p><p>Anyway, Dave&#8217;s said the same thing many times since then, both in
+private conversations, and in various public fora.  If you check early
+archives for the <b>xml-rpc</b> mailing list, you&#8217;ll find lots of talk
+about getting the XML encodings right, but no talk about any ASCII
+limitation.</p><p>But even if you don&#8217;t know all this, it&#8217;s not that hard to figure
+it out for yourself.  Just make sure you read and digest the
+<i>entire</i> specification, apply some common sense to sort out the
+contradictions, and you&#8217;ll find that it&#8217;s pretty obvious that the
+<i>intent</i> is that you can use any character allowed by XML.</p><p>And as expected, most toolkit implementers have interpreted the
+specification in exactly this way, either by digesting, or by looking
+at prior arts or the mailing list archives.  Toolkits usually support
+at least ISO-8859-1 and UTF-8 encodings, or uses plain ASCII with
+non-ASCII character references.</p><p>(Note that even if you use the full XML character space, that&#8217;s not
+good enough to ship arbitrary binary data in text strings (XML doesn&#8217;t
+allow control characters, beyond plain whitespace).  To deal with
+arbitrary binary data, use the <b>base64</b> type.)</p><p class="note"><b>Update:</b> The XML-RPC specification was updated
+on June 30, 2003, to make things a bit less confusing.  It no longer
+mentions ASCII.</p><h3>Links</h3><p><a href="http://www.xmlrpc.com/spec"><cite>XML-RPC Specification</cite></a></p><p><a href="xmlrpc-errata.htm"><cite>Unofficial XML-RPC Errata</cite></a> (on effbot.org)</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

@@ -1,0 +1,297 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html> 
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Introdução à Computação - Instalação do Code::Blocks no Mac Os</title>
+<meta name="keywords" content="Instalação code::blocks, codeblocks, introdução, computação,mac os, macos" />
+<meta name="description" content="instalação codeblocks no macos" />
+<link rel="stylesheet"  href="estilo.css"  type="text/css"/>
+</head>
+
+<body>
+
+<p class="dcc">
+<small><b><a href="http://www.ime.usp.br/mac/">Departamento de Ci&ecirc;ncia da
+Computa&ccedil;&atilde;o</a> - <a href="http://www.ime.usp.br/">IME</a> - <a href="http://www.usp.br/">USP</a></b></small><br>
+
+<center>
+<h1><i>Instalação do Code::Blocks no Mac OS X</i></h1>
+</center>
+
+<p><font color="ff0000">Obs.: as instruções desta página foram testadas no sistema
+operacional OS X versão 10.9.2 (codename Mavericks). Se a versão do OS
+X do seu computador é diferente e você tiver problemas na instalação,
+informe no fórum de discussão geral.</font></p>
+
+<p>
+<a href="http://www.codeblocks.org/"><tt>Code::Blocks</tt></a> &eacute;
+um ambiente integrado de desenvolvimento para as linguagens <i>C</i> e
+<i>C++</i>.
+Ele &eacute; um "Free Software" (sob <a
+href="http://www.gnu.org/licenses/gpl.html"><i>GNU</i>
+General Public License</a>). Isso significa, entre outras coisas, que
+ele pode ser distribu&iacute;do e copiado &agrave; vontade.
+</p>
+
+
+<p>Durante o andamento da disciplina voc&ecirc; pode utilizar outro compilador se
+desejar, mas
+deve se certificar que os seus programas podem ser compilados pela
+vers&atilde;o dispon&iacute;vel na p&aacute;gina do
+<tt>Code::Blocks</tt>.<br>
+</p>
+
+<p>
+Depois de instalar o <tt>Code::Blocks</tt> veja a 
+<a href="./codeblocksintro.html">Aula Dirigida de Uso do <tt>Code::Blocks</tt></a>.
+</p>
+
+<p>
+O vídeo abaixo, disponível também <a
+href="https://vimeo.com/95343495">aqui</a> mostra a execução de todos
+os passos que serão descritos a seguir. Se for difícil acompanhar os
+passos por conta do tamanho reduzido da janela abaixo, acesse o vídeo direto
+no site do <a href="https://vimeo.com/95343495">vimeo</a> e clique no botão HD para aumentar a definição do
+vídeo:
+</p>
+
+<center>
+<iframe src="//player.vimeo.com/video/95343495" width="750"
+height="421" frameborder="0" webkitallowfullscreen mozallowfullscreen
+allowfullscreen></iframe>
+</center>
+<hr>
+
+<h1>Pré-requisitos: antes de instalar o <i>Code::Blocks</i></h1>
+
+  Os computadores da Apple possuem um ambiente de desenvolvimento
+  pr&oacute;prio, chamado de <span style="font-weight: bold;">Xcode</span>.
+  Apesar
+  de
+  ser
+  uma excelente ferramenta de desenvolvimento de software,
+  ela &eacute; sofisticada demais para ser utilizada em nosso curso.
+
+  <br>&nbsp;<br>
+
+  O <span style="font-style: italic;"><tt>Code::Blocks</tt></span>
+  &eacute; um ambiente mais simples, e portanto mais f&aacute;cil de usar
+  e de aprender que o <span style="font-weight: bold;">Xcode</span>. O
+  <tt>Code::Blocks</tt> no entanto utiliza o
+  compilador gcc que vem junto com o <span style="font-weight: bold;">Xcode</span>
+  e, sendo assim, voc&ecirc; vai precisar instalar o <span
+  style="font-weight: bold;">Xcode</span> antes de rodar o
+  <tt>Code::Blocks.</tt>
+
+  <br>&nbsp;<br>
+  
+  Por ocupar muito espa&ccedil;o, o <span
+  style="font-weight: bold;">Xcode</span> em geral n&atilde;o vem
+  instalado nos computadores da Apple. Para instal&aacute;-lo em seu
+  computador, voc&ecirc; deve acessar a App Store. Ao abrir o
+  software da App Store, faça a busca por xcode e instale o pacote. Quando a
+  instalação terminar você pode passar para a instalação do
+  <tt>Code::Blocks</tt>.
+  
+  <br>&nbsp;<br>
+  
+  <!--<li>Caso voc&ecirc; tenha os discos de instala&ccedil;&atilde;o do
+  Mac OS e queira economizar alguns gigabytes de download, selecione em
+  "Optional Installs" as op&ccedil;&otilde;es para
+  instala&ccedil;&atilde;o do <span style="font-weight: bold;">Xcode</span>
+  (e/ou <span style="font-weight: bold;">Xcode Tools</span>).
+  <br>&nbsp;<br>
+  </li>
+  
+  <li>[Opcional] Uma vez terminada a instala&ccedil;&atilde;o do
+  Xcode,
+  voc&ecirc; j&aacute; pode testar a instala&ccedil;&atilde;o rodando o
+  gcc.
+
+  
+    <p>Para isso, abra uma janela Terminal (do Finder, clique em <span
+    style="font-weight: bold;">Applications -&gt; Utilities -&gt;
+    Terminal.app</span>)
+    </p>
+  <ul>
+    <li>Salve o seguinte programa em C em seu diret&oacute;rio
+    padr&atilde;o como o arquivo <span style="font-weight: bold;">primprog.c</span>:</li>
+    <pre>		#include &lt;stdio.h&gt;<br>		<br>		int main ()<br>		{<br>		   printf("Ola!\n");<br>		   return 0;<br>		}<br></pre>
+
+    <li>Compile o programa digitando o seguinte comando no terminal:</li>
+    
+    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp; &gt;&nbsp; /Developer/usr/bin/gcc -Wall -ansi
+    -pedantic -O2 -o primprog
+    primprog.c<br>
+
+    <li>Para rodar o programa a partir do terminal, basta digitar:</li>
+    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp; &gt; ./primprog<br>
+    <br>&nbsp;<br>
+   </li>-->
+
+<hr>
+
+<h1>Instala&ccedil;&atilde;o do <i>Code::Blocks</i> no Mac OS X</h1>
+
+<ol>
+  <li>
+  <p> Fa&ccedil;a o download do arquivo de instalação do
+  <tt>Code::Blocks</tt>acessando esta
+  <a href="http://www.codeblocks.org/downloads/26">página</a> e
+  clicando no link do Mac OS X na lista que aparece no início da
+  página. Faça o download do arquivo que aparecerá no fim da página.
+  No momento da escrita destas instruções a única versão disponível
+  era a 13.12.</p>
+  </li>
+
+  <li>
+  <p>Descompacte (geralmente basta dar dois cliques para que ele seja
+  descompactado) o arquivo que você fez download no passo anterior, caso
+  ele não tenha sido descompactado automaticamente ao término do
+  download.</p>
+  </li>
+
+  <li><p>Mova o arquivo descompactado no passo anterior (o arquivo de nome
+  CodeBlocks) para a pasta Aplicativos. Assim o <tt>Code::Blocks</tt> estará
+  disponível para ser executado.<p>
+  </li>
+   
+  <li><p>Abra a pasta Aplicativos e dê dois cliques no ícone do
+  CodeBlocks. Se o sistema operacional impedir a abertura do arquivo
+  com
+  o aviso <font color="ff0000">"CodeBlocks não pode ser aberto porque procede de um
+  desenvolvedor não identificado"</font>, clique em OK na janela, abra as
+  "Preferências do Sistema" e depois clique no ícone "Segurança e
+  Privacidade". Lá, a informação de que o CodeBlocks não pode ser
+  aberto
+  estará exibida na parte de baixo da janela junto com um botão "Abrir
+  Mesmo Assim".  Clique no botão e logo depois será apresentada uma
+  janela pedindo para confirmar a abertura do CodeBlocks. Clique no
+  botão "Abrir" e espere o CodeBlocks abrir (vai demorar um
+  pouco).</p>
+  </li>
+ 
+ 
+  <!-- Para instalar o <span style="font-style: italic;">Code::Blocks</span>
+  no seu computador, "arraste" o &iacute;cone <span
+  style="font-weight: bold;">CodeBlocks.app</span> para a sua pasta <span
+  style="font-weight: bold;">Applications </span>em uma janela do <span
+  style="font-weight: bold;">Finder</span>.</li>
+
+  <br>
+    <div style="text-align: center;"><img
+      style="width: 695px; height: 328px;" alt="Applications/Codeblocks.app"
+      src="code_files/finder.jpg"><br>
+    </div>
+    <br>
+    <li>
+    <p>A partir do Finder, na pasta <span
+    style="font-weight: bold;">Applications</span>, clique no &iacute;cone
+    <span style="font-weight: bold;">CodeBlocks.app</span> para
+    rodar o <span style="font-style: italic;">Code::Blocks</span>.</p>
+    </li>
+  
+  <center>
+  <img style="width: 959px; height: 701px;" alt="Code::Blocks"
+  src="code_files/codeblocks.jpg"><br>
+  <br>
+  </center>
+  <hr>-->
+
+  <h1> Configurando o <i>Code::Blocks</i></h2>
+
+  <ol>
+    <li>
+    <p>Na primeira vez que voc&ecirc; usar o <tt>Code::Blocks</tt>,
+    o programa vai perguntar se voc&ecirc; deseja utilizar o compilador
+    default (no caso o GCC). Aceite essa op&ccedil;&atilde;o clicando em <b>Sim</b>.
+  </p>
+  </li>
+
+  <li>
+  <p> Al&eacute;m da tela principal, o <tt>Code::Blocks</tt>
+  oferece uma
+  janela com "dicas" para melhor utilizar a ferramenta. Voc&ecirc; pode
+  fech&aacute;-la, ou minimiz&aacute;-la, ou at&eacute; mesmo explorar as
+  dicas se desejar.
+  Mas para configurar o <tt>Code::Blocks</tt>, clique em "<span
+  style="font-weight: bold;">Settings</span>" e depois "<span
+  style="font-weight: bold;">Compiler</span>", a partir
+  da barra de menu do <tt>Code::Blocks</tt>.</p>
+  </li>
+
+  <li><p>Selecione as seguintes 4 op&ccedil;&otilde;es:
+  <ul>
+    <li><tt>In C mode, support all ISO C90 programs. In C++ mode, remove
+    GNU
+      extensions that conflict with ISO C++ [-ansi]</tt></li>
+    <li><tt>Enable all common compiler warnings (overrides many other
+      settings) [-Wall]</tt></li>
+    <li><tt>Enable warnings demanded by strict ISO C and ISO C++
+    [-pedantic]</tt></li>
+    <li><tt>Optimize even more (for speed) [-O2]</tt></li>
+  </p></li>
+  </ul>
+
+  <!-- <div style="text-align: center;"><img
+    style="width: 1030px; height: 978px;" alt="settings"
+    src="code_files/compilerSettings.jpg"><br>
+  </div> -->
+ 
+  <li><p>Para a sua seguran&ccedil;a, recomendamos tamb&eacute;m fazer
+  o <tt>Code::Blocks</tt> salvar o seu trabalho periodicamente, clicando em <span
+  style="font-weight: bold;">Settings -&gt; Environment -&gt; Autosave</span>
+  e definindo um intervalo adequado, por exemplo, 10 minutos.
+  </p></li>
+  
+   <li><p>Teste o <tt>Code::Blocks</tt>. Clique na sequência em:
+<pre class="saida">
+File -> New -> File -> C/C++ source -> Go -> C -> Next -> Escolha a pasta e defina o nome do arquivo -> Finish.
+</pre>
+Na nova aba que
+     abrir
+     para o seu arquivo escreva o código abaixo:
+   <pre>
+       #include &lt;stdio.h&gt; 
+
+       int main() {
+         printf("Hello world!\n");
+         return 0;
+       }
+   </pre>
+
+    Clique na sequência em:
+    <pre class="saida">
+    Build -> Build and Run.
+    </pre>
+    Ao fazer isso o seu programa será compilado e será executado em
+    uma nova janela de terminal que será aberta. Talvez a janela seja
+    aberta atrás da janela do <tt>Code::Blocks</tt>. Certifique-se de diminuir
+    o tamanho da janela do <tt>Code::Blocks</tt> para procurar a janela com a
+    exeução do seu programa. Assim está tudo ok com a instalação do
+    <tt>Code::Blocks</tt> no seu computador :-)
+
+   </p></li>
+
+   <li><p>
+   Agora você pode seguir a
+<a href="./codeblocksintro.html">Aula Dirigida de Uso do
+<tt>Code::Blocks</tt></a> para aprender a usar a ferramenta. 
+   </p></li>
+
+  <p>&nbsp;
+  <p>Divirtam-se! </p>
+  
+
+</ol>
+
+<hr>
+<!-- hhmts start -->Last modified: Mon May 19 21:19:03 BRT 2014 <!-- hhmts end -->
+
+</body>
+</html>

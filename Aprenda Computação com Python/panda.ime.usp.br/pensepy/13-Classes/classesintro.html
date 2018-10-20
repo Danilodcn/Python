@@ -1,0 +1,811 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Classes e Objetos - Fundamentos &mdash; Como pensar como um Cientista da Computação: Edição Interativa em Python</title>
+    
+    <link rel="stylesheet" href="../_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="../_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="../_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="../_static/codemirror.js"></script>
+    <script type="text/javascript" src="../_static/python.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="../_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="../_static/assess.js"></script>
+    <script type="text/javascript" src="../_static/animationbase.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="../_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="../_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Como pensar como um Cientista da Computação: Edição Interativa em Python" href="../index.html" />
+    <link rel="next" title="Classes e Objetos - Indo um pouco mais fundo" href="fracoes.html" />
+    <link rel="prev" title="Glossário" href="../12-Recursao/introexercises-ptbr.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/pensePython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'pensePython',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/pensePython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="fracoes.html" title="Classes e Objetos - Indo um pouco mais fundo"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../12-Recursao/introexercises-ptbr.html" title="Glossário"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="classes-e-objetos-fundamentos">
+<h1>Classes e Objetos - Fundamentos<a class="headerlink" href="#classes-e-objetos-fundamentos" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="programacao-orientada-a-objetos">
+<span id="index-0"></span><h2>Programação orientada à objetos<a class="headerlink" href="#programacao-orientada-a-objetos" title="Permalink to this headline">¶</a></h2>
+<p>O Python é uma <strong>linguagem de programação orientada à objetos</strong>, o que
+significa que ela possui recursos que dão suporte à <a class="reference external" href="http://en.wikipedia.org/wiki/Object-oriented_programming">programação
+orientada à objetos</a>
+(<strong>POO</strong>).</p>
+<p>A programação orientada à objetos tem suas origens na década de 1960,
+mas somente em meados da década de 1980 ela se tornou no principal
+<a class="reference external" href="http://en.wikipedia.org/wiki/Programming_paradigm">paradigma de programação</a> utilizado na
+criação de software. O paradigma foi desenvolvido como forma de tratar
+o rápido aumento no tamanho e complexidade dos sistemas de software e
+facilitar a modificação desses sistemas grandes e complexos ao longo
+do tempo.</p>
+<p>Até agora, o paradigma de <a class="reference external" href="http://en.wikipedia.org/wiki/Procedural_programming">programação procedural</a> foi utilizado
+em alguns programas que escrevemos. Na programação procedural o foco é
+na escrita de funções ou <em>procedimentos</em> que operam sobre os dados. Na
+programação orientada à objetos o foco é na criação de <strong>objetos</strong> que
+contem tanto os dados quanto as funcionalidades. Em geral, a definição
+de cada objeto corresponde a algum objeto ou conceito no mundo real e
+as funções que operam sobre tal objeto correspondem as formas que os
+objetos reais interagem.</p>
+</div>
+<div class="section" id="uma-mudanca-de-perspectiva">
+<h2>Uma mudança de perspectiva<a class="headerlink" href="#uma-mudanca-de-perspectiva" title="Permalink to this headline">¶</a></h2>
+<p>Nos capítulos anteriores escrevemos funções e as chamamos usando uma
+sintaxe como <code class="docutils literal"><span class="pre">desenheCirculo(tess)</span></code>. Isso sugere que a função é um
+agente ativo, que diz algo como, <em>&#8220;Ei, função desenheCirculo!
+Aqui está um objeto tartaruga para você desenhar. &#8220;</em></p>
+<p>Em programação orientada à objetos, os objetos são os agentes
+ativos. Por exemplo, em nossa introdução às tartarugas, utilizamos um
+estilo de orientação à objetos, de forma que nós escrevemos
+<code class="docutils literal"><span class="pre">tess.forward(100)</span></code>, que pede para a tartaruga se mover um certo
+número de passos para a frente.
+Uma chamada do tipo <code class="docutils literal"><span class="pre">tess.circle()</span></code> quer dizer <em>&#8220;Ei tess! Por favor
+use seu método circle!&#8221;</em></p>
+<p>Essa mudança de perspectiva pode parecer mais educada, mas não
+necessariamente útil inicialmente. Em geral, transferir a
+responsabilidade da função para um objeto torna possível escrever
+funções mais versáteis e facilita a manutenção e reuso do código.</p>
+<p>A vantagem mais importante do estilo de orientação à objetos é que ele
+é mais adequado ao nosso processo mental de agrupamento e mais perto
+da nossa experiência do mundo real.
+No mundo real nosso método para <code class="docutils literal"><span class="pre">cozinhar</span></code> é parte do nosso
+forno de microondas &#8212; nós não temos uma função <code class="docutils literal"><span class="pre">cozinhar</span></code> guardada
+na gaveta do armário que nós passamos para o microondas.
+Da mesma forma, usamos métodos do telefone celular para enviar um SMS, ou
+mudar o seu estado para silencioso. As funcionalidades de um objeto do
+mundo real tendem a ser intrínsecas a esse objeto. A POO nos permite
+representar essas funcionalidades com precisão ao organizar nossos
+programas.</p>
+</div>
+<div class="section" id="revisao-de-objetos">
+<h2>Revisão de Objetos<a class="headerlink" href="#revisao-de-objetos" title="Permalink to this headline">¶</a></h2>
+<p>Em Python, todo valor é na verdade um objeto. Seja uma tartaruga, uma
+lista, ou mesmo um inteiro, todos são objetos. Programas manipulam
+esses objetos realizando computações diretamente com eles ou chamando
+os seus métodos (ou seja, pedindo que esses objetos executem seus
+métodos). Para ser mais específico, nós dizemos que um objeto possui
+um <strong>estado</strong> e uma coleção de <strong>métodos</strong> que ele pode executar. O
+estado de um objeto representa as coisas que o objeto sabe sobre si
+mesmo. Por exemplo, como vimos com os objetos tartaruga, cada
+tartaruga possui um estado que representa a sua posição, sua cor, sua
+direção, etc. Cada tartaruga também tem a capacidade de se mover para
+a frente, para trás, ou virar para a direita ou esquerda. Cada
+tartaruga é diferente pois, embora sejam todas tartarugas, cada uma
+tem um estado diferente (como posições diferentes, ou orientações, etc).</p>
+<img alt="Um objeto simples possui um estado e métodos" src="../_images/objectpic1.png" />
+</div>
+<div class="section" id="classes-definidas-pelo-usuario">
+<span id="index-1"></span><h2>Classes definidas pelo usuário<a class="headerlink" href="#classes-definidas-pelo-usuario" title="Permalink to this headline">¶</a></h2>
+<p>Nós já vimos classes como <code class="docutils literal"><span class="pre">str</span></code>, <code class="docutils literal"><span class="pre">int</span></code>, <code class="docutils literal"><span class="pre">float</span></code> e <code class="docutils literal"><span class="pre">Turtle</span></code>. Estas foram definidos pelo Python e disponibilizadas para nós usarmos. No entanto, em muitos casos quando estamos resolvendo problemas, precisamos criar objetos de dados
+relacionados ao problema que estamos tentando resolver. Precisamos criar nossas próprias classes.</p>
+<p>Como um exemplo, considere o conceito de um ponto matemático. Em duas dimensões, um ponto é representado por dois números (coordenadas) que são tratadas em conjunto como um único objeto.
+Os pontos são muitas vezes escritos entre parênteses com uma vírgula
+separando as coordenadas. Por exemplo, <code class="docutils literal"><span class="pre">(0,</span> <span class="pre">0)</span></code> representa a origem, e
+<code class="docutils literal"><span class="pre">(x,</span> <span class="pre">y)</span></code> representa o ponto <code class="docutils literal"><span class="pre">x</span></code> unidades para a direita e <code class="docutils literal"><span class="pre">y</span></code> unidades para cima da origem. Este <code class="docutils literal"><span class="pre">(x,</span> <span class="pre">y)</span></code> é o estado do ponto.</p>
+<p>Pensando em nosso diagrama acima, podemos desenhar um objeto <code class="docutils literal"><span class="pre">ponto</span></code> como mostrado aqui.</p>
+<img alt="Um ponto possui um x e um y" src="../_images/objectpic2.png" />
+<p>Algumas das operações típicas que se associa com pontos poderiam ser a de pedir
+o ponto pela sua coordenada x, <code class="docutils literal"><span class="pre">getX</span></code>, ou para pedir a sua coordenada y, <code class="docutils literal"><span class="pre">getY</span></code>. Você também pode calcular a distância de um ponto a partir da origem, ou a partir de outro ponto, ou encontrar um ponto médio de dois pontos, ou perguntar se um ponto está dentro de um dado retângulo ou círculo. Nós logo veremos como podemos organizar isso em conjunto com os dados.</p>
+<img alt="A point also has methods" src="../_images/objectpic3.png" />
+<p>Agora que entendemos como um objeto <code class="docutils literal"><span class="pre">ponto</span></code> deve se parecer, podemos definir uma nova <strong>classe</strong>.
+Nós queremos que os nossos pontos tenham um atributo <code class="docutils literal"><span class="pre">x</span></code> e um <code class="docutils literal"><span class="pre">y</span></code>,
+assim a nossa primeira definição da classe se parece com isso.</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Point</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Point class for representing and manipulating x,y coordinates. &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create a new point at the origin &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</td></tr></table></div>
+<p>As definições de classes podem aparecer em qualquer lugar em um programa, mas são geralmente perto do início (após as comandos <code class="docutils literal"><span class="pre">import</span></code>). As regras de sintaxe para a definição de uma classe são as mesmas de outros comandos compostas. Há um cabeçalho
+que começa com a palavra-chave <code class="docutils literal"><span class="pre">class</span></code>, seguido pelo nome da classe
+e terminando com dois pontos.</p>
+<p>Se a primeira linha após o cabeçalho de classe é um string, ele se torna
+o docstring da classe, e será reconhecido por diversas ferramentas. (Este
+é também a maneira como docstrings funciona com funções.)</p>
+<p>Toda classe deve ter um método com o nome especial <code class="docutils literal"><span class="pre">__init__</span></code>.
+Este <strong>método de inicialização</strong>, muitas vezes referido como o <strong>construtor</strong>, é chamado automaticamente sempre que uma nova
+instância de <code class="docutils literal"><span class="pre">Point</span></code> é criada. Ela dá ao programador a oportunidade
+de configurar os atributos necessários dentro da nova instância, dando-lhes
+seus estaduais / valores iniciais. O parâmetro <code class="docutils literal"><span class="pre">self</span></code> (você poderia escolher qualquer outro nome, mas ninguém nunca faz!) é definido automaticamente para referenciar o objeto recém-criado que precisa ser inicializado.</p>
+<p>Então, vamos usar a nossa nova classe Point agora.</p>
+
+<div id="chp13_classes1" >
+<textarea cols="50" rows="12" id="chp13_classes1_code" class="active_code">
+class Point:
+    """ Point class for representing and manipulating x,y coordinates. """
+
+    def __init__(self):
+
+        self.x = 0
+        self.y = 0
+
+p = Point()         # Instantiate an object of type Point
+q = Point()         # and make a second point
+
+print("Nothing seems to have happened with the points")
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp13_classes1)</span> </p>
+<button onclick="runit('chp13_classes1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp13_classes1');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp13_classes1');">Load</button>
+<br />
+
+<canvas id="chp13_classes1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp13_classes1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Durante a inicialização dos objetos, criamos dois atributos chamados <cite>x</cite> e <cite>y</cite> para cada um, ambos com o valor 0. Você vai notar que quando você executar o
+programa, nada acontece. Felizmente este não é bem o caso. De fato, dois <code class="docutils literal"><span class="pre">Points</span></code> foram criados, cada um com coordenadas x e y com valor 0. No entanto, como nós não pedimos aos pontos para fazerem alguma coisa, não vemos resultado algum.</p>
+<img alt="Simple object has state and methods" src="../_images/objectpic4.png" />
+<p>O seguinte programa adiciona alguns comandos para impressão. Observe que a saída sugere que cada um é um <code class="docutils literal"><span class="pre">objeto</span> <span class="pre">Point</span></code>.
+No entanto, observe que o operador <code class="docutils literal"><span class="pre">is</span></code> retorna <code class="docutils literal"><span class="pre">False</span></code>, o que significa que eles são objetos diferentes (vamos discutir mais sobre isso nos próximos capítulos).</p>
+
+<div id="chp13_classes2" >
+<textarea cols="50" rows="12" id="chp13_classes2_code" class="active_code">
+class Point:
+    """ Point class for representing and manipulating x,y coordinates. """
+
+    def __init__(self):
+
+        self.x = 0
+        self.y = 0
+
+p = Point()         # Instantiate an object of type Point
+q = Point()         # and make a second point
+
+print(p)
+print(q)
+
+print(p is q)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp13_classes2)</span> </p>
+<button onclick="runit('chp13_classes2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp13_classes2');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp13_classes2');">Load</button>
+<br />
+
+<canvas id="chp13_classes2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp13_classes2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Isso deve lhe parecer familiar &#8212; nós usamos classes antes para criar mais de um objeto:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">turtle</span> <span class="kn">import</span> <span class="n">Turtle</span>
+
+<span class="n">tess</span> <span class="o">=</span> <span class="n">Turtle</span><span class="p">()</span>     <span class="c1"># Instantiate objects of type Turtle</span>
+<span class="n">alex</span> <span class="o">=</span> <span class="n">Turtle</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>As variáveis <code class="docutils literal"><span class="pre">p</span></code> e <code class="docutils literal"><span class="pre">q</span></code> recebem referências a dois novos objetos <code class="docutils literal"><span class="pre">Point</span></code>.
+Uma função como <code class="docutils literal"><span class="pre">Turtle</span></code> ou <code class="docutils literal"><span class="pre">Point</span></code> que cria uma nova instância do objeto
+é chamado de <strong>construtor</strong>, e cada classe fornece automaticamente uma
+função construtora que tem o mesmo nome da classe.</p>
+<p>Pode ser útil considerar que uma classe seja uma fábrica que faz objetos.
+A classe em si não é uma instância de um ponto, mas contém a maquinaria
+para fazer instancias de pontos. Cada vez que você chamar o construtor, você está pedindo à fábrica para lhe fazer um novo objeto. À medida que o objeto sai da
+linha de produção, o seu método de inicialização é executado para inicializá-lo
+com a configuração padrão de fábrica.</p>
+<p>O processo combinado de &#8220;crie um novo objeto&#8221; e &#8220;inicialize com a configuração padrão de fábrica&#8221; é chamado <strong>instanciação</strong>.</p>
+</div>
+<div class="section" id="melhorando-o-nosso-construtor">
+<h2>Melhorando o Nosso Construtor<a class="headerlink" href="#melhorando-o-nosso-construtor" title="Permalink to this headline">¶</a></h2>
+<p>Até agora o nosso construtor só pode criar pontos na posição <code class="docutils literal"><span class="pre">(0,0)</span></code>. Para criar um ponto na posição (7, 6) é preciso fornecer alguma capacidade adicional para passar informações para o construtor. Como os construtores são simplesmente funções com nomes especiais, podemos usar parâmetros (como vimos antes) para fornecer as informações específicas.</p>
+<p>Nós podemos tornar o construtor  da nossa classe mais geral, colocando parâmetros extras no método <code class="docutils literal"><span class="pre">__init__</span></code>, como mostrado neste exemplo.</p>
+
+<div id="chp13_classes3" >
+<textarea cols="50" rows="12" id="chp13_classes3_code" class="active_code">
+class Point:
+    """ Point class for representing and manipulating x,y coordinates. """
+
+    def __init__(self, initX, initY):
+
+        self.x = initX
+        self.y = initY
+
+p = Point(7,6)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp13_classes3)</span> </p>
+<button onclick="runit('chp13_classes3',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp13_classes3');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp13_classes3');">Load</button>
+<br />
+
+<canvas id="chp13_classes3_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp13_classes3_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Agora quando nós criamos novos pontos, podemos simplesmente fornecer os valores de x e y como argumentos. Quando o ponto é criado, os valores de <code class="docutils literal"><span class="pre">initX</span></code> e <code class="docutils literal"><span class="pre">initY</span></code> são atribuidos ao estado do objeto.</p>
+<img alt="Simple object has state and methods" src="../_images/objectpic5.png" />
+</div>
+<div class="section" id="adicionando-outros-metodos-a-nossa-classe">
+<h2>Adicionando Outros Métodos à Nossa Classe<a class="headerlink" href="#adicionando-outros-metodos-a-nossa-classe" title="Permalink to this headline">¶</a></h2>
+<p>A principal vantagem de usar uma classe como <code class="docutils literal"><span class="pre">Point</span></code> em vez de algo como uma simples
+tupla <code class="docutils literal"><span class="pre">(7,</span> <span class="pre">6)</span></code> agora se torna aparente. Podemos acrescentar métodos para
+a classe <code class="docutils literal"><span class="pre">Point</span></code> que são operações úteis para trabalhar com pontos. Se tivéssemos optado por usar uma simples tupla para representar o ponto, não teríamos essa capacidade.
+Criar uma classe como <code class="docutils literal"><span class="pre">Point</span></code> traz um &#8220;poder organizacional&#8221;
+excepcional para nossos programas e para o nosso pensamento.
+Podemos agrupar as operações que fazem sentido, e os tipos de dados
+a que pertencem, e cada instância da classe pode ter seu próprio estado.</p>
+<p>Um <strong>método</strong> se comporta como uma função, mas ele é chamado de uma instância específica. Por exemplo, com uma tartaruga chamada <code class="docutils literal"><span class="pre">tesss</span></code>, <code class="docutils literal"><span class="pre">tess.right(90)</span></code> pede ao objeto <code class="docutils literal"><span class="pre">tess</span></code> para executar o seu método <code class="docutils literal"><span class="pre">right</span></code> e virar 90 graus. Os métodos são acessados usando a notação de ponto.</p>
+<p>Vamos adicionar dois métodos simples para permitir um ponto de nos dar informações sobre o seu estado. O método <code class="docutils literal"><span class="pre">getX</span></code>, quando invocado, irá retornar o valor da coordenada x. A implementação deste método é muito simples uma vez que já sabemos como escrever funções que retornam valores. Uma coisa a notar é que mesmo que o método <code class="docutils literal"><span class="pre">getX</span></code> não precise de qualquer outra informação como parâmetro para fazer o seu trabalho, ainda há um parâmetro formal, <code class="docutils literal"><span class="pre">self</span></code>. Como dissemos anteriormente, todo método definido em uma classe que opere em objetos dessa classe terá <code class="docutils literal"><span class="pre">self</span></code> como seu primeiro parâmetro. Mais uma vez, este serve como referência para o objeto em si, que por sua vez permite o acesso aos dados de estado no interior do objeto.</p>
+
+<div id="chp13_classes4" >
+<textarea cols="50" rows="12" id="chp13_classes4_code" class="active_code">
+class Point:
+    """ Point class for representing and manipulating x,y coordinates. """
+
+    def __init__(self, initX, initY):
+
+        self.x = initX
+        self.y = initY
+
+    def getX(self):
+        return self.x
+
+    def getY(self):
+        return self.y
+
+
+p = Point(7,6)
+print(p.getX())
+print(p.getY())
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp13_classes4)</span> </p>
+<button onclick="runit('chp13_classes4',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp13_classes4');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp13_classes4');">Load</button>
+<br />
+
+<canvas id="chp13_classes4_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp13_classes4_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Da mesma forma, o método <code class="docutils literal"><span class="pre">getY</span></code> tem o mesmo jeito.</p>
+<p>Vamos adicionar um outro método, <code class="docutils literal"><span class="pre">distanceFromOrigin</span></code>, para ver melhor como os métodos funcionam. Este método também não vai precisar de nenhuma informação adicional para realizar o seu trabalho, mas realizará uma tarefa mais complexa.</p>
+
+<div id="chp13_classes5" >
+<textarea cols="50" rows="12" id="chp13_classes5_code" class="active_code">
+class Point:
+    """ Point class for representing and manipulating x,y coordinates. """
+
+    def __init__(self, initX, initY):
+
+        self.x = initX
+        self.y = initY
+
+    def getX(self):
+        return self.x
+
+    def getY(self):
+        return self.y
+
+    def distanceFromOrigin(self):
+        return ((self.x ** 2) + (self.y ** 2)) ** 0.5
+
+
+p = Point(7,6)
+print(p.distanceFromOrigin())
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp13_classes5)</span> </p>
+<button onclick="runit('chp13_classes5',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp13_classes5');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp13_classes5');">Load</button>
+<br />
+
+<canvas id="chp13_classes5_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp13_classes5_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Note que o chamador de <code class="docutils literal"><span class="pre">distanceFromOrigin</span></code> não fornece nenhum argumento para suprir o valor do parâmetro <code class="docutils literal"><span class="pre">self</span></code>. Isso é verdade também para todas as chamadas de métodos. A definição sempre terá um parâmetro adicional (<code class="docutils literal"><span class="pre">self</span></code>) quando comparado a chamada.</p>
+</div>
+<div class="section" id="objetos-como-argumentos-e-parametros">
+<h2>Objetos Como Argumentos e Parâmetros<a class="headerlink" href="#objetos-como-argumentos-e-parametros" title="Permalink to this headline">¶</a></h2>
+<p>Você pode passar um objeto como um argumento da forma habitual. Nós já vimos
+isso em alguns dos exemplos da tartaruga, onde a tartaruga é passada para
+alguma função como <code class="docutils literal"><span class="pre">drawRectangle</span></code> para que a função possa
+controlar e usar qualquer instância de tartaruga que lhe seja passada.</p>
+<p>Esta é uma função simples que envolve nossos novos objetos <code class="docutils literal"><span class="pre">Point</span></code>.</p>
+
+<div id="chp13_classes6" >
+<textarea cols="50" rows="12" id="chp13_classes6_code" class="active_code">
+import math
+
+class Point:
+    """ Point class for representing and manipulating x,y coordinates. """
+
+    def __init__(self, initX, initY):
+
+        self.x = initX
+        self.y = initY
+
+    def getX(self):
+        return self.x
+
+    def getY(self):
+        return self.y
+
+    def distanceFromOrigin(self):
+        return ((self.x ** 2) + (self.y ** 2)) ** 0.5
+
+def distance(point1, point2):
+    xdiff = point2.getX()-point1.getX()
+    ydiff = point2.getY()-point1.getY()
+
+    dist = math.sqrt(xdiff**2 + ydiff**2)
+    return dist
+
+p = Point(4,3)
+q = Point(0,0)
+print(distance(p,q))
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp13_classes6)</span> </p>
+<button onclick="runit('chp13_classes6',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp13_classes6');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp13_classes6');">Load</button>
+<br />
+
+<canvas id="chp13_classes6_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp13_classes6_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p><code class="docutils literal"><span class="pre">distance</span></code> recebe dois pontos e retorna a distância entre eles. Note que <code class="docutils literal"><span class="pre">distance</span></code> <strong>não</strong> é um método da classe Point. Você pode ver isso pelo padrão de tabulação, que não está dentro da classe Point. Outra forma para sabermos que <code class="docutils literal"><span class="pre">distance</span></code> não é um método de Point é que <code class="docutils literal"><span class="pre">self</span></code> não está incluido como parâmetro formal. Além disso, nós não chamamos <code class="docutils literal"><span class="pre">distance</span></code> usando a notação de ponto.</p>
+</div>
+<div class="section" id="conversao-de-um-objeto-para-um-string">
+<h2>Conversão de um Objeto para um String<a class="headerlink" href="#conversao-de-um-objeto-para-um-string" title="Permalink to this headline">¶</a></h2>
+<p>A maioria dos programadores de orientação à objetos não fariam o que acabamos de fazer em <code class="docutils literal"><span class="pre">print_point</span></code>. Quando trabalhamos com classes e objetos, uma alternativa é incluir um novo método na classe, mas não gostamos de métodos tagarelas que chamam <code class="docutils literal"><span class="pre">print</span></code>. A melhor alternativa é ter um método para que toda instância possa produzir um string que o represente. Vamos inicialmente chamar esse método de <code class="docutils literal"><span class="pre">to_string</span></code>:</p>
+
+<div id="chp13_classesstr1" >
+<textarea cols="50" rows="12" id="chp13_classesstr1_code" class="active_code">
+class Point:
+    """ Point class for representing and manipulating x,y coordinates. """
+
+    def __init__(self, initX, initY):
+
+        self.x = initX
+        self.y = initY
+
+    def getX(self):
+        return self.x
+
+    def getY(self):
+        return self.y
+
+    def distanceFromOrigin(self):
+        return ((self.x ** 2) + (self.y ** 2)) ** 0.5
+
+
+p = Point(7,6)
+print(p)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp13_classesstr1)</span> </p>
+<button onclick="runit('chp13_classesstr1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp13_classesstr1');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp13_classesstr1');">Load</button>
+<br />
+
+<canvas id="chp13_classesstr1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp13_classesstr1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>A função <code class="docutils literal"><span class="pre">print</span></code> mostrada acima produz um string que representa o Ponto <code class="docutils literal"><span class="pre">p</span></code>. O padrão fornecido pelo Python diz que <code class="docutils literal"><span class="pre">p</span></code> é um objeto do tipo <code class="docutils literal"><span class="pre">Point</span></code>. No entanto, ele não diz nada sobre o estado específico do ponto.</p>
+<p>Nós podemos melhorar esta representação se incluirmos um método especial chamado <code class="docutils literal"><span class="pre">__str__</span></code>. Observe que este método usa a mesma convenção de nomes como o construtor, que é dois sublinhados antes e depois do nome. É comum no Python
+utilizar essa técnica para dar nomes aos métodos especiais.</p>
+<p>O método <code class="docutils literal"><span class="pre">__str__</span></code> é responsável por retornar uma representação na forma de um string, tal como definido pelo criador da classe. Em outras palavras, você, como programador, deve escolher como um <code class="docutils literal"><span class="pre">Point</span></code> deve ser impresso. Neste caso, decidimos que a representação em string irá incluir os valores de x e y, bem como algum texto de identificação. É necessário que o método <code class="docutils literal"><span class="pre">__str__</span></code> crie e <em>retorne</em> um string.</p>
+
+<div id="chp13_classesstr2" >
+<textarea cols="50" rows="12" id="chp13_classesstr2_code" class="active_code">
+class Point:
+    """ Point class for representing and manipulating x,y coordinates. """
+
+    def __init__(self, initX, initY):
+
+        self.x = initX
+        self.y = initY
+
+    def getX(self):
+        return self.x
+
+    def getY(self):
+        return self.y
+
+    def distanceFromOrigin(self):
+        return ((self.x ** 2) + (self.y ** 2)) ** 0.5
+
+    def __str__(self):
+        return "x=" + str(self.x) + ", y=" + str(self.y)
+
+p = Point(7,6)
+print(p)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp13_classesstr2)</span> </p>
+<button onclick="runit('chp13_classesstr2',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp13_classesstr2');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp13_classesstr2');">Load</button>
+<br />
+
+<canvas id="chp13_classesstr2_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp13_classesstr2_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Quando executar o programa acima, você pode ver que a função <code class="docutils literal"><span class="pre">print</span></code> agora mostra o string que escolhemos.</p>
+<p>Agora, você pode perguntar, mas já não temos uma função de conversão de tipo <code class="docutils literal"><span class="pre">str</span></code> que pode transformar o nosso objeto em um string? Sim, nós temos!</p>
+<p>E o <code class="docutils literal"><span class="pre">print</span></code> já não usa essa função automaticamente ao imprimir as coisas? Sim, de novo!</p>
+<p>Mas esses mecanismos automáticos ainda não fazem exatamente o que queremos. O Python fornece muitas implementações padrão para métodos que nós, como programadores, provavelmente desejamos alterar. Quando um programador muda o significado de um método especial dizemos que <strong>substituimos</strong> o método. Note também que a função <code class="docutils literal"><span class="pre">str</span></code> para conversão de tipo usa o método <code class="docutils literal"><span class="pre">__str__</span></code> que nós fornecemos.</p>
+</div>
+<div class="section" id="instancias-e-valores-de-retorno">
+<h2>Instâncias e Valores de Retorno<a class="headerlink" href="#instancias-e-valores-de-retorno" title="Permalink to this headline">¶</a></h2>
+<p>Funções e métodos podem retornar objetos. Esta é, na verdade, nada de novo, já que tudo em Python é um objeto e temos retornado valores por algum tempo. A diferença aqui é que nós queremos que o método crie um objeto usando o construtor e depois que retorne o novo objeto como o valor do método.</p>
+<p>Suponha que você tenha um objeto ponto e deseja encontrar o ponto médio entre ele e algum outro ponto alvo. Nós gostaríamos de escrever um método, chamado de <code class="docutils literal"><span class="pre">halfway</span></code> que recebe outro <code class="docutils literal"><span class="pre">Point</span></code> como parâmetro e retorna o <code class="docutils literal"><span class="pre">Point</span></code> que está a meio caminho entre o ponto e o alvo.</p>
+
+<div id="chp13_classesmid1" >
+<textarea cols="50" rows="12" id="chp13_classesmid1_code" class="active_code">
+class Point:
+
+    def __init__(self, initX, initY):
+
+        self.x = initX
+        self.y = initY
+
+    def getX(self):
+        return self.x
+
+    def getY(self):
+        return self.y
+
+    def distanceFromOrigin(self):
+        return ((self.x ** 2) + (self.y ** 2)) ** 0.5
+
+    def __str__(self):
+        return "x=" + str(self.x) + ", y=" + str(self.y)
+
+    def halfway(self, target):
+         mx = (self.x + target.x)/2
+         my = (self.y + target.y)/2
+         return Point(mx, my)
+
+p = Point(3,4)
+q = Point(5,12)
+mid = p.halfway(q)
+
+print(mid)
+print(mid.getX())
+print(mid.getY())
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (chp13_classesmid1)</span> </p>
+<button onclick="runit('chp13_classesmid1',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('chp13_classesmid1');">Save</button>
+<button class="ac_opt" onclick="requestCode('chp13_classesmid1');">Load</button>
+<br />
+
+<canvas id="chp13_classesmid1_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="chp13_classesmid1_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>O ponto resultante, <code class="docutils literal"><span class="pre">mid</span></code>, tem um valor de x de 4 e um valor de y de 8. Nós também podemos usar qualquer outro método de <code class="docutils literal"><span class="pre">mid</span></code> pois ele é um objeto <code class="docutils literal"><span class="pre">Point</span></code>.</p>
+</div>
+<div class="section" id="glossario">
+<h2>Glossário<a class="headerlink" href="#glossario" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-atributo">atributo</dt>
+<dd>Um dos itens nomeados de dados que compõem uma instância.</dd>
+<dt id="term-classe">classe</dt>
+<dd>Um tipo de composto definido pelo usuário.
+Uma classe também pode ser pensada como um modelo para os objetos
+que são instâncias da mesma. (O iPhone é uma classe. Até dezembro de
+2010, as estimativas são de que 50 milhões de instâncias
+tinham sido vendidas!)</dd>
+<dt id="term-construtor">construtor</dt>
+<dd>Cada classe tem uma &#8220;fábrica&#8221;, chamada pelo mesmo nome da classe, por
+fazer novas instâncias. Se a classe tem um <em>método de inicialização</em>,
+este método é usado para obter os atributos (ou seja, o estado) do novo
+objeto adequadamente configurado.</dd>
+<dt id="term-instancia">instância</dt>
+<dd>Um objeto cujo tipo é de alguma classe. Instância e objeto são usados como
+sinônimos.</dd>
+<dt id="term-instanciar">instanciar</dt>
+<dd>Significa criar uma instância de uma classe e executar o seu
+método de inicialização.</dd>
+<dt id="term-linguagem-orientada-a-objetos">linguagem orientada a objetos</dt>
+<dd>Uma linguagem que fornece recursos, como as classes definidas pelo usuário e
+herança, que facilitam a programação orientada a objetos.</dd>
+<dt id="term-metodo">método</dt>
+<dd>Uma função que é definida dentro de uma definição de classe e é chamado em
+instâncias dessa classe.</dd>
+<dt id="term-metodo-de-inicializacao">método de inicialização</dt>
+<dd>Um método especial em Python (chamado <code class="docutils literal"><span class="pre">__init__</span></code>)
+que é chamado automaticamente para configurar um objeto recém-criado
+no seu estado inicial (padrão de fábrica).</dd>
+<dt id="term-objeto">objeto</dt>
+<dd>Um tipo de dados composto que é frequentemente usado para modelar
+uma coisa ou conceito do mundo real. Ele agrupa os dados e as operações que
+são relevantes para esse tipo de dados. Instância e objeto são usados como
+sinônimos.</dd>
+<dt id="term-programacao-orientada-a-objetos">programação orientada a objetos</dt>
+<dd>Um estilo poderoso de programação em que os dados e as operações
+que os manipulam são organizados em classes e métodos.</dd>
+</dl>
+</div>
+<div class="section" id="exercicios">
+<h2>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Escreva uma função <code class="docutils literal"><span class="pre">distancia</span></code> que recebe
+dois <code class="docutils literal"><span class="pre">Point</span></code>s como parâmetros e retorna a distância euclidiana entre eles.</p>
+</li>
+<li><p class="first">Crie um método <code class="docutils literal"><span class="pre">reflect_x</span></code> na classe Point que retorna um novo Point,
+que é a reflexão do ponto no eixo x. Por exemplo,
+<code class="docutils literal"><span class="pre">Point(3,</span> <span class="pre">5).reflect_x()</span></code> é (3, -5)</p>
+</li>
+<li><p class="first">Crie um método <code class="docutils literal"><span class="pre">slope_from_origin</span></code> que retorna a inclinação da linha
+que liga o ponto à origem. Por exemplo,</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Point</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">slope_from_origin</span><span class="p">()</span>
+<span class="go">2.5</span>
+</pre></div>
+</div>
+<p>Quais os casos onde esse método falha?</p>
+</li>
+<li><p class="first">A equação de uma reta é &#8220;y = ax + b&#8221;, (ou talvez &#8220;y = mx + c&#8221;).
+Os coeficientes a e b são suficientes para descrever a linha.
+Escreva um método na classe Point que recebe outra instância de Point e calcula
+a equação da reta que liga os dois pontos. O método deve retornar os
+dois coeficientes na forma de um tuple com dois valores. Por exemplo,</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span><span class="o">.</span><span class="n">get_line_to</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">15</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Isso nos diz que a equação da linha que liga os dois pontos é &#8220;y = 2x + 3&#8221;.
+Quais os casos onde esse método falha?</p>
+</li>
+<li><p class="first">Dados quatro pontos sobre uma circunferência, encontre o ponto centro
+da circunferência.
+Quando a sua função falha?</p>
+<p><em>Dica:</em> Você <em>deve</em> saber como resolver o problema geometricamente <em>antes</em>
+de fazer qualquer coisa relacionada a programação.
+Você não pode programar uma solução para um problema se você não entende
+o que você quer que o computador faça.</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Classes e Objetos - Fundamentos</a><ul>
+<li><a class="reference internal" href="#programacao-orientada-a-objetos">Programação orientada à objetos</a></li>
+<li><a class="reference internal" href="#uma-mudanca-de-perspectiva">Uma mudança de perspectiva</a></li>
+<li><a class="reference internal" href="#revisao-de-objetos">Revisão de Objetos</a></li>
+<li><a class="reference internal" href="#classes-definidas-pelo-usuario">Classes definidas pelo usuário</a></li>
+<li><a class="reference internal" href="#melhorando-o-nosso-construtor">Melhorando o Nosso Construtor</a></li>
+<li><a class="reference internal" href="#adicionando-outros-metodos-a-nossa-classe">Adicionando Outros Métodos à Nossa Classe</a></li>
+<li><a class="reference internal" href="#objetos-como-argumentos-e-parametros">Objetos Como Argumentos e Parâmetros</a></li>
+<li><a class="reference internal" href="#conversao-de-um-objeto-para-um-string">Conversão de um Objeto para um String</a></li>
+<li><a class="reference internal" href="#instancias-e-valores-de-retorno">Instâncias e Valores de Retorno</a></li>
+<li><a class="reference internal" href="#glossario">Glossário</a></li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../12-Recursao/introexercises-ptbr.html"
+                        title="previous chapter">Glossário</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="fracoes.html"
+                        title="next chapter">Classes e Objetos - Indo um pouco mais fundo</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="fracoes.html" title="Classes e Objetos - Indo um pouco mais fundo"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../12-Recursao/introexercises-ptbr.html" title="Glossário"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Como pensar como um Cientista da Computação</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2012, Brad Miller, David Ranum.
+      Last updated on May 24, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>ElementTree: Working with Qualified&nbsp;Names</title></head><body data-page-id="86"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">ElementTree: Working with Qualified&nbsp;Names</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Updated December 8, 2005 | July 27, 2002 | Fredrik Lundh</p><p>The <b>elementtree</b> module supports <b>qualified names</b> (QNames)
+for element tags and attribute names.  A qualified name consists of a (uri,
+local name) pair.</p><p>Qualified names was introduced with the <a href="http://www.w3.org/TR/REC-xml-names/">XML Namespace specification</a>.</p><h3>Storing Qualified Names in Element Trees</h3><p>The element tree represents a qualified name pair as
+a string of the form &#8220;<b>{uri}local</b>&#8220;.</p><p>The following example creates an element where the tag
+is the qualified name pair <b>(http://spam.effbot.org, egg)</b>.</p><pre class="python">
+elem = Element(<span class="pystring">"{http://spam.effbot.org}egg"</span>}</pre><p>To check if a name is a qualified name, you can do:</p><pre class="python">
+<span class="pykeyword">if</span> elem.tag[0] == <span class="pystring">"{"</span>:
+    ...</pre><p>(you can also use <b>startswith</b>, but the method call overhead
+makes that a lot slower in current Python versions.)</p><h3>Storing Qualified Names in XML Files</h3><p>In theory, we could store qualified names right away
+in XML files.  For example, let&#8217;s use the <b>{uri}local</b>
+notation in the file itself:</p><pre>
+&lt;{http://spam.effbot.org}egg&gt;
+some content
+&lt;/{http://spam.effbot.org}egg&gt;
+</pre><p>There are two problems with this approach.  One is the
+according to the XML base specification, { and } cannot be
+used in element tags and attribute names.  Another, more
+important problem is bloat; even with a short uri like the
+one used in the example above, we&#8217;ll end up adding nearly
+50 bytes to each element.  Put a couple of thousand elements
+in a file, and use longer URIs, and you&#8217;ll quickly end up
+with hundreds of kilobytes of extra data.</p><p>To get around this, the XML namespace authors came up
+with a simple encoding scheme.  In an XML file, a qualified
+name is written as a namespace prefix and a local part,
+separated by a colon: e.g. &#8220;<b>prefix:local</b>&#8220;.</p><p>Special <b>xmlns:prefix</b> attributes are used to
+provide a mapping from prefixes to URIs.  Our example
+now looks like this:</p><pre>
+&lt;spam:egg xmlns:spam='http://spam.effbot.org'&gt;
+some content
+&lt;/spam:egg&gt;
+</pre><p>For a single element, this doesn&#8217;t save us that much.
+But the trick is that once a prefix is defined, it can be
+used in hundreds of thousands of places.  If you really
+want to minimize the overhead, you can pick one-character
+prefixes, and get away with four bytes extra per element.</p><p>However, it should be noted that <b>xmlns</b> attributes
+only affect the element they belong to, and any subelements
+to that element.  But an element can define a prefix even if
+it doesn&#8217;t use it itself, so you can simply put all namespace
+attributes on the toplevel (document) element, and be done
+with it.</p><h3>Qualified Attribute Values</h3><p>XML-languages like WSDL and SOAP uses qualified names both
+as names and as attribute values.The standard parser does this
+for element tags and attribute names, but it cannot do this to
+attribute values; an attribute value with a colon in it may be
+a qualified name, or it may be some arbitrary string that just
+happens to have a colon in it.</p><p>And once the element tree has been created, it&#8217;s too late to
+map prefixes to namespace uris; we need to know the prefix mapping
+that applied to the element where the attribute appears.</p><p>To work around this, the recommended approach is to use the
+<a href="element-iterparse.htm"><b>iterparse</b></a> function,
+and do necessary conversions on the fly.  In the following
+example, the <b>namespaces</b> variable will contain a list
+of (prefix, uri) pairs for all active namespaces.</p><pre class="python">
+events = (<span class="pystring">"end"</span>, <span class="pystring">"start-ns"</span>, <span class="pystring">"end-ns"</span>)
+namespaces = []
+<span class="pykeyword">for</span> event, elem <span class="pykeyword">in</span> iterparse(source, events=events):
+    <span class="pykeyword">if</span> event == <span class="pystring">"start-ns"</span>:
+        namespaces.append(elem)
+    <span class="pykeyword">elif</span> event == <span class="pystring">"end-ns"</span>:
+        namespaces.pop()
+    <span class="pykeyword">else</span>:
+        ...</pre><p>Note that the most recent namespace declaration is added to the end
+of the list; to find the URI for a given prefix, you have to search backwards:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">geturi</span>(prefix, namespaces):
+    <span class="pykeyword">for</span> p, uri <span class="pykeyword">in</span> reversed(namespaces):
+        <span class="pykeyword">if</span> p == prefix:
+            <span class="pykeyword">return</span> uri
+    <span class="pykeyword">return</span> None <span class="pycomment"># not found</span></pre></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

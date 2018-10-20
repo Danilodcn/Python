@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Using generators to sleep without&nbsp;blocking</title></head><body data-page-id="305"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Using generators to sleep without&nbsp;blocking</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">February 12, 2002 | Fredrik Lundh</p><p>The following Tkinter snippet draws a random polyline, one segment at
+a time.</p><p>The main work is done inside the <b>draw</b> method, which uses <b>yield x</b> to sleep for x milliseconds.  The yield statement transfers control
+to the <b>slowmotion</b> wrapper, which tells Tkinter to process events as
+usual, and call back after the given time.  When Tkinter calls the scheduled
+function, we end up in <b>draw</b>, just after the yield statement.  The
+function draws another line, and goes back to sleep.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">from</span> __future__ <span class="pykeyword">import</span> generators <span class="pycomment"># only needed in 2.2</span>
+
+<span class="pykeyword">import</span> random
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+w, h = 500, 500
+
+root = Tk()
+cnv = Canvas(root, width=w, height=h)
+cnv.pack(side=TOP)
+Button(root, text=<span class="pystring">'Enough'</span>, command=root.quit).pack(side=TOP)
+
+<span class="pykeyword">def</span> <span class="pyfunction">draw</span>():
+    x, y = random.randrange(w), random.randrange(h)
+    <span class="pykeyword">while</span> 1:
+        oldx, oldy = x, y
+        x, y = random.randrange(w), random.randrange(h)
+        cnv.create_line(oldx, oldy, x, y)
+        <span class="pykeyword">yield</span> 500 <span class="pycomment"># sleep for 500 ms</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">slowmotion</span>(iterator):
+    <span class="pycomment"># sleep a while, and then go back to the loop</span>
+    root.after(iterator.next(), slowmotion, iterator)
+
+slowmotion(draw()) <span class="pycomment"># schedule the first round</span>
+
+mainloop() <span class="pycomment"># get things going</span></pre></div><div class="yui-ge"><div class="yui-u first"><p>The important thing here is that the event loop keeps running.
+Most of the time is spent inside the Tkinter event loop, waiting to
+call the <b>slowmotion</b> helper again.  Other widgets can process
+their events as usual, and you can click the &#8220;Enough&#8221; button at any
+time.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

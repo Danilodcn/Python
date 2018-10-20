@@ -1,0 +1,372 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Sockets: Usenet&nbsp;Support</title></head><body data-page-id="274"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Sockets: Usenet&nbsp;Support</h1></div><div class="yui-ge"><div class="yui-u first"><p><i>This is a really old draft from 1997.</i></p><h2>Pulling Documents and Images off Usenet</h2><p>Another source for information and images is the part of Internet
+called Usenet, or News.  Usenet is a distributed bulletin-board, where
+messages can be read from, and posted to special news servers.
+Messages posted to a given news server are propagated to other
+servers, but as with the Web, you have to connect to a server to be
+able to read the messages.</p><p>The protocol used to fetch messages (&#8220;articles&#8221;) from a news server
+is called <i>Network News Transfer Protocol</i> (NNTP). &lt;RFC977&gt;.
+Here&#8217;s a typical session, in which the client application connects,
+reads the standard headers for new messages in the newsgroup called
+comp.lang.python, downloads one of them, and then posts a message to
+the server (possibly in response to the other message):</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+Client: <i>connects</i>
+Server: 200 news.spam.egg PyNNTP 1.0 ready (posting ok)
+Client: GROUP comp.lang.python
+Server: 211 367 13887 14268 comp.lang.python
+Client: XOVER 14211-14268
+Client: 204 data follows
+Server: <i>(sends overview information for articles 14211 to 14268)</i>
+Server: .
+Client: ARTICLE 14220
+Server: 220 14220 &lt;5qj8v5$8dd@news.spam.egg &gt; article
+Server: <i>(sends message)</i>
+Server: .
+Client: POST
+Server: 340 OK
+Client: <i>(sends message)</i>
+Client: .
+Server: 240 Article posted
+Client: QUIT
+Client: <i>disconnects</i>
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>Note that each command from the client starts with a command
+keyword, and each reply from the server starts with a status code.
+Messages and listings are terminated with a line containing a single
+dot. </p><p>The server assigns a serial number to each message (in this case,
+the comp.lang.python newsgroup currently contains 367 messages, having
+numbers between 13887 to 14268), and it&#8217;s usually up to the client to
+keep track of which messages it has already seen.</p><h3>News Message Format</h3><p>We&#8217;ll implement an NNTP client class in a moment, but before we do
+that, let&#8217;s see what the news messages look like. Here&#8217;s a simple
+example:</p><pre>
+Path: news.myisp.se!newsfeed.internetmci.com!news.spam.egg
+From: user@spam.egg
+Newsgroups: comp.lang.python
+Subject: Re: Where's the bacon?
+Date: 17 Jul 1999 09:25:53 -0400
+Lines: 12
+Sender: user@spam.egg
+Message-ID: &lt;lqsoxd95em.ach@news.spam.egg&gt;
+References: &lt;199907152100.RAA14304@foobar.spam.egg&gt;
+Xref: news.spam.egg comp.lang.python:14304
+
+Fredrik wrote:
+&gt; Haven't got a clue. Maybe someone else knows more.
+
+You could check the list of contributed software at
+www.python.org.
+
+...
+</pre><p>As in HTTP, the message starts with a list of headers, followed by
+an empty line, and the message body itself. Python&#8217;s standard library
+contains a module designed to represent messages like this.  This
+module is named rfc822, after the Internet specification with the same
+name (the full name of which is <i>Standard for the Format of ARPA
+Internet Text Messages</i>, by the way).</p><p>RFC822 only specifies the general layout of the message; another
+specification, RFC1036, defines what headers to use in a news
+message.</p><p>&lt;FIXME: header field summary: From, Date, Newsgroups, Subject,
+Message-ID, and Path&gt;</p><p>The Message class defined in the rfc822 module takes a file handle,
+extracts the header fields, and leaves the file pointer positioned on
+the first line in the message, after the empty line. Basically, an
+instance of the Message class behaves like a dictionary of header
+fields, but also provides a set of utility functions and members.</p><p>The following code snippet reads a message from a file, and dumps
+the header dictionary to the screen:</p><pre class="python">
+<span class="pykeyword">import</span> rfc822
+
+fp = open(<span class="pystring">"sample.news"</span>)
+
+msg = rfc822.Message(fp)
+
+<span class="pykeyword">for</span> k, v <span class="pykeyword">in</span> msg.items():
+    <span class="pykeyword">print</span> k, <span class="pystring">"="</span>, v</pre><p>If applied to the above example, this script prints something
+like:</p><pre>
+path = news.myisp.se!newsfeed.internetmci.com!news.spam.egg
+newsgroups = comp.lang.python
+from = user@spam.egg
+sender = user@spam.egg
+xref = news.spam.egg comp.lang.python:14304
+date = 17 Jul 1999 09:25:53 -0400
+references = &lt;199907152100.RAA14304@foobar.egg&gt;
+lines = 12
+message-id = &lt;lqsoxd95em.ach@news.spam.egg&gt;
+subject = Re: Where's the bacon?
+</pre><h2>Sending Binary Data via News</h2><p>The RFC822 specification (published in 1982) explicitly specifies
+that only 7-bit US ASCII characters can be used in news messages (it
+also applies to mail, something we will discuss later in this
+chapter).  Nevertheless, binary files can be posted anyway, by first
+encoding them using one of the following methods:</p><ol><li>Use the Unix <b>uuencode</b> utility to encode the data.</li><li>Use the <b>Multipurpose Internet Mail Extension</b> (MIME)
+encoding standard.  Especially the <b>base64</b> encoding scheme is
+becoming popular as a slightly more convenient alternative to
+<b>uuencode</b>.
+</li><li>[FIXME: Use the yEnc format]</li></ol><p>In both uuencode and base64, each group of 3 data bytes is
+converted to 4 ASCII characters, storing 6 bits of original data in
+each character.  While uuencode stores each 6-bit value as
+chr(value+32), the base64 encoding uses a character table designed to
+minimize the risk for errors if the message is to be converted to
+other character sets.  Python&#8217;s standard library supports both
+formats, via the <b>uu</b> and <b>base64</b> modules, and a low-level
+support module called <b>binascii</b>.</p><p>The uuencode format is line-oriented, and the encoded data starts
+with a begin line, which also contains the Unix file mode (in octal),
+and the original filename.  Then follows the encoded lines (the first
+character gives the number of bytes encoded on the rest of the line,
+and is usually an &#8220;M&#8221; for a full line of 45 binary bytes), and the
+encoded block ends with a line containing the word end.  Here&#8217;s an
+example:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="wide wide">
+begin 600 can.jpg
+M_]C_X `02D9)1@`!``$`4P!3``#__@`752U,96%D(%-Y&lt;W1E;7,L($EN8RX`
+M_]L`A `#`@("`@(#`@("`P,#`P0(!00$! 0)!P&lt;%" L*# P+"@L+# X2#PP-
+M$0T+"Q 5$!$3$Q04% P/%A@6%!@2%!03`0,#`P0$! D%!0D3#0L-$Q,3$Q,3
+<i>... typically a few hundred similar lines ...</i>
+M?E3;Y52UNG1$5E2,`A1QT_7W]SZFL8?"O4N"3C)LBTHEW ?YL&lt;#=SCGMZ=!^
+M50M-*NH_*Y3##&amp;WC'TQT_P#U53BN9JQ7*K19J:ZB0PV3Q*(RZ$ML&amp;,G*GM]?
+=Y#L*S)I9$E9%D8!20,GIS6&gt;'2:5T;Q24I6\@_]FB
+`
+end
+</pre></div><div class="yui-ge"><div class="yui-u first"><p>The MIME format is a bit different; it uses special message headers
+to indicate what the message contains, and how it is encoded.  If the
+message header contains a field named <b>MIME-Version</b>, the
+document is encoded using the MIME specification.  We&#8217;ll get back to
+MIME and base64-encoding later in this chapter, when we look closer on
+how to send and receive images and other documents via electronic
+mail.</p><h2>Decoding uuencoded messages</h2><p>To figure out if a message contains uuencoded data, we need to scan
+the message body for a line starting with <b>begin</b>, followed by a
+number and a filename.  We can then use the <b>binascii</b> module to
+convert each line to a chunk of binary data, and write it to a file,
+or, as in the following example, store it in a list.  The
+<b>getuubody</b> function shown below also returns the filename.  If
+the message is not encoded, this function sets the filename to None,
+and returns the message body as is.</p><h3>Example: extract uuencoded data (from messageutils.py)</h3></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">import</span> regex, string
+
+begin = regex.compile(<span class="pystring">"begin [0-9]+ \(.*\)"</span>)
+
+<span class="pykeyword">def</span> <span class="pyfunction">getuubody</span>(msg):
+    <span class="pystring">"Given a uuencoded message, extract and decode the message body"</span>
+
+    msg.rewindbody()
+
+    <span class="pykeyword">while</span> 1:
+
+        s = msg.fp.readline()
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> s:
+            <span class="pykeyword">break</span>
+
+        <span class="pykeyword">if</span> begin.match(s) &gt; 0:
+
+            <span class="pycomment"># decode uuencoded message body</span>
+
+            body = []
+            file = begin.group(1)
+
+            <span class="pykeyword">for</span> s <span class="pykeyword">in</span> msg.fp.readlines():
+                <span class="pykeyword">if</span> s[:3] == <span class="pystring">"end"</span>:
+                    <span class="pykeyword">break</span>
+                <span class="pykeyword">try</span>:
+                    body.append(binascii.a2b_uu(s))
+                <span class="pykeyword">except</span>:
+                    <span class="pycomment"># workaround for broken encoders</span>
+                    bytes = (((ord(s[0])-32) &amp; 63) * 4 + 3) / 3
+                    body.append(binascii.a2b_uu(s[:bytes]))
+
+            <span class="pykeyword">return</span> file, string.join(body, <span class="pystring">""</span>)
+
+    msg.rewindbody()
+
+    <span class="pykeyword">return</span> None, msg.fp.read()</pre></div><div class="yui-ge"><div class="yui-u first"><p>Note that some encoders sometimes adds extra padding characters to
+lines containing less than 45 bytes of binary data.  In earlier
+versions of Python, the binascii module raises an exception if it
+stumbles upon such a line; the above try/except clause works around
+this problem by explicitly truncating the line to the appropriate
+length.</p><p>[FIXME: explain why uu.py cannot be used: it assumes that the file
+is already positioned on the begin line, and it doesn&#8217;t handle
+offending encoders well either (this will probably be fixed in
+binascii in 1.5 final)]</p><h2>An NNTP Client Library</h2><p>Creating a client library for the NNTP protocol is a
+straight-forward task.  Again, the <b>SimpleClient</b> takes care of
+the socket configuration issues, and provides getline and putline
+primitives.</p><p>The code shown here includes a minimal set of commands only; list
+to get a list of newsgroups available on the server, group to select
+which group to read, overview to get an overview of all or some
+messages in a group, and retrieve to read a given message.  The
+overview method uses an NNTP command called <b>XOVER</b>, which is an
+extension to the original NNTP protocol.  Virtually every modern news
+server supports this command, though, and some news clients won&#8217;t work
+without it.  The retrieve method uses either <b>HEAD</b>, <b>BODY</b>,
+or <b>ARTICLE</b>, to read parts or all of a message.  The default is
+<b>ARTICLE</b>, which reads both headers and body in a single
+call.</p><h3>Example: File: NNTPClient.py </h3></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">from</span> string <span class="pykeyword">import</span> *
+<span class="pykeyword">import</span> SimpleClient
+
+ARTICLE, HEAD, BODY = tuple(range(3))
+
+<span class="pykeyword">class</span> <span class="pyclass">NNTPClient</span>(SimpleClient.SimpleClient):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, host, port = 119):
+
+        <span class="pycomment"># connect</span>
+        SimpleClient.SimpleClient.__init__(self, host, port)
+
+        s, self.welcome = self.getstatus()
+        <span class="pykeyword">if</span> s <span class="pykeyword">not</span> <span class="pykeyword">in</span> [200, 201, 205]:
+            <span class="pykeyword">raise</span> IOError, (s, <span class="pystring">"NNTP connection error"</span>, self.welcome)
+
+        self.may_post = (s == 200)
+        self.must_login = (s == 205)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">close</span>(self):
+        <span class="pystring">"Quit."</span>
+        <span class="pykeyword">try</span>:
+            stat = self.command(None, <span class="pystring">"QUIT"</span>)
+        <span class="pykeyword">except</span> IOError:
+            <span class="pykeyword">pass</span>
+        <span class="pycomment"># self.destroy()</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">command</span>(self, ok, *args):
+        self.putline(join(args))
+        s, m = self.getstatus()
+        <span class="pykeyword">if</span> ok <span class="pykeyword">and</span> s <span class="pykeyword">not</span> <span class="pykeyword">in</span> ok:
+            <span class="pykeyword">raise</span> IOError, (s, args[0]+<span class="pystring">" command failed"</span>, m)
+        <span class="pykeyword">return</span> m
+
+    <span class="pykeyword">def</span> <span class="pyfunction">getstatus</span>(self):
+        info = self.getline()
+        <span class="pykeyword">return</span> atoi(info[:3]), info
+
+    <span class="pykeyword">def</span> <span class="pyfunction">getmessage</span>(self, newline = <span class="pystring">""</span>):
+        text = []
+        <span class="pykeyword">while</span> 1:
+            s = self.getline()
+            <span class="pykeyword">if</span> s[:1] == <span class="pystring">"."</span>:
+                s = s[1:]
+                <span class="pykeyword">if</span> <span class="pykeyword">not</span> s:
+                    <span class="pykeyword">break</span>
+            text.append(s + newline)
+
+        <span class="pykeyword">return</span> text
+
+    <span class="pykeyword">def</span> <span class="pyfunction">_range</span>(self, lo, hi):
+        <span class="pykeyword">if</span> hi <span class="pykeyword">is</span> None:
+            <span class="pykeyword">return</span> str(lo)
+        <span class="pykeyword">return</span> <span class="pystring">"%s-%s"</span> % (lo, hi)
+
+    <span class="pycomment">#</span>
+    <span class="pycomment"># NNTP commands (subset)</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">group</span>(self, group):
+        <span class="pystring">"Select group.  Returns number of messages, range, and group name."</span>
+        m = split(self.command([211], <span class="pystring">"group"</span>, group))
+        self.groupinfo = group, (atoi(m[2]), atoi(m[3]))
+        <span class="pykeyword">return</span> (atoi(m[1]),                     <span class="pycomment"># number of messages (est.)</span>
+                atoi(m[2]), atoi(m[3]),         <span class="pycomment"># message number range</span>
+                m[4])                           <span class="pycomment"># group name</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">list</span>(self):
+        <span class="pystring">"List groups.  Returns list of (group, lo, hi, may_post) tuples"</span>
+        self.command([215], <span class="pystring">"LIST"</span>)
+        data = []
+        <span class="pykeyword">for</span> s <span class="pykeyword">in</span> self.getmessage():
+            s = split(s)
+            data.append((s[0],                  <span class="pycomment"># group name</span>
+                         atoi(s[1]), atoi(s[2]),<span class="pycomment"># message number range</span>
+                         s[3] <span class="pykeyword">in</span> <span class="pystring">"yY"</span>))         <span class="pycomment"># may post</span>
+        <span class="pykeyword">return</span> data
+
+    <span class="pykeyword">def</span> <span class="pyfunction">overview</span>(self, lo, hi = None):
+        <span class="pystring">"Get message overview (extension)."</span>
+        self.command([224], <span class="pystring">"XOVER"</span>, self._range(lo, hi))
+        data = []
+        <span class="pykeyword">for</span> s <span class="pykeyword">in</span> self.getmessage():
+            s = split(s, <span class="pystring">"\t"</span>)
+            data.append((atoi(s[0]),            <span class="pycomment"># message number</span>
+                         s[1],                  <span class="pycomment"># subject</span>
+                         s[2],                  <span class="pycomment"># from</span>
+                         s[3],                  <span class="pycomment"># date</span>
+                         s[4],                  <span class="pycomment"># message id</span>
+                         tuple(split(s[5])),    <span class="pycomment"># references</span>
+                         atoi(s[6]),            <span class="pycomment"># byte count</span>
+                         atoi(s[7])))           <span class="pycomment"># line count</span>
+        <span class="pykeyword">return</span> data
+
+    <span class="pykeyword">def</span> <span class="pyfunction">retrieve</span>(self, msgid, mode = ARTICLE):
+        <span class="pystring">"Get article (mode argument controls which part)"</span>
+        <span class="pykeyword">if</span> mode == HEAD:
+            self.command([221], <span class="pystring">"HEAD"</span>, str(msgid))
+        <span class="pykeyword">elif</span> mode == BODY:
+            self.command([222], <span class="pystring">"BODY"</span>, str(msgid))
+        <span class="pykeyword">else</span>:
+            self.command([220], <span class="pystring">"ARTICLE"</span>, str(msgid))
+        <span class="pykeyword">return</span> self.getmessage(<span class="pystring">"\n"</span>)</pre></div><div class="yui-ge"><div class="yui-u first"><p>Messages are returned as a list of strings, where each string ends
+with a newline.  In this way, messages obtained via <b>retrieve</b>
+looks like messages read from a file using <b>readlines</b>.</p><h2>An NNTP Robot</h2><p>The following example uses the <b>NNTPClient</b> module to download
+messages from a news server. It fetches overview information from the
+server (including the From and Subject header fields, and size
+information), passes that information to a user-defined filter
+function, and downloads messages as indicated by the filter.  The
+messages are stored in files named group-serial.mail. [FIXME: redesign
+NNTPClient so it returns Article instances, and move the processing
+into that class.</p><h3>Example: File: newsrobot.py</h3></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pycomment">#</span>
+<span class="pycomment"># user configuration</span>
+
+HOST  = <span class="pystring">"news.spam.egg"</span>
+GROUP = <span class="pystring">"alt.binaries.pictures.bacon"</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">messagefilter</span>(info):
+
+    serial, subject, _from, date, msgid, ref, bytes, lines = info
+
+    <span class="pycomment"># assume everything larger than 10k is an image, but don't</span>
+    <span class="pycomment"># download things larger than 60k</span>
+
+    <span class="pykeyword">return</span> 10000 &lt;= bytes &lt;= 60000
+
+<span class="pycomment">#</span>
+<span class="pycomment"># main program</span>
+
+<span class="pykeyword">import</span> NNTPClient
+<span class="pykeyword">import</span> string
+
+nntp = NNTPClient.NNTPClient(HOST)
+
+count, lo, hi, name = nntp.group(GROUP)
+
+<span class="pycomment"># get last message number, if saved</span>
+
+<span class="pykeyword">try</span>:
+    fp = open(GROUP + <span class="pystring">".last"</span>)
+    lo = max(lo, string.atoi(fp.readline())+1)
+    fp.close()
+<span class="pykeyword">except</span> (IOError, ValueError):
+    <span class="pykeyword">pass</span> <span class="pycomment"># scan whole group</span>
+
+<span class="pycomment"># loop over new messages</span>
+
+<span class="pykeyword">for</span> info <span class="pykeyword">in</span> nntp.overview(lo, hi):
+
+    serial = info[0]
+
+    <span class="pykeyword">if</span> messagefilter(info):
+
+        <span class="pykeyword">print</span> <span class="pystring">"fetching"</span>, info[2], <span class="pystring">"(%d bytes)"</span> % info[6]
+
+        message = nntp.retrieve(serial)
+
+        fp = open(<span class="pystring">"%s-%d.news"</span> % (GROUP, serial), <span class="pystring">"w"</span>)
+        fp.writelines(message)
+        fp.close()
+
+nntp.close()
+
+<span class="pycomment"># store last message number</span>
+
+<span class="pykeyword">try</span>:
+    fp = open(GROUP + <span class="pystring">".last"</span>, <span class="pystring">"w"</span>)
+    fp.write(str(serial) + <span class="pystring">"\n"</span>)
+    fp.close()
+<span class="pykeyword">except</span> IOError:
+    <span class="pykeyword">pass</span></pre></div><div class="yui-ge"><div class="yui-u first"><p>Note that the we store the last message number seen in a file named
+group.last, to avoid downloading the same messages over and over
+again.  To start all over again, for example if you change the filter,
+simply remove that file.</p><p>[FIXME: instead of storing the raw message to disk, this code
+should call the getuubody method and store the message body in the
+&#8220;incoming&#8221; directory]</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

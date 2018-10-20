@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Adding GC Support to an Existing Python&nbsp;Type</title></head><body data-page-id="215"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Adding GC Support to an Existing Python&nbsp;Type</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">October 14, 2002 | Fredrik Lundh</p><p class="note">
+<b>Note:</b> The code in this example doesn&#8217;t work properly with
+the new GC scheme in Python 2.2 and later.  For more information,
+see Neil Schemenauer&#8217;s <a href="http://python.ca/nas/python/type-gc.html"><cite>Adding GC Support to a Python Type</cite></a> page.
+I&#8217;ll update this page when I find the time.</p><p>This note shows how to add support for garbage collection to
+Python types written in C or C++.</p><p>The approach used in this note allows you to add GC support to
+an existing type implementation, and still use the same source code
+with Python versions before 2.0.</p><p>The simplified <b>MyObject</b> type used in this note contains
+two fields that may point to other Python objects, and indirectly
+back to the object itself.  The <b>member1</b> member is always set
+to a valid Python object, while the <b>member2</b> member may be
+NULL.</p><p>The first snippet sets the <b>USE_GC</b> variable if garbage
+collection is supported by the Python interpreter.</p><pre class="c">
+<span class="pykeyword">#if</span> PY_VERSION_HEX &gt;= 0x02000000
+<span class="pycomment">/* use garbage collection (requires Python 2.0 or later) */</span>
+<span class="pykeyword">#define</span> USE_GC
+<span class="pykeyword">#endif</span></pre><p>Next, you have to add <b>PyObject_GC_Init</b> and
+<b>PyObject_GC_Fini</b> calls to the object allocation
+and deallocation functions.  Call Init after you&#8217;ve
+initialized the object, and Fini just before you start
+releasing the internal pointers.</p><p>Also note that if you&#8217;re using the NEW/DEL interface,
+you must use <b>PyObject_AS_GC</b> to get a pointer that
+you can pass to <b>PyObject_DEL</b>.  If you&#8217;re using the
+New/Del interface instead, leave out the AS_GC call.</p><pre class="c">
+<span class="pykeyword">static</span> PyObject*
+my_alloc(PyObject* self, PyObject* args)
+{
+    MyObject* self;
+
+    ... parse arguments ...
+
+    self = PyObject_NEW(MyObject, &amp;My_Type);
+    <span class="pykeyword">if</span> (self == NULL)
+        <span class="pykeyword">return</span> NULL;
+
+    Py_INCREF(Py_None);
+    self-&gt;member1 = Py_None;
+
+    self-&gt;member2 = NULL;
+
+    ... initialize more members ...
+
+<span class="pykeyword">#if</span> defined(USE_GC)
+    PyObject_GC_Init(self);
+<span class="pykeyword">#endif</span>
+
+    <span class="pykeyword">return</span> (PyObject*) self;
+}
+
+<span class="pykeyword">static</span> <span class="pykeyword">void</span>
+my_dealloc(MyObject* self)
+{
+<span class="pykeyword">#if</span> defined(USE_GC)
+    PyObject_GC_Fini(self);
+<span class="pykeyword">#endif</span>
+
+    Py_XDECDEF(self-&gt;member1);
+    Py_XDECDEF(self-&gt;member2);
+    ... release more members ...
+
+<span class="pykeyword">#if</span> defined(USE_GC)    
+    PyObject_DEL(PyObject_AS_GC(self));
+<span class="pykeyword">#else</span>
+    PyObject_DEL(self);
+<span class="pykeyword">#endif</span></pre><p>Next, you have to define two GC helper functions.  The <b>traverse</b>
+function is used by the garbage collector to find all reachable objects.
+It should call the <b>visit</b> callback on all object members that may
+point to other Python containers.  Python will assume that it&#8217;s safe to
+call the <b>traverse</b> function for an object after you&#8217;ve called
+<b>PyObject_GC_Init</b> on it, and until you call <b>PyObject_GC_Fini</b>.</p><pre class="c">
+<span class="pykeyword">#if</span> defined(USE_GC)
+<span class="pykeyword">static</span> <span class="pykeyword">int</span>
+my_traverse(MyObject *self, visitproc visit, <span class="pykeyword">void</span> *arg)
+{
+    <span class="pykeyword">int</span> err;
+
+    err = visit(self-&gt;member1, arg);
+    <span class="pykeyword">if</span> (err)
+        <span class="pykeyword">return</span> err;
+
+    <span class="pykeyword">if</span> (self-&gt;member2) {
+        <span class="pycomment">/* don't pass NULL to the visit function */</span>
+        err = visit(self-&gt;member2, arg);
+        <span class="pykeyword">if</span> (err)
+            <span class="pykeyword">return</span> err;
+    }
+
+    <span class="pykeyword">return</span> 0;
+}
+<span class="pykeyword">#endif</span></pre><p>The second helper is used to release all object references.  The
+<b>dealloc</b> function will be called at a later time, so you must
+make sure to mark objects as released, and avoid releasing them again
+when the object space is reclaimed.  Here, we set the members to NULL,
+and use <b>Py_XDECDEF</b> in the <b>dealloc</b> function:</p><pre class="c">
+<span class="pykeyword">#if</span> defined(USE_GC)
+<span class="pykeyword">static</span> <span class="pykeyword">int</span>
+my_clear(MyObject* self)
+{
+    Py_DECREF(self-&gt;member1);
+    self-&gt;member1 = NULL;
+
+    Py_XDECREF(self-&gt;member2);
+    self-&gt;member2 = NULL;
+
+    <span class="pykeyword">return</span> 0;
+}
+<span class="pykeyword">#endif</span></pre><p>Finally, the type descriptor must be modified a bit.  The following
+code patches the type descriptor in place, in the module&#8217;s <b>init</b>
+method:</p><pre class="c">
+initmymodule(<span class="pykeyword">void</span>)
+{
+    <span class="pycomment">/* patch object type */</span>
+    My_Type.ob_type = &amp;PyType_Type;
+
+<span class="pykeyword">#if</span> defined(USE_GC)
+    <span class="pycomment">/* enable garbage collection for this type */</span>
+    My_Type.tp_basicsize += PyGC_HEAD_SIZE;
+    My_Type.tp_flags |= Py_TPFLAGS_GC;
+    My_Type.tp_traverse = (traverseproc) my_traverse;
+    My_Type.tp_clear = (inquiry) my_clear;
+<span class="pykeyword">#endif</span>
+
+    Py_InitModule(<span class="pystring">"mymodule"</span>, my_functions);
+}</pre></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

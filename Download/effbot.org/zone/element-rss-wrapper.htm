@@ -1,0 +1,298 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Parsing RSS Files with&nbsp;ElementTree</title></head><body data-page-id="89"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Parsing RSS Files with&nbsp;ElementTree</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | July 2003 | Originally posted to <a href="http://online.effbot.org">online.effbot.org</a></p><h2 id="part1">Part 1: RSS 0.9x and RSS 2.0&#160;<a class="nav" href="#part1" title="bookmark!">#</a></h2><p> Here&#8217;s a nifty little <a href="element.htm">Element</a> wrapper class that lets you use Python&#8217;s standard attribute access syntax to fetch character data from subelements:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">ElementWrapper</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, element):
+        self._element = element
+    <span class="pykeyword">def</span> <span class="pyfunction">__getattr__</span>(self, tag):
+        <span class="pykeyword">if</span> tag.startswith(<span class="pystring">"__"</span>):
+            <span class="pykeyword">raise</span> AttributeError(tag)
+        <span class="pykeyword">return</span> self._element.findtext(tag)</pre><p> (note that the wrapper returns <b>None</b> for missing attributes/subelements, unless the attribute name starts with two underscores)
+
+</p><p> For example, if <b>feed</b> is an element containing an <s><a href="http://backend.userland.com/rss">RSS 2.0</a></s> (dead link) tree,
+the following code prints the title and link values for all items:</p><pre class="python">
+<span class="pykeyword">for</span> item <span class="pykeyword">in</span> feed.findall(<span class="pystring">"channel/item"</span>):
+    item = ElementWrapper(item)
+    <span class="pykeyword">print</span> repr(item.title), item.link</pre><p> Here&#8217;s a subclass that wraps an entire RSS tree.  This class lets you
+iterate over the items, and use attribute access to fetch channel-level elements:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">RSSWrapper</span>(ElementWrapper):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, feed):
+        channel = feed.find(<span class="pystring">"channel"</span>)
+        ElementWrapper.__init__(self, channel)
+        self._items = channel.findall(<span class="pystring">"item"</span>)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__getitem__</span>(self, index):
+        <span class="pykeyword">return</span> ElementWrapper(self._items[index])</pre><p> Finally, here&#8217;s a short script that uses the wrappers, plus Python&#8217;s
+<b>urllib</b> module, to fetch and parse an RSS feed:</p><pre class="python">
+<span class="pykeyword">from</span> elementtree <span class="pykeyword">import</span> ElementTree
+<span class="pykeyword">from</span> urllib <span class="pykeyword">import</span> urlopen
+
+URL = <span class="pystring">"http://online.effbot.org/rss.xml (dead link)"</span>
+
+tree = ElementTree.parse(urlopen(URL))
+
+feed = RSSWrapper(tree.getroot())
+
+<span class="pykeyword">print</span> <span class="pystring">"FEED"</span>, repr(feed.title)
+<span class="pykeyword">for</span> item <span class="pykeyword">in</span> feed:
+    <span class="pykeyword">print</span> <span class="pystring">"ITEM"</span>, repr(item.title), item.link</pre><h2 id="errata">Errata&#160;<a class="nav" href="#errata" title="bookmark!">#</a></h2><p> Tony Mcdonald noticed that the RSS test program from the first element
+trick post didn&#8217;t work on his Python 2.3 install.   The problem is that
+the <b>for item in feed</b> line gives a rather confusing attribute
+error:</p><pre>
+Traceback (most recent call last):
+  File "getfeed.py", line 50, in ?
+    for item in feed:
+TypeError: 'NoneType' object is not callable
+</pre><p> Adding a print statement to the <b>__getattr__</b> method reveals why;
+the <b>for-in</b> statement attempts to call <b>__iter__</b> to see if
+the sequence may be able to provide an iterator object.  The wrapper
+looks for an <b>__iter__</b> element in the RSS tree, notices that there
+is no such tree, and returns <b>None</b>.  The <b>for-in</b> statement,
+in turn, thinks it has found an iterator factory, and attempts to call
+the <b>None</b> object to create an iterator.
+
+</p><p> Fixing this is straightforward; you can either change the wrapper to
+raise AttributeError exceptions for all suspicious attributes&#8230;</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">ElementWrapper</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, element, ns=None):
+        self._element = element
+        self._ns = ns <span class="pykeyword">or</span> <span class="pystring">""</span>
+    <span class="pykeyword">def</span> <span class="pyfunction">__getattr__</span>(self, tag):
+        <span class="pykeyword">if</span> tag.startswith(<span class="pystring">"__"</span>):
+            <span class="pykeyword">raise</span> AttributeError(tag)
+        <span class="pykeyword">return</span> self._element.findtext(self._ns + tag)</pre><p> &#8230;or you can add an iterator factory to the <b>RSSWrapper</b> class,
+which is the class acting like a sequence:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">class</span> <span class="pyclass">RSSWrapper</span>(ElementWrapper):
+    ...
+    <span class="pykeyword">def</span> <span class="pyfunction">__iter__</span>(self):
+        <span class="pykeyword">return</span> iter([self[i] <span class="pykeyword">for</span> i <span class="pykeyword">in</span> range(len(self._items))])</pre></div><div class="yui-ge"><div class="yui-u first"><p> It&#8217;s tempting to define the iterator factory to simply return <b>iter(self._items)</b> or even <b>iter(self)</b>, but neither variant works.
+The former won&#8217;t wrap each item in an ElementWrapper instance, the
+latter results in runaway recursion, when <b>iter()</b> checks if the
+sequence happens to have an <b>__iter__</b> attribute&#8230;</p><h2 id="part2">Part 2: RSS 1.0&#160;<a class="nav" href="#part2" title="bookmark!">#</a></h2><div class="zone:include"><img align="right" alt="" height="59" src="data:image/gif;base64, R0lGODlhQQA7AOZ/AJPRpIW1lYrKnKioqOLj42KbdRxnNa3kurrXw5mZmYuLi9fo3ML1zOX06XW6 ioLEldPT05DOor3xxy52Rcrr0vX19XipiI3LoPz8/Hp6epzYrLHovaLUst3d3bnuxLXrwezs7PHx 8V2bcXm9jcPnzdP02qvcu4XBmX3BksvMy8TExHC1hWVmZt3w4pjVqG20g0SGWVpaWrKysorGnsr1 0rHcvy0uLn26kVWTafn5+UpnVEFDQry8vPj4+MTYy6LcsOjo6HSxiJjLqp3UsWaiepTOp2GgdW6s gqnit2mmfZjRrLXkwZbSp16JbXi2jKfKsrjfxabauZS4oJ/arq/Uu2upf+Pu5qTesobHmb/jyfH5 86PXtZrQqTuAUafgtKTatVR1Xszf0tjY2LjJvpnDpUmLXqnStkxRTW5vb6DXs3G4h02RYlugcJ3U rJ3QrpTGo3GfgJrTrp3Qq/D28mSnd6Xfs6fWt+v37qi0rPz+/dTg2KLArPb6957DqVuZb////yH5 BAEAAH8ALAAAAABBADsAAAf/gH+Cg4SFhoeIiYqLjHl3C1kmX1scHDVZC3yMm5yLWhRTLi4AABGm FwICWFgmLZ2vnXmgGhqio6QRF6iqqxFWsMCIGEs/U1O0oky4uburDw9Zf3ctYZFUJGENwY1LXlfF x7UuyqW5qbzPAijrI+0O72pCWXPbhyVIXnU/4Mjjy7vo5DxYh6LdiHcO1KhZ8cZVPUFaDuDLt89Y P3KnzmExggALwYLuEipc8eLEgnp5SEic+K0YLXEYzaUyYObZQJAhFS588WLGnWBzNhxYma9lOJjL Ur2YYAfLM4IGD4rcyRMBrDwLNgglWudAxX7+SukqEwDdTZwIdZLkaeYVnyxa/7ciQTLjCTGL4m6J NUCFl9OzBtOO5PnCKqc5NT7EHYqkjJQ63/DaIgWgSpctqVb9hRpS5Iq1K+htamDig+KtLgxkKQqO BAIfLUyQWkEngsa/gDsP5imEk5XSprUeMAJHIkUNBSasgTHhCQVSW1zYzoybs1TPPB3k2LQgigfT ipEYQMDVT4E0xwQYWODigQUKMs3mlqr2xQqHixak8fDdtBMYFBAVgQEk8EPWF1isd8oMLRThzFPs 5DTSClA0oocb/PXXRRdkLNAABUisAOBXMEgxynqlCDCBBQKs4EMDWXBwU1TwKOSAGRjkoQgGYQgh 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 xT3uPJDb3cdmNyECAQA7" width="65" /></div><p> The <b>RSSWrapper</b> class from part 1 supports RSS 0.9x and 2.0 feeds.  There&#8217;s also a third RSS format, <a href="http://www.purl.org/rss/1.0/">RSS 1.0</a>, which is based on <a href="http://www.w3.org/RDF">RDF</a>, and stores the channel and item information in a slightly different fashion.
+
+</p><p> In RSS 1.0, the toplevel element
+is <b>{http://www.w3.org/1999/02/22-rdf-syntax-ns#}RDF</b> instead of <b>rss</b>, and all RSS 1.0 elements live in the <b>{http://purl.org/rss/1.0/}</b> namespace (for example, <b>{http://purl.org/rss/1.0/}channel</b>,
+<b>{http://purl.org/rss/1.0/}title</b>, etc).
+
+</p><p> And unlike the other RSS variants, the <b>item</b> elements are siblings
+to the <b>channel</b> element, not children.
+
+</p><p> To deal with namespaces, I&#8217;ve added a <b>ns</b> parameter to the
+<b>ElementWrapper</b> class.  If provided, the parameter is used
+as a namespace prefix when accessing attributes:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">ElementWrapper</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, element, ns=None):
+        self._element = element
+        self._ns = ns <span class="pykeyword">or</span> <span class="pystring">""</span>
+    <span class="pykeyword">def</span> <span class="pyfunction">__getattr__</span>(self, tag):
+        <span class="pykeyword">if</span> tag.startswith(<span class="pystring">"__"</span>):
+            <span class="pykeyword">raise</span> AttributeError(tag)
+        <span class="pykeyword">return</span> self._element.findtext(self._ns + tag)</pre><p> In addition, the <b>RSSWrapper</b> class has to check the toplevel
+element, and set up the namespace and items list according to the
+actual RSS version:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pycomment"># RSS 1.0 namespaces</span>
+NS_RDF = <span class="pystring">"{http://www.w3.org/1999/02/22-rdf-syntax-ns#}"</span>
+NS_RSS = <span class="pystring">"{http://purl.org/rss/1.0/}"</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">RSSWrapper</span>(ElementWrapper):
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, feed):
+        ns = None
+        <span class="pykeyword">if</span> feed.tag == NS_RDF + <span class="pystring">"RDF"</span>:
+            <span class="pycomment"># RSS 1.0</span>
+            ns = NS_RSS <span class="pycomment"># all RSS elements live in this namespace</span>
+            channel = feed.find(NS_RSS + <span class="pystring">"channel"</span>)
+            items = feed.findall(NS_RSS + <span class="pystring">"item"</span>)
+        <span class="pykeyword">else</span>:
+            <span class="pycomment"># RSS 0.9x or 2.0</span>
+            channel = feed.find(<span class="pystring">"channel"</span>)
+            items = channel.findall(<span class="pystring">"item"</span>)
+        ElementWrapper.__init__(self, channel, ns)
+        self._items = items
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__iter__</span>(self):
+        <span class="pykeyword">return</span> iter([self[i] <span class="pykeyword">for</span> i <span class="pykeyword">in</span> range(len(self))])
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__len__</span>(self):
+        <span class="pykeyword">return</span> len(self._items)
+
+    <span class="pykeyword">def</span> <span class="pyfunction">__getitem__</span>(self, index):
+        <span class="pykeyword">return</span> ElementWrapper(self._items[index], self._ns)</pre></div><div class="yui-ge"><div class="yui-u first"><p class="note">
+<b>Updated 2003-07-30:</b> added __iter__ and __len__ hooks to
+make this work a bit better under Python 2.3.
+</p><p> It might be a good idea to add some more format checks; as it stands,
+the wrapper will treat any RDF file as a (most likely empty) RSS feed.
+
+</p><p> Checking for different types in the constructor works well as long as
+we only need to support two similar formats, but it&#8217;s not a very extensible
+design.  here&#8217;s a straightforward refactoring, using separate wrapper
+classes for the two formats, and a factory function that loads the RSS
+file, and wraps it up in the right class:</p><pre class="python">
+<span class="pykeyword">from</span> elementtree <span class="pykeyword">import</span> ElementTree
+<span class="pykeyword">from</span> urllib <span class="pykeyword">import</span> urlopen
+
+NS_RDF = <span class="pystring">"{http://www.w3.org/1999/02/22-rdf-syntax-ns#}"</span>
+NS_RSS = <span class="pystring">"{http://purl.org/rss/1.0/}"</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">ElementWrapper</span>:
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, element, ns=None):
+        self._element = element
+        self._ns = ns <span class="pykeyword">or</span> <span class="pystring">""</span>
+    <span class="pykeyword">def</span> <span class="pyfunction">__getattr__</span>(self, tag):
+        <span class="pykeyword">return</span> self._element.findtext(self._ns + tag)
+
+<span class="pykeyword">class</span> <span class="pyclass">RSSWrapper</span>(ElementWrapper):
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, channel, items, ns=None):
+        self._items = items
+        ElementWrapper.__init__(self, channel, ns)
+    <span class="pykeyword">def</span> <span class="pyfunction">__iter__</span>(self):
+        <span class="pykeyword">return</span> iter([self[i] <span class="pykeyword">for</span> i <span class="pykeyword">in</span> range(len(self))])
+    <span class="pykeyword">def</span> <span class="pyfunction">__len__</span>(self):
+        <span class="pykeyword">return</span> len(self._items)
+    <span class="pykeyword">def</span> <span class="pyfunction">__getitem__</span>(self, index):
+        <span class="pykeyword">return</span> ElementWrapper(self._items[index], self._ns)
+
+<span class="pykeyword">class</span> <span class="pyclass">RSS1Wrapper</span>(RSSWrapper):
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, feed):
+        RSSWrapper.__init__(
+            self, feed.find(NS_RSS + <span class="pystring">"channel"</span>),
+            feed.findall(NS_RSS + <span class="pystring">"item"</span>), NS_RSS
+            )
+
+<span class="pykeyword">class</span> <span class="pyclass">RSS2Wrapper</span>(RSSWrapper):
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, feed):
+        channel = feed.find(<span class="pystring">"channel"</span>)
+        RSSWrapper.__init__(
+            self, channel, channel.findall(<span class="pystring">"item"</span>)
+            )
+
+<span class="pykeyword">def</span> <span class="pyfunction">getfeed</span>(path):
+    tree = ElementTree.parse(urlopen(path))
+    feed = tree.getroot()
+    <span class="pykeyword">if</span> feed.tag == NS_RDF + <span class="pystring">"RDF"</span>:
+        <span class="pykeyword">return</span> RSS1Wrapper(feed)
+    <span class="pykeyword">if</span> feed.tag == <span class="pystring">"rss"</span>:
+        <span class="pykeyword">return</span> RSS2Wrapper(feed)
+    <span class="pykeyword">raise</span> IOError(<span class="pystring">"unknown feed format"</span>)
+
+<span class="pycomment"># try it out</span>
+feed = getfeed(<span class="pystring">"http://online.effbot.org/rss.xml"</span>)
+
+<span class="pykeyword">print</span> <span class="pystring">"FEED"</span>, repr(feed.title)
+<span class="pykeyword">for</span> item <span class="pykeyword">in</span> feed:
+    <span class="pykeyword">print</span> <span class="pystring">"ITEM"</span>, repr(item.title), item.link</pre><h2 id="part3">Part 3: RSS 0.9&#160;<a class="nav" href="#part3" title="bookmark!">#</a></h2><div class="zone:include"><img align="right" alt="" height="59" src="data:image/gif;base64, R0lGODlhQQA7AOZ/AJPRpIW1lYrKnKioqOLj42KbdRxnNa3kurrXw5mZmYuLi9fo3ML1zOX06XW6 ioLEldPT05DOor3xxy52Rcrr0vX19XipiI3LoPz8/Hp6epzYrLHovaLUst3d3bnuxLXrwezs7PHx 8V2bcXm9jcPnzdP02qvcu4XBmX3BksvMy8TExHC1hWVmZt3w4pjVqG20g0SGWVpaWrKysorGnsr1 0rHcvy0uLn26kVWTafn5+UpnVEFDQry8vPj4+MTYy6LcsOjo6HSxiJjLqp3UsWaiepTOp2GgdW6s gqnit2mmfZjRrLXkwZbSp16JbXi2jKfKsrjfxabauZS4oJ/arq/Uu2upf+Pu5qTesobHmb/jyfH5 86PXtZrQqTuAUafgtKTatVR1Xszf0tjY2LjJvpnDpUmLXqnStkxRTW5vb6DXs3G4h02RYlugcJ3U rJ3QrpTGo3GfgJrTrp3Qq/D28mSnd6Xfs6fWt+v37qi0rPz+/dTg2KLArPb6957DqVuZb////yH5 BAEAAH8ALAAAAABBADsAAAf/gH+Cg4SFhoeIiYqLjHl3C1kmX1scHDVZC3yMm5yLWhRTLi4AABGm FwICWFgmLZ2vnXmgGhqio6QRF6iqqxFWsMCIGEs/U1O0oky4uburDw9Zf3ctYZFUJGENwY1LXlfF x7UuyqW5qbzPAijrI+0O72pCWXPbhyVIXnU/4Mjjy7vo5DxYh6LdiHcO1KhZ8cZVPUFaDuDLt89Y P3KnzmExggALwYLuEipc8eLEgnp5SEic+K0YLXEYzaUyYObZQJAhFS588WLGnWBzNhxYma9lOJjL Ur2YYAfLM4IGD4rcyRMBrDwLNgglWudAxX7+SukqEwDdTZwIdZLkaeYVnyxa/7ciQTLjCTGL4m6J NUCFl9OzBtOO5PnCKqc5NT7EHYqkjJQ63/DaIgWgSpctqVb9hRpS5Iq1K+htamDig+KtLgxkKQqO BAIfLUyQWkEngsa/gDsP5imEk5XSprUeMAJHIkUNBSasgTHhCQVSW1zYzoybs1TPPB3k2LQgigfT ipEYQMDVT4E0xwQYWODigQUKMs3mlqr2xQqHixak8fDdtBMYFBAVgQEk8EPWF1isd8oMLRThzFPs 5DTSClA0oocb/PXXRRdkLNAABUisAOBXMEgxynqlCDCBBQKs4EMDWXBwU1TwKOSAGRjkoQgGYQgh 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 xT3uPJDb3cdmNyECAQA7" width="65" /></div><p> I keep forgetting that there&#8217;s a fourth RSS format out there: <s><a href="http://www.purplepages.ie/RSS/netscape/rss0.90.html">the original RSS 0.90 format</a></s> (dead link), created for the <b>my.netscape.com</b> portal back in the
+early dark ages.  very few sites use this format today, but you can for
+example subscribe to an RSS 0.90 feed from <a href="http://slashdot.org/slashdot.rdf">slashdot</a>.
+
+</p><p> Like 1.0, the 0.90 format is based on RDF, but it uses a different namespace
+for the RSS elements.  to distinguish between the formats, you can check
+the namespace of the <b>channel</b> element:</p><pre class="python">
+NS_RSS_09 = <span class="pystring">"{http://my.netscape.com/rdf/simple/0.9/}"</span>
+NS_RSS_10 = <span class="pystring">"{http://purl.org/rss/1.0/}"</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">getfeed</span>(path):
+
+    tree = ElementTree.parse(urlopen(path))
+    feed = tree.getroot()
+
+    <span class="pykeyword">if</span> feed.tag == NS_RDF + <span class="pystring">"RDF"</span>:
+        <span class="pycomment"># check the namespace of the first channel tag</span>
+        <span class="pykeyword">for</span> elem <span class="pykeyword">in</span> feed:
+            <span class="pykeyword">if</span> elem.tag.endswith(<span class="pystring">"channel"</span>):
+                <span class="pykeyword">if</span> elem.tag.startswith(NS_RSS_09):
+                    <span class="pykeyword">return</span> RSS0Wrapper(feed)
+                <span class="pykeyword">if</span> elem.tag.startswith(NS_RSS_10):
+                    <span class="pykeyword">return</span> RSS1Wrapper(feed)
+    <span class="pykeyword">elif</span> feed.tag == <span class="pystring">"rss"</span>:
+        <span class="pykeyword">return</span> RSS2Wrapper(feed)
+
+    <span class="pykeyword">raise</span> IOError(<span class="pystring">"unknown feed format"</span>)</pre><p> To implement the <b>RSS0Wrapper</b> class, you can simply make a copy
+of RSS1Wrapper and change the namespace.
+
+</p><p> Or you can factor out the initialization code into a common base class,
+like this:</p><pre class="python">
+
+<span class="pykeyword">class</span> <span class="pyclass">RDFWrapper</span>(RSSWrapper):
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, feed, ns):
+        RSSWrapper.__init__(
+            self, feed.find(ns + <span class="pystring">"channel"</span>),
+            feed.findall(ns + <span class="pystring">"item"</span>), ns
+            )
+
+<span class="pykeyword">class</span> <span class="pyclass">RSS0Wrapper</span>(RDFWrapper):
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, feed):
+        RDFWrapper.__init__(self, feed, NS_RSS_09)
+
+<span class="pykeyword">class</span> <span class="pyclass">RSS1Wrapper</span>(RDFWrapper):
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, feed):
+        RDFWrapper.__init__(self, feed, NS_RSS_10)</pre><p> You can also get rid of the individual wrappers, and create RDFWrapper
+instances in the factory function:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">getfeed</span>(path):
+    ...
+
+    <span class="pykeyword">if</span> elem.tag.startswith(NS_RSS_09):
+        <span class="pykeyword">return</span> RDFWrapper(feed, NS_RSS_09)
+    <span class="pykeyword">if</span> elem.tag.startswith(NS_RSS_10):
+        <span class="pykeyword">return</span> RDFWrapper(feed, NS_RSS_10)</pre><p> The drawback with this approach is that you cannot check the instance
+type to see what kind of feed you have (this might be seen as an advantage,
+by some), and there&#8217;s no place to put version-specific code if/when you
+need to extend the wrapper interface.
+
+<h2 id="part4">Part 4: Pea/Echo/Atom&#160;<a class="nav" href="#part4" title="bookmark!">#</a></h2></p><p class="note"><b>Note:</b>
+This was written when Atom was still being developed; the code here probably won&#8217;t work with the final Atom version.</p><div class="zone:include"><img align="right" alt="" height="59" src="data:image/gif;base64, R0lGODlhQQA7AOZ/AJPRpIW1lYrKnKioqOLj42KbdRxnNa3kurrXw5mZmYuLi9fo3ML1zOX06XW6 ioLEldPT05DOor3xxy52Rcrr0vX19XipiI3LoPz8/Hp6epzYrLHovaLUst3d3bnuxLXrwezs7PHx 8V2bcXm9jcPnzdP02qvcu4XBmX3BksvMy8TExHC1hWVmZt3w4pjVqG20g0SGWVpaWrKysorGnsr1 0rHcvy0uLn26kVWTafn5+UpnVEFDQry8vPj4+MTYy6LcsOjo6HSxiJjLqp3UsWaiepTOp2GgdW6s gqnit2mmfZjRrLXkwZbSp16JbXi2jKfKsrjfxabauZS4oJ/arq/Uu2upf+Pu5qTesobHmb/jyfH5 86PXtZrQqTuAUafgtKTatVR1Xszf0tjY2LjJvpnDpUmLXqnStkxRTW5vb6DXs3G4h02RYlugcJ3U rJ3QrpTGo3GfgJrTrp3Qq/D28mSnd6Xfs6fWt+v37qi0rPz+/dTg2KLArPb6957DqVuZb////yH5 BAEAAH8ALAAAAABBADsAAAf/gH+Cg4SFhoeIiYqLjHl3C1kmX1scHDVZC3yMm5yLWhRTLi4AABGm FwICWFgmLZ2vnXmgGhqio6QRF6iqqxFWsMCIGEs/U1O0oky4uburDw9Zf3ctYZFUJGENwY1LXlfF x7UuyqW5qbzPAijrI+0O72pCWXPbhyVIXnU/4Mjjy7vo5DxYh6LdiHcO1KhZ8cZVPUFaDuDLt89Y P3KnzmExggALwYLuEipc8eLEgnp5SEic+K0YLXEYzaUyYObZQJAhFS588WLGnWBzNhxYma9lOJjL Ur2YYAfLM4IGD4rcyRMBrDwLNgglWudAxX7+SukqEwDdTZwIdZLkaeYVnyxa/7ciQTLjCTGL4m6J NUCFl9OzBtOO5PnCKqc5NT7EHYqkjJQ63/DaIgWgSpctqVb9hRpS5Iq1K+htamDig+KtLgxkKQqO BAIfLUyQWkEngsa/gDsP5imEk5XSprUeMAJHIkUNBSasgTHhCQVSW1zYzoybs1TPPB3k2LQgigfT ipEYQMDVT4E0xwQYWODigQUKMs3mlqr2xQqHixak8fDdtBMYFBAVgQEk8EPWF1isd8oMLRThzFPs 5DTSClA0oocb/PXXRRdkLNAABUisAOBXMEgxynqlCDCBBQKs4EMDWXBwU1TwKOSAGRjkoQgGYQgh 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 xT3uPJDb3cdmNyECAQA7" width="65" /></div><p>Talking about formats, there&#8217;s actually a fifth RSS format being developed
+as we speak.  it&#8217;s not called RSS, though: instead, it&#8217;s been known as Pie,
+Echo, and is currently called Atom.  (and chances are that they&#8217;ve changed
+both the name and the format since I started writing this article ;-)
+
+</p><p> Anyway, at the moment, Pie/Echo/Atom (PEA) feeds are similar to RSS feeds;
+they contain information about the source, and a list of items, each consisting
+of a title, a link, a description, and auxiliary data such as publication dates and identifiers.  however, most elements have been renamed and/or redesigned.  for example, the PEA toplevel element is named <b>feed</b>, items are stored in <b>entry</b> elements, and PEA uses XML attributes instead of character data in lots of places.
+
+</p><p> As in the RDF-based RSS formats, PEA elements live in a namespace (usually
+<b>{http://purl.org/echo/}</b>, but other namespaces may be used, at least
+in experimental feeds).
+
+</p><p> To check for a PEA feed, you can look for a <b>feed</b> toplevel element:</p><pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">getfeed</span>(path):
+    ...
+    <span class="pykeyword">if</span> feed.tag.endswith(<span class="pystring">"feed"</span>):
+        <span class="pykeyword">return</span> PEAWrapper(feed)</pre><p> To be able to deal with experimental PEA feeds, the wrapper will have to
+extract the namespace from the toplevel element.  Also note that the items
+list contains <b>entry</b> elements:</p><pre class="python">
+<span class="pykeyword">class</span> <span class="pyclass">PEAWrapper</span>(RSSWrapper):
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, feed):
+        ns = feed.tag[:feed.tag.index(<span class="pystring">"}"</span>)+1]
+        RSSWrapper.__init__(
+            self, feed, feed.findall(ns + <span class="pystring">"entry"</span>), ns
+            )</pre><p> If you add this code to the test program, and run it on a PEA feed
+(e.g. the one at <s><a href="http://www.joelonsoftware.com/echo.xml">joelonsoftware</a></s> (dead link)),
+you&#8217;ll find that the program prints the expected titles, but that the
+links are all empty (or set to <b>None</b>).
+
+</p><p> The reason for this is that the <b>link</b> element uses an attribute
+to hold the actual URL.  To extract the link, you need to get your hands
+at the actual element, and use <b>get</b> to fetch the attribute value.
+
+</p><p> An easy way to do this is to use a custom <b>ElementWrapper</b> subclass
+to represent PEA entries, and treat the <b>link</b> element separately.
+here&#8217;s a first version:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+<span class="pykeyword">class</span> <span class="pyclass">PEAEntryWrapper</span>(ElementWrapper):
+    <span class="pykeyword">def</span> <span class="pyfunction">__getattr__</span>(self, tag):
+        <span class="pykeyword">if</span> tag == <span class="pystring">"link"</span>:
+            <span class="pycomment"># return the href attribute for the first link element</span>
+            elem = self._element.find(self._ns + tag)
+            <span class="pykeyword">if</span> elem <span class="pykeyword">is</span> None:
+                <span class="pykeyword">return</span> None
+            <span class="pykeyword">return</span> elem.get(<span class="pystring">"href"</span>)
+        <span class="pykeyword">return</span> ElementWrapper.__getattr__(self, tag)
+
+<span class="pykeyword">class</span> <span class="pyclass">PEAWrapper</span>(RSSWrapper):
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, feed):
+        <span class="pycomment"># extract namespace from toplevel element</span>
+        ns = feed.tag[:feed.tag.index(<span class="pystring">"}"</span>)+1]
+        RSSWrapper.__init__(
+            self, feed, feed.findall(ns + <span class="pystring">"entry"</span>), ns
+            )
+    <span class="pykeyword">def</span> <span class="pyfunction">__getitem__</span>(self, index):
+        <span class="pykeyword">return</span> PEAEntryWrapper(self._items[index], self._ns)</pre></div><div class="yui-ge"><div class="yui-u first"><p> I&#8217;ll get back to PEA in a later element tricks article.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><a href="#part1">Part 1: RSS 0.9x and RSS 2.0</a></li><li><a href="#errata">Errata</a></li><li><a href="#part2">Part 2: RSS 1.0</a></li><li><a href="#part3">Part 3: RSS 0.9</a></li><li><a href="#part4">Part 4: Pea/Echo/Atom</a></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

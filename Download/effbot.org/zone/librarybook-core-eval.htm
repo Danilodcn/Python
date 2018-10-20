@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Evaluating Python&nbsp;expressions</title></head><body data-page-id="159"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Evaluating Python&nbsp;expressions</h1></div><div class="yui-ge"><div class="yui-u first"><p>Python provides several ways to interact with the interpreter from
+within a program.  For example, the <tt>eval</tt> function
+evaluates a string as if it were a Python expression.  You can pass it
+a literal, simple expressions, or even use built-in functions:</p><div class="example"><b style="example">Example: Using the eval function</b>
+<pre class="python">
+<span class="pycomment"># File: builtin-eval-example-1.py</span>
+
+<span class="pykeyword">def</span> <span class="pyfunction">dump</span>(expression):
+    result = eval(expression)
+    <span class="pykeyword">print</span> expression, <span class="pystring">"=&gt;"</span>, result, type(result)
+
+dump(<span class="pystring">"1"</span>)
+dump(<span class="pystring">"1.0"</span>)
+dump(<span class="pystring">"'string'"</span>)
+dump(<span class="pystring">"1.0 + 2.0"</span>)
+dump(<span class="pystring">"'*' * 10"</span>)
+dump(<span class="pystring">"len('world')"</span>)</pre><pre class="computeroutput" moreinfo="NONE">1 =&gt; 1 &lt;type 'int'&gt;
+1.0 =&gt; 1.0 &lt;type 'float'&gt;
+'string' =&gt; string &lt;type 'string'&gt;
+1.0 + 2.0 =&gt; 3.0 &lt;type 'float'&gt;
+'*' * 10 =&gt; ********** &lt;type 'string'&gt;
+len('world') =&gt; 5 &lt;type 'int'&gt;</pre></div><p>A problem with <tt>eval</tt> is that if you cannot trust
+the source from which you got the string, you may get into trouble.
+For example, someone might use the built-in
+<tt>__import__</tt> function to load the <a href="/librarybook/core-modules-index.htm#os-module"><tt>os</tt></a> module, and then
+remove files on your disk:</p><div class="example"><b style="example">Example: Using the eval function to execute arbitrary commands</b><pre class="python"><span class="pycomment"># File: builtin-eval-example-2.py</span>
+
+<span class="pykeyword">print</span> eval(<span class="pystring">"__import__('os').getcwd()"</span>)
+<span class="pykeyword">print</span> eval(<span class="pystring">"__import__('os').remove('file')"</span>)</pre><pre class="computeroutput" moreinfo="NONE">/home/fredrik/librarybook
+Traceback (innermost last):
+ File "builtin-eval-example-2", line 2, in ?
+ File "&lt;string&gt;", line 0, in ?
+os.error: (2, 'No such file or directory')</pre></div><p>Note that you get an <tt>os.error</tt> exception, which
+means that <i>Python actually tried to remove the
+file!</i></p><p>Luckily, there&#8217;s a way around this problem.  You can pass a second
+argument to <tt>eval</tt>, which should contain a
+dictionary defining the namespace in which the expression is
+evaluated.  Let&#8217;s pass in an empty namespace:</p><pre class="python">&gt;&gt;&gt; <span class="pykeyword">print</span> eval(<span class="pystring">"__import__('os').remove('file')"</span>, {})
+Traceback (innermost last):
+  File <span class="pystring">"&lt;stdin&gt;"</span>, line 1, <span class="pykeyword">in</span> ?
+  File <span class="pystring">"&lt;string&gt;"</span>, line 0, <span class="pykeyword">in</span> ?
+os.error: (2, <span class="pystring">'No such file or directory'</span>)</pre><p>Hmm.  We still end up with an <tt>os.error</tt> exception.</p><p>The reason for this is that Python looks in the dictionary before it
+evaluates the code, and if it doesn&#8217;t find a variable named
+<tt>__builtins__</tt> in there (note the plural form), it
+adds one:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">&gt;&gt;&gt; namespace = {}
+&gt;&gt;&gt; <span class="pykeyword">print</span> eval(<span class="pystring">"__import__('os').remove('file')"</span>, namespace)
+Traceback (innermost last):
+  File <span class="pystring">"&lt;stdin&gt;"</span>, line 1, <span class="pykeyword">in</span> ?
+  File <span class="pystring">"&lt;string&gt;"</span>, line 0, <span class="pykeyword">in</span> ?
+os.error: (2, <span class="pystring">'No such file or directory'</span>)
+&gt;&gt;&gt; namespace.keys()
+[<span class="pystring">'__builtins__'</span>]</pre></div><div class="yui-ge"><div class="yui-u first"><p>If you print the contents of the namespace variable, you&#8217;ll find that
+it contains the full set of built-in functions.</p><p>The solution to this little dilemma isn&#8217;t far away: since Python
+doesn&#8217;t add this item if it is already there, you just have to add a
+dummy item called <tt>__builtins__</tt> to the namespace
+before calling <tt>eval</tt>:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide"><b style="example">Example: Safely using the eval function to evaluate arbitrary
+strings</b><pre class="python wide"><span class="pycomment"># File: builtin-eval-example-3.py</span>
+
+<span class="pykeyword">print</span> eval(<span class="pystring">"__import__('os').getcwd()"</span>, {})
+<span class="pykeyword">print</span> eval(<span class="pystring">"__import__('os').remove('file')"</span>, {<span class="pystring">"__builtins__"</span>: {}})</pre><pre class="computeroutput wide" moreinfo="NONE">/home/fredrik/librarybook
+Traceback (innermost last):
+  File "builtin-eval-example-3.py", line 2, in ?
+  File "&lt;string&gt;", line 0, in ?
+NameError: __import__</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>Note that this doesn&#8217;t protect you from CPU or memory resource attacks
+(for example, something like
+<tt>eval(&#8220;&#8217;*&#8217;*1000000*2*2*2*2*2*2*2*2*2&#8221;)</tt>
+will most likely cause your program to run out of memory after a
+while)</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

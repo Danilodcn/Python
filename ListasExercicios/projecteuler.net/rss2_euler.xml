@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" >
+<channel>
+<title>Project Euler</title>
+<atom:link href="http://projecteuler.net/rss2_euler.xml" rel="self" type="application/rss+xml" /><link>http://projecteuler.net</link>
+<description>A website dedicated to the fascinating world of mathematics and programming.</description>
+<language>en</language>
+<copyright>projecteuler.net</copyright>
+<webMaster>no_reply@projecteuler.net (Colin Hughes)</webMaster>
+<lastBuildDate>Fri, 01 Dec 2017 18:13:11 +0000</lastBuildDate>
+<ttl>60</ttl>
+<item>
+<title>New Problem 615</title>
+<link>http://projecteuler.net/problem=615</link>
+<description>Release date: Sun, 03 Dec 2017 10:00:00 +0000</description>
+<guid isPermaLink="false">problem_id_615</guid>
+</item>
+<item>
+<title>Start of the new season</title>
+<link>http://projecteuler.net/news</link>
+<description><![CDATA[ <p><p>The new season will start Saturday, September 9th, 2017, 16:00 server time.</p>
+<p>
+Last year it became challenging for the team to continue with the weekly publication scheme. Now that we have over 600 problems published, finding new and interesting problems is becoming increasingly difficult.</p>
+<p>
+As long as we have a sufficient number of problems that are ready for publication then we are able to maintain a weekly release of new problems. However, we currently <b>do not,</b> so we have made a decision to reduce the release of new problems to one problem every two weeks. If we can re-establish enough ready-to-publish problems, then we will return to weekly publication.
+</p>
+<p>
+As you are aware, many of the excellent problems that we have learned to enjoy have come about through the contributions of our members. If you have any interesting ideas for new problems, then please consider making a problem proposal. See <a href="https://projecteuler.chat/viewtopic.php?f=26&amp;t=510">Suggesting New Problems</a> for more information on the process.
+</p></p> ]]>
+(Saturday 02 September 2017: Start of the new season)</description>
+<pubDate>Sat, 02 Sep 2017 01:00:00 +0100</pubDate>
+<guid isPermaLink="false">news_id_93</guid>
+</item>
+<item>
+<title>Summer 2017 Website Update</title>
+<link>http://projecteuler.net/news</link>
+<description><![CDATA[ <p><p>A major rewrite of the main website back end has been taking place on my local machine for some time and on 10 August 2017 the updated scripts were uploaded. It is hoped that the changes made will provide a little more fluidity and robustness to the functionality of the website. Sadly, very little has been done in terms of cosmetics, so you are unlikely to notice much on the surface, but I can assure you that significant changes have been made to the way the website handles data.</p>
+
+<p>With any update there is only so much testing that can be done locally before the changes are made to the production website. So it would be very helpful if the thread: <a href="https://projecteuler.chat/viewtopic.php?f=5&amp;t=6597">Summer 2017 Website Update</a> at the Project Euler forum is used to report any bugs that you might identify. I would ask for your patience if any bugs or issues come to light as I hope the necessary changes will benefit all of us in the long term.</p></p> ]]>
+(Thursday 10 August 2017: Summer 2017 Website Update)</description>
+<pubDate>Thu, 10 Aug 2017 01:00:00 +0100</pubDate>
+<guid isPermaLink="false">news_id_92</guid>
+</item>
+<item>
+<title>Summer break</title>
+<link>http://projecteuler.net/news</link>
+<description><![CDATA[ <p><p>
+Problem #608 (Saturday, 17th June 2017, 04:00 pm servertime) will be the last problem before the summer break.<br />
+We will be back Saturday, September 9th, 2017.
+</p>
+</p> ]]>
+(Wednesday 14 June 2017: Summer break)</description>
+<pubDate>Wed, 14 Jun 2017 01:00:00 +0100</pubDate>
+<guid isPermaLink="false">news_id_91</guid>
+</item>
+<item>
+<title>Status update II</title>
+<link>http://projecteuler.net/news</link>
+<description><![CDATA[ <p>Currently everything seems to work properly. So problem 577 will be published on Saturday, 12th November 2016, 07:00 pm.<br />
+We do not believe that any information was lost, although the site might produce weird views, so even if the MySQL server goes berserk again we will not take the problem offline.
+
+</p> ]]>
+(Saturday 12 November 2016: Status update II)</description>
+<pubDate>Sat, 12 Nov 2016 01:00:00 +0000</pubDate>
+<guid isPermaLink="false">news_id_90</guid>
+</item>
+<item>
+<title>Problem returned</title>
+<link>http://projecteuler.net/news</link>
+<description><![CDATA[ <p>Frustratingly enough the problem seems to have returned.
+Please wait for further developments.</p> ]]>
+(Thursday 10 November 2016: Problem returned)</description>
+<pubDate>Thu, 10 Nov 2016 01:00:00 +0000</pubDate>
+<guid isPermaLink="false">news_id_88</guid>
+</item>
+</channel>
+</rss>

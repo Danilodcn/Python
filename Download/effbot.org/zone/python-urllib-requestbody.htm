@@ -1,0 +1,12 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The urllib.RequestBody&nbsp;Class</title></head><body data-page-id="224"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The urllib.RequestBody&nbsp;Class</h1></div><div class="yui-ge"><div class="yui-u first"><p><i>Yet another old idea.  Where&#8217;s the patch?  <a href="http://mail.python.org/pipermail/patches/2000-April/000493.html">Here!</a></i></p><p class="info">April 22, 2000 | Fredrik Lundh</p><p>As currently implemented, the <b>urllib</b> module allows you to
+post with a single, predefined content type (x-www-form-urlencoded).</p><p><a href="http://mail.python.org/pipermail/patches/2000-April/000493.html">This patch</a> modifies urllib
+to accept either a string or a (subclass of) the
+<b>urllib.RequestBody</b> class.</p><p>Usage:</p><pre class="python">
+<span class="pykeyword">import</span> urllib
+
+body = urllib.RequestBody(mydata, <span class="pystring">"text/xml"</span>)
+result = urllib.urlopen(host, body)</pre><p>or, using the <b>Form</b> subclass:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+body = urllib.Form(name=<span class="pystring">"fredrik"</span>, email=<span class="pystring">"fredrik@example.com"</span>)
+result = urllib.urlopen(host, body)</pre></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

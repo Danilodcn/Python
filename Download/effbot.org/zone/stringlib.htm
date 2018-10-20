@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>The stringlib&nbsp;Library</title></head><body data-page-id="280"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">The stringlib&nbsp;Library</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Updated May 2006 | Posted August 2004 | Fredrik Lundh</p><p>The <b>stringlib</b> library is an experimental collection of alternative string operations for Python.</p><p>The fast search algorithm described below was added to Python 2.5 during the <a href="http://wiki.python.org/moin/NeedForSpeed">Need For Speed</a> sprint in Reykjavik.  It&#8217;s currently used by the 8-bit string and Unicode implementations.</p><p>Other components and concepts may appear in future Python releases.</p><h3 id="BMHBNFS">The Fast Search Algorithm (aka &#8220;BMHBNFS&#8221; ;-)&#160;<a class="nav" href="#BMHBNFS" title="bookmark!">#</a></h3><p>The new <b>find</b> implementation is typically 2-10 times faster than
+the one used in Python 2.3 (using a reasonably representative set of test
+strings, that is).  For the find portions of the <b>stringbench</b> test
+suite, the new algorithm is up to <a href="#search-benchmarks">26 times faster</a>.</p><p>The same algorithm can be used for <b>index</b>, <b>split</b>,
+<b>replace</b>, <b>__contains__</b>, and the SRE <i>prefix</i> scanner.</p><p>When designing the new algorithm, I used the following constraints:</p><ul><li>should be faster than the current brute-force algorithm for all test cases (based on real-life code),
+including Jim Hugunin&#8217;s <s><a href="http://online.effbot.org/2004_08_01_archive.htm#find">worst-case test</a></s> (dead link)
+</li><li>small setup overhead; no dynamic allocation in the fast path (O(m) for speed, O(1) for storage)
+</li><li>sublinear search behaviour in good cases (O(n/m))
+</li><li>no worse than the current algorithm in worst case (O(nm))
+</li><li>should work well for both 8-bit strings and 16-bit or 32-bit Unicode
+strings (no O(&#963;) dependencies)
+</li><li>many real-life searches should be good, very few should be worst case
+</li><li>reasonably simple implementation
+</li></ul><p>This rules out most standard algorithms (Knuth-Morris-Pratt is not
+sublinear, Boyer-Moore needs tables that depend on both the alphabet
+size and the pattern size, most Boyer-Moore variants need tables that
+depend on the pattern size, etc.).
+
+</p><p>After some tweaking, I came up with a simplication of Boyer-Moore,
+incorporating ideas from Horspool and Sunday.  Here&#8217;s an outline:
+
+<pre class="python">
+<span class="pykeyword">def</span> <span class="pyfunction">find</span>(s, p):
+    <span class="pycomment"># find first occurrence of p in s</span>
+    n = len(s)
+    m = len(p)
+    skip = delta1(p)[p[m-1]]
+    i = 0
+    <span class="pykeyword">while</span> i &lt;= n-m:
+        <span class="pykeyword">if</span> s[i+m-1] == p[m-1]: <span class="pycomment"># (boyer-moore)</span>
+            <span class="pycomment"># potential match</span>
+            <span class="pykeyword">if</span> s[i:i+m-1] == p[:m-1]:
+                <span class="pykeyword">return</span> i
+            <span class="pykeyword">if</span> s[i+m] <span class="pykeyword">not</span> <span class="pykeyword">in</span> p:
+                i = i + m + 1 <span class="pycomment"># (sunday)</span>
+            <span class="pykeyword">else</span>:
+                i = i + skip <span class="pycomment"># (horspool)</span>
+        <span class="pykeyword">else</span>:
+            <span class="pycomment"># skip</span>
+            <span class="pykeyword">if</span> s[i+m] <span class="pykeyword">not</span> <span class="pykeyword">in</span> p:
+                i = i + m + 1 <span class="pycomment"># (sunday)</span>
+            <span class="pykeyword">else</span>:
+                i = i + 1
+    <span class="pykeyword">return</span> -1 <span class="pycomment"># not found</span></pre></p><p>The <b>delta1(p)[p[m-1]]</b> value is simply the Boyer-Moore <i>delta1</i>
+(or bad-character skip) value for the last character in the pattern.</p><p>For the <b>s[i+m] not in p</b> test, I use a 32-bit bitmask, using
+the 5 least significant bits of the character as the key.  This could
+be described as a simple Bloom filter.</p><p>Note that the above Python code may access s[n], which would result
+in an IndexError exception.  For the CPython implementation, this is not
+really a problem, since CPython adds trailing NULL entries to both 8-bit
+and Unicode strings.</p><h3 id="search-benchmarks">Benchmarks&#160;<a class="nav" href="#search-benchmarks" title="bookmark!">#</a></h3><p class="mark">As reported from the NeedForSpeed sprint (May 2006):
+
+</p><p>These are highly preliminary figures, but after two days of full
+attention, the Unicode string type is beginning to get pretty fast.
+The following is total run times for <a href="http://svn.python.org/view/sandbox/trunk/stringbench/">the stringbench benchmark</a>:
+
+<pre>
+str(ms) uni(ms) %       build
+-----------------------------
+2271.31 3608.32 62.9    2.5a2
+2261.85 1187.84 190.4   trunk, wednesday morning
+2227.48 1002.61 222.2   trunk, wednesday 15:11 UTC
+2247.84  875.13 256.9   trunk, wednesday 16.35 UTC
+</pre></p><p>The above is simply the sum of all benchmarks subtests, so the 4x factor
+is a bit arbitrary.  However, you can tell two things from this: the unicode
+string type has gotten a lot faster, and on this set of tests, it&#8217;s
+actually <i>twice</i> as fast as the 8-bit string type.  Not bad.</p><p>Looking at certain subsets are also quite interesting.  Here&#8217;s the
+result for the count-related tests (which includes counting 4-letter combinations in a 175k DNA sequence):
+
+<pre>
+str(ms) uni(ms) %       build
+-----------------------------
+332.44  294.07  113.0   2.5a2
+329.90  120.63  273.5   trunk
+</pre></p><p>and here&#8217;s the result for the find/index related tests:
+
+<pre>
+str(ms) uni(ms) %       build
+-----------------------------
+761.40  1857.61 41.0    2.5a2
+758.84  70.93   1069.8  trunk
+</pre></p><p>(yes, it&#8217;s 26 times faster!)
+
+</p><p>Time to turn our attention to the 8-bit string type.  More later.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul><ul><li><b>::: contents</b></li></ul><ul><li><ul><li><ul><li><a href="#BMHBNFS">The Fast Search Algorithm (aka &#8220;BMHBNFS&#8221; ;-)</a></li><li><a href="#search-benchmarks">Benchmarks</a></li></ul></li></ul></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

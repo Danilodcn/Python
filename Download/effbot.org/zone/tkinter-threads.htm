@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Tkinter and&nbsp;Threads</title></head><body data-page-id="321"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Tkinter and&nbsp;Threads</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">February 13, 2002 | Fredrik Lundh</p><p><i>Q.
+Is there an alternative to Tkinter that is thread safe?
+</i></p><p>Tkinter?</p><p>Just run all UI code in the main thread, and let the writers
+write to a <b>Queue</b> object; e.g.</p><pre class="python">
+<span class="pykeyword">from</span> Tkinter <span class="pykeyword">import</span> *
+
+<span class="pykeyword">import</span> thread <span class="pycomment"># should use the threading module instead!</span>
+<span class="pykeyword">import</span> Queue
+
+<span class="pykeyword">import</span> os
+
+<span class="pykeyword">class</span> <span class="pyclass">ThreadSafeConsole</span>(Text):
+    <span class="pykeyword">def</span> <span class="pyfunction">__init__</span>(self, master, **options):
+        Text.__init__(self, master, **options)
+        self.queue = Queue.Queue()
+        self.update_me()
+    <span class="pykeyword">def</span> <span class="pyfunction">write</span>(self, line):
+        self.queue.put(line)
+    <span class="pykeyword">def</span> <span class="pyfunction">clear</span>(self):
+        self.queue.put(None)
+    <span class="pykeyword">def</span> <span class="pyfunction">update_me</span>(self):
+        <span class="pykeyword">try</span>:
+            <span class="pykeyword">while</span> 1:
+                line = self.queue.get_nowait()
+                <span class="pykeyword">if</span> line <span class="pykeyword">is</span> None:
+                    self.delete(1.0, END)
+                <span class="pykeyword">else</span>:
+                    self.insert(END, str(line))
+                self.see(END)
+                self.update_idletasks()
+        <span class="pykeyword">except</span> Queue.Empty:
+            <span class="pykeyword">pass</span>
+        self.after(100, self.update_me)
+
+<span class="pycomment"># this function pipes input to an widget</span>
+<span class="pykeyword">def</span> <span class="pyfunction">pipeToWidget</span>(input, widget):
+    widget.clear()
+    <span class="pykeyword">while</span> 1:
+        line = input.readline()
+        <span class="pykeyword">if</span> <span class="pykeyword">not</span> line:
+            <span class="pykeyword">break</span>
+        widget.write(line)
+
+<span class="pykeyword">def</span> <span class="pyfunction">funcThread</span>(widget):
+    input = os.popen(<span class="pystring">'dir'</span>, <span class="pystring">'r'</span>)
+    pipeToWidget(input, widget)
+
+<span class="pycomment"># uber-main</span>
+root = Tk()
+widget = ThreadSafeConsole(root)
+widget.pack(side=TOP, expand=YES, fill=BOTH)
+thread.start_new(funcThread, (widget,))
+thread.start_new(funcThread, (widget,))
+thread.start_new(funcThread, (widget,))
+thread.start_new(funcThread, (widget,))
+thread.start_new(funcThread, (widget,))
+root.mainloop()</pre></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

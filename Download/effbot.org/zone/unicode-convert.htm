@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Converting Unicode Strings to 8-bit&nbsp;Strings</title></head><body data-page-id="338"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Converting Unicode Strings to 8-bit&nbsp;Strings</h1></div><div class="yui-ge"><div class="yui-u first"><p class="info">Fredrik Lundh | January 2006</p><p>A Unicode string holds characters from the Unicode character set.
+
+</p><p>If you want an 8-bit string, you need to decide what encoding you
+want to use.  Common encodings are US-ASCII (which is the default if
+you convert from Unicode to 8-bit strings in Python), ISO-8859-1 (aka
+Latin-1), and UTF-8 (a variable-width encoding that can represent all
+Unicode strings).
+
+</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><p class="wide">For example, if you want Latin-1 strings, you can use one of:
+
+<pre class="python wide">
+    s = u.encode(<span class="pystring">"iso-8859-1"</span>) <span class="pycomment"># fail if some character cannot be converted</span>
+    s = u.encode(<span class="pystring">"iso-8859-1"</span>, <span class="pystring">"replace"</span>) <span class="pycomment"># instead of failing, replace with ?</span>
+    s = u.encode(<span class="pystring">"iso-8859-1"</span>, <span class="pystring">"ignore"</span>) <span class="pycomment"># instead of failing, leave it out</span></pre></p></div><div class="yui-ge"><div class="yui-u first"><p>If you want an ASCII string, replace &#8220;iso-8859-1&#8221; above with &#8220;ascii&#8221; or
+&#8220;us-ascii&#8221;.
+
+</p><p>If you want to output the data to a web browser or an XML file, you can
+use:
+
+<pre class="python">
+    <span class="pykeyword">import</span> cgi
+    s = cgi.escape(u).encode(<span class="pystring">"ascii"</span>, <span class="pystring">"xmlcharrefreplace"</span>)</pre></p><p>The <a href="/tag/python.cgi.escape">cgi.escape</a> function converts
+reserved characters (&lt; &gt; and &amp;) to character entities (&amp;lt;,
+&amp;gt; and &amp;amp;), and the xmlcharrefreplace flag tells the encoder
+to use character references (&amp;#nn;) for any character that cannot be
+encoded in the given encoding.  The browser (or XML parser) at the other
+end will convert things back to Unicode.
+
+</p><p>Note that <b>cgi.escape</b> doesn&#8217;t escape quotes by default.  To use
+the value in an attribute, you need to pass in an extra flag to escape, and
+put the result in double quotes:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><pre class="python wide wide">
+    s = <span class="pystring">'attr="%s"'</span> % cgi.escape(u,1).encode(<span class="pystring">"ascii"</span>, <span class="pystring">"xmlcharrefreplace"</span>)</pre></div><div class="yui-ge"><div class="yui-u first"><p>The <s><a href="http://effbot.python-hosting.com/file/stuff/sandbox/text/unaccent.py">unaccent.py</a></s> (dead link) script
+shows how to strip off accents from latin characters:</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Example: Use a dynamically populated translation dictionary to remove
+accents from a string.</b>
+<pre class="python wide">
+<span class="pykeyword">import</span> unicodedata, sys
+
+CHAR_REPLACEMENT = {
+    <span class="pycomment"># latin-1 characters that don't have a unicode decomposition</span>
+    0xc6: <span class="pystring">u"AE"</span>, <span class="pycomment"># LATIN CAPITAL LETTER AE</span>
+    0xd0: <span class="pystring">u"D"</span>,  <span class="pycomment"># LATIN CAPITAL LETTER ETH</span>
+    0xd8: <span class="pystring">u"OE"</span>, <span class="pycomment"># LATIN CAPITAL LETTER O WITH STROKE</span>
+    0xde: <span class="pystring">u"Th"</span>, <span class="pycomment"># LATIN CAPITAL LETTER THORN</span>
+    0xdf: <span class="pystring">u"ss"</span>, <span class="pycomment"># LATIN SMALL LETTER SHARP S</span>
+    0xe6: <span class="pystring">u"ae"</span>, <span class="pycomment"># LATIN SMALL LETTER AE</span>
+    0xf0: <span class="pystring">u"d"</span>,  <span class="pycomment"># LATIN SMALL LETTER ETH</span>
+    0xf8: <span class="pystring">u"oe"</span>, <span class="pycomment"># LATIN SMALL LETTER O WITH STROKE</span>
+    0xfe: <span class="pystring">u"th"</span>, <span class="pycomment"># LATIN SMALL LETTER THORN</span>
+    }
+
+<span class="pycomment">##</span>
+<span class="pycomment"># Translation dictionary.  Translation entries are added to this</span>
+<span class="pycomment"># dictionary as needed.</span>
+
+<span class="pykeyword">class</span> <span class="pyclass">unaccented_map</span>(dict):
+
+    <span class="pycomment">##</span>
+    <span class="pycomment"># Maps a unicode character code (the key) to a replacement code</span>
+    <span class="pycomment"># (either a character code or a unicode string).</span>
+
+    <span class="pykeyword">def</span> <span class="pyfunction">mapchar</span>(self, key):
+        ch = self.get(key)
+        <span class="pykeyword">if</span> ch <span class="pykeyword">is</span> <span class="pykeyword">not</span> None:
+            <span class="pykeyword">return</span> ch
+        de = unicodedata.decomposition(unichr(key))
+        <span class="pykeyword">if</span> de:
+            <span class="pykeyword">try</span>:
+                ch = int(de.split(None, 1)[0], 16)
+            <span class="pykeyword">except</span> (IndexError, ValueError):
+                ch = key
+        <span class="pykeyword">else</span>:
+            ch = CHAR_REPLACEMENT.get(key, key)
+        self[key] = ch
+        <span class="pykeyword">return</span> ch
+
+    <span class="pykeyword">if</span> sys.version &gt;= <span class="pystring">"2.5"</span>:
+        <span class="pycomment"># use __missing__ where available</span>
+        __missing__ = mapchar
+    <span class="pykeyword">else</span>:
+        <span class="pycomment"># otherwise, use standard __getitem__ hook (this is slower,</span>
+        <span class="pycomment"># since it's called for each character)</span>
+        __getitem__ = mapchar
+
+
+<span class="pykeyword">if</span> __name__ == <span class="pystring">"__main__"</span>:
+
+    text = <span class="pystring">u"""</span>
+
+    "Jo, n&#229;r'n da ha g&#229;tt ett st&#244;ck te, s&#229; kommer'n te e &#229;,
+    &#229; i &#229;a &#228; e &#246;."
+    "Vasa", sa'n.
+    "&#197; i &#229;a &#228; e &#246;", sa ja.
+    "Men va i all ti &#228; d&#228; ni s&#228;jer, a, o?", sa'n.
+    "D'&#228; e &#229;, vett ja", skrek ja, f&#246;r ja ble rasen, "&#229; i &#229;a
+    &#228; e &#246;, h&#246;rer han lite, d'&#228; e &#229;, &#229; i &#229;a &#228; e &#246;."
+    "A, o, &#246;", sa'n &#229; d&#228;mm&#228; geck'en.
+    Jo, den va n&#244;e te dum den.
+
+    (taken from the short story "Dumt f&#244;lk" in Gustaf Fr&#246;ding's
+    "R&#228;ggler &#229; paschaser p&#229; v&#229;ra m&#229;l t&#229; en bonne" (1895).
+
+    """
+
+    <span class="pykeyword">print</span> text.translate(unaccented_map())
+
+    <span class="pycomment"># note that non-letters are passed through as is; you can use</span>
+    <span class="pycomment"># encode("ascii", "ignore") to get rid of them.  alternatively,</span>
+    <span class="pycomment"># you can tweak the translation dictionary to return None for</span>
+    <span class="pycomment"># characters &gt;= "\x80".</span>
+
+    map = unaccented_map()
+
+    <span class="pykeyword">print</span> repr(<span class="pystring">u"12\xbd inch"</span>.translate(map))
+    <span class="pykeyword">print</span> repr(<span class="pystring">u"12\xbd inch"</span>.translate(map).encode(<span class="pystring">"ascii"</span>, <span class="pystring">"ignore"</span>))</pre></div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>

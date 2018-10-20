@@ -1,0 +1,680 @@
+
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tipos abstratos de dados - Arrays &mdash; Princípios de Desenvolvimeto de Algoritmos em Python: Edição Interativa</title>
+    
+    <link rel="stylesheet" href="_static/panda.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/video.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/pytutor.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codelens/v3/css/ui-lightness/jquery-ui-1.8.24.custom.css" type="text/css" />
+    <link rel="stylesheet" href="_static/codemirror.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/parsons.css" type="text/css" />
+    <link rel="stylesheet" href="_static/js-parsons/lib/prettify.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.simplemodal.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/d3.v2.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.ba-bbq.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery.jsPlumb-1.3.10-all-min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/jquery-ui-1.8.24.custom.min.js"></script>
+    <script type="text/javascript" src="_static/codelens/v3/js/pytutor.js"></script>
+    <script type="text/javascript" src="_static/bookfuncs.js"></script>
+    <script type="text/javascript" src="_static/codemirror.js"></script>
+    <script type="text/javascript" src="_static/python.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/skulpt.js"></script>
+    <script type="text/javascript" src="_static/skulpt/dist/builtin.js"></script>
+    <script type="text/javascript" src="_static/assess.js"></script>
+    <script type="text/javascript" src="_static/animationbase.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/prettify.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/underscore-min.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/lib/lis.js"></script>
+    <script type="text/javascript" src="_static/js-parsons/parsons.js"></script>
+    <script type="text/javascript" src="_static/parsons-noconflict.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Princípios de Desenvolvimeto de Algoritmos em Python: Edição Interativa" href="index.html" />
+    <link rel="next" title="Visualização de gráficos 2D usando matplotlib" href="10-matplotlib.html" />
+    <link rel="prev" title="Tipos abstratos de dados - Pilhas" href="08-pilhas.html" />
+<script type="text/javascript"> 
+eBookConfig = {}
+eBookConfig.host = 'https://panda.ime.usp.br' ? 'https://panda.ime.usp.br' : 'http://127.0.0.1:8000',
+eBookConfig.app = eBookConfig.host+'/aulasPython',
+eBookConfig.ajaxURL = eBookConfig.app+'/ajax/',
+eBookConfig.course = 'algoritmos',
+eBookConfig.logLevel = 10,
+eBookConfig.loginRequired = false
+eBookConfig.isLoggedIn = false;
+</script>
+<script type="text/javascript" charset="utf-8" src="https://panda.ime.usp.br/aulasPython/static/js/jquery.idle-timer.js">
+</script>
+
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="10-matplotlib.html" title="Visualização de gráficos 2D usando matplotlib"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="08-pilhas.html" title="Tipos abstratos de dados - Pilhas"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Princípios de Desenvolvimeto de Algoritmos em Python</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="tipos-abstratos-de-dados-arrays">
+<h1>Tipos abstratos de dados - Arrays<a class="headerlink" href="#tipos-abstratos-de-dados-arrays" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="objetivo">
+<h2>Objetivo<a class="headerlink" href="#objetivo" title="Permalink to this headline">¶</a></h2>
+<p>Ilustrar o uso de <strong>Arrays</strong> como estrutura de dados utilizada na resolução de problemas computacionais.</p>
+</div>
+<div class="section" id="topicos">
+<h2>Tópicos<a class="headerlink" href="#topicos" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Tipos abstratos de dados: arrays (= classe <tt class="docutils literal"><span class="pre">ndarrays</span></tt> do NumPy)
+índices</p>
+<p>fatias</p>
+<p>operações entre arrays de mesmo tamanho</p>
+<p>operações entre arrays de tamanhos distintos (<strong>difusão</strong> ou <em>broadcasting</em>)</p>
+</div></blockquote>
+</div>
+<div class="section" id="introducao">
+<h2>Introdução<a class="headerlink" href="#introducao" title="Permalink to this headline">¶</a></h2>
+<p>Em computação científica é muito comum o uso de <strong>arrays</strong>.
+Arrays são estruturas de dados semelhantes às listas do Python, mas não tão flexíveis.
+Em um array todos os elementos devem ser <strong>de um mesmo tipo</strong>, tipicamente númerico, como <tt class="docutils literal"><span class="pre">int</span></tt> ou
+<tt class="docutils literal"><span class="pre">float</span></tt>.
+Além disso, as dimensões (= <em>shape</em>) de um array não podem ser modificadas.
+Em contrapartida, o uso de arrays é muito mais eficiente e facilita a computação de
+grandes volumes de dados numéricos.
+Isso faz com que arrays sejam particularmente útil em
+<a class="reference external" href="https://en.wikipedia.org/wiki/Computational_science">computação científica</a>.</p>
+<p>Para trabalhar com arrays em Python vamos utilizar o módulo <strong>NumPy</strong> (<em>Numeric Python</em>).
+O NumPy define a classe <tt class="docutils literal"><span class="pre">ndarray</span></tt> para encapsular arrays de
+<tt class="docutils literal"><span class="pre">n</span></tt> dimensões. Os arrays do NumPy tem tamanho fixo, assim, para se mudar
+o tamanho de um <tt class="docutils literal"><span class="pre">ndarray</span></tt>, cria-se um novo array e o original é removido.</p>
+<p>Além disso, o NumPy oferece várias funções pré-compiladas que tornam o
+processamento de arrays mais eficiente. Aqui vamos introduzir
+apenas um pequeno conjunto desses recursos. Para saber mais...</p>
+</div>
+<div class="section" id="instalacao">
+<h2>Instalação<a class="headerlink" href="#instalacao" title="Permalink to this headline">¶</a></h2>
+<p>Você precisa instalar o NumPy em sua máquina. Para isso, recomendamos
+que você instale o pacote <a class="reference external" href="https://www.continuum.io/downloads">Anaconda</a>.
+O <tt class="docutils literal"><span class="pre">Anaconda</span></tt> é um software livre que inclui mais de 300 pacotes
+do Python voltados para ciência, matemática, engenharia e análise de dados.</p>
+<p>Como utilizamos a versão 3.x do Python nesse curso, instale a versão
+apropriada para o Python 3.x.</p>
+</div>
+<div class="section" id="arrays-primeiros-passos">
+<h2>Arrays: primeiros passos<a class="headerlink" href="#arrays-primeiros-passos" title="Permalink to this headline">¶</a></h2>
+<p>O conteúdo desse texto é um breve resumo do capítulo 2 do
+<a class="reference external" href="http://ufpr.dl.sourceforge.net/project/numpy/NumPy/1.10.1/userguide.pdf">Manual do NumPy</a>.</p>
+<p>Para ilustrar o uso de array, vamos começar traçando um paralelo com
+a classe nativa <tt class="docutils literal"><span class="pre">list</span></tt> do Python.</p>
+<div class="section" id="arrays-e-listas-n-dimensionais">
+<h3>Arrays e Listas n-dimensionais<a class="headerlink" href="#arrays-e-listas-n-dimensionais" title="Permalink to this headline">¶</a></h3>
+<p>Podemos representar estruturas <tt class="docutils literal"><span class="pre">n</span></tt>-dimensionais por meio de <em>listas encaixadas</em>
+(= listas dentro de listas), como exemplificadi abaixo:</p>
+
+<div id="exemplos_listas_nd_python" >
+<textarea cols="50" rows="12" id="exemplos_listas_nd_python_code" class="active_code">
+# lista com uma dimensao
+um   = [5, 7, 9]
+print(um, um[1])
+
+# lista com duas dimensoes
+dois = [ ['00', '01'], ['10', '11'] ]
+print(dois) # imprime a matriz
+print(dois[0], dois[1]) # o primeiro mostra a linha correspondente
+print(dois[1][1])       # dois indices para acessar um elemento
+
+# lista com tres dimensoes. Cada elemento dessa lista 3d eh uma matriz.
+tres = [ [ ['000', '001'], ['010', '011'] ], [ ['100', '101'], ['110', '111'] ] ]
+print(tres[1])     # imprime a 2a matriz com [ ['100', '101'], ['110', '111'] ]
+print(tres[1][0])  # imprime a 1a linha da 2a matriz da estrutura `tres`
+print(tres[1][0][1]) # imprime o elemento na posicao 3d (1, 0, 1)
+
+</textarea>
+<p class="ac_caption"><span class="ac_caption_text"> (exemplos_listas_nd_python)</span> </p>
+<button onclick="runit('exemplos_listas_nd_python',this, undefined);">Run</button>
+<button class="ac_opt" onclick="saveEditor('exemplos_listas_nd_python');">Save</button>
+<button class="ac_opt" onclick="requestCode('exemplos_listas_nd_python');">Load</button>
+<br />
+
+<canvas id="exemplos_listas_nd_python_canvas" height="400" width="400" style="border-style: solid; display: none"></canvas>
+
+<pre id="exemplos_listas_nd_python_pre" class="active_out">
+
+</pre>
+
+</div>
+
+<p>Modifique o código acima para imprimir também o elemento <tt class="docutils literal"><span class="pre">010</span></tt>.
+Qual a coordenada 3D desse elemento?.</p>
+<p>Para se criar arrays a partir de listas, podemos usar o módulo NumPy da seguinte
+forma:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">[[1, 2, 3], [6, 5, 4]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">[[1 2 3]</span>
+<span class="go"> [6 5 4]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">&lt;class &#39;numpy.ndarray&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">&lt;class &#39;list&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="go">[[ 1.  2.  3.]</span>
+<span class="go"> [ 6.  5.  4.]]</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>Lembre-se que, para usarmos um módulo, precisamos carregá-lo usando
+<tt class="docutils literal"><span class="pre">import</span></tt>. No exemplo, o módulo foi carregado e usamos o apelido <tt class="docutils literal"><span class="pre">np</span></tt>
+para acessar os recursos desse módulo.</p>
+<p>Observe que a variável <tt class="docutils literal"><span class="pre">a</span></tt> faz referência a uma matriz de dimensão <tt class="docutils literal"><span class="pre">(2,3)</span></tt>,
+e essa matriz é utilizada para criar um array de mesma dimensão
+e conteúdo usando <tt class="docutils literal"><span class="pre">np.array(a)</span></tt>, referenciada pela variável <tt class="docutils literal"><span class="pre">b</span></tt>.
+É possível também especificar o tipo do array, como ilustrado
+no exemplo <tt class="docutils literal"><span class="pre">np.array(a,</span> <span class="pre">float)</span></tt>.</p>
+<p>É também possível criar um array com zeros (<tt class="docutils literal"><span class="pre">0</span></tt> s), ou uns (<tt class="docutils literal"><span class="pre">1</span></tt> s),
+ou identidade, bastando para isso definir a dimensão da matriz e
+o tipo, como a seguir.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="p">)</span> <span class="c"># dimensao 2x3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="nb">int</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+<span class="go">[[ 0.  0.  0.]</span>
+<span class="go"> [ 0.  0.  0.]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+<span class="go">[[1 1]</span>
+<span class="go"> [1 1]</span>
+<span class="go"> [1 1]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">I</span><span class="p">)</span>
+<span class="go">[[ 1.  0.]</span>
+<span class="go"> [ 0.  1.]]</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>Observe que o array de zeros tem dimensão <tt class="docutils literal"><span class="pre">(2,3)</span></tt> (= 2 por 3) e, por <em>default</em>, é do tipo <tt class="docutils literal"><span class="pre">float</span></tt>.
+Já o array com <tt class="docutils literal"><span class="pre">1``s</span> <span class="pre">tem</span> <span class="pre">dimensão</span> <span class="pre">``(3,2)</span></tt> (= 3 por 2) e é do tipo <tt class="docutils literal"><span class="pre">int</span></tt>.
+Finalmente, como a matriz identidade deve ser quadrada, é necessário fornecer apenas
+um valor (no caso 2) e o tipo desejados.</p>
+<p>Uma outra maneira conveniente para se criar um array a partir de uma lista
+unidimensional é redimensionando o array usando o método
+<tt class="docutils literal"><span class="pre">reshape()</span></tt> da classe <tt class="docutils literal"><span class="pre">ndarrays</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">[[ 0  1  2  3]</span>
+<span class="go"> [ 4  5  6  7]</span>
+<span class="go"> [ 8  9 10 11]]</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>Nesse caso, a função <tt class="docutils literal"><span class="pre">range()</span></tt> é utilizada para criar a lista de números
+de 0 a 11, que é redimensionada para uma matriz de dimensão <tt class="docutils literal"><span class="pre">(3,4)</span></tt>.</p>
+</div>
+<div class="section" id="indices-e-fatias">
+<h3>Índices e fatias<a class="headerlink" href="#indices-e-fatias" title="Permalink to this headline">¶</a></h3>
+<p>Para acessar um elemento de uma lista de dimensão <tt class="docutils literal"><span class="pre">n</span></tt> é necessário fornecer
+o valor de <tt class="docutils literal"><span class="pre">n</span></tt> índices, ou seja, 2 índices para uma matriz bidimensional,
+3 índices para uma matriz tridimensional e assim por diante.</p>
+<p>Embora seja possível usar a mesma forma para acessar elementos de um
+array, uma forma <em>mais eficiente</em> é separando os valores por vírgulas,
+como a seguir:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">[[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">TypeError</span>: <span class="n">list indices must be integers, not tuple</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">7</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">TypeError</span>: <span class="n">list indices must be integers, not tuple</span>
+</pre></div>
+</div>
+<p>Além de ser mais eficiente, o uso de vírgulas permite formas de fatiamento
+mais flexíveis, como mostrado nos exemplos a seguir.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">lista</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lista</span>
+<span class="go">[[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10, 11]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lista</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">[[4, 5, 6, 7]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lista</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span>
+<span class="go">array([[ 0,  1,  2,  3],</span>
+<span class="go">       [ 4,  5,  6,  7],</span>
+<span class="go">       [ 8,  9, 10, 11]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">array([[4, 5, 6, 7]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">array([ 2,  6, 10])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span><span class="p">[:,</span><span class="mi">2</span><span class="p">:]</span>
+<span class="go">array([[ 2,  3],</span>
+<span class="go">       [ 6,  7],</span>
+<span class="go">       [10, 11]])</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>Note que a variável <tt class="docutils literal"><span class="pre">lista</span></tt> faz referência a uma matriz
+de dimensão <tt class="docutils literal"><span class="pre">(3,4)</span></tt> e que a fatia <tt class="docutils literal"><span class="pre">lista[1:-1]</span></tt> é a matriz contendo
+apenas a segunda linha. Lembre-se que é possível usar índices negativos
+para indicar os elementos da direita para a esquerda, e portanto o último
+elemento pode ser indicado pelo índice <tt class="docutils literal"><span class="pre">-1</span></tt>, o penúltimo por <tt class="docutils literal"><span class="pre">-2</span></tt>, etc.</p>
+<p>Quando um array é criado com os elementos da lista o mesmo resultado pode ser obtido
+usando o fatiamento <tt class="docutils literal"><span class="pre">mat[1:-1]</span></tt>. No entanto, usando vírgulas,
+podemos selecionar todas as linhas de <tt class="docutils literal"><span class="pre">mat</span></tt> e a coluna de índice 2 usando
+<tt class="docutils literal"><span class="pre">mat[:,2]</span></tt> (= coluna de índice <tt class="docutils literal"><span class="pre">2</span></tt>) e ainda criar uma matriz contendo
+as duas últimas colunas usando <tt class="docutils literal"><span class="pre">mat[:,2:]</span></tt>.</p>
+</div>
+<div class="section" id="exercicios">
+<h3>Exercícios<a class="headerlink" href="#exercicios" title="Permalink to this headline">¶</a></h3>
+<p>Use arrays do Python para resolver os seguintes exercícios:</p>
+<blockquote>
+<div><ol class="arabic">
+<li><dl class="first docutils">
+<dt>(Exercício 5 de <a class="reference external" href="http://www.ime.usp.br/~macmulti/exercicios/matrizes/index.html">http://www.ime.usp.br/~macmulti/exercicios/matrizes/index.html</a>)</dt>
+<dd><p class="first last">Dada uma matriz inteira <span class="math">\(A_{m \times n}\)</span>, verificar se <span class="math">\(A\)</span> é de permutação.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>(Exercício 6 de <a class="reference external" href="http://www.ime.usp.br/~macmulti/exercicios/matrizes/index.html">http://www.ime.usp.br/~macmulti/exercicios/matrizes/index.html</a>)</dt>
+<dd><p class="first last">Dada uma matriz <span class="math">\(A_{m \times n}\)</span>, imprimir o número de linhas e o número de colunas nulas da matriz.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>(Exercício 3 de <a class="reference external" href="http://www.ime.usp.br/~macmulti/exercicios/matrizes/index.html">http://www.ime.usp.br/~macmulti/exercicios/matrizes/index.html</a>)</dt>
+<dd><p class="first last">Dadas duas matrizes reais <span class="math">\(A_{m \times n}\)</span> e <span class="math">\(B_{n \times p}\)</span>, calcular o produto de A por B.</p>
+</dd>
+</dl>
+</li>
+</ol>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="operacoes-com-arrays">
+<h2>Operações com arrays<a class="headerlink" href="#operacoes-com-arrays" title="Permalink to this headline">¶</a></h2>
+<p>Apesar da semelhança do tipo <tt class="docutils literal"><span class="pre">ndarrays</span></tt> do NumPy com as listas
+de Python para o tratamento de índices e fatias,
+o NumPy oferece muito mais recursos que listas para operação
+e manipulação de arrays que facilitam a computação científica.</p>
+<p>Em ciência da computação, <strong>vetorização</strong> (<a class="reference external" href="https://en.wikipedia.org/wiki/Vectorization_%28mathematics%29">vectorization</a>)
+é a generalização das operações em escalares a vetores e matrizes de várias dimensões.
+Linguagens de programação que aplicam de maneira transparente e concisa operação sobre arrays são
+chamadas de <a class="reference external" href="https://en.wikipedia.org/wiki/Array_programming">array programming languages</a>.
+Exemplos de linguagens que admitem vetorização são
+<a class="reference external" href="https://en.wikipedia.org/wiki/GNU_Octave">GNU Octave</a>,
+<a class="reference external" href="https://en.wikipedia.org/wiki/Julia_%28programming_language%29">Julia</a>,
+<a class="reference external" href="https://en.wikipedia.org/wiki/R_%28programming_language%29">R</a> e
+<a class="reference external" href="https://en.wikipedia.org/wiki/Python_%28programming_language%29">Python NumPy</a>.</p>
+<p>Em Python com NumPy, para arrays com o mesmo número de elementos e forma, os símbolos
+das operações básicas como <cite>*</cite>, <cite>+</cite>, etc, podem ser utilizadas para
+calcular um novo array &#8220;por elemento&#8221;.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">array([[1, 2],</span>
+<span class="go">       [3, 4]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span>
+<span class="go">array([[0, 2],</span>
+<span class="go">       [3, 1]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">+</span><span class="n">b</span>
+<span class="go">array([[1, 4],</span>
+<span class="go">       [6, 5]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">*</span><span class="n">b</span>
+<span class="go">array([[0, 4],</span>
+<span class="go">       [9, 4]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">/</span><span class="n">a</span>
+<span class="go">array([[ 0.  ,  1.  ],</span>
+<span class="go">       [ 1.  ,  0.25]])</span>
+</pre></div>
+</div>
+<p>Observe que não basta ter o mesmo número de elementos, mas a
+forma (<tt class="docutils literal"><span class="pre">shape</span></tt>) do array também é importante, como mostra o
+exemplo a seguir.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(2, 2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span>
+<span class="go">array([5, 6, 7, 8])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(4, )</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">+</span> <span class="n">c</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">ValueError</span>: <span class="n">operands could not be broadcast together with shapes (2,2) (4,)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">ValueError</span>: <span class="n">operands could not be broadcast together with shapes (2,2) (4,)</span>
+</pre></div>
+</div>
+<div class="section" id="operacoes-entre-arrays-de-tamanhos-distintos">
+<h3>Operações entre arrays de tamanhos distintos<a class="headerlink" href="#operacoes-entre-arrays-de-tamanhos-distintos" title="Permalink to this headline">¶</a></h3>
+<p>Em muitos casos, é necessário trabalhar com arrays com um número distinto de
+elementos, ou de formas diferentes. Nesse caso, é necessário entender as regras
+do NumPy que difundem as informações do array menor
+para o array maior.</p>
+<p>O termo  <strong>difusão</strong> (<a class="reference external" href="http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html">broadcasting</a>)
+descreve como NumPy trata arrays de dimensões diferentes em
+operações aritméticas.  O array menor é
+&#8220;difundido&#8221; a uma array maior para que tenham
+as mesmas dimensões.
+No caso de um escalar, o valor do escalar é difundido para todos os elementos
+do array maior, como no exemplo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">array([[1, 2],</span>
+<span class="go">       [3, 4]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="go">array([[2, 3],</span>
+<span class="go">       [4, 5]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">*</span> <span class="mi">2</span>
+<span class="go">array([[2, 4],</span>
+<span class="go">       [6, 8]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="go">array([[ 0.5,  1. ],</span>
+<span class="go">       [ 1.5,  2. ]])</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>No caso de arrays com uma das dimensões unitárias (um array linha ou coluna por exemplo),
+mas onde as demais dimensões sejam compatíveis com a do array maior, o array
+menor é transmitido para a outra dimensão do array maior. Veja os exemplos abaixo.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">array([[ 1,  3,  5],</span>
+<span class="go">       [ 7,  9, 11]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
+<span class="go">array([[-3, -2, -1],</span>
+<span class="go">       [ 3,  4,  5]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span>
+<span class="go">array([[0],</span>
+<span class="go">       [1]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(2, 1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">*</span> <span class="n">c</span>
+<span class="go">array([[ 0,  0,  0],</span>
+<span class="go">       [ 7,  9, 11]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">*</span> <span class="n">d</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">ValueError</span>: <span class="n">operands could not be broadcast together with shapes (2,3) (2,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">*</span> <span class="n">c</span>
+<span class="go">array([[0, 0, 0],</span>
+<span class="go">       [4, 5, 6]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">+</span> <span class="n">b</span>
+<span class="go">array([[4, 5, 6],</span>
+<span class="go">       [5, 6, 7]])</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">ValueError</span>: <span class="n">operands could not be broadcast together with shapes (2,3) (2,)</span>
+</pre></div>
+</div>
+<p>Observe que nos dois últimos exemplos (<tt class="docutils literal"><span class="pre">b*c</span></tt> e <tt class="docutils literal"><span class="pre">b+c</span></tt>), quando a operação envolve
+dois arrays com uma dimensão unitária, por exemplo, <tt class="docutils literal"><span class="pre">(1,3)</span></tt> e <tt class="docutils literal"><span class="pre">(2,1)</span></tt>, o resultado
+é um array de dimensão <tt class="docutils literal"><span class="pre">(2,3)</span></tt>.</p>
+</div>
+<div class="section" id="exercicio-jogo-da-vida">
+<h3>Exercício - Jogo da Vida<a class="headerlink" href="#exercicio-jogo-da-vida" title="Permalink to this headline">¶</a></h3>
+<p>O <strong>Jogo da Vida</strong> (<a class="reference external" href="https://en.wikipedia.org/wiki/Conway's_Game_of_Life">The Game of Life</a>) é um
+autômato celular (<a class="reference external" href="https://en.wikipedia.org/wiki/Cellular_automaton">cellular automaton</a>)
+introduzido por John Horton Conway em 1970.
+Um automato celular consiste de uma rede de células.
+Cada célula pode estar em um número finito de estados, como <em>morta</em> ou <em>viva</em>.
+O &#8220;jogo&#8221; é na verdade uma simulação que permite observar
+a evolução de um processo a partir de uma certa condição inicial.</p>
+<p>O jogo se desenvolve sobre uma matriz bi-dimensional que pode ser tão
+grande quanto se queira.
+Vamos chamar essa matriz de <strong>mapa</strong>.
+Cada posição ou célula do mapa pode estar vazia (= célula morta) ou ocupada  por um agente
+(= célula viva).
+Cada posição possui também até 8 posições vizinhas: imediatamente acima, abaixo, aos lados e
+nas diagonais.  Em um determinado instante, o mapa contém uma geração
+de agentes.
+A geração no instante seguinte é determinada segundo as regras abaixo:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Novos agentes nascem em células vazias que possuam exatamente 3 agentes vizinhos;</li>
+<li>Agentes com 2 ou 3 agentes vizinhos sobrevivem;</li>
+<li>Agentes com menos de 2 agentes vizinhos morrem for falta de recursos;</li>
+<li>Agentes com mais de 3 agentes vizinhos morrem por excesso de competição.</li>
+</ul>
+</div></blockquote>
+<p>Supondo que um mapa é representado por uma matriz em Python onde células vazias
+tem valor <tt class="docutils literal"><span class="pre">0</span></tt> (zero) e agentes tem valor <tt class="docutils literal"><span class="pre">1</span></tt> (um), escreva a seguinte função:</p>
+<div class="highlight-Python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">iteracao</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; (mapa) -&gt; None</span>
+
+<span class="sd">    Recebe uma mapa representando geração de agentes em um determinado</span>
+<span class="sd">    instante e atualiza o mapa de tar forma que represente geração de</span>
+<span class="sd">    agentes no instante seguinte.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+</pre></div>
+</div>
+<p>A cada iteração, o mapa deve ser varrido e, para cada célula,
+a função deve calcular o seu novo valor baseado nas regras do jogo.
+Observe que o estado do mapa no instante seguinte mapa depende <strong>exclusivamente</strong>
+do estado no instante atual.</p>
+<p>Veja alguns padrões produzidos pelo jogo da vida em <a class="reference external" href="https://en.wikipedia.org/wiki/Glider_%28Conway's_Life%29">Glider</a>.
+Variantes do jogo da vida são
+<a class="reference external" href="https://en.wikipedia.org/wiki/Day_and_Night_%28cellular_automaton%29">Day and Night</a>,
+<a class="reference external" href="https://en.wikipedia.org/wiki/Highlife_%28cellular_automaton%29">Highlife</a>,
+<a class="reference external" href="https://en.wikipedia.org/wiki/Life_without_Death">Life without Death</a> e
+<a class="reference external" href="https://en.wikipedia.org/wiki/Seeds_%28cellular_automaton%29">Seeds</a>.</p>
+</div>
+</div>
+<div class="section" id="outras-funcoes-do-numpy">
+<h2>Outras funções do NumPy<a class="headerlink" href="#outras-funcoes-do-numpy" title="Permalink to this headline">¶</a></h2>
+<p>Talvez você se sinta incomodado que o operador <cite>*</cite> não calcula o produto de
+duas matrizes, mas o produto elemento a elemento de dois arrays de mesma dimensão.
+Felizmente, o NumPy oferece vários outros recursos como:</p>
+<blockquote>
+<div><p><strong>Álgebra Linear</strong></p>
+<p>O produto de matrizes pode ser calculado usando o método <tt class="docutils literal"><span class="pre">dot</span></tt></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">array([[ 1,  3,  5],</span>
+<span class="go">       [ 7,  9, 11]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span>
+<span class="go">array([[11, 10,  9,  8],</span>
+<span class="go">       [ 7,  6,  5,  4],</span>
+<span class="go">       [ 3,  2,  1,  0]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">array([[ 47,  38,  29,  20],</span>
+<span class="go">       [173, 146, 119,  92]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">ValueError</span>: <span class="n">shapes (3,4) and (2,3) not aligned: 4 (dim 1) != 2 (dim 0)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">ValueError</span>: <span class="n">shapes (3,4) and (2,3) not aligned: 4 (dim 1) != 2 (dim 0)</span>
+</pre></div>
+</div>
+<p>Além de calcular o produto de vetores e matrizes, o NumPy oferece também
+vários outros recursos para inversão de matrizes e solução de sistemas
+lineares, cálculo de normas, de auto-valores e auto-vetores, etc.
+Para saber mais, consulte a documentação sobre os recursos de
+<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/routines.linalg.html">Álgebra Linear</a>.</p>
+<p><strong>Estatística</strong></p>
+<p><a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/routines.statistics.html">Rotinas estatísticas</a> para cálculo de média, variância e desvio padrão,
+entre outras, além de funções para vários tipos de <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/routines.random.html">amostragem</a>, inclusive um gerador de números pseudo-aleatórios.</p>
+<p><strong>Matemática</strong></p>
+<p>Diversas <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/routines.math.html">funções matemáticas</a> como <cite>sqrt</cite>, <cite>log</cite>, <cite>exp</cite>, <cite>min</cite>, <cite>max</cite>, somatórias, trigonométricas etc.</p>
+<p><strong>e muitas outras</strong></p>
+<p>Como funções financeiras, Fast Fourier Transform, polinômios, ordenação, etc.
+Dê uma olhada no conjunto de rotinas do NumPy em <a class="reference external" href="http://docs.scipy.org/doc/numpy-dev/reference/routines.html">http://docs.scipy.org/doc/numpy-dev/reference/routines.html</a>.</p>
+</div></blockquote>
+</div>
+<div class="section" id="id1">
+<h2>100 Exercícios<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Nicolas Rougier mantém em sua página
+um <a class="reference external" href="http://www.labri.fr/perso/nrougier/teaching/numpy/numpy.html">tutorial do NumPy</a>
+além de uma
+<a class="reference external" href="http://www.labri.fr/perso/nrougier/teaching/numpy.100/index.html">lista de 100 exercícios</a> que você
+pode usar para aprender mais sobre o NumPy.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tipos abstratos de dados - Arrays</a><ul>
+<li><a class="reference internal" href="#objetivo">Objetivo</a></li>
+<li><a class="reference internal" href="#topicos">Tópicos</a></li>
+<li><a class="reference internal" href="#introducao">Introdução</a></li>
+<li><a class="reference internal" href="#instalacao">Instalação</a></li>
+<li><a class="reference internal" href="#arrays-primeiros-passos">Arrays: primeiros passos</a><ul>
+<li><a class="reference internal" href="#arrays-e-listas-n-dimensionais">Arrays e Listas n-dimensionais</a></li>
+<li><a class="reference internal" href="#indices-e-fatias">Índices e fatias</a></li>
+<li><a class="reference internal" href="#exercicios">Exercícios</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#operacoes-com-arrays">Operações com arrays</a><ul>
+<li><a class="reference internal" href="#operacoes-entre-arrays-de-tamanhos-distintos">Operações entre arrays de tamanhos distintos</a></li>
+<li><a class="reference internal" href="#exercicio-jogo-da-vida">Exercício - Jogo da Vida</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#outras-funcoes-do-numpy">Outras funções do NumPy</a></li>
+<li><a class="reference internal" href="#id1">100 Exercícios</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="08-pilhas.html"
+                        title="previous chapter">Tipos abstratos de dados - Pilhas</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="10-matplotlib.html"
+                        title="next chapter">Visualização de gráficos 2D usando matplotlib</a></p><div id="runestonebox">
+  <h3>Links</h3>
+  <ul>
+    <li>
+      <a href="http://runestoneinteractive.org">Runestone</a>
+    </li>
+    <li>
+    <a href="mailto:hitoshi@ime.usp.br?Subject=Pense%20Python" target="_top">Envie comentários e sugestões</a>
+    </li>
+  </ul>
+</div>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="10-matplotlib.html" title="Visualização de gráficos 2D usando matplotlib"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="08-pilhas.html" title="Tipos abstratos de dados - Pilhas"
+             >previous</a> |</li>
+        <li><a href="index.html">Princípios de Desenvolvimeto de Algoritmos em Python</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2015, Detartamento de Ciência da Computação, IME-USP.
+      Last updated on May 16, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(addUserToFooter)
+    $(document).ready(createEditors);
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-32029811-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml"><link rel="shortcut icon" href="/media/img/effbot.ico"><link rel="stylesheet" href="/media/css/effbot-min.css" type="text/css" media="screen"><link rel="stylesheet" href="/media/css/effbotprint-min.css" type="text/css" media="print"><title>Sockets</title></head><body data-page-id="272"><div id="doc2" class="yui-t2"><div id="hd"></div><div id="bd"><div id="yui-main"><div class="yui-b"><div class="content"><div class="yui-g"><h1 class="maintitle">Sockets</h1></div><div class="yui-ge"><div class="yui-u first"><p><i>This is a really old draft from 1997.</i></p><p>Originally a Berkeley UNIX feature, sockets make it easy to
+communicate between two running programs.  You can use sockets to talk
+to other processes running on the same machine about as easy as you
+can use them to communicate with a computer on the other side of the
+earth.  You can create your own protocols, or use the socket interface
+to talk to existing servers using standard protocols like HTTP, FTP,
+<i>Network News Transfer Protocol</i> (NNTP), or <i>Simple Mail
+Transfer Protocol</i> (SMTP) used widely on the Internet.</p><p>Python provides socket support on most platforms, including
+virtually all Unix systems, as well as on Windows and Macintosh.</p><h2>Creating Sockets</h2><p>To use a socket in Python, you start by creating a <b>socket</b>
+object.  This is done by calling the socket factory function in the
+module with the same name, specifying what kind of socket you
+want.  Here&#8217;s an example:</p><pre role="python">
+&gt;&gt;&gt; import socket
+&gt;&gt;&gt; s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+&gt;&gt;&gt; s
+&lt;socket object, fd=3, family=2, type=1, protocol=0&gt;
+</pre><p>(On a Windows box, the socket printout may look something like
+&#8220;<b>&lt;_socketobject instance at 88ece0&gt;</b>&#8220;).</p><p>The first argument to the socket function specifies the address
+family.  Python supports two families: AF_INET for Internet addresses,
+and AF_UNIX for UNIX inter-process communication.  The latter is
+obviously only available on UNIX platforms.</p><p>The second argument gives the socket type, which controls the
+socket&#8217;s communication behavior.  Here, we used SOCK_STREAM, which
+gives a two-way reliable byte stream.  Data you send are guaranteed to
+make it to the receiver, and in the same order as you sent it. If the
+network isn&#8217;t able to guarantee this, we&#8217;ll get an error from the
+socket interface.  Another, less commonly used type is SOCK_DGRAM,
+which allows you to send and receive datagrams.  A datagram is simply
+a block of data (usually with a fixed maximum length), but the
+protocol doesn&#8217;t guarantee that the data really makes it to the other
+end (and if it does, it may not arrive in the same order as it was
+sent).  Finally, the SOCK_RAW type can be used on some platforms to
+mess around with low-level protocol details.  This is usually only
+available to programs running with super-user privileges.</p><p>In Internet protocol terms, the combination (AF_INET, SOCK_STREAM)
+uses the <i>Internet Transmission Control Protocol</i> (TCP), while
+(AF_INET, SOCK_DGRAM) uses the <i>Internet User Datagram Protocol</i>
+(UDP).  The (AF_INET, SOCK_RAW) combination, finally, allows you to
+play with the core <i>Internet Protocol</i> (IP) itself.  If nothing
+of this make sense to you, don&#8217;t worry. It works just fine anyway.</p><p class="fixme">[FIXME: add sidebar on Internet protocols? the
+protocol hierarchy: IP/UDP/TCP/FTP/SMTP/POP3/NNTP/HTTP, RFC/STD
+standardization, request for comments, RFC proliferation, etc.]</p><h2>Calling Other Sockets</h2><p>Once you have created a socket, it works pretty much like a
+telephone.  You can either use it to dial a number in order to call
+another machine or process (provided it has its own socket, of
+course), or just hang around, waiting for incoming calls.  However,
+when using sockets, it is actually somewhat simpler to call someone
+else than to set things up so that others can call you.  So let&#8217;s
+begin by &#8220;calling&#8221; a distant web-server:</p><pre role="python">
+&gt;&gt;&gt; s.connect(("www.python.org", 80))
+&gt;&gt;&gt; s.send("GET / HTTP/1.0\r\n\r\n")
+18
+&gt;&gt;&gt; s.recv(20)
+'HTTP/1.0 200 OK\015\012Dat'
+&gt;&gt;&gt; s.close()
+</pre><h3>Dialing the number</h3><p>We use the <b>connect</b> method to &#8220;call&#8221; a server.  In this
+example, we used an Internet socket, for which the &#8220;phone number&#8221;
+consists of two parts; the server name and a port number.  The server
+name can either be given as a host name (like &#8220;<b>www.python.org</b>&#8221;
+in this case), or a numerical host address, also given as a string
+(for example, &#8220;<b>194.109.137.226</b>&#8220;).</p><p class="fixme">[FIXME: mention DNS servers?]</p><p>The port number specifies which port on this server we wish to
+connect to.  Like a company switchboard, a single Internet server can
+provide many different services on different ports simultaneously.  In
+this case, we connect to an HTTP server, which is usually listening on
+port 80.</p><p class="fixme">[FIXME: what about Unix sockets? They use special
+file names instead (socket=). Example?]</p><p>The call to the connect method returns as soon as the server
+accepts the connection.  If this doesn&#8217;t happen, either because the
+server or port doesn&#8217;t exist, or the server couldn&#8217;t be reached, or
+any other problem arises, Python raises a <b>socket.error</b>
+exception (this exception object is provided by the socket
+module).</p><p class="fixme">&lt;FIXME: should mention that if we use a DGRAM
+socket, the connect method will only locate the server, not actually
+connect to it&gt;</p><h3>Sending and receiving data</h3><p>Since the call succeeded, we can use the <b>send</b> method to send
+some data to the server.  In this example, we use an HTTP command
+called GET to tell the server to return its &#8220;root&#8221; document.  Having
+sent the command (terminated by two CRLF pairs), we read a few bytes
+from the server using the recv method.  The server responds with
+&#8220;HTTP/1.0&#8221; to indicate that it has understood our command, followed by
+&#8220;200 OK&#8221; to indicate that it was accepted.  Directly following this,
+the server will send some additional information, followed by the
+document itself (in this case, this is typically an HTML
+document).</p><p>The <b>send</b> method works like the write method of an ordinary
+file object.  The main difference is that it does not provide
+buffering, so there&#8217;s no need to flush the socket&#8217;s write buffer
+before reading from it.  The <b>recv</b> method is similar to read in
+that it you can specify how much data to read in a single call.  It
+also returns an empty string if the connection is closed.  However, if
+the connection is not closed, <b>recv</b> returns whatever amount of
+data that is available (never more than you specified, of course), but
+it only blocks if the receive buffers are completely empty.  That is,
+if you request 10,000 bytes and there&#8217;s only two bytes available,
+you&#8217;ll get two bytes.  But if there&#8217;s nothing at all, the method will
+wait until at least something arrives.</p><p>Both methods can also take an optional flag argument, that allows
+you to &#8220;peek&#8221; instead of read data from the socket, and to deal with
+so-called &#8220;out of band&#8221; data.  We&#8217;ll describe these flags later.</p><h3>Hanging up</h3><p>In this example, we don&#8217;t bother to read all data from the server.
+Instead, we simply close the connection to tell the server that we&#8217;re
+done.  Unlike a telephone, sockets are disposable, and cannot be
+reused once they&#8217;ve been connected to something.  To make another
+call, we have to create a new socket.  On the other hand, creating a
+socket is not very expensive.  And socket servers, unlike many
+answering machines, stop sending data as soon as we hang up, so
+there&#8217;s no risk that we&#8217;ll get rubbish the next time we connect.</p><h3>Socket Protocols</h3><p>Most standard Internet protocols are basically very simple,
+&#8220;chat-style&#8221; protocols.  One side (usually the connecting part) sends
+a command, and the other side responds with status information, or a
+set of data.  A very simple example is the HTTP protocol, in which a
+typical session looks something like:</p><pre>
+Client: <b>connects</b>
+Client: GET / HTTP/1.0
+
+Client: <b>sends empty line</b>
+Server: HTTP/1.0 200 OK
+
+Server: <b>sends additional response headers</b>
+Server: <b>sends empty line</b>
+Server: <b>sends document</b>
+Server: <b>disconnects</b>
+</pre><p>(the above example is obviously not very chatty, since the server
+hangs up as soon as it has responded)</p><p>The following piece of code provides a minimal HTTP protocol
+implementation.  Note that we use the &#8220;file copy&#8221; idiom to copy all
+data from the socket to <b>sys.stdout</b>.</p><div class="example">
+<b>Example: read a document via HTTP (File: httpget1.py)</b>
+<pre role="python">
+import socket, sys
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+s.connect(("www.python.org", 80))
+
+s.send("GET / HTTP/1.0\r\n\r\n")
+
+while 1:
+    buf = s.recv(1000)
+    if not buf:
+        break
+    sys.stdout.write(buf)
+
+s.close()
+</pre></div><p>Running this script produces something like this: </p><pre>
+HTTP/1.0 200 OK
+Server: WN/1.15.1
+Date: Sun, 30 Mar 1997 10:28:07 GMT
+Last-modified: Thu, 13 Feb 1997 22:06:06 GMT
+Content-type: text/html
+
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Python Home Page&lt;/title&gt;
+
+...rest of HTML document deleted...
+
+&lt;/html&gt;
+</pre><p>The response begins with a status line (&#8220;<b>HTTP/1.0 200 OK</b>&#8220;),
+followed by some additional information. This includes the kind of
+server used by the site (<b>Server</b>), when the document was last
+modified (<b>Last-modified</b>), and most importantly, what kind of
+document this is (<b>Content-type</b>).  This information is
+terminated by an empty line, directly followed by the document data.
+In this case, the document is an HTML document (<b>text/html</b>),
+starting with an <b>&lt;html&gt;</b> document tag.</p><h3>Creating a Client Support Class</h3><p>Our first attempt boldly ignored things like error handling, and
+also didn&#8217;t tell the difference between the status code and the other
+additional information provided by the server, and the document
+itself.  Addressing this is of course pretty straight-forward, but to
+make it easier to concentrate on the protocol itself, let&#8217;s start by
+creating a support class that provides some higher-level primitives.
+The following class hides the socket object, providing easy-to-use
+<b>writeline</b>, <b>read</b>, and <b>readline</b> methods.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Example: a support class for simple Internet protocols
+(File: SimpleClient.py)</b>
+<pre class="wide" role="python">
+import socket, string
+
+CRLF = "\r\n"
+
+class SimpleClient:
+    "Client support class for simple Internet protocols."
+
+    def __init__(self, host, port):
+        "Connect to an Internet server."
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sock.connect((host, port))
+        self.file = self.sock.makefile("rb") # buffered
+
+    def writeline(self, line):
+        "Send a line to the server."
+        self.sock.send(line + CRLF) # <i>unbuffered write</i>
+
+    def read(self, maxbytes = None):
+        "Read data from server."
+        if maxbytes is None:
+            return self.file.read()
+        else:
+            return self.file.read(maxbytes)
+
+    def readline(self):
+        "Read a line from the server.  Strip trailing CR and/or LF."
+        s = self.file.readline()
+        if not s:
+            raise EOFError
+        if s[-2:] == CRLF:
+            s = s[:-2]
+        elif s[-1:] in CRLF:
+            s = s[:-1]
+        return s
+</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>The <b>writeline</b> and <b>readline</b> methods handle newlines by
+themselves, using CRLF when writing lines, and CR and/or LF when
+reading lines.  Note that in the <b>__init__</b> method, this class
+calls the <b>makefile</b> method which creates a buffered file object
+connected to the object.  This allows us to use standard <b>read</b>
+and <b>readline</b> semantics when reading data from the socket.</p><p class="fixme">&lt;FIXME: move text from pop3 document on why using
+send is usually better than makefile(&#8220;w&#8221;)&gt;.</p><p>Using this class, we can improve our HTTP scripts somewhat.  The
+following version uses the SimpleClient class instead of directly
+dealing with the socket module.  It also skips the header part of the
+server response, copying only the document to sys.stdout.  Finally,
+the client code itself is moved into a function, allowing us to easily
+fetch other documents.</p><div class="example">
+<b>Example: read a document via HTTP, revisited (File: httpget2.py)</b>
+<pre role="python">
+import sys
+from SimpleClient import SimpleClient
+
+def get(host, port = 80, document = "/"):
+
+    http = SimpleClient(host, port)
+
+    http.writeline("GET %s HTTP/1.0" % document)
+    http.writeline("")
+
+    while 1:
+        line = http.readline()
+        if not line:
+            break
+
+    return http.read()
+
+
+data = get("www.python.org")
+
+sys.stdout.write(data)
+</pre></div><h3>Creating an HTTP Client Class</h3><p>In the httpget2.py script, we used a <b>SimpleClient</b> instance
+mainly to avoid dealing directly with sockets in our program.  The
+function is still rather inflexible, it doesn&#8217;t check the status code
+to see if we really got a correct response, and only supports the GET
+command.</p><p>The following class extends the <b>SimpleClient</b> class with an
+HTTP-oriented interface through its <b>get</b> and <b>getbody</b>
+methods.  The <b>httpcmd</b> method can be used to implement other
+HTTP commands, as illustrated by the <b>head</b> method (we&#8217;ll get
+back to this command later).</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Example: an HTTP client support class (File: HTTPClient.py)</b>
+<pre class="wide" role="python">
+import string, sys
+import SimpleClient
+
+class HTTPClient(SimpleClient.SimpleClient):
+    """An HTTP client protocol support class"""
+
+    def __init__(self, host):
+
+        # extract port from hostname, if given
+        try:
+            i = string.index(host, ":")
+            host, port = host[:i], string.atoi(host[i+1:])
+        except ValueError: # catches both index and atoi errors
+            port = 80
+
+        SimpleClient.SimpleClient.__init__(self, host, port)
+
+    def httpcmd(self, command, document):
+        "Send command, and return status code and list of headers."
+
+        self.writeline("%s %s HTTP/1.0" % (command, document or "/"))
+        self.writeline("")
+
+        self.sock.shutdown(1) # close client end
+
+        status = string.split(self.readline())
+
+        if status[0] != "HTTP/1.0":
+            raise IOError, "unknown status response"
+
+        try:
+            status = string.atoi(status[1])
+        except ValueError:
+            raise IOError, "non-numeric status code"
+
+        headers = []
+        while 1:
+            line = self.readline()
+            if not line:
+                break
+            headers.append(line)
+
+        return status, headers
+
+    def get(self, document):
+        "Get a document from the server. Return status code and headers."
+
+        return self.httpcmd("GET", document)
+
+    def head(self, document):
+        "Get headers from the server. Return status code and headers."
+
+        return self.httpcmd("HEAD", document)
+
+    def getbody(self):
+        "Get document body"
+
+        return self.read()
+</pre></div></div><div class="yui-ge"><div class="yui-u first"><p><b>Things to notice</b></p><p><b class="mark">Calling the parent constructor.</b> Note that also
+this class needs to call its parent constructor (since it creates the
+socket).  In this case, the <b>HTTPClient</b> constructor simply
+converts the single host string to a host and port pair.  The port is
+80 by default, but the constructor allows you to use the &#8220;host:port&#8221;
+syntax to explicitly specify the port number.  Note that both
+<b>string.index</b> and <b>string.atoi</b> raises ValueError
+exceptions, so a single try/except clause handles both a missing port,
+and a badly formed port number.</p><p><b class="mark">Shutting down the connection.</b> The
+<b>httpcmd</b> method uses the <b>shutdown</b> socket method after
+sending the command.  This method is similar to <b>close,</b> but it
+can be used to close communication in only one direction.  In this
+case, we used the argument 1 which means that further send operations
+should be disabled. You can also use 0 to disable further receive
+operations, or 2 to disable both send and receive operations in one
+call.</p><p><b class="mark">Providing a default document.</b> The
+<b>httpcmd</b> method uses a convenient trick to avoid sending badly
+formed commands to the server. If the document string is empty
+(false), the <b>or</b> operator will return the second argument
+instead. Python&#8217;s <b>and</b> operator works similarly, but it returns
+the second value only if the first one is true. To make this easier to
+remember, you can think of <b>or</b> as &#8220;or else,&#8221; and <b>and</b> as
+&#8220;and then.&#8221; (which, incidentally, is what the corresponding operators
+happen to be called in the Eiffel language).</p><h3>&#8230; And Improving It</h3><p>Given the above class, we can quickly pull together an even better
+version of the httpget script. This one allows to give a single URL
+instead of giving the host name, port, and document name as three
+different parts. Here, we use a standard Python module called urlparse
+to extract the host name and document name from the URL string, but
+leave it to the HTTPClient class to extract the optional port number
+from the host name. We also make sure that the status code was 200
+(indicating that the document follows), otherwise, we raise an IOError
+exception.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Example: read a document via HTTP, third attempt (File: httpget3.py)</b>
+<pre class="wide" role="python">
+import sys, urlparse
+from HTTPClient import HTTPClient
+
+def get(url):
+
+    # parse the URL (ignore most parts of it)
+    spam, host, document, spam, spam, spam = urlparse.urlparse(url)
+
+    # get the document
+    http = HTTPClient(host)
+
+    status, headers = http.get(document)
+    if status != 200:
+        return IOError, "couldn't read document"
+
+    return http.getbody()
+
+
+print get(sys.argv[1])
+</pre></div></div><div class="yui-ge"><div class="yui-u first"><p>So, given a much improved support library (consisting of the
+SimpleClient and HTTPClient classes, as well as the standard urlparse
+module), we&#8217;ve managed to write a compact utility which can read an
+arbitrary document from a web-server. Just add some &#8220;Usage&#8221; stuff, and
+you have a useful little script. You can also remove the get call and
+import this module in your own program.</p><h2>Using the Standard HTTP Client Class (httplib)</h2><p>But before you do that, it might be an appropriate time to look at
+what&#8217;s in Python&#8217;s standard library.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"><div class="example wide">
+<b>Example: read a document via HTTP using standard httplib
+(File: httpget4.py)</b>
+<pre class="wide" role="python">
+import sys, urlparse
+from httplib import HTTP
+
+def get(url):
+
+    spam, host, document, spam, spam, spam = urlparse.urlparse(url)
+
+    http = HTTP(host)
+
+    http.putrequest("GET", document)
+    http.endheaders()
+
+    status, message, headers = http.getreply()
+    if status != 200:
+        return IOError, "couldn't read document"
+
+    return http.getfile().read()
+
+
+print get(sys.argv[1])
+</pre></div></div><div class="yui-ge"><div class="yui-u first"><h2>Comparing the HTTPClient and httplib versions</h2><p>If you compare the <b>httpget3</b> and <b>httpget4</b> scripts,
+you&#8217;ll see that they are very similar.</p><p>Exercise: take a look at the <b>httplib</b> sources (they are in
+the Lib directory provided with the standard distribution), and
+compare them to the <b>SimpleClient</b>/<b>HTTPClient</b> classes.
+What are the differences?  What problems with <b>HTTPClient</b> does
+<b>httplib</b> address?  How much work would it be to modify
+<b>HTTPClient</b> to address these problems?  Would the <b>httplib</b>
+module benefit from using a support class like
+<b>SimpleClient</b>?</p><h3>Using the Standard URL Client Class (urllib)</h3><p>But you don&#8217;t have to stop here. The <b>urllib</b> module provides
+a unified interface to HTTP, FTP, Gopher, and local file access.
+Basically, you give this module an URL, and get back a file object
+which you can use to read the given document.  So here&#8217;s our script
+again, shorter than ever.</p><div class="example">
+<b>Example: read a document via HTTP using standard urllib
+(File: httpget5.py)</b>
+<pre role="python">
+import sys, urllib
+print urllib.urlopen(sys.argv[1]).read()
+</pre></div><p>For the record, the file object returned by <b>urlopen</b> also
+contains an extra method, <b>info</b>, which is used to return header
+information <span class="fixme">[FIXME: This is a Message object!
+where are Message objects described?]</span>.  See the Library
+Reference manual for more information on using the <b>urllib</b>
+module.</p></div><div class="yui-u">&#160;</div></div><div class="yui-g"></div></div></div></div><div class="yui-b"><div id='menu'><ul><li><b><a href="/" title="Go to effbot.org.">::: effbot.org</a></b></li><li><b><a href="." title="Go to zone index page.">::: zone :::</a></b></li></ul></div></div></div><div id="ft"><p><a href="http://www.djangoproject.com/"><img src="/media/img/djangosite80x15.gif" border="0" alt="A Django site." title="A Django site." style="vertical-align: bottom;" width="80" height="15" ></a>
+rendered by a <a href="http://www.djangoproject.com/">django</a> application.  hosted by <a href="http://www.webfaction.com/shared_hosting?affiliate=slab">webfaction</a>.</p></div></div><script src="/media/js/effbot-min.js" type="text/javascript"></script></body></html>
