@@ -1,1 +1,2 @@
-# Estudos da Linguagem Python \n\n Discente: Danilo da Conceição Nascimento
+# Estudos da Linguagem Python
+Discente: Danilo da Conceição Nascimento
